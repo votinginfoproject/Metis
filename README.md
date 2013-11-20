@@ -1,7 +1,9 @@
 VotingInfoApp
 =============
 
-Voting Information Project web app 
+Voting Information Project web app.  
+
+[Learn more](https://votinginfoproject.org/)
 
 ## Prerequisites
 
