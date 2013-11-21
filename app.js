@@ -3,6 +3,7 @@
  * Module dependencies.
  */
 
+var config = require('./config');
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -10,9 +11,8 @@ var path = require('path');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.use(express.favicon('public/assets/images/favicon.ico'));
-app.use(express.logger('dev'));
+app.use(express.favicon(config.web.favicon));
+app.use(express.logger(config.web.loglevel));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
@@ -24,6 +24,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(config.web.port, function(){
+  console.log('Express server listening on port ' + config.web.port);
 });
