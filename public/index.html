@@ -1,12 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="vipApp">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>VIP Dashboard</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/ico" href="assets/images/favicon.ico" />
-
+    <meta name="description" content="Partnering with election boards, campaign managers, user experience architects, graphic designers, and application developers to better serve voters.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
 
     <!-- jQuery lib -->
     <script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
@@ -27,21 +27,44 @@
     <script src="assets/js/services.js"></script>
     <script src="assets/js/filters.js"></script>
     <script src="assets/js/directives.js"></script>
-
   </head>
-  <body>
-    <!-- App Container -->
-    <div class="appLayout">
-      <div class="appContainer">
-        <!-- Header -->
-        <div class="header" ng-include src="'app/common/header.html'"></div>
-        <!-- Breadcrumbs -->
-        <div class="breadCrumbsContainer" ng-include src="'app/common/breadcrumbs.html'"></div>
-        <!-- Current Page -->
+  <body role="application">
+
+    <header role="banner">
+      <div class="wrapper">
+        <a href="/" class="branding">VIP Dashboard</a>
+        <div class="auth">
+          <a ng-class="{navLinkDisabled: page!='profile'}" href="#/profile" class="user">Josh Stewart</a> | <a class="sign-out" href="#">Sign Out</a>
+        </div><!-- / .auth -->
+        <nav class="main-nav">
+          <ul>
+            <li><a ng-class="{active: page=='admin'}" href="#/admin">Admin</a></li>
+            <li><a ng-class="{active: page=='feeds'}" href="#/feeds">Feeds</a></li>
+            <li><a ng-class="{active: page=='profile'}" href="#/profile">Profile</a></li>
+          </ul>
+        </nav>
+      </div><!-- / .wrapper -->
+    </header><!-- / banner -->
+
+    <div role="main">
+      <div class="wrapper">
+
+        <!-- TODO: only show breadcrumbs when logged in; get rid of extra div -->
+        <nav class="breadcrumbs">
+        {{breadcrumbs}}
+        </nav>
+
+        <!-- TODO: get rid of extra div -->
         <div ng-view class="main"></div>
-      </div>
-      <!-- Footer -->
-      <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>
-    </div>
+
+      </div><!-- / .wrapper -->
+    </div><!-- / main -->
+
+    <footer role="contentinfo" >
+      <div class="wrapper">
+        <small>&copy; Copyright 2013 Voting Information Project.</small>
+      </div><!-- / .wrapper -->
+    </footer><!-- / contentinfo -->
+
   </body>
 </html>
