@@ -1,27 +1,27 @@
 <!doctype html>
 <html lang="en" ng-app="vipApp">
-<head>
-	<meta charset="utf-8">
-	<title>VIP Dashboard</title>
+  <head>
+    <meta charset="utf-8">
+    <title>VIP Dashboard</title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/ico" href="assets/images/favicon.ico" />
 
     <!-- FontAwesome -->
     <link href="assets/css/lib/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
 
-	<!-- jQuery lib -->
-	<script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
-	
-	<!-- Bootstrap lib -->
-	<link href="assets/js/lib/bootstrap-3.0.2/css/bootstrap.min.css" rel="stylesheet">
-	<script src="assets/js/lib/bootstrap-3.0.2/js/bootstrap.min.js"></script>
+    <!-- jQuery lib -->
+    <script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
 
-	<!-- Angular lib -->
-	<script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
-	<script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
-	
-	<!-- VIP App -->
+    <!-- Bootstrap lib -->
+    <link href="assets/js/lib/bootstrap-3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="assets/js/lib/bootstrap-3.0.2/js/bootstrap.min.js"></script>
+
+    <!-- Angular lib -->
+    <script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
+    <script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
+
+    <!-- VIP App -->
     <link href="assets/css/app.css" rel="stylesheet">
     <script src="assets/js/app.js"></script>
 
@@ -30,26 +30,24 @@
     <script src="assets/js/controllers/feedsController.js"></script>
     <script src="assets/js/controllers/profileController.js"></script>
 
-                            <script src="assets/js/services.js"></script>
-                            <script src="assets/js/filters.js"></script>
-                            <script src="assets/js/directives.js"></script>
-	
-</head>
-<body>
+    <script src="assets/js/services.js"></script>
+    <script src="assets/js/filters.js"></script>
+    <script src="assets/js/directives.js"></script>
 
+  </head>
+  <body>
     <!-- App Container -->
-	<div class="appLayout">
-        <div class="appContainer">
-            <!-- Header -->
-            <div class="header" ng-include src="'app/common/header.html'"></div>
-            <!-- Breadcrumbs -->
-            <div class="breadCrumbsContainer" ng-include src="'app/common/breadcrumbs.html'"></div>
-            <!-- Current Page -->
-            <div ng-view class="main"></div>
-        </div>
-        <!-- Footer -->
-        <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>
-	</div>
-
-</body>
+    <div class="appLayout">
+      <div class="appContainer">
+        <!-- Header -->
+        <div class="header" ng-include src="'app/common/header.html'"></div>
+        <!-- Breadcrumbs -->
+        <div class="breadCrumbsContainer" ng-include src="'app/common/breadcrumbs.html'"></div>
+        <!-- Current Page -->
+        <div ng-view class="main"></div>
+      </div>
+      <!-- Footer -->
+      <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>
+    </div>
+  </body>
 </html>
