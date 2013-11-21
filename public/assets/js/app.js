@@ -32,6 +32,10 @@ vipApp.config(['$routeProvider', function ($routeProvider) {
         controller: 'ProfileCtrl'
     });
 
+    $routeProvider.when('/styleguide',{
+        templateUrl: 'app/partials/styleguide.html'
+    });
+
     // no path specified
     $routeProvider.otherwise({redirectTo: '/home'});
 }
