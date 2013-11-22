@@ -33,7 +33,8 @@ vipApp.config(['$routeProvider', function ($routeProvider) {
     });
 
     $routeProvider.when('/styleguide',{
-        templateUrl: 'app/partials/styleguide.html'
+        templateUrl: 'app/partials/styleguide.html',
+        controller: 'StyleguideCtrl'
     });
 
     // no path specified

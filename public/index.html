@@ -49,8 +49,7 @@
     <div role="main">
       <div class="wrapper">
 
-        <!-- TODO: only show breadcrumbs when logged in; get rid of extra div -->
-        <nav class="breadcrumbs">
+        <nav class="breadcrumbs" ng-hide="breadcrumbs == ''">
         {{breadcrumbs}}
         </nav>
 
