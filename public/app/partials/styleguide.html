@@ -295,6 +295,25 @@
               <p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
             </form>
 
+            <!-- Only visible to Admins -->
+            <h2>Feed Users</h2>
+            <ul>
+              <li>Stephen Miller <a href="#">Delete</a></li>
+              <li>Jody Bonavides <a href="#">Delete</a></li>
+            </ul>
+            <form>
+              <select>
+                <optgroup label="Ohio"><!-- Only users from the state the feed belongs to. -->
+                  <option>Select User</option>
+                  <option>Tyler Bassen</option>
+                  <option>Mike Smith</option>
+                </optgroup>
+              </select>
+              <input type="submit" class="button-add-user" value="Add User" />
+            </form>
+            <a href="#">Delete this feed</a>
+            <!-- /Only visible to Admins -->
+
             <h2 class="secondary">Feed Contact</h2>
             <ul class="feed-contact">
               <li class="fn">Alissa P. Hacker</li>
