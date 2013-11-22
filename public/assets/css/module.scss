@@ -1,100 +1,66 @@
 /* module.scss */
 
 // ==========================================================================
-// Nav
+// Alert Boxes
 // ==========================================================================
 
-.branding {
-  color: $white;
-  float: left;
-}
-
-.auth {
-  float: right;
-}
-
-.main-nav {
-  float: right;
-  clear: right;
-  margin: 1em 0 -1em 0;
-
-  li {
-    float: left;
-  }
+.alert-box {
+  background: $notice-color;
+  color: darken($notice-color, 60);
+  font-weight: bold;
+  margin-bottom: $base-line-height / 2;
+  padding: $base-line-height / 2;
+  position: relative;
 
   a {
-    display: block;
-    padding: .5em 1em;
-    background: $gray-light;
+    color: darken($notice-color, 70);
 
-    &.active {
-      background: $white;
+    &:hover {
+      color: darken($notice-color, 90);
     }
   }
 }
 
-.breadcrumbs {
-  display: block;
-  padding: 0.5625em 0.875em 0.5625em;
-  overflow: hidden;
-  margin: 0 0 1em 0;
-  list-style: none;
-  border: $base-border;
-  border-radius: $base-border-radius;
+.alert-box.error {
+  background: $error-color;
+  color: darken($error-color, 60);
+
+  a {
+    color: darken($error-color, 70);
+
+    &:hover {
+      color: darken($error-color, 90);
+    }
+  }
 }
 
-.breadcrumbs > * {
-  margin: 0;
-  float: left;
-  font-size: 0.6875em;
-  text-transform: uppercase;
+.alert-box.success {
+  background: $success-color;
+  color: darken($success-color, 60);
+
+  a {
+    color: darken($success-color, 70);
+
+    &:hover {
+      color: darken($success-color, 90);
+    }
+  }
 }
 
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline;
+.close {
+  color: $gray-dark;
+  font-size: 1.375em;
+  line-height: 0;
+  opacity: 0.3;
+  padding: $base-padding;
+  position: absolute;
+  right: 0.3125em;
+  top: 0.4375em;
 }
 
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: $base-link-color;
-}
-
-.breadcrumbs > *:before {
-  content: "/";
-  color: $gray-medium;
-  margin: 0 0.75em;
-  position: relative;
-  top: 1px;
-}
-
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0;
-}
-
-.current,
-.current a {
-  cursor: default;
-  color: $base-font-color;
-}
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none;
-}
-
-
-// ==========================================================================
-// Forms
-// ==========================================================================
-
-.new_user {
-}
-
-.new_feed {
+.close:hover,
+.close:focus {
+  opacity: 0.5;
 }
 
 
@@ -137,9 +103,9 @@
 // ==========================================================================
 
 .attributes {
-  width: 100%;
-  margin-bottom: 1em;
   background: $blue-light;
+  margin-bottom: 1em;
+  width: 100%;
 
   .errors {
     float: right;
@@ -149,23 +115,114 @@
 }
 
 .key {
-  float: left;
-  width: 30%;
+  border-top: $base-border;
   clear: left;
-  text-align: right;
+  color: $gray-medium;
+  float: left;
+  font-weight: normal;
   margin: 0;
   padding: .25em;
-  border-top: $base-border;
-  font-weight: normal;
-  color: #777;
+  text-align: right;
+  width: 30%;
 }
 
 .value {
-  width: 70%;
+  border-top: $base-border;
   float: left;
   margin: 0;
   padding: .25em;
-  border-top: $base-border;
+  width: 70%;
+}
+
+
+// ==========================================================================
+// Nav
+// ==========================================================================
+
+.branding {
+  color: $white;
+  float: left;
+}
+
+.auth {
+  float: right;
+}
+
+.main-nav {
+  clear: right;
+  float: right;
+  margin: 1em 0 -1em 0;
+
+  ul {
+    @extend .no-bullet;
+  }
+
+  li {
+    float: left;
+  }
+
+  a {
+    background: $gray-light;
+    display: block;
+    padding: $base-padding;
+
+    &.active {
+      background: $white;
+    }
+  }
+}
+
+.breadcrumbs {
+  border: $base-border;
+  border-radius: $base-border-radius;
+  display: block;
+  list-style: none;
+  margin: 0 0 1em 0;
+  overflow: hidden;
+  padding: $base-padding;
+}
+
+.breadcrumbs > * {
+  float: left;
+  font-size: 0.6875em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.breadcrumbs > *:hover a,
+.breadcrumbs > *:focus a {
+  text-decoration: underline;
+}
+
+.breadcrumbs > * a,
+.breadcrumbs > * span {
+  color: $base-link-color;
+}
+
+.breadcrumbs > *:before {
+  color: $gray-medium;
+  content: "/";
+  margin: 0 0.75em;
+  position: relative;
+  top: .1em;
+}
+
+.breadcrumbs > *:first-child:before {
+  content: " ";
+  margin: 0;
+}
+
+.current,
+.current a {
+  color: $base-font-color;
+  cursor: default;
+}
+
+.current:hover,
+.current:hover a,
+.current:focus,
+.current:focus a {
+  text-decoration: none;
 }
 
 
@@ -176,13 +233,13 @@
 
 .data-group {
   @include row();
-  margin-bottom: 1em;
   border: $base-border;
+  margin-bottom: 1em;
 }
 
 .data-group-header {
-  @include row();
   @include pad();
+  @include row();
   background: $gray-light;
 
   h2 {
@@ -193,8 +250,8 @@
 
 .more-detail {
   @extend %button;
-  font-size: .75em;
   float: right;
+  font-size: .75em;
 }
 
 
@@ -208,6 +265,17 @@
   h5 {
     margin-top: 0;
   }
+}
+
+
+// ==========================================================================
+// Forms
+// ==========================================================================
+
+.new_user {
+}
+
+.new_feed {
 }
 
 
@@ -226,15 +294,15 @@
 
 .completeness {
   background-color: transparent;
-  height: $base-line-height;
   border: $base-border;
+  height: $base-line-height;
   padding: 0.125em;
 }
 
 .completed {
   background: $green;
-  height: 100%;
   display: block;
+  height: 100%;
 }
 
 .counter {
@@ -250,18 +318,18 @@
 }
 
 .errors {
+  background-color: $red;
+  border-radius: 71em;
+  color: $white;
+  display: inline-block;
+  font-size: 0.875em;
   font-weight: bold;
+  line-height: 1;
+  padding: 0.1875em 0.625em 0.25em;
+  position: relative;
   text-align: center;
   text-decoration: none;
-  line-height: 1;
   white-space: nowrap;
-  display: inline-block;
-  position: relative;
-  padding: 0.1875em 0.625em 0.25em;
-  font-size: 0.875em;
-  background-color: $red;
-  color: $white;
-  border-radius: 1000px;
 }
 
 .errors.none {
@@ -276,93 +344,6 @@
 }
 
 
-
-// ==========================================================================
-// Status
-// ==========================================================================
-
-.button-errors {
-  @extend %button;
-  // @extend .alert;
-}
-
-.checklist {
-  // @extend .no-bullet;
-}
-
-.button-approve {
-  @extend %button;
-  // @extend .secondary;
-}
-
-.feed-contact {
-  // @extend .vcard;
-}
-
-
-// ==========================================================================
-// Alert Boxes
-// ==========================================================================
-
-.alert-box {
-  margin-bottom: $base-line-height / 2;
-  padding: $base-line-height / 2;
-  font-weight: bold;
-  background: $notice-color;
-  color: darken($notice-color, 60);
-  position: relative;
-
-  a {
-    color: darken($notice-color, 70);
-
-    &:hover {
-      color: darken($notice-color, 90);
-    }
-  }
-}
-
-.alert-box.error {
-  background: $error-color;
-  color: darken($error-color, 60);
-
-  a {
-    color: darken($error-color, 70);
-
-    &:hover {
-      color: darken($error-color, 90);
-    }
-  }
-}
-
-.alert-box.success {
-  background: $success-color;
-  color: darken($success-color, 60);
-
-  a {
-    color: darken($success-color, 70);
-
-    &:hover {
-      color: darken($success-color, 90);
-    }
-  }
-}
-
-.close {
-  font-size: 1.375em;
-  padding: 5px 4px 4px;
-  line-height: 0;
-  position: absolute;
-  top: 0.4375em;
-  right: 0.3125em;
-  color: #333333;
-  opacity: 0.3;
-}
-
-.close:hover,
-.close:focus {
-  opacity: 0.5;
-}
-
 // ==========================================================================
 // Pagination
 // ==========================================================================
@@ -375,26 +356,26 @@
 }
 
 .pagination li {
-  height: 1.5em;
-  color: #222222;
+  color: $gray-dark;
   font-size: 0.875em;
+  height: 1.5em;
   margin-left: 0.3125em;
 }
 
 .pagination li a {
+  color: $gray-medium;
   display: block;
   padding: 0.0625em 0.4375em 0.0625em;
-  color: #999999;
 }
 
 .pagination li:hover a,
 .pagination li a:focus {
-  background: #e6e6e6;
+  background: $gray-light;
 }
 
 .pagination li.unavailable a {
+  color: $gray-medium;
   cursor: default;
-  color: #999999;
 }
 
 .pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
@@ -402,20 +383,50 @@
 }
 
 .pagination li.current a {
-  background: #2ba6cb;
-  color: white;
-  font-weight: bold;
+  background: $base-accent-color;
+  color: $white;
   cursor: default;
+  font-weight: bold;
 }
 
 .pagination li.current a:hover,
 .pagination li.current a:focus {
-  background: #2ba6cb;
+  background: $base-accent-color;
 }
 
 .pagination li {
-  float: left;
   display: block;
+  float: left;
+}
+
+
+// ==========================================================================
+// Status
+// ==========================================================================
+
+.button-errors {
+  @extend .button;
+}
+
+.checklist {
+  @extend .no-bullet;
+  font-weight: bold;
+
+  .finished {
+    color: $green;
+  }
+
+  .started {
+    color: $red;
+  }
+
+  .unstarted {
+    color: $gray-medium;
+  }
+}
+
+.button-approve {
+  @extend .button;
 }
 
 
@@ -425,22 +436,24 @@
 
 // Styleguide
 // --------------------------------------------------------------------------
+
 .example {
-  @include row();
   @include pad();
-  margin: 2em 0;
+  @include row();
   border: 2px solid lighten($base-border-color, 10);
+  margin: 2em 0;
 }
 
 .swatches {
   @include span-columns(12);
 }
+
 .swatch {
-  @include span-columns(2);
   @include pad();
-  min-height: 7em;
+  @include span-columns(2);
   background: $gray-light;
   margin-bottom: 1em;
+  min-height: 7em;
 
   &.blue-dark {
     background: $blue-dark;
@@ -480,7 +493,7 @@
     background: $gray-light;
   }
   &.white {
-    border: $base-border;
     background: $white;
+    border: $base-border;
   }
 }

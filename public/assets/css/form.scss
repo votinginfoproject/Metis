@@ -1,18 +1,43 @@
 /* form.scss */
 
-%button {
-  @include button(simple, $base-accent-color);
+.button {
+  background: $base-accent-color;
+  border: none;
+  border-radius: $base-border-radius;
+  color: $white;
+  display: inline-block;
+  font-family: $base-font-family;
   font-size: $base-font-size;
+  font-weight: bold;
+  padding: $base-padding;
+  text-shadow: none;
+
+  &:hover {
+    background: darken($base-accent-color, 10);
+    color: $white;
+  }
+}
+
+.disabled {
+  @extend .button;
+  background: $gray-light;
+  color: lighten($gray-light, 10);
+
+  &:hover {
+    background: $gray-light;
+    color: lighten($gray-light, 10);
+    cursor: default;
+  }
 }
 
 button,
 input[type="submit"] {
-  @extend %button;
+  @extend .button;
   @include appearance(none);
   cursor: pointer;
-  user-select: none;
   vertical-align: middle;
   white-space: nowrap;
+  user-select: none;
 }
 
 // col
@@ -63,8 +88,8 @@ label {
 // output
 
 select {
-  width: auto;
   margin-bottom: $base-line-height;
+  width: auto;
 }
 
 textarea,
@@ -72,8 +97,8 @@ textarea,
   @include box-sizing(border-box);
   @include transition(border-color);
   background-color: white;
-  border-radius: $form-border-radius;
   border: 1px solid $form-border-color;
+  border-radius: $form-border-radius;
   box-shadow: $form-box-shadow;
   font-family: $form-font-family;
   font-size: $form-font-size;
