@@ -1,0 +1,11 @@
+/* state.scss */
+
+::-moz-selection {
+  background: $yellow-light;
+  text-shadow: none;
+}
+
+::selection {
+  background: $yellow-light;
+  text-shadow: none;
+}

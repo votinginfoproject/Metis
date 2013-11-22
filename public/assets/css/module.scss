@@ -1,0 +1,486 @@
+/* module.scss */
+
+// ==========================================================================
+// Nav
+// ==========================================================================
+
+.branding {
+  color: $white;
+  float: left;
+}
+
+.auth {
+  float: right;
+}
+
+.main-nav {
+  float: right;
+  clear: right;
+  margin: 1em 0 -1em 0;
+
+  li {
+    float: left;
+  }
+
+  a {
+    display: block;
+    padding: .5em 1em;
+    background: $gray-light;
+
+    &.active {
+      background: $white;
+    }
+  }
+}
+
+.breadcrumbs {
+  display: block;
+  padding: 0.5625em 0.875em 0.5625em;
+  overflow: hidden;
+  margin: 0 0 1em 0;
+  list-style: none;
+  border: $base-border;
+  border-radius: $base-border-radius;
+}
+
+.breadcrumbs > * {
+  margin: 0;
+  float: left;
+  font-size: 0.6875em;
+  text-transform: uppercase;
+}
+
+.breadcrumbs > *:hover a,
+.breadcrumbs > *:focus a {
+  text-decoration: underline;
+}
+
+.breadcrumbs > * a,
+.breadcrumbs > * span {
+  color: $base-link-color;
+}
+
+.breadcrumbs > *:before {
+  content: "/";
+  color: $gray-medium;
+  margin: 0 0.75em;
+  position: relative;
+  top: 1px;
+}
+
+.breadcrumbs > *:first-child:before {
+  content: " ";
+  margin: 0;
+}
+
+.current,
+.current a {
+  cursor: default;
+  color: $base-font-color;
+}
+
+.current:hover,
+.current:hover a,
+.current:focus,
+.current:focus a {
+  text-decoration: none;
+}
+
+
+// ==========================================================================
+// Forms
+// ==========================================================================
+
+.new_user {
+}
+
+.new_feed {
+}
+
+
+// ==========================================================================
+// Associations
+// ==========================================================================
+
+.associations {
+
+  tbody {
+    tr {
+      &:hover {
+        background: lighten($blue-light, 10);
+      }
+
+      > * {
+        padding:0;
+      }
+    }
+  }
+
+  a {
+    display:block;
+    padding: ($base-line-height / 2) 0;
+
+    &:hover {
+      color: $base-link-color;
+    }
+  }
+
+  .admin {
+    border: none;
+    padding-left: 1em;
+  }
+}
+
+
+// ==========================================================================
+// Attributes
+// ==========================================================================
+
+.attributes {
+  width: 100%;
+  margin-bottom: 1em;
+  background: $blue-light;
+
+  .errors {
+    float: right;
+    min-height: $base-line-height;
+    min-width: $base-line-height;
+  }
+}
+
+.key {
+  float: left;
+  width: 30%;
+  clear: left;
+  text-align: right;
+  margin: 0;
+  padding: .25em;
+  border-top: $base-border;
+  font-weight: normal;
+  color: #777;
+}
+
+.value {
+  width: 70%;
+  float: left;
+  margin: 0;
+  padding: .25em;
+  border-top: $base-border;
+}
+
+
+// ==========================================================================
+// Data Group
+// ==========================================================================
+// TODO: rename data-group
+
+.data-group {
+  @include row();
+  margin-bottom: 1em;
+  border: $base-border;
+}
+
+.data-group-header {
+  @include row();
+  @include pad();
+  background: $gray-light;
+
+  h2 {
+    float: left;
+    margin-bottom: 0;
+  }
+}
+
+.more-detail {
+  @extend %button;
+  font-size: .75em;
+  float: right;
+}
+
+
+// ==========================================================================
+// Errors
+// ==========================================================================
+// TODO: rename accordion
+
+.accordion {
+  margin-top: 1em;
+  h5 {
+    margin-top: 0;
+  }
+}
+
+
+// ==========================================================================
+// Map
+// ==========================================================================
+
+.map {
+  margin-bottom: 1em;
+}
+
+
+// ==========================================================================
+// Overview
+// ==========================================================================
+
+.completeness {
+  background-color: transparent;
+  height: $base-line-height;
+  border: $base-border;
+  padding: 0.125em;
+}
+
+.completed {
+  background: $green;
+  height: 100%;
+  display: block;
+}
+
+.counter {
+  font-size: .875em;
+}
+
+.count {
+  float: right;
+}
+
+.progress .meter {
+  float: left;
+}
+
+.errors {
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-block;
+  position: relative;
+  padding: 0.1875em 0.625em 0.25em;
+  font-size: 0.875em;
+  background-color: $red;
+  color: $white;
+  border-radius: 1000px;
+}
+
+.errors.none {
+  background-color: $green;
+}
+
+.overview {
+  th,
+  td {
+    padding-left: 1em;
+  }
+}
+
+
+
+// ==========================================================================
+// Status
+// ==========================================================================
+
+.button-errors {
+  @extend %button;
+  // @extend .alert;
+}
+
+.checklist {
+  // @extend .no-bullet;
+}
+
+.button-approve {
+  @extend %button;
+  // @extend .secondary;
+}
+
+.feed-contact {
+  // @extend .vcard;
+}
+
+
+// ==========================================================================
+// Alert Boxes
+// ==========================================================================
+
+.alert-box {
+  margin-bottom: $base-line-height / 2;
+  padding: $base-line-height / 2;
+  font-weight: bold;
+  background: $notice-color;
+  color: darken($notice-color, 60);
+  position: relative;
+
+  a {
+    color: darken($notice-color, 70);
+
+    &:hover {
+      color: darken($notice-color, 90);
+    }
+  }
+}
+
+.alert-box.error {
+  background: $error-color;
+  color: darken($error-color, 60);
+
+  a {
+    color: darken($error-color, 70);
+
+    &:hover {
+      color: darken($error-color, 90);
+    }
+  }
+}
+
+.alert-box.success {
+  background: $success-color;
+  color: darken($success-color, 60);
+
+  a {
+    color: darken($success-color, 70);
+
+    &:hover {
+      color: darken($success-color, 90);
+    }
+  }
+}
+
+.close {
+  font-size: 1.375em;
+  padding: 5px 4px 4px;
+  line-height: 0;
+  position: absolute;
+  top: 0.4375em;
+  right: 0.3125em;
+  color: #333333;
+  opacity: 0.3;
+}
+
+.close:hover,
+.close:focus {
+  opacity: 0.5;
+}
+
+// ==========================================================================
+// Pagination
+// ==========================================================================
+
+
+.pagination {
+  display: block;
+  height: 1.5em;
+  margin-left: -0.3125em;
+}
+
+.pagination li {
+  height: 1.5em;
+  color: #222222;
+  font-size: 0.875em;
+  margin-left: 0.3125em;
+}
+
+.pagination li a {
+  display: block;
+  padding: 0.0625em 0.4375em 0.0625em;
+  color: #999999;
+}
+
+.pagination li:hover a,
+.pagination li a:focus {
+  background: #e6e6e6;
+}
+
+.pagination li.unavailable a {
+  cursor: default;
+  color: #999999;
+}
+
+.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
+  background: transparent;
+}
+
+.pagination li.current a {
+  background: #2ba6cb;
+  color: white;
+  font-weight: bold;
+  cursor: default;
+}
+
+.pagination li.current a:hover,
+.pagination li.current a:focus {
+  background: #2ba6cb;
+}
+
+.pagination li {
+  float: left;
+  display: block;
+}
+
+
+// ==========================================================================
+// Page Specific
+// ==========================================================================
+
+// Styleguide
+// --------------------------------------------------------------------------
+.example {
+  @include row();
+  @include pad();
+  margin: 2em 0;
+  border: 2px solid lighten($base-border-color, 10);
+}
+
+.swatches {
+  @include span-columns(12);
+}
+.swatch {
+  @include span-columns(2);
+  @include pad();
+  min-height: 7em;
+  background: $gray-light;
+  margin-bottom: 1em;
+
+  &.blue-dark {
+    background: $blue-dark;
+  }
+  &.blue-light {
+    background: $blue-light;
+  }
+  &.red {
+    background: $red;
+  }
+
+  &.red-light {
+    background: $red-light;
+  }
+  &.yellow-light {
+    background: $yellow-light;
+  }
+  &.green {
+    background: $green;
+  }
+  &.green-light {
+    background: $green-light;
+  }
+
+  &.black {
+    background: $black;
+    color: $white;
+  }
+  &.gray-dark {
+    background: $gray-dark;
+    color: $white;
+  }
+  &.gray-medium {
+    background: $gray-medium;
+  }
+  &.gray-light {
+    background: $gray-light;
+  }
+  &.white {
+    border: $base-border;
+    background: $white;
+  }
+}
