@@ -22,30 +22,41 @@
 	<script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
 	
 	<!-- VIP App -->
-    <link href="assets/css/app.css" rel="stylesheet">
-    <script src="assets/js/app.js"></script>
+    <link href="assets/css/app/app.css" rel="stylesheet">
+    <script src="assets/js/app/app.js"></script>
+    <script src="assets/js/app/services/appService.js"></script>
 
-    <script src="assets/js/controllers/homeController.js"></script>
-    <script src="assets/js/controllers/adminController.js"></script>
-    <script src="assets/js/controllers/feedsController.js"></script>
-    <script src="assets/js/controllers/profileController.js"></script>
+    <!-- Home -->
+    <script src="assets/js/app/controllers/homeController.js"></script>
+    <script src="assets/js/app/services/homeService.js"></script>
 
-                            <script src="assets/js/services.js"></script>
-                            <script src="assets/js/filters.js"></script>
-                            <script src="assets/js/directives.js"></script>
-	
+    <!-- Admin -->
+    <script src="assets/js/app/controllers/adminController.js"></script>
+    <script src="assets/js/app/services/adminService.js"></script>
+
+    <!-- Feeds -->
+    <script src="assets/js/app/controllers/feedsController.js"></script>
+    <script src="assets/js/app/services/feedsService.js"></script>
+
+    <!-- Profile -->
+    <script src="assets/js/app/controllers/profileController.js"></script>
+    <script src="assets/js/app/services/profileService.js"></script>
+
 </head>
 <body>
 
     <!-- App Container -->
 	<div class="appLayout">
         <div class="appContainer">
-            <!-- Header -->
+            <!-- Header Navigation-->
             <div class="header" ng-include src="'app/common/header.html'"></div>
-            <!-- Breadcrumbs -->
-            <div class="breadCrumbsContainer" ng-include src="'app/common/breadcrumbs.html'"></div>
+            <!-- Page Header -->
+            <div class="pageHeaderContainer" ng-include src="'app/common/pageHeader.html'"></div>
+
             <!-- Current Page -->
-            <div ng-view class="main"></div>
+            <div class="main">
+                <div ng-view></div>
+            </div>
         </div>
         <!-- Footer -->
         <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>

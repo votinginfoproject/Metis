@@ -17,13 +17,17 @@ a:hover {
     color: darkorange;
 }
 
+.pageHeaderContainer {
+    padding: 15px;
+}
+
 /*
 ==========================
 Main styles
 ==========================
 */
 .appLayout  {
-    width: 960px;
+    width: 970px;
     margin: 0px auto;
     margin-top: 50px;
 }
@@ -45,8 +49,19 @@ Main styles
 
 .breadCrumbs  {
     border-bottom: 1px solid gray;
-    padding: 0px 15px 5px 15px;
     color: gray;
+    margin-bottom: 10px;
+}
+
+.errorContainer  {
+    margin: 0px;
+}
+
+.errorMessage  {
+    padding: 15px;
+    border: 1px solid black;
+    background-color: lightyellow;
+    color: red;
 }
 
 /*
@@ -107,7 +122,16 @@ a.userLink  {
     text-decoration: underline;
 }
 
-
+/*
+==========================
+Sidebar
+==========================
+*/
+.sidebar {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid gray;
+}
 
 /*
 ==========================
@@ -116,8 +140,17 @@ Footer styles
 */
 .footer {
     margin-top: 20px;
-    border: 1px solid #cecece;
+    border: 1px dashed gray;
     height: 40px;
-    color: #cecece;
+    color: gray;
     padding: 10px;
+}
+
+/*
+==========================
+Color aliases
+==========================
+*/
+.black {
+    color: black;
 }
