@@ -9,8 +9,8 @@ var vipApp = angular.module('vipApp', ['ngRoute']);
 
 // Constants
 vipApp.constant('$appProperties', {
-    contextRoot:    '/vipdashboard',
-    servicesPath:   '/vipdashboard/mockServices'
+    contextRoot:    '',
+    servicesPath:   '/mockServices'
 });
 
 /*
