@@ -1,0 +1,499 @@
+/* module.scss */
+
+// ==========================================================================
+// Alert Boxes
+// ==========================================================================
+
+.alert-box {
+  background: $notice-color;
+  color: darken($notice-color, 60);
+  font-weight: bold;
+  margin-bottom: $base-line-height / 2;
+  padding: $base-line-height / 2;
+  position: relative;
+
+  a {
+    color: darken($notice-color, 70);
+
+    &:hover {
+      color: darken($notice-color, 90);
+    }
+  }
+}
+
+.alert-box.error {
+  background: $error-color;
+  color: darken($error-color, 60);
+
+  a {
+    color: darken($error-color, 70);
+
+    &:hover {
+      color: darken($error-color, 90);
+    }
+  }
+}
+
+.alert-box.success {
+  background: $success-color;
+  color: darken($success-color, 60);
+
+  a {
+    color: darken($success-color, 70);
+
+    &:hover {
+      color: darken($success-color, 90);
+    }
+  }
+}
+
+.close {
+  color: $gray-dark;
+  font-size: 1.375em;
+  line-height: 0;
+  opacity: 0.3;
+  padding: $base-padding;
+  position: absolute;
+  right: 0.3125em;
+  top: 0.4375em;
+}
+
+.close:hover,
+.close:focus {
+  opacity: 0.5;
+}
+
+
+// ==========================================================================
+// Associations
+// ==========================================================================
+
+.associations {
+
+  tbody {
+    tr {
+      &:hover {
+        background: lighten($blue-light, 10);
+      }
+
+      > * {
+        padding:0;
+      }
+    }
+  }
+
+  a {
+    display:block;
+    padding: ($base-line-height / 2) 0;
+
+    &:hover {
+      color: $base-link-color;
+    }
+  }
+
+  .admin {
+    border: none;
+    padding-left: 1em;
+  }
+}
+
+
+// ==========================================================================
+// Attributes
+// ==========================================================================
+
+.attributes {
+  background: $blue-light;
+  margin-bottom: 1em;
+  width: 100%;
+
+  .errors {
+    float: right;
+    min-height: $base-line-height;
+    min-width: $base-line-height;
+  }
+}
+
+.key {
+  border-top: $base-border;
+  clear: left;
+  color: $gray-medium;
+  float: left;
+  font-weight: normal;
+  margin: 0;
+  padding: .25em;
+  text-align: right;
+  width: 30%;
+}
+
+.value {
+  border-top: $base-border;
+  float: left;
+  margin: 0;
+  padding: .25em;
+  width: 70%;
+}
+
+
+// ==========================================================================
+// Nav
+// ==========================================================================
+
+.branding {
+  color: $white;
+  float: left;
+}
+
+.auth {
+  float: right;
+}
+
+.main-nav {
+  clear: right;
+  float: right;
+  margin: 1em 0 -1em 0;
+
+  ul {
+    @extend .no-bullet;
+  }
+
+  li {
+    float: left;
+  }
+
+  a {
+    background: $gray-light;
+    display: block;
+    padding: $base-padding;
+
+    &.active {
+      background: $white;
+    }
+  }
+}
+
+.breadcrumbs {
+  border: $base-border;
+  border-radius: $base-border-radius;
+  display: block;
+  list-style: none;
+  margin: 0 0 1em 0;
+  overflow: hidden;
+  padding: $base-padding;
+}
+
+.breadcrumbs > * {
+  float: left;
+  font-size: 0.6875em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.breadcrumbs > *:hover a,
+.breadcrumbs > *:focus a {
+  text-decoration: underline;
+}
+
+.breadcrumbs > * a,
+.breadcrumbs > * span {
+  color: $base-link-color;
+}
+
+.breadcrumbs > *:before {
+  color: $gray-medium;
+  content: "/";
+  margin: 0 0.75em;
+  position: relative;
+  top: .1em;
+}
+
+.breadcrumbs > *:first-child:before {
+  content: " ";
+  margin: 0;
+}
+
+.current,
+.current a {
+  color: $base-font-color;
+  cursor: default;
+}
+
+.current:hover,
+.current:hover a,
+.current:focus,
+.current:focus a {
+  text-decoration: none;
+}
+
+
+// ==========================================================================
+// Data Group
+// ==========================================================================
+// TODO: rename data-group
+
+.data-group {
+  @include row();
+  border: $base-border;
+  margin-bottom: 1em;
+}
+
+.data-group-header {
+  @include pad();
+  @include row();
+  background: $gray-light;
+
+  h2 {
+    float: left;
+    margin-bottom: 0;
+  }
+}
+
+.more-detail {
+  @extend %button;
+  float: right;
+  font-size: .75em;
+}
+
+
+// ==========================================================================
+// Errors
+// ==========================================================================
+// TODO: rename accordion
+
+.accordion {
+  margin-top: 1em;
+  h5 {
+    margin-top: 0;
+  }
+}
+
+
+// ==========================================================================
+// Forms
+// ==========================================================================
+
+.new_user {
+}
+
+.new_feed {
+}
+
+
+// ==========================================================================
+// Map
+// ==========================================================================
+
+.map {
+  margin-bottom: 1em;
+}
+
+
+// ==========================================================================
+// Overview
+// ==========================================================================
+
+.completeness {
+  background-color: transparent;
+  border: $base-border;
+  height: $base-line-height;
+  padding: 0.125em;
+}
+
+.completed {
+  background: $green;
+  display: block;
+  height: 100%;
+}
+
+.counter {
+  font-size: .875em;
+}
+
+.count {
+  float: right;
+}
+
+.progress .meter {
+  float: left;
+}
+
+.errors {
+  background-color: $red;
+  border-radius: 71em;
+  color: $white;
+  display: inline-block;
+  font-size: 0.875em;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.1875em 0.625em 0.25em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.errors.none {
+  background-color: $green;
+}
+
+.overview {
+  th,
+  td {
+    padding-left: 1em;
+  }
+}
+
+
+// ==========================================================================
+// Pagination
+// ==========================================================================
+
+
+.pagination {
+  display: block;
+  height: 1.5em;
+  margin-left: -0.3125em;
+}
+
+.pagination li {
+  color: $gray-dark;
+  font-size: 0.875em;
+  height: 1.5em;
+  margin-left: 0.3125em;
+}
+
+.pagination li a {
+  color: $gray-medium;
+  display: block;
+  padding: 0.0625em 0.4375em 0.0625em;
+}
+
+.pagination li:hover a,
+.pagination li a:focus {
+  background: $gray-light;
+}
+
+.pagination li.unavailable a {
+  color: $gray-medium;
+  cursor: default;
+}
+
+.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
+  background: transparent;
+}
+
+.pagination li.current a {
+  background: $base-accent-color;
+  color: $white;
+  cursor: default;
+  font-weight: bold;
+}
+
+.pagination li.current a:hover,
+.pagination li.current a:focus {
+  background: $base-accent-color;
+}
+
+.pagination li {
+  display: block;
+  float: left;
+}
+
+
+// ==========================================================================
+// Status
+// ==========================================================================
+
+.button-errors {
+  @extend .button;
+}
+
+.checklist {
+  @extend .no-bullet;
+  font-weight: bold;
+
+  .finished {
+    color: $green;
+  }
+
+  .started {
+    color: $red;
+  }
+
+  .unstarted {
+    color: $gray-medium;
+  }
+}
+
+.button-approve {
+  @extend .button;
+}
+
+
+// ==========================================================================
+// Page Specific
+// ==========================================================================
+
+// Styleguide
+// --------------------------------------------------------------------------
+
+.example {
+  @include pad();
+  @include row();
+  border: 2px solid lighten($base-border-color, 10);
+  margin: 2em 0;
+}
+
+.swatches {
+  @include span-columns(12);
+}
+
+.swatch {
+  @include pad();
+  @include span-columns(2);
+  background: $gray-light;
+  margin-bottom: 1em;
+  min-height: 7em;
+
+  &.blue-dark {
+    background: $blue-dark;
+  }
+  &.blue-light {
+    background: $blue-light;
+  }
+  &.red {
+    background: $red;
+  }
+
+  &.red-light {
+    background: $red-light;
+  }
+  &.yellow-light {
+    background: $yellow-light;
+  }
+  &.green {
+    background: $green;
+  }
+  &.green-light {
+    background: $green-light;
+  }
+
+  &.black {
+    background: $black;
+    color: $white;
+  }
+  &.gray-dark {
+    background: $gray-dark;
+    color: $white;
+  }
+  &.gray-medium {
+    background: $gray-medium;
+  }
+  &.gray-light {
+    background: $gray-light;
+  }
+  &.white {
+    background: $white;
+    border: $base-border;
+  }
+}

@@ -6,5 +6,5 @@
 function HomeCtrl($scope, $rootScope){
 
     $rootScope.page = "home";
-    $rootScope.breadcrumbs = "Home";
+    $rootScope.breadcrumbs = "";
 }

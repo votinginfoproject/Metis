@@ -1,0 +1,118 @@
+/* form.scss */
+
+.button {
+  background: $base-accent-color;
+  border: none;
+  border-radius: $base-border-radius;
+  color: $white;
+  display: inline-block;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  font-weight: bold;
+  padding: $base-padding;
+  text-shadow: none;
+
+  &:hover {
+    background: darken($base-accent-color, 10);
+    color: $white;
+  }
+}
+
+.disabled {
+  @extend .button;
+  background: $gray-light;
+  color: lighten($gray-light, 10);
+
+  &:hover {
+    background: $gray-light;
+    color: lighten($gray-light, 10);
+    cursor: default;
+  }
+}
+
+button,
+input[type="submit"] {
+  @extend .button;
+  @include appearance(none);
+  cursor: pointer;
+  vertical-align: middle;
+  white-space: nowrap;
+  user-select: none;
+}
+
+// col
+// colgroup
+
+fieldset {
+  background: lighten($base-border-color, 10);
+  border: 1px solid $base-border-color;
+  margin: 0 0 ($base-line-height / 2) 0;
+  padding: $base-line-height;
+}
+
+// form
+
+input,
+label,
+select {
+  display: block;
+  font-family: $form-font-family;
+  font-size: $form-font-size;
+}
+
+input[type="search"] {
+  @include appearance(none);
+}
+
+input[type="checkbox"], input[type="radio"] {
+  display: inline;
+  margin-right: $base-line-height / 4;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: $base-line-height / 4;
+
+  &.required:after {
+    content: "*";
+  }
+
+  abbr {
+    display: none;
+  }
+}
+
+// legend
+// optgroup
+// option
+// output
+
+select {
+  margin-bottom: $base-line-height;
+  width: auto;
+}
+
+textarea,
+#{$all-text-inputs} {
+  @include box-sizing(border-box);
+  @include transition(border-color);
+  background-color: white;
+  border: 1px solid $form-border-color;
+  border-radius: $form-border-radius;
+  box-shadow: $form-box-shadow;
+  font-family: $form-font-family;
+  font-size: $form-font-size;
+  margin-bottom: $base-line-height / 2;
+  padding: ($base-line-height / 3) ($base-line-height / 3);
+  width: 100%;
+
+  &:hover {
+    border-color: $form-border-color-hover;
+  }
+
+  &:focus {
+    border-color: $form-border-color-focus;
+    box-shadow: $form-box-shadow-focus;
+    outline: none;
+  }
+}

@@ -1,0 +1,183 @@
+/* typography.scss */
+
+// ==========================================================================
+// Base Elements
+// ==========================================================================
+
+// html
+
+body {
+  color: $base-font-color;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+// ==========================================================================
+// Block-level Elements (alphabetical order)
+// ==========================================================================
+
+address {
+  display: block;
+  margin: 0 0 ($base-line-height / 2);
+}
+
+blockquote {
+  border-left: 2px solid $base-border-color;
+  color: lighten($base-font-color, 15);
+  margin: $base-line-height 0;
+  padding-left: $base-line-height / 2;
+}
+
+// figcaption
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25em;
+  margin: 0;
+  text-rendering: optimizeLegibility; // Fix the character spacing for headings
+}
+
+h1 {
+  font-size: $base-font-size * 2.25; // 16 * 2.25 = 36px
+}
+
+h2 {
+  font-size: $base-font-size * 2; // 16 * 2 = 32px
+}
+
+h3 {
+  font-size: $base-font-size * 1.75; // 16 * 1.75 = 28px
+}
+
+h4 {
+  font-size: $base-font-size * 1.5; // 16 * 1.5 = 24px
+}
+
+h5 {
+  font-size: $base-font-size * 1.25; // 16 * 1.25 = 20px
+}
+
+h6 {
+  font-size: $base-font-size;
+}
+
+hgroup {
+  margin-bottom: $base-line-height / 2;
+}
+
+hr {
+  border-bottom: 1px solid $base-border-color;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  margin: $base-line-height 0;
+}
+
+p {
+  margin: 0 0 ($base-line-height * .5);
+}
+
+.helper {
+  font-size: .75em;
+}
+
+// pre
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style-type: disc;
+  margin-bottom: $base-line-height / 2;
+  padding-left: $base-line-height;
+}
+
+ol {
+  list-style-type: decimal;
+  margin-bottom: $base-line-height / 2;
+  padding-left: $base-line-height;
+}
+
+.no-bullet {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+dl {
+  line-height: $base-line-height;
+  margin-bottom: $base-line-height / 2;
+
+  dt {
+    font-weight: bold;
+    margin-top: $base-line-height / 2;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+
+// ==========================================================================
+// Inline Elements (alphabetical order)
+// ==========================================================================
+
+a {
+  @include transition(color 0.1s linear);
+  color: $base-link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $hover-link-color;
+  }
+
+  &:active, &:focus {
+    color: $hover-link-color;
+    outline: none;
+  }
+}
+
+abbr, acronym {
+  border-bottom: 1px dotted $base-border-color;
+  cursor: help;
+}
+
+// b
+
+cite {
+  color: lighten($base-font-color, 25);
+  font-style: italic;
+
+  &:before {
+    content: '\2014 \00A0';
+  }
+}
+
+// code
+
+del {
+  color: lighten($base-font-color, 15);
+}
+
+// dfn
+// em
+// i
+// ins
+// kbd
+// mark
+// q
+// s
+// samp
+// small
+// strong
+// sub
+// summary
+// sup
+// time
+// u
+// var

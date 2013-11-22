@@ -1,27 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="vipApp">
-<head>
-	<meta charset="utf-8">
-	<title>VIP Dashboard</title>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VIP Dashboard</title>
+    <meta name="description" content="Partnering with election boards, campaign managers, user experience architects, graphic designers, and application developers to better serve voters.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/ico" href="assets/images/favicon.ico" />
+    <!-- jQuery lib -->
+    <script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
 
-    <!-- FontAwesome -->
-    <link href="assets/css/lib/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Angular lib -->
+    <script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
+    <script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
 
-	<!-- jQuery lib -->
-	<script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
-	
-	<!-- Bootstrap lib -->
-	<link href="assets/js/lib/bootstrap-3.0.2/css/bootstrap.min.css" rel="stylesheet">
-	<script src="assets/js/lib/bootstrap-3.0.2/js/bootstrap.min.js"></script>
-
-	<!-- Angular lib -->
-	<script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
-	<script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
-	
-	<!-- VIP App -->
+    <!-- VIP App -->
     <link href="assets/css/app.css" rel="stylesheet">
     <script src="assets/js/app.js"></script>
 
@@ -30,26 +24,46 @@
     <script src="assets/js/controllers/feedsController.js"></script>
     <script src="assets/js/controllers/profileController.js"></script>
 
-                            <script src="assets/js/services.js"></script>
-                            <script src="assets/js/filters.js"></script>
-                            <script src="assets/js/directives.js"></script>
-	
-</head>
-<body>
+    <script src="assets/js/services.js"></script>
+    <script src="assets/js/filters.js"></script>
+    <script src="assets/js/directives.js"></script>
+  </head>
+  <body role="application">
 
-    <!-- App Container -->
-	<div class="appLayout">
-        <div class="appContainer">
-            <!-- Header -->
-            <div class="header" ng-include src="'app/common/header.html'"></div>
-            <!-- Breadcrumbs -->
-            <div class="breadCrumbsContainer" ng-include src="'app/common/breadcrumbs.html'"></div>
-            <!-- Current Page -->
-            <div ng-view class="main"></div>
-        </div>
-        <!-- Footer -->
-        <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>
-	</div>
+    <header role="banner">
+      <div class="wrapper">
+        <a href="/" class="branding">VIP Dashboard</a>
+        <div class="auth">
+          <a ng-class="{navLinkDisabled: page!='profile'}" href="#/profile" class="user">Josh Stewart</a> | <a class="sign-out" href="#">Sign Out</a>
+        </div><!-- / .auth -->
+        <nav class="main-nav">
+          <ul>
+            <li><a ng-class="{active: page=='admin'}" href="#/admin">Admin</a></li>
+            <li><a ng-class="{active: page=='feeds'}" href="#/feeds">Feeds</a></li>
+            <li><a ng-class="{active: page=='profile'}" href="#/profile">Profile</a></li>
+          </ul>
+        </nav>
+      </div><!-- / .wrapper -->
+    </header><!-- / banner -->
 
-</body>
+    <div role="main">
+      <div class="wrapper">
+
+        <nav class="breadcrumbs" ng-hide="breadcrumbs == ''">
+        {{breadcrumbs}}
+        </nav>
+
+        <!-- TODO: get rid of extra div -->
+        <div ng-view class="main"></div>
+
+      </div><!-- / .wrapper -->
+    </div><!-- / main -->
+
+    <footer role="contentinfo" >
+      <div class="wrapper">
+        <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+      </div><!-- / .wrapper -->
+    </footer><!-- / contentinfo -->
+
+  </body>
 </html>

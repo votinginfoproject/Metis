@@ -1,0 +1,22 @@
+/* media.scss */
+
+// audio
+// canvas
+// embed
+// figure
+// iframe
+// img
+// object
+// video
+
+audio,
+canvas,
+video,
+img {
+  vertical-align: middle;
+}
+
+img {
+  margin: 0;
+  max-width: 100%;
+}

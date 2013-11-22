@@ -1,0 +1,31 @@
+/* layout.scss */
+
+// article
+
+aside {
+  @include span-columns(3);
+  float: right;
+  margin-top: 1em;
+}
+
+// details
+// footer
+
+header[role=banner] {
+  background-color: $black;
+  color: $white;
+}
+
+// nav
+// section
+
+.wrapper {
+  @include outer-container;
+  padding: 1em 0;
+  width: 85%;
+}
+
+.content {
+  @include span-columns(8);
+  float: left;
+}
