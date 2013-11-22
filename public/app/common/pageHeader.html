@@ -1,0 +1,9 @@
+<div class="breadCrumbs">
+    {{pageHeader.breadcrumbs}}
+</div>
+
+<h2>{{pageHeader.title}}</h2>
+
+<div ng-if="pageHeader.error" class="alert-danger alert errorContainer">
+    <i class="fa fa-exclamation-triangle orange"></i> ERROR: {{pageHeader.error}}
+</div>

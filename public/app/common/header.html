@@ -2,11 +2,11 @@
     <a href="#/home"><h1>VIP Dashboard</h1></a>
 </div>
 <div class="userLinksContainer">
-    <span class="userLink">Stephen Miller</span> |
+    <span class="userLink">{{user.name}}</span> |
     <a class="userLink" href="#">Log Out</a>
 </div>
 <div class="navLinksContainer">
-    <a ng-class="{navLinkDisabled: page!='admin'}" class="navLink" href="#/admin"><i class="fa fa-cog"></i> Admin</a>
-    <a ng-class="{navLinkDisabled: page!='feeds'}" class="navLink" href="#/feeds"><i class="fa fa-bars"></i> Feeds</a>
-    <a ng-class="{navLinkDisabled: page!='profile'}" class="navLink" href="#/profile"><i class="fa fa-user"></i> Profile</a>
+    <a ng-class="{navLinkDisabled: pageHeader.section!='admin'}" class="navLink" href="#/admin"><i class="fa fa-cog"></i> Admin</a>
+    <a ng-class="{navLinkDisabled: pageHeader.section!='feeds'}" class="navLink" href="#/feeds"><i class="fa fa-bars"></i> Feeds</a>
+    <a ng-class="{navLinkDisabled: pageHeader.section!='profile'}" class="navLink" href="#/profile"><i class="fa fa-user"></i> Profile</a>
 </div>
