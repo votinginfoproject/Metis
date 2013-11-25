@@ -2,19 +2,19 @@
 
 <p>Here is some text explaining its benefits.</p>
 
-<form class="form-sign-in">
-    <div>
-        <label for="email">Email Address</label>
-        <input name="email" type="text" tabindex="1">
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input name="password" type="password" tabindex="2">
-    </div>
-    <div>
-        <input name="remember-me" type="checkbox" value="remember-me" tabindex="3">
-        <label for="remember-me">Stay signed in</label>
-    </div>
-    <input name="sign-in" type="submit" value="Sign In">
-    <a href="#" class="helper">Forgot your password?</a>
+<form class="form-sign-in" action="/login" method="post">
+  <div>
+    <label for="username">User Name</label>
+    <input name="username" type="text" tabindex="1">
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input name="password" type="password" tabindex="2">
+  </div>
+  <div>
+    <input name="remember-me" type="checkbox" value="remember-me" tabindex="3">
+    <label for="remember-me">Stay signed in</label>
+  </div>
+  <input name="sign-in" type="submit" value="Sign In">
+  <a href="#" class="helper">Forgot your password?</a>
 </form>
