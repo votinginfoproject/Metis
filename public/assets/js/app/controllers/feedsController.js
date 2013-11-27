@@ -6,7 +6,7 @@
 function FeedsCtrl($scope, $rootScope, $feedsService){
 
     // initialize page header variables
-    $rootScope.setPageHeader("Feeds", "Feeds /", "feeds", null);
+    $rootScope.setPageHeader("Feeds", ["Feeds"], "feeds", null);
 
     // call our service
     $feedsService.getData()

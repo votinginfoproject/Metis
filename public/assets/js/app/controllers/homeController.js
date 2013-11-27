@@ -6,7 +6,7 @@
 function HomeCtrl($scope, $rootScope, $homeService){
 
     // initialize page header variables
-    $rootScope.setPageHeader("Welcome", "Home /", "home", null);
+    $rootScope.setPageHeader("Welcome", "", "home", null);
 
     // call our service
     $homeService.getData()

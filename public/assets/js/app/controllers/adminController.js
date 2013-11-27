@@ -6,7 +6,7 @@
 function AdminCtrl($scope, $rootScope, $adminService){
 
     // initialize page header variables
-    $rootScope.setPageHeader("Admin", "Admin /", "admin", null);
+    $rootScope.setPageHeader("Admin", ["Admin"], "admin", null);
 
     // call our service
     $adminService.getData()

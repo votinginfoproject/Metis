@@ -6,7 +6,7 @@
 function ProfileCtrl($scope, $rootScope, $profileService) {
 
     // initialize page header variables
-    $rootScope.setPageHeader("Profile", "Profile /", "profile", null);
+    $rootScope.setPageHeader("Profile", ["Profile"], "profile", null);
 
     // call our service
     $profileService.getData()
