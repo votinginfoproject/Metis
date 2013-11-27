@@ -3,11 +3,18 @@
  */
 var config = {};
 
-config.web = {};
+config.web = {
+    port: process.env.PORT || 4000,
+    favicon: 'public/assets/images/favicon.ico',
+    loglevel: 'dev',
+    sessionsecret: 'ssshh!!'
+};
 
-config.web.port = process.env.PORT || 4000;
-config.web.favicon = 'public/assets/images/favicon.ico';
-config.web.loglevel = 'dev';
-
+config.crowd = {
+    server: 'http://192.168.10.160:8095/crowd/',
+    application: 'votinginfoapp',
+    apppass: 'thisissecret',
+    retrieveGroups: true
+};
 
 module.exports = config;
