@@ -27,18 +27,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-    app.use(express.errorHandler());
+  app.use(express.errorHandler());
 }
 
 //user authentication
-auth.authSetup(config, passport);
+auth.authSetup(config, passport, 'development' == app.get('env'));
 
-app.post('/login',
-    auth.authLogin,
+//TODO: remove this check and just use Crowd for authentication
+if ('development' == app.get('env')) {
+  app.post('/login',
+    passport.authenticate('local', { failureRedirect: '/loginfail' }),
     function(req, res) {
-        res.redirect('/loggedin');
-});
+      res.redirect('/');
+    });
+} else {
+  app.post('/login',
+    passport.authenticate('atlassian-crowd', { failureRedirect: '/loginfail'}),
+    function (req, res) {
+      res.redirect('/loggedin');
+    });
+}
 
 http.createServer(app).listen(config.web.port, function () {
-    console.log('Express server listening on port ' + config.web.port);
+  console.log('Express server listening on port ' + config.web.port);
 });
