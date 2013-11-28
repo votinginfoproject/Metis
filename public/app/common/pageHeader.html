@@ -1,5 +1,5 @@
-<nav class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
-    {{pageHeader.breadcrumbs}}
+<nav class="breadcrumbs" ng-show="pageHeader.breadcrumbs">
+    <a ng-repeat="crumb in pageHeader.breadcrumbs" ng-class="{'current':$last}" href="">{{crumb}}</a>
 </nav>
 
 <h2>{{pageHeader.title}}</h2>
