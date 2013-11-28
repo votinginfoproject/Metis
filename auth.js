@@ -34,19 +34,16 @@ var setup = function (config, pp, isDevelopment) {
     done(null, user.username);
   });
 
-  passport.deserializeUser(function (username, done) {
-    var user = _.find(profiles, function (user) {
-      return user.username == username;
-    });
-    if (user === undefined) {
-      done(new Error("No user with username '" + username + "' found."));
-    }
-    else {
-      done(null, user);
-    }
-  });
 
   if (isDevelopment) {
+
+    passport.deserializeUser(function (username, done) {
+        var user = {};
+        user.username = username;
+
+        done(null, user);
+    });
+
     passport.use(new LocalStrategy(
       function(username, password, done) {
         // asynchronous verification, for effect...
@@ -66,7 +63,21 @@ var setup = function (config, pp, isDevelopment) {
         });
       }
     ));
+
   } else {
+
+    passport.deserializeUser(function (username, done) {
+      var user = _.find(profiles, function (user) {
+          return user.username == username;
+      });
+      if (user === undefined) {
+          done(new Error("No user with username '" + username + "' found."));
+      }
+      else {
+          done(null, user);
+      }
+    });
+
     passport.use(new CrowdStrategy({
         crowdServer: config.crowd.server,
         crowdApplication: config.crowd.application,
@@ -85,11 +96,24 @@ var setup = function (config, pp, isDevelopment) {
         })
       }
     ));
+
   }
 };
 
+/*
+ * Get the current authenticated user's username
+ *
+ * @Return null if no user is authenticated, else the username
+ */
+getUserName = function () {
+    if(profiles===null || profiles.length===0){
+        return null;
+    } else {
+        return profiles.pop().username;
+    }
+};
 
-var check = function (req, res, next) {
+check = function (req, res, next) {
   if (!req.isAuthenticated())
     res.send(401);
   else
@@ -98,3 +122,4 @@ var check = function (req, res, next) {
 
 exports.authSetup = setup;
 exports.authCheck = check;
+exports.getUserName = getUserName;

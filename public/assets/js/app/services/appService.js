@@ -8,8 +8,11 @@
 vipApp.factory('$appService', function ($http, $appProperties) {
 
     return {
+        isAuthenticated: function () {
+            return $http.get($appProperties.servicesPath + "/isAuthenticated");
+        },
         getReferenceData: function () {
-            return $http.get($appProperties.servicesPath + "/referenceDataMockService.html");
+            return $http.get($appProperties.mockServicesPath + "/referenceDataMockService.html");
         },
         postService: function () {
             var postData = {key: "One", value: "1"};

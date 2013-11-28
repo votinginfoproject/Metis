@@ -10,14 +10,15 @@ var vipApp = angular.module('vipApp', ['ngRoute']);
 // Constants
 vipApp.constant('$appProperties', {
     contextRoot:    '',
-    servicesPath:   '/mockServices'
+    mockServicesPath:   '/mockServices',
+    servicesPath:   '/services'
 });
 
 /*
  * Static initialization block
  *
  */
-vipApp.run(function($rootScope, $appService) {
+vipApp.run(function($rootScope, $appService, $location) {
 
     // initialize objects
     $rootScope.setPageHeader = function(title, breadcrumbs, section, error){
@@ -36,14 +37,25 @@ vipApp.run(function($rootScope, $appService) {
     };
 
     // call our reference data service
-    $appService.getReferenceData()
+    $appService.isAuthenticated()
         .success(function (data) {
+
+            console.dir(data);
+            console.debug(data===false);
+
+            if(data.isAuthenticated==false){
+                $location.path("/");
+            }
 
             $rootScope.user.name = data + " " + Math.ceil(Math.random() * 100);
         }).error(function (data) {
 
-            $rootScope.pageHeader.error = "Could not retrieve Reference Data for the App."
-        });
+            // if we get an error, we could not connect to the server to check to
+            // see if the user is authenticated
+            $rootScope.pageHeader.error = "Server Error";
+            $location.path("/");
+
+});
 
 });
 
@@ -53,7 +65,7 @@ vipApp.run(function($rootScope, $appService) {
  * Will setup routing and retrieve reference data for the app before any pages are loaded
  *
  */
-vipApp.config(['$routeProvider','$appProperties', function ($routeProvider, $appProperties) {
+vipApp.config(['$routeProvider','$appProperties','$httpProvider', function ($routeProvider, $appProperties, $httpProvider) {
 
     $routeProvider.when('/home',{
         templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
@@ -82,5 +94,27 @@ vipApp.config(['$routeProvider','$appProperties', function ($routeProvider, $app
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/home'});
+
+    /*
+     * HTTP Interceptor
+     * Will be used to check to see if user is authenticated
+     */
+    $httpProvider.responseInterceptors.push(function ($q, $location) {
+        return function (promise) {
+            return promise.then(
+                // Success: just return the response
+                function (response) {
+                    return response;
+                },
+                // Error: check the error status to get only the 401
+                function (response) {
+                     if (response.status === 401){
+                         $location.url('/');
+                     }
+                     return $q.reject(response);
+                });
+        }
+    });
+
 }
 ]);

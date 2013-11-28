@@ -48,6 +48,40 @@ if ('development' == app.get('env')) {
     });
 }
 
+/*
+ * Rest Endpoint - Check to see if user is authenticated or not
+ *
+ * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise
+ */
+app.get('/services/isAuthenticated', function(req,res){
+
+    // return a JSON response
+    res.json(
+        {
+            "isAuthenticated": req.isAuthenticated(),
+            "userName": auth.getUserName()
+        }
+    );
+
+});
+
+/*
+ * HTTP Get interceptor
+ *
+ * We want to authenticate the user on any HTTP Get request. If the path is for the
+ * home/login page, then we continue as normal, otherwise we return a http status code of 401
+ */
+app.get('/app/partials/*', function(req,res,next){
+
+    // if on the home page/login screen, continue as normal
+    // with the success html status code
+    if(req.path==="/app/partials/home.html"){
+        next();
+    } else {
+        auth.authCheck(req,res,next);
+    }
+});
+
 http.createServer(app).listen(config.web.port, function() {
   console.log('Express server listening on port ' + config.web.port);
 });

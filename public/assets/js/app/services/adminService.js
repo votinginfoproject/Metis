@@ -9,7 +9,7 @@ vipApp.factory('$adminService', function ($http, $appProperties) {
 
     return {
         getData: function () {
-            return $http.get($appProperties.servicesPath + "/adminMockService.html");
+            return $http.get($appProperties.mockServicesPath + "/adminMockService.html");
         },
         postService: function () {
             var postData = {key: "One", value: "1"};
