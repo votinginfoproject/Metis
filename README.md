@@ -8,6 +8,8 @@ Voting Information Project web app.
 ## Prerequisites
 
 * [Node.js](http://nodejs.org)
+* [Grunt](http://gruntjs.com)
+    * Install Grunt CLI `npm install -g grunt-cli`
 
 ## Getting Started
 

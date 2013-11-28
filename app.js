@@ -43,11 +43,11 @@ if ('development' == app.get('env')) {
 } else {
   app.post('/login',
     passport.authenticate('atlassian-crowd', { failureRedirect: '/loginfail'}),
-    function (req, res) {
+    function(req, res) {
       res.redirect('/loggedin');
     });
 }
 
-http.createServer(app).listen(config.web.port, function () {
+http.createServer(app).listen(config.web.port, function() {
   console.log('Express server listening on port ' + config.web.port);
 });
