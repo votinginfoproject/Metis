@@ -189,7 +189,12 @@ blockquote {
   margin: 1.5em 0;
   padding-left: 0.75em; }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1.25em;
   margin: 0;
   text-rendering: optimizeLegibility; }
@@ -228,7 +233,8 @@ p {
 .helper {
   font-size: .75em; }
 
-ul, ol {
+ul,
+ol {
   margin: 0;
   padding: 0; }
 
@@ -268,7 +274,8 @@ a {
     color: #233d5f;
     outline: none; }
 
-abbr, acronym {
+abbr,
+acronym {
   border-bottom: 1px dotted #dddddd;
   cursor: help; }
 
@@ -294,7 +301,7 @@ img {
 
 /* form.scss */
 .button, .disabled, button,
-input[type="submit"], .button-errors, .button-approve {
+input[type="submit"], .more-detail, .button-errors, .button-approve {
   background: #386097;
   border: none;
   border-radius: 0.1875em;
@@ -306,7 +313,7 @@ input[type="submit"], .button-errors, .button-approve {
   padding: 0.5em 1em;
   text-shadow: none; }
   .button:hover, .disabled:hover, button:hover,
-  input[type="submit"]:hover, .button-errors:hover, .button-approve:hover {
+  input[type="submit"]:hover, .more-detail:hover, .button-errors:hover, .button-approve:hover {
     background: #2a4872;
     color: white; }
 
@@ -407,13 +414,15 @@ td {
   border-bottom: 1px solid #dddddd;
   padding: 0.75em 0; }
 
-tr, td, th {
+tr,
+td,
+th {
   vertical-align: middle; }
 
 /* layout.scss */
 aside {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 23.23176%;
   float: right;
@@ -421,7 +430,7 @@ aside {
   aside:last-child {
     margin-right: 0; }
 
-header[role=banner] {
+header[role="banner"] {
   background-color: black;
   color: white; }
 
@@ -430,8 +439,7 @@ header[role=banner] {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  padding: 1em 0;
-  width: 85%; }
+  padding: 1em 0; }
   .wrapper:before, .wrapper:after {
     content: " ";
     display: table; }
@@ -439,8 +447,8 @@ header[role=banner] {
     clear: both; }
 
 .content {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 65.88078%;
   float: left; }
@@ -665,6 +673,8 @@ header[role=banner] {
   text-align: center;
   text-decoration: none;
   white-space: nowrap; }
+  .errors:hover {
+    color: white; }
 
 .errors.none {
   background-color: #849b29; }
@@ -736,8 +746,8 @@ header[role=banner] {
     clear: both; }
 
 .swatches {
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 100%; }
   .swatches:last-child {
@@ -745,8 +755,8 @@ header[role=banner] {
 
 .swatch {
   padding: 2.35765%;
-  display: block;
   float: left;
+  display: block;
   margin-right: 2.35765%;
   width: 14.70196%;
   background: #dddddd;
@@ -836,4 +846,3 @@ header[role=banner] {
   h2,
   h3 {
     page-break-after: avoid; } }
-

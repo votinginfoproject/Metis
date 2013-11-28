@@ -11,7 +11,7 @@ aside {
 // details
 // footer
 
-header[role=banner] {
+header[role="banner"] {
   background-color: $black;
   color: $white;
 }
@@ -22,7 +22,8 @@ header[role=banner] {
 .wrapper {
   @include outer-container;
   padding: 1em 0;
-  width: 85%;
+  //width: 85%;
+
 }
 
 .content {
