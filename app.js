@@ -36,10 +36,16 @@ auth.authSetup(config, passport, 'development' == app.get('env'));
 //TODO: remove this check and just use Crowd for authentication
 if ('development' == app.get('env')) {
   app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/loginfail' }),
+    passport.authenticate('local', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
     function(req, res) {
-      res.redirect('/');
+
+      console.log("in passport success");
+
+      // successfull login, go to the feeds page afterwards
+      res.redirect('/#/feeds');
     });
+
+
 } else {
   app.post('/login',
     passport.authenticate('atlassian-crowd', { failureRedirect: '/loginfail'}),
@@ -49,11 +55,11 @@ if ('development' == app.get('env')) {
 }
 
 /*
- * Rest Endpoint - Check to see if user is authenticated or not
+ * Rest Endpoint - returns User Object
  *
  * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise
  */
-app.get('/services/isAuthenticated', function(req,res){
+app.get('/services/getUser', function(req,res){
 
     // return a JSON response
     res.json(

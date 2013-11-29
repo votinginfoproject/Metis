@@ -106,6 +106,8 @@ var setup = function (config, pp, isDevelopment) {
  * @Return null if no user is authenticated, else the username
  */
 getUserName = function () {
+    console.log("profiles length " + profiles.length);
+
     if(profiles===null || profiles.length===0){
         return null;
     } else {
