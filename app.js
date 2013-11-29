@@ -55,6 +55,17 @@ if ('development' == app.get('env')) {
 }
 
 /*
+ * Rest Endpoint - log out the user
+ *
+ */
+app.get('/logout', function(req,res){
+
+    // logout the user here
+    req.logout();
+    res.redirect('/');
+});
+
+/*
  * Rest Endpoint - returns User Object
  *
  * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise

@@ -2,7 +2,7 @@
     <a href="/" class="branding">VIP Dashboard</a>
     <div ng-if="user.isAuthenticated">
         <div class="auth">
-            <a ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> | <a class="sign-out" href="#">Sign Out</a>
+            <a ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> | <a class="sign-out" href="/logout">Sign Out</a>
         </div><!-- / .auth -->
         <nav class="main-nav">
             <ul>
