@@ -17,8 +17,10 @@ header[role="banner"] {
 // section
 
 .wrapper {
+  @include clearfix;
+  margin: 0 auto;
   padding: 1em 0;
+  width: percentage(258/306);
 }
 
-.content {
-}
+// content

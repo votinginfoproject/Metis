@@ -288,11 +288,9 @@ audio,
 canvas,
 video,
 img {
-  vertical-align: middle; }
-
-img {
   margin: 0;
-  max-width: 100%; }
+  max-width: 100%;
+  vertical-align: middle; }
 
 /* form.scss */
 .button, .disabled, button,
@@ -420,7 +418,15 @@ header[role="banner"] {
   color: white; }
 
 .wrapper {
-  padding: 1em 0; }
+  *zoom: 1;
+  margin: 0 auto;
+  padding: 1em 0;
+  width: 84.31373%; }
+  .wrapper:before, .wrapper:after {
+    content: " ";
+    display: table; }
+  .wrapper:after {
+    clear: both; }
 
 /* module.scss */
 .alert-box {
