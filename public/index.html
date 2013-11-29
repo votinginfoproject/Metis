@@ -43,23 +43,47 @@
 </head>
 <body role="application">
 
-    <!-- Header Navigation-->
-    <header role="banner" ng-include src="'app/common/header.html'"></header>
+    <header role="banner">
+        <div class="wrapper">
+            <a href="/" class="branding">VIP Dashboard</a>
+            <div class="auth">
+                <a ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.name}}</a> | <a class="sign-out" href="#">Sign Out</a>
+            </div><!-- / .auth -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
+                    <li><a ng-class="{active: pageHeader.section=='feeds'}" href="#/feeds">Feeds</a></li>
+                    <li><a ng-class="{active: pageHeader.section=='profile'}" href="#/profile">Profile</a></li>
+                </ul>
+            </nav>
+        </div><!-- / .wrapper -->
+    </header>
 
     <div role="main">
         <div class="wrapper">
 
             <!-- Page Header -->
-            <div ng-include src="'app/common/pageHeader.html'"></div>
+            <nav class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
+                {{pageHeader.breadcrumbs}}
+            </nav>
+
+            <div ng-if="pageHeader.error" class="alert-box error">
+                ERROR: {{pageHeader.error}}
+            </div>
+
+            <h2>{{pageHeader.title}}</h2>
 
             <!-- Current Page -->
-            <div class="main" ng-view></div>
+            <div ng-view></div>
 
         </div><!-- / .wrapper -->
     </div><!-- / main -->
 
-    <!-- Footer -->
-    <div class="footerContainer" ng-include src="'app/common/footer.html'"></div>
+    <footer role="contentinfo" >
+        <div class="wrapper">
+            <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+        </div><!-- / .wrapper -->
+    </footer><!-- / contentinfo -->
 
 </body>
 </html>
