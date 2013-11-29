@@ -3,9 +3,6 @@
 // article
 
 aside {
-  @include span-columns(3);
-  float: right;
-  margin-top: 1em;
 }
 
 // details
@@ -20,13 +17,8 @@ header[role="banner"] {
 // section
 
 .wrapper {
-  @include outer-container;
   padding: 1em 0;
-  //width: 85%;
-
 }
 
 .content {
-  @include span-columns(8);
-  float: left;
 }
