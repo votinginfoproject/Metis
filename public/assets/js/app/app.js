@@ -20,7 +20,17 @@ vipApp.constant('$appProperties', {
  */
 vipApp.run(function($rootScope, $appService, $location) {
 
-    // initialize objects
+    $rootScope.pageHeader = {};
+    $rootScope.user = {};
+
+    /*
+     * Sets PageHeader values
+     *
+     * @param title - the Title of the page
+     * @breadcrumbs - the breadcrumbs
+     * @section - section name used for the navigation bar "home", "admin", "feeds", "profile"
+     * @error - error message to show on the screen
+     */
     $rootScope.setPageHeader = function(title, breadcrumbs, section, error){
 
         this.pageHeader = {};
@@ -30,32 +40,26 @@ vipApp.run(function($rootScope, $appService, $location) {
         this.pageHeader.error = error;
     };
 
-//    $rootScope.setPageHeader(title, section, breadcrumbs, error){
-
-    $rootScope.user = {
-        name: null
-    };
-
-    // call our reference data service
-    $appService.isAuthenticated()
+    // Before we render any pages,
+    // see if user is authenticated or not and take appropriate action
+    $appService.getUser()
         .success(function (data) {
 
-            console.dir(data);
-            console.debug(data===false);
+            // set user object
+            $rootScope.user = data;
 
+            // redirect to home page if not authenticated
             if(data.isAuthenticated==false){
                 $location.path("/");
             }
 
-            $rootScope.user.name = data + " " + Math.ceil(Math.random() * 100);
         }).error(function (data) {
 
             // if we get an error, we could not connect to the server to check to
-            // see if the user is authenticated
+            // see if the user is authenticated, this should not happen
             $rootScope.pageHeader.error = "Server Error";
             $location.path("/");
-
-});
+        });
 
 });
 
@@ -106,7 +110,8 @@ vipApp.config(['$routeProvider','$appProperties','$httpProvider', function ($rou
                 function (response) {
                     return response;
                 },
-                // Error: check the error status to get only the 401
+                // Error: check the error status for 401
+                // and if so redirect back to homepage
                 function (response) {
                      if (response.status === 401){
                          $location.url('/');

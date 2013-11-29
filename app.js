@@ -49,11 +49,11 @@ if ('development' == app.get('env')) {
 }
 
 /*
- * Rest Endpoint - Check to see if user is authenticated or not
+ * Rest Endpoint - returns User Object
  *
  * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise
  */
-app.get('/services/isAuthenticated', function(req,res){
+app.get('/services/getUser', function(req,res){
 
     // return a JSON response
     res.json(
