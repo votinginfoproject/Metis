@@ -5,7 +5,7 @@
  */
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngRoute']);
+var vipApp = angular.module('vipApp', ['ngRoute','ngCookies']);
 
 // Constants
 vipApp.constant('$appProperties', {
@@ -20,8 +20,10 @@ vipApp.constant('$appProperties', {
  */
 vipApp.run(function($rootScope, $appService, $location) {
 
+    console.log("run()");
+
     $rootScope.pageHeader = {};
-    $rootScope.user = {};
+    $rootScope.user = null;
 
     /*
      * Sets PageHeader values
@@ -69,9 +71,12 @@ vipApp.run(function($rootScope, $appService, $location) {
  * Will setup routing and retrieve reference data for the app before any pages are loaded
  *
  */
-vipApp.config(['$routeProvider','$appProperties','$httpProvider', function ($routeProvider, $appProperties, $httpProvider) {
+vipApp.config(['$routeProvider','$appProperties','$httpProvider',
+    function ($routeProvider, $appProperties, $httpProvider) {
 
-    $routeProvider.when('/home',{
+    console.log("config()");
+
+    $routeProvider.when('/',{
         templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
         controller: 'HomeCtrl'
     });
@@ -97,7 +102,10 @@ vipApp.config(['$routeProvider','$appProperties','$httpProvider', function ($rou
     });
 
     // default when no path specified
-    $routeProvider.otherwise({redirectTo: '/home'});
+    $routeProvider.otherwise({redirectTo: '/'});
+
+
+//    $httpProvider
 
     /*
      * HTTP Interceptor
@@ -108,6 +116,9 @@ vipApp.config(['$routeProvider','$appProperties','$httpProvider', function ($rou
             return promise.then(
                 // Success: just return the response
                 function (response) {
+                    //console.dir(response.headers());
+                    //console.dir(response);
+
                     return response;
                 },
                 // Error: check the error status for 401

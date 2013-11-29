@@ -36,10 +36,16 @@ auth.authSetup(config, passport, 'development' == app.get('env'));
 //TODO: remove this check and just use Crowd for authentication
 if ('development' == app.get('env')) {
   app.post('/login',
-    passport.authenticate('local', { failureRedirect: '/loginfail' }),
+    passport.authenticate('local', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
     function(req, res) {
-      res.redirect('/');
+
+      console.log("in passport success");
+
+      // successfull login, go to the feeds page afterwards
+      res.redirect('/#/feeds');
     });
+
+
 } else {
   app.post('/login',
     passport.authenticate('atlassian-crowd', { failureRedirect: '/loginfail'}),
