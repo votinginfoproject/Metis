@@ -439,7 +439,8 @@ header[role="banner"] {
   max-width: 68em;
   margin-left: auto;
   margin-right: auto;
-  padding: 1em 0; }
+  padding: 1em 0;
+  width: 85%; }
   .wrapper:before, .wrapper:after {
     content: " ";
     display: table; }
