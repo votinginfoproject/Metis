@@ -111,13 +111,18 @@ vipApp.config(['$routeProvider','$appProperties','$httpProvider',
      * HTTP Interceptor
      * Will be used to check to see if user is authenticated
      */
-    $httpProvider.responseInterceptors.push(function ($q, $location) {
+    $httpProvider.responseInterceptors.push(function ($q, $location, $rootScope) {
         return function (promise) {
             return promise.then(
                 // Success: just return the response
                 function (response) {
-                    //console.dir(response.headers());
-                    //console.dir(response);
+
+                    // if the user is logged in and going to the home page,
+                    // redirect to the feeds page
+                    if($rootScope.user !== null && $rootScope.user.isAuthenticated === true && $location.path() === "/"){
+
+                        $location.url('/feeds');
+                    }
 
                     return response;
                 },
