@@ -71,3 +71,48 @@ $form-font-family: $base-font-family;
 
 $base-border: 1px solid $base-border-color;
 $base-padding: .5em 1em;
+
+
+// ============================================================================
+// Mixins
+// ============================================================================
+
+@mixin span-columns($span: $columns of $container-columns) {
+  $columns: nth($span, 1);
+  $container-columns: nth($span, 3);
+  $gutter: 0;
+
+  @if $container-columns == 6 {
+    $gutter: percentage(24/480);
+  } @else {
+    $gutter: percentage(18/258);
+  }
+
+  $width: (((100% - (($container-columns - 1) * $gutter)) / $container-columns) * $columns)+ (($columns - 1) * $gutter);
+
+  float: left;
+  margin-right: $gutter;
+  width: $width;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+@mixin bp($point) {
+
+  $c6: "(min-width: 600px)";
+  $c12: "(min-width: 1116px)";
+  $c16: "(min-width: 1452px)";
+
+  @if $point == c16 {
+    @media #{$c16} { @content; }
+  }
+  @else if $point == c12 {
+    @media #{$c12} { @content; }
+  }
+  @else if $point == c6 {
+    @media #{$c6}  { @content; }
+  }
+
+}

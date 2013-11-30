@@ -1,8 +1,3 @@
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
 /* variables-and-mixins.scss */
 /* normalize.css v2.1.2 | MIT License | git.io/normalize */
 article,
@@ -248,7 +243,8 @@ ol {
   margin-bottom: 0.75em;
   padding-left: 1.5em; }
 
-.no-bullet, .main-nav ul, .checklist {
+.no-bullet, form ul,
+form ol, .main-nav ul, .checklist, .swatches {
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -293,11 +289,9 @@ audio,
 canvas,
 video,
 img {
-  vertical-align: middle; }
-
-img {
   margin: 0;
-  max-width: 100%; }
+  max-width: 100%;
+  vertical-align: middle; }
 
 /* form.scss */
 .button, .disabled, button,
@@ -420,15 +414,22 @@ th {
   vertical-align: middle; }
 
 /* layout.scss */
-aside {
-  float: left;
-  display: block;
-  margin-right: 2.35765%;
-  width: 23.23176%;
-  float: right;
-  margin-top: 1em; }
-  aside:last-child {
-    margin-right: 0; }
+@media (min-width: 1116px) {
+  aside {
+    float: left;
+    margin-right: 6.97674%;
+    width: 28.68217%;
+    float: right; }
+    aside:last-child {
+      margin-right: 0; } }
+@media (min-width: 1452px) {
+  aside {
+    float: left;
+    margin-right: 6.97674%;
+    width: 19.76744%;
+    float: right; }
+    aside:last-child {
+      margin-right: 0; } }
 
 header[role="banner"] {
   background-color: black;
@@ -436,25 +437,43 @@ header[role="banner"] {
 
 .wrapper {
   *zoom: 1;
-  max-width: 68em;
-  margin-left: auto;
-  margin-right: auto;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  margin: 0 auto;
   padding: 1em 0;
-  width: 85%; }
+  width: 84.31373%; }
   .wrapper:before, .wrapper:after {
     content: " ";
     display: table; }
   .wrapper:after {
     clear: both; }
+  @media (min-width: 600px) {
+    .wrapper {
+      width: 80%; } }
+  @media (min-width: 1116px) {
+    .wrapper {
+      width: 87.09677%; } }
+  @media (min-width: 1452px) {
+    .wrapper {
+      width: 90.08264%; } }
 
-.content {
-  float: left;
-  display: block;
-  margin-right: 2.35765%;
-  width: 65.88078%;
-  float: left; }
-  .content:last-child {
-    margin-right: 0; }
+@media (min-width: 1116px) {
+  .content {
+    float: left;
+    margin-right: 6.97674%;
+    width: 64.34109%;
+    float: left; }
+    .content:last-child {
+      margin-right: 0; } }
+@media (min-width: 1452px) {
+  .content {
+    float: left;
+    margin-right: 6.97674%;
+    width: 73.25581%;
+    float: left; }
+    .content:last-child {
+      margin-right: 0; } }
 
 /* module.scss */
 .alert-box {
@@ -605,26 +624,11 @@ header[role="banner"] {
   text-decoration: none; }
 
 .data-group {
-  *zoom: 1;
-  display: block;
   border: 1px solid #dddddd;
   margin-bottom: 1em; }
-  .data-group:before, .data-group:after {
-    content: " ";
-    display: table; }
-  .data-group:after {
-    clear: both; }
 
 .data-group-header {
-  padding: 2.35765%;
-  *zoom: 1;
-  display: block;
   background: #dddddd; }
-  .data-group-header:before, .data-group-header:after {
-    content: " ";
-    display: table; }
-  .data-group-header:after {
-    clear: both; }
   .data-group-header h2 {
     float: left;
     margin-bottom: 0; }
@@ -735,11 +739,10 @@ header[role="banner"] {
     color: #999999; }
 
 .example {
-  padding: 2.35765%;
   *zoom: 1;
-  display: block;
   border: 2px solid #f7f7f7;
-  margin: 2em 0; }
+  margin: 2em 0;
+  padding: 1em; }
   .example:before, .example:after {
     content: " ";
     display: table; }
@@ -747,24 +750,20 @@ header[role="banner"] {
     clear: both; }
 
 .swatches {
+  *zoom: 1;
   float: left;
-  display: block;
-  margin-right: 2.35765%;
-  width: 100%; }
-  .swatches:last-child {
-    margin-right: 0; }
+  margin-bottom: 1em; }
+  .swatches:before, .swatches:after {
+    content: " ";
+    display: table; }
+  .swatches:after {
+    clear: both; }
 
 .swatch {
-  padding: 2.35765%;
-  float: left;
-  display: block;
-  margin-right: 2.35765%;
-  width: 14.70196%;
+  width: 7em;
+  height: 7em;
   background: #dddddd;
-  margin-bottom: 1em;
-  min-height: 7em; }
-  .swatch:last-child {
-    margin-right: 0; }
+  float: left; }
   .swatch.blue-dark {
     background: #386097; }
   .swatch.blue-light {

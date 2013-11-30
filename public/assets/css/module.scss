@@ -232,14 +232,11 @@
 // TODO: rename data-group
 
 .data-group {
-  @include row();
   border: $base-border;
   margin-bottom: 1em;
 }
 
 .data-group-header {
-  @include pad();
-  @include row();
   background: $gray-light;
 
   h2 {
@@ -442,22 +439,23 @@
 // ----------------------------------------------------------------------------
 
 .example {
-  @include pad();
-  @include row();
+  @include clearfix;
   border: 2px solid lighten($base-border-color, 10);
   margin: 2em 0;
+  padding: 1em;
 }
 
 .swatches {
-  @include span-columns(12);
+  @include clearfix;
+  @extend .no-bullet;
+  float: left;
+  margin-bottom: 1em;
 }
 
 .swatch {
-  @include pad();
-  @include span-columns(2);
+  @include size(7em);
   background: $gray-light;
-  margin-bottom: 1em;
-  min-height: 7em;
+  float: left;
 
   &.blue-dark {
     background: $blue-dark;

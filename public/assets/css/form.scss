@@ -116,3 +116,10 @@ textarea,
     outline: none;
   }
 }
+
+form {
+  ul,
+  ol {
+    @extend .no-bullet;
+  }
+}
