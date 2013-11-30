@@ -2,7 +2,17 @@
 
 // article
 
-// aside
+aside {
+  @include bp(c12) {
+    @include span-columns(4 of 12);
+    float: right;
+  }
+
+  @include bp(c16) {
+    @include span-columns(4 of 16);
+    float: right;
+  }
+}
 
 // details
 // footer
@@ -17,10 +27,32 @@ header[role="banner"] {
 
 .wrapper {
   @include clearfix;
+  @include transition (all 0.5s ease-in-out);
   margin: 0 auto;
-  overflow: hidden;
   padding: 1em 0;
   width: percentage(258/306);
+
+  @include bp(c6) {
+    width: percentage(480/600);
+  }
+
+  @include bp(c12) {
+    width: percentage(972/1116);
+  }
+
+  @include bp(c16) {
+    width: percentage(1308/1452);
+  }
 }
 
-// content
+.content {
+  @include bp(c12) {
+    @include span-columns(8 of 12);
+    float: left;
+  }
+
+  @include bp(c16) {
+    @include span-columns(12 of 16);
+    float: left;
+  }
+}

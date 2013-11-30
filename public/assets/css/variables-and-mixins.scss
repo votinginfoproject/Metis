@@ -98,3 +98,21 @@ $base-padding: .5em 1em;
     margin-right: 0;
   }
 }
+
+@mixin bp($point) {
+
+  $c6: "(min-width: 600px)";
+  $c12: "(min-width: 1116px)";
+  $c16: "(min-width: 1452px)";
+
+  @if $point == c16 {
+    @media #{$c16} { @content; }
+  }
+  @else if $point == c12 {
+    @media #{$c12} { @content; }
+  }
+  @else if $point == c6 {
+    @media #{$c6}  { @content; }
+  }
+
+}
