@@ -439,17 +439,23 @@
 // ----------------------------------------------------------------------------
 
 .example {
+  @include clearfix;
   border: 2px solid lighten($base-border-color, 10);
   margin: 2em 0;
+  padding: 1em;
 }
 
 .swatches {
+  @include clearfix;
+  @extend .no-bullet;
+  float: left;
+  margin-bottom: 1em;
 }
 
 .swatch {
   @include size(7em);
   background: $gray-light;
-  margin-bottom: 1em;
+  float: left;
 
   &.blue-dark {
     background: $blue-dark;

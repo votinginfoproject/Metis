@@ -18,6 +18,7 @@ header[role="banner"] {
 .wrapper {
   @include clearfix;
   margin: 0 auto;
+  overflow: hidden;
   padding: 1em 0;
   width: percentage(258/306);
 }

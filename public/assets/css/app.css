@@ -243,7 +243,8 @@ ol {
   margin-bottom: 0.75em;
   padding-left: 1.5em; }
 
-.no-bullet, .main-nav ul, .checklist {
+.no-bullet, form ul,
+form ol, .main-nav ul, .checklist, .swatches {
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -420,6 +421,7 @@ header[role="banner"] {
 .wrapper {
   *zoom: 1;
   margin: 0 auto;
+  overflow: hidden;
   padding: 1em 0;
   width: 84.31373%; }
   .wrapper:before, .wrapper:after {
@@ -692,14 +694,31 @@ header[role="banner"] {
     color: #999999; }
 
 .example {
+  *zoom: 1;
   border: 2px solid #f7f7f7;
-  margin: 2em 0; }
+  margin: 2em 0;
+  padding: 1em; }
+  .example:before, .example:after {
+    content: " ";
+    display: table; }
+  .example:after {
+    clear: both; }
+
+.swatches {
+  *zoom: 1;
+  float: left;
+  margin-bottom: 1em; }
+  .swatches:before, .swatches:after {
+    content: " ";
+    display: table; }
+  .swatches:after {
+    clear: both; }
 
 .swatch {
   width: 7em;
   height: 7em;
   background: #dddddd;
-  margin-bottom: 1em; }
+  float: left; }
   .swatch.blue-dark {
     background: #386097; }
   .swatch.blue-light {
