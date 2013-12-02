@@ -31,10 +31,10 @@ if ('development' == app.get('env')) {
 }
 
 //user authentication
-auth.authSetup(config, passport, 'development' == app.get('env'));
+auth.authSetup(config, passport, config.crowd.uselocalauth);
 
 //TODO: remove this check and just use Crowd for authentication
-if ('development' == app.get('env')) {
+if (config.crowd.uselocalauth) {
   app.post('/login',
     passport.authenticate('local', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
     function(req, res) {

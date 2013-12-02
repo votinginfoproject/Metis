@@ -4,17 +4,18 @@
 var config = {};
 
 config.web = {
-    port: process.env.PORT || 4000,
-    favicon: 'public/assets/images/favicon.ico',
-    loglevel: 'dev',
-    sessionsecret: 'ssshh!!'
+  port: process.env.PORT || 4000,
+  favicon: 'public/assets/images/favicon.ico',
+  loglevel: 'dev',
+  sessionsecret: 'ssshh!!'
 };
 
 config.crowd = {
-    server: 'http://192.168.10.160:8095/crowd/',
-    application: 'votinginfoapp',
-    apppass: 'thisissecret',
-    retrieveGroups: true
+  server: 'http://192.168.10.160:8095/crowd/',
+  application: 'votinginfoapp',
+  apppass: 'thisissecret',
+  retrieveGroups: true,
+  uselocalauth: true
 };
 
 module.exports = config;
