@@ -293,29 +293,75 @@
 // Overview
 // ============================================================================
 
+.overview {
+  font-family: $header-font-family;
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    @include clearfix;
+    border-bottom: $base-border;
+    display: block;
+    padding: 1em 0;
+    position: relative;
+  }
+
+  td {
+    @include span-columns(1 of 2);
+    border: none;
+    font-size: .875em;
+    padding: 0;
+  }
+
+  .element-type {
+    float: left;
+    margin-top: 2em;
+  }
+
+  .amount {
+    font-size: 1.5em;
+    left: 0;
+    position: absolute;
+    top: .6666em;
+  }
+
+  .completion,
+  .element-errors {
+    clear: right;
+    margin-right: 0;
+  }
+}
+
 .completeness {
   background-color: transparent;
   border: $base-border;
   height: $base-line-height;
   padding: 0.125em;
+  position: relative;
 }
 
-.completed {
+.complete {
   background: $green;
   display: block;
   height: 100%;
 }
 
+@for $i from 0 through 100 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage($i/100);
+  }
+}
+
 .counter {
   font-size: .875em;
-}
-
-.count {
-  float: right;
-}
-
-.progress .meter {
-  float: left;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
 }
 
 .errors {
@@ -341,12 +387,12 @@
   background-color: $green;
 }
 
-.overview {
-  th,
-  td {
-    padding-left: 1em;
-  }
-}
+// .overview {
+//   th,
+//   td {
+//     padding-left: 1em;
+//   }
+// }
 
 
 // ============================================================================

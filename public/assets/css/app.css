@@ -656,25 +656,365 @@ header[role="banner"] {
 .map {
   margin-bottom: 1em; }
 
+.overview {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .overview thead {
+    display: none; }
+  .overview tr {
+    *zoom: 1;
+    border-bottom: 1px solid #dddddd;
+    display: block;
+    padding: 1em 0;
+    position: relative; }
+    .overview tr:before, .overview tr:after {
+      content: " ";
+      display: table; }
+    .overview tr:after {
+      clear: both; }
+  .overview td {
+    float: left;
+    margin-right: 6.97674%;
+    width: 46.51163%;
+    border: none;
+    font-size: .875em;
+    padding: 0; }
+    .overview td:last-child {
+      margin-right: 0; }
+  .overview .element-type {
+    float: left;
+    margin-top: 2em; }
+  .overview .amount {
+    font-size: 1.5em;
+    left: 0;
+    position: absolute;
+    top: .6666em; }
+  .overview .completion,
+  .overview .element-errors {
+    clear: right;
+    margin-right: 0; }
+
 .completeness {
   background-color: transparent;
   border: 1px solid #dddddd;
   height: 1.5em;
-  padding: 0.125em; }
+  padding: 0.125em;
+  position: relative; }
 
-.completed {
+.complete, .complete-0, .complete-1, .complete-2, .complete-3, .complete-4, .complete-5, .complete-6, .complete-7, .complete-8, .complete-9, .complete-10, .complete-11, .complete-12, .complete-13, .complete-14, .complete-15, .complete-16, .complete-17, .complete-18, .complete-19, .complete-20, .complete-21, .complete-22, .complete-23, .complete-24, .complete-25, .complete-26, .complete-27, .complete-28, .complete-29, .complete-30, .complete-31, .complete-32, .complete-33, .complete-34, .complete-35, .complete-36, .complete-37, .complete-38, .complete-39, .complete-40, .complete-41, .complete-42, .complete-43, .complete-44, .complete-45, .complete-46, .complete-47, .complete-48, .complete-49, .complete-50, .complete-51, .complete-52, .complete-53, .complete-54, .complete-55, .complete-56, .complete-57, .complete-58, .complete-59, .complete-60, .complete-61, .complete-62, .complete-63, .complete-64, .complete-65, .complete-66, .complete-67, .complete-68, .complete-69, .complete-70, .complete-71, .complete-72, .complete-73, .complete-74, .complete-75, .complete-76, .complete-77, .complete-78, .complete-79, .complete-80, .complete-81, .complete-82, .complete-83, .complete-84, .complete-85, .complete-86, .complete-87, .complete-88, .complete-89, .complete-90, .complete-91, .complete-92, .complete-93, .complete-94, .complete-95, .complete-96, .complete-97, .complete-98, .complete-99, .complete-100 {
   background: #849b29;
   display: block;
   height: 100%; }
 
+.complete-0 {
+  width: 0%; }
+
+.complete-1 {
+  width: 1%; }
+
+.complete-2 {
+  width: 2%; }
+
+.complete-3 {
+  width: 3%; }
+
+.complete-4 {
+  width: 4%; }
+
+.complete-5 {
+  width: 5%; }
+
+.complete-6 {
+  width: 6%; }
+
+.complete-7 {
+  width: 7.0%; }
+
+.complete-8 {
+  width: 8%; }
+
+.complete-9 {
+  width: 9%; }
+
+.complete-10 {
+  width: 10%; }
+
+.complete-11 {
+  width: 11%; }
+
+.complete-12 {
+  width: 12%; }
+
+.complete-13 {
+  width: 13%; }
+
+.complete-14 {
+  width: 14.0%; }
+
+.complete-15 {
+  width: 15%; }
+
+.complete-16 {
+  width: 16%; }
+
+.complete-17 {
+  width: 17%; }
+
+.complete-18 {
+  width: 18%; }
+
+.complete-19 {
+  width: 19%; }
+
+.complete-20 {
+  width: 20%; }
+
+.complete-21 {
+  width: 21%; }
+
+.complete-22 {
+  width: 22%; }
+
+.complete-23 {
+  width: 23%; }
+
+.complete-24 {
+  width: 24%; }
+
+.complete-25 {
+  width: 25%; }
+
+.complete-26 {
+  width: 26%; }
+
+.complete-27 {
+  width: 27%; }
+
+.complete-28 {
+  width: 28.0%; }
+
+.complete-29 {
+  width: 29.0%; }
+
+.complete-30 {
+  width: 30%; }
+
+.complete-31 {
+  width: 31%; }
+
+.complete-32 {
+  width: 32%; }
+
+.complete-33 {
+  width: 33%; }
+
+.complete-34 {
+  width: 34%; }
+
+.complete-35 {
+  width: 35%; }
+
+.complete-36 {
+  width: 36%; }
+
+.complete-37 {
+  width: 37%; }
+
+.complete-38 {
+  width: 38%; }
+
+.complete-39 {
+  width: 39%; }
+
+.complete-40 {
+  width: 40%; }
+
+.complete-41 {
+  width: 41%; }
+
+.complete-42 {
+  width: 42%; }
+
+.complete-43 {
+  width: 43%; }
+
+.complete-44 {
+  width: 44%; }
+
+.complete-45 {
+  width: 45%; }
+
+.complete-46 {
+  width: 46%; }
+
+.complete-47 {
+  width: 47%; }
+
+.complete-48 {
+  width: 48%; }
+
+.complete-49 {
+  width: 49%; }
+
+.complete-50 {
+  width: 50%; }
+
+.complete-51 {
+  width: 51%; }
+
+.complete-52 {
+  width: 52%; }
+
+.complete-53 {
+  width: 53%; }
+
+.complete-54 {
+  width: 54%; }
+
+.complete-55 {
+  width: 55.0%; }
+
+.complete-56 {
+  width: 56.0%; }
+
+.complete-57 {
+  width: 57.0%; }
+
+.complete-58 {
+  width: 58.0%; }
+
+.complete-59 {
+  width: 59%; }
+
+.complete-60 {
+  width: 60%; }
+
+.complete-61 {
+  width: 61%; }
+
+.complete-62 {
+  width: 62%; }
+
+.complete-63 {
+  width: 63%; }
+
+.complete-64 {
+  width: 64%; }
+
+.complete-65 {
+  width: 65%; }
+
+.complete-66 {
+  width: 66%; }
+
+.complete-67 {
+  width: 67%; }
+
+.complete-68 {
+  width: 68%; }
+
+.complete-69 {
+  width: 69%; }
+
+.complete-70 {
+  width: 70%; }
+
+.complete-71 {
+  width: 71%; }
+
+.complete-72 {
+  width: 72%; }
+
+.complete-73 {
+  width: 73%; }
+
+.complete-74 {
+  width: 74%; }
+
+.complete-75 {
+  width: 75%; }
+
+.complete-76 {
+  width: 76%; }
+
+.complete-77 {
+  width: 77%; }
+
+.complete-78 {
+  width: 78%; }
+
+.complete-79 {
+  width: 79%; }
+
+.complete-80 {
+  width: 80%; }
+
+.complete-81 {
+  width: 81%; }
+
+.complete-82 {
+  width: 82%; }
+
+.complete-83 {
+  width: 83%; }
+
+.complete-84 {
+  width: 84%; }
+
+.complete-85 {
+  width: 85%; }
+
+.complete-86 {
+  width: 86%; }
+
+.complete-87 {
+  width: 87%; }
+
+.complete-88 {
+  width: 88%; }
+
+.complete-89 {
+  width: 89%; }
+
+.complete-90 {
+  width: 90%; }
+
+.complete-91 {
+  width: 91%; }
+
+.complete-92 {
+  width: 92%; }
+
+.complete-93 {
+  width: 93%; }
+
+.complete-94 {
+  width: 94%; }
+
+.complete-95 {
+  width: 95%; }
+
+.complete-96 {
+  width: 96%; }
+
+.complete-97 {
+  width: 97%; }
+
+.complete-98 {
+  width: 98%; }
+
+.complete-99 {
+  width: 99%; }
+
+.complete-100 {
+  width: 100%; }
+
 .counter {
-  font-size: .875em; }
-
-.count {
-  float: right; }
-
-.progress .meter {
-  float: left; }
+  font-size: .875em;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%; }
 
 .errors {
   background-color: #cc3333;
@@ -694,10 +1034,6 @@ header[role="banner"] {
 
 .errors.none {
   background-color: #849b29; }
-
-.overview th,
-.overview td {
-  padding-left: 1em; }
 
 .pagination {
   display: block;
