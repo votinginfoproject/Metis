@@ -298,6 +298,10 @@
 
   thead {
     display: none;
+
+    @include bp(c6) {
+      display: table-header-group;
+    }
   }
 
   tr {
@@ -306,6 +310,13 @@
     display: block;
     padding: 1em 0;
     position: relative;
+
+    @include bp(c6) {
+      border-bottom: none;
+      display: table-row;;
+      padding: 1em 0;
+      position: static;
+    }
   }
 
   td {
@@ -313,11 +324,25 @@
     border: none;
     font-size: .875em;
     padding: 0;
+
+    @include bp(c6) {
+      display: table-cell;
+      float: none;
+      width: inherit;
+      border-bottom: $base-border;
+      margin: 0;
+      padding: .5em 1em .5em 0;
+    }
   }
 
   .element-type {
     float: left;
     margin-top: 2em;
+
+    @include bp(c6) {
+      float: none;
+      margin-top: 0;
+    }
   }
 
   .amount {
@@ -325,12 +350,22 @@
     left: 0;
     position: absolute;
     top: .6666em;
+
+    @include bp(c6) {
+      position: static;
+      font-size: .875em;
+    }
   }
 
   .completion,
   .element-errors {
     clear: right;
     margin-right: 0;
+
+    @include bp(c6) {
+      clear: none;
+      width: default;
+    }
   }
 }
 
