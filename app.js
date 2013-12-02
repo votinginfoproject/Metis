@@ -48,9 +48,13 @@ if ('development' == app.get('env')) {
 
 } else {
   app.post('/login',
-    passport.authenticate('atlassian-crowd', { failureRedirect: '/loginfail'}),
+    passport.authenticate('atlassian-crowd', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
     function(req, res) {
-      res.redirect('/loggedin');
+
+      console.log("in passport success");
+
+      // successfull login, go to the feeds page afterwards
+      res.redirect('/#/feeds');
     });
 }
 
