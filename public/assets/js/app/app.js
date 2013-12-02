@@ -4,6 +4,9 @@
  *
  */
 
+// Comment in if want to disable all "debug" logging
+//debug.setLevel(0);
+
 // VIP app module with its dependencies
 var vipApp = angular.module('vipApp', ['ngRoute','ngCookies']);
 
@@ -20,7 +23,7 @@ vipApp.constant('$appProperties', {
  */
 vipApp.run(function($rootScope, $appService, $location) {
 
-    console.log("run()");
+    debug.log("run()");
 
     $rootScope.pageHeader = {};
     $rootScope.user = null;
@@ -74,7 +77,7 @@ vipApp.run(function($rootScope, $appService, $location) {
 vipApp.config(['$routeProvider','$appProperties','$httpProvider',
     function ($routeProvider, $appProperties, $httpProvider) {
 
-    console.log("config()");
+    debug.log("config()");
 
     $routeProvider.when('/',{
         templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
