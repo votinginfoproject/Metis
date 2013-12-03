@@ -14,7 +14,8 @@ var vipApp = angular.module('vipApp', ['ngRoute', 'ngCookies']);
 vipApp.constant('$appProperties', {
   contextRoot: '',
   mockServicesPath: '/mockServices',
-  servicesPath: '/services'
+  servicesPath: '/services',
+  feedsServicePath: '/xxx'
 });
 
 /*
