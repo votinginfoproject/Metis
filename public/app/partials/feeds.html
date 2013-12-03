@@ -1,5 +1,3 @@
-{{data}}
-
 <h2>Active Feeds</h2>
 
 <table class="associations">
@@ -13,12 +11,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><a href="feed-id">2014/11/04</a></td>
-      <td><a href="feed-id">Ohio</a></td>
-      <td><a href="feed-id">General</a></td>
-      <td><a href="feed-id">Revisions Needed</a></td>
-      <td class="admin"><a href="feed-id/delete">Delete</a></td><!-- TODO: Column only accessible to admins -->
+    <tr ng-if="!feeds || feeds.length === 0">
+      <td colspan="4">No Feeds Found</td>
+    </tr>
+    <tr ng-repeat="feed in feeds">
+      <td><a href="{{feed.edit}}">{{feed.date}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.state}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.type}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.status}}</a></td>
+      <td class="admin"><a href="{{feed.edit}}">Delete</a></td><!-- TODO: Column only accessible to admins -->
     </tr>
   </tbody>
 </table>

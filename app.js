@@ -75,15 +75,13 @@ app.get('/logout', function(req,res){
  * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise
  */
 app.get('/services/getUser', function(req,res){
-
     // return a JSON response
     res.json(
         {
-            "isAuthenticated": req.isAuthenticated(),
-            "userName": auth.getUserName()
+            isAuthenticated: req.isAuthenticated(),
+            userName: ((req.user === undefined) ? '' : req.user.name.givenName + ' ' + req.user.name.familyName)
         }
     );
-
 });
 
 /*
