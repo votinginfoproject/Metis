@@ -90,12 +90,4 @@ var setup = function (config, pp, isDevelopment) {
   }
 };
 
-check = function (req, res, next) {
-  if (!req.isAuthenticated())
-    res.send(401);
-  else
-    next();
-};
-
 exports.authSetup = setup;
-exports.authCheck = check;
