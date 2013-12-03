@@ -6,8 +6,8 @@
 //TODO: Remove this authentication code and use Crowd
 var LocalStrategy = require('passport-local').Strategy;
 var users = [
-  { id: 1, username: 'testuser', password: 'test', email: 'user1@vip.org' },
-  { id: 2, username: 'testuser2', password: 'test2', email: 'user2@cip.org' }
+  { id: 1, username: 'testuser', password: 'test', email: 'user1@vip.org', name: { givenName: 'Test', familyName: 'User'} },
+  { id: 2, username: 'testuser2', password: 'test2', email: 'user2@vip.org', name: { givenName: 'Test', familyName: 'User2'} }
 ];
 
 function findByUsername(username, fn) {
@@ -34,16 +34,19 @@ var setup = function (config, pp, isDevelopment) {
     done(null, user.username);
   });
 
+  passport.deserializeUser(function (username, done) {
+    var user = _.find(profiles, function (user) {
+      return user.username == username;
+    });
+    if (user === undefined) {
+      done(new Error("No user with username '" + username + "' found."));
+    }
+    else {
+      done(null, user);
+    }
+  });
 
   if (isDevelopment) {
-
-    passport.deserializeUser(function (username, done) {
-        var user = {};
-        user.username = username;
-
-        done(null, user);
-    });
-
     passport.use(new LocalStrategy(
       function(username, password, done) {
         // asynchronous verification, for effect...
@@ -65,19 +68,6 @@ var setup = function (config, pp, isDevelopment) {
     ));
 
   } else {
-
-    passport.deserializeUser(function (username, done) {
-      var user = _.find(profiles, function (user) {
-          return user.username == username;
-      });
-      if (user === undefined) {
-          done(new Error("No user with username '" + username + "' found."));
-      }
-      else {
-          done(null, user);
-      }
-    });
-
     passport.use(new CrowdStrategy({
         crowdServer: config.crowd.server,
         crowdApplication: config.crowd.application,
@@ -100,21 +90,6 @@ var setup = function (config, pp, isDevelopment) {
   }
 };
 
-/*
- * Get the current authenticated user's username
- *
- * @Return null if no user is authenticated, else the username
- */
-getUserName = function () {
-    console.log("profiles length " + profiles.length);
-
-    if(profiles===null || profiles.length===0){
-        return null;
-    } else {
-        return profiles.pop().username;
-    }
-};
-
 check = function (req, res, next) {
   if (!req.isAuthenticated())
     res.send(401);
@@ -124,4 +99,3 @@ check = function (req, res, next) {
 
 exports.authSetup = setup;
 exports.authCheck = check;
-exports.getUserName = getUserName;
