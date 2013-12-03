@@ -103,35 +103,44 @@
 // ============================================================================
 
 .attributes {
-  background: $blue-light;
+  @include clearfix;
   margin-bottom: 1em;
   width: 100%;
 
   .errors {
-    float: right;
     min-height: $base-line-height;
     min-width: $base-line-height;
   }
 }
 
 .key {
+  @include box-sizing(border-box);
   border-top: $base-border;
   clear: left;
   color: $gray-medium;
-  float: left;
   font-weight: normal;
   margin: 0;
-  padding: .25em;
-  text-align: right;
-  width: 30%;
+  padding-top: .25em;
+
+  @include bp(c6) {
+    float: left;
+    padding: .25em;
+    text-align: right;
+    width: 30%;
+  }
 }
 
 .value {
-  border-top: $base-border;
-  float: left;
+  @include box-sizing(border-box);
   margin: 0;
-  padding: .25em;
-  width: 70%;
+  padding-bottom: .25em;
+
+  @include bp(c6) {
+    border-top: $base-border;
+    float: left;
+    padding: .25em;
+    width: 70%;
+  }
 }
 
 
