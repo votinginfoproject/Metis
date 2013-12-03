@@ -15,7 +15,7 @@ var registerFeedsServices = function (app) {
 var mockFeeds = [
   {
     date: '2014/11/04',
-    state: 'OH',
+    state: 'VA',
     type: 'General1',
     status: 'Revisions Needed',
     edit: 'vipfeed-37-2014-11-04'
@@ -29,21 +29,21 @@ var mockFeeds = [
   },
   {
     date: '2014/11/06',
-    state: 'OH',
+    state: 'MD',
     type: 'General3',
     status: 'Revisions Needed',
     edit: 'vipfeed-37-2014-11-06'
   },
   {
     date: '2014/11/07',
-    state: 'OH',
+    state: 'CA',
     type: 'General4',
     status: 'Revisions Needed',
     edit: 'vipfeed-37-2014-11-07'
   },
   {
     date: '2014/11/08',
-    state: 'OH',
+    state: 'TX',
     type: 'General5',
     status: 'Revisions Needed',
     edit: 'vipfeed-37-2014-11-08'
