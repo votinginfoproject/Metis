@@ -1,6 +1,8 @@
 /**
  * Created by bantonides on 12/3/13.
  */
+var utils = require('./utils');
+
 var registerAuthServices = function(config, app, passport) {
   /*
    * Rest Endpoints associated with authentication and identity
@@ -13,24 +15,24 @@ var registerAuthServices = function(config, app, passport) {
   if (config.crowd.uselocalauth) {
     app.post('/login',
       passport.authenticate('local', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
-      loginLocalStrategyPost);
+      loginLocalStrategyPOST);
   } else {
     app.post('/login',
       passport.authenticate('atlassian-crowd', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
-      loginCrowdStrategyPost);
+      loginCrowdStrategyPOST);
   }
 
   /*
    * Log out the user
    */
-  app.get('/logout', logoutGet);
+  app.get('/logout', logoutGET);
 
   /*
    * Returns User Object
    *
    * @return a user object with the isAuthenticated attribute as true if authenticated, false otherwise
    */
-  app.get('/services/getUser', userGet);
+  app.get('/services/getUser', userGET);
 
   /*
    * HTTP Get interceptor
@@ -46,7 +48,7 @@ var registerAuthServices = function(config, app, passport) {
 /*
  * Callbacks for HTTP verbs
  */
-loginLocalStrategyPost = function(req, res) {
+loginLocalStrategyPOST = function(req, res) {
 
   console.log("in passport success");
 
@@ -54,7 +56,7 @@ loginLocalStrategyPost = function(req, res) {
   res.redirect('/#/feeds');
 };
 
-loginCrowdStrategyPost = function(req, res) {
+loginCrowdStrategyPOST = function(req, res) {
 
   console.log("in passport success");
 
@@ -62,14 +64,14 @@ loginCrowdStrategyPost = function(req, res) {
   res.redirect('/#/feeds');
 };
 
-logoutGet = function(req,res){
+logoutGET = function(req,res){
 
   // logout the user here
   req.logout();
   res.redirect('/');
 };
 
-userGet = function(req,res){
+userGET = function(req,res){
   // return a JSON response
   res.json(
     {
@@ -86,18 +88,9 @@ partialGetInterceptor = function(req,res,next){
   if(req.path==="/app/partials/home.html"){
     next();
   } else {
-    ensureAuthentication(req,res,next);
+    utils.ensureAuthentication(req,res,next);
   }
 };
 
-/*
- * Utility methods
- */
-ensureAuthentication = function (req, res, next) {
-  if (!req.isAuthenticated())
-    res.send(401);
-  else
-    next();
-};
 
 exports.registerAuthServices = registerAuthServices;
