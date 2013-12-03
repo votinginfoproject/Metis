@@ -52,13 +52,13 @@
       <a href="/" class="branding">VIP Dashboard</a>
       <div ng-if="user.isAuthenticated">
         <div class="auth">
-          <a ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> | <a class="sign-out" href="/logout">Sign Out</a>
+          <a id="pageHeader.userName" ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> | <a id="pageHeader.sign-out" class="sign-out" href="/logout">Sign Out</a>
         </div><!-- / .auth -->
         <nav class="main-nav">
           <ul>
-            <li><a ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
-            <li><a ng-class="{active: pageHeader.section=='feeds'}" href="#/feeds">Feeds</a></li>
-            <li><a ng-class="{active: pageHeader.section=='profile'}" href="#/profile">Profile</a></li>
+            <li><a id="pageHeader.adminLink" ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
+            <li><a id="pageHeader.feedsLink" ng-class="{active: pageHeader.section=='feeds'}" href="#/feeds">Feeds</a></li>
+            <li><a id="pageHeader.profilelink"  ng-class="{active: pageHeader.section=='profile'}" href="#/profile">Profile</a></li>
           </ul>
         </nav>
       </div>
@@ -68,15 +68,15 @@
   <div role="main">
     <div class="wrapper">
 
-      <nav class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
+      <nav id="pageHeader.breadcrumbs" class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
         {{pageHeader.breadcrumbs}}
       </nav>
 
-      <div class="alert-box error" ng-if="pageHeader.error">
+      <div id="pageHeader.error" class="alert-box error" ng-if="pageHeader.error">
         ERROR: {{pageHeader.error}}
       </div>
 
-      <h1>{{pageHeader.title}}</h1>
+      <h1 id="pageHeader.title">{{pageHeader.title}}</h1>
       <br/>
       <!-- Current Page -->
       <div ng-view></div>
