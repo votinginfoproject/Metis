@@ -10,6 +10,7 @@ var passport = require('passport');
 var auth = require('./auth');
 
 var authServices = require('./services/auth');
+var feedServices = require('./services/feeds');
 
 var app = express();
 
@@ -35,7 +36,9 @@ if ('development' == app.get('env')) {
 //user authentication
 auth.authSetup(config, passport, config.crowd.uselocalauth);
 
+//register REST services
 authServices.registerAuthServices(config, app, passport);
+feedServices.registerFeedsServices(app);
 
 http.createServer(app).listen(config.web.port, function() {
   console.log('Express server listening on port ' + config.web.port);
