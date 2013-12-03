@@ -46,6 +46,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
     $routeProvider.when('/template/feed', {
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
+
+    $routeProvider.when('/template/state', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
