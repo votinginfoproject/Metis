@@ -533,31 +533,47 @@ header[role="banner"] {
   padding-left: 1em; }
 
 .attributes {
-  background: #b7dbff;
+  *zoom: 1;
   margin-bottom: 1em;
   width: 100%; }
+  .attributes:before, .attributes:after {
+    content: " ";
+    display: table; }
+  .attributes:after {
+    clear: both; }
   .attributes .errors {
-    float: right;
     min-height: 1.5em;
     min-width: 1.5em; }
 
 .key {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border-top: 1px solid #dddddd;
   clear: left;
   color: #999999;
-  float: left;
   font-weight: normal;
   margin: 0;
-  padding: .25em;
-  text-align: right;
-  width: 30%; }
+  padding-top: .25em; }
+  @media (min-width: 600px) {
+    .key {
+      float: left;
+      padding: .25em;
+      text-align: right;
+      width: 30%; } }
 
 .value {
-  border-top: 1px solid #dddddd;
-  float: left;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0;
-  padding: .25em;
-  width: 70%; }
+  padding-bottom: .25em; }
+  @media (min-width: 600px) {
+    .value {
+      border-top: 1px solid #dddddd;
+      float: left;
+      padding: .25em;
+      width: 70%; } }
 
 .branding {
   color: white;
