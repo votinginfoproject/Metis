@@ -52,6 +52,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
     });
 
+    $routeProvider.when('/template/election', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/election.html'
+    });
+
     $routeProvider.when('/template/state', {
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
     });
