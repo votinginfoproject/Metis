@@ -72,6 +72,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
     });
 
+    $routeProvider.when('/template/election-administration', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/election-administration.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
