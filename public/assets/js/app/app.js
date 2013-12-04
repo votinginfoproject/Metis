@@ -84,6 +84,14 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/polling-location.html'
     });
 
+    $routeProvider.when('/template/contests', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/contests.html'
+    });
+
+    $routeProvider.when('/template/contest', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
