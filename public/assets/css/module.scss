@@ -70,6 +70,14 @@
 
 .associations {
 
+  thead {
+    display: none;
+
+    @include bp(c6) {
+      display: table-header-group;
+    }
+  }
+
   tbody {
     tr {
       &:hover {
@@ -91,10 +99,63 @@
     }
   }
 
+  tr {
+    border-top: $base-border;
+
+    @include bp(c6) {
+      border: none;
+    }
+  }
+
+  td {
+    clear: left;
+    float: left;
+    border: none;
+
+    @include bp(c6) {
+      float: none;
+      clear: none;
+      border-top: $base-border;
+    }
+  }
+
   .admin {
     border: none;
     padding-left: 1em;
   }
+
+  .address:before {
+    content: "Address ";
+
+    @include bp(c6) {
+      content: none;
+    }
+  }
+
+  .id:before {
+    content: "ID ";
+
+    @include bp(c6) {
+      content: none;
+    }
+  }
+
+  .name:before {
+    content: "Name ";
+
+    @include bp(c6) {
+      content: none;
+    }
+  }
+
+  .precinct-splits:before {
+    content: "Precinct Splits ";
+
+    @include bp(c6) {
+      content: none;
+    }
+  }
+
 }
 
 
