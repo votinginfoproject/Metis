@@ -48,6 +48,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
 
+    $routeProvider.when('/template/source', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
+    });
+
     $routeProvider.when('/template/state', {
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
     });
