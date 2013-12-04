@@ -60,6 +60,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
     });
 
+    $routeProvider.when('/template/precinct-split', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
