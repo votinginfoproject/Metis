@@ -56,6 +56,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
     });
 
+    $routeProvider.when('/template/precinct', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
