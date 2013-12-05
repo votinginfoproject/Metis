@@ -7,6 +7,7 @@
       <th>State</th>
       <th>Type</th>
       <th>Status</th>
+      <th>Due</th>
       <th class="admin"></th><!-- TODO: Column only accessible to admins -->
     </tr>
   </thead>
@@ -19,6 +20,7 @@
       <td><a href="{{feed.edit}}">{{feed.state}}</a></td>
       <td><a href="{{feed.edit}}">{{feed.type}}</a></td>
       <td><a href="{{feed.edit}}">{{feed.status}}</a></td>
+      <td><a href="{{feed.edit}}">42 days</a></td><!-- relative date 6 weeks before election date -->
       <td class="admin"><a href="{{feed.edit}}">Delete</a></td><!-- TODO: Column only accessible to admins -->
     </tr>
   </tbody>
