@@ -18,4 +18,17 @@ config.crowd = {
   uselocalauth: true
 };
 
+/**
+ * vipModel contains data regarding db schema model values
+ * @type {{feed: string, election: string, source: string}}
+ */
+config.mongoose = {
+  model: {
+    feed: "Feed",
+    election: "Election",
+    source: "Source"
+  },
+  connectionString: "mongodb://localhost/vipfeed"
+}
+
 module.exports = config;
