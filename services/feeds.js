@@ -2,6 +2,7 @@
  * Created by bantonides on 12/3/13.
  */
 var utils = require('./utils');
+//var retrieveFeeds = require('../retrievefeeds');
 
 var registerFeedsServices = function (app) {
   /*
@@ -12,6 +13,12 @@ var registerFeedsServices = function (app) {
 
 };
 
+/*
+ TODO: Implement something like...
+  dbHandle = require("../db");
+  var mockFeeds = dbHandle().retrieve_feeds();
+*/
+//In the meanwhile, continue to use the dummy values..
 var mockFeeds = [
   {
     date: '2014/11/04',
