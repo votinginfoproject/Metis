@@ -10,7 +10,8 @@
     "passport": "~0.1.17",
     "underscore": "~1.5.2",
     "passport-atlassian-crowd": "0.0.6",
-    "passport-local": "~0.1.6"
+    "passport-local": "~0.1.6",
+    "moment": "~2.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

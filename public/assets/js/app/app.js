@@ -15,7 +15,7 @@ vipApp.constant('$appProperties', {
   contextRoot: '',
   mockServicesPath: '/mockServices',
   servicesPath: '/services',
-  feedsServicePath: '/xxx'
+  feedsService: '/feeds'
 });
 
 /*
