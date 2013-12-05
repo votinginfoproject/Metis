@@ -104,6 +104,18 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/electoral-district.html'
     });
 
+    $routeProvider.when('/template/contest-result', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest-result.html'
+    });
+
+    $routeProvider.when('/template/ballot-line-result', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot-line-result.html'
+    });
+
+    $routeProvider.when('/template/results', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/results.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
