@@ -116,6 +116,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/results.html'
     });
 
+    $routeProvider.when('/template/errors', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/errors.html'
+    });
+
     $routeProvider.when('/profile', {
         templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
         controller: 'ProfileCtrl'
