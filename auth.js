@@ -10,6 +10,13 @@ var users = [
   { id: 2, username: 'testuser2', password: 'test2', email: 'user2@vip.org', name: { givenName: 'Test', familyName: 'User2'} }
 ];
 
+//Strategy for production
+var CrowdStrategy = require('passport-atlassian-crowd').Strategy;
+var _ = require('underscore');
+
+//logged in user profiles
+var profiles = [];
+
 function findByUsername(username, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
@@ -19,16 +26,8 @@ function findByUsername(username, fn) {
   }
   return fn(null, null);
 }
-//Strategy for production
-var CrowdStrategy = require('passport-atlassian-crowd').Strategy;
-var _ = require('underscore');
-var passport;
 
-//logged in user profiles
-var profiles = [];
-
-var setup = function (config, pp, isDevelopment) {
-  passport = pp;
+var setup = function (config, passport, isDevelopment) {
 
   passport.serializeUser(function (user, done) {
     done(null, user.username);
