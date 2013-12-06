@@ -13,7 +13,6 @@ var vipApp = angular.module('vipApp', ['ngRoute', 'ngCookies']);
 // Constants
 vipApp.constant('$appProperties', {
   contextRoot: '',
-  mockServicesPath: '/mockServices',
   servicesPath: '/services',
   feedsService: '/feeds'
 });
@@ -26,8 +25,6 @@ vipApp.constant('$appProperties', {
  */
 vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
   function ($routeProvider, $appProperties, $httpProvider) {
-
-    debug.log("config()");
 
     $routeProvider.when('/', {
       templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
@@ -42,6 +39,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
     $routeProvider.when('/feeds', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feeds.html',
       controller: 'FeedsCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feeds-detail.html',
+      controller: 'FeedsDetailCtrl'
     });
 
     $routeProvider.when('/template/feed', {
@@ -177,9 +179,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  */
 vipApp.run(function ($rootScope, $appService, $location) {
 
-  debug.log("run()");
-
-
   $rootScope.pageHeader = {};
   $rootScope.user = null;
 
@@ -187,7 +186,7 @@ vipApp.run(function ($rootScope, $appService, $location) {
    * Sets PageHeader values
    *
    * @param title - the Title of the page
-   * @breadcrumbs - the breadcrumbs
+   * @breadcrumbs - the breadcrumbs as an array
    * @section - section name used for the navigation bar "home", "admin", "feeds", "profile"
    * @error - error message to show on the screen
    */

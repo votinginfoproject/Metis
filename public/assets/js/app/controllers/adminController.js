@@ -3,18 +3,25 @@
  * Admin Controller
  *
  */
-function AdminCtrl($scope, $rootScope, $adminService){
+function AdminCtrl($scope, $rootScope, $adminService, $location) {
 
-    // initialize page header variables
-    $rootScope.setPageHeader("Admin", "Admin /", "admin", null);
+  var breadcrumbs = [
+    {
+      name: "Admin",
+      url: $location.absUrl()
+    }
+  ];
 
-    // call our service
-    $adminService.getData()
-        .success(function (data) {
+  // initialize page header variables
+  $rootScope.setPageHeader("Admin", breadcrumbs, "admin", null);
 
-            $scope.data = data;
-        }).error(function (data) {
+  // call our service
+  $adminService.getData()
+    .success(function (data) {
 
-            $rootScope.pageHeader.error = "Could not retrieve Admin Data."
-        });
+      $scope.data = data;
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error = "Could not retrieve Admin Data."
+    });
 }

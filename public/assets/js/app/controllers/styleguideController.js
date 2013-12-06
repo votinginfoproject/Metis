@@ -3,8 +3,15 @@
  * Styleguide Controller
  *
  */
-function StyleguideCtrl($scope, $rootScope){
+function StyleguideCtrl($scope, $rootScope, $location) {
 
-    // initialize page header variables
-    $rootScope.setPageHeader("Styleguide", "Styleguide /", "styleguide", null);
+  var breadcrumbs = [
+    {
+      name: "Styleguide",
+      url: $location.absUrl()
+    }
+  ];
+
+  // initialize page header variables
+  $rootScope.setPageHeader("Styleguide", breadcrumbs, "styleguide", null);
 }

@@ -3,18 +3,25 @@
  * Profile Controller
  *
  */
-function ProfileCtrl($scope, $rootScope, $profileService) {
+function ProfileCtrl($scope, $rootScope, $profileService, $location) {
 
-    // initialize page header variables
-    $rootScope.setPageHeader("Profile", "Profile /", "profile", null);
+  var breadcrumbs = [
+    {
+      name: "Profile",
+      url: $location.absUrl()
+    }
+  ];
 
-    // call our service
-    $profileService.getData()
-        .success(function (data) {
+  // initialize page header variables
+  $rootScope.setPageHeader("Profile", breadcrumbs, "profile", null);
 
-            $scope.data = data;
-        }).error(function (data) {
+  // call our service
+  $profileService.getData()
+    .success(function (data) {
 
-            $rootScope.pageHeader.error = "Could not retrieve Profile Data."
-        });
+      $scope.data = data;
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error = "Could not retrieve Profile Data."
+    });
 }
