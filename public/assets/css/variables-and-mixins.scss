@@ -1,0 +1,118 @@
+/* variables-and-mixins.scss */
+
+// ============================================================================
+// Typography
+// ============================================================================
+
+$base-font-family: $georgia;
+$header-font-family: $helvetica;
+
+
+// ============================================================================
+// Sizes
+// ============================================================================
+
+$base-font-size: 1em;
+$base-line-height: $base-font-size * 1.5;
+$base-border-radius: em(3);
+
+
+// ============================================================================
+// Colors
+// ============================================================================
+
+$blue-dark:     #386097;
+$blue-light:    #b7dbff;
+$red:           #cc3333;
+$red-light:     #FBE3E4;
+$yellow-light:  #FFF6BF;
+$green:         #849b29;
+$green-light:   #E6EFC2;
+
+$black:         #000;
+$gray-dark:     #333;
+$gray-medium:   #999;
+$gray-light:    #DDD;
+$white:         #FFF;
+
+// Font Colors
+// ----------------------------------------------------------------------------
+$base-font-color: $gray-dark;
+$base-accent-color: $blue-dark;
+
+// Text Link Colors
+// ----------------------------------------------------------------------------
+$base-link-color: $base-accent-color;
+$hover-link-color: darken($base-accent-color, 15);
+
+// Border color
+// ----------------------------------------------------------------------------
+$base-border-color: $gray-light;
+
+// Flash Colors
+// ----------------------------------------------------------------------------
+$error-color: $red-light;
+$notice-color: $yellow-light;
+$success-color: $green-light;
+
+
+// ============================================================================
+// Forms
+// ============================================================================
+
+$form-border-color: $base-border-color;
+$form-border-color-hover: darken($base-border-color, 10);
+$form-border-color-focus: $base-accent-color;
+$form-border-radius: $base-border-radius;
+$form-box-shadow: inset 0 .1em .3em hsla(0, 0%, 0%, 0.06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 .3em rgba(darken($form-border-color-focus, 5), 0.7);
+$form-font-size: $base-font-size;
+$form-font-family: $base-font-family;
+
+$base-border: 1px solid $base-border-color;
+$base-padding: .5em 1em;
+
+
+// ============================================================================
+// Mixins
+// ============================================================================
+
+@mixin span-columns($span: $columns of $container-columns) {
+  $columns: nth($span, 1);
+  $container-columns: nth($span, 3);
+  $gutter: 0;
+
+  @if $container-columns == 6 {
+    $gutter: percentage(24/480);
+  } @else {
+    $gutter: percentage(18/258);
+  }
+
+  $width: (((100% - (($container-columns - 1) * $gutter)) / $container-columns) * $columns)+ (($columns - 1) * $gutter);
+
+  float: left;
+  margin-right: $gutter;
+  width: $width;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+@mixin bp($point) {
+
+  $c6: "(min-width: 600px)";
+  $c12: "(min-width: 1116px)";
+  $c16: "(min-width: 1452px)";
+
+  @if $point == c16 {
+    @media #{$c16} { @content; }
+  }
+  @else if $point == c12 {
+    @media #{$c12} { @content; }
+  }
+  @else if $point == c6 {
+    @media #{$c6}  { @content; }
+  }
+
+}

@@ -1,22 +1,30 @@
-
 /**
  * Module dependencies.
  */
 
+var config = require('./config');
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var passport = require('passport');
+var auth = require('./auth');
+
+var authServices = require('./services/auth');
+var feedServices = require('./services/feeds');
 
 var app = express();
 
+
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.use(express.favicon('public/images/favicon.ico'));
-app.use(express.logger('dev'));
+app.use(express.favicon(config.web.favicon));
+app.use(express.logger(config.web.loglevel));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({ secret: config.web.sessionsecret }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -25,8 +33,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+//user authentication
+auth.authSetup(config, passport, config.crowd.uselocalauth);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+//register REST services
+authServices.registerAuthServices(config, app, passport);
+feedServices.registerFeedsServices(app);
+
+http.createServer(app).listen(config.web.port, function() {
+  console.log('Express server listening on port ' + config.web.port);
 });

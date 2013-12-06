@@ -1,0 +1,29 @@
+<h2>Active Feeds</h2>
+
+<table class="associations">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>State</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Due</th>
+      <th class="admin"></th><!-- TODO: Column only accessible to admins -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-if="!feeds || feeds.length === 0">
+      <td colspan="4">No Feeds Found</td>
+    </tr>
+    <tr ng-repeat="feed in feeds">
+      <td><a href="{{feed.edit}}">{{feed.date}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.state}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.type}}</a></td>
+      <td><a href="{{feed.edit}}">{{feed.status}}</a></td>
+      <td><a href="{{feed.edit}}">42 days</a></td><!-- relative date 6 weeks before election date -->
+      <td class="admin"><a href="{{feed.edit}}">Delete</a></td><!-- TODO: Column only accessible to admins -->
+    </tr>
+  </tbody>
+</table>
+
+<h2>Expired Feeds</h2>

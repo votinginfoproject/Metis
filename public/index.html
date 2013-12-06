@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="vipApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>VIP Dashboard</title>
+  <meta name="description"
+  content="Partnering with election boards, campaign managers, user experience architects, graphic designers, and application developers to better serve voters.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="assets/images/favicon.ico"/>
+
+  <!-- jQuery lib -->
+  <script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+
+  <!-- javaScript debug lib -->
+  <script src="assets/js/lib/debug-0.4/ba-debug.min.js"></script>
+
+  <!-- Angular lib -->
+  <script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
+  <script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
+  <script src="assets/js/lib/angular-1.2.1/angular-cookies.min.js"></script>
+
+  <!-- VIP App -->
+  <link href="assets/css/app.css" rel="stylesheet">
+  <script src="assets/js/app/app.js"></script>
+  <script src="assets/js/app/services/appService.js"></script>
+
+  <!-- Home -->
+  <script src="assets/js/app/controllers/homeController.js"></script>
+  <script src="assets/js/app/services/homeService.js"></script>
+
+  <!-- Admin -->
+  <script src="assets/js/app/controllers/adminController.js"></script>
+  <script src="assets/js/app/services/adminService.js"></script>
+
+  <!-- Feeds -->
+  <script src="assets/js/app/controllers/feedsController.js"></script>
+  <script src="assets/js/app/services/feedsService.js"></script>
+
+  <!-- Profile -->
+  <script src="assets/js/app/controllers/profileController.js"></script>
+  <script src="assets/js/app/services/profileService.js"></script>
+
+  <!-- Styleguide -->
+  <script src="assets/js/app/controllers/styleguideController.js"></script>
+
+</head>
+<body role="application">
+
+  <header role="banner">
+    <div class="wrapper">
+      <a href="/" class="branding">VIP Dashboard</a>
+      <div ng-if="user.isAuthenticated">
+        <div class="auth">
+          <a id="pageHeader-userName" ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> |
+          <a id="pageHeader-sign-out" class="sign-out" href="/logout">Sign Out</a>
+        </div><!-- / .auth -->
+        <nav class="main-nav">
+          <ul>
+            <li><a id="pageHeader-adminLink" ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
+            <li><a id="pageHeader-feedsLink" alert-box errorng-class="{active: pageHeader.section=='feeds'}" href="#/feeds">Feeds</a></li>
+            <li><a id="pageHeader-profilelink"  ng-class="{active: pageHeader.section=='profile'}" href="#/profile">Profile</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div><!-- / .wrapper -->
+  </header>
+
+  <div role="main">
+    <div class="wrapper">
+
+      <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
+        {{pageHeader.breadcrumbs}}
+      </nav>
+
+      <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error">
+        ERROR: {{pageHeader.error}}
+      </div>
+
+      <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+      <br/>
+      <!-- Current Page -->
+      <div ng-view></div>
+
+    </div><!-- / .wrapper -->
+  </div><!-- / main -->
+
+  <footer role="contentinfo" >
+    <div class="wrapper">
+      <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+    </div><!-- / .wrapper -->
+  </footer><!-- / contentinfo -->
+
+</body>
+</html>

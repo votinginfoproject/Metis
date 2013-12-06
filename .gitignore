@@ -14,3 +14,5 @@ results
 node_modules
 
 .idea
+.DS_Store
+.sass-cache
