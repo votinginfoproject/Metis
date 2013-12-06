@@ -16,6 +16,12 @@ Voting Information Project web app.
 1. Download node.js modules using `npm install`
 2. Run the app with `node app.js`
 
+## Available Grunt Commands
+
+* `grunt sass` - compile Sass files to css
+* `grunt gjslint` - run the Closure Linter to inspect our JavaScript files
+* `grunt watch` - watch for changes to the Sass and HTML files and automatically reload the page in your browser (requires [LiveReload](http://livereload.com/) or [LiveReload Chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en))
+
 ## Adding a User Account in Crowd
 
 1. Log into the Crowd Server (link coming sooon)

@@ -3,11 +3,11 @@
 <form class="form-sign-in" action="/login" method="post">
   <div>
     <label for="username">Username</label>
-    <input id="username" name="username" tabindex="1" type="text">
+    <input id="username" name="username" ng-model="username" tabindex="1" type="text">
   </div>
   <div>
     <label for="password">Password</label>
-    <input id="password" name="password" tabindex="2" type="password">
+    <input id="password" name="password" ng-model="password" tabindex="2" type="password">
   </div>
   <div>
     <input id="remember-me" name="remember-me" tabindex="3" type="checkbox" value="remember-me">
