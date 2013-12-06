@@ -8,7 +8,7 @@
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngRoute', 'ngCookies']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 
 // Constants
 vipApp.constant('$appProperties', {
