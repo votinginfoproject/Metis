@@ -22,16 +22,17 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       // set the feeds data into the Angular model
       $scope.feeds = data;
 
+      // sets the defaults for the table sorting parameters
       $scope.tableParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 10,          // count per page
+        page: 1,
+        count: 10,
         sorting: {
-          date: 'asc'     // initial sorting
+          date: 'asc'
         }
       }, {
-        total: data.length, // length of data
+        total: data.length,
+        // sets the type of sorting for the table
         getData: function($defer, params) {
-          // use build-in angular filter
           var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
           $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
         }
