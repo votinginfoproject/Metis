@@ -418,16 +418,16 @@ th {
 @media (min-width: 1116px) {
   aside {
     float: left;
-    margin-right: 6.97674%;
-    width: 28.68217%;
+    margin-right: 3.7037%;
+    width: 30.8642%;
     float: right; }
     aside:last-child {
       margin-right: 0; } }
 @media (min-width: 1452px) {
   aside {
     float: left;
-    margin-right: 6.97674%;
-    width: 19.76744%;
+    margin-right: 2.75229%;
+    width: 22.93578%;
     float: right; }
     aside:last-child {
       margin-right: 0; } }
@@ -442,6 +442,7 @@ header[role="banner"] {
   -moz-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   margin: 0 auto;
+  max-width: 1308px;
   padding: 1em 0;
   width: 84.31373%; }
   .wrapper:before, .wrapper:after {
@@ -462,19 +463,103 @@ header[role="banner"] {
 @media (min-width: 1116px) {
   .content {
     float: left;
-    margin-right: 6.97674%;
-    width: 64.34109%;
+    margin-right: 3.7037%;
+    width: 65.4321%;
     float: left; }
     .content:last-child {
       margin-right: 0; } }
 @media (min-width: 1452px) {
   .content {
     float: left;
-    margin-right: 6.97674%;
-    width: 73.25581%;
+    margin-right: 2.75229%;
+    width: 74.31193%;
     float: left; }
     .content:last-child {
       margin-right: 0; } }
+
+.row {
+  *zoom: 1;
+  background: #849b29;
+  background-image: url("/assets/images/col-2.png");
+  background-size: 100%;
+  background-repeat: repeat-y;
+  margin-bottom: 1em;
+  padding: 1em 0; }
+  .row:before, .row:after {
+    content: " ";
+    display: table; }
+  .row:after {
+    clear: both; }
+  .row div {
+    background: #cc3333;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold; }
+  @media (min-width: 600px) {
+    .row {
+      background-image: url("/assets/images/col-6.png"); } }
+  @media (min-width: 1116px) {
+    .row {
+      background-image: url("/assets/images/col-12.png"); } }
+  @media (min-width: 1452px) {
+    .row {
+      background-image: url("/assets/images/col-16.png"); } }
+
+.col-1of16 {
+  float: left;
+  margin-right: 2.75229%;
+  width: 3.66972%; }
+  .col-1of16:last-child {
+    margin-right: 0; }
+
+.col-4of16 {
+  float: left;
+  margin-right: 2.75229%;
+  width: 22.93578%; }
+  .col-4of16:last-child {
+    margin-right: 0; }
+
+.col-6of16 {
+  float: left;
+  margin-right: 2.75229%;
+  width: 35.77982%; }
+  .col-6of16:last-child {
+    margin-right: 0; }
+
+.col-1of12 {
+  float: left;
+  margin-right: 3.7037%;
+  width: 4.93827%; }
+  .col-1of12:last-child {
+    margin-right: 0; }
+
+.col-4of12 {
+  float: left;
+  margin-right: 3.7037%;
+  width: 30.8642%; }
+  .col-4of12:last-child {
+    margin-right: 0; }
+
+.col-8of12 {
+  float: left;
+  margin-right: 3.7037%;
+  width: 65.4321%; }
+  .col-8of12:last-child {
+    margin-right: 0; }
+
+.col-1of6 {
+  float: left;
+  margin-right: 5%;
+  width: 12.5%; }
+  .col-1of6:last-child {
+    margin-right: 0; }
+
+.col-1of2 {
+  float: left;
+  margin-right: 6.97674%;
+  width: 46.51163%; }
+  .col-1of2:last-child {
+    margin-right: 0; }
 
 /* module.scss */
 .alert-box {
@@ -539,14 +624,14 @@ header[role="banner"] {
     .associations tr {
       border: none; } }
 .associations td {
+  border: none;
   clear: left;
-  float: left;
-  border: none; }
+  float: left; }
   @media (min-width: 600px) {
     .associations td {
-      float: none;
+      border-top: 1px solid #dddddd;
       clear: none;
-      border-top: 1px solid #dddddd; } }
+      float: none; } }
 .associations .admin {
   border: none;
   padding-left: 1em; }
@@ -570,6 +655,21 @@ header[role="banner"] {
   @media (min-width: 600px) {
     .associations .precinct-splits:before {
       content: none; } }
+
+.ng-table th {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.sortable {
+  cursor: pointer; }
+
+.sort-desc,
+.sort-asc {
+  background-color: #b7dbff; }
 
 .attributes {
   *zoom: 1;
@@ -692,8 +792,8 @@ header[role="banner"] {
   .data-group-header:after {
     clear: both; }
   .data-group-header h2 {
-    font-size: 1.5em;
     float: left;
+    font-size: 1.5em;
     margin-bottom: 0; }
 
 .more-detail {
@@ -746,12 +846,12 @@ header[role="banner"] {
       margin-right: 0; }
     @media (min-width: 600px) {
       .overview td {
+        border-bottom: 1px solid #dddddd;
         display: table-cell;
         float: none;
-        width: inherit;
-        border-bottom: 1px solid #dddddd;
         margin: 0;
-        padding: .5em 1em .5em 0; } }
+        padding: .5em 1em .5em 0;
+        width: inherit; } }
   .overview .element-type {
     float: left;
     margin-top: 2em; }
@@ -766,8 +866,8 @@ header[role="banner"] {
     top: .6666em; }
     @media (min-width: 600px) {
       .overview .amount {
-        position: static;
-        font-size: .875em; } }
+        font-size: .875em;
+        position: static; } }
   .overview .completion,
   .overview .element-errors {
     clear: right;

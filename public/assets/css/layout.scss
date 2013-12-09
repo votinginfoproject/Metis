@@ -29,6 +29,7 @@ header[role="banner"] {
   @include clearfix;
   @include transition (all 0.5s ease-in-out);
   margin: 0 auto;
+  max-width: 1308px;
   padding: 1em 0;
   width: percentage(258/306);
 
@@ -56,3 +57,49 @@ header[role="banner"] {
     float: left;
   }
 }
+
+
+// ============================================================================
+// Grid testing
+// ============================================================================
+
+.row {
+  @include clearfix;
+  background: $green;
+  background-image: url('/assets/images/col-2.png');
+  background-size: 100%;
+  background-repeat: repeat-y;
+  margin-bottom: 1em;
+  padding: 1em 0;
+
+  div {
+    background: $red;
+    color: $white;
+    font-family: $helvetica;
+    font-weight: bold;
+  }
+
+  @include bp(c6) {
+    background-image: url('/assets/images/col-6.png');
+  }
+
+  @include bp(c12) {
+    background-image: url('/assets/images/col-12.png');
+  }
+
+  @include bp(c16) {
+    background-image: url('/assets/images/col-16.png');
+  }
+}
+
+.col-1of16 { @include span-columns(1 of 16); }
+.col-4of16 { @include span-columns(4 of 16); }
+.col-6of16 { @include span-columns(6 of 16); }
+
+.col-1of12 { @include span-columns(1 of 12); }
+.col-4of12 { @include span-columns(4 of 12); }
+.col-8of12 { @include span-columns(8 of 12); }
+
+.col-1of6 { @include span-columns(1 of 6); }
+
+.col-1of2 { @include span-columns(1 of 2); }
