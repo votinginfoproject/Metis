@@ -3,7 +3,7 @@
  * Feeds Controller
  *
  */
-function FeedsCtrl($scope, $rootScope, $feedsService, $location) {
+function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams) {
 
   var breadcrumbs = [
     {
@@ -21,6 +21,23 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location) {
 
       // set the feeds data into the Angular model
       $scope.feeds = data;
+
+      // sets the defaults for the table sorting parameters
+      $scope.tableParams = new ngTableParams({
+        page: 1,
+        count: 5,
+        sorting: {
+          date: 'asc'
+        }
+      }, {
+        total: data.length,
+        // sets the type of sorting for the table
+        getData: function ($defer, params) {
+          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+          console.log($scope.tableParams.total());
+        }
+      });
 
     }).error(function (data) {
 

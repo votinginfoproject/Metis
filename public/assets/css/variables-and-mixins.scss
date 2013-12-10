@@ -84,6 +84,10 @@ $base-padding: .5em 1em;
 
   @if $container-columns == 6 {
     $gutter: percentage(24/480);
+  } @else if $container-columns == 12 {
+    $gutter: percentage(36/972);
+  } @else if $container-columns == 16 {
+    $gutter: percentage(36/1308);
   } @else {
     $gutter: percentage(18/258);
   }

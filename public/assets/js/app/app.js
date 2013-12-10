@@ -8,7 +8,7 @@
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngRoute', 'ngCookies']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 
 // Constants
 vipApp.constant('$appProperties', {
@@ -123,6 +123,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
 
     $routeProvider.when('/template/search-results', {
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/search-results.html'
+    });
+
+    $routeProvider.when('/template/grid', {
+        templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
     });
 
     $routeProvider.when('/profile', {

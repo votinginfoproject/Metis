@@ -1,29 +1,28 @@
 <h2>Active Feeds</h2>
 
-<table class="associations">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>State</th>
-      <th>Type</th>
-      <th>Status</th>
-      <th>Due</th>
-      <th class="admin"></th><!-- TODO: Column only accessible to admins -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-if="!feeds || feeds.length === 0">
-      <td colspan="4">No Feeds Found</td>
-    </tr>
-    <tr ng-repeat="feed in feeds">
-      <td><a href="{{feed.edit}}">{{feed.date}}</a></td>
-      <td><a href="{{feed.edit}}">{{feed.state}}</a></td>
-      <td><a href="{{feed.edit}}">{{feed.type}}</a></td>
-      <td><a href="{{feed.edit}}">{{feed.status}}</a></td>
-      <td><a href="{{feed.edit}}">42 days</a></td><!-- relative date 6 weeks before election date -->
-      <td class="admin"><a href="{{feed.edit}}">Delete</a></td><!-- TODO: Column only accessible to admins -->
-    </tr>
-  </tbody>
+<table ng-table="tableParams" template-pagination="feedsPagination" class="associations">
+  <tr id="feedsTable" ng-repeat="feed in $data">
+    <td id="feedsTable-date" data-title="'Date'" sortable="'date'"><a href="{{feed.edit}}">{{feed.date}}</a></td>
+    <td id="feedsTable-state" data-title="'State'" sortable="'state'"><a href="{{feed.edit}}">{{feed.state}}</a></td>
+    <td id="feedsTable-type" data-title="'Type'" sortable="'type'"><a href="{{feed.edit}}">{{feed.type}}</a></td>
+    <td id="feedsTable-status" data-title="'Status'" sortable="'status'"><a href="{{feed.edit}}">{{feed.status}}</a></td>
+    <!-- relative date 6 weeks before election date -->
+    <td data-title="'Due'" sortable="'due'"><a href="{{feed.edit}}">42 days</a></td>
+    <!-- TODO: Column only accessible to admins -->
+    <td class="admin"><a href="{{feed.edit}}">Delete</a></td>
+  </tr>
+  <tr ng-if="!feeds || feeds.length === 0">
+    <td colspan="4">No Feeds Found</td>
+  </tr>
 </table>
+
+<script type="text/ng-template" id="feedsPagination">
+  <ul class="pagination ng-cloak">
+    <li ng-repeat="page in pages"
+        ng-class="{'current': page.number == tableParams.page(), 'ng-hide': page.type == 'prev' || page.type == 'next'}">
+      <a ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
+    </li>
+  </ul>
+</script>
 
 <h2>Expired Feeds</h2>
