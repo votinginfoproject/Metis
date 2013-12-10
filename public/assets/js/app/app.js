@@ -13,8 +13,7 @@ var vipApp = angular.module('vipApp', ['ngRoute', 'ngCookies']);
 // Constants
 vipApp.constant('$appProperties', {
   contextRoot: '',
-  servicesPath: '/services',
-  feedsService: '/feeds'
+  servicesPath: '/services'
 });
 
 /*
@@ -42,7 +41,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
     });
 
     $routeProvider.when('/feeds/:vipfeed', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feeds-detail.html',
+      templateUrl: $appProperties.contextRoot + '/app/partials/feeds-overview.html',
       controller: 'FeedsDetailCtrl'
     });
 

@@ -22,6 +22,6 @@ function ProfileCtrl($scope, $rootScope, $profileService, $location) {
       $scope.data = data;
     }).error(function (data) {
 
-      $rootScope.pageHeader.error = "Could not retrieve Profile Data."
+      $rootScope.pageHeader.error = "Could not retrieve Profile Data.";
     });
 }

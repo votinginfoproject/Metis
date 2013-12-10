@@ -11,7 +11,7 @@ function HomeCtrl($scope, $rootScope, $homeService, $routeParams){
     $rootScope.setPageHeader("Welcome", breadcrumbs, "home", null);
 
     if($routeParams.badlogin){
-        $rootScope.pageHeader.error = "Bad Username or Password."
+        $rootScope.pageHeader.error = "Bad Username or Password.";
     }
 
 }

@@ -7,7 +7,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location) {
 
   var breadcrumbs = [
     {
-      name: "Feeds",
+      name: "FEEDS",
       url: $location.absUrl()
     }
   ];
@@ -15,8 +15,8 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location) {
   // initialize page header variables
   $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null);
 
-  // call our service
-  $feedsService.getData()
+  // call our services
+  $feedsService.getFeeds()
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -24,6 +24,6 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location) {
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error = "Could not retrieve Feeds Data."
+      $rootScope.pageHeader.error = "Could not retrieve Feeds Data.";
     });
 }
