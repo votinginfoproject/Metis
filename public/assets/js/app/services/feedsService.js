@@ -9,10 +9,13 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
 
   return {
     // Feed index page
+    // ========================================================
     getFeeds: function () {
       return $http.get($appProperties.servicesPath + "/feeds");
     },
+
     // Feed overview page
+    // ========================================================
     getFeedOverViewData: function () {
       return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
     },
@@ -25,5 +28,7 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedResults: function () {
       return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
     }
+
+
   };
 });

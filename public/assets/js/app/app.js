@@ -41,8 +41,13 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
     });
 
     $routeProvider.when('/feeds/:vipfeed', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feeds-overview.html',
-      controller: 'FeedsDetailCtrl'
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-overview.html',
+      controller: 'FeedOverviewCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/:vipfeeddetail', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-detail.html',
+      controller: 'FeedDetailCtrl'
     });
 
     $routeProvider.when('/template/feed', {
@@ -222,5 +227,8 @@ vipApp.run(function ($rootScope, $appService, $location) {
       $rootScope.pageHeader.error = "Server Error";
       $location.path("/");
     });
+
+  // expose the $location into the scope
+  $rootScope.$location = $location;
 
 });

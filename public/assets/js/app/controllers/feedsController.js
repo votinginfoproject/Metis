@@ -19,6 +19,14 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   $feedsService.getFeeds()
     .success(function (data) {
 
+
+      // ================================================================
+      debug.warn("Overwriting the feed edit url attribute, remove later");
+      for(var i=0; i < data.length; i++){
+        data[i].edit = $location.absUrl() + "/vipfeed-" + i;
+      }
+      // ================================================================
+
       // set the feeds data into the Angular model
       $scope.feeds = data;
 

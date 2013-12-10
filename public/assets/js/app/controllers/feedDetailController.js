@@ -1,12 +1,15 @@
 'use strict';
 /*
- * Feeds Overview Controller
+ * Feeds Detail Controller
  *
  */
-function FeedsDetailCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
+function FeedDetailCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
   // get the vipfeed param from the route
   $scope.vipfeed = $routeParams.vipfeed;
+
+  // get the vipfeed-detail param from the route
+  $scope.vipfeeddetail = $routeParams.vipfeeddetail;
 
   var breadcrumbs = [
     {
