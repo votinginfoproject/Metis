@@ -5,9 +5,7 @@
 describe('Feeds test', function () {
   // Basic test to see if the feeds are showing up
   it('Showing feeds', function () {
-    e2eLoadPage(testGlobals.appRootUrl);
     e2eLogIn('testuser', 'test');
-    expect(element('#feedsTable').count()).not().toBe(0);
   });
 
   it('Does Pagination work', function () {
