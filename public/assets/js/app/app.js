@@ -45,9 +45,9 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       controller: 'FeedOverviewCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/:vipfeeddetail', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-detail.html',
-      controller: 'FeedDetailCtrl'
+    $routeProvider.when('/feeds/:vipfeed/source', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-source.html',
+      controller: 'FeedSourceCtrl'
     });
 
     $routeProvider.when('/template/feed', {

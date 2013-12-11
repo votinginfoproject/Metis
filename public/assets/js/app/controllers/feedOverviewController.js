@@ -10,7 +10,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
   var breadcrumbs = [
     {
-      name: "Feeds",
+      name: "FEEDS",
       url: "/#/feeds"
     },
     {
@@ -23,26 +23,26 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   $rootScope.setPageHeader("", breadcrumbs, "feeds", null);
   $rootScope.pageHeader.error = "";
 
-  // get general Feed Overview data
-  $feedsService.getFeedOverViewData()
+  // get general Feed data
+  $feedsService.getFeedData()
     .success(function (data) {
 
       // set the feeds data into the Angular model
-      $scope.feedOverviewData = data;
+      $scope.feedData = data;
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed Overview data. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
     });
 
   // temp
-  $scope.feedOverviewData = {
+  $scope.feedData = {
     feedTitle: "Feed Overview Title",
-    totalFeedErrors: "XXX",
+    totalErrors: "XXX",
     dueDate: "XXXX/XX/XX"
   };
 
-  $rootScope.pageHeader.title = $scope.feedOverviewData.feedTitle;
+  $rootScope.pageHeader.title = $scope.feedData.feedTitle;
 
   // get Polling Locations
   $feedsService.getFeedPollingLocations()

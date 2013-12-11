@@ -39,7 +39,7 @@
   <!-- Feeds -->
   <script src="assets/js/app/controllers/feedsController.js"></script>
   <script src="assets/js/app/controllers/feedOverviewController.js"></script>
-  <script src="assets/js/app/controllers/feedDetailController.js"></script>
+  <script src="assets/js/app/controllers/feedSourceController.js"></script>
   <script src="assets/js/app/services/feedsService.js"></script>
 
   <!-- Profile -->
@@ -78,8 +78,7 @@
         <a ng-repeat="crumb in pageHeader.breadcrumbs" id="pageHeader-breadcrumb{{$index}}" ng-class="{current: $last}" href="{{crumb.url}}">{{crumb.name}}</a>
       </nav>
 
-      <div id="pageHeader-error" class="alert-box error" ng-if
-        ="pageHeader.error!==null && pageHeader.error!==''">
+      <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
         ERROR: {{pageHeader.error}}
       </div>
 
