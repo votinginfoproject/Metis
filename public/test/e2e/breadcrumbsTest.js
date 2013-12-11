@@ -1,14 +1,14 @@
 describe('Breadcrumbs Test', function () {
 
+
   /* ----------------------------------------
    This should become a utility
    ------------------------------------------*/
   describe('Log in', function () {
+
     // Successful attempt
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
-      e2eLoadPage(testGlobals.appRootUrl);
-      sleep(1);
       e2eLogIn('testuser', 'test');
       sleep(1);
       expect(element('#username').count()).toBe(0);
@@ -97,7 +97,6 @@ describe('Breadcrumbs Test', function () {
     // Signs out of the application
     it('Sign out of the app', function () {
       e2eLogOut();
-      sleep(1);
       expect(element('#username').count()).toBe(1);
     });
   });
