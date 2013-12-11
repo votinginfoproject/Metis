@@ -33,7 +33,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       // sets the defaults for the table sorting parameters
       $scope.tableParams = new ngTableParams({
         page: 1,
-        count: 5,
+        count: 10,
         sorting: {
           date: 'asc'
         }
@@ -43,7 +43,6 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
         getData: function ($defer, params) {
           var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
           $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-          console.log($scope.tableParams.total());
         }
       });
 

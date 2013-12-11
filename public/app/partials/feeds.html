@@ -1,11 +1,11 @@
 <h2>Active Feeds</h2>
 
-<table ng-table="tableParams" template-pagination="feedsPagination" class="associations">
-  <tr id="feedsTable" ng-repeat="feed in $data">
-    <td id="feedsTable-date" data-title="'Date'" sortable="'date'"><a href="{{feed.edit}}">{{feed.date}}</a></td>
-    <td id="feedsTable-state" data-title="'State'" sortable="'state'"><a href="{{feed.edit}}">{{feed.state}}</a></td>
-    <td id="feedsTable-type" data-title="'Type'" sortable="'type'"><a href="{{feed.edit}}">{{feed.type}}</a></td>
-    <td id="feedsTable-status" data-title="'Status'" sortable="'status'"><a href="{{feed.edit}}">{{feed.status}}</a></td>
+<table id="feedsTable" ng-table="tableParams" template-pagination="feedsPagination" class="associations">
+  <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
+    <td data-title="'Date'" sortable="'date'"><a href="{{feed.edit}}">{{feed.date}}</a></td>
+    <td data-title="'State'" sortable="'state'"><a href="{{feed.edit}}">{{feed.state}}</a></td>
+    <td data-title="'Type'" sortable="'type'"><a href="{{feed.edit}}">{{feed.type}}</a></td>
+    <td data-title="'Status'" sortable="'status'"><a href="{{feed.edit}}">{{feed.status}}</a></td>
     <!-- relative date 6 weeks before election date -->
     <td data-title="'Due'" sortable="'due'"><a href="{{feed.edit}}">42 days</a></td>
     <!-- TODO: Column only accessible to admins -->
@@ -20,7 +20,7 @@
   <ul class="pagination ng-cloak">
     <li ng-repeat="page in pages"
         ng-class="{'current': page.number == tableParams.page(), 'ng-hide': page.type == 'prev' || page.type == 'next'}">
-      <a ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
+      <a id="feedsPage{{$index}}" ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
     </li>
   </ul>
 </script>
