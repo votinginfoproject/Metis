@@ -29,7 +29,12 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
+      },
+      js: {
+        files: 'public/assets/js/app/**/*.js',
+        tasks: ['gjslint']
       }
+
     },
     gjslint: {
       options: {
