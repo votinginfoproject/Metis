@@ -7,20 +7,17 @@ describe('Breadcrumbs Test', function () {
     // Successful attempt
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
-      browser().navigateTo('http://localhost:4000');
+      browser().navigateTo(testGlobals.appRootUrl);
       sleep(1);
-      input('username').enter('testuser');
-      input('password').enter('test');
-      element('#sign-in').click();
+      e2eLogIn('testuser','test');
       sleep(1);
       expect(element('#username').count()).toBe(0);
     });
   });
 
   /* ----------------------------------------
-   Feed page breadcrumb
+   Feed Index page breadcrumb
    ------------------------------------------*/
-  /*
   describe('Check Feed page breadcrumbs', function () {
     // check the feed page breadcrumb, which we should be on right after logging in
     it('Should have one breadcrumb', function () {
@@ -29,14 +26,19 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb1').count()).toBe(0);
     });
 
-    // check the feed page breadcrumb, which we should be on right after logging in
+    // check the feed page breadcrumb, which we should be on as we just logged in
     it('First breadcrumb should have a value of FEEDS', function () {
 
-      //console.dir(element('#pageHeader-breadcrumb0'));
-      //console.log(element('#pageHeader-breadcrumb0').text());
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("FEEDS");
+
+      /*
+      element('#pageHeader-breadcrumb0').query(function (elem, done) {
+        done();
+      });
+      */
+
     });
-  })
-  */
+  });
 
 ;  /* ----------------------------------------
       Log Out
@@ -44,7 +46,7 @@ describe('Breadcrumbs Test', function () {
   describe('Logging out', function () {
     // Signs out of the application
     it('Sign out of the app', function () {
-      element('#pageHeader-sign-out').click();
+      e2eLogOut();
       sleep(1);
       expect(element('#username').count()).toBe(1);
     });

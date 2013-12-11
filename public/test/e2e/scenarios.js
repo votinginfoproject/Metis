@@ -7,7 +7,7 @@ describe('VIP test', function () {
   describe('Smoke test', function () {
     // Checks the number of IDs for both username and password
     it('Page loaded properly', function () {
-      browser().navigateTo('http://localhost:4000');
+      browser().navigateTo(testGlobals.appRootUrl);
       expect(element('#username').count()).toBe(1);
       expect(element('#password').count()).toBe(1);
     });

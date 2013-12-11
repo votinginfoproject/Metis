@@ -2,6 +2,11 @@
  * Created by rcartier13 on 12/9/13.
  */
 
+var testGlobals = {
+  appRootUrl: "http://localhost:4000"
+
+};
+
 // Logging into the application
 e2eLogIn = function ($username, $password) {
   input('username').enter($username);
