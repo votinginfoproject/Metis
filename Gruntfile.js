@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: 'public/assets/js/app/**/*.js',
+        files: 'public/**/*.js',
         tasks: ['gjslint']
       }
 
@@ -51,12 +51,29 @@ module.exports = function(grunt) {
         src: ['*.js',
           'public/assets/js/app/**/*.js']
       }
+    },
+    nodemon: {
+      dev: {
+        options: {
+          file: 'app.js'
+        }
+      }
+    },
+    concurrent: {
+      dev: {
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ['watch', 'nodemon:dev']
+      }
     }
   });
 
+  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-gjslint');
 
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['concurrent:dev']);
 };
