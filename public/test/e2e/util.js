@@ -9,6 +9,7 @@ var testGlobals = {
 
 // Logging into the application
 e2eLogIn = function ($username, $password) {
+  e2eLoadPage(testGlobals.appRootUrl);
   input('username').enter($username);
   input('password').enter($password);
   element('#sign-in').click();
@@ -21,8 +22,8 @@ e2eLogOut = function () {
   sleep(0.2);
 }
 
-e2eLoadPage = function () {
-  browser().navigateTo('http://localhost:4000');
+e2eLoadPage = function ($url) {
+  browser().navigateTo($url);
   sleep(0.2);
 }
 

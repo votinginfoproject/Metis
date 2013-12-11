@@ -7,7 +7,7 @@ describe('Breadcrumbs Test', function () {
     // Successful attempt
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
-      browser().navigateTo(testGlobals.appRootUrl);
+      e2eLoadPage(testGlobals.appRootUrl);
       sleep(1);
       e2eLogIn('testuser','test');
       sleep(1);

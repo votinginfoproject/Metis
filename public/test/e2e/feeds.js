@@ -5,7 +5,7 @@
 describe('Feeds test', function () {
   // Basic test to see if the feeds are showing up
   it('Showing feeds', function () {
-    e2eLoadPage();
+    e2eLoadPage(testGlobals.appRootUrl);
     e2eLogIn('testuser', 'test');
     expect(element('#feedsTable').count()).not().toBe(0);
   });
@@ -30,7 +30,7 @@ describe('Feeds test', function () {
     else
       expect(element('#feedsTable').count()).toBe(0);
 
-    element('.sort-asc').click();
+    element('#feedsTable th:nth-child(1)').click();
 
     var Index0 = e2eValueofRepeater('#feedIndex0', 'feed.date');
     var Index1 = e2eValueofRepeater('#feedIndex1', 'feed.date');
@@ -40,33 +40,7 @@ describe('Feeds test', function () {
       expect(element('#feedsTable').count()).toBe(1);
     else
       expect(element('#feedsTable').count()).toBe(0);
+
     e2eLogOut();
   });
-
-//  it('Does data sort properly by state', function () {
-//
-//
-//    var Index0 = e2eValueofRepeater('#feedIndex0', 'feed.date');
-//    var Index1 = e2eValueofRepeater('#feedIndex1', 'feed.date');
-//
-//    // HAX! TODO: fix if possible
-//    if(Index0 >= Index1)
-//      expect(element('#feedsTable').count()).toBe(1);
-//    else
-//      expect(element('#feedsTable').count()).toBe(0);
-//
-//    element('.sort-asc').click();
-//
-//    var Index0 = e2eValueofRepeater('#feedIndex0', 'feed.date');
-//    var Index1 = e2eValueofRepeater('#feedIndex1', 'feed.date');
-//
-//    // HAX! TODO: fix if possible
-//    if(Index0 <= Index1)
-//      expect(element('#feedsTable').count()).toBe(1);
-//    else
-//      expect(element('#feedsTable').count()).toBe(0);
-//
-//    e2eLogOut();
-//  });
-
 });
