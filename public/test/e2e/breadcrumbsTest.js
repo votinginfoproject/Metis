@@ -1,14 +1,16 @@
 describe('Breadcrumbs Test', function () {
 
+
   /* ----------------------------------------
-      This should become a utility
-  ------------------------------------------*/
+   This should become a utility
+   ------------------------------------------*/
   describe('Log in', function () {
+
     // Successful attempt
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
-      e2eLoadPage(testGlobals.appRootUrl);
-      e2eLogIn('testuser','test');
+      e2eLogIn('testuser', 'test');
+      sleep(1);
       expect(element('#username').count()).toBe(0);
     });
   });
@@ -16,30 +18,80 @@ describe('Breadcrumbs Test', function () {
   /* ----------------------------------------
    Feed Index page breadcrumb
    ------------------------------------------*/
-  describe('Check Feed page breadcrumbs', function () {
-    // check the feed page breadcrumb, which we should be on right after logging in
-    it('Should have one breadcrumb', function () {
+  describe('Check Feed Index page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 1 breadcrumb', function () {
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
       expect(element('#pageHeader-breadcrumb1').count()).toBe(0);
     });
 
-    // check the feed page breadcrumb, which we should be on as we just logged in
-    it('First breadcrumb should have a value of FEEDS', function () {
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
 
       expect(element('#pageHeader-breadcrumb0').html()).toBe("FEEDS");
 
       /*
-      element('#pageHeader-breadcrumb0').query(function (elem, done) {
-        done();
-      });
-      */
+       element('#pageHeader-breadcrumb0').query(function (elem, done) {
+       done();
+       });
+       */
 
     });
   });
 
-;  /* ----------------------------------------
-      Log Out
+  /* ----------------------------------------
+   Feed Overview page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed Overview page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 2 breadcrumbs', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1");
+      sleep(1);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(0);
+    });
+
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("FEEDS");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+
+    });
+  });
+
+  /* ----------------------------------------
+   Feed Source page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed Source page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 3 breadcrumbs', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/source");
+      sleep(1);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(0);
+    });
+
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("FEEDS");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("SOURCE");
+
+    });
+  });
+
+  /* ----------------------------------------
+   Log Out
    ------------------------------------------*/
   describe('Logging out', function () {
     // Signs out of the application

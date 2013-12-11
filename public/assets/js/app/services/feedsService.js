@@ -16,7 +16,7 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
 
     // Feed overview page
     // ========================================================
-    getFeedOverViewData: function () {
+    getFeedData: function () {
       return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
     },
     getFeedPollingLocations: function () {
@@ -27,8 +27,16 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     },
     getFeedResults: function () {
       return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
-    }
+    },
 
+    // Feed source page
+    // ========================================================
+    getFeedSource: function () {
+      return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
+    },
+    getFeedContact: function () {
+      return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
+    }
 
   };
 });
