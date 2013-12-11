@@ -1,0 +1,222 @@
+<div class="content">
+
+<section class="data-group finished">
+  <header class="data-group-header">
+    <h2>Source</h2>
+    <a class="more-detail" href="{{$location.absUrl()}}/source">More Detail </a>
+  </header>
+</section>
+<!-- /.data-group -->
+
+<section class="data-group finished">
+  <header class="data-group-header">
+    <h2>Election</h2>
+    <a class="more-detail" href="{{$location.absUrl()}}/election">More Detail </a>
+  </header>
+</section>
+<!-- /.data-group -->
+
+<section class="data-group started">
+  <header class="data-group-header">
+    <h2>Polling Locations</h2>
+    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/state">More Detail </a>
+  </header>
+
+  <table class="overview">
+    <thead>
+    <tr>
+      <th>Element Type</th>
+      <th>Amount</th>
+      <th>Completion</th>
+      <th>Errors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="pollingLocation in feedPollingLocations">
+      <td class="element-type">{{pollingLocation.elementType}}</td>
+      <td class="amount">{{pollingLocation.amount | number}}</td>
+      <td class="completion">
+        <div class="completeness">
+          <span class="complete-{{pollingLocation.completion}}"></span>
+          <span class="counter">{{pollingLocation.completion | number}}% complete</span>
+        </div>
+      </td>
+      <td class="element-errors"><span ng-class="{none: pollingLocation.errors===0}" class="errors">{{pollingLocation.errors | number}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h3>100 Localities
+    <small>(Counties)</small>
+  </h3>
+  <p>
+    <mark>Map goes here.</mark>
+  </p>
+
+</section>
+<!-- /.data-group -->
+
+<section class="data-group started">
+  <header class="data-group-header">
+    <h2>Contests</h2>
+    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests">More Detail </a>
+  </header>
+
+  <table class="overview">
+    <thead>
+    <tr>
+      <th>Element Type</th>
+      <th>Amount</th>
+      <th>Completion</th>
+      <th>Errors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="contests in feedContests">
+      <td class="element-type">{{contests.elementType}}</td>
+      <td class="amount">{{contests.amount | number}}</td>
+      <td class="completion">
+        <div class="completeness">
+          <span class="complete-{{contests.completion}}"></span>
+          <span class="counter">{{contests.completion | number}}% complete</span>
+        </div>
+      </td>
+      <td class="element-errors"><span ng-class="{none: contests.errors===0}" class="errors">{{contests.errors | number}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+<!-- /.data-group -->
+
+<section class="data-group unstarted">
+  <header class="data-group-header">
+    <h2>Results</h2>
+
+  </header>
+
+  <table class="overview">
+    <thead>
+    <tr>
+      <th>Element Type</th>
+      <th>Amount</th>
+      <th>Completion</th>
+      <th>Errors</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="results in feedResults">
+      <td class="element-type">{{results.elementType}}</td>
+      <td class="amount">{{results.amount | number}}</td>
+      <td class="completion">
+        <div class="completeness">
+          <span class="complete-{{results.completion}}"></span>
+          <span class="counter">{{results.completion | number}}% complete</span>
+        </div>
+      </td>
+      <td class="element-errors"><span ng-class="{none: results.errors===0}" class="errors">{{results.errors | number}}</span></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+<!-- /.data-group -->
+
+<section class="data-group" id="history">
+  <h2>History</h2>
+
+  <dl class="history">
+
+    <dt>
+      <time datetime="2012-10-18">2012/10/18</time>
+    </dt>
+    <dd>
+      <time datetime="2012-10-18T09:16">9:16 A.M.</time>
+      <strong>Approved</strong> - Tyler Bassen
+    </dd>
+    <dd>
+      <time datetime="2012-10-18T09:09">9:09 A.M.</time>
+      <strong>Ready</strong></dd>
+    <dd>
+      <time datetime="2012-10-18T09:08">9:08 A.M.</time>
+      <strong>Processing</strong></dd>
+    <dd>
+      <time datetime="2012-10-18T09:07">9:07 A.M.</time>
+      Update submitted - Fixed the party affiliations. - Katy Peters
+    </dd>
+    <dd>
+      <time datetime="2012-10-18T01:05">1:05 A.M.</time>
+      <strong>Revisions Needed</strong> - 5 Errors
+    </dd>
+    <dd>
+      <time datetime="2012-10-18T01:03">1:03 A.M.</time>
+      <strong>Processing</strong></dd>
+    <dd>
+      <time datetime="2012-10-18T01:02">1:02 A.M.</time>
+      Update submitted - Last minute edits! - Stephen Miller
+    </dd>
+
+    <dt>
+      <time datetime="2012-10-17">2012/10/17</time>
+    </dt>
+    <dd>
+      <time datetime="2012-10-17T15:18">3:18 P.M.</time>
+      <strong>Published</strong></dd>
+    <dd>
+      <time datetime="2012-10-17T15:16">3:16 P.M.</time>
+      <strong>Approved</strong> - Tyler Bassen
+    </dd>
+    <dd>
+      <time datetime="2012-10-17T15:11">3:11 P.M.</time>
+      <strong>Ready</strong></dd>
+    <dd>
+      <time datetime="2012-10-17T09:08">9:08 A.M.</time>
+      <strong>Processing</strong></dd>
+    <dd>
+      <time datetime="2012-10-17T09:05">9:05 A.M.</time>
+      Update submitted - Removed duplicate IDs. - Katy Peters
+    </dd>
+    <dd>
+      <time datetime="2012-10-17T09:00">9:00 A.M.</time>
+      Update submitted - Removed orphan elements. - Stephen Miller
+    </dd>
+
+    <dt>
+      <time datetime="2012-10-16">2012/10/16</time>
+    </dt>
+    <dd>
+      <time datetime="2012-10-16T16:25">4:25 P.M.</time>
+      <strong>Revisions Needed</strong> - 175 Errors
+    </dd>
+    <dd>
+      <time datetime="2012-10-16T16:18">4:18 P.M.</time>
+      <strong>Processing</strong></dd>
+    <dd>
+      <time datetime="2012-10-16T16:16">4:16 P.M.</time>
+      Update submitted - Revised street segment extraction. - Stephen Miller
+    </dd>
+
+    <dt>
+      <time datetime="2012-10-15">2012/10/15</time>
+    </dt>
+    <dd>
+      <time datetime="2012-10-15T15:05">03:05 P.M.</time>
+      <strong>Revisions Needed</strong> - 875 Errors
+    </dd>
+
+    <dt>
+      <time datetime="2012-10-14">2012/10/14</time>
+    </dt>
+    <dd>
+      <time datetime="2012-10-14T10:21">10:21 A.M.</time>
+      <strong>Processing</strong></dd>
+    <dd>
+      <time datetime="2012-10-14T10:19">10:19 A.M.</time>
+      <strong>Submitted</strong> - Stephen Miller
+    </dd>
+  </dl>
+
+</section>
+<!-- /.history -->
+
+</div><!-- /.content -->
+
+<aside ng-include src="'app/partials/aside.html'"></aside>

@@ -1,0 +1,42 @@
+<form role="search">
+  <input type="search" placeholder="Search">
+</form>
+
+<a class="button-errors" href="#">{{feedOverviewData.totalFeedErrors}} Total Feed Errors</a>
+
+<h2 class="feed-status">Revisions Needed</h2>
+
+<time datetime="2012-09-25" class="due-date">Due {{feedOverviewData.dueDate}}</time>
+
+<ul class="checklist">
+  <li class="finished">Source</li>
+  <li class="finished">Election</li>
+  <li class="started">Polling Locations</li>
+  <li class="started">Contests</li>
+  <li class="unstarted">Results</li>
+</ul>
+
+<form>
+  <input type="submit" class="button-approve disabled" value="Approve Feed">
+
+  <p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
+</form>
+
+<!-- Only visible to Admins -->
+<h2>Feed Users</h2>
+<ul>
+  <li>Stephen Miller <a href="#">Delete</a></li>
+  <li>Jody Bonavides <a href="#">Delete</a></li>
+</ul>
+<form>
+  <select>
+    <optgroup label="Ohio"><!-- Only users from the state the feed belongs to. -->
+      <option>Select User</option>
+      <option>Tyler Bassen</option>
+      <option>Mike Smith</option>
+    </optgroup>
+  </select>
+  <input type="submit" class="button-add-user" value="Add User">
+</form>
+<a href="#">Delete this feed</a>
+<!-- /Only visible to Admins -->

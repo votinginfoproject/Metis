@@ -7,7 +7,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
   var breadcrumbs = [
     {
-      name: "Feeds",
+      name: "FEEDS",
       url: $location.absUrl()
     }
   ];
@@ -15,9 +15,17 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   // initialize page header variables
   $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null);
 
-  // call our service
-  $feedsService.getData()
+  // call our services
+  $feedsService.getFeeds()
     .success(function (data) {
+
+
+      // ================================================================
+      debug.warn("Overwriting the feed edit url attribute, remove later");
+      for(var i=0; i < data.length; i++){
+        data[i].edit = $location.absUrl() + "/vipfeed-" + i;
+      }
+      // ================================================================
 
       // set the feeds data into the Angular model
       $scope.feeds = data;
@@ -40,6 +48,6 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error = "Could not retrieve Feeds Data."
+      $rootScope.pageHeader.error = "Could not retrieve Feeds Data.";
     });
 }

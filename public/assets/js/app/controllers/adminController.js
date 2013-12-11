@@ -22,6 +22,6 @@ function AdminCtrl($scope, $rootScope, $adminService, $location) {
       $scope.data = data;
     }).error(function (data) {
 
-      $rootScope.pageHeader.error = "Could not retrieve Admin Data."
+      $rootScope.pageHeader.error = "Could not retrieve Admin Data.";
     });
 }
