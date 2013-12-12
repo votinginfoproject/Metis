@@ -361,6 +361,10 @@
   }
 }
 
+// ============================================================================
+// Feed Meta
+// ============================================================================
+
 
 // ============================================================================
 // Forms
@@ -520,7 +524,6 @@
 // Pagination
 // ============================================================================
 
-
 .pagination {
   display: block;
   height: 1.5em;
@@ -576,29 +579,47 @@
 // Status
 // ============================================================================
 
-.button-errors {
-  @extend .button;
+.feed-meta {
+  background-color: $gray-light;
+  padding: $base-padding;
 }
 
-.checklist {
+.feed-title {
+  font-size: .875em;
+  background-color: $gray-medium;
+  color: $white;
+  padding: $base-padding;
+}
+
+.button-errors {
+  @extend %button;
+}
+
+.feed-nav ul {
   @extend .no-bullet;
   font-weight: bold;
+  margin-top: 1em;
 
-  .finished {
-    color: $green;
-  }
-
-  .started {
-    color: $red;
+  li {
+    margin-bottom: .125em;
+    > * {
+      @extend %button;
+      text-align: left;
+      display: block;
+      background-color: $green;
+    }
   }
 
   .unstarted {
-    color: $gray-medium;
+    color: $gray-light;
+    background-color: $gray-medium;
   }
 }
 
 .button-approve {
-  @extend .button;
+  @extend %button;
+  display: block;
+  margin-top: 1em;
 }
 
 

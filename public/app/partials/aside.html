@@ -1,26 +1,27 @@
+
+<h2 class="feed-title">2012/11/06 Ohio Federal Election</h2>
+
 <form role="search">
   <input type="search" placeholder="Search">
 </form>
 
-<a class="button-errors" href="#">{{feedData.totalErrors}} Total Feed Errors</a>
+<a class="button-errors" href="#">{{feedData.totalErrors}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due {{feedData.dueDate}}</time></a>
 
 <h2 class="feed-status">Revisions Needed</h2>
 
-<time datetime="2012-09-25" class="due-date">Due {{feedData.dueDate}}</time>
+<nav class="feed-nav">
+  <ul>
+    <li><a class="finished" href="">Source</a></li>
+    <li><a class="finished" href="">Election</a></li>
+    <li><a class="started" href="">Polling Locations</a></li>
+    <li><a class="started" href="">Contests</a></li>
+    <li><span class="unstarted">Results</span></li>
+  </ul>
+</nav>
 
-<ul class="checklist">
-  <li class="finished">Source</li>
-  <li class="finished">Election</li>
-  <li class="started">Polling Locations</li>
-  <li class="started">Contests</li>
-  <li class="unstarted">Results</li>
-</ul>
+<a class="button-approve disabled" href="#">Approve Feed</a>
 
-<form>
-  <input type="submit" class="button-approve disabled" value="Approve Feed">
-
-  <p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
-</form>
+<p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
 
 <!-- Only visible to Admins -->
 <h2>Feed Users</h2>

@@ -245,7 +245,7 @@ ol {
   padding-left: 1.5em; }
 
 .no-bullet, form ul,
-form ol, .main-nav ul, .checklist, .swatches {
+form ol, .main-nav ul, .feed-nav ul, .swatches {
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -464,28 +464,28 @@ img {
   vertical-align: middle; }
 
 /* form.scss */
-.button, .disabled, button,
-input[type="submit"], .button-errors, .button-approve {
+.disabled, button,
+input[type="submit"], .button-errors, .feed-nav ul li > *, .button-approve {
   background: #386097;
   border: none;
-  border-radius: 0.1875em;
   color: white;
   display: inline-block;
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1em;
   font-weight: bold;
   padding: 0.5em 1em;
+  text-align: center;
   text-shadow: none; }
-  .button:hover, .disabled:hover, button:hover,
-  input[type="submit"]:hover, .button-errors:hover, .button-approve:hover {
+  .disabled:hover, button:hover,
+  input[type="submit"]:hover, .button-errors:hover, .feed-nav ul li > :hover, .button-approve:hover {
     background: #2a4872;
     color: white; }
 
 .disabled {
-  background: #dddddd;
+  background: #999999;
   color: #f7f7f7; }
   .disabled:hover {
-    background: #dddddd;
+    background: #999999;
     color: #f7f7f7;
     cursor: default; }
 
@@ -1286,14 +1286,32 @@ th {
   display: block;
   float: left; }
 
-.checklist {
-  font-weight: bold; }
-  .checklist .finished {
-    color: #849b29; }
-  .checklist .started {
-    color: #cc3333; }
-  .checklist .unstarted {
-    color: #999999; }
+.feed-meta {
+  background-color: #dddddd;
+  padding: 0.5em 1em; }
+
+.feed-title {
+  font-size: .875em;
+  background-color: #999999;
+  color: white;
+  padding: 0.5em 1em; }
+
+.feed-nav ul {
+  font-weight: bold;
+  margin-top: 1em; }
+  .feed-nav ul li {
+    margin-bottom: .125em; }
+    .feed-nav ul li > * {
+      text-align: left;
+      display: block;
+      background-color: #849b29; }
+  .feed-nav ul .unstarted {
+    color: #dddddd;
+    background-color: #999999; }
+
+.button-approve {
+  display: block;
+  margin-top: 1em; }
 
 .example {
   *zoom: 1;
