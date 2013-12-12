@@ -228,35 +228,35 @@
 // Nav
 // ============================================================================
 
-.branding {
-  color: $white;
-  float: left;
-}
-
-.auth {
-  float: right;
-}
-
 .main-nav {
-  clear: right;
-  float: right;
-  margin: 1em 0 -1em 0;
+  font-family: $header-font-family;
 
   ul {
     @extend .no-bullet;
+    text-align:center;
+    font-size: .875em;
+
+    @include bp(c12) {
+      font-size: 1.125em;
+    }
   }
 
   li {
-    float: left;
+    display: inline;
   }
 
   a {
-    background: $gray-light;
-    display: block;
+    color: $gray-light;
+    font-weight: bold;
     padding: $base-padding;
+    display:inline-block;
+
+    &:hover {
+      color: lighten($gray-light, 10);
+    }
 
     &.active {
-      background: $white;
+      color: $white;
     }
   }
 }
