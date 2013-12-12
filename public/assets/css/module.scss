@@ -228,6 +228,24 @@
 // Nav
 // ============================================================================
 
+.branding {
+  color: $black;
+  font-family: $header-font-family;
+  font-size: 1.125em;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  @include bp(c6) {
+    float: left;
+    font-size: 1.5em;
+    margin-top: .25em;
+  }
+
+  @include bp(c12) {
+    font-size: 2.25em;
+  }
+}
+
 .main-nav {
   font-family: $header-font-family;
 
@@ -257,6 +275,16 @@
 
     &.active {
       color: $white;
+    }
+  }
+
+  @include bp(c6) {
+    float: right;
+  }
+
+  @include bp(c12) {
+    ul {
+      font-size: 1.125em;
     }
   }
 }
@@ -369,12 +397,6 @@
 // ============================================================================
 // Forms
 // ============================================================================
-
-.new_user {
-}
-
-.new_feed {
-}
 
 
 // ============================================================================

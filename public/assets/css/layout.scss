@@ -27,7 +27,6 @@ header[role="banner"] {
 
 .wrapper {
   @include clearfix;
-  @include transition (all 0.5s ease-in-out);
   margin: 0 auto;
   max-width: 1308px;
   padding: 1em 0;
@@ -55,35 +54,6 @@ header[role="banner"] {
   @include bp(c16) {
     @include span-columns(12 of 16);
     float: left;
-  }
-}
-
-.branding {
-  color: $black;
-  font-family: $header-font-family;
-  font-size: 1.125em;
-  font-weight: bold;
-  text-transform: uppercase;
-
-  @include bp(c6) {
-    float: left;
-    font-size: 1.5em;
-    margin-top: .25em;
-  }
-
-  @include bp(c12) {
-    font-size: 2.25em;
-  }
-}
-
-.main-nav {
-  @include bp(c6) {
-    float: right;
-  }
-  @include bp(c12) {
-    ul {
-      font-size: 1.125em;
-    }
   }
 }
 
