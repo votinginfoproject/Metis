@@ -3,8 +3,9 @@
  */
 
 var testGlobals = {
-  appRootUrl: "http://localhost:4000"
-
+  appRootUrl: "http://localhost:4000",
+  appFeedsUrl: "http://localhost:4000/#/feeds",
+  sleepTime: 0.5
 };
 
 // Logging into the application
@@ -13,16 +14,18 @@ e2eLogIn = function ($username, $password) {
   input('username').enter($username);
   input('password').enter($password);
   element('#sign-in').click();
-  sleep(0.5);
+  sleep(testGlobals.sleepTime);
+  expect(element('#username').count()).toBe(0);
 };
 
 // Logging out of the application
 e2eLogOut = function () {
   element('#pageHeader-sign-out').click();
-  sleep(0.5);
+  sleep(testGlobals.sleepTime);
+  expect(element('#username').count()).toBe(1);
 }
 
 e2eLoadPage = function ($url) {
   browser().navigateTo($url);
-  sleep(0.5);
+  sleep(testGlobals.sleepTime);
 }

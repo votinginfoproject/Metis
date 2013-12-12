@@ -10,8 +10,6 @@ describe('Breadcrumbs Test', function () {
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
       e2eLogIn('testuser', 'test');
-      sleep(1);
-      expect(element('#username').count()).toBe(0);
     });
   });
 
@@ -97,7 +95,6 @@ describe('Breadcrumbs Test', function () {
     // Signs out of the application
     it('Sign out of the app', function () {
       e2eLogOut();
-      expect(element('#username').count()).toBe(1);
     });
   });
 });

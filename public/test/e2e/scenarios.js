@@ -7,9 +7,10 @@ describe('VIP test', function () {
   describe('Smoke test', function () {
     // Checks the number of IDs for both username and password
     it('Page loaded properly', function () {
-      e2eLoadPage(testGlobals.appRootUrl)
+      e2eLoadPage(testGlobals.appRootUrl);
       expect(element('#username').count()).toBe(1);
       expect(element('#password').count()).toBe(1);
+
     });
   });
 
@@ -19,8 +20,11 @@ describe('VIP test', function () {
   describe('Logging in', function () {
     // Failed attempt
     it('Does not accept an invalid username + password', function () {
-      e2eLogIn('FakeUser', 'FakePassword');
-      sleep(0.2);
+      e2eLoadPage(testGlobals.appRootUrl);
+      input('username').enter('FakeUser');
+      input('password').enter('FakePassword');
+      element('#sign-in').click();
+      sleep(testGlobals.sleepTime);
       expect(element('#pageHeader-error').count()).toBe(1);
     });
 
@@ -46,8 +50,6 @@ describe('VIP test', function () {
     // Signs out of the application
     it('Sign out of the app', function () {
       e2eLogOut();
-      sleep(0.1);
-      expect(element('#username').count()).toBe(1);
     });
   });
 });
