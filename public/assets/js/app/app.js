@@ -50,6 +50,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       controller: 'FeedSourceCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-election.html',
+      controller: 'FeedElectionCtrl'
+    });
+
     $routeProvider.when('/template/feed', {
         templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
