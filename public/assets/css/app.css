@@ -737,11 +737,14 @@ header[role="banner"] {
 .breadcrumbs {
   border: 1px solid #dddddd;
   border-radius: 0.1875em;
-  display: block;
+  display: none;
   list-style: none;
   margin: 0 0 1em 0;
   overflow: hidden;
   padding: 0.5em 1em; }
+  @media (min-width: 600px) {
+    .breadcrumbs {
+      display: block; } }
 
 .breadcrumbs > * {
   float: left;

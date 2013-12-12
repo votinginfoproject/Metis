@@ -264,11 +264,15 @@
 .breadcrumbs {
   border: $base-border;
   border-radius: $base-border-radius;
-  display: block;
+  display: none;
   list-style: none;
   margin: 0 0 1em 0;
   overflow: hidden;
   padding: $base-padding;
+
+  @include bp(c6) {
+    display: block;
+  }
 }
 
 .breadcrumbs > * {
