@@ -7,7 +7,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
   var breadcrumbs = [
     {
-      name: "FEEDS",
+      name: "Feeds",
       url: $location.absUrl()
     }
   ];

@@ -1,15 +1,15 @@
 /* form.scss */
 
-.button {
+%button {
   background: $base-accent-color;
   border: none;
-  border-radius: $base-border-radius;
   color: $white;
   display: inline-block;
-  font-family: $base-font-family;
+  font-family: $header-font-family;
   font-size: $base-font-size;
   font-weight: bold;
   padding: $base-padding;
+  text-align: center;
   text-shadow: none;
 
   &:hover {
@@ -18,13 +18,19 @@
   }
 }
 
+%button-primary {
+  @extend %button;
+  background: red;
+
+}
+
 .disabled {
-  @extend .button;
-  background: $gray-light;
+  @extend %button;
+  background: $gray-medium;
   color: lighten($gray-light, 10);
 
   &:hover {
-    background: $gray-light;
+    background: $gray-medium;
     color: lighten($gray-light, 10);
     cursor: default;
   }
@@ -32,7 +38,7 @@
 
 button,
 input[type="submit"] {
-  @extend .button;
+  @extend %button;
   @include appearance(none);
   cursor: pointer;
   vertical-align: middle;

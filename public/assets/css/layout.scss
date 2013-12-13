@@ -18,8 +18,8 @@ aside {
 // footer
 
 header[role="banner"] {
-  background-color: $black;
-  color: $white;
+  background-color: $gray-medium;
+  text-align: center;
 }
 
 // nav
@@ -27,7 +27,6 @@ header[role="banner"] {
 
 .wrapper {
   @include clearfix;
-  @include transition (all 0.5s ease-in-out);
   margin: 0 auto;
   max-width: 1308px;
   padding: 1em 0;
@@ -57,7 +56,6 @@ header[role="banner"] {
     float: left;
   }
 }
-
 
 // ============================================================================
 // Grid testing
