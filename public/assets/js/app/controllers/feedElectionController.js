@@ -10,7 +10,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
   var breadcrumbs = [
     {
-      name: "FEEDS",
+      name: "Feeds",
       url: "/#/feeds"
     },
     {
@@ -18,7 +18,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       url: "/#/feeds/" + $scope.vipfeed
     },
     {
-      name: "ELECTION",
+      name: "Election",
       url: $location.absUrl()
     }
   ];
