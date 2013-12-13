@@ -17,7 +17,14 @@ module.exports = function(config) {
       'public/assets/js/lib/angular-1.2.1/angular.js',
       'public/assets/js/lib/angular-1.2.1/angular-resource.js',
       'public/assets/js/lib/angular-1.2.1/angular-mocks.js',
-      'public/assets/js/app/*.js',
+      'public/assets/js/lib/angular-1.2.1/angular-route.min.js',
+      'public/assets/js/lib/angular-1.2.1/angular-cookies.min.js',
+      'public/assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js',
+      'public/assets/js/lib/debug-0.4/ba-debug.min.js',
+      'public/assets/js/lib/ngTable-0.3.2/ng-table.js',
+      'public/assets/js/app/app.js',
+      'public/assets/js/app/services/*.js',
+      'public/assets/js/app/controllers/*.js',
       'public/test/unit/*.js'
     ],
 
@@ -34,7 +41,7 @@ module.exports = function(config) {
 
 
     // web server port
-    port: 4000,
+    port: 8000,
 
 
     // enable / disable colors in the output (reporters and logs)
@@ -58,7 +65,7 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
 
 
     // If browser does not capture in given timeout [ms], kill it
@@ -67,6 +74,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false
+    singleRun: true
   });
 };

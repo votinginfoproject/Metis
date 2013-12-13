@@ -9,7 +9,7 @@ var testGlobals = {
 };
 
 // Logging into the application
-e2eLogIn = function ($username, $password) {
+function e2eLogIn ($username, $password) {
   e2eLoadPage(testGlobals.appRootUrl);
   input('username').enter($username);
   input('password').enter($password);
@@ -19,13 +19,13 @@ e2eLogIn = function ($username, $password) {
 };
 
 // Logging out of the application
-e2eLogOut = function () {
+function e2eLogOut () {
   element('#pageHeader-sign-out').click();
   sleep(testGlobals.sleepTime);
   expect(element('#username').count()).toBe(1);
 }
 
-e2eLoadPage = function ($url) {
+function e2eLoadPage ($url) {
   browser().navigateTo($url);
   sleep(testGlobals.sleepTime);
 }
