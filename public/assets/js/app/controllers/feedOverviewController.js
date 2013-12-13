@@ -10,7 +10,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
   var breadcrumbs = [
     {
-      name: "FEEDS",
+      name: "Feeds",
       url: "/#/feeds"
     },
     {

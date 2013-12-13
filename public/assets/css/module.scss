@@ -225,97 +225,6 @@
 
 
 // ============================================================================
-// Nav
-// ============================================================================
-
-.branding {
-  color: $white;
-  float: left;
-}
-
-.auth {
-  float: right;
-}
-
-.main-nav {
-  clear: right;
-  float: right;
-  margin: 1em 0 -1em 0;
-
-  ul {
-    @extend .no-bullet;
-  }
-
-  li {
-    float: left;
-  }
-
-  a {
-    background: $gray-light;
-    display: block;
-    padding: $base-padding;
-
-    &.active {
-      background: $white;
-    }
-  }
-}
-
-.breadcrumbs {
-  border: $base-border;
-  border-radius: $base-border-radius;
-  display: block;
-  list-style: none;
-  margin: 0 0 1em 0;
-  overflow: hidden;
-  padding: $base-padding;
-}
-
-.breadcrumbs > * {
-  float: left;
-  font-size: 0.6875em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline;
-}
-
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: $base-link-color;
-}
-
-.breadcrumbs > *:before {
-  color: $gray-medium;
-  content: "/";
-  margin: 0 0.75em;
-  position: relative;
-  top: .1em;
-}
-
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0;
-}
-
-.current,
-.current a {
-  color: $base-font-color;
-  cursor: default;
-}
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none;
-}
-
-
-// ============================================================================
 // Data Group
 // ============================================================================
 // TODO: rename data-group
@@ -359,13 +268,58 @@
 
 
 // ============================================================================
-// Forms
+// Feed Meta
 // ============================================================================
 
-.new_user {
+.feed-title {
+  font-size: .875em;
+  background-color: $gray-medium;
+  color: $white;
+  padding: $base-padding;
 }
 
-.new_feed {
+.details {
+  background-color: $gray-light;
+  padding: $base-padding;
+}
+
+form[role="search"] {
+  margin-top: 1em;
+}
+
+.button-errors {
+  @extend %button;
+
+  time {
+    font-weight: normal;
+  }
+}
+
+.feed-status {
+  font-size: .875em;
+  margin-top: 1em;
+}
+
+.feed-nav ul {
+  @extend .no-bullet;
+  font-weight: bold;
+  margin-top: 1em;
+
+  li {
+    margin-bottom: .125em;
+    > * {
+      @extend %button;
+      text-align: left;
+      display: block;
+      background-color: $gray-medium;
+    }
+  }
+}
+
+.button-approve {
+  @extend %button;
+  display: block;
+  margin-top: 1em;
 }
 
 
@@ -375,6 +329,129 @@
 
 .map {
   margin-bottom: 1em;
+}
+
+
+// ============================================================================
+// Nav
+// ============================================================================
+
+.branding {
+  color: $black;
+  font-family: $header-font-family;
+  font-size: 1.125em;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  @include bp(c6) {
+    float: left;
+    font-size: 1.5em;
+    margin-top: .25em;
+  }
+
+  @include bp(c12) {
+    font-size: 2.25em;
+  }
+}
+
+.main-nav {
+  font-family: $header-font-family;
+
+  ul {
+    @extend .no-bullet;
+    text-align:center;
+    font-size: .875em;
+
+    @include bp(c12) {
+      font-size: 1.125em;
+    }
+  }
+
+  li {
+    display: inline;
+  }
+
+  a {
+    color: $gray-light;
+    font-weight: bold;
+    padding: $base-padding;
+    display:inline-block;
+
+    &:hover {
+      color: lighten($gray-light, 10);
+    }
+
+    &.active {
+      color: $white;
+    }
+  }
+
+  @include bp(c6) {
+    float: right;
+  }
+
+  @include bp(c12) {
+    ul {
+      font-size: 1.125em;
+    }
+  }
+}
+
+.breadcrumbs {
+  border: $base-border;
+  border-radius: $base-border-radius;
+  display: none;
+  list-style: none;
+  margin: 0 0 1em 0;
+  overflow: hidden;
+  padding: $base-padding;
+
+  @include bp(c6) {
+    display: block;
+  }
+}
+
+.breadcrumbs > * {
+  float: left;
+  font-size: 0.6875em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.breadcrumbs > *:hover a,
+.breadcrumbs > *:focus a {
+  text-decoration: underline;
+}
+
+.breadcrumbs > * a,
+.breadcrumbs > * span {
+  color: $base-link-color;
+}
+
+.breadcrumbs > *:before {
+  color: $gray-medium;
+  content: "/";
+  margin: 0 0.75em;
+  position: relative;
+  top: .1em;
+}
+
+.breadcrumbs > *:first-child:before {
+  content: " ";
+  margin: 0;
+}
+
+.current,
+.current a {
+  color: $base-font-color;
+  cursor: default;
+}
+
+.current:hover,
+.current:hover a,
+.current:focus,
+.current:focus a {
+  text-decoration: none;
 }
 
 
@@ -516,7 +593,6 @@
 // Pagination
 // ============================================================================
 
-
 .pagination {
   display: block;
   height: 1.5em;
@@ -565,36 +641,6 @@
 .pagination li {
   display: block;
   float: left;
-}
-
-
-// ============================================================================
-// Status
-// ============================================================================
-
-.button-errors {
-  @extend .button;
-}
-
-.checklist {
-  @extend .no-bullet;
-  font-weight: bold;
-
-  .finished {
-    color: $green;
-  }
-
-  .started {
-    color: $red;
-  }
-
-  .unstarted {
-    color: $gray-medium;
-  }
-}
-
-.button-approve {
-  @extend .button;
 }
 
 
