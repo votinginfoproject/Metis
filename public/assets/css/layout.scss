@@ -27,9 +27,11 @@ header[role="banner"] {
 
 .wrapper {
   @include clearfix;
+
   margin: 0 auto;
   max-width: 1308px;
   padding: 1em 0;
+  position: relative;
   width: percentage(258/306);
 
   @include bp(c6) {
@@ -63,19 +65,13 @@ header[role="banner"] {
 
 .row {
   @include clearfix;
+
   background: $green;
   background-image: url('/assets/images/col-2.png');
-  background-size: 100%;
   background-repeat: repeat-y;
+  background-size: 100%;
   margin-bottom: 1em;
   padding: 1em 0;
-
-  div {
-    background: $red;
-    color: $white;
-    font-family: $helvetica;
-    font-weight: bold;
-  }
 
   @include bp(c6) {
     background-image: url('/assets/images/col-6.png');
@@ -87,6 +83,13 @@ header[role="banner"] {
 
   @include bp(c16) {
     background-image: url('/assets/images/col-16.png');
+  }
+
+  div {
+    background: $red;
+    color: $white;
+    font-family: $helvetica;
+    font-weight: bold;
   }
 }
 

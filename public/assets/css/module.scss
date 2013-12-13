@@ -272,9 +272,9 @@
 // ============================================================================
 
 .feed-title {
-  font-size: .875em;
   background-color: $gray-medium;
   color: $white;
+  font-size: .875em;
   padding: $base-padding;
 }
 
@@ -309,9 +309,9 @@ form[role="search"] {
     margin-bottom: .125em;
     > * {
       @extend %button;
-      text-align: left;
-      display: block;
       background-color: $gray-medium;
+      display: block;
+      text-align: left;
     }
   }
 }
@@ -352,6 +352,7 @@ form[role="search"] {
   @include bp(c12) {
     font-size: 2.25em;
   }
+
 }
 
 .main-nav {
@@ -359,12 +360,12 @@ form[role="search"] {
 
   ul {
     @extend .no-bullet;
-    text-align:center;
-    font-size: .875em;
 
     @include bp(c12) {
       font-size: 1.125em;
     }
+    font-size: .875em;
+    text-align:center;
   }
 
   li {
@@ -373,9 +374,9 @@ form[role="search"] {
 
   a {
     color: $gray-light;
+    display:inline-block;
     font-weight: bold;
     padding: $base-padding;
-    display:inline-block;
 
     &:hover {
       color: lighten($gray-light, 10);
@@ -409,6 +410,7 @@ form[role="search"] {
   @include bp(c6) {
     display: block;
   }
+
 }
 
 .breadcrumbs > * {

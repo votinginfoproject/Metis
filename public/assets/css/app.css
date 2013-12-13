@@ -312,6 +312,7 @@ header[role="banner"] {
   margin: 0 auto;
   max-width: 1308px;
   padding: 1em 0;
+  position: relative;
   width: 84.31373%; }
   .wrapper:before, .wrapper:after {
     content: " ";
@@ -349,8 +350,8 @@ header[role="banner"] {
   *zoom: 1;
   background: #849b29;
   background-image: url("/assets/images/col-2.png");
-  background-size: 100%;
   background-repeat: repeat-y;
+  background-size: 100%;
   margin-bottom: 1em;
   padding: 1em 0; }
   .row:before, .row:after {
@@ -358,11 +359,6 @@ header[role="banner"] {
     display: table; }
   .row:after {
     clear: both; }
-  .row div {
-    background: #cc3333;
-    color: white;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: bold; }
   @media (min-width: 600px) {
     .row {
       background-image: url("/assets/images/col-6.png"); } }
@@ -372,6 +368,11 @@ header[role="banner"] {
   @media (min-width: 1452px) {
     .row {
       background-image: url("/assets/images/col-16.png"); } }
+  .row div {
+    background: #cc3333;
+    color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold; }
 
 .col-1of16 {
   float: left;
@@ -741,9 +742,9 @@ th {
     margin-top: 0; }
 
 .feed-title {
-  font-size: .875em;
   background-color: #999999;
   color: white;
+  font-size: .875em;
   padding: 0.5em 1em; }
 
 .details {
@@ -766,9 +767,9 @@ form[role="search"] {
   .feed-nav ul li {
     margin-bottom: .125em; }
     .feed-nav ul li > * {
-      text-align: left;
+      background-color: #999999;
       display: block;
-      background-color: #999999; }
+      text-align: left; }
 
 .button-approve {
   display: block;
@@ -795,8 +796,8 @@ form[role="search"] {
 .main-nav {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .main-nav ul {
-    text-align: center;
-    font-size: .875em; }
+    font-size: .875em;
+    text-align: center; }
     @media (min-width: 1116px) {
       .main-nav ul {
         font-size: 1.125em; } }
@@ -804,9 +805,9 @@ form[role="search"] {
     display: inline; }
   .main-nav a {
     color: #dddddd;
+    display: inline-block;
     font-weight: bold;
-    padding: 0.5em 1em;
-    display: inline-block; }
+    padding: 0.5em 1em; }
     .main-nav a:hover {
       color: #f7f7f7; }
     .main-nav a.active {
