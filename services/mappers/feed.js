@@ -51,6 +51,30 @@ var mapSource = function(path, data) {
   };
 };
 
+var mapElection = function(path, data) {
+  return {
+    id: 2,
+    error_count: 222,
+    errors: path + '/errors',
+    type: 'Federal',
+    statewide: true,
+    registration_url: 'http://www.sboe.state.nc.us/registration',
+    absentee_url: 'http://www.sboe.state.nc.us/absentee',
+    results_url: 'http://www.sboe.state.nc.us/results',
+    polling_hours: '8am - 6pm',
+    day_of_registration: false,
+    registration_deadline: moment(new Date()).format('YYYY-MM-DD'),
+    absentee_deadline: moment(new Date()).format('YYYY-MM-DD'),
+    state: {
+      id: 37,
+      name: 'North Carolina',
+      locality_count: 100
+    },
+    contests: path + '/contests'
+  };
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
+exports.mapElection = mapElection;

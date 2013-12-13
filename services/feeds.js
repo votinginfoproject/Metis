@@ -13,6 +13,7 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds', utils.ensureAuthentication, allFeedsGET);
   app.get('/services/feeds/:feedid', utils.ensureAuthentication, feedOverviewGET);
   app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, feedSourceGET);
+  app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
 };
 
 /*
@@ -34,6 +35,11 @@ feedOverviewGET = function (req, res) {
 feedSourceGET = function (req, res) {
   var source = {}; //TODO: get data from the database
   res.json(mapper.mapSource(req.path, source));
+};
+
+feedElectionGET = function (req, res) {
+ var election = {}; //TODO: get data from the database
+  res.json(mapper.mapElection(req.path, election));
 };
 
 exports.registerFeedsServices = registerFeedsServices;
