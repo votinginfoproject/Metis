@@ -225,6 +225,114 @@
 
 
 // ============================================================================
+// Data Group
+// ============================================================================
+// TODO: rename data-group
+
+.data-group {
+  margin-bottom: 2em;
+}
+
+.data-group-header {
+  @include clearfix;
+  border-bottom: 4px solid $black;
+  padding-bottom: .5em;
+
+  h2 {
+    float: left;
+    font-size: 1.5em;
+    margin-bottom: 0;
+  }
+}
+
+.more-detail {
+  display: block;
+  float: right;
+  font-size: 1.125em;
+  line-height: 1.666666667;
+  margin-top: .125em;
+}
+
+
+// ============================================================================
+// Errors
+// ============================================================================
+// TODO: rename accordion
+
+.accordion {
+  margin-top: 1em;
+  h5 {
+    margin-top: 0;
+  }
+}
+
+
+// ============================================================================
+// Feed Meta
+// ============================================================================
+
+.feed-title {
+  font-size: .875em;
+  background-color: $gray-medium;
+  color: $white;
+  padding: $base-padding;
+}
+
+.details {
+  background-color: $gray-light;
+  padding: $base-padding;
+}
+
+form[role="search"] {
+  margin-top: 1em;
+}
+
+.button-errors {
+  @extend %button;
+
+  time {
+    font-weight: normal;
+  }
+}
+
+.feed-status {
+  font-size: .875em;
+  margin-top: 1em;
+}
+
+.feed-nav ul {
+  @extend .no-bullet;
+  font-weight: bold;
+  margin-top: 1em;
+
+  li {
+    margin-bottom: .125em;
+    > * {
+      @extend %button;
+      text-align: left;
+      display: block;
+      background-color: $gray-medium;
+    }
+  }
+}
+
+.button-approve {
+  @extend %button;
+  display: block;
+  margin-top: 1em;
+}
+
+
+// ============================================================================
+// Map
+// ============================================================================
+
+.map {
+  margin-bottom: 1em;
+}
+
+
+// ============================================================================
 // Nav
 // ============================================================================
 
@@ -344,67 +452,6 @@
 .current:focus,
 .current:focus a {
   text-decoration: none;
-}
-
-
-// ============================================================================
-// Data Group
-// ============================================================================
-// TODO: rename data-group
-
-.data-group {
-  margin-bottom: 2em;
-}
-
-.data-group-header {
-  @include clearfix;
-  border-bottom: 4px solid $black;
-  padding-bottom: .5em;
-
-  h2 {
-    float: left;
-    font-size: 1.5em;
-    margin-bottom: 0;
-  }
-}
-
-.more-detail {
-  display: block;
-  float: right;
-  font-size: 1.125em;
-  line-height: 1.666666667;
-  margin-top: .125em;
-}
-
-
-// ============================================================================
-// Errors
-// ============================================================================
-// TODO: rename accordion
-
-.accordion {
-  margin-top: 1em;
-  h5 {
-    margin-top: 0;
-  }
-}
-
-// ============================================================================
-// Feed Meta
-// ============================================================================
-
-
-// ============================================================================
-// Forms
-// ============================================================================
-
-
-// ============================================================================
-// Map
-// ============================================================================
-
-.map {
-  margin-bottom: 1em;
 }
 
 
@@ -594,54 +641,6 @@
 .pagination li {
   display: block;
   float: left;
-}
-
-
-// ============================================================================
-// Status
-// ============================================================================
-
-.feed-meta {
-  background-color: $gray-light;
-  padding: $base-padding;
-}
-
-.feed-title {
-  font-size: .875em;
-  background-color: $gray-medium;
-  color: $white;
-  padding: $base-padding;
-}
-
-.button-errors {
-  @extend %button;
-}
-
-.feed-nav ul {
-  @extend .no-bullet;
-  font-weight: bold;
-  margin-top: 1em;
-
-  li {
-    margin-bottom: .125em;
-    > * {
-      @extend %button;
-      text-align: left;
-      display: block;
-      background-color: $green;
-    }
-  }
-
-  .unstarted {
-    color: $gray-light;
-    background-color: $gray-medium;
-  }
-}
-
-.button-approve {
-  @extend %button;
-  display: block;
-  margin-top: 1em;
 }
 
 

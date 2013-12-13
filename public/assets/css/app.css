@@ -245,7 +245,7 @@ ol {
   padding-left: 1.5em; }
 
 .no-bullet, form ul,
-form ol, .main-nav ul, .feed-nav ul, .swatches {
+form ol, .feed-nav ul, .main-nav ul, .swatches {
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -309,9 +309,6 @@ header[role="banner"] {
 
 .wrapper {
   *zoom: 1;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
   margin: 0 auto;
   max-width: 1308px;
   padding: 1em 0;
@@ -347,28 +344,6 @@ header[role="banner"] {
     float: left; }
     .content:last-child {
       margin-right: 0; } }
-
-.branding {
-  color: black;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.125em;
-  font-weight: bold;
-  text-transform: uppercase; }
-  @media (min-width: 600px) {
-    .branding {
-      float: left;
-      font-size: 1.5em;
-      margin-top: .25em; } }
-  @media (min-width: 1116px) {
-    .branding {
-      font-size: 2.25em; } }
-
-@media (min-width: 600px) {
-  .main-nav {
-    float: right; } }
-@media (min-width: 1116px) {
-  .main-nav ul {
-    font-size: 1.125em; } }
 
 .row {
   *zoom: 1;
@@ -736,6 +711,87 @@ th {
       padding: .25em;
       width: 70%; } }
 
+.data-group {
+  margin-bottom: 2em; }
+
+.data-group-header {
+  *zoom: 1;
+  border-bottom: 4px solid black;
+  padding-bottom: .5em; }
+  .data-group-header:before, .data-group-header:after {
+    content: " ";
+    display: table; }
+  .data-group-header:after {
+    clear: both; }
+  .data-group-header h2 {
+    float: left;
+    font-size: 1.5em;
+    margin-bottom: 0; }
+
+.more-detail {
+  display: block;
+  float: right;
+  font-size: 1.125em;
+  line-height: 1.666666667;
+  margin-top: .125em; }
+
+.accordion {
+  margin-top: 1em; }
+  .accordion h5 {
+    margin-top: 0; }
+
+.feed-title {
+  font-size: .875em;
+  background-color: #999999;
+  color: white;
+  padding: 0.5em 1em; }
+
+.details {
+  background-color: #dddddd;
+  padding: 0.5em 1em; }
+
+form[role="search"] {
+  margin-top: 1em; }
+
+.button-errors time {
+  font-weight: normal; }
+
+.feed-status {
+  font-size: .875em;
+  margin-top: 1em; }
+
+.feed-nav ul {
+  font-weight: bold;
+  margin-top: 1em; }
+  .feed-nav ul li {
+    margin-bottom: .125em; }
+    .feed-nav ul li > * {
+      text-align: left;
+      display: block;
+      background-color: #999999; }
+
+.button-approve {
+  display: block;
+  margin-top: 1em; }
+
+.map {
+  margin-bottom: 1em; }
+
+.branding {
+  color: black;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.125em;
+  font-weight: bold;
+  text-transform: uppercase; }
+  @media (min-width: 600px) {
+    .branding {
+      float: left;
+      font-size: 1.5em;
+      margin-top: .25em; } }
+  @media (min-width: 1116px) {
+    .branding {
+      font-size: 2.25em; } }
+
 .main-nav {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
   .main-nav ul {
@@ -755,6 +811,12 @@ th {
       color: #f7f7f7; }
     .main-nav a.active {
       color: white; }
+  @media (min-width: 600px) {
+    .main-nav {
+      float: right; } }
+  @media (min-width: 1116px) {
+    .main-nav ul {
+      font-size: 1.125em; } }
 
 .breadcrumbs {
   border: 1px solid #dddddd;
@@ -803,38 +865,6 @@ th {
 .current:focus,
 .current:focus a {
   text-decoration: none; }
-
-.data-group {
-  margin-bottom: 2em; }
-
-.data-group-header {
-  *zoom: 1;
-  border-bottom: 4px solid black;
-  padding-bottom: .5em; }
-  .data-group-header:before, .data-group-header:after {
-    content: " ";
-    display: table; }
-  .data-group-header:after {
-    clear: both; }
-  .data-group-header h2 {
-    float: left;
-    font-size: 1.5em;
-    margin-bottom: 0; }
-
-.more-detail {
-  display: block;
-  float: right;
-  font-size: 1.125em;
-  line-height: 1.666666667;
-  margin-top: .125em; }
-
-.accordion {
-  margin-top: 1em; }
-  .accordion h5 {
-    margin-top: 0; }
-
-.map {
-  margin-bottom: 1em; }
 
 .overview {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -1285,33 +1315,6 @@ th {
 .pagination li {
   display: block;
   float: left; }
-
-.feed-meta {
-  background-color: #dddddd;
-  padding: 0.5em 1em; }
-
-.feed-title {
-  font-size: .875em;
-  background-color: #999999;
-  color: white;
-  padding: 0.5em 1em; }
-
-.feed-nav ul {
-  font-weight: bold;
-  margin-top: 1em; }
-  .feed-nav ul li {
-    margin-bottom: .125em; }
-    .feed-nav ul li > * {
-      text-align: left;
-      display: block;
-      background-color: #849b29; }
-  .feed-nav ul .unstarted {
-    color: #dddddd;
-    background-color: #999999; }
-
-.button-approve {
-  display: block;
-  margin-top: 1em; }
 
 .example {
   *zoom: 1;

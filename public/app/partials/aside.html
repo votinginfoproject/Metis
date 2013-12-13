@@ -1,43 +1,46 @@
-
 <h2 class="feed-title">2012/11/06 Ohio Federal Election</h2>
 
-<form role="search">
-  <input type="search" placeholder="Search">
-</form>
+<div class="details">
 
-<a class="button-errors" href="#">{{feedData.totalErrors}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due {{feedData.dueDate}}</time></a>
+  <form role="search">
+    <input type="search" placeholder="Search">
+  </form>
 
-<h2 class="feed-status">Revisions Needed</h2>
+  <a class="button-errors" href="#">{{feedData.totalErrors}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due {{feedData.dueDate}}</time></a>
 
-<nav class="feed-nav">
+  <h2 class="feed-status">Revisions Needed</h2>
+
+  <nav class="feed-nav">
+    <ul>
+      <li><a class="finished" href="">Source</a></li>
+      <li><a class="finished" href="">Election</a></li>
+      <li><a class="started" href="">Polling Locations</a></li>
+      <li><a class="started" href="">Contests</a></li>
+      <li><span class="unstarted">Results</span></li>
+    </ul>
+  </nav>
+
+  <a class="button-approve disabled" href="#">Approve Feed</a>
+
+  <p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
+
+  <!-- Only visible to Admins -->
+  <h2>Feed Users</h2>
   <ul>
-    <li><a class="finished" href="">Source</a></li>
-    <li><a class="finished" href="">Election</a></li>
-    <li><a class="started" href="">Polling Locations</a></li>
-    <li><a class="started" href="">Contests</a></li>
-    <li><span class="unstarted">Results</span></li>
+    <li>Stephen Miller <a href="#">Delete</a></li>
+    <li>Jody Bonavides <a href="#">Delete</a></li>
   </ul>
-</nav>
+  <form>
+    <select>
+      <optgroup label="Ohio"><!-- Only users from the state the feed belongs to. -->
+        <option>Select User</option>
+        <option>Tyler Bassen</option>
+        <option>Mike Smith</option>
+      </optgroup>
+    </select>
+    <input type="submit" class="button-add-user" value="Add User">
+  </form>
+  <a href="#">Delete this feed</a>
+  <!-- /Only visible to Admins -->
 
-<a class="button-approve disabled" href="#">Approve Feed</a>
-
-<p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
-
-<!-- Only visible to Admins -->
-<h2>Feed Users</h2>
-<ul>
-  <li>Stephen Miller <a href="#">Delete</a></li>
-  <li>Jody Bonavides <a href="#">Delete</a></li>
-</ul>
-<form>
-  <select>
-    <optgroup label="Ohio"><!-- Only users from the state the feed belongs to. -->
-      <option>Select User</option>
-      <option>Tyler Bassen</option>
-      <option>Mike Smith</option>
-    </optgroup>
-  </select>
-  <input type="submit" class="button-add-user" value="Add User">
-</form>
-<a href="#">Delete this feed</a>
-<!-- /Only visible to Admins -->
+</div>
