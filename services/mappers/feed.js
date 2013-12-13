@@ -29,5 +29,28 @@ var mapOverview = function(path, id) {
   };
 };
 
+var mapSource = function(path, data) {
+  return {
+    id: 1,
+    error_count: 111,
+    errors: path + '/errors',
+    source_info: {
+      name: 'North Carolina State Board of Elections',
+      date: moment(new Date()).format('YYYY-MM-DD'),
+      description: 'The North Carolina State Board of Elections is the official source of election information for North Carolina.',
+      org_url: 'http://www.sboe.state.nc.us/',
+      tou_url: 'http://www.sboe.state.nc.us/terms-of-use'
+    },
+    feed_contact: {
+      name: 'Stephen Tyler',
+      title: 'Director of Elections',
+      phone: '555-555-5555',
+      fax: '555-555-5556',
+      email: 'stephen@sboe.nc.us'
+    }
+  };
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
+exports.mapSource = mapSource;

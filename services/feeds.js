@@ -11,7 +11,8 @@ var registerFeedsServices = function (app) {
    * REST endpoints associated with Feed data
    */
   app.get('/services/feeds', utils.ensureAuthentication, allFeedsGET);
-  app.get('/services/feeds/:id', utils.ensureAuthentication, feedOverviewGET)
+  app.get('/services/feeds/:feedid', utils.ensureAuthentication, feedOverviewGET);
+  app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, feedSourceGET);
 };
 
 /*
@@ -27,7 +28,12 @@ allFeedsGET = function (req, res) {
 };
 
 feedOverviewGET = function (req, res) {
-  res.json(mapper.mapFeedOverview(req.path, req.params.id));
+  res.json(mapper.mapFeedOverview(req.path, req.params.feedid));
+};
+
+feedSourceGET = function (req, res) {
+  var source = {}; //TODO: get data from the database
+  res.json(mapper.mapSource(req.path, source));
 };
 
 exports.registerFeedsServices = registerFeedsServices;
