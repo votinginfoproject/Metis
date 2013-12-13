@@ -60,7 +60,7 @@ module.exports = function(grunt) {
       dev: {
         options: {
           file: 'app.js',
-          ignoredFiles: ['public/assets/**', '.sass-cache/**', '.git/**']
+          ignoredFiles: ['public/**', '.sass-cache/**', '.git/**']
         }
       }
     },
