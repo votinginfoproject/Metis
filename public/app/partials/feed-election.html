@@ -1,0 +1,75 @@
+<a class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/election/errors">115 Errors in Election ID: 4000</a>
+
+<div id="feed-election-content" class="content">
+
+  <dl class="attributes">
+    <dt class="key">Date:</dt>
+    <dd class="value">{{feedElection.date}}</dd>
+    <dt class="key">Election Type:</dt>
+    <dd class="value">{{feedElection.electionType}}</dd>
+    <dt class="key">Statewide</dt>
+    <dd class="value">{{feedElection.statewide}}</dd>
+    <dt class="key">Registration Info:</dt>
+    <dd class="value"><a target="_blank" href="{{feedElection.registrationInfo}}">{{feedElection.registrationInfo}}</a></dd>
+    <dt class="key">Absentee Ballot Info:</dt>
+    <dd class="value"><a target="_blank" href="{{feedElection.absenteeBallotInfo}}">{{feedElection.absenteeBallotInfo}}</a></dd>
+    <dt class="key">Results URL:</dt>
+    <dd class="value"><a target="_blank" href="{{feedElection.resultsUrl}}">{{feedElection.resultsUrl}}</a></dd>
+    <dt class="key">Polling Hours:</dt>
+    <dd class="value">{{feedElection.pollingHours}}</dd>
+    <dt class="key">Election Day Registration:</dt>
+    <dd class="value">{{feedElection.electionDayRegistration}}</dd>
+    <dt class="key">Registration Deadline:</dt>
+    <dd class="value">{{feedElection.registrationDeadLine}}</dd>
+    <dt class="key">Absentee Request Deadline:</dt>
+    <dd class="value">{{feedElection.absenteeRequestDeadline}}</dd>
+  </dl>
+
+  <section class="data-group">
+    <h2>State</h2>
+
+    <table class="associations">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Localities</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="id"><a href="#">{{feedState.id}}</a></td>
+        <td class="name"><a href="#">{{feedState.name}}</a></td>
+        <td class="localities"><a href="#">{{feedState.localities}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+  </section>
+
+
+  <section class="data-group">
+    <h2>976 Contests</h2>
+
+    <table class="associations">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Office / Referendum / Custom</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="electionContest in feedElectionContests">
+        <td class="id"><a href="#">{{electionContest.id}}</a></td>
+        <td class="type"><a href="#">{{electionContest.type}}</a></td>
+        <td class="office"><a href="#">{{electionContest.office}}</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div><!-- /.content -->
+
+<aside ng-include src="'app/partials/aside.html'"></aside>
+

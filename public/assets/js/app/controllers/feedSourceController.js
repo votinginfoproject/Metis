@@ -69,7 +69,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
     touUrl: "http://www.anotherURL.com"
   };
 
-  // get Feed Source
+  // get Feed Contact
   $feedsService.getFeedContact()
     .success(function (data) {
 

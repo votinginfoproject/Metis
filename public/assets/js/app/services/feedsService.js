@@ -36,7 +36,18 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     },
     getFeedContact: function () {
       return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
-    }
+    },
 
+    // Feed election page
+    // ========================================================
+    getFeedElection: function () {
+      return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
+    },
+    getFeedState: function () {
+      return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
+    },
+    getFeedElectionContests: function () {
+      return $http.get($appProperties.servicesPath + "/xxxxxxxxxx");
+    }
   };
 });
