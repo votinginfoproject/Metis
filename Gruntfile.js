@@ -72,16 +72,23 @@ module.exports = function(grunt) {
         command: 'mongod'
       }
     },
+    bower: {
+      install: {
+        // copy dependent packages from bower.json
+      }
+    },
     // Run blocking grunt tasks concurrently
     concurrent: {
       dev: {
         options: {
           logConcurrentOutput: true
         },
-        tasks: ['shell:mongod', 'watch', 'nodemon:dev']
+        tasks: ['bower:install', 'shell:mongod', 'watch', 'nodemon:dev']
       }
     }
   });
+
+  grunt.loadNpmTasks('grunt-bower-task');
 
   grunt.registerTask('default', ['concurrent:dev']);
 };
