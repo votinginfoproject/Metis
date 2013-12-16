@@ -45,7 +45,7 @@ describe('Home Unit Tests', function() {
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
-    })
+    });
 
     it('should throw an error', function () {
       expect($rootScope.pageHeader.error).toEqual('Bad Username or Password.');

@@ -4,11 +4,13 @@
  *
  */
 
+var isTesting = false;
+
 // Comment in if want to disable all "debug" logging
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'ngMockE2E']);
 
 // Constants
 vipApp.constant('$appProperties', {
@@ -190,10 +192,39 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties) {
 
   $rootScope.pageHeader = {};
   $rootScope.user = null;
+
+  var feeds = [
+    {date: '2011-10-12', state: 'Ohio', type: 'Federal', status: 'Undetermined'},
+    {date: '2011-10-11', state: 'Florida', type: 'State', status: 'determined'},
+    {date: '2011-10-10', state: 'Delaware', type: 'Federal', status: 'Undetermined'},
+    {date: '2011-10-25', state: 'North Carolina', type: 'State', status: 'determined'},
+    {date: '2011-08-15', state: 'South Carolina', type: 'State', status: 'Undetermined'},
+    {date: '2012-10-25', state: 'Virginia', type: 'Federal', status: 'Undetermined'},
+    {date: '2013-12-16', state: 'Georgia', type: 'State', status: 'determined'},
+    {date: '2011-09-08', state: 'Texas', type: 'Federal', status: 'Undetermined'},
+    {date: '2011-07-10', state: 'New York', type: 'State', status: 'Undetermined'},
+    {date: '2011-08-13', state: 'California', type: 'Federal', status: 'Undetermined'},
+    {date: '2011-11-01', state: 'Vermont', type: 'Federal', status: 'determined'},
+    {date: '2011-10-02', state: 'West Virginia', type: 'Federal', status: 'Undetermined'}
+  ]
+
+  $httpBackend.whenGET($appProperties.mockServicesPath + "/adminMockService.html").passThrough();
+  $httpBackend.whenGET($appProperties.servicesPath + "/getUser").passThrough();
+  $httpBackend.whenGET($appProperties.mockServicesPath + "/referenceDataMockService.html").passThrough();
+  $httpBackend.whenGET($appProperties.mockServicesPath + "/homeMockService.html").passThrough();
+  $httpBackend.whenGET($appProperties.servicesPath + "/xxxxxxxxxx").passThrough();
+  $httpBackend.whenGET($appProperties.mockServicesPath + "/profileMockService.html").passThrough();
+
+  if(isTesting)
+    $httpBackend.whenGET($appProperties.servicesPath + "/feeds").respond(feeds);
+  else
+    $httpBackend.whenGET($appProperties.servicesPath + "/feeds").passThrough();
+
+  $httpBackend.whenGET(/partials\/.*/).passThrough();
 
   /*
    * Sets PageHeader values
@@ -235,5 +266,4 @@ vipApp.run(function ($rootScope, $appService, $location) {
 
   // expose the $location into the scope
   $rootScope.$location = $location;
-
 });
