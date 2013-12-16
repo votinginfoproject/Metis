@@ -14,7 +14,6 @@ function AdminCtrl($scope, $rootScope, $adminService, $location) {
 
   // initialize page header variables
   $rootScope.setPageHeader("Admin", breadcrumbs, "admin", null);
-
   // call our service
   $adminService.getData()
     .success(function (data) {
