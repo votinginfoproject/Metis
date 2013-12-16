@@ -10,7 +10,6 @@ aside {
 
   @include bp(c16) {
     @include span-columns(4 of 16);
-    float: right;
   }
 }
 
@@ -55,7 +54,6 @@ header[role="banner"] {
 
   @include bp(c16) {
     @include span-columns(12 of 16);
-    float: left;
   }
 }
 

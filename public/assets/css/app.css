@@ -298,8 +298,7 @@ del {
   aside {
     float: left;
     margin-right: 2.75229%;
-    width: 22.93578%;
-    float: right; }
+    width: 22.93578%; }
     aside:last-child {
       margin-right: 0; } }
 
@@ -341,8 +340,7 @@ header[role="banner"] {
   .content {
     float: left;
     margin-right: 2.75229%;
-    width: 74.31193%;
-    float: left; }
+    width: 74.31193%; }
     .content:last-child {
       margin-right: 0; } }
 
