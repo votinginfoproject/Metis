@@ -6,7 +6,8 @@
 function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
   // get the vipfeed param from the route
-  $scope.vipfeed = $routeParams.vipfeed;
+  var feedid = $routeParams.vipfeed;
+  $scope.vipfeed = feedid;
 
   var breadcrumbs = [
     {
@@ -14,7 +15,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       url: "/#/feeds"
     },
     {
-      name: $routeParams.vipfeed,
+      name: feedid,
       url: $location.absUrl()
     }
   ];
@@ -24,28 +25,34 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   $rootScope.pageHeader.error = "";
 
   // get general Feed data
-  $feedsService.getFeedData()
+  $feedsService.getFeedData(feedid)
     .success(function (data) {
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
+      $rootScope.pageHeader.title = data.title;
+
+      // now call the other services to get the rest of the data
+
+      //FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, feedid, data.polling_locations);
+      //FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, feedid, data.contests);
+      //FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, feedid, data.results);
+
 
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
     });
+}
 
-  // temp
-  $scope.feedData = {
-    feedTitle: "Feed Overview Title",
-    totalErrors: "XXX",
-    dueDate: "XXXX/XX/XX"
-  };
-
-  $rootScope.pageHeader.title = $scope.feedData.feedTitle;
+/*
+ * Get the Feed Polling Locations for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, feedid, servicePath){
 
   // get Polling Locations
-  $feedsService.getFeedPollingLocations()
+  $feedsService.getFeedPollingLocations(feedid, servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -96,8 +103,16 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
     }
   ];
 
+}
+
+/*
+ * Get the Feed Contests for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, feedid, servicePath){
+
   // get Contests
-  $feedsService.getFeedContests()
+  $feedsService.getFeedContests(feedid, servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -147,9 +162,16 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       errors: Math.floor(Math.random()*500000)
     }
   ];
+}
+
+/*
+ * Get the Feed Results for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, feedid, servicePath){
 
   // get Results
-  $feedsService.getFeedResults()
+  $feedsService.getFeedResults(feedid, servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model

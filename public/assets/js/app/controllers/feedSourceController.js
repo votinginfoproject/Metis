@@ -49,7 +49,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
   $rootScope.pageHeader.title = $scope.feedData.title;
 
   // get Feed Source
-  $feedsService.getFeedSource()
+  $feedsService.getFeedSource($routeParams.vipfeed)
     .success(function (data) {
 
       // set the feeds data into the Angular model
