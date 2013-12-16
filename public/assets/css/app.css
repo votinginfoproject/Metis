@@ -1379,6 +1379,9 @@ form[role="search"] {
   background: #fff6bf;
   text-shadow: none; }
 
+.is-loading {
+  background: url(/assets/images/spinner.gif) no-repeat; }
+
 /* print.scss */
 @media print {
   * {

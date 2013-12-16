@@ -9,3 +9,7 @@
   background: $yellow-light;
   text-shadow: none;
 }
+
+.is-loading {
+  background: url(/assets/images/spinner.gif) no-repeat;
+}
