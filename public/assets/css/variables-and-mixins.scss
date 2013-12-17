@@ -94,12 +94,12 @@ $base-padding: .5em 1em;
 
   $width: (((100% - (($container-columns - 1) * $gutter)) / $container-columns) * $columns)+ (($columns - 1) * $gutter);
 
-  float: left;
-  margin-right: $gutter;
+  float: right;
+  margin-left: $gutter;
   width: $width;
 
   &:last-child {
-    margin-right: 0;
+    margin-left: 0;
   }
 }
 
