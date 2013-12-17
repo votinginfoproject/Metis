@@ -3,7 +3,7 @@
  * Feeds Controller
  *
  */
-function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams) {
+function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams, $cacheFactory) {
 
   var breadcrumbs = [
     {

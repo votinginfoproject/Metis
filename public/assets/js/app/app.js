@@ -190,10 +190,14 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location) {
+vipApp.run(function ($rootScope, $appService, $location, $cacheFactory) {
 
   $rootScope.pageHeader = {};
   $rootScope.user = null;
+
+  // TODO
+  // initialize the cache for the app
+  //$rootScope.cache = $cacheFactory('vipApp');
 
   /*
    * Sets PageHeader values

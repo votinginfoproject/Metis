@@ -1380,7 +1380,10 @@ form[role="search"] {
   text-shadow: none; }
 
 .is-loading {
-  background: url(/assets/images/spinner.gif) no-repeat; }
+  background: url(/assets/images/spinner.gif) no-repeat;
+  min-width: 30px;
+  min-height: 30px;
+  display: inline-block; }
 
 /* print.scss */
 @media print {
