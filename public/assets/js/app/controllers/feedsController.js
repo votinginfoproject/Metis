@@ -19,7 +19,6 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   $feedsService.getFeeds()
     .success(function (data) {
 
-
       // ================================================================
       debug.warn("Overwriting the feed edit url attribute, remove later");
       for(var i=0; i < data.length; i++){
