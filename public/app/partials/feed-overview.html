@@ -38,15 +38,15 @@
       </thead>
       <tbody>
       <tr ng-repeat="pollingLocation in feedPollingLocations">
-        <td class="element-type">{{pollingLocation.element_type}}</td>
-        <td class="amount">{{pollingLocation.amount | number}}</td>
-        <td class="completion">
+        <td id="pollingLocation-element-type{{$index}}" class="element-type">{{pollingLocation.element_type}}</td>
+        <td id="pollingLocation-amount{{$index}}" class="amount">{{pollingLocation.amount | number}}</td>
+        <td id="pollingLocation-complete{{$index}}" class="completion">
           <div class="completeness">
             <span class="complete-{{pollingLocation.complete_pct}}"></span>
             <span class="counter">{{pollingLocation.complete_pct | number}}% complete</span>
           </div>
         </td>
-        <td class="element-errors"><span ng-class="{none: pollingLocation.error_count===0}" class="errors">{{pollingLocation.error_count | number}}</span></td>
+        <td id="pollingLocation-errors{{$index}}" class="element-errors"><span ng-class="{none: pollingLocation.error_count===0}" class="errors">{{pollingLocation.error_count | number}}</span></td>
       </tr>
       </tbody>
     </table>
@@ -79,15 +79,15 @@
       </thead>
       <tbody>
       <tr ng-repeat="contests in feedContests">
-        <td class="element-type">{{contests.element_type}}</td>
-        <td class="amount">{{contests.amount | number}}</td>
-        <td class="completion">
+        <td id="feedContests-element-type{{$index}}" class="element-type">{{contests.element_type}}</td>
+        <td id="feedContests-amount{{$index}}" class="amount">{{contests.amount | number}}</td>
+        <td id="feedContests-complete{{$index}}" class="completion">
           <div class="completeness">
             <span class="complete-{{contests.complete_pct}}"></span>
             <span class="counter">{{contests.complete_pct | number}}% complete</span>
           </div>
         </td>
-        <td class="element-errors"><span ng-class="{none: contests.error_count===0}" class="errors">{{contests.error_count | number}}</span></td>
+        <td id="feedContests-errors{{$index}}" class="element-errors"><span ng-class="{none: contests.error_count===0}" class="errors">{{contests.error_count | number}}</span></td>
       </tr>
       </tbody>
     </table>
@@ -113,15 +113,15 @@
       </thead>
       <tbody>
       <tr ng-repeat="results in feedResults">
-        <td class="element-type">{{results.element_type}}</td>
-        <td class="amount">{{results.amount | number}}</td>
-        <td class="completion">
+        <td id="feedResults-element-type{{$index}}" class="element-type">{{results.element_type}}</td>
+        <td id="feedResults-amount{{$index}}" class="amount">{{results.amount | number}}</td>
+        <td id="feedResults-complete{{$index}}" class="completion">
           <div class="completeness">
             <span class="complete-{{results.complete_pct}}"></span>
             <span class="counter">{{results.complete_pct | number}}% complete</span>
           </div>
         </td>
-        <td class="element-errors"><span ng-class="{none: results.error_count===0}" class="errors">{{results.error_count | number}}</span></td>
+        <td id="feedResults-errors{{$index}}" class="element-errors"><span ng-class="{none: results.error_count===0}" class="errors">{{results.error_count | number}}</span></td>
       </tr>
       </tbody>
     </table>

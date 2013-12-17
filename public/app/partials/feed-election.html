@@ -1,36 +1,38 @@
 <div id="feed-election-content" class="content">
 
-  <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+  <h1 id="pageHeader-title">Election ID: {{feedElection.id}}</h1>
 
-  <a class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/election/errors">115 Errors in Election ID: 4000</a>
+  <a ng-if="feedElection" class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/election/errors">{{feedElection.error_count}} Errors in Election ID: {{feedElection.id}}</a>
 
-  <dl class="attributes">
+  <div ng-if="!feedElection"></br><span class="is-loading"></span></div>
+  <dl class="attributes" ng-if="feedElection">
     <dt class="key">Date:</dt>
-    <dd class="value">{{feedElection.date}}</dd>
+    <dd id="election-date" class="value">{{feedElection.date}}</dd>
     <dt class="key">Election Type:</dt>
-    <dd class="value">{{feedElection.electionType}}</dd>
+    <dd id="election-type" class="value">{{feedElection.type}}</dd>
     <dt class="key">Statewide</dt>
-    <dd class="value">{{feedElection.statewide}}</dd>
+    <dd id="election-statewide" class="value">{{feedElection.statewide}}</dd>
     <dt class="key">Registration Info:</dt>
-    <dd class="value"><a target="_blank" href="{{feedElection.registrationInfo}}">{{feedElection.registrationInfo}}</a></dd>
+    <dd id="election-registration_url" class="value"><a target="_blank" href="{{feedElection.registration_url}}">{{feedElection.registration_url}}</a></dd>
     <dt class="key">Absentee Ballot Info:</dt>
-    <dd class="value"><a target="_blank" href="{{feedElection.absenteeBallotInfo}}">{{feedElection.absenteeBallotInfo}}</a></dd>
+    <dd id="election-absentee_url" class="value"><a target="_blank" href="{{feedElection.absentee_url}}">{{feedElection.absentee_url}}</a></dd>
     <dt class="key">Results URL:</dt>
-    <dd class="value"><a target="_blank" href="{{feedElection.resultsUrl}}">{{feedElection.resultsUrl}}</a></dd>
+    <dd id="election-results_url" class="value"><a target="_blank" href="{{feedElection.results_url}}">{{feedElection.results_url}}</a></dd>
     <dt class="key">Polling Hours:</dt>
-    <dd class="value">{{feedElection.pollingHours}}</dd>
+    <dd id="election-polling_hours" class="value">{{feedElection.polling_hours}}</dd>
     <dt class="key">Election Day Registration:</dt>
-    <dd class="value">{{feedElection.electionDayRegistration}}</dd>
+    <dd id="election-day_of_registration" class="value">{{feedElection.day_of_registration}}</dd>
     <dt class="key">Registration Deadline:</dt>
-    <dd class="value">{{feedElection.registrationDeadLine}}</dd>
+    <dd id="election-registration_deadline" class="value">{{feedElection.registration_deadline}}</dd>
     <dt class="key">Absentee Request Deadline:</dt>
-    <dd class="value">{{feedElection.absenteeRequestDeadline}}</dd>
+    <dd id="election-absentee_deadline" class="value">{{feedElection.absentee_deadline}}</dd>
   </dl>
 
   <section class="data-group">
     <h2>State</h2>
 
-    <table class="associations">
+    <div ng-if="!feedElection.state"></br><span class="is-loading"></span></div>
+    <table class="associations" ng-if="feedElection.state">
       <thead>
       <tr>
         <th>ID</th>
@@ -40,9 +42,9 @@
       </thead>
       <tbody>
       <tr>
-        <td class="id"><a href="#">{{feedState.id}}</a></td>
-        <td class="name"><a href="#">{{feedState.name}}</a></td>
-        <td class="localities"><a href="#">{{feedState.localities}}</a></td>
+        <td id="state-id" class="id"><a href="#">{{feedElection.state.id}}</a></td>
+        <td id="state-name" class="name"><a href="#">{{feedElection.state.name}}</a></td>
+        <td id="state-localities" class="localities"><a href="#">{{feedElection.state.locality_count}}</a></td>
       </tr>
       </tbody>
     </table>
@@ -51,9 +53,10 @@
 
 
   <section class="data-group">
-    <h2>976 Contests</h2>
+    <h2><span ng-if="feedContests">{{feedContests.length}}</span> Contests</h2>
 
-    <table class="associations">
+    <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
+    <table class="associations" ng-if="feedContests">
       <thead>
       <tr>
         <th>ID</th>
@@ -62,10 +65,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="electionContest in feedElectionContests">
-        <td class="id"><a href="#">{{electionContest.id}}</a></td>
-        <td class="type"><a href="#">{{electionContest.type}}</a></td>
-        <td class="office"><a href="#">{{electionContest.office}}</a></td>
+      <tr ng-repeat="contest in feedContests">
+        <td id="contests-id{{$index}}" class="id"><a href="#">{{contest.id}}</a></td>
+        <td id="contests-type{{$index}}" class="type"><a href="#">{{contest.type}}</a></td>
+        <td id="contests-office{{$index}}" class="office"><a href="#">{{contest.title}}</a></td>
       </tr>
       </tbody>
     </table>

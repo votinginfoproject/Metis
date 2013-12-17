@@ -5,6 +5,7 @@
  */
 function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
+  // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = $routeParams.vipfeed;
 
@@ -41,7 +42,6 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
 
       $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
     });
-
 }
 
 /*
@@ -56,9 +56,6 @@ function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, service
 
       // set the feeds data into the Angular model
       $scope.feedSource = data;
-
-      // set the title
-      //$rootScope.pageHeader.title = data.title;
 
     }).error(function (data) {
 

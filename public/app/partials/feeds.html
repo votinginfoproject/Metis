@@ -2,10 +2,10 @@
 
 <table id="feedsTable" ng-table="tableParams" template-pagination="feedsPagination" class="associations">
   <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
-    <td data-title="'Date'" sortable="'date'"><a href="{{feed.edit}}">{{feed.date}}</a></td>
-    <td data-title="'State'" sortable="'state'"><a href="{{feed.edit}}">{{feed.state}}</a></td>
-    <td data-title="'Type'" sortable="'type'"><a href="{{feed.edit}}">{{feed.type}}</a></td>
-    <td data-title="'Status'" sortable="'status'"><a href="{{feed.edit}}">{{feed.status}}</a></td>
+    <td id="date{{$index}}" data-title="'Date'" sortable="'date'"><a href="{{feed.edit}}">{{feed.date}}</a></td>
+    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a href="{{feed.edit}}">{{feed.state}}</a></td>
+    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{feed.edit}}">{{feed.type}}</a></td>
+    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a href="{{feed.edit}}">{{feed.status}}</a></td>
     <!-- relative date 6 weeks before election date -->
     <td data-title="'Due'" sortable="'due'"><a href="{{feed.edit}}">42 days</a></td>
     <!-- TODO: Column only accessible to admins -->
