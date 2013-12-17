@@ -26,7 +26,7 @@
       <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/state">-not ready- </a>
     </header>
 
-    <div ng-if="!feedPollingLocations"></br><span class="is-loading"></span></div>
+    <span ng-if="!feedPollingLocations" class="is-loading"></span>
     <table class="overview" ng-if="feedPollingLocations">
       <thead>
       <tr>
@@ -67,7 +67,7 @@
       <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests">-not ready- </a>
     </header>
 
-    <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
+    <span ng-if="!feedContests" class="is-loading"></span>
     <table class="overview" ng-if="feedContests">
       <thead>
       <tr>
@@ -97,10 +97,9 @@
   <section class="data-group unstarted">
     <header class="data-group-header">
       <h2>Results</h2>
-
     </header>
 
-    <div ng-if="!feedResults"></br><span class="is-loading"></span></div>
+    <span ng-if="!feedResults" class="is-loading"></span>
     <table class="overview" ng-if="feedResults">
     <table class="overview">
       <thead>
