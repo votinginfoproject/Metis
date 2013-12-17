@@ -330,19 +330,19 @@ header[role="banner"] {
     padding: 0; } }
 
 @media (min-width: 1116px) {
-  .content.feeds {
+  .content.feed {
     float: right;
     margin-left: 3.7037%;
     width: 65.4321%;
     float: right; }
-    .content.feeds:last-child {
+    .content.feed:last-child {
       margin-left: 0; } }
 @media (min-width: 1452px) {
-  .content.feeds {
+  .content.feed {
     float: right;
     margin-left: 2.75229%;
     width: 74.31193%; }
-    .content.feeds:last-child {
+    .content.feed:last-child {
       margin-left: 0; } }
 
 .row {

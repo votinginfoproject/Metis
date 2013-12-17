@@ -52,7 +52,7 @@ header[role="banner"] {
   }
 }
 
-.content.feeds {
+.content.feed {
 
   @include bp(c12) {
     @include span-columns(8 of 12);
