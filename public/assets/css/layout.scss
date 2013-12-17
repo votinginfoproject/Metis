@@ -11,8 +11,12 @@
 // article
 
 aside {
+  display: table-caption;
+  width: 100%;
+
   @include bp(c12) {
     @include span-columns(4 of 12);
+    display: block;
     float: left;
   }
 
@@ -50,6 +54,16 @@ header[role="banner"] {
   }
 }
 
+.main .wrapper {
+  padding-top: 0;
+  display: table;
+  caption-side: top;
+
+  @include bp(c12) {
+    display: block;
+  }
+}
+
 .content {
   @extend %paddedbox;
 
@@ -63,6 +77,7 @@ header[role="banner"] {
   @include bp(c12) {
     @include span-columns(8 of 12);
     float: right;
+    margin-top: 1.5em;
   }
 
   @include bp(c16) {
