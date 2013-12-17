@@ -292,21 +292,25 @@ header[role="banner"], .content, .feed-title, .details {
     header[role="banner"], .content, .feed-title, .details {
       padding: 1em 5%; } }
 
-@media (min-width: 1116px) {
-  aside {
-    float: right;
-    margin-left: 3.7037%;
-    width: 30.8642%;
-    float: left; }
-    aside:last-child {
-      margin-left: 0; } }
-@media (min-width: 1452px) {
-  aside {
-    float: right;
-    margin-left: 2.75229%;
-    width: 22.93578%; }
-    aside:last-child {
-      margin-left: 0; } }
+aside {
+  display: table-caption;
+  width: 100%; }
+  @media (min-width: 1116px) {
+    aside {
+      float: right;
+      margin-left: 3.7037%;
+      width: 30.8642%;
+      display: block;
+      float: left; }
+      aside:last-child {
+        margin-left: 0; } }
+  @media (min-width: 1452px) {
+    aside {
+      float: right;
+      margin-left: 2.75229%;
+      width: 22.93578%; }
+      aside:last-child {
+        margin-left: 0; } }
 
 footer[role="contentinfo"] {
   margin: 2em 0; }
@@ -331,6 +335,14 @@ header[role="banner"] {
     .wrapper {
       padding: 1em 6.45161%; } }
 
+.main .wrapper {
+  padding-top: 0;
+  display: table;
+  caption-side: top; }
+  @media (min-width: 1116px) {
+    .main .wrapper {
+      display: block; } }
+
 @media (min-width: 1116px) {
   .content {
     padding: 0; } }
@@ -340,7 +352,8 @@ header[role="banner"] {
     float: right;
     margin-left: 3.7037%;
     width: 65.4321%;
-    float: right; }
+    float: right;
+    margin-top: 1.5em; }
     .content.feed:last-child {
       margin-left: 0; } }
 @media (min-width: 1452px) {
