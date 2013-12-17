@@ -16,3 +16,5 @@ node_modules
 .idea
 .DS_Store
 .sass-cache
+
+public/assets/js/lib/*
