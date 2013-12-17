@@ -1,11 +1,19 @@
 /* layout.scss */
 
+%paddedbox {
+  padding: 1em percentage(24/306);
+
+  @include bp(c6) {
+    padding: 1em percentage(30/600);
+  }
+}
+
 // article
 
 aside {
   @include bp(c12) {
     @include span-columns(4 of 12);
-    float: right;
+    float: left;
   }
 
   @include bp(c16) {
@@ -17,6 +25,7 @@ aside {
 // footer
 
 header[role="banner"] {
+  @extend %paddedbox;
   background-color: $gray-medium;
   text-align: center;
 }
@@ -27,29 +36,27 @@ header[role="banner"] {
 .wrapper {
   @include clearfix;
 
-  margin: 0 auto;
   max-width: 1308px;
-  padding: 1em 0;
   position: relative;
-  width: percentage(258/306);
-
-  @include bp(c6) {
-    width: percentage(480/600);
-  }
 
   @include bp(c12) {
-    width: percentage(972/1116);
-  }
-
-  @include bp(c16) {
-    width: percentage(1308/1452);
+    padding: 1em percentage(72/1116);
   }
 }
 
 .content {
+  @extend %paddedbox;
+
+  @include bp(c12) {
+    padding: 0;
+  }
+}
+
+.content.feeds {
+
   @include bp(c12) {
     @include span-columns(8 of 12);
-    float: left;
+    float: right;
   }
 
   @include bp(c16) {

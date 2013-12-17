@@ -272,19 +272,26 @@
 // ============================================================================
 
 .feed-title {
+  @extend %paddedbox;
   background-color: $gray-medium;
   color: $white;
   font-size: .875em;
-  padding: $base-padding;
+
+  @include bp(c12) {
+    font-size: 1.5em;
+    background-color: $gray-light;
+    color: $black;
+    padding: 1em percentage(24/300);
+  }
 }
 
 .details {
+  @extend %paddedbox;
   background-color: $gray-light;
-  padding: $base-padding;
-}
 
-form[role="search"] {
-  margin-top: 1em;
+  @include bp(c12) {
+    padding: 0 percentage(24/300) 1.5em percentage(24/300);
+  }
 }
 
 .button-errors {

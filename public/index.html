@@ -56,7 +56,7 @@
   <script src="assets/js/app/controllers/styleguideController.js"></script>
 
 </head>
-<body role="application" ng-class="pageHeader.section">
+<body role="application">
 
   <header role="banner">
     <div class="wrapper">
@@ -80,18 +80,27 @@
   <div class="main" role="main">
     <div class="wrapper">
 
-      <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-        <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{current: $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
-      </nav>
+      <div id="feed-source-content" class="content" ng-class="pageHeader.section">
 
-      <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
-        ERROR: {{pageHeader.error}}
-      </div>
+        <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
+          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{current: $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
+        </nav>
 
-      <!-- Current Page -->
-      <div ng-view></div>
+        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
+          ERROR: {{pageHeader.error}}
+        </div>
+
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+
+        <!-- Current Page -->
+        <div ng-view></div>
+
+      </div><!-- /.content -->
+
+      <aside class="feed-meta" ng-if="pageHeader.section==='feeds'&&pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
 
     </div><!-- / .wrapper -->
+
   </div><!-- / main -->
 
   <footer role="contentinfo" >

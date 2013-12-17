@@ -1,39 +1,31 @@
-<div id="feed-source-content" class="content">
+<a class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/source/errors">115 Errors in Source ID: 1</a>
 
-  <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+<dl class="attributes">
+  <dt class="key">Name:</dt>
+  <dd class="value">{{feedSource.name}}</dd>
+  <dt class="key">Datetime:</dt>
+  <dd class="value">{{feedSource.dateTime}}</dd>
+  <dt class="key">Description:</dt>
+  <dd class="value">{{feedSource.description}}</dd>
+  <dt class="key">Organization URL:</dt>
+  <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.organizationUrl}}">{{feedSource.organizationUrl}}</a></dd>
+  <dt class="key">Tou URL:</dt>
+  <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.touUrl}}">{{feedSource.touUrl}}</a></dd>
+</dl>
 
-  <a class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/source/errors">115 Errors in Source ID: 1</a>
+<section class="data-group">
+  <h2>Feed Contact</h2>
 
   <dl class="attributes">
     <dt class="key">Name:</dt>
-    <dd class="value">{{feedSource.name}}</dd>
-    <dt class="key">Datetime:</dt>
-    <dd class="value">{{feedSource.dateTime}}</dd>
-    <dt class="key">Description:</dt>
-    <dd class="value">{{feedSource.description}}</dd>
-    <dt class="key">Organization URL:</dt>
-    <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.organizationUrl}}">{{feedSource.organizationUrl}}</a></dd>
-    <dt class="key">Tou URL:</dt>
-    <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.touUrl}}">{{feedSource.touUrl}}</a></dd>
+    <dd class="value">{{feedContact.name}}</dd>
+    <dt class="key">Title:</dt>
+    <dd class="value">{{feedContact.title}}</dd>
+    <dt class="key">Phone:</dt>
+    <dd class="value">{{feedContact.phone}}<dd>
+    <dt class="key">Fax:</dt>
+    <dd class="value">{{feedContact.fax}}<dd>
+    <dt class="key">Email:</dt>
+    <dd class="value"><a href="mailto:{{feedContact.email}}">{{feedContact.email}}</a></dd>
   </dl>
-
-  <section class="data-group">
-    <h2>Feed Contact</h2>
-
-    <dl class="attributes">
-      <dt class="key">Name:</dt>
-      <dd class="value">{{feedContact.name}}</dd>
-      <dt class="key">Title:</dt>
-      <dd class="value">{{feedContact.title}}</dd>
-      <dt class="key">Phone:</dt>
-      <dd class="value">{{feedContact.phone}}<dd>
-      <dt class="key">Fax:</dt>
-      <dd class="value">{{feedContact.fax}}<dd>
-      <dt class="key">Email:</dt>
-      <dd class="value"><a href="mailto:{{feedContact.email}}">{{feedContact.email}}</a></dd>
-    </dl>
-  </section>
-
-</div><!-- /.content -->
-
-<aside class="feed-meta" ng-include src="'app/partials/aside.html'"></aside>
+</section>
