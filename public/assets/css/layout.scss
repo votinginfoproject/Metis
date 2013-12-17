@@ -30,6 +30,10 @@ header[role="banner"] {
   @extend %paddedbox;
   background-color: $gray-medium;
   text-align: center;
+
+  @include bp(c12) {
+    padding: 0;
+  }
 }
 
 // nav

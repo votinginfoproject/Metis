@@ -314,6 +314,9 @@ footer[role="contentinfo"] {
 header[role="banner"] {
   background-color: #999999;
   text-align: center; }
+  @media (min-width: 1116px) {
+    header[role="banner"] {
+      padding: 0; } }
 
 .wrapper {
   *zoom: 1;
