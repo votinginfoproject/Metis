@@ -37,7 +37,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="pollingLocation in feedPollingLocations">
+      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in feedPollingLocations">
         <td id="pollingLocation-element-type{{$index}}" class="element-type">{{pollingLocation.element_type}}</td>
         <td id="pollingLocation-amount{{$index}}" class="amount">{{pollingLocation.amount | number}}</td>
         <td id="pollingLocation-complete{{$index}}" class="completion">
