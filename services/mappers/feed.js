@@ -56,6 +56,7 @@ var mapElection = function(path, data) {
     id: 2,
     error_count: 222,
     errors: path + '/errors',
+    date: moment(new Date()).format('YYYY-MM-DD'),
     type: 'Federal',
     statewide: true,
     registration_url: 'http://www.sboe.state.nc.us/registration',
