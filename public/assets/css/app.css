@@ -308,6 +308,9 @@ header[role="banner"], .content, .feed-title, .details {
     aside:last-child {
       margin-left: 0; } }
 
+footer[role="contentinfo"] {
+  margin: 2em 0; }
+
 header[role="banner"] {
   background-color: #999999;
   text-align: center; }

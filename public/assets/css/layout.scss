@@ -22,7 +22,9 @@ aside {
 }
 
 // details
-// footer
+footer[role="contentinfo"] {
+  margin: 2em 0;
+}
 
 header[role="banner"] {
   @extend %paddedbox;

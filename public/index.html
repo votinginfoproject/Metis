@@ -95,6 +95,9 @@
         <!-- Current Page -->
         <div ng-view></div>
 
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+        </footer><!-- / contentinfo -->
       </div><!-- /.content -->
 
       <aside class="feed-meta" ng-if="pageHeader.section==='feeds'&&pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
@@ -102,12 +105,6 @@
     </div><!-- / .wrapper -->
 
   </div><!-- / main -->
-
-  <footer role="contentinfo" >
-    <div class="wrapper">
-      <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
-    </div><!-- / .wrapper -->
-  </footer><!-- / contentinfo -->
 
 </body>
 </html>
