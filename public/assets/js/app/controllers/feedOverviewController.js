@@ -30,7 +30,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
-    .success(function (data) {
+    .success(function (data, $http) {
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
@@ -48,9 +48,23 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
       FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, data.results);
 
-    }).error(function (data) {
+    }).error(function (data, $http) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedData = {};
+      $scope.feedPollingLocations = {};
+      $scope.feedContests = {};
+      $scope.feedResults = {};
     });
 }
 

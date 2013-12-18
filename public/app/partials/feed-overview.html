@@ -5,7 +5,7 @@
   <section class="data-group finished">
     <header class="data-group-header">
       <h2>Source</h2>
-      <span ng-if="!feedData.source" class="more-detail is-loading"></span>
+      <span ng-if="!feedData" class="more-detail is-loading"></span>
       <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail </a>
     </header>
   </section>
@@ -14,7 +14,7 @@
   <section class="data-group finished">
     <header class="data-group-header">
       <h2>Election</h2>
-      <span ng-if="!feedData.source" class="more-detail is-loading"></span>
+      <span ng-if="!feedData" class="more-detail is-loading"></span>
       <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail </a>
     </header>
   </section>

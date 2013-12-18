@@ -38,9 +38,22 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       // now call the other services to get the rest of the data
       FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election);
 
-    }).error(function (data) {
+    }).error(function (data, $http) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedData = {};
+      $scope.feedElection = {};
+      $scope.feedContests = {};
     });
 }
 
