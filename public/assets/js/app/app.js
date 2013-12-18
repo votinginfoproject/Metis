@@ -4,7 +4,7 @@
  *
  */
 
-var isTesting = true;
+var isTesting = false;
 
 // Comment in if want to disable all "debug" logging
 //debug.setLevel(0);
