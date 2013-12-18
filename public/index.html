@@ -78,28 +78,34 @@
     </div><!-- / .wrapper -->
   </header>
 
-  <div role="main">
+  <div class="main" role="main">
     <div class="wrapper">
 
-      <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-        <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{current: $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
-      </nav>
+      <div class="content" ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
-      <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
-        ERROR: {{pageHeader.error}}
-      </div>
+        <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
+          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{current: $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
+        </nav>
 
-      <!-- Current Page -->
-      <div ng-view></div>
+        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
+          ERROR: {{pageHeader.error}}
+        </div>
+
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+
+        <!-- Current Page -->
+        <div ng-view></div>
+
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+        </footer><!-- / contentinfo -->
+      </div><!-- /.content -->
+
+      <aside class="feed-meta" ng-if="pageHeader.section==='feeds'&&pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
 
     </div><!-- / .wrapper -->
+
   </div><!-- / main -->
-
-  <footer role="contentinfo" >
-    <div class="wrapper">
-      <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
-    </div><!-- / .wrapper -->
-  </footer><!-- / contentinfo -->
 
 </body>
 </html>

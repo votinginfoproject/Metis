@@ -1,25 +1,43 @@
 /* layout.scss */
 
+%paddedbox {
+  padding: 1em percentage(24/306);
+
+  @include bp(c6) {
+    padding: 1em percentage(30/600);
+  }
+}
+
 // article
 
 aside {
+  display: table-caption;
+  width: 100%;
+
   @include bp(c12) {
     @include span-columns(4 of 12);
-    float: right;
+    display: block;
+    float: left;
   }
 
   @include bp(c16) {
     @include span-columns(4 of 16);
-    float: right;
   }
 }
 
 // details
-// footer
+footer[role="contentinfo"] {
+  margin: 2em 0;
+}
 
 header[role="banner"] {
+  @extend %paddedbox;
   background-color: $gray-medium;
   text-align: center;
+
+  @include bp(c12) {
+    padding: 0;
+  }
 }
 
 // nav
@@ -27,33 +45,43 @@ header[role="banner"] {
 
 .wrapper {
   @include clearfix;
-  margin: 0 auto;
-  max-width: 1308px;
-  padding: 1em 0;
-  width: percentage(258/306);
 
-  @include bp(c6) {
-    width: percentage(480/600);
-  }
+  max-width: 1308px;
+  position: relative;
 
   @include bp(c12) {
-    width: percentage(972/1116);
+    padding: 1em percentage(72/1116);
   }
+}
 
-  @include bp(c16) {
-    width: percentage(1308/1452);
+.main .wrapper {
+  padding-top: 0;
+  display: table;
+  caption-side: top;
+
+  @include bp(c12) {
+    display: block;
   }
 }
 
 .content {
+  @extend %paddedbox;
+
+  @include bp(c12) {
+    padding: 0;
+  }
+}
+
+.content.feed {
+
   @include bp(c12) {
     @include span-columns(8 of 12);
-    float: left;
+    float: right;
+    margin-top: 1.5em;
   }
 
   @include bp(c16) {
     @include span-columns(12 of 16);
-    float: left;
   }
 }
 
@@ -63,19 +91,13 @@ header[role="banner"] {
 
 .row {
   @include clearfix;
+
   background: $green;
   background-image: url('/assets/images/col-2.png');
-  background-size: 100%;
   background-repeat: repeat-y;
+  background-size: 100%;
   margin-bottom: 1em;
   padding: 1em 0;
-
-  div {
-    background: $red;
-    color: $white;
-    font-family: $helvetica;
-    font-weight: bold;
-  }
 
   @include bp(c6) {
     background-image: url('/assets/images/col-6.png');
@@ -87,6 +109,13 @@ header[role="banner"] {
 
   @include bp(c16) {
     background-image: url('/assets/images/col-16.png');
+  }
+
+  div {
+    background: $red;
+    color: $white;
+    font-family: $helvetica;
+    font-weight: bold;
   }
 }
 
