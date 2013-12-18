@@ -65,4 +65,75 @@ describe('Feed Unit Tests', function() {
       expect($rootScope.tableParams.sorting.date).toEqual('asc');
     });
   });
+
+  describe('Feeds Service Test', function() {
+    var feedsService, httpBackend;
+    beforeEach(angular.mock.module('vipApp'));
+
+    beforeEach(inject(function($feedsService, $httpBackend) {
+      feedsService = $feedsService;
+      httpBackend = $httpBackend;
+    }));
+
+    describe('getFeeds test', function() {
+      it('should be valid', function() {
+        expect(feedsService).toBeDefined();
+        expect(feedsService.getFeeds).toBeDefined();
+      });
+    });
+
+    describe('getFeedData test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedData).toBeDefined();
+      });
+    });
+
+    describe('getFeedPollingLocations test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedPollingLocations).toBeDefined();
+      });
+    });
+
+    describe('getFeedContests test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedContests).toBeDefined();
+      });
+    });
+
+    describe('getFeedResults test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedResults).toBeDefined();
+      });
+    });
+
+    describe('getFeedSource test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedSource).toBeDefined();
+      });
+    });
+
+    describe('getFeedContact test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedContact).toBeDefined();
+      });
+    });
+
+    describe('getFeedElection test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedElection).toBeDefined();
+      });
+    });
+
+    describe('getFeedState test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedState).toBeDefined();
+      });
+    });
+
+    describe('getFeedElectionContests test', function() {
+      it('should be valid', function() {
+        expect(feedsService.getFeedElectionContests).toBeDefined();
+      });
+    });
+  });
 });

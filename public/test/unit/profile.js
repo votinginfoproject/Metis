@@ -49,4 +49,25 @@ describe('Profile Unit Tests', function() {
       expect($rootScope.data).toEqual('userX');
     });
   });
+
+  describe('Profile Service Test', function() {
+    var profileService, httpBackend;
+    beforeEach(angular.mock.module('vipApp'));
+
+    beforeEach(inject(function($profileService, $httpBackend) {
+      profileService = $profileService;
+      httpBackend = $httpBackend;
+    }));
+
+//    afterEach(function() {
+//      httpBackend.verifyNoOutstandingExpectation();
+//      httpBackend.verifyNoOutstandingRequest();
+//    });
+
+    it('should send valid data', function() {
+      expect(profileService).toBeDefined();
+      expect(profileService.getData).toBeDefined();
+    });
+  });
+
 });

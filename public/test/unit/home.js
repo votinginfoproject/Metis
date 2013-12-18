@@ -31,7 +31,6 @@ describe('Home Unit Tests', function() {
       $rootScope.setPageHeader = function(a,b,c,d) {
         return;
       }
-
       $rootScope.pageHeader = {};
 
       adminCtrl = $controller('HomeCtrl', {
@@ -49,6 +48,38 @@ describe('Home Unit Tests', function() {
 
     it('should throw an error', function () {
       expect($rootScope.pageHeader.error).toEqual('Bad Username or Password.');
+    });
+  });
+
+  describe('Home Service Test', function() {
+    var homeService, httpBackend;
+    beforeEach(angular.mock.module('vipApp'));
+
+    beforeEach(inject(function($homeService, $httpBackend) {
+      homeService = $homeService;
+      httpBackend = $httpBackend;
+    }));
+
+//    afterEach(function() {
+//      httpBackend.verifyNoOutstandingExpectation();
+//      httpBackend.verifyNoOutstandingRequest();
+//    });
+
+    it('should send valid data', function() {
+      expect(homeService).toBeDefined();
+      expect(homeService.getData).toBeDefined();
+
+//      var getUser = function() {
+//        return 'testUser';
+//      }
+//
+//      httpBackend.whenGET(appProperties.mockServicesPath + "/homeMockService.html").respond(getUser);
+//
+//      homeService.getData();
+//
+//      httpBackend.flush();
+//
+//      expect(getUser).toHaveBeenCalled();
     });
   });
 });

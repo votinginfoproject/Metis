@@ -49,4 +49,21 @@ describe('Admin Unit Tests', function() {
       expect($rootScope.data).toEqual('userX');
     });
   });
+
+  describe('Admin Service Test', function() {
+    var adminService, httpBackend;
+    beforeEach(angular.mock.module('vipApp'));
+
+    beforeEach(inject(function($adminService, $httpBackend) {
+      adminService = $adminService;
+      httpBackend = $httpBackend;
+    }));
+
+    describe('getData tests', function() {
+      it('should be valid', function() {
+        expect(adminService).toBeDefined();
+        expect(adminService.getData).toBeDefined();
+      });
+    });
+  });
 });
