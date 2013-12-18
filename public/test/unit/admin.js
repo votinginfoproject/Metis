@@ -63,6 +63,9 @@ describe('Admin Unit Tests', function() {
       it('should be valid', function() {
         expect(adminService).toBeDefined();
         expect(adminService.getData).toBeDefined();
+        spyOn(adminService, 'getData');
+        adminService.getData();
+        expect(adminService.getData).toHaveBeenCalled();
       });
     });
   });
