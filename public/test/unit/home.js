@@ -60,26 +60,12 @@ describe('Home Unit Tests', function() {
       httpBackend = $httpBackend;
     }));
 
-//    afterEach(function() {
-//      httpBackend.verifyNoOutstandingExpectation();
-//      httpBackend.verifyNoOutstandingRequest();
-//    });
-
     it('should send valid data', function() {
       expect(homeService).toBeDefined();
       expect(homeService.getData).toBeDefined();
-
-//      var getUser = function() {
-//        return 'testUser';
-//      }
-//
-//      httpBackend.whenGET(appProperties.mockServicesPath + "/homeMockService.html").respond(getUser);
-//
-//      homeService.getData();
-//
-//      httpBackend.flush();
-//
-//      expect(getUser).toHaveBeenCalled();
+      spyOn(homeService, 'getData');
+      homeService.getData();
+      expect(homeService.getData).toHaveBeenCalled();
     });
   });
 });

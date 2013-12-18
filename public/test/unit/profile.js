@@ -51,7 +51,7 @@ describe('Profile Unit Tests', function() {
   });
 
   describe('Profile Service Test', function() {
-    var profileService, httpBackend;
+    var profileService, httpBackend, mock;
     beforeEach(angular.mock.module('vipApp'));
 
     beforeEach(inject(function($profileService, $httpBackend) {
@@ -67,6 +67,9 @@ describe('Profile Unit Tests', function() {
     it('should send valid data', function() {
       expect(profileService).toBeDefined();
       expect(profileService.getData).toBeDefined();
+      spyOn(profileService, 'getData');
+      profileService.getData();
+      expect(profileService.getData).toHaveBeenCalled();
     });
   });
 
