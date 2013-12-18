@@ -6,7 +6,7 @@
     <header class="data-group-header">
       <h2>Source</h2>
       <span ng-if="!feedData.source" class="more-detail is-loading"></span>
-      <a ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail </a>
+      <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail </a>
     </header>
   </section>
   <!-- /.data-group -->
@@ -15,7 +15,7 @@
     <header class="data-group-header">
       <h2>Election</h2>
       <span ng-if="!feedData.source" class="more-detail is-loading"></span>
-      <a ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail </a>
+      <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail </a>
     </header>
   </section>
   <!-- /.data-group -->
@@ -78,7 +78,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="contests in feedContests">
+      <tr id="feedContests{{$index}}" ng-repeat="contests in feedContests">
         <td id="feedContests-element-type{{$index}}" class="element-type">{{contests.element_type}}</td>
         <td id="feedContests-amount{{$index}}" class="amount">{{contests.amount | number}}</td>
         <td id="feedContests-complete{{$index}}" class="completion">
@@ -111,7 +111,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="results in feedResults">
+      <tr id="feedResults{{$index}}" ng-repeat="results in feedResults">
         <td id="feedResults-element-type{{$index}}" class="element-type">{{results.element_type}}</td>
         <td id="feedResults-amount{{$index}}" class="amount">{{results.amount | number}}</td>
         <td id="feedResults-complete{{$index}}" class="completion">

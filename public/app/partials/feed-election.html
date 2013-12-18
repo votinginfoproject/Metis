@@ -65,7 +65,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="contest in feedContests">
+      <tr id="contests{{$index}}" ng-repeat="contest in feedContests">
         <td id="contests-id{{$index}}" class="id"><a href="#">{{contest.id}}</a></td>
         <td id="contests-type{{$index}}" class="type"><a href="#">{{contest.type}}</a></td>
         <td id="contests-office{{$index}}" class="office"><a href="#">{{contest.title}}</a></td>

@@ -33,109 +33,44 @@ describe('Feed Overview Test', function () {
    Feed Overview Polling Locations
    ------------------------------------------*/
   describe('Check Feed Overview polling locations', function () {
-    // check the the number of feeds
-    xit('Should have 3 polling locations', function () {
+    // check the the number of items
+    it('Should have 3 polling locations', function () {
 
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(0);
+      expect(element('#pollingLocation0').count()).toBe(1);
+      //...
+      expect(element('#pollingLocation2').count()).toBe(1);
+      expect(element('#pollingLocation3').count()).toBe(0);
     });
 
-    // check the feed breadcrumb values
-    xit('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-
-    });
   });
 
   /* ----------------------------------------
-   Feed Source page breadcrumb
+   Feed Overview Contests
    ------------------------------------------*/
-  describe('Check Feed Source page breadcrumb', function () {
-    // check the the number of feeds
-    xit('Should have 3 breadcrumbs', function () {
+  describe('Check Feed Contests', function () {
+    // check the the number of items
+    it('Should have 3 contests', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/source");
-      sleep(1);
-
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb3').count()).toBe(0);
+      expect(element('#feedContests0').count()).toBe(1);
+      //...
+      expect(element('#feedContests2').count()).toBe(1);
+      expect(element('#feedContests3').count()).toBe(0);
     });
 
-    // check the feed breadcrumb values
-    xit('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Source");
-
-    });
   });
 
   /* ----------------------------------------
-   Feed Election page breadcrumb
+   Feed Overview Results
    ------------------------------------------*/
-  describe('Check Feed Election page breadcrumb', function () {
-    // check the the number of feeds
-    xit('Should have 3 breadcrumbs', function () {
+  describe('Check Feed Results', function () {
+    // check the the number of items
+    it('Should have 2 results', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election");
-      sleep(1);
-
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb3').count()).toBe(0);
+      expect(element('#feedResults0').count()).toBe(1);
+      expect(element('#feedResults1').count()).toBe(1);
+      expect(element('#feedResults2').count()).toBe(0);
     });
 
-    // check the feed breadcrumb values
-    xit('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-
-    });
-  });
-
-  /* ----------------------------------------
-   Now from the Feed Election page, click the 2nd breadcrumb
-   ------------------------------------------*/
-  describe('Click the vip-feed breadcrumb to be taken to the feed overview page', function () {
-    // check the the number of feeds
-    xit('Clicking breadcrumb should go to Feed Overview page', function () {
-
-      // click 2nd breadcrumb
-      element('#pageHeader-breadcrumb1').click();
-
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed overview page
-      expect(element('#feed-overview-content').count()).toBe(1);
-
-    });
-  });
-
-  /* ----------------------------------------
-   Now from the Feed Overview page, click the 1st breadcrumb
-   ------------------------------------------*/
-  describe('Click the feeds breadcrumb to be taken to the feed index page', function () {
-    // check the the number of feeds
-    xit('Clicking breadcrumb should go to Feed Index page', function () {
-
-      // click 1st breadcrumb
-      element('#pageHeader-breadcrumb0').click();
-
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed index page
-      expect(element('#feedsTable').count()).toBe(1);
-
-    });
   });
 
   /* ----------------------------------------
