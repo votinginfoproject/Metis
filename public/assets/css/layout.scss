@@ -1,5 +1,9 @@
 /* layout.scss */
 
+* {
+  @include box-sizing(border-box);
+}
+
 aside {
   background-color: $gray-light;
   display: table-caption;
@@ -13,6 +17,7 @@ aside {
 
   @include bp(c16) {
     @include span-columns(4 of 16);
+    float: left;
   }
 }
 
@@ -28,7 +33,7 @@ header[role="banner"] {
 .wrapper {
   @include clearfix;
   margin: 0 auto;
-  max-width: 1308px;
+  max-width: 1452px;
   padding: 1em percentage(24/306);
 
   @include bp(c6) {
@@ -47,10 +52,16 @@ header[role="banner"] {
 .main > .wrapper {
   caption-side: top;
   display: table;
+  width: 100%;
 
   @include bp(c12) {
-    display: block;
     padding-top: 0;
+  }
+}
+
+aside .wrapper {
+  @include bp(c12) {
+    padding: 1em percentage(24/300);
   }
 }
 
@@ -60,13 +71,18 @@ header[role="banner"] {
 
 .content.feed {
 
+  margin-left: 0;
+
   @include bp(c12) {
     @include span-columns(8 of 12);
+    margin-left: 0;
     float: right;
   }
 
   @include bp(c16) {
     @include span-columns(12 of 16);
+    margin-left: 0;
+    float: right;
   }
 }
 

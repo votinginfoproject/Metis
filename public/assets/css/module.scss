@@ -320,12 +320,36 @@
       text-align: left;
     }
   }
+
+  .is-finished {
+  }
+
+  .is-started {
+  }
+
+  .is-unstarted {
+  }
 }
 
 .button-approve {
   @extend %button;
   display: block;
   margin-top: 1em;
+}
+
+.vcard {
+
+  span {
+    display: block;
+  }
+
+  .fn {
+    font-weight: bold;
+  }
+
+  .title {
+    font-style: italic;
+  }
 }
 
 
@@ -388,7 +412,7 @@
       color: lighten($gray-light, 10);
     }
 
-    &.active {
+    &.is-active {
       color: $white;
     }
   }
@@ -417,49 +441,41 @@
     display: block;
   }
 
-}
+  a {
+    float: left;
+    font-size: 0.6875em;
+    margin: 0;
+    text-transform: uppercase;
 
-.breadcrumbs > * {
-  float: left;
-  font-size: 0.6875em;
-  margin: 0;
-  text-transform: uppercase;
-}
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
 
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline;
-}
+    &:before {
+      color: $gray-medium;
+      content: "/";
+      margin: 0 0.75em;
+      position: relative;
+      top: .1em;
+    }
 
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: $base-link-color;
-}
+    &:first-child:before {
+      content: " ";
+      margin: 0;
+    }
+  }
 
-.breadcrumbs > *:before {
-  color: $gray-medium;
-  content: "/";
-  margin: 0 0.75em;
-  position: relative;
-  top: .1em;
-}
+  .is-active {
+    color: $base-font-color;
+    cursor: default;
 
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0;
-}
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
 
-.current,
-.current a {
-  color: $base-font-color;
-  cursor: default;
-}
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none;
 }
 
 
@@ -546,7 +562,7 @@
 .completeness {
   background-color: transparent;
   border: $base-border;
-  height: $base-line-height;
+  height: $base-line-height * 1.25;
   padding: 0.125em;
   position: relative;
 }
@@ -602,53 +618,38 @@
 // ============================================================================
 
 .pagination {
-  display: block;
-  height: 1.5em;
-  margin-left: -0.3125em;
-}
+  @include clearfix;
+  @extend .no-bullet;
+  margin-bottom: 1em;
 
-.pagination li {
-  color: $gray-dark;
-  font-size: 0.875em;
-  height: 1.5em;
-  margin-left: 0.3125em;
-}
+  li {
+    float: left;
+    margin-right: 0.3125em;
+  }
 
-.pagination li a {
-  color: $gray-medium;
-  display: block;
-  padding: 0.0625em 0.4375em 0.0625em;
-}
+  a {
+    font-size: 0.875em;
+    color: $gray-medium;
+    display: block;
+    padding: .25em .75em;
 
-.pagination li:hover a,
-.pagination li a:focus {
-  background: $gray-light;
-}
+    &:hover,
+    &:focus {
+      background: $gray-light;
+    }
+  }
 
-.pagination li.unavailable a {
-  color: $gray-medium;
-  cursor: default;
-}
+  .is-active {
+    background: $base-accent-color;
+    color: $white;
+    cursor: default;
+    font-weight: bold;
 
-.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
-  background: transparent;
-}
-
-.pagination li.current a {
-  background: $base-accent-color;
-  color: $white;
-  cursor: default;
-  font-weight: bold;
-}
-
-.pagination li.current a:hover,
-.pagination li.current a:focus {
-  background: $base-accent-color;
-}
-
-.pagination li {
-  display: block;
-  float: left;
+    &:hover,
+    &:focus {
+      background: $base-accent-color;
+    }
+  }
 }
 
 
