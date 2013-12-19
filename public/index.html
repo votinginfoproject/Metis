@@ -91,10 +91,14 @@
           ERROR: {{pageHeader.error}}
         </div>
 
+      <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0">
+        NOTE: {{pageHeader.alert}}
+      </div>
+
         <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
 
-        <!-- Current Page -->
-        <div ng-view></div>
+      <!-- Current Page -->
+      <div ng-view></div>
 
         <footer role="contentinfo">
           <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>

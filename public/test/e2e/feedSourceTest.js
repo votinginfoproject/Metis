@@ -1,9 +1,5 @@
 describe('Feed Source Test', function () {
 
-
-  /* ----------------------------------------
-   Login
-   ------------------------------------------*/
   describe('Log in', function () {
 
     // Successful attempt
@@ -14,16 +10,52 @@ describe('Feed Source Test', function () {
   });
 
   /* ----------------------------------------
-   Go to the Source page for a given vipfeed
+   Feed Source page
    ------------------------------------------*/
-  describe('Smoke test for Feed Source page', function () {
-    // check the the number of feeds
-    it('Should bring up the Feed Source page', function () {
+  describe('Check Feed Source page', function () {
 
-      e2eLoadPage(testGlobals.appFeedsUrl + "/vip-feed1/source");
+    it('Should go to the Feed Source page after selecting a feed and then source', function () {
 
+      // expect to start out on the feed index page
+
+      // click the first feed
+      element('#date0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element('#source-link').count()).toBe(1);
+
+      // click the source link
+      element('#source-link').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed Source page
       expect(element('#feed-source-content').count()).toBe(1);
     });
+
+  });
+
+  /* ----------------------------------------
+   Feed Source data
+   ------------------------------------------*/
+  describe('Check Feed Source data', function () {
+    // check the the number of items
+    xit('Should have source data', function () {
+
+      expect(element('#source-name').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed Source page Feed Contact
+   ------------------------------------------*/
+  describe('Check Feed Contact data', function () {
+    // check the the number of items
+    xit('Should have feed contact data', function () {
+
+      expect(element('#feed-contact-name').count()).toBe(1);
+    });
+
   });
 
   /* ----------------------------------------

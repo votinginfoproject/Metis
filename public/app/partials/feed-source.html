@@ -1,31 +1,43 @@
-<a class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/source/errors">115 Errors in Source ID: 1</a>
+<i id="feed-source-content"></i>
 
-<dl id="feed-source-content" class="attributes">
+<a ng-if="feedSource" class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/source/errors">{{feedSource.error_count}}
+  Errors in Source ID: {{feedSource.id}}</a>
+
+<span ng-if="!feedSource" class="is-loading"></span>
+<dl class="attributes" ng-if="feedSource.source_info">
   <dt class="key">Name:</dt>
-  <dd class="value">{{feedSource.name}}</dd>
+  <dd id="source-name" class="value">{{feedSource.source_info.name}}</dd>
   <dt class="key">Datetime:</dt>
-  <dd class="value">{{feedSource.dateTime}}</dd>
+  <dd id="source-date" class="value">{{feedSource.source_info.date}}</dd>
   <dt class="key">Description:</dt>
-  <dd class="value">{{feedSource.description}}</dd>
+  <dd id="source-description" class="value">{{feedSource.source_info.description}}</dd>
   <dt class="key">Organization URL:</dt>
-  <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.organizationUrl}}">{{feedSource.organizationUrl}}</a></dd>
-  <dt class="key">Tou URL:</dt>
-  <dd class="value"><a title="Visit this URL" target="_blank" href="{{feedSource.touUrl}}">{{feedSource.touUrl}}</a></dd>
+  <dd id="source-org_url" class="value"><a title="Visit this URL" target="_blank"
+                                           href="{{feedSource.source_info.org_url}}">{{feedSource.source_info.org_url}}</a>
+  </dd>
+  <dt class="key">Terms of Use:</dt>
+  <dd id="source-tou_url" class="value"><a title="Visit this URL" target="_blank"
+                                           href="{{feedSource.source_info.tou_url}}">{{feedSource.source_info.tou_url}}</a>
+  </dd>
 </dl>
 
 <section class="data-group">
   <h2>Feed Contact</h2>
 
-  <dl class="attributes">
+  <span ng-if="!feedSource" class="is-loading"></span>
+  <dl class="attributes" ng-if="feedSource.feed_contact">
     <dt class="key">Name:</dt>
-    <dd class="value">{{feedContact.name}}</dd>
+    <dd id="feed-contact-name" class="value">{{feedSource.feed_contact.name}}</dd>
     <dt class="key">Title:</dt>
-    <dd class="value">{{feedContact.title}}</dd>
+    <dd id="feed-contact-title" class="value">{{feedSource.feed_contact.title}}</dd>
     <dt class="key">Phone:</dt>
-    <dd class="value">{{feedContact.phone}}<dd>
+    <dd id="feed-contact-phone" class="value">{{feedSource.feed_contact.phone}}
+    <dd>
     <dt class="key">Fax:</dt>
-    <dd class="value">{{feedContact.fax}}<dd>
+    <dd id="feed-contact-fax" class="value">{{feedSource.feed_contact.fax}}
+    <dd>
     <dt class="key">Email:</dt>
-    <dd class="value"><a href="mailto:{{feedContact.email}}">{{feedContact.email}}</a></dd>
+    <dd id="feed-contact-email" class="value"><a href="mailto:{{feedSource.feed_contact.email}}">{{feedSource.feed_contact.email}}</a>
+    </dd>
   </dl>
 </section>

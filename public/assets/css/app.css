@@ -733,7 +733,8 @@ th {
 .data-group-header {
   *zoom: 1;
   border-bottom: 4px solid black;
-  padding-bottom: .5em; }
+  padding-bottom: .5em;
+  margin-bottom: .5em; }
   .data-group-header:before, .data-group-header:after {
     content: " ";
     display: table; }
@@ -1394,6 +1395,12 @@ th {
 ::selection {
   background: #fff6bf;
   text-shadow: none; }
+
+.is-loading {
+  background: url(/assets/images/spinner.gif) no-repeat;
+  min-width: 30px;
+  min-height: 30px;
+  display: inline-block; }
 
 /* print.scss */
 @media print {

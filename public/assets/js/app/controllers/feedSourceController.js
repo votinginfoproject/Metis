@@ -6,6 +6,7 @@
 function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
   // get the vipfeed param from the route
+  var feedid = $routeParams.vipfeed;
   $scope.vipfeed = $routeParams.vipfeed;
 
   var breadcrumbs = [
@@ -14,7 +15,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
       url: "/#/feeds"
     },
     {
-      name: $routeParams.vipfeed,
+      name: feedid,
       url: "/#/feeds/" + $scope.vipfeed
     },
     {
@@ -24,32 +25,48 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("", breadcrumbs, "feeds", null);
+  $rootScope.setPageHeader("Source", breadcrumbs, "feeds", null);
   $rootScope.pageHeader.error = "";
 
   // get general Feed data
-  $feedsService.getFeedData()
+  $feedsService.getFeedData(feedid)
     .success(function (data) {
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
 
-    }).error(function (data) {
+      // set the title
+      $rootScope.pageHeader.title = "Source ID: " + data.id;
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      // now call the other services to get the rest of the data
+      FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, data.source);
+
+    }).error(function (data, $http) {
+
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedData = {};
+      $scope.feedSource = {};
     });
+}
 
-  // temp
-  $scope.feedData = {
-    title: "Source Title",
-    totalErrors: "XXX",
-    dueDate: "XXXX/XX/XX"
-  };
-
-  $rootScope.pageHeader.title = $scope.feedData.title;
+/*
+ * Get the Feed Source for the Feed detail page
+ *
+ */
+function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, servicePath){
 
   // get Feed Source
-  $feedsService.getFeedSource()
+  $feedsService.getFeedSource(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -58,35 +75,8 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed Source. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedSource = {};
     });
-
-  // temp
-  $scope.feedSource = {
-    name: "VA State Board of Elections",
-    dateTime: "2014/12/12",
-    description: "The VA State Board of Elections is the official source of election information for VA.",
-    organizationUrl: "http://www.va.gov",
-    touUrl: "http://www.anotherURL.com"
-  };
-
-  // get Feed Contact
-  $feedsService.getFeedContact()
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedContact = data;
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Contact. ";
-    });
-
-  // temp
-  $scope.feedContact = {
-    name: "Steve Tyler",
-    title: "Director of Elections",
-    phone: "123-456-7890",
-    fax: "123-456-0000",
-    email: "myemail@domain.com"
-  };
 }

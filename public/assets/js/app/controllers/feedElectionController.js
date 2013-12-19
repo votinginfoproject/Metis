@@ -6,7 +6,8 @@
 function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
   // get the vipfeed param from the route
-  $scope.vipfeed = $routeParams.vipfeed;
+  var feedid = $routeParams.vipfeed;
+  $scope.vipfeed = feedid;
 
   var breadcrumbs = [
     {
@@ -14,7 +15,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       url: "/#/feeds"
     },
     {
-      name: $routeParams.vipfeed,
+      name: feedid,
       url: "/#/feeds/" + $scope.vipfeed
     },
     {
@@ -24,103 +25,85 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("", breadcrumbs, "feeds", null);
+  $rootScope.setPageHeader("Election", breadcrumbs, "feeds", null);
   $rootScope.pageHeader.error = "";
 
   // get general Feed data
-  $feedsService.getFeedData()
+  $feedsService.getFeedData(feedid)
     .success(function (data) {
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
 
-    }).error(function (data) {
+      // set the title
+      $rootScope.pageHeader.title = "Election ID: " + data.id;
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      // now call the other services to get the rest of the data
+      FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election);
+
+    }).error(function (data, $http) {
+
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedData = {};
+      $scope.feedElection = {};
+      $scope.feedContests = {};
     });
+}
 
-  // temp
-  $scope.feedData = {
-    title: "Election Title",
-    totalErrors: "XXX",
-    dueDate: "XXXX/XX/XX"
-  };
-
-  $rootScope.pageHeader.title = $scope.feedData.title;
+/*
+ * Get the Feed Election for the Feed detail page
+ *
+ */
+function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath){
 
   // get Feed Election
-  $feedsService.getFeedElection()
+  $feedsService.getFeedElection(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
       $scope.feedElection = data;
 
+      // now call the other services to get the rest of the data
+      FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
+
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed Election. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed Election Contests. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedElection = {};
+      $scope.feedContests = {};
     });
+}
 
-  // temp
-  $scope.feedElection = {
-    date: "2013/12/21",
-    electionType: "Federal",
-    statewide: "Value",
-    registrationInfo: "http://www.link1.com",
-    absenteeBallotInfo: "http://www.link2.com",
-    resultsUrl: "http://www.link3.com",
-    pollingHours: "9am-5pm",
-    electionDayRegistration: "No",
-    registrationDeadLine: "2013/11/23",
-    absenteeRequestDeadline: "2013/11/23"
-  };
+/*
+ * Get the Feed Election Contests for the Feed detail page
+ *
+ */
+function FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath){
 
-  // get Feed State
-  $feedsService.getFeedState()
+  // get Feed Contests
+  $feedsService.getFeedElectionContests(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
-      $scope.feedState = data;
+      $scope.feedContests = data;
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed State. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed Election Contests. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedContests = {};
     });
-
-  // temp
-  $scope.feedState = {
-    id: 123,
-    name: "Virginia",
-    localities: 234
-  };
-
-  // get Feed State
-  $feedsService.getFeedElectionContests()
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedElectionContests = data;
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Contests. ";
-    });
-
-  // temp
-  $scope.feedElectionContests = [
-    {
-      id: 600001,
-      type: "General",
-      office: "US President"
-    },
-    {
-      id: 600002,
-      type: "General",
-      office: "State Treasurer"
-    },
-    {
-      id: 600003,
-      type: "Referendum",
-      office: "Proposition 123"
-    }
-  ];
 }

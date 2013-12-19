@@ -5,8 +5,13 @@
  */
 function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
+  // TODO
+  // clear the feedData from the cache
+  //$rootScope.cache.remove("feedData");
+
   // get the vipfeed param from the route
-  $scope.vipfeed = $routeParams.vipfeed;
+  var feedid = $routeParams.vipfeed;
+  $scope.vipfeed = feedid;
 
   var breadcrumbs = [
     {
@@ -14,7 +19,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       url: "/#/feeds"
     },
     {
-      name: $routeParams.vipfeed,
+      name: feedid,
       url: $location.absUrl()
     }
   ];
@@ -24,28 +29,53 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   $rootScope.pageHeader.error = "";
 
   // get general Feed data
-  $feedsService.getFeedData()
-    .success(function (data) {
+  $feedsService.getFeedData(feedid)
+    .success(function (data, $http) {
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
 
-    }).error(function (data) {
+      // TODO
+      // set the feed data variable into the cache
+      //$rootScope.cache.put("feedData", data);
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      // set the title
+      $rootScope.pageHeader.title = data.title;
+
+      // now call the other services to get the rest of the data
+
+      FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
+      FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
+      FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, data.results);
+
+    }).error(function (data, $http) {
+
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedData = {};
+      $scope.feedPollingLocations = {};
+      $scope.feedContests = {};
+      $scope.feedResults = {};
     });
+}
 
-  // temp
-  $scope.feedData = {
-    feedTitle: "Feed Overview Title",
-    totalErrors: "XXX",
-    dueDate: "XXXX/XX/XX"
-  };
-
-  $rootScope.pageHeader.title = $scope.feedData.feedTitle;
+/*
+ * Get the Feed Polling Locations for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath){
 
   // get Polling Locations
-  $feedsService.getFeedPollingLocations()
+  $feedsService.getFeedPollingLocations(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -54,50 +84,20 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed Polling Locations. ";
-    });
 
-  // temp
-  $scope.feedPollingLocations = [
-    {
-      elementType: "Random Polling Locations Element Type 1",
-      amount: 0,
-      completion: 0,
-      errors: 0
-    },
-    {
-      elementType: "Random Polling Locations Element Type 2",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Polling Locations Element Type 3",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Polling Locations Element Type 4",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Polling Locations Element Type 5",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Polling Locations Element Type 6",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    }
-  ];
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedPollingLocations = {};
+    });
+}
+
+/*
+ * Get the Feed Contests for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath){
 
   // get Contests
-  $feedsService.getFeedContests()
+  $feedsService.getFeedContests(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -106,50 +106,20 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed Contests. ";
-    });
 
-  // temp
-  $scope.feedContests = [
-    {
-      elementType: "Random Contests Element Type 1",
-      amount: 0,
-      completion: 0,
-      errors: 0
-    },
-    {
-      elementType: "Random Contests Element Type 2",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Contests Element Type 3",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Contests Element Type 4",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Contests Element Type 5",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Contests Element Type 6",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    }
-  ];
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedContests = {};
+    });
+}
+
+/*
+ * Get the Feed Results for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, servicePath){
 
   // get Results
-  $feedsService.getFeedResults()
+  $feedsService.getFeedResults(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -158,45 +128,8 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed Results. ";
-    });
 
-  // temp
-  $scope.feedResults = [
-    {
-      elementType: "Random Results Element Type 1",
-      amount: 0,
-      completion: 0,
-      errors: 0
-    },
-    {
-      elementType: "Random Results Element Type 2",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Results Element Type 3",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Results Element Type 4",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Results Element Type 5",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    },
-    {
-      elementType: "Random Results Element Type 6",
-      amount: Math.floor(Math.random()*500000),
-      completion: Math.floor(Math.random()*100),
-      errors: Math.floor(Math.random()*500000)
-    }
-  ];
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedResults = {};
+    });
 }

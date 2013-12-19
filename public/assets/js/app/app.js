@@ -202,6 +202,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   $rootScope.pageHeader = {};
   $rootScope.user = null;
 
+  // TODO
+  // initialize the cache for the app
+  //$rootScope.cache = $cacheFactory('vipApp');
+
   if(isTesting)
   {
     var feeds = [
