@@ -19,8 +19,8 @@
 <script type="text/ng-template" id="feedsPagination">
   <ul class="pagination ng-cloak">
     <li ng-repeat="page in pages"
-        ng-class="{'current': page.number == tableParams.page(), 'ng-hide': page.type == 'prev' || page.type == 'next'}">
-      <a id="feedsPage{{$index}}" ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
+        ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == tableParams.page()}" ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
     </li>
   </ul>
 </script>

@@ -245,7 +245,7 @@ ol {
   padding-left: 1.5em; }
 
 .no-bullet, form ul,
-form ol, .feed-nav ul, .main-nav ul, .swatches {
+form ol, .feed-nav ul, .main-nav ul, .pagination, .swatches {
   list-style-type: none;
   margin: 0;
   padding: 0; }
@@ -1307,45 +1307,30 @@ th {
   background-color: #849b29; }
 
 .pagination {
-  display: block;
-  height: 1.5em;
-  margin-left: -0.3125em; }
-
-.pagination li {
-  color: #333333;
-  font-size: 0.875em;
-  height: 1.5em;
-  margin-left: 0.3125em; }
-
-.pagination li a {
-  color: #999999;
-  display: block;
-  padding: 0.0625em 0.4375em 0.0625em; }
-
-.pagination li:hover a,
-.pagination li a:focus {
-  background: #dddddd; }
-
-.pagination li.unavailable a {
-  color: #999999;
-  cursor: default; }
-
-.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
-  background: transparent; }
-
-.pagination li.current a {
-  background: #386097;
-  color: white;
-  cursor: default;
-  font-weight: bold; }
-
-.pagination li.current a:hover,
-.pagination li.current a:focus {
-  background: #386097; }
-
-.pagination li {
-  display: block;
-  float: left; }
+  *zoom: 1;
+  margin-bottom: 1em; }
+  .pagination:before, .pagination:after {
+    content: " ";
+    display: table; }
+  .pagination:after {
+    clear: both; }
+  .pagination li {
+    float: left;
+    margin-right: 0.3125em; }
+  .pagination a {
+    font-size: 0.875em;
+    color: #999999;
+    display: block;
+    padding: .25em .75em; }
+    .pagination a:hover, .pagination a:focus {
+      background: #dddddd; }
+  .pagination .is-active {
+    background: #386097;
+    color: white;
+    cursor: default;
+    font-weight: bold; }
+    .pagination .is-active:hover, .pagination .is-active:focus {
+      background: #386097; }
 
 .example {
   *zoom: 1;
