@@ -9,7 +9,7 @@ describe('Feed Election Unit Tests', function() {
     var $httpBackend = null;
     var feedCtrl = null;
     var mockService;
-    var myResponse;
+    var feedData, feedElection;
 
     beforeEach(inject(function($injector) {
       mockService = {
@@ -32,12 +32,11 @@ describe('Feed Election Unit Tests', function() {
       }
 
       $httpBackend = $injector.get('$httpBackend');
-      myResponse = ["date: '2011-11-01, state: 'Ohio', type: 'Federal', status: 'Undetermined'"];
-
-      $httpBackend.when('GET', '/Data').respond(myResponse);
-      $httpBackend.when('GET', '/Election').respond(myResponse);
-      $httpBackend.when('GET', '/Contests').respond(myResponse);
-      $httpBackend.when('GET', '/FeedState').respond(myResponse);
+      feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
+      $httpBackend.when('GET', '/Data').respond(feedData);
+      $httpBackend.when('GET', '/Election').respond(feedData);
+      $httpBackend.when('GET', '/Contests').respond(feedData);
+      $httpBackend.when('GET', '/FeedState').respond(feedData);
 
       $rootScope = $injector.get('$rootScope');
       var $controller = $injector.get('$controller');
@@ -51,6 +50,9 @@ describe('Feed Election Unit Tests', function() {
 
       var routeParams = { vipfeed: 'something' };
       $rootScope.pageHeader = {};
+      $rootScope.feedData = {};
+      $rootScope.feedElection = {};
+      $rootScope.feedContests = {};
 
       $rootScope.setPageHeader = function(a,b,c,d) {
         return;
@@ -71,10 +73,11 @@ describe('Feed Election Unit Tests', function() {
     });
 
     it('should have valid data', function() {
-      expect($rootScope.feedElection.date).toEqual("2013/12/21");
-      expect($rootScope.feedState.id).toEqual(123);
-      expect($rootScope.feedElectionContests[0].id).toEqual(600001);
       $httpBackend.flush();
+      expect($rootScope.feedData).toEqual(feedData);
+      expect($rootScope.feedElection).toEqual(feedData);
+      expect($rootScope.feedContests).toEqual(feedData);
+
     });
   });
 });

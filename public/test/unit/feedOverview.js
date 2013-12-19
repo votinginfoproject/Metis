@@ -9,6 +9,7 @@ describe('Feed Overview Unit Tests', function() {
     var $httpBackend = null;
     var adminCtrl = null;
     var mockService;
+    var response;
 
     beforeEach(inject(function($injector) {
       mockService = {
@@ -32,10 +33,12 @@ describe('Feed Overview Unit Tests', function() {
 
       $httpBackend = $injector.get('$httpBackend');
 
-      $httpBackend.when('GET', '/Data').respond('');
-      $httpBackend.when('GET', '/Locations').respond('');
-      $httpBackend.when('GET', '/Contests').respond('');
-      $httpBackend.when('GET', '/Results').respond('');
+      response = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
+
+      $httpBackend.when('GET', '/Data').respond(response);
+      $httpBackend.when('GET', '/Locations').respond(response);
+      $httpBackend.when('GET', '/Contests').respond(response);
+      $httpBackend.when('GET', '/Results').respond(response);
 
 
       $rootScope = $injector.get('$rootScope');
@@ -48,6 +51,10 @@ describe('Feed Overview Unit Tests', function() {
         return;
       }
 
+      $rootScope.feedData = {};
+      $rootScope.feedPollingLocations = {};
+      $rootScope.feedContests = {};
+      $rootScope.feedResults = {};
       $rootScope.pageHeader = {};
 
       adminCtrl = $controller('FeedOverviewCtrl', {
@@ -65,11 +72,11 @@ describe('Feed Overview Unit Tests', function() {
     })
 
     it('should have valid data', function () {
-      expect($rootScope.feedData.feedTitle).toEqual("Feed Overview Title");
-      expect($rootScope.feedPollingLocations[0].elementType).toEqual("Random Polling Locations Element Type 1");
-      expect($rootScope.feedContests[0].elementType).toEqual("Random Contests Element Type 1");
-      expect($rootScope.feedResults[0].elementType).toEqual("Random Results Element Type 1");
       $httpBackend.flush();
+      expect($rootScope.feedData).toEqual(response);
+      expect($rootScope.feedPollingLocations).toEqual(response);
+      expect($rootScope.feedContests).toEqual(response);
+      expect($rootScope.feedResults).toEqual(response);
     });
   });
 });

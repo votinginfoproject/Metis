@@ -20,7 +20,7 @@ describe('Feed Unit Tests', function() {
       }
 
       $httpBackend = $injector.get('$httpBackend');
-      myResponse = ["date: '2011-11-01, state: 'Ohio', type: 'Federal', status: 'Undetermined'"];
+      myResponse = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
 
       $httpBackend.when('GET', '/test').respond(myResponse);
 
@@ -130,30 +130,12 @@ describe('Feed Unit Tests', function() {
       });
     });
 
-    describe('getFeedContact test', function() {
-      it('should be valid', function() {
-        expect(feedsService.getFeedContact).toBeDefined();
-        spyOn(feedsService, 'getFeedContact');
-        feedsService.getFeedContact();
-        expect(feedsService.getFeedContact).toHaveBeenCalled();
-      });
-    });
-
     describe('getFeedElection test', function() {
       it('should be valid', function() {
         expect(feedsService.getFeedElection).toBeDefined();
         spyOn(feedsService, 'getFeedElection');
         feedsService.getFeedElection();
         expect(feedsService.getFeedElection).toHaveBeenCalled();
-      });
-    });
-
-    describe('getFeedState test', function() {
-      it('should be valid', function() {
-        expect(feedsService.getFeedState).toBeDefined();
-        spyOn(feedsService, 'getFeedState');
-        feedsService.getFeedState();
-        expect(feedsService.getFeedState).toHaveBeenCalled();
       });
     });
 

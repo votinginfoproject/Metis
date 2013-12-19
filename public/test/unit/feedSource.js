@@ -9,7 +9,7 @@ describe('Feed Overview Unit Tests', function() {
     var $httpBackend = null;
     var adminCtrl = null;
     var mockService;
-
+    var response;
     beforeEach(inject(function($injector) {
       mockService = {
         getFeedData: function() {
@@ -19,18 +19,15 @@ describe('Feed Overview Unit Tests', function() {
         getFeedSource: function() {
           var http = $injector.get('$http');
           return http.get("/Source");
-        },
-        getFeedContact: function() {
-          var http = $injector.get('$http');
-          return http.get("/Contact");
         }
       }
 
       $httpBackend = $injector.get('$httpBackend');
 
-      $httpBackend.when('GET', '/Data').respond('');
-      $httpBackend.when('GET', '/Source').respond('');
-      $httpBackend.when('GET', '/Contact').respond('');
+      response = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
+
+      $httpBackend.when('GET', '/Data').respond(response);
+      $httpBackend.when('GET', '/Source').respond(response);
 
 
       $rootScope = $injector.get('$rootScope');
@@ -60,10 +57,9 @@ describe('Feed Overview Unit Tests', function() {
     })
 
     it('should throw an error', function () {
-      expect($rootScope.feedData.title).toEqual("Source Title");
-      expect($rootScope.feedSource.name).toEqual("VA State Board of Elections");
-      expect($rootScope.feedContact.name).toEqual("Steve Tyler");
       $httpBackend.flush();
+      expect($rootScope.feedData).toEqual(response);
+      expect($rootScope.feedSource).toEqual(response);
     });
   });
 });
