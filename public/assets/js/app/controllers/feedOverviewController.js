@@ -34,6 +34,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
+      $rootScope.feedData = data;
 
       // TODO
       // set the feed data variable into the cache

@@ -34,6 +34,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
+      $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
       FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, data.source);

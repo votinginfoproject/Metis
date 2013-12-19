@@ -34,6 +34,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
 
       // set the feeds data into the Angular model
       $scope.feedData = data;
+      $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
       FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election);
