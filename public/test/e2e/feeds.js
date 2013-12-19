@@ -13,14 +13,15 @@ describe('Feeds test', function () {
   });
 
   describe('Pagination Test', function () {
-    it('Does Pagination work', function () {
-      if (element('#feedsPage2')) {
+    if(isTesting)
+    {
+      it('Does Pagination work', function () {
         element('#feedsPage2').click();
         expect(element('#feedIndex0').count()).not().toBe(0);
         element('#feedsPage1').click();
         expect(element('#feedIndex9').count()).not().toBe(0);
-      }
-    });
+      });
+    };
   });
 
   describe('Sorting Test', function () {

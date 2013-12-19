@@ -17,7 +17,6 @@ describe('Feed Election Test', function () {
     it('Should go to the Feed Election page after selecting a feed and then election', function () {
 
       // expect to start out on the feed index page
-
       // click the first feed
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
@@ -65,10 +64,10 @@ describe('Feed Election Test', function () {
     // check the the number of items
     it('Should have 4 contests', function () {
 
-      expect(element('#contests0').count()).toBe(1);
+      expect(element('#contests-id0').count()).toBe(1);
       //...
-      expect(element('#contests3').count()).toBe(1);
-      expect(element('#contests4').count()).toBe(0);
+      expect(element('#contests-id3').count()).toBe(1);
+      expect(element('#contests-id4').count()).toBe(0);
     });
 
   });
