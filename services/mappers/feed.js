@@ -44,11 +44,11 @@ var mapSource = function(path, source, electionOfficial) {
       tou_url: source.touUrl
     },
     feed_contact: {
-      name: electionOfficial.name,
-      title: electionOfficial.title,
-      phone: electionOfficial.phone,
-      fax: electionOfficial.fax,
-      email: electionOfficial.email
+      name: (electionOfficial) ? electionOfficial.name : null,
+      title: (electionOfficial) ? electionOfficial.title : null,
+      phone: (electionOfficial) ? electionOfficial.phone : null,
+      fax: (electionOfficial) ? electionOfficial.fax : null,
+      email: (electionOfficial) ? electionOfficial.email : null
     }
   };
 };
