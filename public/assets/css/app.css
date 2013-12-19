@@ -805,6 +805,13 @@ th {
   display: block;
   margin-top: 1em; }
 
+.vcard span {
+  display: block; }
+.vcard .fn {
+  font-weight: bold; }
+.vcard .title {
+  font-style: italic; }
+
 .map {
   margin-bottom: 1em; }
 

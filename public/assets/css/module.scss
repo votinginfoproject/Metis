@@ -336,6 +336,21 @@
   margin-top: 1em;
 }
 
+.vcard {
+
+  span {
+    display: block;
+  }
+
+  .fn {
+    font-weight: bold;
+  }
+
+  .title {
+    font-style: italic;
+  }
+}
+
 
 // ============================================================================
 // Map
