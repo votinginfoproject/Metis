@@ -825,7 +825,7 @@ th {
     padding: 0.5em 1em; }
     .main-nav a:hover {
       color: #f7f7f7; }
-    .main-nav a.active {
+    .main-nav a.is-active {
       color: white; }
   @media (min-width: 600px) {
     .main-nav {

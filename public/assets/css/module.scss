@@ -387,7 +387,7 @@
       color: lighten($gray-light, 10);
     }
 
-    &.active {
+    &.is-active {
       color: $white;
     }
   }
