@@ -10,7 +10,7 @@ var mapFeed = function(path, feed) {
     date: moment(feed.loadedOn).format('YYYY-MM-DD'),
     state: 'Unknown',
     type: 'Unknown',
-    status: feed.feed_status,
+    status: feed.feedStatus,
     name: feed.name,
     edit: _path.join(path, feed.id)
   };
