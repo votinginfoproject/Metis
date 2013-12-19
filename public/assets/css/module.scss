@@ -274,12 +274,17 @@
 .feed-title {
   background-color: $gray-medium;
   color: $white;
-  font-size: .875em;
+  cursor: pointer;
 
   @include bp(c12) {
-    font-size: 1.5em;
     background-color: $gray-light;
     color: $black;
+    cursor: default;
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: .875em;
   }
 }
 

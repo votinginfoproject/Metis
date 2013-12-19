@@ -758,12 +758,15 @@ th {
 .feed-title {
   background-color: #999999;
   color: white;
-  font-size: .875em; }
+  cursor: pointer; }
   @media (min-width: 1116px) {
     .feed-title {
-      font-size: 1.5em;
       background-color: #dddddd;
-      color: black; } }
+      color: black;
+      cursor: default;
+      font-size: 1.5em; } }
+  .feed-title h2 {
+    font-size: .875em; }
 
 .details {
   background-color: #dddddd; }
