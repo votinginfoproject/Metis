@@ -22,34 +22,60 @@ var registerFeedsServices = function (app) {
 };
 
 /*
+ * Error handling middleware
+ */
+notFoundHandler = function (res, err, data, next) {
+  if (data == null) {
+    res.send(404);
+  }
+  else {
+    next();
+  }
+};
+
+/*
  * Callbacks for HTTP verbs
  */
 allFeedsGET = function (req, res) {
-  dao.getFeeds(function(arr, data) {
+  dao.getFeeds(function (err, data) {
     res.json(_.map(data, function (data) {
       return mapper.mapFeed(req.path, data);
     }));
   });
-
 };
 
 feedOverviewGET = function (req, res) {
-  res.json(mapper.mapFeedOverview(req.path, req.params.feedid));
+  dao.getFeedOverview(req.params.feedid, function (err, feed) {
+    notFoundHandler(res, err, feed, function () {
+      res.json(mapper.mapFeedOverview(req.path, feed))
+    });
+  });
 };
 
 feedSourceGET = function (req, res) {
-  var source = {}; //TODO: get data from the database
-  res.json(mapper.mapSource(req.path, source));
+  dao.getFeedSource(req.params.feedid, function (err, source) {
+    notFoundHandler(res, err, source, function () {
+      res.json(mapper.mapSource(req.path, source));
+    });
+  });
 };
 
 feedElectionGET = function (req, res) {
- var election = {}; //TODO: get data from the database
-  res.json(mapper.mapElection(req.path, election));
+  dao.getFeedElection(req.params.feedid, function (err, election) {
+    notFoundHandler(res, err, election, function () {
+      res.json(mapper.mapElection(req.path, election));
+    });
+  });
 };
 
 feedElectionContestsGET = function (req, res) {
-  var election = {}; //TODO: get data from the database
-  res.json(mapper.mapElectionContest(req.path, election));
+  dao.getFeedContests(req.params.feedid, function (err, contests) {
+    notFoundHandler(res, err, contests, function () {
+      res.json(_.map(contests, function (data) {
+        return mapper.mapElectionContest(req.path, data);
+      }));
+    });
+  });
 };
 
 feedPollingGET = function (req, res) {
@@ -57,17 +83,17 @@ feedPollingGET = function (req, res) {
   res.json(mapper.mapPollingSummary(req.path, polling));
 };
 
-feedContestsGET = function(req, res) {
+feedContestsGET = function (req, res) {
   var contests = {}; //TODO: get data from the database
   res.json(mapper.mapContests(req.path, contests));
 };
 
-feedResultsGET = function(req, res) {
+feedResultsGET = function (req, res) {
   var results = {}; //TODO: get data from the database
   res.json(mapper.mapResults(req.path, results));
 };
 
-feedHistoryGET = function(req, res) {
+feedHistoryGET = function (req, res) {
   var history = {}; //TODO: get data from the database
   res.json(mapper.mapHistory(req.path, history));
 };

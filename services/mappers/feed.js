@@ -2,102 +2,87 @@
  * Created by bantonides on 12/13/13.
  */
 var moment = require('moment');
+var _path = require('path');
 
 var mapFeed = function(path, feed) {
   return {
-    date: moment(feed.election_date).format('YYYY-MM-DD'),
-    state: feed.state,
-    type: feed.feed_type,
+    id: feed.id,
+    date: moment(feed.loadedOn).format('YYYY-MM-DD'),
+    state: 'Unknown',
+    type: 'Unknown',
     status: feed.feed_status,
     name: feed.name,
-    edit: path + '/' + feed.id
+    edit: _path.join(path, feed.id)
   };
 };
 
-var mapOverview = function(path, id) {
+var mapOverview = function(path, feed) {
   return {
-    id: id,
-    title: id, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
+    id: feed.id,
+    title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
     error_count: 333, //TODO: replace this with the real error count
-    errors: path + '/errors',
-    source: path + '/source',
-    election: path + '/election',
-    polling_locations: path + '/polling',
-    contests: path + '/contests',
-    results: path + '/results',
-    history: path + '/history'
+    errors: _path.join(path, '/errors'),
+    source: _path.join(path, '/source'),
+    election: _path.join(path, '/election'),
+    polling_locations: _path.join(path, '/polling'),
+    contests: _path.join(path, '/contests'),
+    results: _path.join(path, '/results'),
+    history: _path.join(path, '/history')
   };
 };
 
-var mapSource = function(path, data) {
+var mapSource = function(path, source, electionOfficial) {
   return {
-    id: 1,
+    id: source.elementId,
     error_count: 111,
-    errors: path + '/errors',
+    errors: _path.join(path, '/errors'),
     source_info: {
-      name: 'North Carolina State Board of Elections',
-      date: moment(new Date()).format('YYYY-MM-DD'),
-      description: 'The North Carolina State Board of Elections is the official source of election information for North Carolina.',
-      org_url: 'http://www.sboe.state.nc.us/',
-      tou_url: 'http://www.sboe.state.nc.us/terms-of-use'
+      name: source.name,
+      date: moment(source.datetime).format('YYYY-MM-DD'),
+      description: source.description,
+      org_url: source.organizationUrl,
+      tou_url: source.touUrl
     },
     feed_contact: {
-      name: 'Stephen Tyler',
-      title: 'Director of Elections',
-      phone: '555-555-5555',
-      fax: '555-555-5556',
-      email: 'stephen@sboe.nc.us'
+      name: electionOfficial.name,
+      title: electionOfficial.title,
+      phone: electionOfficial.phone,
+      fax: electionOfficial.fax,
+      email: electionOfficial.email
     }
   };
 };
 
-var mapElection = function(path, data) {
+var mapElection = function(path, election) {
   return {
-    id: 2,
+    id: election.elementId,
     error_count: 222,
-    errors: path + '/errors',
-    date: moment(new Date()).format('YYYY-MM-DD'),
-    type: 'Federal',
-    statewide: true,
-    registration_url: 'http://www.sboe.state.nc.us/registration',
-    absentee_url: 'http://www.sboe.state.nc.us/absentee',
-    results_url: 'http://www.sboe.state.nc.us/results',
-    polling_hours: '8am - 6pm',
-    day_of_registration: false,
-    registration_deadline: moment(new Date()).format('YYYY-MM-DD'),
-    absentee_deadline: moment(new Date()).format('YYYY-MM-DD'),
+    errors: _path.join(path, '/errors'),
+    date: moment(election.date).format('YYYY-MM-DD'),
+    type: election.electionType,
+    statewide: election.statewide,
+    registration_url: election.registrationInfo,
+    absentee_url: election.absenteeBallotInfo,
+    results_url: election.resultsUrl,
+    polling_hours: election.pollingHours,
+    day_of_registration: election.electionDayRegistration,
+    registration_deadline: moment(election.registrationDeadline).format('YYYY-MM-DD'),
+    absentee_deadline: moment(election.absenteeRequestDeadline).format('YYYY-MM-DD'),
     state: {
-      id: 37,
-      name: 'North Carolina',
+      id: election.stateId,
+      name: 'Unknown',
       locality_count: 100
     },
-    contests: path + '/contests'
+    contests: _path.join(path, '/contests')
   };
 };
 
-var mapElectionContests = function(path, data) {
-  return [
-    {
-      id: 320004744,
-      type: 'General',
-      title: 'US President'
-    },
-    {
-      id: 60001,
-      type: 'General',
-      title: 'State Treasurer'
-    },
-    {
-      id: 60006,
-      type: 'Referendum',
-      title: 'Proposition 37'
-    },
-    {
-      id: 60007,
-      type: 'Judge Retention',
-      title: 'Should Judge Carlton Smith be retained?'
-    }
-  ];
+var mapElectionContest = function(path, contest) {
+  return {
+      id: contest.elementId,
+      type: contest.type,
+      title: contest.office
+    };
 };
 
 var mapPolling = function(path, data) {
@@ -185,7 +170,7 @@ exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
 exports.mapElection = mapElection;
-exports.mapElectionContest = mapElectionContests;
+exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
 exports.mapResults = mapResults;

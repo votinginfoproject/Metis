@@ -24,11 +24,13 @@ config.crowd = {
  */
 config.mongoose = {
   model: {
-    feed: "Feed",
-    election: "Election",
-    source: "Source"
+    feed: "feeds",
+    election: "elections",
+    source: "sources",
+    electionOfficial: "electionOfficials",
+    contest: "contests"
   },
-  connectionString: "mongodb://localhost/vipfeed"
+  connectionString: "mongodb://localhost/metis"
 }
 
 module.exports = config;

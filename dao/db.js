@@ -30,7 +30,26 @@ var getFeedOverview = function(id, callback) {
   daoSchemas.models.Feed.findById(id, { payload: 0 }, callback);
 };
 
+var getFeedSource = function(feedid, callback) {
+  daoSchemas.models.Source.findOne({ _feed: feedid }, callback);
+};
+
+var getFeedElection = function(feedid, callback) {
+  daoSchemas.models.Election.findOne({ _feed: feedid }, callback);
+};
+
+var getElectionOfficial = function(feedid, officialId, callback) {
+  daoSchemas.models.ElectionOfficial.findOne( { _feed: feedid, elementId: officialId }, callback);
+};
+
+var getFeedContests = function(feedid, callback) {
+  daoSchemas.models.Contest.find( { _feed: feedid}, callback);
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
-
+exports.getFeedSource = getFeedSource;
+exports.getFeedElection = getFeedElection;
+exports.getElectionOfficial = getElectionOfficial;
+exports.getFeedContests = getFeedContests;
 
