@@ -416,49 +416,41 @@
     display: block;
   }
 
-}
+  a {
+    float: left;
+    font-size: 0.6875em;
+    margin: 0;
+    text-transform: uppercase;
 
-.breadcrumbs > * {
-  float: left;
-  font-size: 0.6875em;
-  margin: 0;
-  text-transform: uppercase;
-}
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
 
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline;
-}
+    &:before {
+      color: $gray-medium;
+      content: "/";
+      margin: 0 0.75em;
+      position: relative;
+      top: .1em;
+    }
 
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: $base-link-color;
-}
+    &:first-child:before {
+      content: " ";
+      margin: 0;
+    }
+  }
 
-.breadcrumbs > *:before {
-  color: $gray-medium;
-  content: "/";
-  margin: 0 0.75em;
-  position: relative;
-  top: .1em;
-}
+  .is-active {
+    color: $base-font-color;
+    cursor: default;
 
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0;
-}
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
 
-.current,
-.current a {
-  color: $base-font-color;
-  cursor: default;
-}
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none;
 }
 
 

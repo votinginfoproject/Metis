@@ -84,7 +84,7 @@
       <div class="content" ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
         <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{current: $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
+          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{'is-active': $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
         </nav>
 
         <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">

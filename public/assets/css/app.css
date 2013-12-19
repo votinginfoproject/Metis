@@ -860,42 +860,27 @@ th {
   @media (min-width: 600px) {
     .breadcrumbs {
       display: block; } }
-
-.breadcrumbs > * {
-  float: left;
-  font-size: 0.6875em;
-  margin: 0;
-  text-transform: uppercase; }
-
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline; }
-
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: #386097; }
-
-.breadcrumbs > *:before {
-  color: #999999;
-  content: "/";
-  margin: 0 0.75em;
-  position: relative;
-  top: .1em; }
-
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0; }
-
-.current,
-.current a {
-  color: #333333;
-  cursor: default; }
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none; }
+  .breadcrumbs a {
+    float: left;
+    font-size: 0.6875em;
+    margin: 0;
+    text-transform: uppercase; }
+    .breadcrumbs a:hover, .breadcrumbs a:focus {
+      text-decoration: underline; }
+    .breadcrumbs a:before {
+      color: #999999;
+      content: "/";
+      margin: 0 0.75em;
+      position: relative;
+      top: .1em; }
+    .breadcrumbs a:first-child:before {
+      content: " ";
+      margin: 0; }
+  .breadcrumbs .is-active {
+    color: #333333;
+    cursor: default; }
+    .breadcrumbs .is-active:hover, .breadcrumbs .is-active:focus {
+      text-decoration: none; }
 
 .overview {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
