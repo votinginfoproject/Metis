@@ -286,12 +286,6 @@ del {
   color: #595959; }
 
 /* layout.scss */
-header[role="banner"], .content, .feed-title, .details {
-  padding: 1em 7.84314%; }
-  @media (min-width: 600px) {
-    header[role="banner"], .content, .feed-title, .details {
-      padding: 1em 5%; } }
-
 aside {
   display: table-caption;
   width: 100%; }
@@ -318,42 +312,44 @@ footer[role="contentinfo"] {
 header[role="banner"] {
   background-color: #999999;
   text-align: center; }
-  @media (min-width: 1116px) {
-    header[role="banner"] {
-      padding: 0; } }
 
 .wrapper {
   *zoom: 1;
+  margin: 0 auto;
   max-width: 1308px;
-  position: relative; }
+  padding: 1em 7.84314%; }
   .wrapper:before, .wrapper:after {
     content: " ";
     display: table; }
   .wrapper:after {
     clear: both; }
+  @media (min-width: 600px) {
+    .wrapper {
+      padding: 1em 10%; } }
   @media (min-width: 1116px) {
     .wrapper {
       padding: 1em 6.45161%; } }
+  @media (min-width: 1452px) {
+    .wrapper {
+      padding: 1em 4.95868%; } }
 
-.main .wrapper {
-  padding-top: 0;
-  display: table;
-  caption-side: top; }
+.main > .wrapper {
+  caption-side: top;
+  display: table; }
   @media (min-width: 1116px) {
-    .main .wrapper {
-      display: block; } }
+    .main > .wrapper {
+      display: block;
+      padding-top: 0; } }
 
-@media (min-width: 1116px) {
-  .content {
-    padding: 0; } }
+.content {
+  padding-top: 1em; }
 
 @media (min-width: 1116px) {
   .content.feed {
     float: right;
     margin-left: 3.7037%;
     width: 65.4321%;
-    float: right;
-    margin-top: 1.5em; }
+    float: right; }
     .content.feed:last-child {
       margin-left: 0; } }
 @media (min-width: 1452px) {
@@ -767,14 +763,10 @@ th {
     .feed-title {
       font-size: 1.5em;
       background-color: #dddddd;
-      color: black;
-      padding: 1em 8%; } }
+      color: black; } }
 
 .details {
   background-color: #dddddd; }
-  @media (min-width: 1116px) {
-    .details {
-      padding: 0 8% 1.5em 8%; } }
 
 .button-errors time {
   font-weight: normal; }
