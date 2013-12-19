@@ -546,7 +546,7 @@
 .completeness {
   background-color: transparent;
   border: $base-border;
-  height: $base-line-height;
+  height: $base-line-height * 1.25;
   padding: 0.125em;
   position: relative;
 }
