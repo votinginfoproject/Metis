@@ -35,9 +35,6 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       // set the feeds data into the Angular model
       $scope.feedData = data;
 
-      // set the title
-      $rootScope.pageHeader.title = "Election ID: " + data.id;
-
       // now call the other services to get the rest of the data
       FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election);
 
@@ -72,6 +69,9 @@ function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, ser
 
       // set the feeds data into the Angular model
       $scope.feedElection = data;
+
+      // set the title
+      $rootScope.pageHeader.title = "Election ID: " + data.id;
 
       // now call the other services to get the rest of the data
       FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);

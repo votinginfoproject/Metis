@@ -35,9 +35,6 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
       // set the feeds data into the Angular model
       $scope.feedData = data;
 
-      // set the title
-      $rootScope.pageHeader.title = "Source ID: " + data.id;
-
       // now call the other services to get the rest of the data
       FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, data.source);
 
@@ -71,6 +68,9 @@ function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, service
 
       // set the feeds data into the Angular model
       $scope.feedSource = data;
+
+      // set the title
+      $rootScope.pageHeader.title = "Source ID: " + data.id;
 
     }).error(function (data) {
 
