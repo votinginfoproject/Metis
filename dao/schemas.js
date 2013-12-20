@@ -8,7 +8,7 @@ var models = {};
 /*
  * Mongoose Schema Definitions
  */
-var ballotSchema = mongoose.Schema({
+var ballotSchema = {
   id: String, //required
   referendumId: String,
   candidateId: String,
@@ -16,9 +16,9 @@ var ballotSchema = mongoose.Schema({
   writeIn: Boolean,
   imageUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
-var candidateSchema = mongoose.Schema({
+var candidateSchema = {
   name: String,
   party: String,
   candidateUrl: String,
@@ -29,7 +29,7 @@ var candidateSchema = mongoose.Schema({
   email: String,
   sortOrder: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
 var contestSchema = {
   elementId: Number,     //required
@@ -65,7 +65,7 @@ var electionSchema = {
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
-var electionAdminSchema = mongoose.Schema({
+var electionAdminSchema = {
   id: String,     //required
   name: String,
   eoId: String,
@@ -82,7 +82,7 @@ var electionAdminSchema = mongoose.Schema({
   voterServices: String,
   hours: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
 var electionOfficialSchema = {
   elementId: Number,   //required
@@ -94,13 +94,13 @@ var electionOfficialSchema = {
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
-var electoralDistrictSchema = mongoose.Schema({
+var electoralDistrictSchema = {
   id: String, //required
   name: String,
   type: String,
   number: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
 var feedSchema = {
   loadedOn: Date,
@@ -110,7 +110,7 @@ var feedSchema = {
   feedPath: String
 };
 
-var localitySchema = mongoose.Schema({
+var localitySchema = {
   id: String,
   name: String,
   stateId: String,
@@ -118,18 +118,18 @@ var localitySchema = mongoose.Schema({
   electionAdminId: String,
   earlyVoteSiteId: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
-var pollingLocationSchema = mongoose.Schema({
+var pollingLocationSchema = {
   id: String,   //required
   address: String,
   directions: String,
   pollingHours: String,
   photoUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
-var precinctSchema = mongoose.Schema({
+var precinctSchema = {
   id: String,       //required
   name: String,
   number: String,
@@ -141,9 +141,9 @@ var precinctSchema = mongoose.Schema({
   earlyVoteSiteId: String,
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
-var precinctSplitSchema = mongoose.Schema({
+var precinctSplitSchema = {
   id: String,       //required
   name: String,
   precinctId: String,
@@ -151,7 +151,7 @@ var precinctSplitSchema = mongoose.Schema({
   pollingLocationId: String,
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
-});
+};
 
 var sourceSchema = {
   elementId: Number,
@@ -193,13 +193,13 @@ exports.initSchemas = function(config, mongoose) {
   models.Candidate = mongoose.model(config.mongoose.model.candidate, mongoose.Schema(candidateSchema));
   models.Contest = mongoose.model(config.mongoose.model.contest, mongoose.Schema(contestSchema));
   models.Election = mongoose.model(config.mongoose.model.election, mongoose.Schema(electionSchema));
-  models.ElectionAdmin = mongoose.model(config.mongoose.model.electionAdmin, mongoose.Schema(electionAdminSchema));
+  models.ElectionAdmin = mongoose.model(config.mongoose.model.electionAdministration, mongoose.Schema(electionAdminSchema));
   models.ElectionOfficial = mongoose.model(config.mongoose.model.electionOfficial, mongoose.Schema(electionOfficialSchema));
   models.ElectoralDistrictSchema = mongoose.model(config.mongoose.model.electoralDistrict, mongoose.Schema(electoralDistrictSchema));
   models.Feed = mongoose.model(config.mongoose.model.feed, mongoose.Schema(feedSchema));
   models.Locality = mongoose.model(config.mongoose.model.locality, mongoose.Schema(localitySchema));
   models.PollingLocation = mongoose.model(config.mongoose.model.pollingLocation, mongoose.Schema(pollingLocationSchema));
-  models.Precinct = mongoose.model(config.mongoose.model.pollingLocation, mongoose.Schema(precinctSchema));
+  models.Precinct = mongoose.model(config.mongoose.model.precinct, mongoose.Schema(precinctSchema));
   models.PrecinctSplit = mongoose.model(config.mongoose.model.precinctSplit, mongoose.Schema(precinctSplitSchema));
   models.Source = mongoose.model(config.mongoose.model.source, mongoose.Schema(sourceSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
