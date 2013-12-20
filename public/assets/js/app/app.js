@@ -61,6 +61,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       controller: 'FeedElectionCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-state.html',
+      controller: 'FeedStateCtrl'
+    });
+
+
+
+
+
+
     $routeProvider.when('/template/feed', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
@@ -273,10 +283,22 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   // expose the $location into the scope
   $rootScope.$location = $location;
 
-  // expose the $window into the scope
-  $rootScope.$window = $window;
+  // set a flag to determine if the screen is in mobile dimensions
+  $rootScope.mobileDimensions = ($window.innerWidth < 1116);
+  $rootScope.toggleAside = true;
   window.onresize = function(){
+    $rootScope.mobileDimensions = ($window.innerWidth < 1116);
+    if(!$rootScope.mobileDimensions){
+
+      $rootScope.toggleAside = true;
+    }
     $rootScope.$apply();
+  }
+
+  $rootScope.toggleAsideFunc = function(){
+    if($rootScope.mobileDimensions){
+      $rootScope.toggleAside = !$rootScope.toggleAside;
+    }
   }
 
 });

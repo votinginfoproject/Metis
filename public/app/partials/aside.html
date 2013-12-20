@@ -1,4 +1,4 @@
-<header class="feed-title" Xng-init="toggleAside=false" Xng-click="toggleAside=!toggleAside">
+<header class="feed-title" ng-click="toggleAsideFunc()">
   <div class="wrapper">
 
     <h2>2012/11/06 Ohio Federal Election</h2>
@@ -6,7 +6,7 @@
   </div>
 </header>
 
-<div class="details" Xng-hide="toggleAside">
+<div class="details" ng-hide="mobileDimensions && toggleAside">
   <div class="wrapper">
 
     <form role="search">
