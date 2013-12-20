@@ -196,7 +196,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window) {
 
 
   $rootScope.pageHeader = {};
@@ -272,4 +272,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   // expose the $location into the scope
   $rootScope.$location = $location;
+
+  // expose the $window into the scope
+  $rootScope.$window = $window;
+  window.onresize = function(){
+    $rootScope.$apply();
+  }
+
 });
