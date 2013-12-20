@@ -4,6 +4,7 @@
 var config = require('../config');
 var mongoose = require('mongoose');
 var schemas = require('../dao/schemas');
+var Source = require('./mappers/Source');
 
 var db;
 var feedDoc = {};
@@ -47,18 +48,16 @@ function saveBasicFeedInfo(filePath) {
   });
 };
 
+function onError(err) {
+  console.error(err);
+};
+
 function processSourceElement(source) {
   console.log(source);
 
-  var sourceModel = require('./mappers/Source').mapXml(schemas, feedDoc._id, source);
-  sourceModel.save(function (err, data) {
-    if (err) {
-      console.error(err);
-    }
-    else {
-      console.log('Stored source element to database.');
-    }
-  });
+  var sourceModel = new Source(schemas.models, feedDoc._id);
+  sourceModel.mapXml3_0(source);
+  sourceModel.save(onError, function() { console.log('Stored source element to database.'); })
 };
 
 function yesNoConverter(yesNoValue) {

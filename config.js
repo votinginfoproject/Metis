@@ -24,11 +24,20 @@ config.crowd = {
  */
 config.mongoose = {
   model: {
-    feed: "feeds",
-    election: "elections",
-    source: "sources",
-    electionOfficial: "electionOfficials",
-    contest: "contests"
+    ballot: "ballot",
+    candidate: "candidate",
+    contest: "contest",
+    election: "election",
+    electionAdministration: "electionAdministration",
+    electionOfficial: "electionOfficial",
+    electoralDistrict: "electoralDistrict",
+    feed: "feed",
+    locality: "locality",
+    pollingLocation: "pollingLocation",
+    precinct: "precinct",
+    precinctSplit: "precinctSplit",
+    source: "source",
+    streetSegment: "streetSegment"
   },
   connectionString: "mongodb://localhost/metis"
 }
