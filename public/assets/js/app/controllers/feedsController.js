@@ -23,7 +23,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       $scope.feeds = data;
 
       // sets the defaults for the table sorting parameters
-      $scope.tableParams = new ngTableParams({
+      $scope.feedTableParams = new ngTableParams({
         page: 1,
         count: 10,
         sorting: {

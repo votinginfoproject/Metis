@@ -1,6 +1,6 @@
 <h2>Active Feeds</h2>
 
-<table id="feedsTable" ng-table="tableParams" template-pagination="feedsPagination" class="associations">
+<table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
   <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
     <td id="date{{$index}}" data-title="'Date'" sortable="'date'"><a href="{{$location.absUrl()}}/{{feed.id}}">{{feed.date}}</a></td>
     <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a href="{{$location.absUrl()}}/{{feed.id}}">{{feed.state}}</a></td>
