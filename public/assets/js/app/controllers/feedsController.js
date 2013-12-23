@@ -13,7 +13,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null);
+  $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null, null);
 
   // call our services
   $feedsService.getFeeds()

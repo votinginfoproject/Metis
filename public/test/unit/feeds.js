@@ -34,7 +34,7 @@ describe('Feed Unit Tests', function() {
         this.sorting = defaults.sorting;
       }
 
-      $rootScope.setPageHeader = function(a,b,c,d) {
+      $rootScope.setPageHeader = function(a,b,c,d,e) {
         return;
       }
 

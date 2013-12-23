@@ -29,8 +29,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("State", breadcrumbs, "feeds", null);
-  $rootScope.pageHeader.error = "";
+  $rootScope.setPageHeader("State", breadcrumbs, "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -71,8 +70,6 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
   $feedsService.getFeedState(servicePath)
     .success(function (data) {
 
-
-      console.dir(data);
       // set the feeds data into the Angular model
       $scope.feedState = data;
 

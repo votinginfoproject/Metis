@@ -249,13 +249,15 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * @breadcrumbs - the breadcrumbs as an array
    * @section - section name used for the navigation bar "home", "admin", "feeds", "profile"
    * @error - error message to show on the screen
+   * @error - alert message to show on the screen
    */
-  $rootScope.setPageHeader = function (title, breadcrumbs, section, error) {
+  $rootScope.setPageHeader = function (title, breadcrumbs, section, error, alert) {
 
     this.pageHeader.title = title;
     this.pageHeader.section = section;
     this.pageHeader.breadcrumbs = breadcrumbs;
     this.pageHeader.error = error;
+    this.pageHeader.alert = alert;
   };
 
   // Before we render any pages,

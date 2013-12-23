@@ -25,8 +25,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("Election", breadcrumbs, "feeds", null);
-  $rootScope.pageHeader.error = "";
+  $rootScope.setPageHeader("Election", breadcrumbs, "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

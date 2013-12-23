@@ -54,7 +54,7 @@ describe('Feed Election Unit Tests', function() {
       $rootScope.feedElection = {};
       $rootScope.feedContests = {};
 
-      $rootScope.setPageHeader = function(a,b,c,d) {
+      $rootScope.setPageHeader = function(a,b,c,d,e) {
         return;
       }
 
