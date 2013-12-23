@@ -41,5 +41,8 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
     }).error(function (data) {
 
       $rootScope.pageHeader.error = "Could not retrieve Feeds Data.";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feeds = {};
     });
 }

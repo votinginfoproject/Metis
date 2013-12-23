@@ -14,6 +14,7 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid', utils.ensureAuthentication, feedOverviewGET);
   app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, feedSourceGET);
   app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
+  app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedElectionStateGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -66,6 +67,11 @@ feedElectionGET = function (req, res) {
       res.json(mapper.mapElection(req.path, election));
     });
   });
+};
+
+feedElectionStateGET = function (req, res) {
+  var state = {}; //TODO: get data from the database
+  res.json(mapper.mapElectionState(req.path, state));
 };
 
 feedElectionContestsGET = function (req, res) {

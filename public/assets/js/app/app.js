@@ -208,10 +208,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  */
 vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window) {
 
-
-  $rootScope.pageHeader = {};
-  $rootScope.user = null;
-
   // TODO
   // initialize the cache for the app
   //$rootScope.cache = $cacheFactory('vipApp');
@@ -242,6 +238,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     $httpBackend.whenGET($appProperties.servicesPath + "/feeds").respond(feeds);
     $httpBackend.whenGET(/partials\/.*/).passThrough();
   }
+
+  $rootScope.pageHeader = {};
+  $rootScope.user = null;
+
   /*
    * Sets PageHeader values
    *
@@ -252,7 +252,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    */
   $rootScope.setPageHeader = function (title, breadcrumbs, section, error) {
 
-    this.pageHeader = {};
     this.pageHeader.title = title;
     this.pageHeader.section = section;
     this.pageHeader.breadcrumbs = breadcrumbs;

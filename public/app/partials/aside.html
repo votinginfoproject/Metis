@@ -1,7 +1,7 @@
 <header class="feed-title" ng-click="toggleAsideFunc()">
   <div class="wrapper">
 
-    <h2>2012/11/06 Ohio Federal Election</h2>
+    <h2>{{feedData.title}}</h2>
 
   </div>
 </header>
@@ -13,7 +13,7 @@
       <input type="search" placeholder="Search">
     </form>
 
-  <a class="button-errors" href="#">{{feedData.error_count}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due {{feedData.dueDate}}</time></a>
+  <a class="button-errors" href="#">{{feedData.error_count}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due <mark>DUE DATE</mark></time></a>
 
     <h2 class="feed-status">Revisions Needed</h2>
 

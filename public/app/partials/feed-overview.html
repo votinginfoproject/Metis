@@ -4,8 +4,7 @@
   <header class="data-group-header">
     <h2>Source</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
-    <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More
-      Detail </a>
+    <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
   </header>
 </section>
 <!-- /.data-group -->
@@ -14,8 +13,7 @@
   <header class="data-group-header">
     <h2>Election</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
-    <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More
-      Detail </a>
+    <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail</a>
   </header>
 </section>
 <!-- /.data-group -->
@@ -23,7 +21,8 @@
 <section class="data-group started">
   <header class="data-group-header">
     <h2>Polling Locations</h2>
-    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/state">-not ready- </a>
+    <span ng-if="!feedData" class="more-detail is-loading"></span>
+    <a id="state-link" ng-if="feedData.state" class="more-detail" href="{{$location.absUrl()}}/election/state">More Detail</a>
   </header>
 
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
@@ -53,7 +52,7 @@
     </tbody>
   </table>
 
-  <h3>100 Localities
+  <h3><mark>100</mark> Localities
     <small>(Counties)</small>
   </h3>
   <p>
@@ -66,7 +65,7 @@
 <section class="data-group started">
   <header class="data-group-header">
     <h2>Contests</h2>
-    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests">-not ready- </a>
+    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests"><mark>More Detail</mark></a>
   </header>
 
   <span ng-if="!feedContests" class="is-loading"></span>
@@ -134,7 +133,7 @@
 <!-- /.data-group -->
 
 <section class="data-group" id="history">
-  <h2>History</h2>
+  <h2><mark>History</mark></h2>
 
   <dl class="history">
 

@@ -24,6 +24,7 @@ var mapOverview = function(path, feed) {
     errors: _path.join(path, '/errors'),
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
+    state: _path.join(path, '/election/state'),
     polling_locations: _path.join(path, '/polling'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
@@ -74,6 +75,35 @@ var mapElection = function(path, election) {
       locality_count: 100
     },
     contests: _path.join(path, '/contests')
+  };
+};
+
+var mapElectionState = function(path, election) {
+  return {
+    id: 10,
+    name: "South Carolina",
+    localities: [
+      {
+        id: 1,
+        name: "Alamance",
+        precints: 37
+      },
+      {
+        id: 2,
+        name: "Anson",
+        precints: 7
+      },
+      {
+        id: 3,
+        name: "Burke",
+        precints: 21
+      },
+      {
+        id: 4,
+        name: "Zandell",
+        precints: 4
+      }
+    ]
   };
 };
 
@@ -170,6 +200,7 @@ exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
 exports.mapElection = mapElection;
+exports.mapElectionState = mapElectionState;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
