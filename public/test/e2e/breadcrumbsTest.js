@@ -115,6 +115,52 @@ describe('Breadcrumbs Test', function () {
   });
 
   /* ----------------------------------------
+   Feed State page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed State page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 4 breadcrumbs', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state");
+      sleep(1);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb4').count()).toBe(0);
+    });
+
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
+
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed State page, click the 3rd breadcrumb
+   ------------------------------------------*/
+  describe('Click the Election breadcrumb to be taken to the feed Election page', function () {
+    // check the the number of feeds
+    it('Clicking breadcrumb should go to Feed Election page', function () {
+
+      // click 3rd breadcrumb
+      element('#pageHeader-breadcrumb2').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed election page
+      expect(element('#feed-election-content').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
    Now from the Feed Election page, click the 2nd breadcrumb
    ------------------------------------------*/
   describe('Click the vip-feed breadcrumb to be taken to the feed overview page', function () {

@@ -23,7 +23,7 @@ describe('Feed Election Test', function () {
 
       expect(element('#election-link').count()).toBe(1);
 
-      // click the source link
+      // click the election link
       element('#election-link').click();
       sleep(testGlobals.sleepTime);
 
