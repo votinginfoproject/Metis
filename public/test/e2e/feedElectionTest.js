@@ -62,12 +62,8 @@ describe('Feed Election Test', function () {
    ------------------------------------------*/
   describe('Check Feed Election Contests', function () {
     // check the the number of items
-    it('Should have 4 contests', function () {
-
+    it('Should have contests', function () {
       expect(element('#contests-id0').count()).toBe(1);
-      //...
-      expect(element('#contests-id3').count()).toBe(1);
-      expect(element('#contests-id4').count()).toBe(0);
     });
 
   });
