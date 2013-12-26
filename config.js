@@ -24,22 +24,29 @@ config.crowd = {
  */
 config.mongoose = {
   model: {
-    ballot: "ballot",
-    candidate: "candidate",
-    contest: "contest",
-    election: "election",
-    electionAdministration: "electionAdministration",
-    electionOfficial: "electionOfficial",
-    electoralDistrict: "electoralDistrict",
-    feed: "feed",
-    locality: "locality",
-    pollingLocation: "pollingLocation",
-    precinct: "precinct",
-    precinctSplit: "precinctSplit",
-    source: "source",
-    streetSegment: "streetSegment"
+    ballot: 'ballots',
+    ballotLineResult: 'ballotLineResults',
+    ballotResponse: 'ballotResponses',
+    candidate: 'candidates',
+    contest: 'contests',
+    contestResult: 'contestResults',
+    customBallot: 'customBallots',
+    earlyVoteSite: 'ealyVoteSites',
+    election: 'elections',
+    electionAdministration: 'electionAdministrations',
+    electionOfficial: 'electionOfficials',
+    electoralDistrict: 'electoralDistricts',
+    feed: 'feeds',
+    locality: 'localitys',
+    pollingLocation: 'pollingLocations',
+    precinct: 'precincts',
+    precinctSplit: 'precinctSplits',
+    referendum: 'referendums',
+    source: 'sources',
+    state: 'states',
+    streetSegment: 'streetSegments'
   },
-  connectionString: "mongodb://localhost/metis"
+  connectionString: 'mongodb://localhost/metis'
 }
 
 module.exports = config;

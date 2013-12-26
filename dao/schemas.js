@@ -5,36 +5,70 @@ var Types = require('mongoose').Schema.Types;
 
 var models = {};
 
+var simpleAddressSchema = {
+  locationName: String,
+  line1: String,
+  line2: String,
+  line3: String,
+  city: String,
+  state: String,
+  zip: String
+};
+
 /*
  * Mongoose Schema Definitions
  */
 var ballotSchema = {
-  id: String, //required
-  referendumId: String,
-  candidateId: String,
-  customBallotId: String,
+  elementId: Number, //required
+  referendumId: Number,
+  candidates: [{
+    id: Number,
+    sortOrder: Number
+  }],
+  customBallotId: Number,
   writeIn: Boolean,
   imageUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
+var ballotLineResultSchema = {
+  elementId: Number, //required
+  contestId: Number,
+  jurisdictionId: Number,
+  entireDistrict: Boolean,
+  candidateId: Number,
+  ballotResponseId: Number,
+  votes: Number,
+  victorious: Boolean,
+  certification: String,
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
+var ballotResponseSchema = {
+  elementId: Number, //required
+  text: String,
+  sortOrder: Number,
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
 var candidateSchema = {
+  elementId: Number, //required
   name: String,
   party: String,
   candidateUrl: String,
   biography: String,
   phone: String,
   photoUrl: String,
-  filedMailingAddress: String, //TODO: how to acct for XMLComplexType
+  filedMailingAddress: simpleAddressSchema,
   email: String,
-  sortOrder: String,
+  sortOrder: Number,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
 var contestSchema = {
   elementId: Number,     //required
-  electionId:  String,
-  electoralDistrictId:  String,
+  electionId:  Number,
+  electoralDistrictId:  Number,
   type: String,
   partisan: Boolean,
   primaryParty: String,
@@ -42,10 +76,47 @@ var contestSchema = {
   special: Boolean,
   office: String,
   filingClosedDate: Date,
-  numberElected:  String,
-  numberVotingFor: String,
-  ballotId: String,
-  ballotPlacement: String,
+  numberElected:  Number,
+  numberVotingFor: Number,
+  ballotId: Number,
+  ballotPlacement: Number,
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
+var contestResultSchema = {
+  elementId: Number, //required
+  contestId: Number,
+  jurisdictionId: Number,
+  entireDistrict: Boolean,
+  totalVotes: Number,
+  totalValidVotes: Number,
+  overvotes: Number,
+  blankVotes: Number,
+  acceptedProvisionalVotes: Number,
+  rejectedVotes: Number,
+  certification: String,
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
+var customBallotSchema = {
+  elementId: Number, //required
+  heading: String,
+  ballotResponse: [{
+    id: Number,
+    sortOrder: Number
+  }],
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
+var earlyVoteSiteSchema = {
+  elementId: Number, //required
+  name: String,
+  address: simpleAddressSchema,
+  directions: String,
+  voterServices: String,
+  startDate: Date,
+  endDate: Date,
+  daysTimesOpen: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
@@ -66,12 +137,12 @@ var electionSchema = {
 };
 
 var electionAdminSchema = {
-  id: String,     //required
+  elementId: Number,     //required
   name: String,
-  eoId: String,
-  ovcId: String,
-  physicalAddress: String,
-  mailingAddress: String,
+  eoId: Number,
+  ovcId: Number,
+  physicalAddress: simpleAddressSchema,
+  mailingAddress: simpleAddressSchema,
   electionsUrl: String,
   registrationUrl: String,
   amIRegisteredUrl: String,
@@ -95,10 +166,10 @@ var electionOfficialSchema = {
 };
 
 var electoralDistrictSchema = {
-  id: String, //required
+  elementId: Number, //required
   name: String,
   type: String,
-  number: String,
+  number: Number,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
@@ -111,18 +182,18 @@ var feedSchema = {
 };
 
 var localitySchema = {
-  id: String,
+  elementId: Number,
   name: String,
-  stateId: String,
+  stateId: Number,
   type: String,
-  electionAdminId: String,
-  earlyVoteSiteId: String,
+  electionAdminId: Number,
+  earlyVoteSiteIds: [Number],
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
 var pollingLocationSchema = {
-  id: String,   //required
-  address: String,
+  elementId: Number,   //required
+  address: simpleAddressSchema,
   directions: String,
   pollingHours: String,
   photoUrl: String,
@@ -130,26 +201,43 @@ var pollingLocationSchema = {
 };
 
 var precinctSchema = {
-  id: String,       //required
+  elementId: Number,       //required
   name: String,
   number: String,
-  localityId: String,
-  electoralDistrictId: String,
+  localityId: Number,
+  electoralDistrictIds: [Number],
   ward: String,
-  mailOnly: String,
-  pollingLocationId: String,
-  earlyVoteSiteId: String,
+  mailOnly: Boolean,
+  pollingLocationIds: [Number],
+  earlyVoteSiteIds: [Number],
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
 var precinctSplitSchema = {
-  id: String,       //required
+  elementId: Number,       //required
   name: String,
-  precinctId: String,
-  electoralDistrictId: String,
-  pollingLocationId: String,
+  precinctId: Number,
+  electoralDistrictIds: [Number],
+  pollingLocationIds: [Number],
   ballotStyleImageUrl: String,
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
+var referendumSchema = {
+  elementId: Number, //required
+  title: String,
+  subtitle: String,
+  brief: String,
+  text: String,
+  proStatement: String,
+  conStatement: String,
+  passageThreshold: String,
+  effectOfAbstain: String,
+  ballotResponse: {
+    id: Number,
+    sortOrder: Number
+  },
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
@@ -160,26 +248,41 @@ var sourceSchema = {
   description: String,
   name: String,
   organizationUrl: String,
-  feedContactId: String,
+  feedContactId: Number,
   touUrl: String,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
+var stateSchema = {
+  elementId: Number, //required
+  name: String,
+  electionAdminstrationId: Number,
+  earlyVoteSiteIds: [Number],
+  _feed: { type: Types.ObjectId, ref: 'Feed'}
+};
+
 var streetSegmentSchema = {
-  id: String,
-  startHouseNumber: String,
-  endHouseNumber: String,
+  elementId: Number, //required
+  startHouseNumber: Number,
+  endHouseNumber: Number,
   oddEvenBoth: String,
+  startApartmentNumber: Number,
+  endApartmentNumber: Number,
   nonHouseAddress: {
+    houseNumber: Number,
+    houseNumberPrefix: String,
+    houseNumberSuffix: String,
     streetDirection: String,
     streetName: String,
     streetSuffix: String,
     addressDirection: String,
-    state: String,
+    apartment: String,
     city: String,
-    zip: Number
+    state: String,
+    zip: String
   },
   precinctId: Number,
+  precinctSplitId: Number,
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
@@ -190,8 +293,13 @@ exports.models = models;
 
 exports.initSchemas = function(config, mongoose) {
   models.Ballot = mongoose.model(config.mongoose.model.ballot, mongoose.Schema(ballotSchema));
+  models.BallotResponse = mongoose.model(config.mongoose.model.ballotResponse, mongoose.Schema(ballotResponseSchema));
+  models.BallotLineResult = mongoose.model(config.mongoose.model.ballotLineResult, mongoose.Schema(ballotLineResultSchema));
   models.Candidate = mongoose.model(config.mongoose.model.candidate, mongoose.Schema(candidateSchema));
   models.Contest = mongoose.model(config.mongoose.model.contest, mongoose.Schema(contestSchema));
+  models.ContestResult = mongoose.model(config.mongoose.model.contestResult, mongoose.Schema(contestResultSchema));
+  models.CustomBallot = mongoose.model(config.mongoose.model.customBallot, mongoose.Schema(customBallotSchema));
+  models.EarlyVoteSite = mongoose.model(config.mongoose.model.earlyVoteSite, mongoose.Schema(earlyVoteSiteSchema));
   models.Election = mongoose.model(config.mongoose.model.election, mongoose.Schema(electionSchema));
   models.ElectionAdmin = mongoose.model(config.mongoose.model.electionAdministration, mongoose.Schema(electionAdminSchema));
   models.ElectionOfficial = mongoose.model(config.mongoose.model.electionOfficial, mongoose.Schema(electionOfficialSchema));
@@ -201,7 +309,9 @@ exports.initSchemas = function(config, mongoose) {
   models.PollingLocation = mongoose.model(config.mongoose.model.pollingLocation, mongoose.Schema(pollingLocationSchema));
   models.Precinct = mongoose.model(config.mongoose.model.precinct, mongoose.Schema(precinctSchema));
   models.PrecinctSplit = mongoose.model(config.mongoose.model.precinctSplit, mongoose.Schema(precinctSplitSchema));
+  models.Referendum = mongoose.model(config.mongoose.model.referendum, mongoose.Schema(referendumSchema));
   models.Source = mongoose.model(config.mongoose.model.source, mongoose.Schema(sourceSchema));
+  models.State = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
 };
 
