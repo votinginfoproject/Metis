@@ -13,7 +13,7 @@ describe('Feeds test', function () {
   });
 
   describe('Pagination Test', function () {
-    if(isTesting)
+    if(globalVars.isTesting)
     {
       it('Does Pagination work', function () {
         element('#feedsPage2').click();
@@ -26,7 +26,7 @@ describe('Feeds test', function () {
 
   describe('Sorting Test', function () {
 
-    if(isTesting)
+    if(globalVars.isTesting)
     {
       // Only works locally atm will need to fix later
       it('Data sorting by date', function () {
