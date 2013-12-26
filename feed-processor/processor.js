@@ -71,29 +71,9 @@ function yesNoConverter(yesNoValue) {
 function processElectionElement(election) {
   console.log(election);
 
-  var electionModel = new schemas.models.Election({
-    elementId: election.$.id,
-    date: election.date,
-    electionType: election.election_type,
-    stateId: election.state_id,
-    statewide: yesNoConverter(election.statewide),
-    registrationInfo: election.registration_info,
-    absenteeBallotInfo: election.absentee_ballot_info,
-    resultsUrl: election.results_url,
-    pollingHours: election.polling_hours,
-    electionDayRegistration: yesNoConverter(election.election_day_registration),
-    registrationDeadline: election.registration_deadline,
-    absenteeRequestDeadline: election.absentee_requet_deadline,
-    _feed: feedDoc._id
-  });
-  electionModel.save(function (err, data) {
-    if (err) {
-      console.error(err);
-    }
-    else {
-      console.log('Stored election element to database.');
-    }
-  });
+  var electionModel = new Election(schemas.models, feedDoc._id);
+  electionModel.mapXml3_0(election);
+  electionModel.save(onError, function() { console.log('Stored election element to database'); });
 };
 
 function processElectionOfficialElement(official) {

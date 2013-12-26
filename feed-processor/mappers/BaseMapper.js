@@ -13,4 +13,12 @@ BaseModel.prototype.save = function(onerror, onsuccess) {
   });
 };
 
+BaseModel.prototype.convertYesNo = function (yesNoValue) {
+  if (yesNoValue === undefined) {
+    return undefined;
+  }
+  return "YES".toUpperCase() == yesNoValue.toUpperCase();
+};
+
+
 module.exports = BaseModel;
