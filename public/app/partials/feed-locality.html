@@ -16,32 +16,8 @@
 <section class="data-group started">
   <h2>Overview</h2>
 
-  <span ng-if="!feedLocality" class="is-loading"></span>
-  <table class="overview" ng-if="feedLocality">
-    <thead>
-    <tr>
-      <th>Element Type</th>
-      <th>Amount</th>
-      <th>Completion</th>
-      <th>Errors</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="locality{{$index}}" ng-repeat="locality in feedLocality.overview">
-      <td id="locality-element-type{{$index}}" class="element-type">{{locality.element_type}}</td>
-      <td id="locality-amount{{$index}}" class="amount">{{locality.amount | number}}</td>
-      <td id="locality-complete{{$index}}" class="completion">
-        <div class="completeness">
-          <span class="complete-{{locality.complete_pct}}"></span>
-          <span class="counter">{{locality.complete_pct | number}}% complete</span>
-        </div>
-      </td>
-      <td id="locality-errors{{$index}}" class="element-errors"><span
-        ng-class="{none: locality.error_count===0}"
-        class="errors">{{locality.error_count | number}}</span></td>
-    </tr>
-    </tbody>
-  </table>
+  <!-- element table directive -->
+  <div ng-elementtable ng-model="feedLocality.overview" loading="feedLocality" label="locality"></div>
 
 </section><!-- /.data-group -->
 

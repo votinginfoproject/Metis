@@ -70,24 +70,23 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
 
 
 
-
-
+    // done
     $routeProvider.when('/template/feed', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
-
+    // done
     $routeProvider.when('/template/source', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
     });
-
+    // done
     $routeProvider.when('/template/election', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/election.html'
     });
-
+    // done
     $routeProvider.when('/template/state', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
     });
-
+    // done
     $routeProvider.when('/template/locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
     });
@@ -155,6 +154,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
     $routeProvider.when('/template/grid', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
     });
+
+
 
     $routeProvider.when('/profile', {
       templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
@@ -261,11 +262,13 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   // expose the $location into the scope
   $rootScope.$location = $location;
 
+
   // set a flag to determine if the screen is in mobile dimensions
-  $rootScope.mobileDimensions = ($window.innerWidth < 1116);
+  var mobileThreshhold = 1116;
+  $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
   $rootScope.toggleAside = true;
   window.onresize = function(){
-    $rootScope.mobileDimensions = ($window.innerWidth < 1116);
+    $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
     if(!$rootScope.mobileDimensions){
 
       $rootScope.toggleAside = true;
