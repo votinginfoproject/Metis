@@ -256,7 +256,7 @@ var sourceSchema = {
 var stateSchema = {
   elementId: Number, //required
   name: String,
-  electionAdminstrationId: Number,
+  electionAdministrationId: Number,
   earlyVoteSiteIds: [Number],
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
