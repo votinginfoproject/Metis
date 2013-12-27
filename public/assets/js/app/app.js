@@ -193,6 +193,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
           // and if so redirect back to homepage
           function (response) {
             if (response.status === 401) {
+              // nullify the user object
+              $rootScope.user = null;
               $location.url('/');
             }
             return $q.reject(response);

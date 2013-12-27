@@ -90,9 +90,17 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
       FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts);
 
 
-    }).error(function (data) {
+    }).error(function (data, $http) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed Locality data. ";
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, Locality  \"" + localityid + "\" for VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed Locality data. ";
+      }
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedLocality = {};
