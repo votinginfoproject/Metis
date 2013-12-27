@@ -78,33 +78,118 @@ var mapElection = function(path, election) {
   };
 };
 
-var mapElectionState = function(path, election) {
+var mapState = function(path, state) {
   return {
     id: 10,
+    error_count: 99,
     name: "South Carolina",
     localities: [
       {
-        id: 1,
+        id: 1001,
         name: "Alamance",
         precints: 37
       },
       {
-        id: 2,
+        id: 1002,
         name: "Anson",
         precints: 7
       },
       {
-        id: 3,
+        id: 1003,
         name: "Burke",
         precints: 21
       },
       {
-        id: 4,
+        id: 1004,
         name: "Zandell",
         precints: 4
       }
     ]
   };
+};
+
+var mapLocality = function(path, locality) {
+  return {
+    id: locality.id,
+    error_count: 88,
+    name: "Locality Name",
+    type: "County",
+    electionMachineType: "Machine XYZ",
+    pollBookType: "Type A",
+    overview: [
+      {
+        element_type: 'Electoral Districts',
+        amount: 0,
+        complete_pct: 0,
+        error_count: 0
+      },
+      {
+        element_type: 'Precincts',
+        amount: 2564,
+        complete_pct: 94,
+        error_count: 206
+      },
+      {
+        element_type: 'Precinct Splits',
+        amount: 2311,
+        complete_pct: 12,
+        error_count: 322
+      },
+      {
+        element_type: 'Street Segments',
+        amount: 234,
+        complete_pct: 19,
+        error_count: 4223
+      }
+    ],
+    administration: {
+      id: 2201,
+      name: "The County Board of Elections",
+      address: "Graham, NC 27253"
+    },
+    earlyvotesites: _path.join(path, '/earlyvotesites'),
+    precincts: _path.join(path, '/precincts')
+  };
+};
+
+var mapLocalityEarlyVoteSites = function(path, locality) {
+  return [
+    {
+      id: 240017,
+      name: "Court Services",
+      address: "Graham, NC 27253"
+    },
+    {
+      id: 240018,
+      name: "Mebane Arts Center",
+      address: "Mebane, NC 27302"
+    },
+    {
+      id: 240019,
+      name: "May Memorial Library",
+      address: "Burlington, NC 11111"
+    }
+  ]
+};
+
+var mapLocalityPrecincts = function(path, precincts) {
+  return [
+    {
+      id: 910011,
+      name: "Patterson",
+      precinct_splits: 1
+    },
+    {
+      id: 9100110,
+      name: "Graham",
+      precinct_splits: 2
+    },
+    {
+      id: 9100111,
+      name: "Jamesboro",
+      precinct_splits: 3
+    }
+  ]
 };
 
 var mapElectionContest = function(path, contest) {
@@ -200,7 +285,10 @@ exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
 exports.mapElection = mapElection;
-exports.mapElectionState = mapElectionState;
+exports.mapState = mapState;
+exports.mapLocality = mapLocality;
+exports.mapLocalityEarlyVoteSites = mapLocalityEarlyVoteSites;
+exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;

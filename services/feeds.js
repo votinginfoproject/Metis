@@ -14,7 +14,10 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid', utils.ensureAuthentication, feedOverviewGET);
   app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, feedSourceGET);
   app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
-  app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedElectionStateGET);
+  app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedStateGET);
+  app.get('/services/feeds/:feedid/election/state/:localityid', utils.ensureAuthentication, feedLocalityGET);
+  app.get('/services/feeds/:feedid/election/state/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -69,9 +72,26 @@ feedElectionGET = function (req, res) {
   });
 };
 
-feedElectionStateGET = function (req, res) {
+feedStateGET = function (req, res) {
   var state = {}; //TODO: get data from the database
-  res.json(mapper.mapElectionState(req.path, state));
+  res.json(mapper.mapState(req.path, state));
+};
+
+feedLocalityGET = function (req, res) {
+  var locality = {
+    id: req.params.localityid
+  }; //TODO: get data from the database
+  res.json(mapper.mapLocality(req.path, locality));
+};
+
+feedLocalityEarlyVoteSitesGET = function (req, res) {
+  var earlyVoteSites = {}; //TODO: get data from the database
+  res.json(mapper.mapLocalityEarlyVoteSites(req.path, earlyVoteSites));
+};
+
+feedLocalityPrecinctsGET = function (req, res) {
+  var precincts = {}; //TODO: get data from the database
+  res.json(mapper.mapLocalityPrecincts(req.path, precincts));
 };
 
 feedElectionContestsGET = function (req, res) {
