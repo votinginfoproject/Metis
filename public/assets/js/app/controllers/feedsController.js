@@ -13,7 +13,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null, null);
+  $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null);
 
   // call our services
   $feedsService.getFeeds()
@@ -23,7 +23,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       $scope.feeds = data;
 
       // sets the defaults for the table sorting parameters
-      $scope.tableParams = new ngTableParams({
+      $scope.feedTableParams = new ngTableParams({
         page: 1,
         count: 10,
         sorting: {
@@ -41,8 +41,5 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
     }).error(function (data) {
 
       $rootScope.pageHeader.error = "Could not retrieve Feeds Data.";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feeds = {};
     });
 }

@@ -3,15 +3,12 @@
  * VIP App
  *
  */
-
-var isTesting = false;
-
 // Comment in if want to disable all "debug" logging
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
 var vipApp;
-if(isTesting)
+if(globalVars.isTesting)
   vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'ngMockE2E']);
 else
   vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
@@ -215,33 +212,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   // TODO
   // initialize the cache for the app
   //$rootScope.cache = $cacheFactory('vipApp');
-
-  if(isTesting)
-  {
-    var feeds = [
-      {date: '2011-10-12', state: 'Ohio', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-10-11', state: 'Florida', type: 'State', status: 'determined'},
-      {date: '2011-10-10', state: 'Delaware', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-10-25', state: 'North Carolina', type: 'State', status: 'determined'},
-      {date: '2011-08-15', state: 'South Carolina', type: 'State', status: 'Undetermined'},
-      {date: '2012-10-25', state: 'Virginia', type: 'Federal', status: 'Undetermined'},
-      {date: '2013-12-16', state: 'Georgia', type: 'State', status: 'determined'},
-      {date: '2011-09-08', state: 'Texas', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-07-10', state: 'New York', type: 'State', status: 'Undetermined'},
-      {date: '2011-08-13', state: 'California', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-11-01', state: 'Vermont', type: 'Federal', status: 'determined'},
-      {date: '2011-10-02', state: 'West Virginia', type: 'Federal', status: 'Undetermined'}
-    ]
-
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/adminMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/getUser").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/referenceDataMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/homeMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/xxxxxxxxxx").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/profileMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/feeds").respond(feeds);
-    $httpBackend.whenGET(/partials\/.*/).passThrough();
-  }
+  InterceptorSetup($httpBackend, $appProperties);
 
   $rootScope.pageHeader = {};
   $rootScope.user = null;
