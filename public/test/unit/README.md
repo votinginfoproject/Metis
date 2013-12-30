@@ -14,4 +14,9 @@ Setting up karma
     - Application Parameters: start [<name of config file>]
     - Then just run along with the application
 
-* currently is using firefox as the default browser but can add more.
+Running Functional Tests
+
+* navigate to localHost:4000/test/e2e/runner.html
+
+
+TODO Add instructions for running the mongoose test runner

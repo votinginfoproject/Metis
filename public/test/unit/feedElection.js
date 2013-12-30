@@ -63,6 +63,7 @@ describe('Feed Election Unit Tests', function() {
         '$rootScope': $rootScope,
         '$feedsService': mockService,
         '$routeParams': routeParams,
+        'ngTableParams': ngTableParams,
         '$location': $location
       });
     }));
