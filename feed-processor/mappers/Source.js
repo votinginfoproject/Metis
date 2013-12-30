@@ -18,6 +18,7 @@ Source.prototype.mapXml3_0 = function (source) {
     name: source.name,
     organizationUrl: source.organization_url,
     feedContactId: source.feed_contact_id,
+    touUrl: source.tou_url,
     _feed: this.feedId
   });
 };

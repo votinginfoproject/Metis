@@ -234,10 +234,10 @@ var referendumSchema = {
   conStatement: String,
   passageThreshold: String,
   effectOfAbstain: String,
-  ballotResponse: {
+  ballotResponse: [{
     id: Number,
     sortOrder: Number
-  },
+  }],
   _feed: { type: Types.ObjectId, ref: 'Feed'}
 };
 
@@ -303,7 +303,7 @@ exports.initSchemas = function(config, mongoose) {
   models.Election = mongoose.model(config.mongoose.model.election, mongoose.Schema(electionSchema));
   models.ElectionAdmin = mongoose.model(config.mongoose.model.electionAdministration, mongoose.Schema(electionAdminSchema));
   models.ElectionOfficial = mongoose.model(config.mongoose.model.electionOfficial, mongoose.Schema(electionOfficialSchema));
-  models.ElectoralDistrictSchema = mongoose.model(config.mongoose.model.electoralDistrict, mongoose.Schema(electoralDistrictSchema));
+  models.ElectoralDistrict = mongoose.model(config.mongoose.model.electoralDistrict, mongoose.Schema(electoralDistrictSchema));
   models.Feed = mongoose.model(config.mongoose.model.feed, mongoose.Schema(feedSchema));
   models.Locality = mongoose.model(config.mongoose.model.locality, mongoose.Schema(localitySchema));
   models.PollingLocation = mongoose.model(config.mongoose.model.pollingLocation, mongoose.Schema(pollingLocationSchema));

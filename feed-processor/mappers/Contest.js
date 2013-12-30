@@ -13,7 +13,7 @@ Contest.prototype.mapXml3_0 = function (contest) {
   this.model = new this.models.Contest({
     elementId: contest.$.id,     //required
     electionId:  contest.election_id,
-    electoralDistrictId:  contest.electoral_district_id,
+    electoralDistrictId:  contest.electoral_district_id[0],
     type: contest.type,
     partisan: this.convertYesNo(contest.partisan),
     primaryParty: contest.primary_party,
@@ -29,11 +29,11 @@ Contest.prototype.mapXml3_0 = function (contest) {
   });
 };
 
-Contest.prototype.mapXml5_0 = function (state) {
+Contest.prototype.mapXml5_0 = function (contest) {
 
 };
 
-Contest.prototype.mapCsv = function (state) {
+Contest.prototype.mapCsv = function (contest) {
 
 };
 

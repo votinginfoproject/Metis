@@ -12,15 +12,7 @@ util.inherits(PollingLocation, basemapper);
 PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
   this.model = new this.models.PollingLocation({
     elementId: pollingLocation.$.id,     //required
-    address: {
-      locationName: pollingLocation.location_name,
-      line1: pollingLocation.line1,
-      line2: pollingLocation.line2,
-      line3: pollingLocation.line3,
-      city: pollingLocation.city,
-      state: pollingLocation.state,
-      zip: pollingLocation.zip
-    },
+    address: this.mapSimpleAddress(pollingLocation.address),
     directions: pollingLocation.directions,
     pollingHours: pollingLocation.polling_hours,
     photoUrl: pollingLocation.photo_url,
@@ -28,11 +20,11 @@ PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
   });
 };
 
-PollingLocation.prototype.mapXml5_0 = function (state) {
+PollingLocation.prototype.mapXml5_0 = function (pollingLocation) {
 
 };
 
-PollingLocation.prototype.mapCsv = function (state) {
+PollingLocation.prototype.mapCsv = function (pollingLocation) {
 
 };
 

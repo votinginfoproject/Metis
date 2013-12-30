@@ -21,11 +21,11 @@ Locality.prototype.mapXml3_0 = function (locality) {
   });
 };
 
-Locality.prototype.mapXml5_0 = function (state) {
+Locality.prototype.mapXml5_0 = function (locality) {
 
 };
 
-Locality.prototype.mapCsv = function (state) {
+Locality.prototype.mapCsv = function (locality) {
 
 };
 

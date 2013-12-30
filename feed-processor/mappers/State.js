@@ -10,6 +10,10 @@ const
 util.inherits(State, basemapper);
 
 State.prototype.mapXml3_0 = function (state) {
+  if (state.$ === undefined) {
+    return;
+  }
+
   this.model = new this.models.State({
     elementId: state.$.id,
     name: state.name,
