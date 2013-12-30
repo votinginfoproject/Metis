@@ -20,21 +20,25 @@
 
 <p><mark>Map goes here.</mark></p>
 
+<!--<table ng-if="feedState" class="associations">-->
+<!-- TODO Ask Navid about the ng-if statement on the table (breaks ng-table for some reason -->
+  
 <div ng-if="!feedState"></br><span class="is-loading"></span></div>
-<table ng-if="feedState" class="associations">
-<thead>
-<tr>
-  <th>ID</th>
-  <th>Name</th>
-  <th>Precincts</th>
-</tr>
-</thead>
-<tbody>
-<tr id="locality{{$index}}" ng-repeat="locality in feedState.localities">
-  <td id="locality-id{{$index}}" class="id"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.id}}</a></td>
-  <td id="locality-name{{$index}}" class="name"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.name}}</a></td>
-  <td id="locality-precincts{{$index}}" class="precincts"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.precints}}</a></td>
-</tr>
-</tbody>
+<table id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
+  <tr id="locality{{$index}}" ng-repeat="locality in $data">
+    <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.id}}</a></td>
+    <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.name}}</a></td>
+    <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.precints}}</a></td>
+  </tr>
 </table>
+
+<script type="text/ng-template" id="localPagination">
+  <ul class="pagination ng-cloak">
+    <li ng-repeat="page in pages"
+        ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localTableParams.page()}" ng-click="localTableParams.page(page.number)" href="">{{page.number}}</a>
+    </li>
+  </ul>
+</script>
+
 </section><!-- /.data-group -->
