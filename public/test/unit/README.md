@@ -1,17 +1,17 @@
-Setting up karma
+## Running Karma
 
-* install karma
-    - npm install karma
-* create a config file
-    - karma init [<name of config file>]
-* run karma
-    - karma start [<name of config file>]
+1. install karma
+```
+npm install karma
+```
+2. run karma
+```
+karma start _name of config file_
+```
 
-* setting up Karma to work with webStorm
-    - Node Interpreter: /usr/local/bin/node
-    - Also need to add your working directory.
-    - JavaScript File: /usr/local/bin/karma
-    - Application Parameters: start [<name of config file>]
-    - Then just run along with the application
+WebStorm also has a built in build configuration for karma which breaks down each test.
+Karma is configured to use chrome as the default browser.
 
-* currently is using firefox as the default browser but can add more.
+## Running Functional Tests
+
+* navigate to localHost:4000/test/e2e/runner.html

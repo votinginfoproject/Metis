@@ -22,6 +22,7 @@ module.exports = function(config) {
       'public/assets/js/lib/jquery/jquery.min.js',
       'public/assets/js/lib/javascript-debug/ba-debug.min.js',
       'public/assets/js/lib/ng-table/ng-table.js',
+      'public/test/Mocking.js',
       'public/assets/js/app/app.js',
       'public/assets/js/app/services/*.js',
       'public/assets/js/app/controllers/*.js',

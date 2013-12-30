@@ -60,9 +60,9 @@ describe('Feed Unit Tests', function() {
 
     it('should setup the defualt table params', function() {
       $httpBackend.flush();
-      expect($rootScope.tableParams.page).toEqual(1);
-      expect($rootScope.tableParams.count).toEqual(10);
-      expect($rootScope.tableParams.sorting.date).toEqual('asc');
+      expect($rootScope.feedTableParams.page).toEqual(1);
+      expect($rootScope.feedTableParams.count).toEqual(10);
+      expect($rootScope.feedTableParams.sorting.date).toEqual('asc');
     });
   });
 
