@@ -3,7 +3,7 @@
  * Feeds Locality Controller
  *
  */
-function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
+function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -47,7 +47,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, data.state + "/" + localityid);
+      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, data.state + "/" + localityid, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -73,7 +73,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Locality for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath){
+function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
 
   // get Feed Locality
   $feedsService.getFeedLocality(servicePath)
@@ -86,8 +86,8 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
       $rootScope.pageHeader.title = "Locality ID: " + data.id;
 
       // now call the other services to get the rest of the data
-      FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites);
-      FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts);
+      FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
+      FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $filter, ngTableParams);
 
 
     }).error(function (data, $http) {
@@ -113,7 +113,7 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
  * Get the Feed Locality Early Vote Sites for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath){
+function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
 
   // get Feed Early Vote Sites
   $feedsService.getFeedLocalityEarlyVoteSites(servicePath)
@@ -121,6 +121,21 @@ function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
 
       // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
+
+      $scope.earlyVoteTableParams = new ngTableParams({
+        page: 1,
+        count: 15,
+        sorting: {
+          id: 'asc'
+        }
+      }, {
+        total: data.length,
+        // sets the type of sorting for the table
+        getData: function ($defer, params) {
+          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        }
+      });
 
     }).error(function (data) {
 
@@ -135,7 +150,7 @@ function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
  * Get the Feed Locality Precincts for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath){
+function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
 
   // get Feed Precincts
   $feedsService.getFeedLocalityPrecincts(servicePath)
@@ -143,6 +158,21 @@ function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, se
 
       // set the feeds data into the Angular model
       $scope.feedPrecincts = data;
+
+      $scope.precinctsTableParams = new ngTableParams({
+        page: 1,
+        count: 15,
+        sorting: {
+          id: 'asc'
+        }
+      }, {
+        total: data.length,
+        // sets the type of sorting for the table
+        getData: function ($defer, params) {
+          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        }
+      });
 
     }).error(function (data) {
 

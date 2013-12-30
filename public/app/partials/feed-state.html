@@ -22,7 +22,7 @@
 
 <!--<table ng-if="feedState" class="associations">-->
 <!-- TODO Ask Navid about the ng-if statement on the table (breaks ng-table for some reason -->
-  
+
 <div ng-if="!feedState"></br><span class="is-loading"></span></div>
 <table id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
   <tr id="locality{{$index}}" ng-repeat="locality in $data">
