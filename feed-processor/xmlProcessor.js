@@ -9,6 +9,8 @@ var Source = require('./mappers/Source');
 var Election = require('./mappers/Election');
 var ElectionOfficial = require('./mappers/ElectionOfficial');
 var Contest = require('./mappers/Contest');
+var PollingLocation = require('./mappers/PollingLocation');
+var Locality = require('./mappers/Locality');
 
 /*
  * functions to move into base class
@@ -30,6 +32,8 @@ function readXMLFile(filePath) {
   xml.on('endElement: election', processElectionElement);
   xml.on('endElement: election_official', processElectionOfficialElement);
   xml.on('endElement: contest', processContestElement);
+  xml.on('endElement: polling_location', processPollingLocation);
+  xml.on('endElement: locality', processLocality);
 };
 
 function saveBasicFeedInfo(schemas, filePath) {
@@ -88,6 +92,22 @@ function processContestElement(contest) {
   var contestModel = new Contest(models, feedDoc._id);
   contestModel.mapXml3_0(contest);
   contestModel.save(onError, function() { console.log('Stored contest element to database'); });
+};
+
+function processPollingLocation(pollingLocation) {
+  console.log(pollingLocation);
+
+  var pollingLocationModel = new PollingLocation(models, feedDoc._id);
+  pollingLocationModel.mapXml3_0(pollingLocation);
+  pollingLocationModel.save(onError, function() { console.log('Stored polling location to database'); });
+};
+
+function processLocality(locality) {
+  console.log(locality);
+
+  var localityModel = new Locality(models, feedDoc._id);
+  localityModel.mapXml3_0(locality);
+  localityModel.save(onError, function() { console.log('Stored locality to database'); });
 };
 
 exports.processXml = saveBasicFeedInfo;
