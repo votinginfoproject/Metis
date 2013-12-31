@@ -1,17 +1,27 @@
 /**
  * Created by bantonides on 12/20/13.
  */
-function BaseModel(models, feedId) {
-  this.models = models;
-  this.feedId = feedId;
-};
+const
+  events = require('events'),
+  util = require('util'),
+  BaseModel = function (models, feedId) {
+    this.models = models;
+    this.feedId = feedId;
+    events.EventEmitter.call(this);
+  };
+util.inherits(BaseModel, events.EventEmitter);
 
 BaseModel.prototype.save = function(onerror, onsuccess) {
   if (this.model === undefined) {
     return;
   }
 
+  var self = this;
+  self.emit('saving'); //emit event to notify that a save operation is starting
+
   this.model.save(function (err, data) {
+    self.emit('saved');
+
     if (err) { onerror(err); }
     else { onsuccess(data); }
   });
