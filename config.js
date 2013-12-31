@@ -46,7 +46,8 @@ config.mongoose = {
     state: 'states',
     streetSegment: 'streetSegments'
   },
-  connectionString: 'mongodb://localhost/metis'
+  connectionString: 'mongodb://localhost/metis',
+  testConnectionString: 'mongodb://localhost/testMetis'
 }
 
 module.exports = config;
