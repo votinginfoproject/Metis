@@ -2,6 +2,7 @@
  * Created by bantonides on 12/13/13.
  */
 var Types = require('mongoose').Schema.Types;
+var config = require('../config');
 
 var models = {};
 
@@ -28,7 +29,7 @@ var ballotSchema = {
   customBallotId: Number,
   writeIn: Boolean,
   imageUrl: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var ballotLineResultSchema = {
@@ -41,14 +42,14 @@ var ballotLineResultSchema = {
   votes: Number,
   victorious: Boolean,
   certification: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var ballotResponseSchema = {
   elementId: Number, //required
   text: String,
   sortOrder: Number,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var candidateSchema = {
@@ -62,7 +63,7 @@ var candidateSchema = {
   filedMailingAddress: simpleAddressSchema,
   email: String,
   sortOrder: Number,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var contestSchema = {
@@ -80,7 +81,7 @@ var contestSchema = {
   numberVotingFor: Number,
   ballotId: Number,
   ballotPlacement: Number,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var contestResultSchema = {
@@ -95,7 +96,7 @@ var contestResultSchema = {
   acceptedProvisionalVotes: Number,
   rejectedVotes: Number,
   certification: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var customBallotSchema = {
@@ -105,7 +106,7 @@ var customBallotSchema = {
     id: Number,
     sortOrder: Number
   }],
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var earlyVoteSiteSchema = {
@@ -117,7 +118,7 @@ var earlyVoteSiteSchema = {
   startDate: Date,
   endDate: Date,
   daysTimesOpen: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var electionSchema = {
@@ -133,7 +134,7 @@ var electionSchema = {
   electionDayRegistration: Boolean,
   registrationDeadline: Date,
   absenteeRequestDeadline: Date,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var electionAdminSchema = {
@@ -152,7 +153,7 @@ var electionAdminSchema = {
   rulesUrl: String,
   voterServices: String,
   hours: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var electionOfficialSchema = {
@@ -162,7 +163,7 @@ var electionOfficialSchema = {
   phone: String,
   fax: String,
   email: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var electoralDistrictSchema = {
@@ -170,7 +171,7 @@ var electoralDistrictSchema = {
   name: String,
   type: String,
   number: Number,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var feedSchema = {
@@ -188,7 +189,7 @@ var localitySchema = {
   type: String,
   electionAdminId: Number,
   earlyVoteSiteIds: [Number],
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var pollingLocationSchema = {
@@ -197,7 +198,7 @@ var pollingLocationSchema = {
   directions: String,
   pollingHours: String,
   photoUrl: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var precinctSchema = {
@@ -211,7 +212,7 @@ var precinctSchema = {
   pollingLocationIds: [Number],
   earlyVoteSiteIds: [Number],
   ballotStyleImageUrl: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var precinctSplitSchema = {
@@ -221,7 +222,7 @@ var precinctSplitSchema = {
   electoralDistrictIds: [Number],
   pollingLocationIds: [Number],
   ballotStyleImageUrl: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var referendumSchema = {
@@ -238,7 +239,7 @@ var referendumSchema = {
     id: Number,
     sortOrder: Number
   }],
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var sourceSchema = {
@@ -250,7 +251,8 @@ var sourceSchema = {
   organizationUrl: String,
   feedContactId: Number,
   touUrl: String,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed},
+  _feedContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
 var stateSchema = {
@@ -258,7 +260,7 @@ var stateSchema = {
   name: String,
   electionAdministrationId: Number,
   earlyVoteSiteIds: [Number],
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 var streetSegmentSchema = {
@@ -283,7 +285,7 @@ var streetSegmentSchema = {
   },
   precinctId: Number,
   precinctSplitId: Number,
-  _feed: { type: Types.ObjectId, ref: 'Feed'}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
 };
 
 /*
@@ -291,7 +293,7 @@ var streetSegmentSchema = {
  */
 exports.models = models;
 
-exports.initSchemas = function(config, mongoose) {
+exports.initSchemas = function (mongoose) {
   models.Ballot = mongoose.model(config.mongoose.model.ballot, mongoose.Schema(ballotSchema));
   models.BallotResponse = mongoose.model(config.mongoose.model.ballotResponse, mongoose.Schema(ballotResponseSchema));
   models.BallotLineResult = mongoose.model(config.mongoose.model.ballotLineResult, mongoose.Schema(ballotLineResultSchema));

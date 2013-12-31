@@ -35,6 +35,15 @@ function onError(err) {
   console.error(err);
 };
 
+function onUpdate(err, numAffected) {
+  if (err) {
+    console.error(err);
+  }
+  else {
+    console.log('Updated ' + numAffected + ' document.')
+  }
+};
+
 function addRef() {
   saveCounter++;
   console.log('save++ - ' + saveCounter);
@@ -45,7 +54,8 @@ function decRef() {
   console.log('save-- - ' + saveCounter);
 
   if (saveCounter == 0) {
-    console.log('****All saves completed!!!');
+    console.log('Creating database relationships...');
+    createDBRelationships();
   }
 };
 
@@ -270,6 +280,18 @@ function processStreetSegmentElement(streetSegment) {
   model.on('saved', decRef);
   model.mapXml3_0(streetSegment);
   model.save(onError, function() { console.log('Stored street segment element to database.'); })
+};
+
+function createDBRelationships() {
+  var promise = models.Source.findOne({ _feed: feedDoc._id }).exec();
+  var sourceId;
+
+  promise.then(function (source) {
+    sourceId = source._id;
+    return models.ElectionOfficial.findOne({ _feed: feedDoc._id, elementId: source.feedContactId }).select('_id').exec();
+  }).then(function (eoId) {
+      models.Source.update({ _id: sourceId }, { _feedContact: eoId }, onUpdate);
+    }, onError);
 };
 
 exports.processXml = saveBasicFeedInfo;
