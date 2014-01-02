@@ -104,8 +104,29 @@ var mapState = function(path, state) {
         name: "Zandell",
         precints: 4
       }
-    ]
+    ],
+    earlyvotesites: _path.join(path, '/earlyvotesites')
   };
+};
+
+var mapStateEarlyVoteSites = function(path, state) {
+  return [
+    {
+      id: 640017,
+      name: "Court Services",
+      address: "Graham, NC 27253"
+    },
+    {
+      id: 640018,
+      name: "Mebane Arts Center",
+      address: "Mebane, NC 27302"
+    },
+    {
+      id: 640019,
+      name: "May Memorial Library",
+      address: "Burlington, NC 11111"
+    }
+  ]
 };
 
 var mapLocality = function(path, locality) {
@@ -286,6 +307,7 @@ exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
 exports.mapElection = mapElection;
 exports.mapState = mapState;
+exports.mapStateEarlyVoteSites = mapStateEarlyVoteSites;
 exports.mapLocality = mapLocality;
 exports.mapLocalityEarlyVoteSites = mapLocalityEarlyVoteSites;
 exports.mapLocalityPrecincts = mapLocalityPrecincts;

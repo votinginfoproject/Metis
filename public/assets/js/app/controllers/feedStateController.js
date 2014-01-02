@@ -57,6 +57,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
       $scope.feedState = {};
+      $scope.feedEarlyVoteSites = {};
     });
 }
 
@@ -91,11 +92,51 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       // set the title
       $rootScope.pageHeader.title = "State ID: " + data.id;
 
+      FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
+
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed State data. ";
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedState = {};
+      $scope.feedEarlyVoteSites = {};
+    });
+}
+
+/*
+ * Get the Feed State Early Vote Sites for the Feed detail page
+ *
+ */
+function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+
+  // get Feed Early Vote Sites
+  $feedsService.getFeedStateEarlyVoteSites(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedEarlyVoteSites = data;
+
+      $scope.earlyVoteTableParams = new ngTableParams({
+        page: 1,
+        count: 15,
+        sorting: {
+          id: 'asc'
+        }
+      }, {
+        total: data.length,
+        // sets the type of sorting for the table
+        getData: function ($defer, params) {
+          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        }
+      });
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve State Early Vote Sites. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedEarlyVoteSites = {};
     });
 }
