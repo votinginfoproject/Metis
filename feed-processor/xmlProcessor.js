@@ -27,6 +27,7 @@ var State = require('./mappers/State');
 var StreetSegment = require('./mappers/StreetSegment');
 
 var saveCounter = 0;
+var parsingComplete = false;
 
 /*
  * functions to move into base class
@@ -46,14 +47,14 @@ function onUpdate(err, numAffected) {
 
 function addRef() {
   saveCounter++;
-  console.log('save++ - ' + saveCounter);
+//  console.log('save++ - ' + saveCounter);
 };
 
 function decRef() {
   saveCounter--;
-  console.log('save-- - ' + saveCounter);
+//  console.log('save-- - ' + saveCounter);
 
-  if (saveCounter == 0) {
+  if (parsingComplete && saveCounter == 0) {
     console.log('Creating database relationships...');
     createDBRelationships();
   }
@@ -73,6 +74,7 @@ function readXMLFile(filePath) {
   xml.collect('polling_location_id');
   xml.collect('ballot_response_id');
 
+  xml.on('end', function() { parsingComplete = true; console.log('Parsing Complete!')});
   xml.on('startElement: vip_object', processFeedAttributes)
   xml.on('endElement: ballot', processBallotElement);
   xml.on('endElement: ballot_line_result', processBallotLineResultElement);
