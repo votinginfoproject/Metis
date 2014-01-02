@@ -105,6 +105,11 @@ var mapState = function(path, state) {
         precints: 4
       }
     ],
+    administration: {
+      id: 3201,
+      name: "The County Board of Elections",
+      address: "Graham, NC 27253"
+    },
     earlyvotesites: _path.join(path, '/earlyvotesites')
   };
 };
