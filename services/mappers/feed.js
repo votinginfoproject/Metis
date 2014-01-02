@@ -32,7 +32,7 @@ var mapOverview = function(path, feed) {
   };
 };
 
-var mapSource = function(path, source, electionOfficial) {
+var mapSource = function(path, source) {
   return {
     id: source.elementId,
     error_count: 111,
@@ -45,11 +45,11 @@ var mapSource = function(path, source, electionOfficial) {
       tou_url: source.touUrl
     },
     feed_contact: {
-      name: (electionOfficial) ? electionOfficial.name : null,
-      title: (electionOfficial) ? electionOfficial.title : null,
-      phone: (electionOfficial) ? electionOfficial.phone : null,
-      fax: (electionOfficial) ? electionOfficial.fax : null,
-      email: (electionOfficial) ? electionOfficial.email : null
+      name: (source._feedContact) ? source._feedContact.name : null,
+      title: (source._feedContact) ? source._feedContact.title : null,
+      phone: (source._feedContact) ? source._feedContact.phone : null,
+      fax: (source._feedContact) ? source._feedContact.fax : null,
+      email: (source._feedContact) ? source._feedContact.email : null
     }
   };
 };
@@ -71,8 +71,8 @@ var mapElection = function(path, election) {
     absentee_deadline: moment(election.absenteeRequestDeadline).format('YYYY-MM-DD'),
     state: {
       id: election.stateId,
-      name: 'Unknown',
-      locality_count: 100
+      name: election._state.name,
+      locality_count: election._state.localityCount
     },
     contests: _path.join(path, '/contests')
   };

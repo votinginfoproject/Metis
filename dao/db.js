@@ -3,7 +3,7 @@
  */
 
 //app configuration
-var config = require('./../config');
+var config = require('../config');
 
 //database setup
 var mongoose = require('mongoose');
@@ -15,7 +15,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 db.once('open', function callback(){
   console.log("Initializing Mongoose...")
-  daoSchemas.initSchemas(config, mongoose);
+  daoSchemas.initSchemas(mongoose);
   console.log("Initialized Mongoose for VIP database.");
 });
 
@@ -31,11 +31,20 @@ var getFeedOverview = function(id, callback) {
 };
 
 var getFeedSource = function(feedid, callback) {
-  daoSchemas.models.Source.findOne({ _feed: feedid }, callback);
+  daoSchemas.models.Source.findOne({ _feed: feedid }).populate('_feedContact').exec(callback);
 };
 
 var getFeedElection = function(feedid, callback) {
-  daoSchemas.models.Election.findOne({ _feed: feedid }, callback);
+  var election;
+  var promise = daoSchemas.models.Election.findOne({ _feed: feedid }).populate('_state').exec();
+
+  promise.then(function(elec) {
+    election = elec;
+    return daoSchemas.models.Locality.count({ _feed: feedid }).exec();
+  }).then(function(localityCount) {
+    election._state.localityCount = localityCount;
+    callback(undefined, election);
+  });
 };
 
 var getElectionOfficial = function(feedid, officialId, callback) {
