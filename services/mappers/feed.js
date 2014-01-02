@@ -7,9 +7,9 @@ var _path = require('path');
 var mapFeed = function(path, feed) {
   return {
     id: feed.id,
-    date: moment(feed.loadedOn).format('YYYY-MM-DD'),
-    state: 'Unknown',
-    type: 'Unknown',
+    date: moment(feed._election.date).format('YYYY-MM-DD'),
+    state: feed._state.name,
+    type: feed._election.electionType,
     status: feed.feedStatus,
     name: feed.name,
     edit: _path.join(path, feed.id)

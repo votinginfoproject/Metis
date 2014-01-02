@@ -285,10 +285,10 @@ function processStreetSegmentElement(streetSegment) {
 };
 
 function createDBRelationships() {
-  var promise = models.Source.findOne({ _feed: feedDoc._id }).exec();
+  var sourcePromise = models.Source.findOne({ _feed: feedDoc._id }).exec();
   var sourceId;
 
-  promise.then(function (source) {
+  sourcePromise.then(function (source) {
     sourceId = source._id;
     return models.ElectionOfficial.findOne({ _feed: feedDoc._id, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
@@ -299,6 +299,13 @@ function createDBRelationships() {
 
   statePromise.then(function (stateId) {
     models.Election.update({ _feed: feedDoc._id }, { _state: stateId }, onUpdate);
+    models.Feed.update({ _id: feedDoc._id }, { _state: stateId }, onUpdate);
+  }, onError);
+
+  var electionPromise = models.Election.findOne({ _feed: feedDoc._id }).select('_id').exec();
+
+  electionPromise.then(function (electionId) {
+    feedDoc.update({ _election: electionId}, onUpdate);
   }, onError);
 };
 
