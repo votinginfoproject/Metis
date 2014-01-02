@@ -19,7 +19,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 db.once('open', function callback(){
   console.log("Initializing Mongoose...")
-  daoSchemas.initSchemas(config, mongoose);
+  daoSchemas.initSchemas(mongoose);
   saveSchemas(daoSchemas.models);
   console.log("Initialized Mongoose for VIP database.");
 

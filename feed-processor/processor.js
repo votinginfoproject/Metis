@@ -19,7 +19,7 @@ function connectMongo(connectionString, next) {
 };
 
 function initiateFeedParsing(path) {
-  schemas.initSchemas(config, mongoose);
+  schemas.initSchemas(mongoose);
 
   connectMongo(config.mongoose.connectionString, function () {
       xmlProc.processXml(schemas, path);

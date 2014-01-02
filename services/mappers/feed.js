@@ -70,8 +70,8 @@ var mapElection = function(path, election) {
     absentee_deadline: moment(election.absenteeRequestDeadline).format('YYYY-MM-DD'),
     state: {
       id: election.stateId,
-      name: 'Unknown',
-      locality_count: 100
+      name: election._state.name,
+      locality_count: election._state.localityCount
     },
     contests: _path.join(path, '/contests')
   };

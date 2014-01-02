@@ -134,7 +134,8 @@ var electionSchema = {
   electionDayRegistration: Boolean,
   registrationDeadline: Date,
   absenteeRequestDeadline: Date,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed}
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _state: { type: Types.ObjectId, ref: config.mongoose.model.state }
 };
 
 var electionAdminSchema = {

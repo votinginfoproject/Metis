@@ -289,9 +289,15 @@ function createDBRelationships() {
   promise.then(function (source) {
     sourceId = source._id;
     return models.ElectionOfficial.findOne({ _feed: feedDoc._id, elementId: source.feedContactId }).select('_id').exec();
-  }).then(function (eoId) {
+  }, onError).then(function (eoId) {
       models.Source.update({ _id: sourceId }, { _feedContact: eoId }, onUpdate);
     }, onError);
+
+  var statePromise = models.State.findOne({ _feed: feedDoc._id }).select('_id').exec();
+
+  statePromise.then(function (stateId) {
+    models.Election.update({ _feed: feedDoc._id }, { _state: stateId }, onUpdate);
+  }, onError);
 };
 
 exports.processXml = saveBasicFeedInfo;

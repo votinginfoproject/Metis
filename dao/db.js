@@ -35,7 +35,16 @@ var getFeedSource = function(feedid, callback) {
 };
 
 var getFeedElection = function(feedid, callback) {
-  daoSchemas.models.Election.findOne({ _feed: feedid }, callback);
+  var election;
+  var promise = daoSchemas.models.Election.findOne({ _feed: feedid }).populate('_state').exec();
+
+  promise.then(function(elec) {
+    election = elec;
+    return daoSchemas.models.Locality.count({ _feed: feedid }).exec();
+  }).then(function(localityCount) {
+    election._state.localityCount = localityCount;
+    callback(undefined, election);
+  });
 };
 
 var getElectionOfficial = function(feedid, officialId, callback) {
