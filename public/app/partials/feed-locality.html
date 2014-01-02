@@ -35,10 +35,10 @@
 </section>
 
 <section class="data-group">
-  <h2>Election Administration</h2>
+  <h2><span ng-if="!feedLocality.administration">No</span> Election Administration</h2>
 
-  <span ng-if="!feedLocality" class="is-loading"></span>
-  <table class="associations" ng-if="feedLocality">
+  <span ng-if="!feedLocality.administration" class="is-loading"></span>
+  <table class="associations" ng-if="feedLocality.administration">
     <thead>
     <tr>
       <th>ID</th>
