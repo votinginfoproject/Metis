@@ -27,7 +27,7 @@ describe('Profile Unit Tests', function() {
       var $controller = $injector.get('$controller');
       var $location = $injector.get('$location');
 
-      $rootScope.setPageHeader = function(a,b,c,d) {
+      $rootScope.setPageHeader = function(a,b,c,d,e) {
         return;
       }
 

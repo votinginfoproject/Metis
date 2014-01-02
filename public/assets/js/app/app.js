@@ -3,15 +3,12 @@
  * VIP App
  *
  */
-
-var isTesting = false;
-
 // Comment in if want to disable all "debug" logging
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
 var vipApp;
-if(isTesting)
+if(globalVars.isTesting)
   vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'ngMockE2E']);
 else
   vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
@@ -61,22 +58,35 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       controller: 'FeedElectionCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-state.html',
+      controller: 'FeedStateCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/state/:locality', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-locality.html',
+      controller: 'FeedLocalityCtrl'
+    });
+
+
+
+    // done
     $routeProvider.when('/template/feed', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
     });
-
+    // done
     $routeProvider.when('/template/source', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
     });
-
+    // done
     $routeProvider.when('/template/election', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/election.html'
     });
-
+    // done
     $routeProvider.when('/template/state', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
     });
-
+    // done
     $routeProvider.when('/template/locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
     });
@@ -145,6 +155,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
     });
 
+
+
     $routeProvider.when('/profile', {
       templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
       controller: 'ProfileCtrl'
@@ -182,6 +194,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
           // and if so redirect back to homepage
           function (response) {
             if (response.status === 401) {
+              // nullify the user object
+              $rootScope.user = null;
               $location.url('/');
             }
             return $q.reject(response);
@@ -196,42 +210,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties) {
-
-
-  $rootScope.pageHeader = {};
-  $rootScope.user = null;
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window) {
 
   // TODO
   // initialize the cache for the app
   //$rootScope.cache = $cacheFactory('vipApp');
+  InterceptorSetup($httpBackend, $appProperties);
 
-  if(isTesting)
-  {
-    var feeds = [
-      {date: '2011-10-12', state: 'Ohio', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-10-11', state: 'Florida', type: 'State', status: 'determined'},
-      {date: '2011-10-10', state: 'Delaware', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-10-25', state: 'North Carolina', type: 'State', status: 'determined'},
-      {date: '2011-08-15', state: 'South Carolina', type: 'State', status: 'Undetermined'},
-      {date: '2012-10-25', state: 'Virginia', type: 'Federal', status: 'Undetermined'},
-      {date: '2013-12-16', state: 'Georgia', type: 'State', status: 'determined'},
-      {date: '2011-09-08', state: 'Texas', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-07-10', state: 'New York', type: 'State', status: 'Undetermined'},
-      {date: '2011-08-13', state: 'California', type: 'Federal', status: 'Undetermined'},
-      {date: '2011-11-01', state: 'Vermont', type: 'Federal', status: 'determined'},
-      {date: '2011-10-02', state: 'West Virginia', type: 'Federal', status: 'Undetermined'}
-    ]
+  $rootScope.pageHeader = {};
+  $rootScope.user = null;
 
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/adminMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/getUser").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/referenceDataMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/homeMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/xxxxxxxxxx").passThrough();
-    $httpBackend.whenGET($appProperties.mockServicesPath + "/profileMockService.html").passThrough();
-    $httpBackend.whenGET($appProperties.servicesPath + "/feeds").respond(feeds);
-    $httpBackend.whenGET(/partials\/.*/).passThrough();
-  }
   /*
    * Sets PageHeader values
    *
@@ -239,14 +227,15 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * @breadcrumbs - the breadcrumbs as an array
    * @section - section name used for the navigation bar "home", "admin", "feeds", "profile"
    * @error - error message to show on the screen
+   * @error - alert message to show on the screen
    */
-  $rootScope.setPageHeader = function (title, breadcrumbs, section, error) {
+  $rootScope.setPageHeader = function (title, breadcrumbs, section, error, alert) {
 
-    this.pageHeader = {};
     this.pageHeader.title = title;
     this.pageHeader.section = section;
     this.pageHeader.breadcrumbs = breadcrumbs;
     this.pageHeader.error = error;
+    this.pageHeader.alert = alert;
   };
 
   // Before we render any pages,
@@ -272,4 +261,25 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   // expose the $location into the scope
   $rootScope.$location = $location;
+
+
+  // set a flag to determine if the screen is in mobile dimensions
+  var mobileThreshhold = 1116;
+  $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
+  $rootScope.toggleAside = true;
+  window.onresize = function(){
+    $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
+    if(!$rootScope.mobileDimensions){
+
+      $rootScope.toggleAside = true;
+    }
+    $rootScope.$apply();
+  }
+
+  $rootScope.toggleAsideFunc = function(){
+    if($rootScope.mobileDimensions){
+      $rootScope.toggleAside = !$rootScope.toggleAside;
+    }
+  }
+
 });

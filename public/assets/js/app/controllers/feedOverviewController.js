@@ -25,8 +25,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("", breadcrumbs, "feeds", null);
-  $rootScope.pageHeader.error = "";
+  $rootScope.setPageHeader("", breadcrumbs, "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

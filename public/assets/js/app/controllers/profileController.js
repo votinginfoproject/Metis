@@ -13,7 +13,7 @@ function ProfileCtrl($scope, $rootScope, $profileService, $location) {
   ];
 
   // initialize page header variables
-  $rootScope.setPageHeader("Profile", breadcrumbs, "profile", null);
+  $rootScope.setPageHeader("Profile", breadcrumbs, "profile", null, null);
 
   // call our service
   $profileService.getData()

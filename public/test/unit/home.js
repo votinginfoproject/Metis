@@ -28,7 +28,7 @@ describe('Home Unit Tests', function() {
 
       var routeParams = { badlogin: true };
 
-      $rootScope.setPageHeader = function(a,b,c,d) {
+      $rootScope.setPageHeader = function(a,b,c,d,e) {
         return;
       }
       $rootScope.pageHeader = {};

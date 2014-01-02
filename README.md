@@ -10,11 +10,14 @@ Voting Information Project web app.
 * [Node.js](http://nodejs.org)
 * [Grunt](http://gruntjs.com)
     * Install Grunt CLI `npm install -g grunt-cli`
+* [Bower](http://bower.io)
+    * Intall Bower `npm install -g bower`
 
 ## Getting Started
 
 1. Download node.js modules using `npm install`
-2. Run the app with `node app.js`
+2. Download libraries using `bower install`
+3. Run the app with `node app.js`
 
 ## Available Grunt Commands
 

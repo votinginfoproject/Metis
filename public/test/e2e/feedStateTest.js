@@ -1,4 +1,4 @@
-describe('Feed Election Test', function () {
+describe('Feed State Test', function () {
 
   describe('Log in', function () {
 
@@ -10,60 +10,50 @@ describe('Feed Election Test', function () {
   });
 
   /* ----------------------------------------
-   Feed Election page
+   Feed State page
    ------------------------------------------*/
-  describe('Check Feed Election page', function () {
+  describe('Check Feed State page', function () {
 
-    it('Should go to the Feed Election page after selecting a feed and then election', function () {
+    it('Should go to the Feed State page after selecting a feed and then Election and then State', function () {
 
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
+      // should have an election link
       expect(element('#election-link').count()).toBe(1);
 
       // click the election link
       element('#election-link').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed Source page
+      // should be on the feed election page
       expect(element('#feed-election-content').count()).toBe(1);
+
+      // should have a state link
+      expect(element('#state-id a').count()).toBe(1);
+
+      // click the state link
+      element('#state-id a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state page
+      expect(element('#feed-state-content').count()).toBe(1);
+
     });
 
   });
 
   /* ----------------------------------------
-   Feed Election data
+   Feed State data
    ------------------------------------------*/
-  describe('Check Feed Election data', function () {
+  describe('Check Feed State data', function () {
     // check the the number of items
-    it('Should have election data', function () {
+    it('Should have State locality data', function () {
 
-      expect(element('#election-type').count()).toBe(1);
-    });
-
-  });
-
-  /* ----------------------------------------
-   Feed Election state data
-   ------------------------------------------*/
-  describe('Check Feed Election state data', function () {
-    // check the the number of items
-    it('Should have election state data', function () {
-
-      expect(element('#state-name').count()).toBe(1);
-    });
-
-  });
-
-  /* ----------------------------------------
-   Feed Election Contests
-   ------------------------------------------*/
-  describe('Check Feed Election Contests', function () {
-    // check the the number of items
-    it('Should have contests', function () {
-      expect(element('#contests-id0').count()).toBe(1);
+      expect(element('#locality0').count()).toBe(1);
+      expect(element('#locality-name0').count()).toBe(1);
     });
 
   });

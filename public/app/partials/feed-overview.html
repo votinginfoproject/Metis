@@ -4,8 +4,7 @@
   <header class="data-group-header">
     <h2>Source</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
-    <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More
-      Detail </a>
+    <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
   </header>
 </section>
 <!-- /.data-group -->
@@ -14,8 +13,7 @@
   <header class="data-group-header">
     <h2>Election</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
-    <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More
-      Detail </a>
+    <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail</a>
   </header>
 </section>
 <!-- /.data-group -->
@@ -23,37 +21,14 @@
 <section class="data-group started">
   <header class="data-group-header">
     <h2>Polling Locations</h2>
-    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/state">-not ready- </a>
+    <span ng-if="!feedData" class="more-detail is-loading"></span>
+    <a id="state-link" ng-if="feedData.state" class="more-detail" href="{{$location.absUrl()}}/election/state">More Detail</a>
   </header>
 
-  <span ng-if="!feedPollingLocations" class="is-loading"></span>
-  <table class="overview" ng-if="feedPollingLocations">
-    <thead>
-    <tr>
-      <th>Element Type</th>
-      <th>Amount</th>
-      <th>Completion</th>
-      <th>Errors</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in feedPollingLocations">
-      <td id="pollingLocation-element-type{{$index}}" class="element-type">{{pollingLocation.element_type}}</td>
-      <td id="pollingLocation-amount{{$index}}" class="amount">{{pollingLocation.amount | number}}</td>
-      <td id="pollingLocation-complete{{$index}}" class="completion">
-        <div class="completeness">
-          <span class="complete-{{pollingLocation.complete_pct}}"></span>
-          <span class="counter">{{pollingLocation.complete_pct | number}}% complete</span>
-        </div>
-      </td>
-      <td id="pollingLocation-errors{{$index}}" class="element-errors"><span
-        ng-class="{none: pollingLocation.error_count===0}"
-        class="errors">{{pollingLocation.error_count | number}}</span></td>
-    </tr>
-    </tbody>
-  </table>
+  <!-- element table directive -->
+  <div ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
-  <h3>100 Localities
+  <h3><mark>100</mark> Localities
     <small>(Counties)</small>
   </h3>
   <p>
@@ -66,35 +41,12 @@
 <section class="data-group started">
   <header class="data-group-header">
     <h2>Contests</h2>
-    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests">-not ready- </a>
+    <a class="more-detail" href="/feeds/vipfeed-37-2012-11-06-2/election/contests"><mark>More Detail</mark></a>
   </header>
 
-  <span ng-if="!feedContests" class="is-loading"></span>
-  <table class="overview" ng-if="feedContests">
-    <thead>
-    <tr>
-      <th>Element Type</th>
-      <th>Amount</th>
-      <th>Completion</th>
-      <th>Errors</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr id="feedContests{{$index}}" ng-repeat="contests in feedContests">
-      <td id="feedContests-element-type{{$index}}" class="element-type">{{contests.element_type}}</td>
-      <td id="feedContests-amount{{$index}}" class="amount">{{contests.amount | number}}</td>
-      <td id="feedContests-complete{{$index}}" class="completion">
-        <div class="completeness">
-          <span class="complete-{{contests.complete_pct}}"></span>
-          <span class="counter">{{contests.complete_pct | number}}% complete</span>
-        </div>
-      </td>
-      <td id="feedContests-errors{{$index}}" class="element-errors"><span ng-class="{none: contests.error_count===0}"
-                                                                          class="errors">{{contests.error_count | number}}</span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <!-- element table directive -->
+  <div ng-elementtable ng-model="feedContests" loading="feedContests" label="feedContests"></div>
+
 </section>
 <!-- /.data-group -->
 
@@ -103,38 +55,14 @@
     <h2>Results</h2>
   </header>
 
-  <span ng-if="!feedResults" class="is-loading"></span>
-  <table class="overview" ng-if="feedResults">
-    <table class="overview">
-      <thead>
-      <tr>
-        <th>Element Type</th>
-        <th>Amount</th>
-        <th>Completion</th>
-        <th>Errors</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr id="feedResults{{$index}}" ng-repeat="results in feedResults">
-        <td id="feedResults-element-type{{$index}}" class="element-type">{{results.element_type}}</td>
-        <td id="feedResults-amount{{$index}}" class="amount">{{results.amount | number}}</td>
-        <td id="feedResults-complete{{$index}}" class="completion">
-          <div class="completeness">
-            <span class="complete-{{results.complete_pct}}"></span>
-            <span class="counter">{{results.complete_pct | number}}% complete</span>
-          </div>
-        </td>
-        <td id="feedResults-errors{{$index}}" class="element-errors"><span ng-class="{none: results.error_count===0}"
-                                                                           class="errors">{{results.error_count | number}}</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <!-- element table directive -->
+  <div ng-elementtable ng-model="feedResults" loading="feedResults" label="feedResults"></div>
+
 </section>
 <!-- /.data-group -->
 
 <section class="data-group" id="history">
-  <h2>History</h2>
+  <h2><mark>History</mark></h2>
 
   <dl class="history">
 

@@ -1,0 +1,26 @@
+<span ng-if="!loading" class="is-loading"></span>
+<table class="overview" ng-if="loading">
+  <thead>
+  <tr>
+    <th>Element Type</th>
+    <th>Amount</th>
+    <th>Completion</th>
+    <th>Errors</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr id="{{label}}{{$index}}" ng-repeat="row in ngModel">
+    <td id="{{label}}-element-type{{$index}}" class="element-type">{{row.element_type}}</td>
+    <td id="{{label}}-amount{{$index}}" class="amount">{{row.amount | number}}</td>
+    <td id="{{label}}-complete{{$index}}" class="completion">
+      <div class="completeness">
+        <span class="complete-{{row.complete_pct}}"></span>
+        <span class="counter">{{row.complete_pct | number}}% complete</span>
+      </div>
+    </td>
+    <td id="{{label}}-errors{{$index}}" class="element-errors"><span
+      ng-class="{none: row.error_count===0}"
+      class="errors">{{row.error_count | number}}</span></td>
+  </tr>
+  </tbody>
+</table>
