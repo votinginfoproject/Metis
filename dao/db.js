@@ -58,10 +58,17 @@ var getFeedContests = function(feedid, callback) {
   daoSchemas.models.Contest.find( { _feed: feedid}, callback);
 };
 
+function getState(feedid, callback) {
+  daoSchemas.models.State.findOne({ _feed: feedid })
+    .populate('_electionAdministration')
+    .populate('_localities')
+    .exec(callback);
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
 exports.getFeedElection = getFeedElection;
 exports.getElectionOfficial = getElectionOfficial;
 exports.getFeedContests = getFeedContests;
-
+exports.getState = getState;

@@ -263,7 +263,9 @@ var stateSchema = {
   name: String,
   electionAdministrationId: Number,
   earlyVoteSiteIds: [Number],
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
+  _localities: [{ type: Types.ObjectId, ref: config.mongoose.model.locality }]
 };
 
 var streetSegmentSchema = {

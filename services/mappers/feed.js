@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var _path = require('path');
+var _ = require('underscore');
 
 var mapFeed = function(path, feed) {
   return {
@@ -81,35 +82,22 @@ var mapElection = function(path, election) {
 
 var mapState = function(path, state) {
   return {
-    id: 10,
+    id: state.elementId,
     error_count: 99,
-    name: "South Carolina",
-    localities: [
-      {
-        id: 1001,
-        name: "Alamance",
-        precints: 37
-      },
-      {
-        id: 1002,
-        name: "Anson",
-        precints: 7
-      },
-      {
-        id: 1003,
-        name: "Burke",
-        precints: 21
-      },
-      {
-        id: 1004,
-        name: "Zandell",
-        precints: 4
+    name: state.name,
+    localities: _.map(state._localities, function (locality) {
+      return {
+        id: locality.elementId,
+        name: locality.name,
+        type: locality.type,
+        precincts: 1
       }
-    ],
+    }),
     administration: {
-      id: 3201,
-      name: "The County Board of Elections",
-      address: "Graham, NC 27253"
+      id: state._electionAdministration.elementId,
+      name: state._electionAdministration.name,
+      address: state._electionAdministration.physicalAddress.city +', ' +
+        state._electionAdministration.physicalAddress.state + ' ' + state._electionAdministration.physicalAddress.zip
     },
     earlyvotesites: _path.join(path, '/earlyvotesites')
   };
