@@ -18,6 +18,16 @@
       <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="no-page">{{earlyVoteSite.address}}</a></td>
     </tr>
   </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}" ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
 </section>
 
 
@@ -52,9 +62,9 @@
 <div ng-if="!feedState"></br><span class="is-loading"></span></div>
 <table ng-show="feedState" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
   <tr id="locality{{$index}}" ng-repeat="locality in $data">
-    <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.id}}</a></td>
-    <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.name}}</a></td>
-    <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a href="{{$location.absUrl()}}/{{locality.id}}">{{locality.precints}}</a></td>
+    <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.id}}</a></td>
+    <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.name}}</a></td>
+    <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.precints}}</a></td>
   </tr>
 </table>
 
@@ -67,13 +77,5 @@
   </ul>
 </script>
 
-</section><!-- /.data-group -->
+</section>
 
-<script type="text/ng-template" id="earlyVotePagination">
-  <ul class="pagination ng-cloak">
-    <li ng-repeat="page in pages"
-        ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}" ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
-    </li>
-  </ul>
-</script>

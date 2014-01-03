@@ -63,7 +63,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
       controller: 'FeedStateCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/:locality', {
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-locality.html',
       controller: 'FeedLocalityCtrl'
     });

@@ -16,9 +16,9 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
   app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedStateGET);
   app.get('/services/feeds/:feedid/election/state/earlyvotesites', utils.ensureAuthentication, feedStateEarlyVoteSitesGET);
-  app.get('/services/feeds/:feedid/election/state/:localityid', utils.ensureAuthentication, feedLocalityGET);
-  app.get('/services/feeds/:feedid/election/state/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
-  app.get('/services/feeds/:feedid/election/state/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, feedLocalityGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);

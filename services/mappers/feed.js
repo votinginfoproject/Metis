@@ -25,6 +25,7 @@ var mapOverview = function(path, feed) {
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
     state: _path.join(path, '/election/state'),
+    localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),

@@ -144,9 +144,9 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Locality page breadcrumb', function () {
     // check the the number of feeds
-    it('Should have 5 breadcrumbs', function () {
+    it('Should have 6 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/local1");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1");
       sleep(1);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -154,7 +154,8 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
       expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
       expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb5').count()).toBe(0);
+      expect(element('#pageHeader-breadcrumb5').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb6').count()).toBe(0);
     });
 
     // check the feed breadcrumb values
@@ -164,7 +165,8 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Locality local1");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
 
     });
   });
