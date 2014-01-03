@@ -99,20 +99,7 @@ function FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
       // set the feeds data into the Angular model
       $scope.feedContests = data;
       // sets the defaults for the table sorting parameters
-      $scope.tableParams = new ngTableParams({
-        page: 1,
-        count: 15,
-        sorting: {
-          id: 'asc'
-        }
-      }, {
-        total: data.length,
-        // sets the type of sorting for the table
-        getData: function ($defer, params) {
-          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
-          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-        }
-      });
+      $scope.tableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
     }).error(function (data) {
 

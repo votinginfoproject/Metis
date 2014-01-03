@@ -122,20 +122,7 @@ function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
       // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
 
-      $scope.earlyVoteTableParams = new ngTableParams({
-        page: 1,
-        count: 15,
-        sorting: {
-          id: 'asc'
-        }
-      }, {
-        total: data.length,
-        // sets the type of sorting for the table
-        getData: function ($defer, params) {
-          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
-          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-        }
-      });
+      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
     }).error(function (data) {
 
@@ -159,20 +146,7 @@ function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, se
       // set the feeds data into the Angular model
       $scope.feedPrecincts = data;
 
-      $scope.precinctsTableParams = new ngTableParams({
-        page: 1,
-        count: 15,
-        sorting: {
-          id: 'asc'
-        }
-      }, {
-        total: data.length,
-        // sets the type of sorting for the table
-        getData: function ($defer, params) {
-          var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
-          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-        }
-      });
+      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
     }).error(function (data) {
 
