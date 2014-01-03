@@ -103,24 +103,14 @@ var mapState = function(path, state) {
   };
 };
 
-var mapStateEarlyVoteSites = function(path, state) {
-  return [
-    {
-      id: 640017,
-      name: "Court Services",
-      address: "Graham, NC 27253"
-    },
-    {
-      id: 640018,
-      name: "Mebane Arts Center",
-      address: "Mebane, NC 27302"
-    },
-    {
-      id: 640019,
-      name: "May Memorial Library",
-      address: "Burlington, NC 11111"
-    }
-  ]
+var mapStateEarlyVoteSites = function(path, earlyVoteSites) {
+  return _.map(earlyVoteSites, function (evs) {
+    return {
+      id: evs.elementId,
+      name: evs.name,
+      address: evs.address.city + ", " + evs.address.state + " " + evs.address.zip
+    };
+  });
 };
 
 var mapLocality = function(path, locality) {

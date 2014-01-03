@@ -65,6 +65,10 @@ function getState(feedid, callback) {
     .exec(callback);
 };
 
+function getStateEarlyVoteSites(feedid, callback) {
+  daoSchemas.models.EarlyVoteSite.find({ _feed: feedid }, callback);
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -72,3 +76,4 @@ exports.getFeedElection = getFeedElection;
 exports.getElectionOfficial = getElectionOfficial;
 exports.getFeedContests = getFeedContests;
 exports.getState = getState;
+exports.getStateEarlyVoteSites = getStateEarlyVoteSites;

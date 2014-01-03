@@ -82,8 +82,11 @@ feedStateGET = function (req, res) {
 };
 
 feedStateEarlyVoteSitesGET = function (req, res) {
-  var earlyVoteSites = {}; //TODO: get data from the database
-  res.json(mapper.mapStateEarlyVoteSites(req.path, earlyVoteSites));
+  dao.getStateEarlyVoteSites(req.params.feedid, function (err, earlyVoteSites) {
+    notFoundHandler(res, err, earlyVoteSites, function () {
+      res.json(mapper.mapStateEarlyVoteSites(req.path, earlyVoteSites));
+    });
+  });
 };
 
 
