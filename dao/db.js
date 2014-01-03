@@ -23,7 +23,10 @@ db.once('open', function callback(){
  * TODO: Move these functions to a separate file
  */
 var getFeedList = function(callback) {
-  daoSchemas.models.Feed.find({}, { payload: 0 }, callback);
+  daoSchemas.models.Feed.find({}, { payload: 0 })
+    .populate('_state')
+    .populate('_election', 'electionType date')
+    .exec(callback);
 };
 
 var getFeedOverview = function(id, callback) {

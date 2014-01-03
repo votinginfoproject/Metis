@@ -34,3 +34,21 @@ Voting Information Project web app.
 5. Add the user to `vip-user` group and click `Update`
 
 For more information see the [Crowd Admin Guide](https://confluence.atlassian.com/display/CROWD/Crowd+Administration+Guide).
+
+## Running Karma Unit Tests
+
+1. install karma
+```
+npm install karma
+```
+2. run karma
+```
+karma start _name of config file_
+```
+
+WebStorm also has a built in build configuration for karma which breaks down each test.
+Karma is configured to use chrome as the default browser.
+
+## Running Functional Tests
+
+* navigate to localHost:4000/test/e2e/runner.html

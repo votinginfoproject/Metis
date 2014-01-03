@@ -40,6 +40,10 @@ describe('Feed Overview Unit Tests', function() {
         return;
       }
 
+      $rootScope.createTableParams = function(a,b,c,d,e) {
+        return;
+      };
+
       $rootScope.pageHeader = {};
 
       adminCtrl = $controller('FeedSourceCtrl', {

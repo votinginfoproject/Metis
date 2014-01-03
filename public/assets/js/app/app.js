@@ -282,4 +282,20 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     }
   }
 
+  $rootScope.createTableParams = function(ngTableParams, $filter, data, count, sorting) {
+    // sets the defaults for the table sorting parameters
+    return new ngTableParams({
+      page: 1,
+      count: count,
+      sorting: sorting
+    }, {
+      total: data.length,
+      // sets the type of sorting for the table
+      getData: function ($defer, params) {
+        var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+      }
+    });
+  };
+
 });

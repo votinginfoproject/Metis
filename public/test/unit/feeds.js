@@ -36,7 +36,11 @@ describe('Feed Unit Tests', function() {
 
       $rootScope.setPageHeader = function(a,b,c,d,e) {
         return;
-      }
+      };
+
+      $rootScope.createTableParams = function(a,b,c,d,e) {
+        return;
+      };
 
       feedCtrl = $controller('FeedsCtrl', {
         '$scope': $rootScope,
