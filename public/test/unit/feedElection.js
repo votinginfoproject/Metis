@@ -58,6 +58,10 @@ describe('Feed Election Unit Tests', function() {
         return;
       }
 
+      $rootScope.createTableParams = function(a,b,c,d,e) {
+        return;
+      };
+
       feedCtrl = $controller('FeedElectionCtrl', {
         '$scope': $rootScope,
         '$rootScope': $rootScope,
