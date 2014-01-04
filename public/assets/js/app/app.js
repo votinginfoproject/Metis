@@ -25,8 +25,12 @@ vipApp.constant('$appProperties', {
  * Will setup routing and retrieve reference data for the app before any pages are loaded
  *
  */
-vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
-  function ($routeProvider, $appProperties, $httpProvider) {
+vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider',
+  function ($routeProvider, $appProperties, $httpProvider, $logProvider) {
+
+    // disable the logProvider's debugging as Ngtable uses it and it crowds out all other logging
+    // without any other way to turn it off
+    $logProvider.debugEnabled(false);
 
     $routeProvider.when('/', {
       templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
@@ -174,6 +178,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider',
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
+
 
 
     /*
