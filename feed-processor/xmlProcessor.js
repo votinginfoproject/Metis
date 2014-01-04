@@ -36,15 +36,6 @@ function onError(err) {
   console.error(err);
 };
 
-function onUpdate(err, numAffected) {
-  if (err) {
-    console.error(err);
-  }
-  else {
-    console.log('Updated ' + numAffected + ' document.')
-  }
-};
-
 function addRef() {
   saveCounter++;
 //  console.log('save++ - ' + saveCounter);
@@ -56,7 +47,7 @@ function decRef() {
 
   if (parsingComplete && saveCounter == 0) {
     console.log('Creating database relationships...');
-    createDBRelationships();
+    require('./matchMaker').createDBRelationships(feedDoc._id, models);
   }
 };
 
@@ -282,31 +273,6 @@ function processStreetSegmentElement(streetSegment) {
   model.on('saved', decRef);
   model.mapXml3_0(streetSegment);
   model.save(onError, function() { console.log('Stored street segment element to database.'); })
-};
-
-function createDBRelationships() {
-  var sourcePromise = models.Source.findOne({ _feed: feedDoc._id }).exec();
-  var sourceId;
-
-  sourcePromise.then(function (source) {
-    sourceId = source._id;
-    return models.ElectionOfficial.findOne({ _feed: feedDoc._id, elementId: source.feedContactId }).select('_id').exec();
-  }, onError).then(function (eoId) {
-      models.Source.update({ _id: sourceId }, { _feedContact: eoId }, onUpdate);
-    }, onError);
-
-  var statePromise = models.State.findOne({ _feed: feedDoc._id }).select('_id').exec();
-
-  statePromise.then(function (stateId) {
-    models.Election.update({ _feed: feedDoc._id }, { _state: stateId }, onUpdate);
-    models.Feed.update({ _id: feedDoc._id }, { _state: stateId }, onUpdate);
-  }, onError);
-
-  var electionPromise = models.Election.findOne({ _feed: feedDoc._id }).select('_id').exec();
-
-  electionPromise.then(function (electionId) {
-    feedDoc.update({ _election: electionId}, onUpdate);
-  }, onError);
 };
 
 exports.processXml = saveBasicFeedInfo;
