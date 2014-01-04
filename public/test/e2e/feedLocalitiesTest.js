@@ -1,4 +1,4 @@
-describe('Feed State Test', function () {
+describe('Feed Localities Test', function () {
 
   describe('Log in', function () {
 
@@ -12,9 +12,9 @@ describe('Feed State Test', function () {
   /* ----------------------------------------
    Feed State page
    ------------------------------------------*/
-  describe('Check Feed State page', function () {
+  describe('Check Feed Localities page', function () {
 
-    it('Should go to the Feed State page after selecting a feed and then Election and then State', function () {
+    it('Should go to the Feed Localities page after selecting a feed and then Election and then State and then a Locality and then the 2nd to last breadcrumb', function () {
 
       // expect to start out on the feed index page
       // click the first feed
@@ -41,33 +41,39 @@ describe('Feed State Test', function () {
       // should be on the feed state page
       expect(element('#feed-state-content').count()).toBe(1);
 
+      // should have a locality link
+      expect(element('#locality-id0 a').count()).toBe(1);
+
+      // click the locality link
+      element('#locality-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality page
+      expect(element('#feed-locality-content').count()).toBe(1);
+
+      // click the localities link
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
+      element('#pageHeader-breadcrumb4').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality page
+      expect(element('#feed-localities-content').count()).toBe(1);
+
+
     });
 
   });
 
   /* ----------------------------------------
-   Feed State data
+   Feed Localities data
    ------------------------------------------*/
-  describe('Check Feed State data', function () {
-    // check the the number of items
-    it('Should have State locality data', function () {
+  describe('Check Feed Localities data', function () {
+
+    it('Should have localities data', function () {
 
       expect(element('#locality0').count()).toBe(1);
       expect(element('#locality-name0').count()).toBe(1);
     });
-
-    // if there is data
-    it('Should have Early Vote Sites data', function () {
-
-      expect(element('#earlyVoteSite0').count()).toBe(1);
-    });
-
-    // if there is data
-    it('Should have Election Administration data', function () {
-
-      expect(element('#state-administration-id').count()).toBe(1);
-    });
-
 
   });
 

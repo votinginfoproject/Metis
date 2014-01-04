@@ -219,6 +219,31 @@ var mapLocalityPrecincts = function(path, precincts) {
   ]
 };
 
+var mapLocalities = function(path, locality) {
+  return [
+    {
+      id: 1001,
+      name: "Alamance",
+      precints: 37
+    },
+    {
+      id: 1002,
+      name: "Anson",
+      precints: 7
+    },
+    {
+      id: 1003,
+      name: "Burke",
+      precints: 21
+    },
+    {
+      id: 1004,
+      name: "Zandell",
+      precints: 4
+    }
+  ]
+};
+
 var mapElectionContest = function(path, contest) {
   return {
       id: contest.elementId,
@@ -317,6 +342,7 @@ exports.mapStateEarlyVoteSites = mapStateEarlyVoteSites;
 exports.mapLocality = mapLocality;
 exports.mapLocalityEarlyVoteSites = mapLocalityEarlyVoteSites;
 exports.mapLocalityPrecincts = mapLocalityPrecincts;
+exports.mapLocalities = mapLocalities;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;

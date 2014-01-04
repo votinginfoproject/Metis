@@ -53,6 +53,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
+    // Feed localities page
+    // ========================================================
+    getFeedLocalities: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
     // Feed locality page
     // ========================================================
     getFeedLocality: function (servicePath) {

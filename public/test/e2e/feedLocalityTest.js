@@ -1,4 +1,4 @@
-describe('Feed State Test', function () {
+describe('Feed Locality Test', function () {
 
   describe('Log in', function () {
 

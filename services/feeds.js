@@ -16,6 +16,7 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
   app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedStateGET);
   app.get('/services/feeds/:feedid/election/state/earlyvotesites', utils.ensureAuthentication, feedStateEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/localities', utils.ensureAuthentication, feedLocalitiesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, feedLocalityGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
@@ -83,12 +84,16 @@ feedStateEarlyVoteSitesGET = function (req, res) {
   res.json(mapper.mapStateEarlyVoteSites(req.path, earlyVoteSites));
 };
 
-
 feedLocalityGET = function (req, res) {
   var locality = {
     id: req.params.localityid
   }; //TODO: get data from the database
   res.json(mapper.mapLocality(req.path, locality));
+};
+
+feedLocalitiesGET = function (req, res) {
+  var locality = {}; //TODO: get data from the database
+  res.json(mapper.mapLocalities(req.path, locality));
 };
 
 feedLocalityEarlyVoteSitesGET = function (req, res) {

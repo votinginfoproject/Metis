@@ -30,11 +30,10 @@
 
 </section>
 
-
 <section class="data-group">
   <h2><span ng-if="!feedState.administration">No</span> Election Administration</h2>
 
-  <span ng-if="!feedState.administration" class="is-loading"></span>
+  <span ng-if="!feedState" class="is-loading"></span>
   <table class="associations" ng-if="feedState.administration">
     <thead>
     <tr>
