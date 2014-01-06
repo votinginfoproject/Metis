@@ -220,7 +220,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll) {
 
   // TODO
   // initialize the cache for the app
@@ -229,6 +229,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   $rootScope.pageHeader = {};
   $rootScope.user = null;
+
+  //when the route is changed scroll to the top of the page
+  $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+    $anchorScroll();
+  });
 
   /*
    * Sets PageHeader values

@@ -10,7 +10,8 @@
     "angular-route": "1.2.1",
     "angular-scenario": "1.2.1",
     "angular-resource": "1.2.1",
-    "ng-table": "0.3.1"
+    "ng-table": "0.3.1",
+    "modernizr": "2.7.1"
   },
   "ignoredByBower": {
     "quickCopyAndPasteOfPotentialDependencies": {
