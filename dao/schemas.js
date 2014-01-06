@@ -192,7 +192,8 @@ var localitySchema = {
   type: String,
   electionAdminId: Number,
   earlyVoteSiteIds: [Number],
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration }
 };
 
 var pollingLocationSchema = {

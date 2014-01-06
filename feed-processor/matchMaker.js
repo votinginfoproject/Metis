@@ -4,9 +4,7 @@
 /**
  * Creates relationships between documents in the database
  */
-var ObjectId = require('mongoose').Types.ObjectId;
-
-function onUpdate(err, numAffected) {
+function onUpdate (err, numAffected) {
   if (err) {
     console.error(err);
   }
@@ -15,11 +13,11 @@ function onUpdate(err, numAffected) {
   }
 };
 
-function onError(err) {
+function onError (err) {
   console.error(err);
 };
 
-function createRelationshipsSource(feedId, models) {
+function createRelationshipsSource (feedId, models) {
   var sourcePromise = models.Source.findOne({ _feed: feedId }).exec();
   var sourceId;
 
@@ -31,7 +29,7 @@ function createRelationshipsSource(feedId, models) {
     }, onError);
 };
 
-function createRelationshipsState(feedId, models) {
+function createRelationshipsState (feedId, models) {
   var statePromise = models.State.findOne({ _feed: feedId }).exec();
   var stateId;
 
@@ -61,19 +59,40 @@ function createRelationshipsState(feedId, models) {
   }, onError);
 };
 
-function createRelationshipsElection(feedId, models) {
+function createRelationshipsElection (feedId, models) {
   var electionPromise = models.Election.findOne({ _feed: feedId }).select('_id').exec();
 
   electionPromise.then(function (electionId) {
     models.Feed.update({ _id: feedId }, { _election: electionId}, onUpdate);
   }, onError);
+};
 
+function createRelationshipsLocality (feedId, models) {
+  var promise = models.Locality.find({ _feed: feedId }).exec();
+
+  promise.then(function (localities) {
+    localities.forEach(function(locality) {
+      //TODO: link to election administration and early vote sites and precincts
+      if (locality.electionAdminId) {
+        joinLocalityElectionAdmin(models, locality, locality.electionAdminId);
+      }
+    });
+  });
+};
+
+function joinLocalityElectionAdmin (models, locality, eaId) {
+  var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
+
+  promise.then(function (electionAdminOid) {
+    models.Locality.update({ _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
+  }, onError);
 };
 
 function createDBRelationships(feedId, models) {
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
   createRelationshipsElection(feedId, models);
+  createRelationshipsLocality(feedId, models);
 };
 
 exports.createDBRelationships = createDBRelationships;

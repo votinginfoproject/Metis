@@ -93,7 +93,7 @@ var mapState = function(path, state) {
         precincts: 1
       }
     }),
-    administration: {
+    administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
       address: state._electionAdministration.physicalAddress.city +', ' +
@@ -115,12 +115,12 @@ var mapStateEarlyVoteSites = function(path, earlyVoteSites) {
 
 var mapLocality = function(path, locality) {
   return {
-    id: locality.id,
-    error_count: 88,
-    name: "Locality Name",
-    type: "County",
-    electionMachineType: "Machine XYZ",
-    pollBookType: "Type A",
+    id: locality.elementId,
+    error_count: -1,
+    name: locality.name,
+    type: locality.type,
+    electionMachineType: "Requires 5.0 Schema",
+    pollBookType: "Requires 5.0 Schema",
     overview: [
       {
         element_type: 'Electoral Districts',

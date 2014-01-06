@@ -91,10 +91,12 @@ feedStateEarlyVoteSitesGET = function (req, res) {
 };
 
 feedLocalityGET = function (req, res) {
-  var locality = {
-    id: req.params.localityid
-  }; //TODO: get data from the database
-  res.json(mapper.mapLocality(req.path, locality));
+  dao.getLocality(req.params.feedid, req.params.localityid, function (err, locality) {
+    notFoundHandler(res, err, locality, function () {
+      res.json(mapper.mapLocality(req.path, locality));
+    });
+  });
+
 };
 
 feedLocalitiesGET = function (req, res) {
