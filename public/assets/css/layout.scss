@@ -30,6 +30,10 @@ header[role="banner"] {
   text-align: center;
 }
 
+.main {
+  overflow-x: auto;
+}
+
 .wrapper {
   @include clearfix;
   margin: 0 auto;

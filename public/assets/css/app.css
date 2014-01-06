@@ -320,6 +320,9 @@ header[role="banner"] {
   background-color: #999999;
   text-align: center; }
 
+.main {
+  overflow-x: auto; }
+
 .wrapper {
   *zoom: 1;
   margin: 0 auto;
@@ -346,6 +349,7 @@ header[role="banner"] {
   width: 100%; }
   @media (min-width: 1116px) {
     .main > .wrapper {
+      display: block;
       padding-top: 0; } }
 
 @media (min-width: 1116px) {
@@ -370,9 +374,7 @@ header[role="banner"] {
     .content.feed {
       float: right;
       margin-left: 2.75229%;
-      width: 74.31193%;
-      margin-left: 0;
-      float: right; }
+      width: 74.31193%; }
       .content.feed:last-child {
         margin-left: 0; } }
 
