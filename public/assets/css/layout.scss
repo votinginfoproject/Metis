@@ -17,7 +17,6 @@ aside {
 
   @include bp(c16) {
     @include span-columns(4 of 16);
-    float: left;
   }
 }
 
@@ -30,10 +29,13 @@ header[role="banner"] {
   text-align: center;
 }
 
+.main {
+  overflow-x: auto;
+}
+
 .wrapper {
   @include clearfix;
   margin: 0 auto;
-  max-width: 1452px;
   padding: 1em percentage(24/306);
 
   @include bp(c6) {
@@ -45,7 +47,8 @@ header[role="banner"] {
   }
 
   @include bp(c16) {
-    padding: 1em percentage(72/1452);
+    max-width: 1308px;
+    padding: 1em 0;
   }
 }
 
@@ -55,6 +58,7 @@ header[role="banner"] {
   width: 100%;
 
   @include bp(c12) {
+    display: block;
     padding-top: 0;
   }
 }
@@ -70,19 +74,14 @@ aside .wrapper {
 }
 
 .content.feed {
-
   margin-left: 0;
 
   @include bp(c12) {
     @include span-columns(8 of 12);
-    margin-left: 0;
-    float: right;
   }
 
   @include bp(c16) {
     @include span-columns(12 of 16);
-    margin-left: 0;
-    float: right;
   }
 }
 

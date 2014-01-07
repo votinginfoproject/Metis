@@ -8,9 +8,9 @@ var _ = require('underscore');
 var mapFeed = function(path, feed) {
   return {
     id: feed.id,
-    date: moment(feed._election.date).format('YYYY-MM-DD'),
-    state: feed._state.name,
-    type: feed._election.electionType,
+    date: feed._election ? moment(feed._election.date).format('YYYY-MM-DD') : 'N/A',
+    state: feed._state ? feed._state.name : 'State Missing',
+    type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
     name: feed.name,
     edit: _path.join(path, feed.id)
