@@ -7,11 +7,7 @@
 //debug.setLevel(0);
 
 // VIP app module with its dependencies
-var vipApp;
-if(globalVars.isTesting)
-  vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'ngMockE2E']);
-else
-  vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 
 // Constants
 vipApp.constant('$appProperties', {
@@ -234,8 +230,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   // TODO
   // initialize the cache for the app
   //$rootScope.cache = $cacheFactory('vipApp');
-  InterceptorSetup($httpBackend, $appProperties);
-
   $rootScope.pageHeader = {};
   $rootScope.user = null;
 

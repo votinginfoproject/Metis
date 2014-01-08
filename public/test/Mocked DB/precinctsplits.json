@@ -1,0 +1,2 @@
+{ "elementId" : 30101, "name" : "Fake Twp-A", "precinctId" : 10101, "ballotStyleImageUrl" : "http://www.example.com/precinct_split_101_ballot.pdf", "_feed" : { "$oid" : "52cafdceb4bae13e0d000004" }, "_id" : { "$oid" : "52cafdd2b4bae13e0d000013" }, "electoralDistrictIds" : [ 70001, 70002 ], "__v" : 0 }
+{ "elementId" : 30102, "name" : "Fake Twp-B", "precinctId" : 10101, "_feed" : { "$oid" : "52cafdceb4bae13e0d000004" }, "_id" : { "$oid" : "52cafdd2b4bae13e0d000014" }, "electoralDistrictIds" : [ 70001, 70003 ], "__v" : 0 }
