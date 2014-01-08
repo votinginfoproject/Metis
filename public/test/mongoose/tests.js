@@ -187,7 +187,6 @@ localityTest: function (models, template, callback) {
   streetSegmentTest: function (models, template, callback) {
     models.StreetSegment.find({}, function (err, foundVal) {
       var isPassing = true;
-      console.log(err);
       if(err || foundVal[0].elementId !== template.elementId || foundVal[0].nonHouseAddress.apartment !== template.nonHouseAddress.apartment)
         isPassing = false;
       callback('Street Schema Test', isPassing);

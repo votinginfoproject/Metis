@@ -1,0 +1,3 @@
+{ "elementId" : 101, "name" : "Adams", "stateId" : 39, "type" : "county", "_feed" : { "$oid" : "52cafdceb4bae13e0d000004" }, "_id" : { "$oid" : "52cafdd2b4bae13e0d000008" }, "earlyVoteSiteIds" : [ 30203 ], "__v" : 0 }
+{ "elementId" : 102, "name" : "Allen", "stateId" : 39, "type" : "county", "_feed" : { "$oid" : "52cafdceb4bae13e0d000004" }, "_id" : { "$oid" : "52cafdd2b4bae13e0d000009" }, "__v" : 0 }
+{ "elementId" : 103, "name" : "Ashland", "stateId" : 39, "type" : "county", "_feed" : { "$oid" : "52cafdceb4bae13e0d000004" }, "_id" : { "$oid" : "52cafdd2b4bae13e0d00000a" }, "__v" : 0 }
