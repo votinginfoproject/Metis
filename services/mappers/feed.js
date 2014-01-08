@@ -5,6 +5,10 @@ var moment = require('moment');
 var _path = require('path');
 var _ = require('underscore');
 
+function addressToShortString(address) {
+  return address ? address.city +', ' + address.state + ' ' + address.zip : '';
+};
+
 var mapFeed = function(path, feed) {
   return {
     id: feed.id,
@@ -13,7 +17,7 @@ var mapFeed = function(path, feed) {
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
     name: feed.name,
-    edit: _path.join(path, feed.id)
+    self: _path.join(path, feed.id)
   };
 };
 
@@ -74,7 +78,8 @@ var mapElection = function(path, election) {
     state: {
       id: election.stateId,
       name: election._state.name,
-      locality_count: election._state.localityCount
+      locality_count: election._state.localityCount,
+      self: _path.join(path, '/state')
     },
     contests: _path.join(path, '/contests')
   };
@@ -85,20 +90,13 @@ var mapState = function(path, state) {
     id: state.elementId,
     error_count: 99,
     name: state.name,
-    localities: _.map(state._localities, function (locality) {
-      return {
-        id: locality.elementId,
-        name: locality.name,
-        type: locality.type,
-        precincts: 1
-      }
-    }),
     administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
-      address: state._electionAdministration.physicalAddress.city +', ' +
-        state._electionAdministration.physicalAddress.state + ' ' + state._electionAdministration.physicalAddress.zip
+      address: addressToShortString(state._electionAdministration.physicalAddress),
+      self: _path.join(path, '/election-administration')
     },
+    localities: _path.join(path, '/localities'),
     earlyvotesites: _path.join(path, '/earlyvotesites')
   };
 };
@@ -108,7 +106,8 @@ var mapStateEarlyVoteSites = function(path, earlyVoteSites) {
     return {
       id: evs.elementId,
       name: evs.name,
-      address: evs.address.city + ", " + evs.address.state + " " + evs.address.zip
+      address: addressToShortString(evs.address),
+      self: _path.join(path, evs.elementId.toString())
     };
   });
 };
@@ -147,79 +146,48 @@ var mapLocality = function(path, locality) {
         error_count: 4223
       }
     ],
-    administration: {
-      id: 2201,
-      name: "The County Board of Elections",
-      address: "Graham, NC 27253"
-    },
+    administration: locality._electionAdministration ? {
+      id: locality._electionAdministration.elementId,
+      name: locality._electionAdministration.name,
+      address: addressToShortString(locality._electionAdministration.physicalAddress)
+    } : null,
     earlyvotesites: _path.join(path, '/earlyvotesites'),
     precincts: _path.join(path, '/precincts')
   };
 };
 
-var mapLocalityEarlyVoteSites = function(path, locality) {
-  return [
-    {
-      id: 240017,
-      name: "Court Services",
-      address: "Graham, NC 27253"
-    },
-    {
-      id: 240018,
-      name: "Mebane Arts Center",
-      address: "Mebane, NC 27302"
-    },
-    {
-      id: 240019,
-      name: "May Memorial Library",
-      address: "Burlington, NC 11111"
-    }
-  ]
+var mapLocalityEarlyVoteSites = function(path, earlyVoteSites) {
+  return _.map(earlyVoteSites, function (evs) {
+    return {
+      id: evs.elementId,
+      name: evs.name,
+      address: addressToShortString(evs.address),
+      self: _path.join(path, evs.elementId.toString())
+    };
+  });
 };
 
 var mapLocalityPrecincts = function(path, precincts) {
-  return [
-    {
-      id: 910011,
-      name: "Patterson",
-      precinct_splits: 1
-    },
-    {
-      id: 9100110,
-      name: "Graham",
-      precinct_splits: 2
-    },
-    {
-      id: 9100111,
-      name: "Jamesboro",
-      precinct_splits: 3
-    }
-  ]
+  return _.map(precincts, function (precinct) {
+    return {
+      id: precinct.elementId,
+      name: precinct.name,
+      precinct_splits: -1,
+      self: _path.join(path, precinct.elementId.toString())
+    };
+  });
 };
 
-var mapLocalities = function(path, locality) {
-  return [
-    {
-      id: 1001,
-      name: "Alamance",
-      precints: 37
-    },
-    {
-      id: 1002,
-      name: "Anson",
-      precints: 7
-    },
-    {
-      id: 1003,
-      name: "Burke",
-      precints: 21
-    },
-    {
-      id: 1004,
-      name: "Zandell",
-      precints: 4
-    }
-  ]
+var mapLocalities = function(path, localities) {
+  return _.map(localities, function (locality) {
+    return {
+      id: locality.elementId,
+      name: locality.name,
+      type: locality.type,
+      precincts: locality._precincts.length,
+      self: _path.join(path, locality.elementId.toString())
+    };
+  });
 };
 
 var mapElectionContest = function(path, contest) {

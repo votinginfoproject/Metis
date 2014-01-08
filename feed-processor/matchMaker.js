@@ -1,6 +1,7 @@
 /**
  * Created by bantonides on 1/3/14.
  */
+
 /**
  * Creates relationships between documents in the database
  */
@@ -71,13 +72,17 @@ function createRelationshipsLocality (feedId, models) {
   var promise = models.Locality.find({ _feed: feedId }).exec();
 
   promise.then(function (localities) {
-    localities.forEach(function(locality) {
-      //TODO: link to election administration and early vote sites and precincts
+    localities.forEach(function (locality) {
+      //link to election administration and early vote sites and precincts
       if (locality.electionAdminId) {
         joinLocalityElectionAdmin(models, locality, locality.electionAdminId);
       }
+      if (locality.earlyVoteSiteIds) {
+        joinLocalityEarlyVoteSite(models, locality, locality.earlyVoteSiteIds);
+      }
+      joinLocalityPrecincts(models, locality);
     });
-  });
+  }, onError);
 };
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
@@ -85,6 +90,27 @@ function joinLocalityElectionAdmin (models, locality, eaId) {
 
   promise.then(function (electionAdminOid) {
     models.Locality.update({ _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
+  }, onError);
+};
+
+function joinLocalityEarlyVoteSite (models, locality, evsIds) {
+  var promise = models.EarlyVoteSite.find({ _feed: locality._feed, elementId: { $in: evsIds } }).select('_id').exec();
+
+  promise.then(function (evsOids) {
+    if (evsOids.length > 0) {
+      models.Locality.update({ _id: locality._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
+      models.EarlyVoteSite.update({ _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
+    }
+  }, onError);
+};
+
+function joinLocalityPrecincts (models, locality) {
+  var promise = models.Precinct.find({ _feed: locality._feed, localityId: locality.elementId }).select('_id').exec();
+
+  promise.then(function (precinctOids) {
+    if (precinctOids.length > 0) {
+      models.Locality.update({ _id: locality._id }, { $addToSet: { _precincts: { $each: precinctOids } } }, onUpdate);
+    }
   }, onError);
 };
 
