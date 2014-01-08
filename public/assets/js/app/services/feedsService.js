@@ -84,6 +84,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     },
     getFeedPrecinctElectoralDistricts: function (servicePath) {
       return $http.get(servicePath);
+    },
+    getFeedPrecinctPollingLocations: function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedPrecinctPrecinctSplits: function (servicePath) {
+      return $http.get(servicePath);
     }
 
   };

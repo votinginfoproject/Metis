@@ -106,7 +106,8 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
       // now call the other services to get the rest of the data
       FeedPrecinctCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
       FeedPrecinctCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, data.electoraldistricts, $filter, ngTableParams);
-
+      FeedPrecinctCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.pollinglocations, $filter, ngTableParams);
+      FeedPrecinctCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, data.precinctsplits, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -174,5 +175,53 @@ function FeedPrecinctCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsSe
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedElectoralDistricts = {};
+    });
+}
+
+/*
+ * Get the Feed Precinct Polling Locations for the Feed detail page
+ *
+ */
+function FeedPrecinctCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+
+  // get Feed Early Vote Sites
+  $feedsService.getFeedPrecinctPollingLocations(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedPollingLocations = data;
+
+      $scope.pollingLocationsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Precinct Polling Locations. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedPollingLocations = {};
+    });
+}
+
+/*
+ * Get the Feed Precinct Precinct-Splits for the Feed detail page
+ *
+ */
+function FeedPrecinctCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+
+  // get Feed Early Vote Sites
+  $feedsService.getFeedPrecinctPrecinctSplits(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedPrecinctSplits = data;
+
+      $scope.precinctSplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Precinct Splits. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedPrecinctSplits = {};
     });
 }

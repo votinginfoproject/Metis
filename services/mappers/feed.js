@@ -203,7 +203,7 @@ var mapPrecinct = function(path, precinct) {
     electoraldistricts: _path.join(path, '/electoraldistricts'),
     pollinglocations: _path.join(path, '/pollinglocations'),
     precinctsplits: _path.join(path, '/precinctsplits'),
-    streetsegments: _path.join(path, '/streetsegments')
+    streetsegments: 300
   };
 };
 
@@ -251,6 +251,56 @@ var mapPrecinctElectoralDistricts = function(path, locality) {
       name: "District 3",
       type: "Some other Type",
       contests: 12
+    }
+  ]
+};
+
+var mapPrecinctPollingLocations = function(path, locality) {
+  return [
+    {
+      id: 111,
+      name: "Court Services",
+      address: "Graham, NC 27253"
+    },
+    {
+      id: 222,
+      name: "Mebane Arts Center",
+      address: "Mebane, NC 27302"
+    },
+    {
+      id: 333,
+      name: "May Memorial Library",
+      address: "Burlington, NC 11111"
+    },
+    {
+      id: 444,
+      name: "Name",
+      address: "Address"
+    }
+  ]
+};
+
+var mapPrecinctPrecinctSplits = function(path, locality) {
+  return [
+    {
+      id: 1,
+      name: "Split1",
+      streetsegments: 0
+    },
+    {
+      id: 2,
+      name: "Split2",
+      streetsegments: 1
+    },
+    {
+      id: 3,
+      name: "Split3",
+      streetsegments: 3
+    },
+    {
+      id: 4,
+      name: "Split4",
+      streetsegments: 12
     }
   ]
 };
@@ -357,6 +407,8 @@ exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
 exports.mapPrecinctEarlyVoteSites = mapPrecinctEarlyVoteSites;
 exports.mapPrecinctElectoralDistricts = mapPrecinctElectoralDistricts;
+exports.mapPrecinctPollingLocations = mapPrecinctPollingLocations;
+exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
