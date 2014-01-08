@@ -203,7 +203,10 @@ var mapPrecinct = function(path, precinct) {
     electoraldistricts: _path.join(path, '/electoraldistricts'),
     pollinglocations: _path.join(path, '/pollinglocations'),
     precinctsplits: _path.join(path, '/precinctsplits'),
-    streetsegments: 300
+    streetsegments: {
+      total: 300,
+      error_count: 4
+    }
   };
 };
 
