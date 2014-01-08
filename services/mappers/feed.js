@@ -222,6 +222,71 @@ var mapLocalities = function(path, locality) {
   ]
 };
 
+var mapPrecinct = function(path, precinct) {
+  return {
+    id: precinct.id,
+    error_count: 33,
+    name: "Precinct Name",
+    number: 44,
+    ward: "Precinct Ward",
+    mailonly: "Yes",
+    ballotimage: "http://www...",
+    earlyvotesites: _path.join(path, '/earlyvotesites'),
+    electoraldistricts: _path.join(path, '/electoraldistricts'),
+    pollinglocations: _path.join(path, '/pollinglocations'),
+    precinctsplits: _path.join(path, '/precinctsplits'),
+    streetsegments: _path.join(path, '/streetsegments')
+  };
+};
+
+var mapPrecinctEarlyVoteSites = function(path, locality) {
+  return [
+    {
+      id: 6640017,
+      name: "Court Services",
+      address: "Graham, NC 27253"
+    },
+    {
+      id: 6640018,
+      name: "Mebane Arts Center",
+      address: "Mebane, NC 27302"
+    },
+    {
+      id: 6640019,
+      name: "May Memorial Library",
+      address: "Burlington, NC 11111"
+    },
+    {
+      id: 66400,
+      name: "Name",
+      address: "Address"
+    }
+  ]
+};
+
+var mapPrecinctElectoralDistricts = function(path, locality) {
+  return [
+    {
+      id: 7001,
+      name: "District Name",
+      type: "Statewide",
+      contests: 2
+    },
+    {
+      id: 7002,
+      name: "District 2",
+      type: "Other Type",
+      contests: 5
+    },
+    {
+      id: 7003,
+      name: "District 3",
+      type: "Some other Type",
+      contests: 12
+    }
+  ]
+};
+
 var mapElectionContest = function(path, contest) {
   return {
       id: contest.elementId,
@@ -321,6 +386,9 @@ exports.mapLocality = mapLocality;
 exports.mapLocalityEarlyVoteSites = mapLocalityEarlyVoteSites;
 exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
+exports.mapPrecinct = mapPrecinct;
+exports.mapPrecinctEarlyVoteSites = mapPrecinctEarlyVoteSites;
+exports.mapPrecinctElectoralDistricts = mapPrecinctElectoralDistricts;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;

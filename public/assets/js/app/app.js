@@ -271,7 +271,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       $rootScope.user = data;
 
       // redirect to home page if not authenticated
-      if (data.isAuthenticated == false) {
+      if (data ===null || data.isAuthenticated == false) {
         $location.path("/");
       }
 
@@ -321,5 +321,13 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       }
     });
   };
+
+  /*
+   * Currently takes the current URL path and turns it into a service path used
+   * to get the data for the current page
+   */
+  $rootScope.getServiceUrl = function(urlPath){
+    return "/services" + urlPath;
+  }
 
 });

@@ -62,7 +62,7 @@ function FeedPrecinctCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-     // FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, data.precincts + "/" + precinctid, $filter, ngTableParams);
+      FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -105,7 +105,7 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
 
       // now call the other services to get the rest of the data
       FeedPrecinctCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
-      FeedPrecinctCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $filter, ngTableParams);
+      FeedPrecinctCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, data.electoraldistricts, $filter, ngTableParams);
 
 
     }).error(function (data, $http) {
@@ -113,7 +113,7 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
       if($http===404){
         // feed not found
 
-        $rootScope.pageHeader.alert = "Sorry, Precinct  \"" + localityid + "\" for VIP feed \"" + feedid + "\" does not exist.";
+        $rootScope.pageHeader.alert = "Sorry, Precinct  \"" + precinctid + "\" for VIP feed \"" + feedid + "\" does not exist.";
       } else {
         // some other error
 
@@ -121,9 +121,11 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
       }
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedPrecinct = {};
       $scope.feedEarlyVoteSites = {};
-      $scope.feedPrecincts = {};
+      $scope.feedElectoralDistricts = {};
+      $scope.feedPollingLocations = {};
+      $scope.feedPrecinctSplits = {};
+      $scope.feedStreetSegments = {};
     });
 }
 
@@ -152,25 +154,25 @@ function FeedPrecinctCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
 }
 
 /*
- * Get the Feed Precinct Precincts for the Feed detail page
+ * Get the Feed Precinct Electoral Districts for the Feed detail page
  *
  */
-function FeedPrecinctCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedPrecinctCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
 
-  // get Feed Precincts
-  $feedsService.getFeedPrecinctPrecincts(servicePath)
+  // get Feed Electoral Districts
+  $feedsService.getFeedPrecinctElectoralDistricts(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
-      $scope.feedPrecincts = data;
+      $scope.feedElectoralDistricts = data;
 
-      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.electoralDistrictsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Precinct Precincts. ";
+      $rootScope.pageHeader.error += "Could not retrieve Precinct Electoral Districts. ";
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedPrecincts = {};
+      $scope.feedElectoralDistricts = {};
     });
 }

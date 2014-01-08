@@ -20,6 +20,10 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, feedLocalityGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
+//  app.get('/services/feeds/:feedid/election/state/precincts', utils.ensureAuthentication, feedPrecinctsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid', utils.ensureAuthentication, feedPrecinctGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites', utils.ensureAuthentication, feedPrecinctEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts', utils.ensureAuthentication, feedPrecinctElectoralDistrictsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -110,6 +114,23 @@ feedLocalityEarlyVoteSitesGET = function (req, res) {
 feedLocalityPrecinctsGET = function (req, res) {
   var precincts = {}; //TODO: get data from the database
   res.json(mapper.mapLocalityPrecincts(req.path, precincts));
+};
+
+feedPrecinctGET = function (req, res) {
+  var precinct = {
+    id: req.params.precinctid
+  }; //TODO: get data from the database
+  res.json(mapper.mapPrecinct(req.path, precinct));
+};
+
+feedPrecinctEarlyVoteSitesGET = function (req, res) {
+  var earlyVoteSites = {}; //TODO: get data from the database
+  res.json(mapper.mapPrecinctEarlyVoteSites(req.path, earlyVoteSites));
+};
+
+feedPrecinctElectoralDistrictsGET = function (req, res) {
+  var electoralDistricts = {}; //TODO: get data from the database
+  res.json(mapper.mapPrecinctElectoralDistricts(req.path, electoralDistricts));
 };
 
 feedElectionContestsGET = function (req, res) {

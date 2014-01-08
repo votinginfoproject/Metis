@@ -69,6 +69,18 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     },
     getFeedLocalityPrecincts: function (servicePath) {
       return $http.get(servicePath);
+    },
+
+    // Feed Precinct page
+    // ========================================================
+    getFeedPrecinct: function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedPrecinctEarlyVoteSites: function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedPrecinctElectoralDistricts: function (servicePath) {
+      return $http.get(servicePath);
     }
 
   };
