@@ -12,7 +12,7 @@ function addressToShortString(address) {
 var mapFeed = function(path, feed) {
   return {
     id: feed.id,
-    date: feed._election ? moment(feed._election.date).format('YYYY-MM-DD') : 'N/A',
+    date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
@@ -45,7 +45,7 @@ var mapSource = function(path, source) {
     errors: _path.join(path, '/errors'),
     source_info: {
       name: source.name,
-      date: moment(source.datetime).format('YYYY-MM-DD'),
+      date: moment(source.datetime).utc().format('YYYY-MM-DD'),
       description: source.description,
       org_url: source.organizationUrl,
       tou_url: source.touUrl
@@ -65,7 +65,7 @@ var mapElection = function(path, election) {
     id: election.elementId,
     error_count: 222,
     errors: _path.join(path, '/errors'),
-    date: moment(election.date).format('YYYY-MM-DD'),
+    date: moment(election.date).utc().format('YYYY-MM-DD'),
     type: election.electionType,
     statewide: election.statewide,
     registration_url: election.registrationInfo,
@@ -73,8 +73,8 @@ var mapElection = function(path, election) {
     results_url: election.resultsUrl,
     polling_hours: election.pollingHours,
     day_of_registration: election.electionDayRegistration,
-    registration_deadline: moment(election.registrationDeadline).format('YYYY-MM-DD'),
-    absentee_deadline: moment(election.absenteeRequestDeadline).format('YYYY-MM-DD'),
+    registration_deadline: moment(election.registrationDeadline).utc().format('YYYY-MM-DD'),
+    absentee_deadline: moment(election.absenteeRequestDeadline).utc().format('YYYY-MM-DD'),
     state: {
       id: election.stateId,
       name: election._state.name,
