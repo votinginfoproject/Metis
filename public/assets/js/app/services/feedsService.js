@@ -52,6 +52,9 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedStateEarlyVoteSites: function (servicePath) {
       return $http.get(servicePath);
     },
+    getFeedStateLocalities: function (servicePath) {
+      return $http.get(servicePath);
+    },
 
     // Feed localities page
     // ========================================================

@@ -58,8 +58,8 @@
 
 <p><mark>Map goes here.</mark></p>
 
-<div ng-if="!feedState"></br><span class="is-loading"></span></div>
-<table ng-show="feedState" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
+<div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
+<table ng-show="feedLocalities" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
   <tr id="locality{{$index}}" ng-repeat="locality in $data">
     <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.id}}</a></td>
     <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.name}}</a></td>

@@ -74,12 +74,11 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       // set the feeds data into the Angular model
       $scope.feedState = data;
 
-      $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.localities, 10, { id: 'asc' });
-
       // set the title
       $rootScope.pageHeader.title = "State ID: " + data.id;
 
       FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
+      FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $filter, ngTableParams);
 
     }).error(function (data) {
 
@@ -88,6 +87,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedState = {};
       $scope.feedEarlyVoteSites = {};
+      $scope.feedLocalities = {};
     });
 }
 
@@ -112,5 +112,29 @@ function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, 
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedEarlyVoteSites = {};
+    });
+}
+
+/*
+ * Get the Feed State Localities for the Feed detail page
+ *
+ */
+function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+
+  // get Feed Localities
+  $feedsService.getFeedStateLocalities(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedLocalities = data;
+
+      $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, { id: 'asc' });
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve State Localities. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedLocalities = {};
     });
 }
