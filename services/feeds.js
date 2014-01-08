@@ -91,25 +91,35 @@ feedStateEarlyVoteSitesGET = function (req, res) {
 };
 
 feedLocalityGET = function (req, res) {
-  var locality = {
-    id: req.params.localityid
-  }; //TODO: get data from the database
-  res.json(mapper.mapLocality(req.path, locality));
+  dao.getLocality(req.params.feedid, req.params.localityid, function (err, locality) {
+    notFoundHandler(res, err, locality, function () {
+      res.json(mapper.mapLocality(req.path, locality));
+    });
+  });
 };
 
 feedLocalitiesGET = function (req, res) {
-  var locality = {}; //TODO: get data from the database
-  res.json(mapper.mapLocalities(req.path, locality));
+  dao.getLocalities(req.params.feedid, function (err, localities) {
+    notFoundHandler(res, err, localities, function () {
+      res.json(mapper.mapLocalities(req.path, localities));
+    });
+  });
 };
 
 feedLocalityEarlyVoteSitesGET = function (req, res) {
-  var earlyVoteSites = {}; //TODO: get data from the database
-  res.json(mapper.mapLocalityEarlyVoteSites(req.path, earlyVoteSites));
+  dao.getLocalityEarlyVoteSite(req.params.feedid, req.params.localityid, function (err, earlyVoteSites) {
+    notFoundHandler(res, err, earlyVoteSites, function () {
+      res.json(mapper.mapLocalityEarlyVoteSites(req.path, earlyVoteSites));
+    });
+  });
 };
 
 feedLocalityPrecinctsGET = function (req, res) {
-  var precincts = {}; //TODO: get data from the database
-  res.json(mapper.mapLocalityPrecincts(req.path, precincts));
+  dao.getLocalityPrecincts(req.params.feedid, req.params.localityid, function (err, precincts) {
+    notFoundHandler(res, err, precincts, function () {
+      res.json(mapper.mapLocalityPrecincts(req.path, precincts));
+    });
+  });
 };
 
 feedElectionContestsGET = function (req, res) {

@@ -118,7 +118,8 @@ var earlyVoteSiteSchema = {
   startDate: Date,
   endDate: Date,
   daysTimesOpen: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _locality: { type: Types.ObjectId, ref: config.mongoose.model.locality }
 };
 
 var electionSchema = {
@@ -192,7 +193,10 @@ var localitySchema = {
   type: String,
   electionAdminId: Number,
   earlyVoteSiteIds: [Number],
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
+  _earlyVoteSites: [{ type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite }],
+  _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }]
 };
 
 var pollingLocationSchema = {
