@@ -61,13 +61,6 @@ describe('Feed Unit Tests', function() {
       $httpBackend.flush();
       expect($rootScope.feeds).toEqual(myResponse);
     });
-
-    it('should setup the defualt table params', function() {
-      $httpBackend.flush();
-      expect($rootScope.feedTableParams.page).toEqual(1);
-      expect($rootScope.feedTableParams.count).toEqual(10);
-      expect($rootScope.feedTableParams.sorting.date).toEqual('asc');
-    });
   });
 
   describe('Feeds Service Test', function() {
