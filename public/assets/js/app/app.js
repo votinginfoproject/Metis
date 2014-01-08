@@ -73,6 +73,15 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedLocalityCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precincts.html',
+      controller: 'FeedPrecinctsCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct.html',
+      controller: 'FeedPrecinctCtrl'
+    });
 
 
     // done
