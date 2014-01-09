@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="vipApp">
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="vipApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,11 @@
 
   <!-- Libs -->
   <!-- ======================================= -->
+
+  <!-- json3 lib for IE compatibility -->
+  <!--[if lte IE 8]>
+  <script src="assets/js/lib/json3/lib/json3.min.js"></script>
+  <![endif]-->
 
   <!-- Modernizr lib -->
   <script src="assets/js/lib/modernizr/modernizr.js"></script>

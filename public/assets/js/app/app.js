@@ -3,8 +3,12 @@
  * VIP App
  *
  */
-// Comment in if want to disable all "debug" logging
+
+// ========================================================================
+// Comment in if want to disable all "debug" logging via the debug() method
+// ========================================================================
 //debug.setLevel(0);
+// ========================================================================
 
 // VIP app module with its dependencies
 var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
@@ -209,6 +213,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
           // and if so redirect back to homepage
           function (response) {
             if (response.status === 401) {
+
               // nullify the user object
               $rootScope.user = null;
               $location.url('/');
@@ -265,7 +270,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       $rootScope.user = data;
 
       // redirect to home page if not authenticated
-      if (data ===null || data.isAuthenticated == false) {
+      if (data ===null || data.isAuthenticated === false) {
         $location.path("/");
       }
 

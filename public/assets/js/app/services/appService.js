@@ -10,7 +10,8 @@ vipApp.factory('$appService', function ($http, $appProperties) {
     return {
         // gets the User object from the server
         getUser: function () {
-            return $http.get($appProperties.servicesPath + "/getUser");
+            // adding in the timestamp so that IE does not Cache this service
+            return $http.get($appProperties.servicesPath + "/getUser" + "?t=" + Math.random());
         },
         getReferenceData: function () {
             return $http.get($appProperties.mockServicesPath + "/referenceDataMockService.html");
