@@ -230,7 +230,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
       expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("precincts");
+      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
 
     });
   });

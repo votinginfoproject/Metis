@@ -51,7 +51,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams);
+      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -77,7 +77,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Locality for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid){
 
   // get Feed Locality
   $feedsService.getFeedLocality(servicePath)

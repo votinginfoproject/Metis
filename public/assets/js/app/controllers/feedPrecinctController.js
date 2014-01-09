@@ -62,7 +62,7 @@ function FeedPrecinctCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams);
+      FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, precinctid, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -91,7 +91,7 @@ function FeedPrecinctCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Precinct for the Feed detail page
  *
  */
-function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, precinctid, feedid, localityid){
 
   // get Feed Precinct
   $feedsService.getFeedPrecinct(servicePath)
@@ -114,7 +114,7 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
       if($http===404){
         // feed not found
 
-        $rootScope.pageHeader.alert = "Sorry, Precinct  \"" + precinctid + "\" for VIP feed \"" + feedid + "\" does not exist.";
+        $rootScope.pageHeader.alert = "Sorry, Precinct  \"" + precinctid + "\" for Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
       } else {
         // some other error
 

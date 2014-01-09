@@ -1,4 +1,4 @@
-describe('Feed Precinct Test', function () {
+describe('Feed Precincts Test', function () {
 
   describe('Log in', function () {
 
@@ -12,9 +12,9 @@ describe('Feed Precinct Test', function () {
   /* ----------------------------------------
    Feed State page
    ------------------------------------------*/
-  describe('Check Feed Precinct page', function () {
+  describe('Check Feed Precincts page', function () {
 
-    it('Should go to the Feed Precinct page after selecting a feed and then Election and then State and then a Locality and then a Precinct', function () {
+    it('Should go to the Feed Precincts page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then the 2nd to last breadcrumb', function () {
 
       // expect to start out on the feed index page
       // click the first feed
@@ -60,38 +60,28 @@ describe('Feed Precinct Test', function () {
 
       // should be on the feed precinct page
       expect(element('#feed-precinct-content').count()).toBe(1);
+
+      // click the precincts link
+      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
+      element('#pageHeader-breadcrumb6').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed precincts page
+      expect(element('#feed-precincts-content').count()).toBe(1);
+
     });
 
   });
 
   /* ----------------------------------------
-   Feed Precinct data
+   Feed Precincts data
    ------------------------------------------*/
-  describe('Check Feed Precinct data', function () {
+  describe('Check Feed Precincts data', function () {
 
-    it('Should have Precinct data', function () {
+    it('Should have Precincts data', function () {
 
-      expect(element('#precinct-name').html()).not().toBe("");
-    });
-
-    it('Should have Early Vote Sites data', function () {
-
-      expect(element('#earlyVoteSite0').count()).toBe(1);
-    });
-
-    it('Should have Electoral Districts data', function () {
-
-      expect(element('#electoralDistrict0').count()).toBe(1);
-    });
-
-    it('Should have Polling Locations data', function () {
-
-      expect(element('#pollingLocation0').count()).toBe(1);
-    });
-
-    it('Should have Precinct Splits data', function () {
-
-      expect(element('#precinctSplit0').count()).toBe(1);
+      expect(element('#precinct0').count()).toBe(1);
+      expect(element('#precinct-id0').count()).toBe(1);
     });
   });
 
