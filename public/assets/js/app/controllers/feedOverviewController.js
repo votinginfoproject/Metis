@@ -47,6 +47,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
       FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
       FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, data.results);
+      FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities);
 
     }).error(function (data, $http) {
 
@@ -65,6 +66,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $scope.feedPollingLocations = {};
       $scope.feedContests = {};
       $scope.feedResults = {};
+      $scope.feedLocalities = {};
     });
 }
 
@@ -131,5 +133,27 @@ function FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, serv
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedResults = {};
+    });
+}
+
+/*
+ * Get the Feed Localities for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath){
+
+  // get Results
+  $feedsService.getFeedLocalities(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedLocalities = data;
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Feed Localities. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedLocalities = {};
     });
 }

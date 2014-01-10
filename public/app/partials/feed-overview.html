@@ -29,9 +29,10 @@
   <div ng-show="feedPollingLocations.length" ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
   <br/>
-  <h3><mark>100</mark> Localities
+  <h3>{{feedLocalities.length}} Localities
     <small>(Counties)</small>
   </h3>
+  <span ng-if="!feedLocalities" class="more-detail is-loading"></span>
   <p>
     <mark>Map goes here.</mark>
   </p>
