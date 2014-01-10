@@ -101,17 +101,6 @@ var mapState = function(path, state) {
   };
 };
 
-var mapStateEarlyVoteSites = function(path, earlyVoteSites) {
-  return _.map(earlyVoteSites, function (evs) {
-    return {
-      id: evs.elementId,
-      name: evs.name,
-      address: addressToShortString(evs.address),
-      self: _path.join(path, evs.elementId.toString())
-    };
-  });
-};
-
 var mapLocality = function(path, locality) {
   return {
     id: locality.elementId,
@@ -156,7 +145,7 @@ var mapLocality = function(path, locality) {
   };
 };
 
-var mapLocalityEarlyVoteSites = function(path, earlyVoteSites) {
+var mapEarlyVoteSites = function(path, earlyVoteSites) {
   return _.map(earlyVoteSites, function (evs) {
     return {
       id: evs.elementId,
@@ -192,13 +181,13 @@ var mapLocalities = function(path, localities) {
 
 var mapPrecinct = function(path, precinct) {
   return {
-    id: precinct.id,
-    error_count: 33,
-    name: "Precinct Name",
-    number: 44,
-    ward: "Precinct Ward",
-    mailonly: "Yes",
-    ballotimage: "http://www...",
+    id: precinct.elementId,
+    error_count: -1,
+    name: precinct.name,
+    number: precinct.number,
+    ward: precinct.ward,
+    mailonly: precinct.mailOnly,
+    ballotimage: precinct.ballotStyleImageUrl,
     earlyvotesites: _path.join(path, '/earlyvotesites'),
     electoraldistricts: _path.join(path, '/electoraldistricts'),
     pollinglocations: _path.join(path, '/pollinglocations'),
@@ -208,31 +197,6 @@ var mapPrecinct = function(path, precinct) {
       error_count: 4
     }
   };
-};
-
-var mapPrecinctEarlyVoteSites = function(path, locality) {
-  return [
-    {
-      id: 6640017,
-      name: "Court Services",
-      address: "Graham, NC 27253"
-    },
-    {
-      id: 6640018,
-      name: "Mebane Arts Center",
-      address: "Mebane, NC 27302"
-    },
-    {
-      id: 6640019,
-      name: "May Memorial Library",
-      address: "Burlington, NC 11111"
-    },
-    {
-      id: 66400,
-      name: "Name",
-      address: "Address"
-    }
-  ]
 };
 
 var mapPrecinctElectoralDistricts = function(path, locality) {
@@ -402,13 +366,11 @@ exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
 exports.mapElection = mapElection;
 exports.mapState = mapState;
-exports.mapStateEarlyVoteSites = mapStateEarlyVoteSites;
 exports.mapLocality = mapLocality;
-exports.mapLocalityEarlyVoteSites = mapLocalityEarlyVoteSites;
+exports.mapEarlyVoteSites = mapEarlyVoteSites;
 exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
-exports.mapPrecinctEarlyVoteSites = mapPrecinctEarlyVoteSites;
 exports.mapPrecinctElectoralDistricts = mapPrecinctElectoralDistricts;
 exports.mapPrecinctPollingLocations = mapPrecinctPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;

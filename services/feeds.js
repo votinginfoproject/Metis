@@ -20,12 +20,12 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, feedLocalityGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
-//  app.get('/services/feeds/:feedid/election/state/precincts', utils.ensureAuthentication, feedPrecinctsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid', utils.ensureAuthentication, feedPrecinctGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites', utils.ensureAuthentication, feedPrecinctEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts', utils.ensureAuthentication, feedPrecinctElectoralDistrictsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations', utils.ensureAuthentication, feedPrecinctPollingLocationsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, feedPrecinctPrecinctSplitsGET);
+//  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocation', utils.ensureAuthentication, feedPrecinctPollingLocationGET);
+//  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, feedPrecinctPrecinctSplitsGET);
+//  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments', utils.ensureAuthentication, feedPrecinctStreetSegmentsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -91,7 +91,7 @@ feedStateGET = function (req, res) {
 feedStateEarlyVoteSitesGET = function (req, res) {
   dao.getStateEarlyVoteSites(req.params.feedid, function (err, earlyVoteSites) {
     notFoundHandler(res, err, earlyVoteSites, function () {
-      res.json(mapper.mapStateEarlyVoteSites(req.path, earlyVoteSites));
+      res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
     });
   });
 };
@@ -115,7 +115,7 @@ feedLocalitiesGET = function (req, res) {
 feedLocalityEarlyVoteSitesGET = function (req, res) {
   dao.getLocalityEarlyVoteSite(req.params.feedid, req.params.localityid, function (err, earlyVoteSites) {
     notFoundHandler(res, err, earlyVoteSites, function () {
-      res.json(mapper.mapLocalityEarlyVoteSites(req.path, earlyVoteSites));
+      res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
     });
   });
 };
@@ -129,15 +129,19 @@ feedLocalityPrecinctsGET = function (req, res) {
 };
 
 feedPrecinctGET = function (req, res) {
-  var precinct = {
-    id: req.params.precinctid
-  }; //TODO: get data from the database
-  res.json(mapper.mapPrecinct(req.path, precinct));
+  dao.getLocalityPrecinct(req.params.feedid, req.params.precinctid, function (err, precinct) {
+    notFoundHandler(res, err, precinct, function() {
+      res.json(mapper.mapPrecinct(req.path, precinct));
+    });
+  });
 };
 
 feedPrecinctEarlyVoteSitesGET = function (req, res) {
-  var earlyVoteSites = {}; //TODO: get data from the database
-  res.json(mapper.mapPrecinctEarlyVoteSites(req.path, earlyVoteSites));
+  dao.getLocalityPrecinctEarlyVoteSites(req.params.feedid, req.params.precinctid, function (err, earlyVoteSites) {
+    notFoundHandler(res, err, earlyVoteSites, function() {
+      res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
+    });
+  });
 };
 
 feedPrecinctElectoralDistrictsGET = function (req, res) {
