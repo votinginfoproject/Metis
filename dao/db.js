@@ -8,9 +8,6 @@ var config = require('../config');
 //database setup
 var mongoose = require('mongoose');
 var daoSchemas = require('./schemas');
-var mockingVars = require('../public/test/Mocking');
-
-mockingVars.setupProxyE2E();
 
 mongoose.connect(config.mongoose.connectionString);
 var db = mongoose.connection;
@@ -108,11 +105,46 @@ function getLocalityPrecinctEarlyVoteSites (feedId, precinctId, callback) {
     .select('_earlyVoteSites')
     .exec();
 
-  promise.then(function (evs) {
-    if (evs) {
-      daoSchemas.models.EarlyVoteSite.find({ _id: { $in: evs._earlyVoteSites } }, callback);
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.EarlyVoteSite.find({ _id: { $in: precinct._earlyVoteSites } }, callback);
     }
+    else { callback(undefined); }
   })
+};
+
+function getPrecinctElectoralDistricts (feedId, precinctId, callback) {
+  var promise = daoSchemas.models.Precinct.findOne({ _feed: feedId, elementId: precinctId })
+    .select('_electoralDistricts')
+    .exec();
+
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.ElectoralDistrict.find({ _id: { $in: precinct._electoralDistricts } }, callback);
+    }
+    else { callback(undefined); }
+  });
+};
+
+function getPrecinctPollingLocations (feedId, precinctId, callback) {
+  var promise = daoSchemas.models.Precinct.findOne({ _feed: feedId, elementId: precinctId })
+    .select('_pollingLocations')
+    .exec();
+
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.PollingLocation.find({ _id: { $in: precinct._pollingLocations } }, callback);
+    }
+    else { callback(undefined); }
+  });
+};
+
+function getPrecinctPrecinctSplits (feedId, precinctId, callback) {
+  daoSchemas.models.PrecinctSplit.find({ _feed: feedId, precinctId: precinctId }, callback);
+};
+
+function getPrecinctStreetSegments (feedId, precinctId, callback) {
+  daoSchemas.models.StreetSegment.find({ _feed: feedId, precinctId: precinctId }, callback);
 };
 
 exports.getFeeds = getFeedList;
@@ -129,3 +161,7 @@ exports.getLocalityEarlyVoteSite = getLocalityEarlyVoteSite;
 exports.getLocalityPrecincts = getLocalityPrecincts;
 exports.getLocalityPrecinct = getLocalityPrecinct;
 exports.getLocalityPrecinctEarlyVoteSites = getLocalityPrecinctEarlyVoteSites;
+exports.getPrecinctElectoralDistricts = getPrecinctElectoralDistricts;
+exports.getPrecinctPollingLocations = getPrecinctPollingLocations;
+exports.getPrecinctPrecinctSplits = getPrecinctPrecinctSplits;
+exports.getPrecinctStreetSegments = getPrecinctStreetSegments;
