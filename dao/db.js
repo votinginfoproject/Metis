@@ -126,6 +126,19 @@ function getPrecinctElectoralDistricts (feedId, precinctId, callback) {
   });
 };
 
+function getPrecinctPollingLocations(feedId, precinctId, callback) {
+  var promise = daoSchemas.models.Precinct.findOne({ _feed: feedId, elementId: precinctId })
+    .select('_pollingLocations')
+    .exec();
+
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.PollingLocation.find({ _id: { $in: precinct._pollingLocations } }, callback);
+    }
+    else { callback(undefined); }
+  });
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -141,3 +154,4 @@ exports.getLocalityPrecincts = getLocalityPrecincts;
 exports.getLocalityPrecinct = getLocalityPrecinct;
 exports.getLocalityPrecinctEarlyVoteSites = getLocalityPrecinctEarlyVoteSites;
 exports.getPrecinctElectoralDistricts = getPrecinctElectoralDistricts;
+exports.getPrecinctPollingLocations = getPrecinctPollingLocations;

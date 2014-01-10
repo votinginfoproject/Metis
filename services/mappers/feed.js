@@ -212,29 +212,15 @@ function mapElectoralDistricts (path, electoralDistrict) {
   });
 };
 
-var mapPrecinctPollingLocations = function(path, locality) {
-  return [
-    {
-      id: 111,
-      name: "Court Services",
-      address: "Graham, NC 27253"
-    },
-    {
-      id: 222,
-      name: "Mebane Arts Center",
-      address: "Mebane, NC 27302"
-    },
-    {
-      id: 333,
-      name: "May Memorial Library",
-      address: "Burlington, NC 11111"
-    },
-    {
-      id: 444,
-      name: "Name",
-      address: "Address"
-    }
-  ]
+var mapPrecinctPollingLocations = function(path, pollingLocations) {
+  return pollingLocations.map(function (pl) {
+    return {
+      id: pl.elementId,
+      name: pl.address ? pl.address.locationName : 'Name Missing',
+      address: addressToShortString(pl.address),
+      self: _path.join(path, pl.elementId.toString())
+    };
+  });
 };
 
 var mapPrecinctPrecinctSplits = function(path, locality) {

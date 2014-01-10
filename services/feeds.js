@@ -23,7 +23,7 @@ var registerFeedsServices = function (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid', utils.ensureAuthentication, feedPrecinctGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites', utils.ensureAuthentication, feedPrecinctEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts', utils.ensureAuthentication, feedPrecinctElectoralDistrictsGET);
-//  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocation', utils.ensureAuthentication, feedPrecinctPollingLocationGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations', utils.ensureAuthentication, feedPrecinctPollingLocationsGET);
 //  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, feedPrecinctPrecinctSplitsGET);
 //  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments', utils.ensureAuthentication, feedPrecinctStreetSegmentsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
@@ -153,8 +153,11 @@ feedPrecinctElectoralDistrictsGET = function (req, res) {
 };
 
 feedPrecinctPollingLocationsGET = function (req, res) {
-  var pollingLocations = {}; //TODO: get data from the database
-  res.json(mapper.mapPrecinctPollingLocations(req.path, pollingLocations));
+  dao.getPrecinctPollingLocations(req.params.feedid, req.params.precinctid, function (err, pollingLocations) {
+    notFoundHandler(res, err, pollingLocations, function() {
+      res.json(mapper.mapPrecinctPollingLocations(req.path, pollingLocations));
+    });
+  });
 };
 
 feedPrecinctPrecinctSplitsGET = function (req, res) {
