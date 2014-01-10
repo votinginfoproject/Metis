@@ -8,9 +8,6 @@ var config = require('../config');
 //database setup
 var mongoose = require('mongoose');
 var daoSchemas = require('./schemas');
-var mockingVars = require('../public/test/Mocking');
-
-mockingVars.setupProxyE2E();
 
 mongoose.connect(config.mongoose.connectionString);
 var db = mongoose.connection;

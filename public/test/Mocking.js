@@ -14,5 +14,3 @@ var mockingVars = {
     config.mongoose.connectionString = 'mongodb://localhost/e2eMetis';
   }
 };
-
-module.exports = mockingVars;
