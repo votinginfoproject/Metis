@@ -193,7 +193,8 @@ var mapPrecinct = function(path, precinct) {
     precinctsplits: _path.join(path, '/precinctsplits'),
     streetsegments: {
       total: precinct._streetSegments.length,
-      error_count: -1 //TODO
+      error_count: -1, //TODO
+      self: _path.join(path, '/streetsegments')
     }
   };
 };
@@ -321,6 +322,26 @@ var mapHistory = function(path, data) {
   ];
 };
 
+function mapStreetSegments (path, streetSegments) {
+  return streetSegments.map(function (st) {
+    return {
+      id: st.elementid,
+      start_house_number: st.startHouseNumber,
+      end_house_number: st.endHouseNumber,
+      odd_even: st.oddEvenBoth,
+      address: st.nonHouseAddress ? {
+        house_number_prefix: st.nonHouseAddress.houseNumberPrefix,
+        house_number_suffix: st.nonHouseAddress.houseNumberSuffix,
+        street_name: st.nonHouseAddress.streetName,
+        street_suffix: st.nonHouseAddress.streetSuffix,
+        city: st.nonHouseAddress.city,
+        state: st.nonHouseAddress.state,
+        zip: st.nonHouseAddress.zip
+      } : null
+    };
+  });
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -339,3 +360,4 @@ exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
 exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
+exports.mapStreetSegments = mapStreetSegments;
