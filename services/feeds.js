@@ -4,7 +4,6 @@
 var utils = require('./utils');
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
-var _ = require('underscore');
 
 function registerFeedsServices (app) {
   /*
@@ -26,6 +25,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations', utils.ensureAuthentication, feedPrecinctPollingLocationsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, feedPrecinctPrecinctSplitsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments', utils.ensureAuthentication, feedPrecinctStreetSegmentsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid', utils.ensureAuthentication, feedPrecinctSplitGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -50,7 +50,7 @@ function notFoundHandler (res, err, data, next) {
  */
 function allFeedsGET (req, res) {
   dao.getFeeds(function (err, data) {
-    res.json(_.map(data, function (data) {
+    res.json(data.map(function (data) {
       return mapper.mapFeed(req.path, data);
     }));
   });
@@ -179,9 +179,17 @@ function feedPrecinctStreetSegmentsGET (req, res) {
 function feedElectionContestsGET (req, res) {
   dao.getFeedContests(req.params.feedid, function (err, contests) {
     notFoundHandler(res, err, contests, function () {
-      res.json(_.map(contests, function (data) {
+      res.json(contests.map(function (data) {
         return mapper.mapElectionContest(req.path, data);
       }));
+    });
+  });
+};
+
+function feedPrecinctSplitGET (req, res) {
+  dao.feedPrecinctSplit(req.params.feedid, req.params.splitid, function (err, split) {
+    notFoundHandler(res, err, split, function () {
+      res.json(mapper.mapPrecinctSplit(req.path, split));
     });
   });
 };
