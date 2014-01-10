@@ -325,15 +325,19 @@ var mapHistory = function(path, data) {
 function mapStreetSegments (path, streetSegments) {
   return streetSegments.map(function (st) {
     return {
-      id: st.elementid,
+      id: st.elementId,
       start_house_number: st.startHouseNumber,
       end_house_number: st.endHouseNumber,
       odd_even: st.oddEvenBoth,
       address: st.nonHouseAddress ? {
+        house_number: st.nonHouseAddress.houseNumber,
         house_number_prefix: st.nonHouseAddress.houseNumberPrefix,
         house_number_suffix: st.nonHouseAddress.houseNumberSuffix,
+        street_direction: st.nonHouseAddress.streetDirection,
         street_name: st.nonHouseAddress.streetName,
         street_suffix: st.nonHouseAddress.streetSuffix,
+        address_direction: st.nonHouseAddress.addressDirection,
+        apartment: st.nonHouseAddress.apartment,
         city: st.nonHouseAddress.city,
         state: st.nonHouseAddress.state,
         zip: st.nonHouseAddress.zip
