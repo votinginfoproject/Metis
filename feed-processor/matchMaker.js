@@ -1,21 +1,34 @@
 /**
  * Created by bantonides on 1/3/14.
  */
+var linkingComplete = false;
+var updateCounter = 0;
 
 /**
  * Creates relationships between documents in the database
  */
 function onUpdate (err, numAffected) {
+  updateCounter--;
   if (err) {
     console.error(err);
   }
   else {
-    console.log('Updated ' + numAffected + ' document.')
+    console.log('Updated ' + numAffected + ' document.');
+  }
+
+  if (updateCounter <= 0) {
+    console.log('****Linking Complete!!!');
+    process.exit();
   }
 };
 
 function onError (err) {
   console.error(err);
+};
+
+function updateRelationship (model, conditions, update, options, callback) {
+  updateCounter++;
+  model.update(conditions, update, options, callback);
 };
 
 function createRelationshipsSource (feedId, models) {
@@ -26,7 +39,7 @@ function createRelationshipsSource (feedId, models) {
     sourceId = source._id;
     return models.ElectionOfficial.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
-      models.Source.update({ _id: sourceId }, { _feedContact: eoId }, onUpdate);
+      updateRelationship(models.Source, { _id: sourceId }, { _feedContact: eoId }, onUpdate);
     }, onError);
 };
 
@@ -36,13 +49,13 @@ function createRelationshipsState (feedId, models) {
 
   statePromise.then(function (state) {
     stateId = state._id;
-    models.Election.update({ _feed: feedId }, { _state: stateId }, onUpdate);
-    models.Feed.update({ _id: feedId }, { _state: stateId }, onUpdate);
+    updateRelationship(models.Election, { _feed: feedId }, { _state: stateId }, onUpdate);
+    updateRelationship(models.Feed, { _id: feedId }, { _state: stateId }, onUpdate);
 
     return models.ElectionAdmin.findOne({ _feed: feedId, elementId: state.electionAdministrationId})
       .select('_id').exec();
   }, onError).then(function(eaId) {
-      models.State.update({ _id: stateId }, { _electionAdministration: eaId}, onUpdate);
+      updateRelationship(models.State, { _id: stateId }, { _electionAdministration: eaId}, onUpdate);
     }, onError);
 
   var localityPromise = models.Locality.aggregate(
@@ -54,8 +67,8 @@ function createRelationshipsState (feedId, models) {
 
   localityPromise.then(function (localities) {
     localities.forEach(function (locality) {
-      models.State.update({ _feed: feedId, elementId: locality._id },
-        { $push: { _localities: { $each: locality.localityIds } } }, onUpdate);
+      updateRelationship(models.State, { _feed: feedId, elementId: locality._id },
+        { $addToSet: { _localities: { $each: locality.localityIds } } }, onUpdate);
     });
   }, onError);
 };
@@ -64,7 +77,7 @@ function createRelationshipsElection (feedId, models) {
   var electionPromise = models.Election.findOne({ _feed: feedId }).select('_id').exec();
 
   electionPromise.then(function (electionId) {
-    models.Feed.update({ _id: feedId }, { _election: electionId}, onUpdate);
+    updateRelationship(models.Feed, { _id: feedId }, { _election: electionId}, onUpdate);
   }, onError);
 };
 
@@ -85,11 +98,30 @@ function createRelationshipsLocality (feedId, models) {
   }, onError);
 };
 
+function createRelationshipsPrecinct (feedId, models) {
+  var promise = models.Precinct.find({ _feed: feedId }).exec();
+
+  promise.then(function (precincts) {
+    precincts.forEach(function (precinct) {
+      //link to electoral district, polling location, early vote site
+      if (precinct.electoralDistrictIds) {
+        joinPrecinctElectoralDistricts(models, precinct);
+      }
+      if (precinct.earlyVoteSiteIds.length > 0) {
+        joinPrecinctEarlyVoteSites(models, precinct);
+      }
+      if (precinct.pollingLocationIds.length > 0) {
+        joinPrecinctPollingLocations(models, precinct);
+      }
+    });
+  }, onError);
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
   promise.then(function (electionAdminOid) {
-    models.Locality.update({ _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
+    updateRelationship(models.Locality, { _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
   }, onError);
 };
 
@@ -98,8 +130,8 @@ function joinLocalityEarlyVoteSite (models, locality, evsIds) {
 
   promise.then(function (evsOids) {
     if (evsOids.length > 0) {
-      models.Locality.update({ _id: locality._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
-      models.EarlyVoteSite.update({ _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
+      updateRelationship(models.Locality, { _id: locality._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
+      updateRelationship(models.EarlyVoteSite, { _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
     }
   }, onError);
 };
@@ -109,9 +141,49 @@ function joinLocalityPrecincts (models, locality) {
 
   promise.then(function (precinctOids) {
     if (precinctOids.length > 0) {
-      models.Locality.update({ _id: locality._id }, { $addToSet: { _precincts: { $each: precinctOids } } }, onUpdate);
+      updateRelationship(models.Locality, { _id: locality._id }, { $addToSet: { _precincts: { $each: precinctOids } } }, onUpdate);
     }
   }, onError);
+};
+
+function joinPrecinctElectoralDistricts (models, precinct) {
+  var promise = models.ElectoralDistrict
+    .find({ _feed: precinct._feed, elementId: { $in: precinct.electoralDistrictIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function (edOids) {
+    if (edOids.length > 0) {
+      updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _electoralDistricts: { $each: edOids } } }, onUpdate);
+    }
+  }, onError);
+};
+
+function joinPrecinctEarlyVoteSites (models, precinct) {
+  var promise = models.EarlyVoteSite
+    .find({ _feed: precinct._feed, elementId: { $in: precinct.earlyVoteSiteIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function (evsOids) {
+    if (evsOids.length > 0) {
+      updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
+    }
+  }, onError);
+};
+
+function joinPrecinctPollingLocations (models, precinct) {
+  var promise = models.PollingLocation
+    .find({ _feed: precinct._feed, elementId: { $in: precinct.pollingLocationIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function (plOids) {
+    if (plOids.length > 0) {
+      updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _pollingLocations: { $each: plOids } } }, onUpdate);
+    }
+  }, onError);
+
 };
 
 function createDBRelationships(feedId, models) {
@@ -119,6 +191,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsState(feedId, models);
   createRelationshipsElection(feedId, models);
   createRelationshipsLocality(feedId, models);
+  createRelationshipsPrecinct(feedId, models);
 };
 
 exports.createDBRelationships = createDBRelationships;

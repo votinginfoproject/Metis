@@ -219,7 +219,10 @@ var precinctSchema = {
   pollingLocationIds: [Number],
   earlyVoteSiteIds: [Number],
   ballotStyleImageUrl: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
+  _pollingLocations: [{ type: Types.ObjectId, ref: config.mongoose.model.pollingLocation }],
+  _earlyVoteSites: [{ type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite }]
 };
 
 var precinctSplitSchema = {

@@ -31,7 +31,7 @@ config.mongoose = {
     contest: 'contests',
     contestResult: 'contestResults',
     customBallot: 'customBallots',
-    earlyVoteSite: 'ealyVoteSites',
+    earlyVoteSite: 'earlyVoteSites',
     election: 'elections',
     electionAdministration: 'electionAdministrations',
     electionOfficial: 'electionOfficials',
