@@ -3,7 +3,6 @@
  */
 var moment = require('moment');
 var _path = require('path');
-var _ = require('underscore');
 
 function addressToShortString(address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -41,7 +40,7 @@ var mapOverview = function(path, feed) {
 var mapSource = function(path, source) {
   return {
     id: source.elementId,
-    error_count: 111,
+    error_count: 111, //TODO
     errors: _path.join(path, '/errors'),
     source_info: {
       name: source.name,
@@ -63,7 +62,7 @@ var mapSource = function(path, source) {
 var mapElection = function(path, election) {
   return {
     id: election.elementId,
-    error_count: 222,
+    error_count: 222, //TODO
     errors: _path.join(path, '/errors'),
     date: moment(election.date).utc().format('YYYY-MM-DD'),
     type: election.electionType,
@@ -88,7 +87,7 @@ var mapElection = function(path, election) {
 var mapState = function(path, state) {
   return {
     id: state.elementId,
-    error_count: 99,
+    error_count: 99, //TODO
     name: state.name,
     administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
@@ -104,12 +103,12 @@ var mapState = function(path, state) {
 var mapLocality = function(path, locality) {
   return {
     id: locality.elementId,
-    error_count: -1,
+    error_count: -1, //TODO
     name: locality.name,
     type: locality.type,
     electionMachineType: "Requires 5.0 Schema",
     pollBookType: "Requires 5.0 Schema",
-    overview: [
+    overview: [ //TODO
       {
         element_type: 'Electoral Districts',
         amount: 0,
@@ -146,7 +145,7 @@ var mapLocality = function(path, locality) {
 };
 
 var mapEarlyVoteSites = function(path, earlyVoteSites) {
-  return _.map(earlyVoteSites, function (evs) {
+  return earlyVoteSites.map(function (evs) {
     return {
       id: evs.elementId,
       name: evs.name,
@@ -157,18 +156,18 @@ var mapEarlyVoteSites = function(path, earlyVoteSites) {
 };
 
 var mapLocalityPrecincts = function(path, precincts) {
-  return _.map(precincts, function (precinct) {
+  return precincts.map(function (precinct) {
     return {
       id: precinct.elementId,
       name: precinct.name,
-      precinct_splits: -1,
+      precinct_splits: precinct._precinctSplits.length,
       self: _path.join(path, precinct.elementId.toString())
     };
   });
 };
 
 var mapLocalities = function(path, localities) {
-  return _.map(localities, function (locality) {
+  return localities.map(function (locality) {
     return {
       id: locality.elementId,
       name: locality.name,
@@ -182,7 +181,7 @@ var mapLocalities = function(path, localities) {
 var mapPrecinct = function(path, precinct) {
   return {
     id: precinct.elementId,
-    error_count: -1,
+    error_count: -1, //TODO
     name: precinct.name,
     number: precinct.number,
     ward: precinct.ward,
@@ -193,83 +192,45 @@ var mapPrecinct = function(path, precinct) {
     pollinglocations: _path.join(path, '/pollinglocations'),
     precinctsplits: _path.join(path, '/precinctsplits'),
     streetsegments: {
-      total: 300,
-      error_count: 4
+      total: precinct._streetSegments.length,
+      error_count: -1, //TODO
+      self: _path.join(path, '/streetsegments')
     }
   };
 };
 
-var mapPrecinctElectoralDistricts = function(path, locality) {
-  return [
-    {
-      id: 7001,
-      name: "District Name",
-      type: "Statewide",
-      contests: 2
-    },
-    {
-      id: 7002,
-      name: "District 2",
-      type: "Other Type",
-      contests: 5
-    },
-    {
-      id: 7003,
-      name: "District 3",
-      type: "Some other Type",
-      contests: 12
-    }
-  ]
+function mapElectoralDistricts (path, electoralDistrict) {
+  return electoralDistrict.map(function (ed) {
+    return {
+      id: ed.elementId,
+      name: ed.name,
+      type: ed.type,
+      number: ed.number,
+      contests: -1, //TODO: replace this with count from database
+      self: _path.join(path, ed.elementId.toString())
+    };
+  });
 };
 
-var mapPrecinctPollingLocations = function(path, locality) {
-  return [
-    {
-      id: 111,
-      name: "Court Services",
-      address: "Graham, NC 27253"
-    },
-    {
-      id: 222,
-      name: "Mebane Arts Center",
-      address: "Mebane, NC 27302"
-    },
-    {
-      id: 333,
-      name: "May Memorial Library",
-      address: "Burlington, NC 11111"
-    },
-    {
-      id: 444,
-      name: "Name",
-      address: "Address"
-    }
-  ]
+var mapPrecinctPollingLocations = function(path, pollingLocations) {
+  return pollingLocations.map(function (pl) {
+    return {
+      id: pl.elementId,
+      name: pl.address ? pl.address.locationName : 'Name Missing',
+      address: addressToShortString(pl.address),
+      self: _path.join(path, pl.elementId.toString())
+    };
+  });
 };
 
-var mapPrecinctPrecinctSplits = function(path, locality) {
-  return [
-    {
-      id: 1,
-      name: "Split1",
-      streetsegments: 0
-    },
-    {
-      id: 2,
-      name: "Split2",
-      streetsegments: 1
-    },
-    {
-      id: 3,
-      name: "Split3",
-      streetsegments: 3
-    },
-    {
-      id: 4,
-      name: "Split4",
-      streetsegments: 12
-    }
-  ]
+var mapPrecinctPrecinctSplits = function(path, precinctSplits) {
+  return precinctSplits.map(function (ps) {
+    return {
+      id: ps.elementId,
+      name: ps.name,
+      self: _path.join(path, ps.elementId.toString())
+    };
+  });
 };
 
 var mapElectionContest = function(path, contest) {
@@ -361,6 +322,26 @@ var mapHistory = function(path, data) {
   ];
 };
 
+function mapStreetSegments (path, streetSegments) {
+  return streetSegments.map(function (st) {
+    return {
+      id: st.elementid,
+      start_house_number: st.startHouseNumber,
+      end_house_number: st.endHouseNumber,
+      odd_even: st.oddEvenBoth,
+      address: st.nonHouseAddress ? {
+        house_number_prefix: st.nonHouseAddress.houseNumberPrefix,
+        house_number_suffix: st.nonHouseAddress.houseNumberSuffix,
+        street_name: st.nonHouseAddress.streetName,
+        street_suffix: st.nonHouseAddress.streetSuffix,
+        city: st.nonHouseAddress.city,
+        state: st.nonHouseAddress.state,
+        zip: st.nonHouseAddress.zip
+      } : null
+    };
+  });
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -371,7 +352,7 @@ exports.mapEarlyVoteSites = mapEarlyVoteSites;
 exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
-exports.mapPrecinctElectoralDistricts = mapPrecinctElectoralDistricts;
+exports.mapElectoralDistricts = mapElectoralDistricts;
 exports.mapPrecinctPollingLocations = mapPrecinctPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
@@ -379,3 +360,4 @@ exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
 exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
+exports.mapStreetSegments = mapStreetSegments;
