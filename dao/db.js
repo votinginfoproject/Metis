@@ -105,11 +105,25 @@ function getLocalityPrecinctEarlyVoteSites (feedId, precinctId, callback) {
     .select('_earlyVoteSites')
     .exec();
 
-  promise.then(function (evs) {
-    if (evs) {
-      daoSchemas.models.EarlyVoteSite.find({ _id: { $in: evs._earlyVoteSites } }, callback);
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.EarlyVoteSite.find({ _id: { $in: precinct._earlyVoteSites } }, callback);
     }
+    else { callback(undefined); }
   })
+};
+
+function getPrecinctElectoralDistricts (feedId, precinctId, callback) {
+  var promise = daoSchemas.models.Precinct.findOne({ _feed: feedId, elementId: precinctId })
+    .select('_electoralDistricts')
+    .exec();
+
+  promise.then(function (precinct) {
+    if (precinct) {
+      daoSchemas.models.ElectoralDistrict.find({ _id: { $in: precinct._electoralDistricts } }, callback);
+    }
+    else { callback(undefined); }
+  });
 };
 
 exports.getFeeds = getFeedList;
@@ -126,3 +140,4 @@ exports.getLocalityEarlyVoteSite = getLocalityEarlyVoteSite;
 exports.getLocalityPrecincts = getLocalityPrecincts;
 exports.getLocalityPrecinct = getLocalityPrecinct;
 exports.getLocalityPrecinctEarlyVoteSites = getLocalityPrecinctEarlyVoteSites;
+exports.getPrecinctElectoralDistricts = getPrecinctElectoralDistricts;

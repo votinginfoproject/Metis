@@ -145,8 +145,11 @@ feedPrecinctEarlyVoteSitesGET = function (req, res) {
 };
 
 feedPrecinctElectoralDistrictsGET = function (req, res) {
-  var electoralDistricts = {}; //TODO: get data from the database
-  res.json(mapper.mapPrecinctElectoralDistricts(req.path, electoralDistricts));
+  dao.getPrecinctElectoralDistricts(req.params.feedid, req.params.precinctid, function (err, electoralDistricts) {
+    notFoundHandler(res, err, electoralDistricts, function() {
+      res.json(mapper.mapElectoralDistricts(req.path, electoralDistricts));
+    });
+  });
 };
 
 feedPrecinctPollingLocationsGET = function (req, res) {
