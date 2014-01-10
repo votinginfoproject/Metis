@@ -122,6 +122,7 @@ function FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, ser
       }
 
       // so the loading spinner goes away and we are left with an empty table
+      $scope.feedPrecinct = {};
       $scope.feedEarlyVoteSites = {};
       $scope.feedElectoralDistricts = {};
       $scope.feedPollingLocations = {};

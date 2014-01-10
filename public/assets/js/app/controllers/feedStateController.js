@@ -58,6 +58,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
       $scope.feedData = {};
       $scope.feedState = {};
       $scope.feedEarlyVoteSites = {};
+      $scope.feedLocalities = {};
     });
 }
 

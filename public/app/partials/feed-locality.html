@@ -17,7 +17,7 @@
   <h2>Overview</h2>
 
   <!-- element table directive -->
-  <div ng-elementtable ng-model="feedLocality.overview" loading="feedLocality" label="locality"></div>
+  <div ng-if="feedLocality.overview" ng-elementtable ng-model="feedLocality.overview" loading="feedLocality" label="locality"></div>
 
 </section><!-- /.data-group -->
 
@@ -25,7 +25,7 @@
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
 
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
-  <table ng-show="feedEarlyVoteSites" id="earlyVoteTable" ng-table="earlyVoteTableParams" template-pagination="earlyVotePagination" class="associations">
+  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams" template-pagination="earlyVotePagination" class="associations">
     <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
       <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="no-page">{{earlyVoteSite.id}}</a></td>
       <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="no-page">{{earlyVoteSite.name}}</a></td>
@@ -70,7 +70,7 @@
   <h2>{{feedPrecincts.length}} Precincts</h2>
 
   <span ng-if="!feedPrecincts" class="is-loading"></span>
-  <table ng-show="feedPrecincts" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
       <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/precincts/{{precinct.id}}">{{precinct.id}}</a></td>
       <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/precincts/{{precinct.id}}">{{precinct.name}}</a></td>

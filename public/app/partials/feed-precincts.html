@@ -2,7 +2,7 @@
 
 <section class="data-group">
   <span ng-if="!feedPrecincts" class="is-loading"></span>
-  <table ng-show="feedPrecincts" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
       <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{precinct.id}}">{{precinct.id}}</a></td>
       <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{precinct.id}}">{{precinct.name}}</a></td>

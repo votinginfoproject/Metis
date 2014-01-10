@@ -26,8 +26,9 @@
   </header>
 
   <!-- element table directive -->
-  <div ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
+  <div ng-show="feedPollingLocations.length" ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
+  <br/>
   <h3><mark>100</mark> Localities
     <small>(Counties)</small>
   </h3>
@@ -45,7 +46,7 @@
   </header>
 
   <!-- element table directive -->
-  <div ng-elementtable ng-model="feedContests" loading="feedContests" label="feedContests"></div>
+  <div ng-show="feedContests.length" ng-elementtable ng-model="feedContests" loading="feedContests" label="feedContests"></div>
 
 </section>
 <!-- /.data-group -->
@@ -56,7 +57,7 @@
   </header>
 
   <!-- element table directive -->
-  <div ng-elementtable ng-model="feedResults" loading="feedResults" label="feedResults"></div>
+  <div ng-show="feedResults.length" ng-elementtable ng-model="feedResults" loading="feedResults" label="feedResults"></div>
 
 </section>
 <!-- /.data-group -->
