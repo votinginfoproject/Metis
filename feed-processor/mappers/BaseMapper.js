@@ -13,7 +13,7 @@ util.inherits(BaseModel, events.EventEmitter);
 
 BaseModel.prototype.save = function(onerror, onsuccess) {
   if (this.model === undefined) {
-    return;
+    return false;
   }
 
   var self = this;
