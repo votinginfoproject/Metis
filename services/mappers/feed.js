@@ -325,7 +325,7 @@ var mapHistory = function(path, data) {
 function mapStreetSegments (path, streetSegments) {
   return streetSegments.map(function (st) {
     return {
-      id: st.elementid,
+      id: st.elementId,
       start_house_number: st.startHouseNumber,
       end_house_number: st.endHouseNumber,
       odd_even: st.oddEvenBoth,
