@@ -4,7 +4,7 @@
 
 //data element descriptor for use by RulesEngine to enable configurable data constraints
 
-var ruleConstraints = {
+var metisConstraints = {
   validUrl : {
     ballot : ["image_url"],
     candidate : ["candidate_url", "photo_url"],
@@ -25,9 +25,23 @@ var ruleConstraints = {
   },
   //uniqueId
   uniqueIDCheck : {
-    topLevelElements: require('config').mongoose.model.all
+    topLevelElements: [
+      "ballots",
+      "candidates",
+      "contests",
+      "elections",
+      "electionAdministrations",
+      "electionOfficials",
+      "electoralDistricts",
+      //"feed",
+      "localitys",
+      "pollingLocations",
+      "precincts",
+      "precinctSplits",
+      "sources",
+      "states"
+    ]
   }
 };
 
-
-exports.ruleConstraints = ruleConstraints;
+module.exports = metisConstraints;
