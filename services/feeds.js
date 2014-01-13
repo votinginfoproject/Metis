@@ -5,6 +5,8 @@ var utils = require('./utils');
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
 
+dao.dbConnect();
+
 function registerFeedsServices (app) {
   /*
    * REST endpoints associated with Feed data

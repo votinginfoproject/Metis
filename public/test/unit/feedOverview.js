@@ -28,6 +28,10 @@ describe('Feed Overview Unit Tests', function() {
         getFeedResults: function() {
           var http = $injector.get('$http');
           return http.get("/Results");
+        },
+        getFeedLocalities: function() {
+          var http = $injector.get('$http');
+          return http.get("/Localities")
         }
       }
 
@@ -39,6 +43,7 @@ describe('Feed Overview Unit Tests', function() {
       $httpBackend.when('GET', '/Locations').respond(response);
       $httpBackend.when('GET', '/Contests').respond(response);
       $httpBackend.when('GET', '/Results').respond(response);
+      $httpBackend.when('GET', '/Localities').respond(response);
 
 
       $rootScope = $injector.get('$rootScope');
@@ -81,6 +86,7 @@ describe('Feed Overview Unit Tests', function() {
       expect($rootScope.feedPollingLocations).toEqual(response);
       expect($rootScope.feedContests).toEqual(response);
       expect($rootScope.feedResults).toEqual(response);
+      expect($rootScope.feedLocalities).toEqual(response);
     });
   });
 });

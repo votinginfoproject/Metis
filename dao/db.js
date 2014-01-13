@@ -9,19 +9,18 @@ var config = require('../config');
 var mongoose = require('mongoose');
 var daoSchemas = require('./schemas');
 
-mongoose.connect(config.mongoose.connectionString);
-var db = mongoose.connection;
+function dbConnect() {
+  mongoose.connect(config.mongoose.connectionString);
+  var db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error: '));
-db.once('open', function callback(){
-  console.log("Initializing Mongoose...")
-  daoSchemas.initSchemas(mongoose);
-  console.log("Initialized Mongoose for VIP database.");
-});
+  db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+  db.once('open', function callback(){
+    console.log("Initializing Mongoose...")
+    daoSchemas.initSchemas(mongoose);
+    console.log("Initialized Mongoose for VIP database.");
+  });
+};
 
-/*
- * TODO: Move these functions to a separate file
- */
 function getFeedList (callback) {
   daoSchemas.models.Feed.find({}, { payload: 0 })
     .populate('_state')
@@ -45,9 +44,9 @@ function getFeedElection (feedId, callback) {
     election = elec;
     return daoSchemas.models.Locality.count({ _feed: feedId }).exec();
   }).then(function(localityCount) {
-    election._state.localityCount = localityCount;
-    callback(undefined, election);
-  });
+      election._state.localityCount = localityCount;
+      callback(undefined, election);
+    });
 };
 
 function getElectionOfficial (feedId, officialId, callback) {
@@ -170,3 +169,4 @@ exports.getPrecinctPollingLocations = getPrecinctPollingLocations;
 exports.getPrecinctPrecinctSplits = getPrecinctPrecinctSplits;
 exports.getPrecinctStreetSegments = getPrecinctStreetSegments;
 exports.feedPrecinctSplit = feedPrecinctSplit;
+exports.dbConnect = dbConnect;
