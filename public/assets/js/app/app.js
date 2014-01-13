@@ -87,6 +87,15 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',
+      controller: 'FeedPrecinctSplitsCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplit.html',
+      controller: 'FeedPrecinctSplitCtrl'
+    });
 
     // done
     $routeProvider.when('/template/feed', {
@@ -108,7 +117,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/template/locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
     });
-
+    // donr
     $routeProvider.when('/template/precinct', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
     });
