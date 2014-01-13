@@ -18,6 +18,10 @@ config.crowd = {
   uselocalauth: true
 };
 
+config.ruleEngine = {
+  isPersistent: false  //true if you want to save rule violations to mongo dB
+}
+
 /**
  * vipModel contains data regarding db schema model values
  * @type {{feed: string, election: string, source: string}}

@@ -234,7 +234,9 @@ var precinctSplitSchema = {
   electoralDistrictIds: [Number],
   pollingLocationIds: [Number],
   ballotStyleImageUrl: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
+  _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }]
 };
 
 var referendumSchema = {

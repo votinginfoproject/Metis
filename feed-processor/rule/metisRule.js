@@ -2,40 +2,46 @@
  * Created by nboseman on 12/31/13.
  */
 
-function MetisRule(ruleDef, constraints){
+function MetisRule(ruleDef, constraints, helper){
   this.ruleDef = ruleDef;
   this.constraints = constraints;
+  this.helper = helper;
   this.violations = [];
 }
 
 
-MetisRule.prototype.evaluate = function(){
+MetisRule.prototype.evaluate = function(vipFeedId, constraintList){
   //given a rule def, apply the given data constraints to the rule
-  constraints.forEach(function(err, constraint){
-    this.hasViolation = this.ruleDef.evaluate(constraint);
-
-    //if rule is violated, added to collection
-    if(this.hasViolation){
-      this.addViolation(require('./violation').newInstance(ruleDef.name, constraint, ruleDef.description));
-    }
-  });
+  console.log("Evaluate constraint:", this.constraints);
+  this.helper.evaluate(vipFeedId, this.constraints);
+  //assessEvaluation();
 }
 
-MetisRule.protoytype.isViolated = function() {
+MetisRule.prototype.isViolated = function() {
   hasViolation = (this.violations.length > 0);
   return hasViolation;
-}
-
-MetisRule.protoytype.violationList = function() {
-  return this.violations;
 }
 
 MetisRule.prototype.addViolation = function(violation) {
   this.violations.push(violation);
 }
 
-function getInstance(ruleDef, constraints){
-  return new Rule(ruleDef, constraints);
+MetisRule.prototype.violationList = function(){
+  return this.violations;
 }
 
-exports.getInstance = getInstance;
+function getInstance(ruleDef, constraints, helper){
+  return new MetisRule(ruleDef, constraints, helper);
+}
+
+MetisRule.prototype.getInstance = function(){
+  //to be implemented by descendants
+}
+
+
+//exports.getInstance = getInstance;
+module.exports = MetisRule;
+
+
+
+

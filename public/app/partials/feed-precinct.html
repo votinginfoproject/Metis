@@ -89,7 +89,7 @@
     <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in $data">
       <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/precinctsplits/{{precinctSplit.id}}">{{precinctSplit.id}}</a></td>
       <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/precinctsplits/{{precinctSplit.id}}">{{precinctSplit.name}}</a></td>
-      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'streetsegments'"><a href="{{$location.absUrl()}}/precinctsplits/{{precinctSplit.id}}">{{precinctSplit.streetsegments}}</a></td>
+      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'streetsegments'"><a href="{{$location.absUrl()}}/precinctsplits/{{precinctSplit.id}}">{{precinctSplit.street_segments}}</a></td>
     </tr>
   </table>
 </section>

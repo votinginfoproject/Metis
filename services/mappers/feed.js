@@ -106,8 +106,8 @@ var mapLocality = function(path, locality) {
     error_count: -1, //TODO
     name: locality.name,
     type: locality.type,
-    electionMachineType: "Requires 5.0 Schema",
-    pollBookType: "Requires 5.0 Schema",
+    election_machine_type: "Requires 5.0 Schema",
+    poll_book_type: "Requires 5.0 Schema",
     overview: [ //TODO
       {
         element_type: 'Electoral Districts',
@@ -228,6 +228,7 @@ var mapPrecinctPrecinctSplits = function(path, precinctSplits) {
     return {
       id: ps.elementId,
       name: ps.name,
+      street_segments: ps._streetSegments.length,
       self: _path.join(path, ps.elementId.toString())
     };
   });
@@ -346,6 +347,19 @@ function mapStreetSegments (path, streetSegments) {
   });
 };
 
+function mapPrecinctSplit (path, precinctSplit) {
+  return {
+    id: precinctSplit.elementId,
+    name: precinctSplit.name,
+    electoral_districts: _path.join(path, '/electoraldistricts'),
+    polling_locations: _path.join(path, '/pollinglocations'),
+    street_segments: {
+      total: precinctSplit._streetSegments.length,
+      self: _path.join(path, '/streetsegments')
+    }
+  };
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -365,3 +379,4 @@ exports.mapContests = mapContests;
 exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
+exports.mapPrecinctSplit = mapPrecinctSplit;

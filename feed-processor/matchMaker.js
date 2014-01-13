@@ -119,6 +119,19 @@ function createRelationshipsPrecinct (feedId, models) {
   }, onError);
 };
 
+function createRelationshipsPrecinctSplit (feedId, models) {
+  var promise = models.PrecinctSplit.find({ _feed: feedId }).exec();
+
+  promise.then(function (precinctSplits) {
+    precinctSplits.forEach(function (precinctSplit) {
+      if (precinctSplit.electoralDistrictIds.length > 0) {
+        joinPrecinctSplitElectoralDistrict(models, precinctSplit);
+      }
+      joinPrecinctSplitStreetSegments(models, precinctSplit);
+    });
+  });
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -212,12 +225,44 @@ function joinPrecinctStreetSegments (models, precinct) {
   });
 };
 
+function joinPrecinctSplitElectoralDistrict (models, precinctSplit) {
+  var promise = models.ElectoralDistrict
+    .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.electoralDistrictIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function (edOids) {
+    if (edOids.length > 0) {
+      updateRelationship(models.PrecinctSplit,
+        { _id: precinctSplit._id },
+        { $addToSet: { _electoralDistricts: { $each: edOids } } },
+        onUpdate);
+    }
+  });
+};
+
+function joinPrecinctSplitStreetSegments (models, precinctSplit) {
+  var promise = models.StreetSegment.find({ _feed: precinctSplit._feed, precinctSplitId: precinctSplit.elementId })
+    .select('_id')
+    .exec();
+
+  promise.then(function (streetOids) {
+    if (streetOids.length > 0) {
+      updateRelationship(models.PrecinctSplit,
+        { _id: precinctSplit._id },
+        { $addToSet: { _streetSegments: { $each: streetOids } } },
+        onUpdate);
+    }
+  });
+};
+
 function createDBRelationships(feedId, models) {
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
   createRelationshipsElection(feedId, models);
   createRelationshipsLocality(feedId, models);
   createRelationshipsPrecinct(feedId, models);
+  createRelationshipsPrecinctSplit(feedId, models);
 };
 
 exports.createDBRelationships = createDBRelationships;

@@ -16,7 +16,7 @@ ruleDefinitions = {
     description: "All top-level metis elements must have a unique ID value",
     criticality: 1,
     order: 1,
-    condition: function(topLevelElements, singleElement){
+    evaluation: function(topLevelElements, singleElement){
       isUnique = false;
       topLevelElements = []; //current: build from mongo query of all collections, returning only id, by feed id
 
@@ -26,7 +26,7 @@ ruleDefinitions = {
           isUnique = true;
         }
       });
-
+      s
       return isUnique;
     }
   },
@@ -42,12 +42,12 @@ ruleDefinitions = {
           if(res.statusCode == '200')
             isValid = true;
         })
-        .on('error', function(e) {
-          console.error("Handled error during url resolution: " + e.message);
-        });
-      //if there's a valid url, let's return true; otherwise return false
-      return isValid;
-    }
+          .on('error', function(e) {
+            console.error("Handled error during url resolution: " + e.message);
+          });
+        //if there's a valid url, let's return true; otherwise return false
+        return isValid;
+      }
   },
   validUrlFormat : {
     name: "Valid Url Format",
@@ -55,21 +55,26 @@ ruleDefinitions = {
     criticality: 3,
     order: 1,
     evaluation:
-    function(url){
-      parsedUrl = require('url').parse(url);
-      isValid = false;
-      //Step 1: Does url conforms to a valid protocol (http or https only)?
-      if(parsedUrl.protocol != null && parsedUrl === ('http:' || 'https:')){
-        //Step 2: Verify basic URL structure
-        if(parsedUrl.slashes == null || !parsedUrl.slashes){
-          //Step 3: Verify the domain (hostname is distinguishable)
-          if (parsedUrl.hostname != null && parsedUrl.hostname != ""){
+      function(url){
+        //TODO: refactor to switch statement for readability
+        parsedUrl = require('url').parse(url);
+        isValid = false;
+        //Step 1: Does url conforms to a valid protocol (http or https only)?
+        if(parsedUrl.protocol != null && parsedUrl.protocol === ('http:' || 'https:')){
+          //Step 2: Verify basic URL structure
+          if(parsedUrl.slashes != null || parsedUrl.slashes){
+            //Step 3: Verify the domain (hostname is distinguishable)
+            if (parsedUrl.hostname != null && parsedUrl.hostname != ""){
               isValid = true;  //all tests pass
-          }
+            }else
+              console.error("hostname check failed");
+          }else
+            console.error("slash check failed");
         }
+        else
+          console.error("protocol check failed");
+        return isValid;
       }
-      return isValid;
-    }
   },
   validUrlSite : {
     name: "Valid Url Page",

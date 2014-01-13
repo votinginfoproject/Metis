@@ -2,21 +2,45 @@
  * Created by nboseman on 12/25/13.
  */
 
-function Violation(element_name, member_name, description, objectId, feedId){
- this.element_name = element_name;
- this.member_name = member_name;
- this.description = description;
- this.objectId = objectId;
- this.feedId = feedId;
+function Violation(collection_name, member_name, message, mongoObjectId, feedId){
+  this.collection = collection_name;
+  this.member_name = member_name;
+  this.description = message;
+  this.objectId = mongoObjectId;
+  this.feedId = feedId;
 }
 
 
 Violation.prototype.toString = function(){
-  toString('element_name: ', element_name, "member_name: ", member_name, "description: ", description, "_id:", objectId, "feed_id:", feedId);
+  toString({
+    'collection': collection,
+    "memberName": member_name,
+    "description": description,
+    "collectionId": objectId,
+    "feedId": feedId
+  });
 };
 
-function newInstance(element, name, description, objId, feedId){
-  return new Violation(element, name, description, objId, feedId);
+Violation.prototype.model = function(){
+  var Violation = mongoose.model("violations");
+  return new Violation({
+    collection: this.collection,
+    memberName: this.member_name,
+    description: this.description,
+    objectId: this.objectId,
+    feedId: this.feedId
+  });
 }
 
-exports.newInstance = newInstance;
+Violation.prototype.save = function(){
+  if(require('../../config').ruleEngine.isPersistent)
+    this.model().save();
+  else
+    console.log(
+      "\n**Warning**: Violation captured as DEBUG only. The following will NOT be saved in mongo: \n",
+      this,
+      "\nTo store the above record in Mongo, update the RuleEngine setting in config.js\n"
+    );
+}
+
+module.exports = Violation;
