@@ -182,6 +182,10 @@ function feedPrecinctSplitStreetSegments (feedId, precinctSplitId, callback) {
   daoSchemas.models.StreetSegment.find({ _feed: feedId, precinctSplitId: precinctSplitId }, callback);
 };
 
+function feedEarlyVoteSite (feedId, earlyVoteSiteId, callback) {
+  daoSchemas.models.EarlyVoteSite.findOne({ _feed: feedId, elementId: earlyVoteSiteId }, callback);
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -204,4 +208,5 @@ exports.feedPrecinctSplit = feedPrecinctSplit;
 exports.feedPrecinctSplitElectoralDistricts = feedPrecinctSplitElectoralDistricts;
 exports.feedPrecinctSplitPollingLocations = feedPrecinctSplitPollingLocations;
 exports.feedPrecinctSplitStreetSegments = feedPrecinctSplitStreetSegments;
+exports.feedEarlyVoteSite = feedEarlyVoteSite;
 exports.dbConnect = dbConnect;

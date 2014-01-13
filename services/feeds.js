@@ -31,6 +31,9 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts', utils.ensureAuthentication, feedPrecinctSplitElectoralDistrictsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/pollinglocations', utils.ensureAuthentication, feedPrecinctSplitPollingLocationsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments', utils.ensureAuthentication, feedPrecinctSplitStreetSegmentsGET);
+  app.get('/services/feeds/:feedid/election/state/earlyvotesites/:evsid', utils.ensureAuthentication, feedEarlyVoteSiteGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites/:evsid', utils.ensureAuthentication, feedEarlyVoteSiteGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites/:evsid', utils.ensureAuthentication, feedEarlyVoteSiteGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -219,6 +222,14 @@ function feedPrecinctSplitStreetSegmentsGET (req, res) {
   dao.feedPrecinctSplitStreetSegments(req.params.feedid, req.params.splitid, function (err, streetSegments) {
     notFoundHandler(res, err, streetSegments, function () {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
+    });
+  });
+};
+
+function feedEarlyVoteSiteGET (req, res) {
+  dao.feedEarlyVoteSite (req.params.feedid, req.params.evsid, function (err, earlyVoteSite) {
+    notFoundHandler(res, err, earlyVoteSite, function () {
+      res.json(mapper.mapEarlyVoteSite(earlyVoteSite));
     });
   });
 };

@@ -4,8 +4,20 @@
 var moment = require('moment');
 var _path = require('path');
 
-function addressToShortString(address) {
+function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
+};
+
+function addressToJson (address) {
+  return address ? {
+    location_name: address.location_name,
+    line1: address.line1,
+    line2: address.line2,
+    line3: address.line3,
+    city: address.city,
+    state: address.state,
+    zip: address.zip
+  } : undefined;
 };
 
 var mapFeed = function(path, feed) {
@@ -360,6 +372,19 @@ function mapPrecinctSplit (path, precinctSplit) {
   };
 };
 
+function mapEarlyVoteSite (earlyVoteSite) {
+  return {
+    id: earlyVoteSite.elementId,
+    name: earlyVoteSite.name,
+    address: addressToJson(earlyVoteSite.address),
+    directions: earlyVoteSite.directions,
+    voter_services: earlyVoteSite.voterServices,
+    start_date: earlyVoteSite.startDate,
+    end_date: earlyVoteSite.endDate,
+    days_times_open: earlyVoteSite.daysTimesOpen
+  };
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -380,3 +405,4 @@ exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapPrecinctSplit = mapPrecinctSplit;
+exports.mapEarlyVoteSite = mapEarlyVoteSite;
