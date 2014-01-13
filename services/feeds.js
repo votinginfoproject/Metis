@@ -28,6 +28,9 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, feedPrecinctPrecinctSplitsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments', utils.ensureAuthentication, feedPrecinctStreetSegmentsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid', utils.ensureAuthentication, feedPrecinctSplitGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts', utils.ensureAuthentication, feedPrecinctSplitElectoralDistrictsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/pollinglocations', utils.ensureAuthentication, feedPrecinctSplitPollingLocationsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments', utils.ensureAuthentication, feedPrecinctSplitStreetSegmentsGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, feedElectionContestsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, feedPollingGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, feedContestsGET);
@@ -157,7 +160,7 @@ function feedPrecinctElectoralDistrictsGET (req, res) {
 function feedPrecinctPollingLocationsGET (req, res) {
   dao.getPrecinctPollingLocations(req.params.feedid, req.params.precinctid, function (err, pollingLocations) {
     notFoundHandler(res, err, pollingLocations, function() {
-      res.json(mapper.mapPrecinctPollingLocations(req.path, pollingLocations));
+      res.json(mapper.mapPollingLocations(req.path, pollingLocations));
     });
   });
 };
@@ -192,6 +195,30 @@ function feedPrecinctSplitGET (req, res) {
   dao.feedPrecinctSplit(req.params.feedid, req.params.splitid, function (err, split) {
     notFoundHandler(res, err, split, function () {
       res.json(mapper.mapPrecinctSplit(req.path, split));
+    });
+  });
+};
+
+function feedPrecinctSplitElectoralDistrictsGET (req, res) {
+  dao.feedPrecinctSplitElectoralDistricts(req.params.feedid, req.params.splitid, function (err, electoralDistricts) {
+    notFoundHandler(res, err, electoralDistricts, function () {
+      res.json(mapper.mapElectoralDistricts(req.path, electoralDistricts));
+    });
+  });
+};
+
+function feedPrecinctSplitPollingLocationsGET (req, res) {
+  dao.feedPrecinctSplitPollingLocations(req.params.feedid, req.params.splitid, function (err, pollingLocations) {
+    notFoundHandler(res, err, pollingLocations, function () {
+      res.json(mapper.mapPollingLocations(req.path, pollingLocations));
+    });
+  });
+};
+
+function feedPrecinctSplitStreetSegmentsGET (req, res) {
+  dao.feedPrecinctSplitStreetSegments(req.params.feedid, req.params.splitid, function (err, streetSegments) {
+    notFoundHandler(res, err, streetSegments, function () {
+      res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
   });
 };

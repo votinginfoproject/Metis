@@ -150,6 +150,38 @@ function feedPrecinctSplit (feedId, precinctSplitId, callback) {
   daoSchemas.models.PrecinctSplit.findOne({ _feed: feedId, elementId: precinctSplitId }, callback);
 };
 
+function feedPrecinctSplitElectoralDistricts (feedId, precinctSplitId, callback) {
+  var promise = daoSchemas.models.PrecinctSplit.findOne({ _feed: feedId, elementId: precinctSplitId })
+    .populate('_electoralDistricts')
+    .select('_electoralDistricts')
+    .exec();
+
+  promise.then(function (precinctSplit) {
+    if (precinctSplit) {
+      callback(undefined, precinctSplit._electoralDistricts);
+    }
+    else { callback(undefined); }
+  });
+};
+
+function feedPrecinctSplitPollingLocations (feedId, precinctSplitId, callback) {
+  var promise = daoSchemas.models.PrecinctSplit.findOne({ _feed: feedId, elementId: precinctSplitId })
+    .populate('_pollingLocations')
+    .select('_pollingLocations')
+    .exec();
+
+  promise.then(function (precinctSplit) {
+    if (precinctSplit) {
+      callback(undefined, precinctSplit._pollingLocations);
+    }
+    else { callback(undefined); }
+  });
+};
+
+function feedPrecinctSplitStreetSegments (feedId, precinctSplitId, callback) {
+  daoSchemas.models.StreetSegment.find({ _feed: feedId, precinctSplitId: precinctSplitId }, callback);
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -169,4 +201,7 @@ exports.getPrecinctPollingLocations = getPrecinctPollingLocations;
 exports.getPrecinctPrecinctSplits = getPrecinctPrecinctSplits;
 exports.getPrecinctStreetSegments = getPrecinctStreetSegments;
 exports.feedPrecinctSplit = feedPrecinctSplit;
+exports.feedPrecinctSplitElectoralDistricts = feedPrecinctSplitElectoralDistricts;
+exports.feedPrecinctSplitPollingLocations = feedPrecinctSplitPollingLocations;
+exports.feedPrecinctSplitStreetSegments = feedPrecinctSplitStreetSegments;
 exports.dbConnect = dbConnect;

@@ -127,6 +127,9 @@ function createRelationshipsPrecinctSplit (feedId, models) {
       if (precinctSplit.electoralDistrictIds.length > 0) {
         joinPrecinctSplitElectoralDistrict(models, precinctSplit);
       }
+      if (precinctSplit.pollingLocationIds.length > 0) {
+        joinPrecinctSplitPollingLocations(models, precinctSplit);
+      }
       joinPrecinctSplitStreetSegments(models, precinctSplit);
     });
   });
@@ -251,6 +254,22 @@ function joinPrecinctSplitStreetSegments (models, precinctSplit) {
       updateRelationship(models.PrecinctSplit,
         { _id: precinctSplit._id },
         { $addToSet: { _streetSegments: { $each: streetOids } } },
+        onUpdate);
+    }
+  });
+};
+
+function joinPrecinctSplitPollingLocations (models, precinctSplit) {
+  var promise = models.PollingLocation
+    .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.pollingLocationIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function (plOids) {
+    if (plOids.length > 0) {
+      updateRelationship(models.PrecinctSplit,
+        { _id: precinctSplit._id },
+        { $addToSet: { _pollingLocations: { $each: plOids } } },
         onUpdate);
     }
   });

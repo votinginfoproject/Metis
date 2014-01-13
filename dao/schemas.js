@@ -236,6 +236,7 @@ var precinctSplitSchema = {
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
+  _pollingLocations: [{ type: Types.ObjectId, ref: config.mongoose.model.pollingLocation }],
   _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }]
 };
 
