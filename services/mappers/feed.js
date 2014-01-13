@@ -212,7 +212,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
   });
 };
 
-var mapPrecinctPollingLocations = function(path, pollingLocations) {
+var mapPollingLocations = function(path, pollingLocations) {
   return pollingLocations.map(function (pl) {
     return {
       id: pl.elementId,
@@ -371,7 +371,7 @@ exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
 exports.mapElectoralDistricts = mapElectoralDistricts;
-exports.mapPrecinctPollingLocations = mapPrecinctPollingLocations;
+exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
