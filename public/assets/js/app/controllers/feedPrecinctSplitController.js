@@ -122,7 +122,7 @@ function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsSe
       if($http===404){
         // feed not found
 
-        $rootScope.pageHeader.alert = "Sorry, Precinct Split  \"" + precinctsplitid + "\" of Precinct  \"" + precinctid + "\" for Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
+        $rootScope.pageHeader.alert = "Sorry, Precinct Splits  \"" + precinctsplitid + "\" of Precinct  \"" + precinctid + "\" for Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
       } else {
         // some other error
 

@@ -1,2 +1,23 @@
 <i id="feed-precinctsplits-content"></i>
 
+<section class="data-group">
+
+  <span ng-if="!feedPrecinctSplits" class="is-loading"></span>
+  <table ng-show="feedPrecinctSplits.length" id="precinctsplitsTable" ng-table="precinctsplitsTableParams" template-pagination="precinctsplitsPagination" class="associations">
+    <tr id="precinctsplit{{$index}}" ng-repeat="precinctsplit in $data">
+      <td id="precinctsplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{precinctsplit.id}}">{{precinctsplit.id}}</a></td>
+      <td id="precinctsplit-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{precinctsplit.id}}">{{precinctsplit.name}}</a></td>
+      <td id="precinctsplit-office{{$index}}" data-title="'Street Segments'" sortable="'precinct_splits'"><a href="{{$location.absUrl()}}/{{precinctsplit.id}}">{{precinctsplit.street_segments}}</a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="precinctsplitsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsplitsTableParams.page()}" ng-click="precinctsplitsTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>
