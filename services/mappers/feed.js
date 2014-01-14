@@ -363,10 +363,12 @@ function mapStreetSegments (path, streetSegments) {
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
+    error_count: -1,
     name: precinctSplit.name,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
+      error_count: -1,
       total: precinctSplit._streetSegments.length,
       self: _path.join(path, '/streetsegments')
     }
