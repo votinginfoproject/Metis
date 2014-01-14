@@ -198,6 +198,22 @@ function feedEarlyVoteSiteGET (req, res) {
   });
 };
 
+function feedStateElectionAdministrationGET (req, res) {
+  dao.feedStateElectionAdministration(req.params.feedid, function (err, electionAdmin) {
+    notFoundHandler(res, err, electionAdmin, function () {
+      res.json(mapper.mapElectionAdministration(electionAdmin));
+    });
+  });
+};
+
+function feedLocalityElectionAdministrationGET (req, res) {
+  dao.feedLocalityElectionAdministration(req.params.feedid, req.params.localityid, function (err, electionAdmin) {
+    notFoundHandler(res, err, electionAdmin, function () {
+      res.json(mapper.mapElectionAdministration(electionAdmin));
+    });
+  });
+};
+
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
   res.json(mapper.mapPollingSummary(req.path, polling));
@@ -240,6 +256,8 @@ exports.feedPrecinctSplitPollingLocationsGET = feedPrecinctSplitPollingLocations
 exports.feedPrecinctSplitStreetSegmentsGET = feedPrecinctSplitStreetSegmentsGET;
 exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;
 exports.feedElectionContestsGET = feedElectionContestsGET;
+exports.feedStateElectionAdministrationGET = feedStateElectionAdministrationGET;
+exports.feedLocalityElectionAdministrationGET = feedLocalityElectionAdministrationGET;
 exports.feedPollingGET = feedPollingGET;
 exports.feedContestsGET = feedContestsGET;
 exports.feedResultsGET = feedResultsGET;
