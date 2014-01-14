@@ -66,7 +66,7 @@ function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams,
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      //FeedPrecinctCtrl_getFeedPrecinct($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, precinctid, feedid, localityid);
+      FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, precinctid, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -82,6 +82,38 @@ function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams,
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
+      $scope.feedPrecinctSplits = {};
+    });
+}
+
+/*
+ * Get the Feed PrecinctSplit for the Feed detail page
+ *
+ */
+function FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, precinctid, feedid, localityid){
+
+  // get Feed Precinct Split
+  $feedsService.getFeedPrecinctSplits(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedPrecinctSplits = data;
+
+      $scope.precinctsplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+
+    }).error(function (data, $http) {
+
+      if($http===404){
+        // feed not found
+
+        $rootScope.pageHeader.alert = "Sorry, Precinct Splits  for Precinct  \"" + precinctid + "\" of Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
+      } else {
+        // some other error
+
+        $rootScope.pageHeader.error += "Could not retrieve Feed Precinct Splits data. ";
+      }
+
+      // so the loading spinner goes away and we are left with an empty table
       $scope.feedPrecinctSplits = {};
     });
 }

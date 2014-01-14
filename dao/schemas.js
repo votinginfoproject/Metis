@@ -155,7 +155,9 @@ var electionAdminSchema = {
   rulesUrl: String,
   voterServices: String,
   hours: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electionOfficial: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial },
+  _overseasVoterContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
 var electionOfficialSchema = {

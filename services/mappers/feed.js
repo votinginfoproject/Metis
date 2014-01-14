@@ -105,7 +105,7 @@ var mapState = function(path, state) {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
       address: addressToShortString(state._electionAdministration.physicalAddress),
-      self: _path.join(path, '/election-administration')
+      self: _path.join(path, '/electionadministration')
     },
     localities: _path.join(path, '/localities'),
     earlyvotesites: _path.join(path, '/earlyvotesites')
@@ -149,7 +149,8 @@ var mapLocality = function(path, locality) {
     administration: locality._electionAdministration ? {
       id: locality._electionAdministration.elementId,
       name: locality._electionAdministration.name,
-      address: addressToShortString(locality._electionAdministration.physicalAddress)
+      address: addressToShortString(locality._electionAdministration.physicalAddress),
+      self: _path.join(path, '/electionadministration')
     } : null,
     earlyvotesites: _path.join(path, '/earlyvotesites'),
     precincts: _path.join(path, '/precincts')
@@ -385,6 +386,39 @@ function mapEarlyVoteSite (earlyVoteSite) {
   };
 };
 
+function mapElectionAdministration (electionAdministration) {
+  return {
+    id: electionAdministration.elementId,
+    name: electionAdministration.name,
+    physical_address: addressToJson(electionAdministration.physicalAddress),
+    mailing_address: addressToJson(electionAdministration.mailingAddress),
+    elections_url: electionAdministration.electionsUrl,
+    registration_url: electionAdministration.registrationUrl,
+    am_i_registered_url: electionAdministration.amIRegisteredUrl,
+    absentee_url: electionAdministration.absenteeUrl,
+    where_do_i_vote_url: electionAdministration.whereDoIVoteUrl,
+    what_is_on_my_ballot_url: electionAdministration.whatIsOnMyBallotUrl,
+    rules_url: electionAdministration.rulesUrl,
+    voter_services: electionAdministration.voterServices,
+    election_official: electionAdministration._electionOfficial ?
+      mapElectionOfficial(electionAdministration._electionOfficial) : null,
+    overseas_voter_contact: electionAdministration._overseasVoterContact ?
+      mapElectionOfficial(electionAdministration._overseasVoterContact) : null,
+    hours: electionAdministration.hours
+  };
+};
+
+function mapElectionOfficial (electionOfficial) {
+  return {
+    id: electionOfficial.elementId,
+    name: electionOfficial.name,
+    title: electionOfficial.title,
+    phone: electionOfficial.phone,
+    fax: electionOfficial.fax,
+    email: electionOfficial.email
+  };
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -406,3 +440,4 @@ exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
+exports.mapElectionAdministration = mapElectionAdministration;
