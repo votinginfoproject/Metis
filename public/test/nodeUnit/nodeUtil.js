@@ -26,7 +26,18 @@ var util = {
     expect(first.city).toBe(second.city);
     expect(first.state).toBe(second.state);
     expect(first.zip).toBe(second.zip);
+  },
+
+  daoFunc: function(feedId, first, second) {
+    if(!second)
+      first(null, feedId);
+    else
+      second(null, first);
+  },
+
+  feedFunc: function(path, election) {
+    return;
   }
-}
+};
 
 module.exports = util;
