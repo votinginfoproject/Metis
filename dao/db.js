@@ -186,6 +186,32 @@ function feedEarlyVoteSite (feedId, earlyVoteSiteId, callback) {
   daoSchemas.models.EarlyVoteSite.findOne({ _feed: feedId, elementId: earlyVoteSiteId }, callback);
 };
 
+function feedStateElectionAdministration (feedId, callback) {
+  var promise = daoSchemas.models.State.findOne({ _feed: feedId })
+    .populate('_electionAdministration')
+    .exec();
+
+  promise.then(function (state) {
+    if (state && state._electionAdministration) {
+      state._electionAdministration.populate('_electionOfficial _overseasVoterContact', callback);
+    }
+    else { callback(); }
+  });
+};
+
+function feedLocalityElectionAdministration (feedId, localityId, callback) {
+  var promise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId })
+    .populate('_electionAdministration')
+    .exec();
+
+  promise.then(function (locality) {
+    if (locality && locality._electionAdministration) {
+      locality._electionAdministration.populate('_electionOfficial _overseasVoterContact', callback);
+    }
+    else { callback(); }
+  });
+};
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -194,9 +220,11 @@ exports.getElectionOfficial = getElectionOfficial;
 exports.getFeedContests = getFeedContests;
 exports.getState = getState;
 exports.getStateEarlyVoteSites = getStateEarlyVoteSites;
+exports.feedStateElectionAdministration = feedStateElectionAdministration;
 exports.getLocalities = getLocalities;
 exports.getLocality = getLocality;
 exports.getLocalityEarlyVoteSite = getLocalityEarlyVoteSite;
+exports.feedLocalityElectionAdministration = feedLocalityElectionAdministration;
 exports.getLocalityPrecincts = getLocalityPrecincts;
 exports.getLocalityPrecinct = getLocalityPrecinct;
 exports.getLocalityPrecinctEarlyVoteSites = getLocalityPrecinctEarlyVoteSites;

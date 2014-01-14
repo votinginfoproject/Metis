@@ -17,9 +17,11 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election', utils.ensureAuthentication, feedElectionGET);
   app.get('/services/feeds/:feedid/election/state', utils.ensureAuthentication, feedStateGET);
   app.get('/services/feeds/:feedid/election/state/earlyvotesites', utils.ensureAuthentication, feedStateEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/electionadministration', utils.ensureAuthentication, feedStateElectionAdministrationGET);
   app.get('/services/feeds/:feedid/election/state/localities', utils.ensureAuthentication, feedLocalitiesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, feedLocalityGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, feedLocalityEarlyVoteSitesGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/electionadministration', utils.ensureAuthentication, feedLocalityElectionAdministrationGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, feedLocalityPrecinctsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid', utils.ensureAuthentication, feedPrecinctGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites', utils.ensureAuthentication, feedPrecinctEarlyVoteSitesGET);
@@ -227,9 +229,25 @@ function feedPrecinctSplitStreetSegmentsGET (req, res) {
 };
 
 function feedEarlyVoteSiteGET (req, res) {
-  dao.feedEarlyVoteSite (req.params.feedid, req.params.evsid, function (err, earlyVoteSite) {
+  dao.feedEarlyVoteSite(req.params.feedid, req.params.evsid, function (err, earlyVoteSite) {
     notFoundHandler(res, err, earlyVoteSite, function () {
       res.json(mapper.mapEarlyVoteSite(earlyVoteSite));
+    });
+  });
+};
+
+function feedStateElectionAdministrationGET (req, res) {
+  dao.feedStateElectionAdministration(req.params.feedid, function (err, electionAdmin) {
+    notFoundHandler(res, err, electionAdmin, function () {
+      res.json(mapper.mapElectionAdministration(electionAdmin));
+    });
+  });
+};
+
+function feedLocalityElectionAdministrationGET (req, res) {
+  dao.feedLocalityElectionAdministration(req.params.feedid, req.params.localityid, function (err, electionAdmin) {
+    notFoundHandler(res, err, electionAdmin, function () {
+      res.json(mapper.mapElectionAdministration(electionAdmin));
     });
   });
 };

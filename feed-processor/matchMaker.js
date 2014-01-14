@@ -135,6 +135,21 @@ function createRelationshipsPrecinctSplit (feedId, models) {
   });
 };
 
+function createRelationshipsElectionAdministration (feedId, models) {
+  var promise = models.ElectionAdmin.find({ _feed: feedId }).exec();
+
+  promise.then(function (electionAdmins) {
+    electionAdmins.forEach(function (electionAdmin) {
+      if (electionAdmin.eoId) {
+        joinElectionAdminElectionOfficial(models, electionAdmin);
+      }
+      if (electionAdmin.ovcId) {
+        joinElectionAdminElectionOfficial(models, electionAdmin);
+      }
+    });
+  });
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -275,6 +290,28 @@ function joinPrecinctSplitPollingLocations (models, precinctSplit) {
   });
 };
 
+function joinElectionAdminElectionOfficial (models, electionAdmin) {
+  var promiseEO = models.ElectionOfficial.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.eoId })
+    .select('_id')
+    .exec();
+
+  var promiseOVC = models.ElectionOfficial.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.ovcId })
+    .select('_id')
+    .exec();
+
+  promiseEO.then(function (eo) {
+    if (eo) {
+      updateRelationship(models.ElectionAdmin, { _id: electionAdmin._id }, { _electionOfficial: eo._id }, onUpdate);
+    }
+  });
+
+  promiseOVC.then(function (ovc) {
+    if (ovc) {
+      updateRelationship(models.ElectionAdmin, { _id: electionAdmin._id }, { _overseasVoterContact: ovc._id }, onUpdate);
+    }
+  });
+}
+
 function createDBRelationships(feedId, models) {
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
@@ -282,6 +319,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsLocality(feedId, models);
   createRelationshipsPrecinct(feedId, models);
   createRelationshipsPrecinctSplit(feedId, models);
+  createRelationshipsElectionAdministration(feedId, models);
 };
 
 exports.createDBRelationships = createDBRelationships;
