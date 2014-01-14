@@ -209,4 +209,20 @@ describe('Feeds Unit Tests', function() {
       httpCallback.feedEarlyVoteSiteGET(req, res);
     });
   });
+
+  describe('Feed State Election Administration GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedStateElectionAdministration = nodeUtil.daoFunc;
+      feedStub.mapElectionAdministration = nodeUtil.feedFunc;
+      httpCallback.feedStateElectionAdministrationGET(req, res);
+    });
+  });
+
+  describe('Feed Locality Election Administration GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedLocalityElectionAdministration = nodeUtil.daoFunc;
+      feedStub.mapElectionAdministration = nodeUtil.feedFunc;
+      httpCallback.feedLocalityElectionAdministrationGET(req, res);
+    });
+  });
 });
