@@ -91,7 +91,7 @@ function FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, s
 
       $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
-    }).error(function (data) {
+    }).error(function (data, $http) {
 
       if($http===404){
         // feed not found
