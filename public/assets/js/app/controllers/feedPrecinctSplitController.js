@@ -73,7 +73,7 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, 
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, precinctsplitid, precinctid, feedid, localityid);
+      FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid);
 
     }).error(function (data, $http) {
 
@@ -101,7 +101,7 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, 
  * Get the Feed PrecinctSplit for the Feed detail page
  *
  */
-function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, precinctsplitid, precinctid, feedid, localityid){
+function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid){
 
   // get Feed Precinct Split
   $feedsService.getFeedPrecinctSplit(servicePath)
@@ -122,7 +122,7 @@ function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsSe
       if($http===404){
         // feed not found
 
-        $rootScope.pageHeader.alert = "Sorry, Precinct Splits  \"" + precinctsplitid + "\" of Precinct  \"" + precinctid + "\" for Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
+        $rootScope.pageHeader.alert = "Sorry, Precinct Split  \"" + precinctsplitid + "\" of Precinct  \"" + precinctid + "\" for Locality  \"" + localityid + "\" under VIP feed \"" + feedid + "\" does not exist.";
       } else {
         // some other error
 
