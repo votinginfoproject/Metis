@@ -75,7 +75,9 @@ UniqueIdRule.prototype.processUniqueIds = function(err, results){
       );
     }
   });
-  console.log("Total Unique ID Rule Violations:", UniqueIdRule.prototype.getViolations().length);
+
+  var violations = UniqueIdRule.prototype.getViolations();
+  console.log("Total Unique ID Rule Violations:", violations ? violations.length : 'none');
 };
 
 

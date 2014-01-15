@@ -69,7 +69,9 @@ UrlRule.prototype.processUrlResults = function(err, dataResults){
       );
     }
   });
- console.log("Total Url Rule Violations:", UrlRule.prototype.getViolations().length);
+
+  var violations = UrlRule.prototype.getViolations();
+ console.log("Total Url Rule Violations: ", violations ? violations.length : 'none');
 }
 
 module.exports = UrlRule;
