@@ -18,7 +18,7 @@ var util = {
     });
   },
 
-  testSimpleAddress: function(first, second) {
+  testXmlAddress: function(first, second) {
     expect(first.locationName).toBe(second.location_name);
     expect(first.line1).toBe(second.line1);
     expect(first.line2).toBe(second.line2);
@@ -37,6 +37,12 @@ var util = {
 
   feedFunc: function(path, election) {
     return;
+  },
+
+  testElectionAdmin: function(first, second) {
+    expect(first.id).toBe(second.elementId);
+    expect(first.name).toBe(second.name);
+    expect(first.address).toBe(second.physicalAddress.city +', ' + second.physicalAddress.state + ' ' + second.physicalAddress.zip);
   }
 };
 

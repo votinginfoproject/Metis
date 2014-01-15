@@ -98,7 +98,7 @@ describe('Mapper Unit Tests', function() {
         expect(this.biography).toBe(xml.biography);
         expect(this.phone).toBe(xml.phone);
         expect(this.photoUrl).toBe(xml.photo_url);
-        nodeUtil.testSimpleAddress(this.filedMailingAddress, xml.filed_mailing_address);
+        nodeUtil.testXmlAddress(this.filedMailingAddress, xml.filed_mailing_address);
         expect(this.email).toBe(xml.email);
         expect(this.sortOrder).toBe(xml.sort_order);
         cb();
@@ -180,7 +180,7 @@ describe('Mapper Unit Tests', function() {
       var save = function(cb) {
         expect(this.elementId).toBe(xml.$.id);
         expect(this.name).toBe(xml.name);
-        nodeUtil.testSimpleAddress(this.address, xml.address);
+        nodeUtil.testXmlAddress(this.address, xml.address);
         expect(this.directions).toBe(xml.directions);
         expect(this.voterServices).toBe(xml.voter_services);
         expect(this.startDate.toString()).toBe(xml.start_date);
@@ -226,8 +226,8 @@ describe('Mapper Unit Tests', function() {
         expect(this.name).toBe(xml.name);
         expect(this.eoId).toBe(xml.eo_id);
         expect(this.ovcId).toBe(xml.ovc_id);
-        nodeUtil.testSimpleAddress(this.physicalAddress, xml.physical_address);
-        nodeUtil.testSimpleAddress(this.mailingAddress, xml.mailing_address);
+        nodeUtil.testXmlAddress(this.physicalAddress, xml.physical_address);
+        nodeUtil.testXmlAddress(this.mailingAddress, xml.mailing_address);
         expect(this.electionsUrl).toBe(xml.elections_url);
         expect(this.registrationUrl).toBe(xml.registration_url);
         expect(this.amIRegisteredUrl).toBe(xml.am_i_registered_url);
@@ -302,7 +302,7 @@ describe('Mapper Unit Tests', function() {
       var model = new PollingLocation(schemas.models, mongoose.Schema.Types.ObjectId(1));
       var save = function(cb) {
         expect(this.elementId).toBe(xml.$.id);
-        nodeUtil.testSimpleAddress(this.address, xml.address);
+        nodeUtil.testXmlAddress(this.address, xml.address);
         expect(this.directions).toBe(xml.directions);
         expect(this.pollingHours).toBe(xml.polling_hours);
         expect(this.photoUrl).toBe(xml.photo_url);
