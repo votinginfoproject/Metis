@@ -20,6 +20,15 @@ var electionAdministration = {
   address: address
 }
 
+var electionOfficial = {
+  elementId: 1,
+  name: 'name',
+  title: 'title',
+  phone: 'phone',
+  fax: 'fax',
+  email: 'email'
+}
+
 var data = {
   feed: {
     id: '1',
@@ -149,19 +158,25 @@ var data = {
     startDate: Date('2014-09-05'),
     endDate: Date('2014-10-07'),
     daysTimesOpen: 'times'
-  }
+  },
 
-//  electionAdmin: {
-//    elementId: 1,
-//    name: 'name',
-//    physicalAddress: address,
-//    mailingAddress: address,
-//    electionsUrl: 'url',
-//    registrationUrl: 'url',
-//    amIRegisteredUrl: 'url',
-//    absenteeUrl: 'url',
-//
-//  }
+  electionAdmin: {
+    elementId: 1,
+    name: 'name',
+    physicalAddress: address,
+    mailingAddress: address,
+    electionsUrl: 'url',
+    registrationUrl: 'url',
+    amIRegisteredUrl: 'url',
+    absenteeUrl: 'url',
+    whereDoIVoteUrl: 'url',
+    whatIsOnMyBallotUrl: 'url',
+    rulesUrl: 'url',
+    voterServices: 'serv',
+    _electionOfficial: electionOfficial,
+    _overseasVoterContact: electionOfficial,
+    hours: 'hours'
+  }
 };
 
 module.exports = data;

@@ -244,9 +244,24 @@ describe('Feed Mappers Tests', function() {
     });
   });
 
-//  describe('mapElectionAdministration Test', function() {
-//    it('returns the data' function() {
-//      var electionAdmin = data.election
-//    });
-//  });
+  describe('mapElectionAdministration Test', function() {
+    it('returns the data', function() {
+      var admin = data.electionAdmin;
+      var res = mappers.mapElectionAdministration(admin);
+      expect(res.id).toBe(admin.elementId);
+      expect(res.name).toBe(admin.name);
+      nodeUtil.testMapperAddress(res.physical_address, admin.physicalAddress);
+      nodeUtil.testMapperAddress(res.mailing_address, admin.mailingAddress);
+      expect(res.elections_url).toBe(admin.electionsUrl);
+      expect(res.registration_url).toBe(admin.registrationUrl);
+      expect(res.am_i_registered_url).toBe(admin.amIRegisteredUrl);
+      expect(res.absentee_url).toBe(admin.absenteeUrl);
+      expect(res.where_do_i_vote_url).toBe(admin.whereDoIVoteUrl);
+      expect(res.rules_url).toBe(admin.rulesUrl);
+      expect(res.voter_services).toBe(admin.voterServices);
+      nodeUtil.testElectionOfficial(res.election_official, admin._electionOfficial);
+      nodeUtil.testElectionOfficial(res.overseas_voter_contact, admin._overseasVoterContact);
+      expect(res.hours).toBe(admin.hours);
+    });
+  });
 });
