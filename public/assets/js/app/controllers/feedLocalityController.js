@@ -12,35 +12,8 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   // get the locality param from the route
   var localityid = $routeParams.locality;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Election",
-      url: "/#/feeds/" + $scope.vipfeed + "/election"
-    },
-    {
-      name: "State",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state"
-    },
-    {
-      name: "Localities",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities"
-    },
-    {
-      name: localityid,
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Locality", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("Locality", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

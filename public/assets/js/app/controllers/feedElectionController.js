@@ -9,23 +9,8 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Election",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Election", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("Election", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

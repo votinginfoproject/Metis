@@ -13,19 +13,8 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

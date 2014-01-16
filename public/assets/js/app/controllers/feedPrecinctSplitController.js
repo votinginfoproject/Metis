@@ -18,51 +18,8 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, 
   // get the precinctsplit param from the route
   var precinctsplitid = $routeParams.precinctsplit;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Election",
-      url: "/#/feeds/" + $scope.vipfeed + "/election"
-    },
-    {
-      name: "State",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state"
-    },
-    {
-      name: "Localities",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities"
-    },
-    {
-      name: localityid,
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities/" + localityid
-    },
-    {
-      name: "Precincts",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities/" + localityid + "/precincts"
-    },
-    {
-      name: precinctid,
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities/" + localityid + "/precincts/" + precinctid
-    },
-    {
-      name: "Precinct Splits",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state/localities/" + localityid + "/precincts/" + precinctid + "/precinctsplits"
-    },
-    {
-      name: precinctsplitid,
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Precinct Split", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("Precinct Split", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
