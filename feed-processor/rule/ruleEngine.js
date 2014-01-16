@@ -25,9 +25,24 @@ function processRules(){
 
 function analyzeRules(vipFeedId){
   processRules().forEach(function(rule){
-    console.log("Processing rule..");
     rule.evaluate(vipFeedId);
   });
 }
 
-exports.analyzeRules = analyzeRules;
+
+var analyzeRule = function(rule, cb){
+  rule.evaluate("", cb);
+}
+
+var endSession = function(){
+ console.log("Data analysis complete. Processor shutting down.");
+ process.exit();
+}
+
+function processSet(){
+  require('async').eachSeries(processRules(), analyzeRule, endSession)
+}
+
+
+
+exports.analyzeRules = processSet;

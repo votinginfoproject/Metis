@@ -2,9 +2,9 @@
  * Created by nboseman on 12/25/13.
  */
 
-function Violation(collection_name, member_name, message, mongoObjectId, feedId){
-  this.collection = collection_name;
-  this.member_name = member_name;
+function Violation(collection, memberName, message, mongoObjectId, feedId){
+  this.collection = collection;
+  this.memberName = memberName;
   this.description = message;
   this.objectId = mongoObjectId;
   this.feedId = feedId;
@@ -14,7 +14,7 @@ function Violation(collection_name, member_name, message, mongoObjectId, feedId)
 Violation.prototype.toString = function(){
   toString({
     'collection': collection,
-    "memberName": member_name,
+    "memberName": memberName,
     "description": description,
     "collectionId": objectId,
     "feedId": feedId
@@ -22,10 +22,10 @@ Violation.prototype.toString = function(){
 };
 
 Violation.prototype.model = function(){
-  var Violation = mongoose.model("violations");
+  var Violation = require('mongoose').model("violations");
   return new Violation({
     collection: this.collection,
-    memberName: this.member_name,
+    memberName: this.memberName,
     description: this.description,
     objectId: this.objectId,
     feedId: this.feedId

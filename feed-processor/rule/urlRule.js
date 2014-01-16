@@ -24,8 +24,15 @@ function saveViolation(violation){
   violation.save();
 }
 
-UrlRule.prototype.evaluate = function(vipFeedId, constraintList){
-  urlList = processUrls(require('../../config').mongoose.model.pollingLocation, [], vipFeedId, UrlRule.prototype.processUrlResults);
+UrlRule.prototype.evaluate = function(vipFeedId, cb){
+
+  //the following might be overkill but is in place for when this block eventually manages a full collection
+  require('async').series([
+    processUrls(require('../../config').mongoose.model.pollingLocation, [], vipFeedId,
+      function(err, result){
+        UrlRule.prototype.processUrlResults(err, result, cb);
+      })]
+    );
 }
 
 function processUrls(modelName, urlList, vipFeedId, callback){
@@ -41,15 +48,21 @@ function processUrls(modelName, urlList, vipFeedId, callback){
   var Model = require('mongoose').model(modelName);
   Model.find(queryArgs, queryProjection, function(err, dataResults){     //Model.find({"_feed":vipFeedId}, {"id":1}, function(err, value){
     resultList = [];
-    dataResults.forEach(function(element){
-      if(element.elementId != null && element.elementId != ""){
-        resultList[resultList.length] = {
-          "collection":modelName, "elementId":element.elementId, "_id":element._id, "photoUrl":element.photoUrl, "_feed":element._feed
-        };
-        resultList[resultList.length] = element.elementId;
+    require('async').eachSeries(
+      dataResults,
+      function(element, cb){
+        if(element.elementId != null && element.elementId != ""){
+          resultList[resultList.length] = {
+            "collection":modelName, "elementId":element.elementId, "_id":element._id, "photoUrl":element.photoUrl, "_feed":element._feed
+          };
+          resultList[resultList.length] = element.elementId;
+          cb(null, resultList);
+        }
+      },
+      function(err, results){
+      callback(err, resultList);
       }
-    });
-    callback(err, resultList);
+    );
   });
 }
 
@@ -57,21 +70,27 @@ UrlRule.prototype.getViolations = function(){
   return this.violations;
 }
 
-UrlRule.prototype.processUrlResults = function(err, dataResults){
+UrlRule.prototype.processUrlResults = function(err, dataResults, caller){
   resultList = [];
-  dataResults.forEach(function(data){
-    if(data.photoUrl != null && data.photoUrl != ""){
-      resultList[resultList.length] = data;
-      isValidUrl = require('./ruledefs').ruleDefinitions.validUrlFormat.evaluation(data.photoUrl);
-      if(!isValidUrl)
-        UrlRule.prototype.addViolation(
-          new Violation(data.collection, data.elementId, require('./ruledefs').ruleDefinitions.validUrlFormat.description, data._id, data._feed)
-      );
-    }
-  });
-
-  var violations = UrlRule.prototype.getViolations();
- console.log("Total Url Rule Violations: ", violations ? violations.length : 'none');
+  console.log('processing url rules..');
+  require('async').eachSeries(
+    dataResults,
+    function(data, cb){
+      if(data.photoUrl != null && data.photoUrl != ""){
+        resultList[resultList.length] = data;
+        isValidUrl = require('./ruledefs').ruleDefinitions.validUrlFormat.evaluation(data.photoUrl);
+        if(!isValidUrl)
+          UrlRule.prototype.addViolation(
+            new Violation(data.collection, data.elementId, require('./ruledefs').ruleDefinitions.validUrlFormat.description, data._id, data._feed)
+        );
+      }
+      cb(null, data);
+    },
+    function(err){
+      var violations = UrlRule.prototype.getViolations();
+      console.log("Total Url Rule Violations: ", violations ? violations.length : 'none');
+      caller(dataResults);
+    });
 }
 
 module.exports = UrlRule;
