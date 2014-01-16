@@ -5,15 +5,8 @@
  */
 function AdminCtrl($scope, $rootScope, $adminService, $location) {
 
-  var breadcrumbs = [
-    {
-      name: "Admin",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Admin", breadcrumbs, "admin", null, null);
+  $rootScope.setPageHeader("Admin", $rootScope.getBreadCrumbs(), "admin", null, null);
   // call our service
   $adminService.getData()
     .success(function (data) {

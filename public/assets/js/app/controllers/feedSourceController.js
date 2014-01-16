@@ -9,23 +9,8 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = $routeParams.vipfeed;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Source",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Source", breadcrumbs, "feeds", "" ,null);
+  $rootScope.setPageHeader("Source", $rootScope.getBreadCrumbs(), "feeds", "" ,null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

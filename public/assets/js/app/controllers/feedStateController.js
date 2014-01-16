@@ -9,27 +9,8 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Election",
-      url: "/#/feeds/" + $scope.vipfeed + "/election"
-    },
-    {
-      name: "State",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("State", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("State", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

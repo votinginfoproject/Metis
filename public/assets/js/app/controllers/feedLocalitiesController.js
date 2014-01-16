@@ -9,31 +9,8 @@ function FeedLocalitiesCtrl($scope, $rootScope, $feedsService, $routeParams, $lo
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: "/#/feeds"
-    },
-    {
-      name: feedid,
-      url: "/#/feeds/" + $scope.vipfeed
-    },
-    {
-      name: "Election",
-      url: "/#/feeds/" + $scope.vipfeed + "/election"
-    },
-    {
-      name: "State",
-      url: "/#/feeds/" + $scope.vipfeed + "/election/state"
-    },
-    {
-      name: "Localities",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Localities", breadcrumbs, "feeds", "", null);
+  $rootScope.setPageHeader("Localities", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)

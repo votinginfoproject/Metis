@@ -117,11 +117,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/template/locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
     });
-    // donr
+    // done
     $routeProvider.when('/template/precinct', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
     });
-
+    // done
     $routeProvider.when('/template/precinct-split', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
     });
@@ -242,15 +242,25 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
 vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll) {
 
   // TODO
-  // initialize the cache for the app
   //$rootScope.cache = $cacheFactory('vipApp');
+
+  /*
+   * Initialize the cache for the app
+   */
   $rootScope.pageHeader = {};
   $rootScope.user = null;
 
-  //when the route is changed scroll to the top of the page
+  /*
+   * When the route is changed scroll to the top of the page
+   */
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $anchorScroll();
   });
+
+  /*
+   * Expose the $location into the scope
+   */
+  $rootScope.$location = $location;
 
   /*
    * Sets PageHeader values
@@ -270,8 +280,9 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     this.pageHeader.alert = alert;
   };
 
-  // Before we render any pages,
-  // see if user is authenticated or not and take appropriate action
+  /*
+   * Before we render any pages, see if user is authenticated or not and take appropriate action
+   */
   $appService.getUser()
     .success(function (data) {
 
@@ -291,14 +302,16 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       $location.path("/");
     });
 
-  // expose the $location into the scope
-  $rootScope.$location = $location;
-
-
-  // set a flag to determine if the screen is in mobile dimensions
+  /*
+   * Set a flag to determine if the screen is in mobile dimensions
+   */
   var mobileThreshhold = 1116;
   $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
   $rootScope.toggleAside = true;
+
+  /*
+   * When the window is resized manage the show/hiding of the aside
+   */
   window.onresize = function(){
     $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
     if(!$rootScope.mobileDimensions){
@@ -308,12 +321,18 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     $rootScope.$apply();
   }
 
+  /*
+   * Independent toggle the aside - used with a onclick event
+   */
   $rootScope.toggleAsideFunc = function(){
     if($rootScope.mobileDimensions){
       $rootScope.toggleAside = !$rootScope.toggleAside;
     }
   }
 
+  /*
+   * Reusable function for setting up Table Params for NGTable
+   */
   $rootScope.createTableParams = function(ngTableParams, $filter, data, count, sorting) {
     // sets the defaults for the table sorting parameters
     return new ngTableParams({
@@ -336,6 +355,52 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    */
   $rootScope.getServiceUrl = function(urlPath){
     return "/services" + urlPath;
+  }
+
+  /*
+   * Creates the breadcrumbs for the current URL
+   *
+   * Breadcrumb generation is based on a set of determined URL paths:
+   *
+   * /feeds/<FEEDID>/source
+   * /feeds/<FEEDID>/election/state/localities/<LOCALITYID>/precincts/<PRECINCTID>/precinctsplits/<PRECINCTSPLITID>
+   *
+   */
+  $rootScope.getBreadCrumbs = function(){
+    var breadcrumbs = [];
+
+    var path = $location.path();
+    if(path!==null && path.charAt(0)==="/"){
+      path = path.substr(1);
+    }
+
+    var pathTokens = path.split("/");
+
+    var url = "/#";
+    var name = null;
+    for(var index=0; index<pathTokens.length; index++){
+
+      name = pathTokens[index];
+
+      if(name === "precinctsplits"){
+        name = "precinct splits";
+      }
+
+      // if it's not the feed id token then camel case it (if not the 2nd token)
+      if(index !==1){
+        name = vipApp_ns.camelCase(name);
+      }
+      url += "/" + pathTokens[index];
+
+      breadcrumbs.push(
+        {
+          "name": name,
+          "url": url
+        }
+      );
+    }
+
+    return breadcrumbs;
   }
 
 });

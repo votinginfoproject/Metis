@@ -5,15 +5,8 @@
  */
 function ProfileCtrl($scope, $rootScope, $profileService, $location) {
 
-  var breadcrumbs = [
-    {
-      name: "Profile",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Profile", breadcrumbs, "profile", null, null);
+  $rootScope.setPageHeader("Profile", $rootScope.getBreadCrumbs(), "profile", null, null);
 
   // call our service
   $profileService.getData()

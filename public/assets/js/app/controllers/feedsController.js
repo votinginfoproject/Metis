@@ -5,15 +5,8 @@
  */
 function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams, $cacheFactory) {
 
-  var breadcrumbs = [
-    {
-      name: "Feeds",
-      url: $location.absUrl()
-    }
-  ];
-
   // initialize page header variables
-  $rootScope.setPageHeader("Feeds", breadcrumbs, "feeds", null);
+  $rootScope.setPageHeader("Feeds", $rootScope.getBreadCrumbs(), "feeds", null);
 
   // call our services
   $feedsService.getFeeds()

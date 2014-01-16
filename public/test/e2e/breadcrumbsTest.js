@@ -176,7 +176,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 6 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -196,7 +196,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
 
     });
   });
@@ -208,7 +208,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 7 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1/precincts");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -229,7 +229,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
 
     });
@@ -242,7 +242,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 8 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1/precincts/precinct1");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -264,9 +264,9 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("precinct1");
+      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
 
     });
   });
@@ -278,7 +278,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 9 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1/precincts/precinct1/precinctsplits");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -301,9 +301,9 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("precinct1");
+      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
       expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
     });
   });
@@ -315,7 +315,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 10 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/local1/precincts/precinct1/precinctsplits/precinctsplit1");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -339,11 +339,11 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("local1");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("precinct1");
+      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
       expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
-      expect(element('#pageHeader-breadcrumb9').html()).toBe("precinctsplit1");
+      expect(element('#pageHeader-breadcrumb9').html()).toBe("1precinctsplit");
     });
   });
 
