@@ -52,3 +52,14 @@ Karma is configured to use chrome as the default browser.
 ## Running Functional Tests
 
 * navigate to localHost:4000/test/e2e/runner.html
+
+## Running Jasmine-Node Unit Tests
+
+1. install jasmine-node
+```
+npm install jasmine-node -g
+```
+2. Run Unit Tests
+```
+jasmine-node public/test/nodeUnit
+```
