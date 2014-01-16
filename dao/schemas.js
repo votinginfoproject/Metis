@@ -307,6 +307,14 @@ var streetSegmentSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var violationSchema = {
+  element_name: String,
+  member_name: String,
+  description: String,
+  objectId: String, //TODO: make DBRef
+  feedId: String //TODO: make DBRef
+};
+
 /*
  * End of Schema Definitions
  */
@@ -334,6 +342,8 @@ exports.initSchemas = function (mongoose) {
   models.Source = mongoose.model(config.mongoose.model.source, mongoose.Schema(sourceSchema));
   models.State = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
+  models.Violation = mongoose.model(config.mongoose.model.violation, mongoose.Schema(violationSchema));
+
 };
 
 

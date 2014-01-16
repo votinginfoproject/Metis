@@ -19,7 +19,7 @@ config.crowd = {
 };
 
 config.ruleEngine = {
-  isPersistent: false  //true if you want to save rule violations to mongo dB
+  isPersistent: true  //true if you want to save rule violations to mongo dB
 }
 
 /**
@@ -48,7 +48,8 @@ config.mongoose = {
     referendum: 'referendums',
     source: 'sources',
     state: 'states',
-    streetSegment: 'streetSegments'
+    streetSegment: 'streetSegments',
+    violation: 'violations'
   },
   connectionString: 'mongodb://localhost/metis',
   testConnectionString: 'mongodb://localhost/testMetis'

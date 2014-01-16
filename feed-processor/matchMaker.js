@@ -1,8 +1,8 @@
 /**
  * Created by bantonides on 1/3/14.
  */
-var linkingComplete = false;
 var updateCounter = 0;
+var _feedId;
 
 /**
  * Creates relationships between documents in the database
@@ -18,7 +18,7 @@ function onUpdate (err, numAffected) {
 
   if (updateCounter <= 0) {
     console.log('****Linking Complete!!!');
-    process.exit();
+    require('./rule/ruleEngine').analyzeRules(_feedId);
   }
 };
 
@@ -320,6 +320,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsPrecinct(feedId, models);
   createRelationshipsPrecinctSplit(feedId, models);
   createRelationshipsElectionAdministration(feedId, models);
+  _feedId = feedId;
 };
 
 exports.createDBRelationships = createDBRelationships;
