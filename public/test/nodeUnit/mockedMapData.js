@@ -118,7 +118,50 @@ var data = {
     elementId: 1,
     type: 'type',
     office: 'office'
+  },
+
+  streetSegments: {
+    elementId: 1,
+    startHourseNumber: 2,
+    endHouseNumber: 3,
+    oddEvenBoth: 'yes',
+    nonHouseAddress: {
+      houseNumber: 4,
+      houseNumberPrefix: 'pre',
+      houseNumberSuffix: 'suf',
+      streetDirection: 'dir',
+      streetName: 'street',
+      streetSuffix: 'st suf',
+      addressDirection: 'dir',
+      apartment: 'apt',
+      city: 'city',
+      state: 'state',
+      zip: 'zip'
+    }
+  },
+
+  earlyVote: {
+    elementId: 1,
+    name: 'name',
+    address: address,
+    directions: 'dir',
+    voterServices: 'voter',
+    startDate: Date('2014-09-05'),
+    endDate: Date('2014-10-07'),
+    daysTimesOpen: 'times'
   }
+
+//  electionAdmin: {
+//    elementId: 1,
+//    name: 'name',
+//    physicalAddress: address,
+//    mailingAddress: address,
+//    electionsUrl: 'url',
+//    registrationUrl: 'url',
+//    amIRegisteredUrl: 'url',
+//    absenteeUrl: 'url',
+//
+//  }
 };
 
 module.exports = data;

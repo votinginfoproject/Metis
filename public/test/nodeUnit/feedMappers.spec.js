@@ -3,7 +3,7 @@
  */
 
 var mappers = require('../../../services/mappers/feed');
-var data = require('./mockedModels');
+var data = require('./mockedMapData');
 var moment = require('moment');
 var nodeUtil = require('./nodeUtil');
 
@@ -177,7 +177,7 @@ describe('Feed Mappers Tests', function() {
     });
   });
 
-  describe('mapElectionContest', function() {
+  describe('mapElectionContest Test', function() {
     it('returns the data', function() {
       var contest = data.contest;
       var res = mappers.mapElectionContest('path', contest);
@@ -186,4 +186,67 @@ describe('Feed Mappers Tests', function() {
       expect(res.title).toBe(contest.office);
     });
   });
+
+  describe('mapStreetSegments Test', function() {
+    it('returns the data', function() {
+      var street = data.streetSegments;
+      data.mapFunc.map = function(callback) {
+        return callback(street);
+      };
+      var res = mappers.mapStreetSegments('path', data.mapFunc);
+
+      expect(res.id).toBe(street.elementId);
+      expect(res.start_house_number).toBe(street.startHouseNumber);
+      expect(res.end_house_number).toBe(street.endHouseNumber);
+      expect(res.odd_even).toBe(street.oddEvenBoth);
+      expect(res.address.house_number).toBe(street.nonHouseAddress.houseNumber);
+      expect(res.address.house_number_prefix).toBe(street.nonHouseAddress.houseNumberPrefix);
+      expect(res.address.house_number_suffix).toBe(street.nonHouseAddress.houseNumberSuffix);
+      expect(res.address.street_direction).toBe(street.nonHouseAddress.streetDirection);
+      expect(res.address.street_name).toBe(street.nonHouseAddress.streetName);
+      expect(res.address.street_suffix).toBe(street.nonHouseAddress.streetSuffix);
+      expect(res.address.address_direction).toBe(street.nonHouseAddress.addressDirection);
+      expect(res.address.apartment).toBe(street.nonHouseAddress.apartment);
+      expect(res.address.city).toBe(street.nonHouseAddress.city);
+      expect(res.address.state).toBe(street.nonHouseAddress.state);
+      expect(res.address.zip).toBe(street.nonHouseAddress.zip);
+    });
+  });
+
+  describe('mapPrecinctSplit Test', function() {
+    it('returns the data', function() {
+      var precinct = data.precinct;
+      var res = mappers.mapPrecinctSplit('path', precinct);
+      expect(res.id).toBe(precinct.elementId);
+      expect(res.name).toBe(precinct.name);
+      expect(res.street_segments.total).toBe(precinct._streetSegments.length);
+    });
+  });
+
+  describe('mapEarlyVoteSites Test', function() {
+    it('returns the data', function() {
+      var earlyVote = data.earlyVote;
+      var res = mappers.mapEarlyVoteSite(earlyVote);
+      expect(res.id).toBe(earlyVote.elementId);
+      expect(res.name).toBe(earlyVote.name);
+      expect(res.address.location_name).toBe(earlyVote.address.location_name);
+      expect(res.address.line1).toBe(earlyVote.address.line1);
+      expect(res.address.line2).toBe(earlyVote.address.line2);
+      expect(res.address.line3).toBe(earlyVote.address.line3);
+      expect(res.address.city).toBe(earlyVote.address.city);
+      expect(res.address.state).toBe(earlyVote.address.state);
+      expect(res.address.zip).toBe(earlyVote.address.zip);
+      expect(res.directions).toBe(earlyVote.directions);
+      expect(res.voter_services).toBe(earlyVote.voterServices);
+      expect(res.start_date).toBe(earlyVote.startDate);
+      expect(res.end_date).toBe(earlyVote.endDate);
+      expect(res.days_times_open).toBe(earlyVote.daysTimesOpen);
+    });
+  });
+
+//  describe('mapElectionAdministration Test', function() {
+//    it('returns the data' function() {
+//      var electionAdmin = data.election
+//    });
+//  });
 });
