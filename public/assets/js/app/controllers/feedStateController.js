@@ -3,7 +3,7 @@
  * Feeds State Controller
  *
  */
-function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -21,7 +21,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, data.state, $filter, ngTableParams);
+      FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, data.state, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -47,7 +47,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $locatio
  * Get the Feed State for the Feed detail page
  *
  */
-function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed State
   $feedsService.getFeedState(servicePath)
@@ -59,8 +59,8 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       // set the title
       $rootScope.pageHeader.title = "State ID: " + data.id;
 
-      FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
-      FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $filter, ngTableParams);
+      FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $appProperties, $filter, ngTableParams);
+      FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 
     }).error(function (data) {
 
@@ -77,7 +77,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
  * Get the Feed State Early Vote Sites for the Feed detail page
  *
  */
-function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Early Vote Sites
   $feedsService.getFeedStateEarlyVoteSites(servicePath)
@@ -86,7 +86,7 @@ function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, 
       // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
 
-      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, { id: 'asc' });
+      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 
@@ -101,7 +101,7 @@ function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, 
  * Get the Feed State Localities for the Feed detail page
  *
  */
-function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Localities
   $feedsService.getFeedStateLocalities(servicePath)
@@ -110,7 +110,7 @@ function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, serv
       // set the feeds data into the Angular model
       $scope.feedLocalities = data;
 
-      $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, { id: 'asc' });
+      $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 

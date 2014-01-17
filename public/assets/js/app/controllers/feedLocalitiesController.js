@@ -3,7 +3,7 @@
  * Feeds Locality Controller
  *
  */
-function FeedLocalitiesCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedLocalitiesCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -21,7 +21,7 @@ function FeedLocalitiesCtrl($scope, $rootScope, $feedsService, $routeParams, $lo
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedLocalitiesCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $filter, ngTableParams);
+      FeedLocalitiesCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -45,7 +45,7 @@ function FeedLocalitiesCtrl($scope, $rootScope, $feedsService, $routeParams, $lo
  * Get the Feed Localities for the Feed detail page
  *
  */
-function FeedLocalitiesCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedLocalitiesCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Locality
   $feedsService.getFeedLocalities(servicePath)
@@ -55,7 +55,7 @@ function FeedLocalitiesCtrl_getFeedLocalities($scope, $rootScope, $feedsService,
       $scope.feedLocalities = data;
 
       // sets the defaults for the table sorting parameters
-      $scope.localitiesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.localitiesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
       // set the title
       $rootScope.pageHeader.title = $scope.feedLocalities.length + " Localities";

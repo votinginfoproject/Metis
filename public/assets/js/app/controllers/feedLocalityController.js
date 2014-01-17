@@ -3,7 +3,7 @@
  * Feeds Locality Controller
  *
  */
-function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -24,7 +24,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid);
+      FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -50,7 +50,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Locality for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid){
+function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid){
 
   // get Feed Locality
   $feedsService.getFeedLocality(servicePath)
@@ -63,8 +63,8 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
       $rootScope.pageHeader.title = "Locality ID: " + data.id;
 
       // now call the other services to get the rest of the data
-      FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $filter, ngTableParams);
-      FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $filter, ngTableParams);
+      FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $appProperties, $filter, ngTableParams);
+      FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $appProperties, $filter, ngTableParams);
 
 
     }).error(function (data, $http) {
@@ -90,7 +90,7 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
  * Get the Feed Locality Early Vote Sites for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Early Vote Sites
   $feedsService.getFeedLocalityEarlyVoteSites(servicePath)
@@ -99,7 +99,7 @@ function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
       // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
 
-      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 
@@ -114,7 +114,7 @@ function FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
  * Get the Feed Locality Precincts for the Feed detail page
  *
  */
-function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Precincts
   $feedsService.getFeedLocalityPrecincts(servicePath)
@@ -123,7 +123,7 @@ function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, se
       // set the feeds data into the Angular model
       $scope.feedPrecincts = data;
 
-      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 

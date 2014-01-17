@@ -3,7 +3,7 @@
  * Feeds PrecinctSplits Controller
  *
  */
-function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -27,7 +27,7 @@ function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams,
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid, precinctid);
+      FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid, precinctid);
 
     }).error(function (data, $http) {
 
@@ -51,7 +51,7 @@ function FeedPrecinctSplitsCtrl($scope, $rootScope, $feedsService, $routeParams,
  * Get the Feed PrecinctSplit for the Feed detail page
  *
  */
-function FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid, precinctid){
+function FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid, precinctid){
 
   // get Feed Precinct Split
   $feedsService.getFeedPrecinctSplits(servicePath)
@@ -60,7 +60,7 @@ function FeedPrecinctSplitCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsS
       // set the feeds data into the Angular model
       $scope.feedPrecinctSplits = data;
 
-      $scope.precinctsplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.precinctsplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
     }).error(function (data, $http) {
 

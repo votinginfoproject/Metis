@@ -3,7 +3,7 @@
  * Feeds Election Controller
  *
  */
-function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -21,7 +21,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election, $filter, ngTableParams);
+      FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -46,7 +46,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Election for the Feed detail page
  *
  */
-function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Election
   $feedsService.getFeedElection(servicePath)
@@ -59,7 +59,7 @@ function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, ser
       $rootScope.pageHeader.title = "Election ID: " + data.id;
 
       // now call the other services to get the rest of the data
-      FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests, $filter, ngTableParams);
+      FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests, $appProperties, $filter, ngTableParams);
 
     }).error(function (data) {
 
@@ -75,7 +75,7 @@ function FeedElectionCtrl_getFeedElection($scope, $rootScope, $feedsService, ser
  * Get the Feed Election Contests for the Feed detail page
  *
  */
-function FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Contests
   $feedsService.getFeedElectionContests(servicePath)
@@ -84,7 +84,7 @@ function FeedElectionCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
       // set the feeds data into the Angular model
       $scope.feedContests = data;
       // sets the defaults for the table sorting parameters
-      $scope.tableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.tableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 

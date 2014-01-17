@@ -16,7 +16,9 @@ var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 // Constants
 vipApp.constant('$appProperties', {
   contextRoot: '',
-  servicesPath: '/services'
+  servicesPath: '/services',
+  highPagination: 30,
+  lowPagination: 10
 });
 
 /*

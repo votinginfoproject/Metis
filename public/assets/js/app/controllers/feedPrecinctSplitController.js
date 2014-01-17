@@ -3,7 +3,7 @@
  * Feeds PrecinctSplit Controller
  *
  */
-function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -30,7 +30,7 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, 
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid);
+      FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid);
 
     }).error(function (data, $http) {
 
@@ -58,7 +58,7 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedsService, $routeParams, 
  * Get the Feed PrecinctSplit for the Feed detail page
  *
  */
-function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid){
+function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid, precinctid, precinctsplitid){
 
   // get Feed Precinct Split
   $feedsService.getFeedPrecinctSplit(servicePath)
@@ -71,8 +71,8 @@ function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsSe
       $rootScope.pageHeader.title = "Precinct Split ID: " + data.id;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, data.electoral_districts, $filter, ngTableParams);
-      FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations, $filter, ngTableParams);
+      FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, data.electoral_districts, $appProperties, $filter, ngTableParams);
+      FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -99,7 +99,7 @@ function FeedPrecinctSplitCtrl_getFeedPrecinctSplit($scope, $rootScope, $feedsSe
  * Get the Feed Precinct Split Electoral Districts for the Feed detail page
  *
  */
-function FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Electoral Districts
   $feedsService.getFeedPrecinctSplitElectoralDistricts(servicePath)
@@ -108,7 +108,7 @@ function FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $fe
       // set the feeds data into the Angular model
       $scope.feedElectoralDistricts = data;
 
-      $scope.electoralDistrictsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.electoralDistrictsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 
@@ -123,7 +123,7 @@ function FeedPrecinctSplitCtrl_getFeedElectoralDistricts($scope, $rootScope, $fe
  * Get the Feed Precinct Split Polling Locations for the Feed detail page
  *
  */
-function FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+function FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed Early Vote Sites
   $feedsService.getFeedPrecinctSplitPollingLocations(servicePath)
@@ -132,7 +132,7 @@ function FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feed
       // set the feeds data into the Angular model
       $scope.feedPollingLocations = data;
 
-      $scope.pollingLocationsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.pollingLocationsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 

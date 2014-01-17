@@ -3,7 +3,7 @@
  * Feeds Precinct Controller
  *
  */
-function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -24,7 +24,7 @@ function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $loc
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid);
+      FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -49,7 +49,7 @@ function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $loc
  * Get the Feed Locality Precincts for the Feed detail page
  *
  */
-function FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid){
+function FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid){
 
   // get Feed Precincts
   $feedsService.getFeedPrecincts(servicePath)
@@ -58,7 +58,7 @@ function FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, s
       // set the feeds data into the Angular model
       $scope.feedPrecincts = data;
 
-      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
+      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data, $http) {
 

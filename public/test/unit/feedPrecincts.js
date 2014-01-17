@@ -32,6 +32,7 @@ describe('Feed Contests Unit Tests', function() {
       var $controller = $injector.get('$controller');
       var $location = $injector.get('$location');
       var $filter = $injector.get('$filter');
+      var $appProperties = {highPagination: 30, lowPagination: 10};
       function ngTableParams (defaults) {
         this.page = defaults.page;
         this.count = defaults.count;
@@ -52,6 +53,7 @@ describe('Feed Contests Unit Tests', function() {
         '$rootScope': $rootScope,
         '$feedsService': mockService,
         '$routeParams': routeParams,
+        '$appProperties': $appProperties,
         ngTableParams: ngTableParams,
         '$location': $location
       });

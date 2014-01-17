@@ -9,7 +9,7 @@ describe('Feed Contests Unit Tests', function() {
     var $httpBackend = null;
     var feedCtrl = null;
     var mockService;
-    var feedData, feedContests;
+    var feedData;
 
     beforeEach(inject(function($injector) {
       mockService = {
@@ -37,6 +37,8 @@ describe('Feed Contests Unit Tests', function() {
       var $controller = $injector.get('$controller');
       var $location = $injector.get('$location');
       var $filter = $injector.get('$filter');
+      var $appProperties = {highPagination: 30, lowPagination: 10};
+
       function ngTableParams (defaults) {
         this.page = defaults.page;
         this.count = defaults.count;
@@ -50,16 +52,16 @@ describe('Feed Contests Unit Tests', function() {
       $rootScope.feedContests = {};
 
       $rootScope.setPageHeader = function() {}
-
       $rootScope.createTableParams = function() {};
-
       $rootScope.getBreadCrumbs = function() {};
+      $rootScope.getServiceUrl = function() {};
 
       feedCtrl = $controller('FeedContestsCtrl', {
         '$scope': $rootScope,
         '$rootScope': $rootScope,
         '$feedsService': mockService,
         '$routeParams': routeParams,
+        '$appProperties': $appProperties,
         ngTableParams: ngTableParams,
         '$location': $location
       });

@@ -3,7 +3,7 @@
  * Created by rcartier13 on 1/17/14.
  */
 
-function FeedContestsCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedContestsCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -21,7 +21,7 @@ function FeedContestsCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedContestsCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election, $filter, ngTableParams);
+      FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -41,26 +41,7 @@ function FeedContestsCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
     });
 }
 
-/*
- * Get the Feed Election for the Feed detail page
- *
- */
-function FeedContestsCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
-
-  // get Feed Election
-  $feedsService.getFeedElection(servicePath)
-    .success(function (data) {
-      // now call the other services to get the rest of the data
-      FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests, $filter, ngTableParams);
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Election Contests. ";
-      $scope.feedContests = {};
-    });
-}
-
-function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams) {
+function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
 
   $feedsService.getFeedContests(servicePath)
     .success(function(data) {
@@ -69,7 +50,7 @@ function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
       $scope.feedContests = data;
 
       // sets the defaults for the table sorting parameters
-      $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 25, { id: 'asc' });
+      $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
       // set the title
       $rootScope.pageHeader.title = $scope.feedContests.length + " Contests";
