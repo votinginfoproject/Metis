@@ -51,7 +51,14 @@ Karma is configured to use chrome as the default browser.
 
 ## Running Functional Tests
 
-* navigate to localHost:4000/test/e2e/runner.html
+1. Give permissions to RunFunctional.sh
+```
+chmod +x RunFunctional.sh
+```
+2. Double click or run through terminal using
+```
+./RunFunctional.sh
+```
 
 ## Running Jasmine-Node Unit Tests
 
