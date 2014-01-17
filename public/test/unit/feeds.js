@@ -34,13 +34,11 @@ describe('Feed Unit Tests', function() {
         this.sorting = defaults.sorting;
       }
 
-      $rootScope.setPageHeader = function(a,b,c,d,e) {
-        return;
-      };
+      $rootScope.setPageHeader = function() {};
 
-      $rootScope.createTableParams = function(a,b,c,d,e) {
-        return;
-      };
+      $rootScope.createTableParams = function() {};
+
+      $rootScope.getBreadCrumbs = function() {};
 
       feedCtrl = $controller('FeedsCtrl', {
         '$scope': $rootScope,

@@ -54,13 +54,11 @@ describe('Feed Election Unit Tests', function() {
       $rootScope.feedElection = {};
       $rootScope.feedContests = {};
 
-      $rootScope.setPageHeader = function(a,b,c,d,e) {
-        return;
-      }
+      $rootScope.setPageHeader = function() {}
 
-      $rootScope.createTableParams = function(a,b,c,d,e) {
-        return;
-      };
+      $rootScope.createTableParams = function() {};
+
+      $rootScope.getBreadCrumbs = function() {};
 
       feedCtrl = $controller('FeedElectionCtrl', {
         '$scope': $rootScope,

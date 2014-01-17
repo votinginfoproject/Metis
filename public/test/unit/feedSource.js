@@ -36,13 +36,11 @@ describe('Feed Overview Unit Tests', function() {
 
       var routeParams = { badlogin: true };
 
-      $rootScope.setPageHeader = function(a,b,c,d,e) {
-        return;
-      }
+      $rootScope.setPageHeader = function() {};
 
-      $rootScope.createTableParams = function(a,b,c,d,e) {
-        return;
-      };
+      $rootScope.createTableParams = function() {};
+
+      $rootScope.getBreadCrumbs = function() {};
 
       $rootScope.pageHeader = {};
 
