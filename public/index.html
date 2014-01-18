@@ -35,6 +35,9 @@
   <!-- NgTable -->
   <script src="assets/js/lib/ng-table/ng-table.js"></script>
 
+  <!-- Vk Beautify -->
+  <script src="assets/js/lib/vkBeautify/vkbeautify.js"></script>
+
   <!-- ======================================= -->
 
   <!-- VIP App -->
@@ -61,13 +64,19 @@
   <script src="assets/js/app/controllers/feedSourceController.js"></script>
   <script src="assets/js/app/controllers/feedElectionController.js"></script>
   <script src="assets/js/app/controllers/feedStateController.js"></script>
+
   <script src="assets/js/app/controllers/feedLocalitiesController.js"></script>
   <script src="assets/js/app/controllers/feedLocalityController.js"></script>
+
   <script src="assets/js/app/controllers/feedPrecinctsController.js"></script>
   <script src="assets/js/app/controllers/feedPrecinctController.js"></script>
+  <script src="assets/js/app/controllers/feedPrecinctStreetSegmentsErrorsController.js"></script>
+
   <script src="assets/js/app/controllers/feedPrecinctSplitsController.js"></script>
   <script src="assets/js/app/controllers/feedPrecinctSplitController.js"></script>
+
   <script src="assets/js/app/controllers/feedContestsController.js"></script>
+
   <script src="assets/js/app/services/feedsService.js"></script>
 
   <!-- Profile -->
@@ -105,7 +114,7 @@
       <div class="content" ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
         <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{'is-active': $last}" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
+          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
         </nav>
 
         <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">

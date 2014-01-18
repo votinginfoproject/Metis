@@ -12,7 +12,8 @@
     "angular-resource": "1.2.1",
     "ng-table": "0.3.1",
     "modernizr": "2.7.1",
-    "json3": "3.2.6"
+    "json3": "3.2.6",
+    "vkBeautify": "https://github.com/vkiryukhin/vkBeautify.git"
   },
   "ignoredByBower": {
     "quickCopyAndPasteOfPotentialDependencies": {

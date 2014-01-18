@@ -50,6 +50,7 @@
     <li ng-repeat="page in pages"
         ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
       <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingLocationsParams.page()}" ng-click="pollingLocationsTableParams.page(page.number)" href="">{{page.number}}</a>
+    </li>
   </ul>
 </script>
 

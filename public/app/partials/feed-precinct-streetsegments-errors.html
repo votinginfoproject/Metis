@@ -1,0 +1,34 @@
+<i id="feed-precinct-streetsegments-errors-content"></i>
+
+<section class="data-group">
+
+  <span ng-if="!errors" class="is-loading"></span>
+  <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="associations">
+    <tr id="error{{$index}}" ng-repeat-start="error in $data">
+      <td width="15%" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
+        <a ng-click="toggleError($index)">{{error.error_count}}</a>
+      </td>
+      <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severityText'">
+        <a ng-click="toggleError($index)"><b>{{error.severityText}}:</b> {{error.title}}</a>
+      </td>
+    </tr>
+    <tr id="errorDetail{{$index}}" ng-repeat-end hidden>
+      <td class="error-item" style="padding: 20px;" colspan="2">
+        <p>{{error.details}}</p>
+        <div ng-if="error._code" style="border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textualReference}}</code></pre></div>
+        <div ng-if="!error._code" style="border: 1px solid #cecece; padding: 10px">{{error.textualReference}}</div>
+        <br>
+        <button>Download Report</button>
+      </td>
+    </tr>
+  </table>
+  <button ng-show="errors.length">Download Full Report</button>
+
+  <script type="text/ng-template" id="errorsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages" ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == errorsTableParams.page()}" ng-click="errorsTableParams.page(page.number)" href="">{{page.number}}</a>
+    </ul>
+  </script>
+
+</section>
