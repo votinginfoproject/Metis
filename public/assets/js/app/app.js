@@ -94,6 +94,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-streetsegments-errors.html',
+      controller: 'FeedPrecinctStreetsegmentsErrorsCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',
       controller: 'FeedPrecinctSplitsCtrl'
@@ -388,16 +393,22 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     for(var index=0; index<pathTokens.length; index++){
 
       name = pathTokens[index];
+      url += "/" + pathTokens[index];
 
+      // some items we need to consider for the name of the breadcrumb
       if(name === "precinctsplits"){
         name = "precinct splits";
       }
 
-      // if it's not the feed id token then camel case it (if not the 2nd token)
+      if(name === "streetsegments"){
+        name = "street segments";
+        url = null;
+      }
+
+      // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
       if(index !==1){
         name = vipApp_ns.camelCase(name);
       }
-      url += "/" + pathTokens[index];
 
       breadcrumbs.push(
         {

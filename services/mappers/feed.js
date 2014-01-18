@@ -360,6 +360,56 @@ function mapStreetSegments (path, streetSegments) {
   });
 };
 
+function mapStreetSegmentsErrors (path, streetSegments) {
+  return [
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 752,
+      title: "Overlapping street segment in precinct",
+      details: "Street Segments are overlapping.",
+      textualReference:
+        "<street-segments><street-segment>1</street-segment><street-segment>2</street-segment></street-segments>",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 100,
+      title: "Duplicate elements",
+      details: "All values for an element are the exact same as another element in all instances except for their id.",
+      textualReference: "<elements><element id='x1'>one</element><element id='x2'>one</element></elements>",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 15,
+      title: "Failed Geocoding",
+      details: "Could not Geocode correctly.",
+      textualReference: "The GeoCode long1234.32123 could not be parsed.",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Error",
+      errorTypeId: 1,
+      error_count: 8,
+      title: "Missing required element",
+      details: "Did not find the id",
+      textualReference: "<state>Virginia</state>",
+      _feed: 0,
+      _source: 0
+    }
+  ];
+};
+
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
@@ -440,6 +490,7 @@ exports.mapContests = mapContests;
 exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
+exports.mapStreetSegmentsErrors = mapStreetSegmentsErrors;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
