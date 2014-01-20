@@ -106,6 +106,9 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedPrecinctSplits: function (servicePath) {
       return $http.get(servicePath);
     },
+    getFeedPrecinctSplitStreetSegmentsErrors: function (servicePath) {
+      return $http.get(servicePath);
+    },
 
     // Feed Precinct Split page
     // ========================================================
