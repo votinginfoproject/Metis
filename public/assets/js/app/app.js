@@ -109,6 +109,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctSplitCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplit-streetsegments-errors.html',
+      controller: 'FeedPrecinctSplitStreetsegmentsErrorsCtrl'
+    });
+
     // done
     $routeProvider.when('/template/feed', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'

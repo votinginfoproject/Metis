@@ -410,6 +410,56 @@ function mapStreetSegmentsErrors (path, streetSegments) {
   ];
 };
 
+function mapStreetSegmentsErrors2 (path, streetSegments) {
+  return [
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 111,
+      title: "A warning",
+      details: "Street Segments are overlapping.",
+      textualReference:
+        "<street-segments><street-segment>1</street-segment><street-segment>2</street-segment></street-segments>",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 222,
+      title: "Another warning",
+      details: "All values for an element are the exact same as another element in all instances except for their id.",
+      textualReference: "<elements><element id='x1'>one</element><element id='x2'>one</element></elements>",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Warning",
+      errorTypeId: 1,
+      error_count: 333,
+      title: "Third warning",
+      details: "Could not Geocode correctly.",
+      textualReference: "Geo Geo",
+      _feed: 0,
+      _source: 0
+    },
+    {
+      severityCode: 1,
+      severityText: "Error",
+      errorTypeId: 1,
+      error_count: 444,
+      title: "New Error",
+      details: "Did not find the id",
+      textualReference: "<states><state>MD</state><state>VA</state></states>",
+      _feed: 0,
+      _source: 0
+    }
+  ];
+};
+
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
@@ -491,6 +541,7 @@ exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapStreetSegmentsErrors = mapStreetSegmentsErrors;
+exports.mapStreetSegmentsErrors2 = mapStreetSegmentsErrors2;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
