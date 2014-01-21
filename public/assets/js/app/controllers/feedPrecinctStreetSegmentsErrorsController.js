@@ -80,17 +80,7 @@ function FeedPrecinctCtrl_getFeedStreetSegmentsErrors($scope, $rootScope, $feeds
     .success(function (data) {
 
       // indent XML data
-      if (data != null && data.length > 0) {
-        for (var i = 0; i < data.length; i++) {
-          // simple check to see if potentially xml data
-          if (data[i].textualReference.charAt(0) === "<" && data[i].textualReference.charAt(data[i].textualReference.length - 1) === ">") {
-            // add indentation
-            data[i].textualReference = vkbeautify.xml(data[i].textualReference);
-            // also add in a property to mark this to be presented in <pre> and <code> tags
-            data[i]._code = true;
-          }
-        }
-      }
+      vipApp_ns.findAndIndent(data);
 
       // set the feeds data into the Angular model
       $scope.errors = data;
