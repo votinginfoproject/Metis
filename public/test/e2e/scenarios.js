@@ -2,6 +2,7 @@
  * Created by rcartier13 on 12/3/13.
  */
 
+// http://localhost:4000/#/feeds/52d8619246fa32820c000004/election/contests/60001
 describe('VIP test', function () {
 
   describe('Smoke test', function () {
