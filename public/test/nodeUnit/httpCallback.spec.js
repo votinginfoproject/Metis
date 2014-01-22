@@ -163,7 +163,7 @@ describe('Feeds Unit Tests', function() {
     it('Calls Json Function', function() {
       daoStub.getPrecinctStreetSegments = nodeUtil.daoFunc;
       feedStub.mapStreetSegments = nodeUtil.feedFunc;
-      httpCallback.feedPrecinctStreetSegmentsGET(req, res);v
+      httpCallback.feedPrecinctStreetSegmentsGET(req, res);
     });
   });
 
