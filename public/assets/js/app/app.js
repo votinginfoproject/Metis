@@ -74,6 +74,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedStateCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/electionadministration', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-state-electionadministration.html',
+      controller: 'FeedStateElectionAdministrationCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/state/localities', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-localities.html',
       controller: 'FeedLocalitiesCtrl'
@@ -186,7 +191,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/template/results', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/results.html'
     });
-
+    // done
     $routeProvider.when('/template/errors', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/errors.html'
     });
@@ -407,6 +412,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "streetsegments"){
         name = "street segments";
+        url = null;
+      }
+
+      if(name === "electionadministration"){
+        name = "election administration";
         url = null;
       }
 
