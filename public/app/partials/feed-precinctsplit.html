@@ -56,7 +56,7 @@
 
 <section class="data-group">
   <h2>{{feedPrecinctSplit.street_segments.total}} Street Segments</h2>
-  <a ng-if="feedPrecinctSplit.street_segments.error_count" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>  <mark>link</mark>
+  <a ng-if="feedPrecinctSplit.street_segments.error_count" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>  <mark>link</mark>
 
   <span ng-if="!feedPrecinctSplit" class="is-loading"></span>
 </section>

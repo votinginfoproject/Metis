@@ -272,6 +272,46 @@ describe('Breadcrumbs Test', function () {
   });
 
   /* ----------------------------------------
+   Feed Precinct Street Segments Errors page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed Precinct Street Segments Errors page breadcrumb', function () {
+    // check the the number of breadcrumbs
+    it('Should have 10 breadcrumbs', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/streetsegments/errors");
+      sleep(testGlobals.sleepTime);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb5').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb6').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb7').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb8').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb10').count()).toBe(0);
+    });
+
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8').html()).toBe("Street Segments");
+      expect(element('#pageHeader-breadcrumb9').html()).toBe("Errors");
+
+    });
+  });
+
+  /* ----------------------------------------
    Feed Precinct Splits page breadcrumb
    ------------------------------------------*/
   describe('Check Feed Precinct Splits page breadcrumb', function () {
@@ -347,7 +387,62 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Precinct Split Street Segments Errors page
+   ------------------------------------------*/
+  describe('Check Feed Precinct Split Street Segments Errors page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 12 breadcrumbs', function () {
 
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit/streetsegments/errors");
+      sleep(testGlobals.sleepTime);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb5').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb6').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb7').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb8').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb10').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb11').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb12').count()).toBe(0);
+    });
+
+    // check the feed breadcrumb values
+    it('Breadcrumb values should be correct', function () {
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
+      expect(element('#pageHeader-breadcrumb9').html()).toBe("1precinctsplit");
+      expect(element('#pageHeader-breadcrumb10').html()).toBe("Street Segments");
+      expect(element('#pageHeader-breadcrumb11').html()).toBe("Errors");
+    });
+  });
+
+
+  /* ----------------------------------------
+   Start from the Feed Precinct Split page
+   ------------------------------------------*/
+  describe('Start from the Feed Precinct Split page', function () {
+    // check the the number of feeds
+    it('Start from the Feed Precinct Split page', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit");
+      sleep(testGlobals.sleepTime);
+    });
+
+  });
 
   /* ----------------------------------------
    Now from the Feed Precinct Split page, click the 9th breadcrumb
