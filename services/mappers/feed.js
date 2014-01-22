@@ -491,9 +491,12 @@ function mapEarlyVoteSite (earlyVoteSite) {
 function mapElectionAdministration (electionAdministration) {
   return {
     id: electionAdministration.elementId,
+    error_count: -1, // TODO: need field
     name: electionAdministration.name,
     physical_address: addressToJson(electionAdministration.physicalAddress),
     mailing_address: addressToJson(electionAdministration.mailingAddress),
+    phone: -1, // TODO: need field
+    email: -1, // TODO: need field
     elections_url: electionAdministration.electionsUrl,
     registration_url: electionAdministration.registrationUrl,
     am_i_registered_url: electionAdministration.amIRegisteredUrl,
@@ -503,9 +506,9 @@ function mapElectionAdministration (electionAdministration) {
     rules_url: electionAdministration.rulesUrl,
     voter_services: electionAdministration.voterServices,
     election_official: electionAdministration._electionOfficial ?
-      mapElectionOfficial(electionAdministration._electionOfficial) : null,
+      mapElectionOfficial(electionAdministration._electionOfficial) : null, // TODO: confirm, returning null
     overseas_voter_contact: electionAdministration._overseasVoterContact ?
-      mapElectionOfficial(electionAdministration._overseasVoterContact) : null,
+      mapElectionOfficial(electionAdministration._overseasVoterContact) : null, // TODO: confirm, returning null
     hours: electionAdministration.hours
   };
 };
