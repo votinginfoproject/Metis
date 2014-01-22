@@ -224,15 +224,30 @@ function feedLocalityElectionAdministrationGET (req, res) {
   });
 };
 
+function feedContestElectoralDistrictsGET(req, res) {
+  var districts = {};//TODO: get data from the database
+  res.json(mapper.mapContestElectoralDistricts(req.path, districts));
+}
+
 function feedContestCandidatesGET(req, res) {
-  var candidates = {};
+  var candidates = {};//TODO: get data from the database
   res.json(mapper.mapContestCandidates(req.path, candidates));
 }
 
 function feedContestBallotGET (req, res) {
-  var ballot = {};
+  var ballot = {};//TODO: get data from the database
   res.json(mapper.mapContestBallot(req.path, ballot));
 };
+
+function feedContestContestResultsGET (req, res) {
+  var results = {};
+  res.json(mapper.mapContestContestResults(req.path, results));
+}
+
+function feedContestBallotLineResultsGET (req, res) {
+  var results = {};
+  res.json(mapper.mapContestBallotLineResults(req.path, results));
+}
 
 function feedContestGET (req, res) {
   var contest = { elementId: req.params.contestid }; //TODO: get data from the database
@@ -292,3 +307,6 @@ exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedContestCandidatesGET = feedContestCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
+exports.feedContestElectoralDistrictsGET = feedContestElectoralDistrictsGET;
+exports.feedContestContestResultsGET = feedContestContestResultsGET;
+exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;

@@ -21,6 +21,9 @@
 <section class="data-group overview">
   <h1>Overview</h1>
 
+  <!-- element table directive -->
+  <div ng-show="feedContest.overview.length" ng-elementtable ng-model="feedContest.overview" loading="feedContest.overview" label="contestOverview"></div>
+
 </section>
 
 <section class="data-group">
@@ -40,8 +43,8 @@
   <table ng-show="feedCandidates.length" id="contestsTable" ng-table="candidateTableParams" template-pagination="candidatePagination" class="associations">
     <tr id="candidate{{$index}}" ng-repeat="candidate in $data">
       <td id="candidate-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.id}}</a></td>
-      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{contest.id}}">{{candidate.name}}</a></td>
-      <td id="candidate-party{{$index}}" data-title="'party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.party}}</a>
+      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.name}}</a></td>
+      <td id="candidate-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.party}}</a>
       </td>
     </tr>
   </table>
@@ -55,4 +58,74 @@
       </li>
     </ul>
   </script>
+</section>
+
+<section class="data-group">
+  <h4><span ng-if="!feedDistrict">No </span>Electoral District</h4>
+
+  <div ng-if="!feedDistrict"></br><span class="is-loading"></span></div>
+  <table ng-show="feedDistrict" id="districtTable" class="associations">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Precincts</th>
+        <th>Precinct Splits</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="id"><a href="{{$location.absUrl()}}/electoraldistrict/{{feedDistrict.id}}">{{feedDistrict.id}}</a></td>
+      <td class="name"><a href="{{$location.absUrl()}}/electoraldistrict/{{feedDistrict.id}}">{{feedDistrict.name}}</a></td>
+      <td class="contests"><a href="{{$location.absUrl()}}/electoraldistrict/{{feedDistrict.id}}">{{feedDistrict.precincts}}</a></td>
+      <td class="contests"><a href="{{$location.absUrl()}}/electoraldistrict/{{feedDistrict.id}}">{{feedDistrict.precinct_splits}}</a></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="data-group">
+  <h5><span ng-if="!feedContestResults">No </span>Contest Results</h5>
+
+  <table ng-show="feedContestResults" id="contestResultsTable" class="associations">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Votes</th>
+      <th>Valid Votes</th>
+      <th>Overvotes</th>
+      <th>Blank Votes</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="contestresults-id" class="id"><a href="{{$location.absUrl()}}/contestresults/{{feedContestResults.id}}">{{feedContestResults.id}}</a></td>
+      <td id="contestresults-votes" class="votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContestResults.id}}">{{feedContestResults.votes}}</a></td>
+      <td id="contestresults-validvotes" class="valid-votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContestResults.id}}">{{feedContestResults.valid_votes}}</a></td>
+      <td id="contestresults-overvotes" class="overvotes"><a href="{{$location.absUrl()}}/contestresults/{{feedContestResults.id}}">{{feedContestResults.overvotes}}</a></td>
+      <td id="contestresults-blankvotes" class="blank-votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContestResults.id}}">{{feedContestResults.blank_votes}}</a></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="data-group">
+  <h5><span ng-if="!feedBallotLineResults">No </span>Ballot Line Results</h5>
+
+  <table ng-show="feedBallotLineResults" id="ballotLineResultsTable" class="associations">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Votes</th>
+      <th>Victorious</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="ballotlineresults-id" class="id"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContestResults.id}}">{{feedBallotLineResults.id}}</a></td>
+      <td id="ballotlineresults-votes" class="votes"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContestResults.id}}">{{feedBallotLineResults.votes}}</a></td>
+      <td id="ballotlineresults-victorious" class="victorious"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContestResults.id}}">{{feedBallotLineResults.victorious}}</a></td>
+      </tr>
+    </tbody>
+  </table>
 </section>

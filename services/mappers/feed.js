@@ -527,7 +527,7 @@ var mapContest = function(path, contest) {
     error_count: -1,
     type: 'General',
     partisan: 'Yes',
-    primary_party: 'Democrat',
+    primary_party: 'DEM',
     electorate_specifications: 'US Citizen',
     special: 'No',
     office: 'US President',
@@ -535,9 +535,12 @@ var mapContest = function(path, contest) {
     number_elected: 1,
     number_voting_for: 1,
     ballot_placement: 1,
-    overview: mapContests(null, null), //TODO: replace with real data
+    overview: mapContestOverview(null, null), //TODO: replace with real data
     ballot: _path.join(path, '/ballot'),
-    candidates: _path.join(path, '/candidates')
+    candidates: _path.join(path, '/candidates'),
+    electoral_districts: _path.join(path, '/electoraldistricts'),
+    contest_results: _path.join(path, '/contestresults'),
+    ballot_line_results: _path.join(path, '/ballotlineresults')
   };
 };
 
@@ -545,7 +548,7 @@ var mapContestBallot = function(path, ballot) {
   return {
     id: 120045,
     sort_order: 13,
-    write_in: 'no',
+    write_in: 'No',
     image_url: 'http://fakeUrl.com'
   };
 };
@@ -556,6 +559,68 @@ var mapContestCandidates = function(path, candidates) {
     {id: 31000656, name: 'Mitt Romney', party: 'REP'},
     {id: 31000657, name: 'Gary Johnson', party: 'LIB'}
   ];
+};
+
+var mapContestOverview = function(path, data) {
+  return [
+    {
+      element_type: 'Ballots',
+      amount: 976,
+      complete_pct: 38,
+      error_count: 140
+    },
+    {
+      element_type: 'Candidates',
+      amount: 1761,
+      complete_pct: 91,
+      error_count: 1156
+    },
+    {
+      element_type: 'Referendums',
+      amount: 123,
+      complete_pct: 52,
+      error_count: 640
+    },
+    {
+      element_type: 'Custom Ballots',
+      amount: 99,
+      complete_pct: 100,
+      error_count: 0
+    },
+    {
+      element_type: 'Ballot Responses',
+      amount: 1003,
+      complete_pct: 10,
+      error_count: 460
+    }
+  ];
+};
+
+var mapContestElectoralDistricts = function(path, electoralDistricts) {
+  return {
+    id: 330004744,
+    name: 'US President',
+    precincts: 0,
+    precinct_splits: 8456
+  };
+};
+
+var mapContestContestResults = function(path, contestResults) {
+  return {
+    id: 302030103,
+    votes: 2000,
+    valid_votes: 1500,
+    overvotes: 300,
+    blank_votes: 200
+  };
+};
+
+var mapContestBallotLineResults = function(path, ballotLineResults) {
+  return {
+    id: 400014,
+    votes: 400,
+    victorious: 'Yes'
+  };
 };
 
 exports.mapFeed = mapFeed;
@@ -585,3 +650,7 @@ exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
 exports.mapContestBallot = mapContestBallot;
 exports.mapContestCandidates = mapContestCandidates;
+exports.mapContestElectoralDistricts = mapContestElectoralDistricts;
+exports.mapContestOverview = mapContestOverview;
+exports.mapContestContestResults = mapContestContestResults;
+exports.mapContestBallotLineResults = mapContestBallotLineResults;
