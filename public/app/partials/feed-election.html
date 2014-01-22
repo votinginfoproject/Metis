@@ -61,9 +61,9 @@
   <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
   <table ng-show="feedContests.length" id="contestsTable" ng-table="tableParams" template-pagination="contestsPagination" class="associations">
     <tr id="contests{{$index}}" ng-repeat="contest in $data">
-      <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="#">{{contest.id}}</a></td>
-      <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="#">{{contest.type}}</a></td>
-      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'title'"><a href="#">{{contest.title}}</a>
+      <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/contests/{{contest.id}}">{{contest.id}}</a></td>
+      <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/contests/{{contest.id}}">{{contest.type}}</a></td>
+      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'title'"><a href="{{$location.absUrl()}}/contests/{{contest.id}}">{{contest.title}}</a>
       </td>
     </tr>
   </table>

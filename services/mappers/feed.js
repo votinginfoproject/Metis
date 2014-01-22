@@ -521,6 +521,43 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
+var mapContest = function(path, contest) {
+  return {
+    id: contest.elementId,
+    error_count: -1,
+    type: 'General',
+    partisan: 'Yes',
+    primary_party: 'Democrat',
+    electorate_specifications: 'US Citizen',
+    special: 'No',
+    office: 'US President',
+    filing_closed_date: '2014-09-19',
+    number_elected: 1,
+    number_voting_for: 1,
+    ballot_placement: 1,
+    overview: mapContests(null, null), //TODO: replace with real data
+    ballot: _path.join(path, '/ballot'),
+    candidates: _path.join(path, '/candidates')
+  };
+};
+
+var mapContestBallot = function(path, ballot) {
+  return {
+    id: 120045,
+    sort_order: 13,
+    write_in: 'no',
+    image_url: 'http://fakeUrl.com'
+  };
+};
+
+var mapContestCandidates = function(path, candidates) {
+  return [
+    {id: 31000655, name: 'Barack Obama', party: 'DEM'},
+    {id: 31000656, name: 'Mitt Romney', party: 'REP'},
+    {id: 31000657, name: 'Gary Johnson', party: 'LIB'}
+  ];
+};
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -545,3 +582,6 @@ exports.mapStreetSegmentsErrors2 = mapStreetSegmentsErrors2;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
+exports.mapContest = mapContest;
+exports.mapContestBallot = mapContestBallot;
+exports.mapContestCandidates = mapContestCandidates;

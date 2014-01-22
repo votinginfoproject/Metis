@@ -1,0 +1,58 @@
+<i id="feed-contest-content"></i>
+
+<a ng-if="feedContest.error_count" class="error-count" href="#">{{feedContest.error_count}}
+  Errors in Contest ID: {{feedContest.id}}</a>
+<mark>link</mark>
+
+<span ng-if="!feedContest" class="is-loading"></span>
+<dl class="attributes" ng-if="feedContest">
+  <dt class="key">Type:</dt> <dd id="contest-type" class="value">{{feedContest.type}}</dd>
+  <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
+  <dt class="key">Primary Party:</dt> <dd id="contest-party" class="value">{{feedContest.primary_party}}</dd>
+  <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
+  <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
+  <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
+  <dt class="key">Filing Closed Date:</dt> <dd id="contest-closed" class="value">{{feedContest.filing_closed_date}}</dd>
+  <dt class="key">Number Elected:</dt> <dd id="contest-elected" class="value">{{feedContest.number_elected}}</dd>
+  <dt class="key">Number Voting For:</dt> <dd id="contest-votingFor" class="value">{{feedContest.number_voting_for}}</dd>
+  <dt class="key">Ballot Placement:</dt> <dd id="contest-ballot" class="value">{{feedContest.ballot_placement}}</dd>
+</dl>
+
+<section class="data-group overview">
+  <h1>Overview</h1>
+
+</section>
+
+<section class="data-group">
+  <h2>Ballot ID: {{feedBallot.id}}</h2>
+
+  <dl class="attributes" ng-if="feedBallot">
+    <dt class="key">Sort Order:</dt> <dd id="ballot-order" class="value">{{feedBallot.sort_order}}</dd>
+    <dt class="key">Write In:</dt> <dd id="ballot-writeIn" class="value">{{feedBallot.write_in}}</dd>
+    <dt class="key">Image Url:</dt> <dd id="ballot-url" class="value">{{feedBallot.image_url}}</dd>
+  </dl>
+</section>
+
+<section class="data-group">
+  <h3><span ng-if="feedCandidates">{{feedCandidates.length}}</span> Candidates</h3>
+
+  <div ng-if="!feedCandidates"></br><span class="is-loading"></span></div>
+  <table ng-show="feedCandidates.length" id="contestsTable" ng-table="candidateTableParams" template-pagination="candidatePagination" class="associations">
+    <tr id="candidate{{$index}}" ng-repeat="candidate in $data">
+      <td id="candidate-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.id}}</a></td>
+      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{contest.id}}">{{candidate.name}}</a></td>
+      <td id="candidate-party{{$index}}" data-title="'party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.party}}</a>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="candidatePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == candidateTableParams.page()}"
+           ng-click="candidateTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>

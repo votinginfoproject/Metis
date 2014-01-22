@@ -16,7 +16,7 @@ var map = function(callback) {
   callback(null);
 };
 
-var req = { path: 0, params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5} };
+var req = { path: 0, params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {
@@ -163,7 +163,7 @@ describe('Feeds Unit Tests', function() {
     it('Calls Json Function', function() {
       daoStub.getPrecinctStreetSegments = nodeUtil.daoFunc;
       feedStub.mapStreetSegments = nodeUtil.feedFunc;
-      httpCallback.feedPrecinctStreetSegmentsGET(req, res);
+      httpCallback.feedPrecinctStreetSegmentsGET(req, res);v
     });
   });
 
