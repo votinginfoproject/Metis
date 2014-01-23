@@ -10,7 +10,7 @@ describe('Feed Locality Test', function () {
   });
 
   /* ----------------------------------------
-   Feed State page
+   Feed Locality page
    ------------------------------------------*/
   describe('Check Feed Locality page', function () {
 
@@ -83,6 +83,41 @@ describe('Feed Locality Test', function () {
     it('Should have Precincts data', function () {
 
       expect(element('#precinct0').count()).toBe(1);
+    });
+  });
+
+  /* ----------------------------------------
+   Feed Locality Election Administration page
+   ------------------------------------------*/
+  describe('Check Feed Locality Election Administration page', function () {
+    // check the the number of items
+    it('Should go to the Locality Election Administration page', function () {
+
+      expect(element('#locality-administration-id').count()).toBe(1);
+      // click the state link
+      element('#locality-administration-id a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality election administration page
+      expect(element('#feed-locality-electionadministration-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have an Election Admin data', function () {
+
+      expect(element('#name').html()).not().toBe("");
+    });
+
+    // if there is data
+    it('Should have an Election Admin - Election Official data', function () {
+
+      expect(element('#eo-name').html()).not().toBe("");
+    });
+
+    // if there is data
+    it('Should have an Election Admin - Overseas Voter Contact data', function () {
+
+      expect(element('#ovc-name').html()).not().toBe("");
     });
   });
 
