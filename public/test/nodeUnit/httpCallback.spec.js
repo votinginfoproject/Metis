@@ -16,7 +16,7 @@ var map = function(callback) {
   callback(null);
 };
 
-var req = { path: 0, params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6} };
+var req = { path: 0, params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {

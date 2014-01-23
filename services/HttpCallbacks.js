@@ -224,36 +224,6 @@ function feedLocalityElectionAdministrationGET (req, res) {
   });
 };
 
-function feedContestElectoralDistrictsGET(req, res) {
-  var districts = {};//TODO: get data from the database
-  res.json(mapper.mapContestElectoralDistricts(req.path, districts));
-}
-
-function feedContestCandidatesGET(req, res) {
-  var candidates = {};//TODO: get data from the database
-  res.json(mapper.mapContestCandidates(req.path, candidates));
-}
-
-function feedContestBallotGET (req, res) {
-  var ballot = {};//TODO: get data from the database
-  res.json(mapper.mapContestBallot(req.path, ballot));
-};
-
-function feedContestContestResultsGET (req, res) {
-  var results = {};
-  res.json(mapper.mapContestContestResults(req.path, results));
-}
-
-function feedContestBallotLineResultsGET (req, res) {
-  var results = {};
-  res.json(mapper.mapContestBallotLineResults(req.path, results));
-}
-
-function feedContestGET (req, res) {
-  var contest = { elementId: req.params.contestid }; //TODO: get data from the database
-  res.json(mapper.mapContest(req.path, contest));
-};
-
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
   res.json(mapper.mapPollingSummary(req.path, polling));
@@ -273,6 +243,26 @@ function feedHistoryGET (req, res) {
   var history = {}; //TODO: get data from the database
   res.json(mapper.mapHistory(req.path, history));
 };
+
+function feedContestGET (req, res) {
+  var contest = { elementId: req.params.contestid }; //TODO: get data from the database
+  res.json(mapper.mapContest(req.path, contest));
+};
+
+function feedContestCandidatesGET(req, res) {
+  var candidates = {};//TODO: get data from the database
+  res.json(mapper.mapContestCandidates(req.path, candidates));
+}
+
+function feedContestBallotGET (req, res) {
+  var ballot = {};//TODO: get data from the database
+  res.json(mapper.mapContestBallot(req.path, ballot));
+};
+
+function feedCandidateGET (req, res) {
+  var candidate = { elementId: req.params.candidateid };
+  res.json(mapper.mapCandidate(req.path, candidate));
+}
 
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
@@ -307,6 +297,4 @@ exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedContestCandidatesGET = feedContestCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
-exports.feedContestElectoralDistrictsGET = feedContestElectoralDistrictsGET;
-exports.feedContestContestResultsGET = feedContestContestResultsGET;
-exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedCandidateGET = feedCandidateGET;

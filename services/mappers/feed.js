@@ -615,30 +615,18 @@ var mapContestOverview = function(path, data) {
   ];
 };
 
-var mapContestElectoralDistricts = function(path, electoralDistricts) {
+var mapCandidate = function (path, candidate) {
   return {
-    id: 330004744,
-    name: 'US President',
-    precincts: 0,
-    precinct_splits: 8456
-  };
-};
-
-var mapContestContestResults = function(path, contestResults) {
-  return {
-    id: 302030103,
-    votes: 2000,
-    valid_votes: 1500,
-    overvotes: 300,
-    blank_votes: 200
-  };
-};
-
-var mapContestBallotLineResults = function(path, ballotLineResults) {
-  return {
-    id: 400014,
-    votes: 400,
-    victorious: 'Yes'
+    id: candidate.elementId,
+    name: '*',
+    incumbent: '*',
+    party: '*',
+    biography: '*',
+    phone: '*',
+    photo_url: '*',
+    address: '*',
+    email: '*',
+    sort_order: '*'
   };
 };
 
@@ -669,7 +657,5 @@ exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
 exports.mapContestBallot = mapContestBallot;
 exports.mapContestCandidates = mapContestCandidates;
-exports.mapContestElectoralDistricts = mapContestElectoralDistricts;
 exports.mapContestOverview = mapContestOverview;
-exports.mapContestContestResults = mapContestContestResults;
-exports.mapContestBallotLineResults = mapContestBallotLineResults;
+exports.mapCandidate = mapCandidate;

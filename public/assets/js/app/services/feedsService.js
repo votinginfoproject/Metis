@@ -135,6 +135,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     },
     getFeedPrecinctSplitPollingLocations: function (servicePath) {
       return $http.get(servicePath);
+    },
+
+    // Feed Candidate page
+    // ========================================================
+    getFeedCandidate: function (servicePath) {
+      return $http.get(servicePath);
     }
 
   };
