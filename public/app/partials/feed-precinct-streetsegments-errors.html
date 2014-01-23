@@ -1,5 +1,4 @@
 <i id="feed-precinct-streetsegments-errors-content"></i>
 
 <!-- error table directive -->
-
-<div ng-show="errors.length" ng-errortable ng-model="errors" tableparams="errorsTableParams" onrow="toggleError" loading="errors"></div>
+<div ng-show="errors.length" ng-error-table errors="errors" errors-table-params="errorsTableParams" toggle-error="toggleError" loading="errors"></div>
