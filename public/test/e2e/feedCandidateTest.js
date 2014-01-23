@@ -1,8 +1,12 @@
 /**
+ * Created by rcartier13 on 1/23/14.
+ */
+
+/**
  * Created by rcartier13 on 1/22/14.
  */
 
-describe('Testing Feed Contest Page', function() {
+describe('Testing Feed Candidate Page', function() {
 
   describe('Log in', function () {
 
@@ -14,7 +18,7 @@ describe('Testing Feed Contest Page', function() {
   });
 
   describe('Contest Page is able to be navigated to', function() {
-    it('Navigates to Contest', function() {
+    it('Navigates to Candidate', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -31,15 +35,19 @@ describe('Testing Feed Contest Page', function() {
       expect(element('#feed-election-content').count()).toBe(1);
 
       element('#contests-id0 a').click();
-
-      expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contest-content').count()).toBe(1);
+
+      element('#candidate-id0 a').click();
+
+      // Make sure there is no error on the page
+      expect(element('#pageHeader-alert')).not().toBeDefined();
+      expect(element('#feed-candidate-content').count()).toBe(1);
     });
   });
 
   describe('Checks if errors are thrown', function() {
     it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/candidates/1candidate");
       expect(element('#pageHeader-alert').html()).toBeDefined();
     });
   });
@@ -52,7 +60,7 @@ describe('Testing Feed Contest Page', function() {
 });
 
 
-describe('Testing Feed Contests Page', function() {
+describe('Testing Feed Candidates Page', function() {
 
   describe('Log in', function () {
 
@@ -63,8 +71,8 @@ describe('Testing Feed Contests Page', function() {
     });
   });
 
-  describe('Contests Page is able to be navigated to', function() {
-    it('Navigates to Contests', function() {
+  describe('Candidates Page is able to be navigated to', function() {
+    it('Navigates to Candidates', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -81,19 +89,21 @@ describe('Testing Feed Contests Page', function() {
       expect(element('#feed-election-content').count()).toBe(1);
 
       element('#contests-id0 a').click();
-
       expect(element('#feed-contest-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb3').click();
+      element('#candidate-id0 a').click();
 
+      element('#pageHeader-breadcrumb5').click();
+
+      // Make sure there is no error on the page
       expect(element('#pageHeader-alert')).not().toBeDefined();
-      expect(element('#feed-contests-content').count()).toBe(1);
+      expect(element('#feed-candidates-content').count()).toBe(1);
     });
   });
 
   describe('Checks if errors are thrown', function() {
     it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/candidates");
       expect(element('#pageHeader-alert').html()).toBeDefined();
     });
   });

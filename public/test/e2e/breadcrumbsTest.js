@@ -373,6 +373,35 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  describe('Check Feed Candidate page breadcrumb', function() {
+    it('Should have the correct breadcrumbs', function () {
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/candidates/1candidate");
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Candidates");
+      expect(element('#pageHeader-breadcrumb6').html()).toBe("1candidate");
+    });
+  });
+
+  describe('Check Feed Contests page breadcrumb', function() {
+    it('Should have the correct breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb5').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Candidates");
+    });
+  });
+
   /* ----------------------------------------
    Feed Precinct Split page breadcrumb
    ------------------------------------------*/

@@ -1,11 +1,11 @@
 /**
- * Created by rcartier13 on 1/22/14.
+ * Created by rcartier13 on 1/23/14.
  */
 
 
-describe('Feed Contest Unit Tests', function() {
+describe('Feed Candidate Unit Tests', function() {
 
-  describe('Feed Contest Controller Test', function() {
+  describe('Feed Candidate Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
     var feedCtrl = null;
@@ -18,29 +18,16 @@ describe('Feed Contest Unit Tests', function() {
           var http = $injector.get('$http');
           return http.get("/Data");
         },
-        getFeedContest: function() {
+        getFeedCandidate: function() {
           var http = $injector.get('$http');
-          return http.get("/Contest");
-        },
-        getFeedContestBallot: function() {
-          var http = $injector.get('$http');
-          return http.get("/Ballot");
-        },
-        getFeedContestCandidate: function() {
-          var http = $injector.get('$http');
-          return http.get("/Candidate");
-        },
+          return http.get("/Candidate")
+        }
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
       $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/Contest').respond(feedData);
-      $httpBackend.when('GET', '/Ballot').respond(feedData);
       $httpBackend.when('GET', '/Candidate').respond(feedData);
-      $httpBackend.when('GET', '/District').respond(feedData);
-      $httpBackend.when('GET', '/ContestResults').respond(feedData);
-      $httpBackend.when('GET', '/BallotResults').respond(feedData);
 
       $rootScope = $injector.get('$rootScope');
       var $controller = $injector.get('$controller');
@@ -56,13 +43,16 @@ describe('Feed Contest Unit Tests', function() {
 
       var routeParams = { vipfeed: 'something' };
       $rootScope.pageHeader = {};
+      $rootScope.feedData = {};
+      $rootScope.feedElection = {};
+      $rootScope.feedContests = {};
 
       $rootScope.setPageHeader = function() {}
       $rootScope.createTableParams = function() {};
       $rootScope.getBreadCrumbs = function() {};
       $rootScope.getServiceUrl = function() {};
 
-      feedCtrl = $controller('FeedContestCtrl', {
+      feedCtrl = $controller('FeedCandidateCtrl', {
         '$scope': $rootScope,
         '$rootScope': $rootScope,
         '$feedsService': mockService,
@@ -81,9 +71,8 @@ describe('Feed Contest Unit Tests', function() {
     it('should have valid data', function() {
       $httpBackend.flush();
       expect($rootScope.feedData).toEqual(feedData);
-      expect($rootScope.feedContest).toEqual(feedData);
-      expect($rootScope.feedBallot).toEqual(feedData);
-      expect($rootScope.feedCandidates).toEqual(feedData);
+      expect($rootScope.feedCandidate).toEqual(feedData);
+
     });
   });
 });
