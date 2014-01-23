@@ -49,7 +49,27 @@ config.mongoose = {
     source: 'sources',
     state: 'states',
     streetSegment: 'streetSegments',
-    violation: 'violations'
+
+    ballotError: 'ballotErrors',
+    ballotLineResultError: 'ballotLineResultErrors',
+    ballotResponseError: 'ballotResponseErrors',
+    candidateError: 'candidateErrors',
+    contestError: 'contestErrors',
+    contestResultError: 'contestResultErrors',
+    customBallotError: 'customBallotErrors',
+    earlyVoteSiteError: 'earlyVoteSiteErrors',
+    electionError: 'electionErrors',
+    electionAdministrationError: 'electionAdministrationErrors',
+    electionOfficialError: 'electionOfficialErrors',
+    electoralDistrictError: 'electoralDistrictErrors',
+    localityError: 'localityErrors',
+    pollingLocationError: 'pollingLocationErrors',
+    precinctError: 'precinctErrors',
+    precinctSplitError: 'precinctSplitErrors',
+    referendumError: 'referendumErrors',
+    sourceError: 'sourceErrors',
+    stateError: 'stateErrors',
+    streetSegmentError: 'streetSegmentErrors'
   },
   connectionString: 'mongodb://localhost/metis',
   testConnectionString: 'mongodb://localhost/testMetis'
