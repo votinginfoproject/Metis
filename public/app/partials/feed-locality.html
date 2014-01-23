@@ -48,9 +48,9 @@
     </thead>
     <tbody>
     <tr>
-      <td id="locality-administration-id" class="id"><a href="no-page">{{feedLocality.administration.id}}</a></td>
-      <td id="locality-administration-name" class="name"><a href="no-page">{{feedLocality.administration.name}}</a></td>
-      <td id="locality-administration-address" class="address"><a href="no-page">{{feedLocality.administration.address}}</a></td>
+      <td id="locality-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration">{{feedLocality.administration.id}}</a></td>
+      <td id="locality-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration">{{feedLocality.administration.name}}</a></td>
+      <td id="locality-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration">{{feedLocality.administration.address}}</a></td>
     </tr>
     </tbody>
   </table>

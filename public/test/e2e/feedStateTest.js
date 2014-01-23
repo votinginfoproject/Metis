@@ -67,8 +67,41 @@ describe('Feed State Test', function () {
 
       expect(element('#state-administration-id').count()).toBe(1);
     });
+  });
 
+  /* ----------------------------------------
+   Feed State Election Administration page
+   ------------------------------------------*/
+  describe('Check Feed State Election Administration page', function () {
+    // check the the number of items
+    it('Should go to the State Election Administration page', function () {
 
+      expect(element('#state-administration-id').count()).toBe(1);
+      // click the state link
+      element('#state-administration-id a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state election administration page
+      expect(element('#feed-state-electionadministration-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have an Election Admin data', function () {
+
+      expect(element('#name').html()).not().toBe("");
+    });
+
+    // if there is data
+    it('Should have an Election Admin - Election Official data', function () {
+
+      expect(element('#eo-name').html()).not().toBe("");
+    });
+
+    // if there is data
+    it('Should have an Election Admin - Overseas Voter Contact data', function () {
+
+      expect(element('#ovc-name').html()).not().toBe("");
+    });
   });
 
   /* ----------------------------------------
