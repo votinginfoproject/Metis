@@ -22,16 +22,32 @@ vipApp.directive('ngElementtable', function() {
  * A directive that renders out an Error Table
  *
  */
-vipApp.directive('ngErrortable', function() {
+vipApp.directive('ngErrorTable', function() {
   return {
     restrict: 'A',
-    require: '^ngModel',
+    require: '^errors',
     scope: {
-      ngModel: '=',  // our angular model that we will loop over
-      onrow: '=', // the scope function to call on an on-click event for each row
-      tableparams: '=',  // our NgTable model
+      errors: '=',  // our angular model that we will loop over
+      toggleError: '=', // the scope function to call on an on-click event for each row
+      errorsTableParams: '=',  // our NgTable model
       loading: '='  // our angular model that used to determine when to show and hide the loading indicator (in most cases will be the same as our ngModel)
     },
     templateUrl: 'assets/js/app/directives/errorTableTemplate.html'
+  }
+});
+
+/*
+ * A directive that renders out an Election Administration section
+ *
+ */
+vipApp.directive('ngElectionAdministrationTable', function() {
+  return {
+    restrict: 'A',
+    require: '^feedElectionAdministration',
+    scope: {
+      feedElectionAdministration: '=',  // our angular model that we will loop over
+      loading: '='  // our angular model that used to determine when to show and hide the loading indicator (in most cases will be the same as our ngModel)
+    },
+    templateUrl: 'assets/js/app/directives/electionAdministrationTableTemplate.html'
   }
 });
