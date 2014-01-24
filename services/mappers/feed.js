@@ -249,14 +249,61 @@ var mapPrecinctPrecinctSplits = function(path, precinctSplits) {
 
 var mapElectionContest = function(path, contest) {
   return {
-      id: contest.elementId,
-      type: contest.type,
-      title: contest.office
-    };
+    id: contest.elementId,
+    type: contest.type,
+    title: contest.office,
+    self: _path.join(path, contest.elementId.toString())
+  };
+};
+
+function mapContest (path, contest) {
+  return {
+    id: contest.elementId,
+    error_count: -1, //TODO
+    type: contest.type,
+    partisan: contest.partisan,
+    primary_party: contest.primaryParty,
+    electorate_specifications: contest.electorateSpecifications,
+    special: contest.special,
+    office: contest.office,
+    filing_closed_date: contest.filingClosedDate ? moment(contest.filingClosedDate).utc().format('YYYY-MM-DD') : null,
+    number_elected: contest.numberElected,
+    number_voting_for: contest.numberVotingFor,
+    ballot_placement: contest.ballotPlacement,
+    overview: mapContestOverview(null, null), //TODO: replace with real data
+    ballot: _path.join(path, '/ballot'),
+    candidates: _path.join(path, '/candidates'),
+    electoral_district: contest._electoralDistrict ? {
+      id: contest._electoralDistrict.elementId,
+      name: contest._electoralDistrict.name,
+      precincts: contest._electoralDistrict._precincts.length,
+      precinct_splits: contest._electoralDistrict._precinctSplits.length,
+      self: _path.join(path, '/electoraldistrict')
+    } : null,
+    contest_results: contest._contestResults ? {
+      id: contest._contestResults.elementId,
+      votes: contest._contestResults.totalVotes,
+      valid_votes: contest._contestResults.totalValidVotes,
+      overvotes: contest._contestResults.overvotes,
+      blank_votes: contest._contestResults.blankVotes,
+      certification: contest._contestResults.certification,
+      self: _path.join(path, '/contestresults')
+    } : null,
+    ballot_line_results: contest._ballotLineResults ? contest._ballotLineResults.map(function(blr) {
+      return {
+        id: blr.elementId,
+        candidate_id: blr.candidateId,
+        response_id: blr.ballotResponseId,
+        votes: blr.votes,
+        certification: blr.certification,
+        self: _path.join(path, '/ballotlineresults/' + blr.elementId.toString())
+      };
+    }) : null
+  };
 };
 
 var mapPolling = function(path, data) {
-  return [
+  return [ //TODO: All of these are hardcoded currently
     {
       element_type: 'Localities',
       amount: 100,
@@ -279,7 +326,7 @@ var mapPolling = function(path, data) {
 };
 
 var mapContests = function(path, data) {
-  return [
+  return [ //TODO: All of these are hardcoded currently
     {
       element_type: 'Contests',
       amount: 976,
@@ -301,8 +348,10 @@ var mapContests = function(path, data) {
   ];
 };
 
+
+
 var mapResults = function(path, data) {
-  return [
+  return [ //TODO: All of these are hardcoded currently
     {
       element_type: 'Contest Results',
       amount: 0,
@@ -319,7 +368,7 @@ var mapResults = function(path, data) {
 };
 
 var mapHistory = function(path, data) {
-  return [
+  return [ //TODO: All of these are hardcoded currently
     {
       date: moment(new Date()).format('YYYY-MM-DD'),
       events: [
@@ -360,7 +409,7 @@ function mapStreetSegments (path, streetSegments) {
   });
 };
 
-function mapStreetSegmentsErrors (path, streetSegments) {
+function mapStreetSegmentsErrors (path, streetSegments) {  //TODO: Replace with non-hardcoded data
   return [
     {
       severityCode: 1,
@@ -410,7 +459,7 @@ function mapStreetSegmentsErrors (path, streetSegments) {
   ];
 };
 
-function mapStreetSegmentsErrors2 (path, streetSegments) {
+function mapStreetSegmentsErrors2 (path, streetSegments) { //TODO: Replace with non-hardcoded data
   return [
     {
       severityCode: 1,
@@ -463,12 +512,12 @@ function mapStreetSegmentsErrors2 (path, streetSegments) {
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
-    error_count: -1,
+    error_count: -1, //TODO
     name: precinctSplit.name,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
-      error_count: -1,
+      error_count: -1, //TODO
       total: precinctSplit._streetSegments.length,
       self: _path.join(path, '/streetsegments')
     }
@@ -524,34 +573,6 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
-var mapContest = function(path, contest) {
-  return {
-    id: contest.elementId,
-    error_count: -1,
-    type: 'General',
-    partisan: 'Yes',
-    primary_party: 'DEM',
-    electorate_specifications: 'US Citizen',
-    special: 'No',
-    office: 'US President',
-    filing_closed_date: '2014-09-19',
-    number_elected: 1,
-    number_voting_for: 1,
-    ballot_placement: 1,
-    overview: mapContestOverview(null, null), //TODO: replace with real data
-    electoral_district: {
-      id: 330004744,
-      name: 'US President',
-      precincts: 0,
-      precinct_splits: 8456
-    },
-    ballot: _path.join(path, '/ballot'),
-    candidates: _path.join(path, '/candidates'),
-    contest_results: _path.join(path, '/contestresults'),
-    ballot_line_results: _path.join(path, '/ballotlineresults')
-  };
-};
-
 var mapContestBallot = function(path, ballot) {
   return {
     id: 120045,
@@ -569,7 +590,7 @@ var mapContestCandidates = function(path, candidates) {
   ];
 };
 
-var mapContestOverview = function(path, data) {
+var mapContestOverview = function(path, data) { //TODO
   return [
     {
       element_type: 'Ballots',

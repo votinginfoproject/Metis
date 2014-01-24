@@ -81,7 +81,11 @@ var contestSchema = {
   numberVotingFor: Number,
   ballotId: Number,
   ballotPlacement: Number,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict },
+  _ballot: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
+  _contestResults: { type: Types.ObjectId, ref: config.mongoose.model.contestResult },
+  _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }]
 };
 
 var contestResultSchema = {
@@ -175,7 +179,9 @@ var electoralDistrictSchema = {
   name: String,
   type: String,
   number: Number,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
+  _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
 };
 
 var feedSchema = {

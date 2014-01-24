@@ -212,6 +212,16 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
   });
 };
 
+function feedContest (feedId, contestId, callback) {
+  daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballot _electoralDistrict _contestResults _ballotLineResults')
+    .exec(callback);
+};
+
+function feedContestCandidates (feedId, contestId, callback) {
+//  var promise = daoSchemas.models.Candidate.find({ _feed: feedId, })
+}
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -237,4 +247,6 @@ exports.feedPrecinctSplitElectoralDistricts = feedPrecinctSplitElectoralDistrict
 exports.feedPrecinctSplitPollingLocations = feedPrecinctSplitPollingLocations;
 exports.feedPrecinctSplitStreetSegments = feedPrecinctSplitStreetSegments;
 exports.feedEarlyVoteSite = feedEarlyVoteSite;
+exports.feedContest = feedContest;
+exports.feedContestCandidates = feedContestCandidates;
 exports.dbConnect = dbConnect;

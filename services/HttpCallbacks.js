@@ -224,6 +224,27 @@ function feedLocalityElectionAdministrationGET (req, res) {
   });
 };
 
+function feedContestGET (req, res) {
+  dao.feedContest(req.params.feedid, req.params.contestid, function (err, contest) {
+    notFoundHandler(res, err, contest, function () {
+      res.json(mapper.mapContest(req.path, contest));
+    });
+  });
+};
+
+function feedContestCandidatesGET(req, res) {
+  dao.feedContestCandidates(req.params.feedid, req.params.contestid, function (err, candidates) {
+    notFoundHandler(res, err, candidates, function () {
+      res.json(mapper.mapContestCandidates(req.path, candidates));
+    });
+  });
+}
+
+function feedCandidateGET (req, res) {
+  var candidate = { elementId: req.params.candidateid };
+  res.json(mapper.mapCandidate(req.path, candidate));
+}
+
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
   res.json(mapper.mapPollingSummary(req.path, polling));
@@ -244,16 +265,6 @@ function feedHistoryGET (req, res) {
   res.json(mapper.mapHistory(req.path, history));
 };
 
-function feedContestGET (req, res) {
-  var contest = { elementId: req.params.contestid }; //TODO: get data from the database
-  res.json(mapper.mapContest(req.path, contest));
-};
-
-function feedContestCandidatesGET(req, res) {
-  var candidates = {};//TODO: get data from the database
-  res.json(mapper.mapContestCandidates(req.path, candidates));
-}
-
 function feedContestBallotGET (req, res) {
   var ballot = {};//TODO: get data from the database
   res.json(mapper.mapContestBallot(req.path, ballot));
@@ -268,12 +279,6 @@ function feedContestBallotLineResultsGET (req, res) {
   var results = {};//TODO: get data from the database
   res.json(mapper.mapContestBallotLineResults(req.path, results));
 };
-
-function feedCandidateGET (req, res) {
-  var candidate = { elementId: req.params.candidateid };//TODO: get data from the database
-  res.json(mapper.mapCandidate(req.path, candidate));
-};
-
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;

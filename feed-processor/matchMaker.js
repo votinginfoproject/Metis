@@ -150,6 +150,34 @@ function createRelationshipsElectionAdministration (feedId, models) {
   });
 };
 
+function createRelationshipsContest (feedId, models) {
+  var promise = models.Contest.find({ _feed: feedId }).exec();
+
+  promise.then(function (contests) {
+    contests.forEach(function (contest) {
+      if (contest.electoralDistrictId) {
+        joinContestElectoralDistrict(models, contest);
+      }
+
+      if (contest.ballotId) {
+        joinContestBallot(models, contest);
+      }
+
+      joinContestResults(models, contest);
+    });
+  });
+};
+
+function createRelationshipsElectoralDistrict(feedId, models) {
+  var promise = models.ElectoralDistrict.find({ _feed: feedId }).exec();
+
+  promise.then(function (electoralDistricts) {
+    electoralDistricts.forEach(function(district) {
+      joinElectoralDistrictPrecincts(models, district);
+    });
+  });
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -310,7 +338,87 @@ function joinElectionAdminElectionOfficial (models, electionAdmin) {
       updateRelationship(models.ElectionAdmin, { _id: electionAdmin._id }, { _overseasVoterContact: ovc._id }, onUpdate);
     }
   });
-}
+};
+
+function joinContestElectoralDistrict (models, contest) {
+  var promise = models.ElectoralDistrict.findOne({ _feed: contest._feed, elementId: contest.electoralDistrictId })
+    .select('_id')
+    .exec();
+
+  promise.then(function (ed) {
+    if (ed) {
+      updateRelationship(models.Contest, { _id: contest._id }, { _electoralDistrict: ed._id }, onUpdate);
+    }
+  });
+};
+
+function joinContestBallot (models, contest) {
+  var promise = models.Ballot.findOne({ _feed: contest._feed, elementId: contest.ballotId })
+    .select('_id')
+    .exec();
+
+  promise.then(function (ballot) {
+    if (ballot) {
+      updateRelationship(models.Contest, { _id: contest._id }, { _ballot: ballot._id }, onUpdate);
+    }
+  });
+};
+
+function joinContestResults (models, contest) {
+  var promiseCR = models.ContestResult.findOne({ _feed: contest._feed, contestId: contest.elementId })
+    .select('_id')
+    .exec();
+
+  promiseCR.then(function(contestResult) {
+    if (contestResult) {
+      updateRelationship(models.Contest, { _id: contest._id }, { _contestResults: contestResult._id }, onUpdate);
+    }
+  });
+
+  var promiseBLR = models.BallotLineResult.find({ _feed: contest._feed, contestId: contest.elementId })
+    .select('_id')
+    .exec();
+
+  promiseBLR.then(function(blrOids) {
+    if (blrOids.length > 0) {
+      updateRelationship(models.Contest,
+        { _id: contest._id },
+        { $addToSet: { _ballotLineResults: { $each: blrOids } } },
+        onUpdate);
+    }
+  });
+};
+
+function joinElectoralDistrictPrecincts(models, electoralDistrict) {
+  var promisePrecincts = models.Precinct
+    .find({ _feed: electoralDistrict._feed, electoralDistrictIds: electoralDistrict.elementId })
+    .select('_id')
+    .exec();
+
+  promisePrecincts.then(function(precincts) {
+    if (precincts.length > 0) {
+      updateRelationship(models.ElectoralDistrict,
+        { _id: electoralDistrict._id },
+        { $addToSet: { _precincts: { $each: precincts } } },
+        onUpdate);
+    }
+  });
+
+  var promisePrecinctSplits = models.PrecinctSplit
+    .find({ _feed: electoralDistrict._feed, electoralDistrictIds: electoralDistrict.elementId })
+    .select('_id')
+    .exec();
+
+  promisePrecinctSplits.then(function(precinctSplits) {
+    if (precinctSplits.length > 0) {
+      updateRelationship(models.ElectoralDistrict,
+        { _id: electoralDistrict._id },
+        { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
+        onUpdate);
+    }
+  });
+
+};
 
 function createDBRelationships(feedId, models) {
   createRelationshipsSource(feedId, models);
@@ -320,6 +428,8 @@ function createDBRelationships(feedId, models) {
   createRelationshipsPrecinct(feedId, models);
   createRelationshipsPrecinctSplit(feedId, models);
   createRelationshipsElectionAdministration(feedId, models);
+  createRelationshipsContest(feedId, models);
+  createRelationshipsElectoralDistrict(feedId, models);
   _feedId = feedId;
 };
 
