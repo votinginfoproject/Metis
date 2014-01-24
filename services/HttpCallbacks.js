@@ -259,10 +259,20 @@ function feedContestBallotGET (req, res) {
   res.json(mapper.mapContestBallot(req.path, ballot));
 };
 
-function feedCandidateGET (req, res) {
-  var candidate = { elementId: req.params.candidateid };
-  res.json(mapper.mapCandidate(req.path, candidate));
+function feedContestContestResultsGET (req, res) {
+  var results = {};//TODO: get data from the database
+  res.json(mapper.mapContestContestResults(req.path, results));
 }
+
+function feedContestBallotLineResultsGET (req, res) {
+  var results = {};//TODO: get data from the database
+  res.json(mapper.mapContestBallotLineResults(req.path, results));
+};
+
+function feedCandidateGET (req, res) {
+  var candidate = { elementId: req.params.candidateid };//TODO: get data from the database
+  res.json(mapper.mapCandidate(req.path, candidate));
+};
 
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
@@ -297,4 +307,6 @@ exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedContestCandidatesGET = feedContestCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
+exports.feedContestContestResultsGET = feedContestContestResultsGET;
+exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedCandidateGET = feedCandidateGET;

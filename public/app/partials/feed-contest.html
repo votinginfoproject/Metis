@@ -85,49 +85,49 @@
 </section>
 
 <section class="data-group">
-  <h5><span ng-if="!feedContest.contest_results">No </span>Contest Results</h5>
+  <h5>{{feedContestResults.length}} Contest Results</h5>
 
-  <div ng-if="!feedContest"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.contest_results" id="contestResultsTable" class="associations">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Votes</th>
-      <th>Valid Votes</th>
-      <th>Overvotes</th>
-      <th>Blank Votes</th>
+  <div ng-if="!feedContestResults"></br><span class="is-loading"></span></div>
+  <table ng-show="feedContestResults.length" id="contestResultsTable" ng-table="contestResultTableParams" template-pagination="contestResultPagination"  class="associations">
+    <tr id="contestResult{{$index}}" ng-repeat="result in $data">
+      <td id="contestresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{result.id}}</a></td>
+      <td id="contestresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/contestresults/{{fresult.id}}">{{result.votes}}</a></td>
+      <td id="contestresult-validvotes{{$index}}" data-title="'Valid Votes'" sortable="'valid_votes'"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{result.valid_votes}}</a></td>
+      <td id="contestresult-overvotes{{$index}}" data-title="'Overvotes'" sortable="'overvotes'"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{result.overvotes}}</a></td>
+      <td id="contestresult-blankvotes{{$index}}" data-title="'Blank Votes'" sortable="'blank_votes'"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{result.blank_votes}}</a></td>
     </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td id="contestresults-id" class="id"><a href="{{$location.absUrl()}}/contestresults/{{feedContest.contest_results.id}}">{{feedContest.contest_results.id}}</a></td>
-      <td id="contestresults-votes" class="votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContest.contest_results.id}}">{{feedContest.contest_results.votes}}</a></td>
-      <td id="contestresults-validvotes" class="valid-votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContest.contest_results.id}}">{{feedContest.contest_results.valid_votes}}</a></td>
-      <td id="contestresults-overvotes" class="overvotes"><a href="{{$location.absUrl()}}/contestresults/{{feedContest.contest_results.id}}">{{feedContest.contest_results.overvotes}}</a></td>
-      <td id="contestresults-blankvotes" class="blank-votes"><a href="{{$location.absUrl()}}/contestresults/{{feedContest.contest_results.id}}">{{feedContest.contest_results.blank_votes}}</a></td>
-    </tr>
-    </tbody>
   </table>
+
+  <script type="text/ng-template" id="contestResultPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == contestResultTableParams.page()}"
+           ng-click="contestResultTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
 </section>
 
 <section class="data-group">
-  <h5><span ng-if="!feedContest.ballot_line_results">No </span>Ballot Line Results</h5>
+  <h5>{{feedBallotLineResults.length}} Ballot Line Results</h5>
 
-  <div ng-if="!feedContest"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.ballot_line_results" id="ballotLineResultsTable" class="associations">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Votes</th>
-      <th>Victorious</th>
+  <div ng-if="!feedBallotLineResults"></br><span class="is-loading"></span></div>
+  <table ng-show="feedBallotLineResults.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
+    <tr id="ballotlineresult{{$index}}" ng-repeat="result in $data">
+      <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.id}}</a></td>
+      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{fresult.id}}">{{result.votes}}</a></td>
+      <td id="ballotlineresult-victorious{{$index}}" data-title="'Victorious'" sortable="'victorious'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.victorious}}</a></td>
     </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td id="ballotlineresults-id" class="id"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContest.ballot_line_results.id}}">{{feedContest.ballot_line_results.id}}</a></td>
-      <td id="ballotlineresults-votes" class="votes"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContest.ballot_line_results.id}}">{{feedContest.ballot_line_results.votes}}</a></td>
-      <td id="ballotlineresults-victorious" class="victorious"><a href="{{$location.absUrl()}}/ballotlineresults/{{feedContest.ballot_line_results.id}}">{{feedContest.ballot_line_results.victorious}}</a></td>
-      </tr>
-    </tbody>
   </table>
+
+  <script type="text/ng-template" id="ballotLineResultPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == ballotLineResultTableParams.page()}"
+           ng-click="ballotLineResultTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
 </section>

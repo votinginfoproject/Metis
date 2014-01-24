@@ -39,6 +39,8 @@ function FeedContestCtrl($scope, $rootScope, $feedsService, $routeParams, $appPr
       $scope.feedContest = {};
       $scope.feedBallot = {};
       $scope.feedCandidates = {};
+      $scope.feedContestResults = {};
+      $scope.feedBallotLineResults = {};
     });
 }
 
@@ -52,6 +54,9 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
 
       FeedContestCtrl_getFeedContestBallot($scope, $rootScope, $feedsService, data.ballot);
       FeedContestCtrl_getFeedContestCandidate($scope, $rootScope, $feedsService, data.candidates, $appProperties, $filter, ngTableParams);
+      FeedContestCtrl_getFeedContestContestResults($scope, $rootScope, $feedsService, data.contest_results, $appProperties, $filter, ngTableParams);
+      FeedContestCtrl_getFeedContestBallotLineResults($scope, $rootScope, $feedsService, data.ballot_line_results, $appProperties, $filter, ngTableParams);
+
       // set the title
       $rootScope.pageHeader.title = "Contest ID: " + data.id;
 
@@ -62,6 +67,8 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
       $scope.feedContest = {};
       $scope.feedBallot = {};
       $scope.feedCandidates = {};
+      $scope.feedContestResults = {};
+      $scope.feedBallotLineResults = {};
     });
 };
 
@@ -89,5 +96,33 @@ function FeedContestCtrl_getFeedContestCandidate($scope, $rootScope, $feedServic
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedCandidates = {};
+    });
+};
+
+function FeedContestCtrl_getFeedContestContestResults($scope, $rootScope, $feedService, servicePath, $appProperties, $filter, ngTableParams) {
+  $feedService.getFeedContestContestResults(servicePath)
+    .success(function(data) {
+      $scope.feedContestResults = data;
+
+      $scope.contestResultTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+    }).error(function(data, $http) {
+      $rootScope.pageHeader.error += "Could not retrieve Feed Contest Results data. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedContestResults = {};
+    });
+};
+
+function FeedContestCtrl_getFeedContestBallotLineResults($scope, $rootScope, $feedService, servicePath, $appProperties, $filter, ngTableParams) {
+  $feedService.getFeedContestBallotLineResults(servicePath)
+    .success(function(data) {
+      $scope.feedBallotLineResults = data;
+
+      $scope.ballotLineResultTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+    }).error(function(data, $http) {
+      $rootScope.pageHeader.error += "Could not retrieve Feed Ballot Line Results data. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedBallotLineResults = {};
     });
 };

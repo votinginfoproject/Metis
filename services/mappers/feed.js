@@ -539,27 +539,16 @@ var mapContest = function(path, contest) {
     number_voting_for: 1,
     ballot_placement: 1,
     overview: mapContestOverview(null, null), //TODO: replace with real data
-    ballot: _path.join(path, '/ballot'),
-    candidates: _path.join(path, '/candidates'),
     electoral_district: {
       id: 330004744,
       name: 'US President',
       precincts: 0,
       precinct_splits: 8456
     },
-    contest_results: {
-      id: 302030103,
-      votes: 2000,
-      valid_votes: 1500,
-      overvotes: 300,
-      blank_votes: 200
-    },
-    ballot_line_results: {
-      id: 330004744,
-      name: 'US President',
-      precincts: 0,
-      precinct_splits: 8456
-    }
+    ballot: _path.join(path, '/ballot'),
+    candidates: _path.join(path, '/candidates'),
+    contest_results: _path.join(path, '/contestresults'),
+    ballot_line_results: _path.join(path, '/ballotlineresults')
   };
 };
 
@@ -630,6 +619,21 @@ var mapCandidate = function (path, candidate) {
   };
 };
 
+var mapContestContestResults = function(path, contestResults) {
+  return [
+    { id: 302030103, votes: 2000, valid_votes: 1500, overvotes: 300, blank_votes: 200 },
+    { id: 302030104, votes: 150, valid_votes: 100, overvotes: 0, blank_votes: 15 }
+  ];
+};
+
+var mapContestBallotLineResults  = function (path, ballotLineResults) {
+  return [
+    { id: 400014, votes: 400, victorious: 'Yes' },
+    { id: 400015, votes: 100, victorious: 'No' }
+  ];
+};
+
+
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -659,3 +663,5 @@ exports.mapContestBallot = mapContestBallot;
 exports.mapContestCandidates = mapContestCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
+exports.mapContestContestResults = mapContestContestResults;
+exports.mapContestBallotLineResults = mapContestBallotLineResults;

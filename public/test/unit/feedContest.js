@@ -30,6 +30,14 @@ describe('Feed Contest Unit Tests', function() {
           var http = $injector.get('$http');
           return http.get("/Candidate");
         },
+        getFeedContestContestResults: function() {
+          var http = $injector.get('$http');
+          return http.get("/ContestResults");
+        },
+        getFeedContestBallotLineResults: function() {
+          var http = $injector.get('$http');
+          return http.get("/BallotLineResults");
+        }
       }
 
       $httpBackend = $injector.get('$httpBackend');
@@ -40,7 +48,7 @@ describe('Feed Contest Unit Tests', function() {
       $httpBackend.when('GET', '/Candidate').respond(feedData);
       $httpBackend.when('GET', '/District').respond(feedData);
       $httpBackend.when('GET', '/ContestResults').respond(feedData);
-      $httpBackend.when('GET', '/BallotResults').respond(feedData);
+      $httpBackend.when('GET', '/BallotLineResults').respond(feedData);
 
       $rootScope = $injector.get('$rootScope');
       var $controller = $injector.get('$controller');
@@ -84,6 +92,8 @@ describe('Feed Contest Unit Tests', function() {
       expect($rootScope.feedContest).toEqual(feedData);
       expect($rootScope.feedBallot).toEqual(feedData);
       expect($rootScope.feedCandidates).toEqual(feedData);
+      expect($rootScope.feedContestResults).toEqual(feedData);
+      expect($rootScope.feedBallotLineResults).toEqual(feedData);
     });
   });
 });

@@ -55,6 +55,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedContestBallot: function (servicePath) {
       return $http.get(servicePath);
     },
+    getFeedContestContestResults : function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedContestBallotLineResults: function (servicePath) {
+      return $http.get(servicePath);
+    },
 
     // Feed state page
     // ========================================================
