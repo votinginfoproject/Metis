@@ -49,13 +49,6 @@ describe('Feed State Test', function () {
    Feed State data
    ------------------------------------------*/
   describe('Check Feed State data', function () {
-    // check the the number of items
-    it('Should have State locality data', function () {
-
-      expect(element('#locality0').count()).toBe(1);
-      expect(element('#locality-name0').count()).toBe(1);
-    });
-
     // if there is data
     it('Should have Early Vote Sites data', function () {
 
@@ -67,6 +60,14 @@ describe('Feed State Test', function () {
 
       expect(element('#state-administration-id').count()).toBe(1);
     });
+
+    // if there is data
+    it('Should have State locality data', function () {
+
+      expect(element('#locality0').count()).toBe(1);
+      expect(element('#locality-name0').count()).toBe(1);
+    });
+
   });
 
   /* ----------------------------------------
