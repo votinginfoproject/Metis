@@ -34,12 +34,9 @@ describe('Feed Overview Test', function () {
    ------------------------------------------*/
   describe('Check Feed Overview polling locations', function () {
     // check the the number of items
-    it('Should have 3 polling locations', function () {
+    it('Should have polling locations', function () {
 
       expect(element('#pollingLocation0').count()).toBe(1);
-      //...
-      expect(element('#pollingLocation2').count()).toBe(1);
-      expect(element('#pollingLocation3').count()).toBe(0);
     });
 
   });
@@ -49,12 +46,9 @@ describe('Feed Overview Test', function () {
    ------------------------------------------*/
   describe('Check Feed Contests', function () {
     // check the the number of items
-    it('Should have 3 contests', function () {
+    it('Should have contests', function () {
 
       expect(element('#feedContests0').count()).toBe(1);
-      //...
-      expect(element('#feedContests2').count()).toBe(1);
-      expect(element('#feedContests3').count()).toBe(0);
     });
 
   });
@@ -64,11 +58,9 @@ describe('Feed Overview Test', function () {
    ------------------------------------------*/
   describe('Check Feed Results', function () {
     // check the the number of items
-    it('Should have 2 results', function () {
+    it('Should have results', function () {
 
       expect(element('#feedResults0').count()).toBe(1);
-      expect(element('#feedResults1').count()).toBe(1);
-      expect(element('#feedResults2').count()).toBe(0);
     });
 
   });

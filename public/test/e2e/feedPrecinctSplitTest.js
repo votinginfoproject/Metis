@@ -92,7 +92,7 @@ describe('Feed Precinct Split Test', function () {
 
     it('Should have Polling Locations data', function () {
 
-      //expect(element('#pollingLocation0').count()).toBe(1);
+      expect(element('#pollingLocation0').count()).toBe(1);
     });
 
   });

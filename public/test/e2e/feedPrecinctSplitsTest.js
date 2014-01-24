@@ -10,7 +10,7 @@ describe('Feed Precinct Splits Test', function () {
   });
 
   /* ----------------------------------------
-   Feed State page
+   Feed Precinct Splits page
    ------------------------------------------*/
   describe('Check Feed Precinct Splits page', function () {
 
