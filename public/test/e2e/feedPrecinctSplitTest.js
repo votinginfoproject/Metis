@@ -113,7 +113,7 @@ describe('Feed Precinct Split Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the Precinct Split Street Segments Error page
-      expect(element('#feed-precinctsplit-streetsegments-errors-content').count()).toBe(1);
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-streetsegments-errors-content').count()).toBe(1);
 
     });
   });

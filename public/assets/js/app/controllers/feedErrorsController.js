@@ -1,22 +1,19 @@
 'use strict';
 /*
- * Feeds Precinct Street Segment Errors Controller
+ * Feeds Errors Controller
  *
  */
-function FeedPrecinctStreetsegmentsErrorsCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+function FeedErrorsCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $filter, ngTableParams) {
+
+  // initialize page header variables
+  $rootScope.setPageHeader("Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
 
-  // get the locality param from the route
-  var localityid = $routeParams.locality;
-
-  // get the precinct param from the route
-  var precinctid = $routeParams.precinct;
-
-  // initialize page header variables
-  $rootScope.setPageHeader("Street Segments Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
+  // create a unique id for this page based on the breadcrumbs
+  $scope.pageId = $rootScope.generatePageId(feedid);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -36,20 +33,11 @@ function FeedPrecinctStreetsegmentsErrorsCtrl($scope, $rootScope, $feedsService,
         } else {
           obj.show();
         }
-
-        /*
-         // If toggling with Angular, however the indexes would be incorrect once any kind of sorting is applied to the table
-         if($scope["error" + index]){
-         $scope["error" + index] = false;
-         } else {
-         $scope["error" + index] = true;
-         }
-         */
       }
       $scope.toggleError = $scope._toggleError;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctCtrl_getFeedStreetSegmentsErrors($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams, feedid, localityid, precinctid);
+      FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -70,13 +58,13 @@ function FeedPrecinctStreetsegmentsErrorsCtrl($scope, $rootScope, $feedsService,
 }
 
 /*
- * Get the Feed Precinct Street Segments Errors for the Feed detail page
+ * Get the Errors for the Feed detail page
  *
  */
-function FeedPrecinctCtrl_getFeedStreetSegmentsErrors($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams, feedid, localityid, precinctid) {
+function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams) {
 
-  // get Feed Precinct
-  $feedsService.getFeedPrecinctStreetSegmentsErrors(servicePath)
+  // get Feed Errors
+  $feedsService.getFeedErrors(servicePath)
     .success(function (data) {
 
       // indent XML data

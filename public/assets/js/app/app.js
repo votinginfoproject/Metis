@@ -129,11 +129,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctElectoralDistrictCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-streetsegments-errors.html',
-      controller: 'FeedPrecinctStreetsegmentsErrorsCtrl'
-    });
-
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',
       controller: 'FeedPrecinctSplitsCtrl'
@@ -144,10 +139,9 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctSplitCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplit-streetsegments-errors.html',
-      controller: 'FeedPrecinctSplitStreetsegmentsErrorsCtrl'
-    });
+    // all errors can now go to the same html partial and the same angular controller
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
 
     // done
     $routeProvider.when('/template/feed', {
@@ -467,6 +461,36 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     }
 
     return breadcrumbs;
+  }
+
+  /*
+   * Generates a page Id based on the current URL
+   *
+   */
+  $rootScope.generatePageId = function(feedId){
+
+    var id = "";
+
+    var path = $location.path();
+    if(path!==null && path.charAt(0)==="/"){
+      path = path.substr(1);
+    }
+
+    var pathTokens = path.split("/");
+
+    for(var index=0; index<pathTokens.length; index++){
+
+      var token = pathTokens[index];
+
+      if(isNaN(token) && token !== feedId ){
+        id += token.toLowerCase() + "-";
+      }
+
+    }
+
+    id += 'content';
+
+    return id;
   }
 
 });

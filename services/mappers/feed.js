@@ -549,17 +549,6 @@ function mapStreetSegmentsErrors2 (path, streetSegments) { //TODO: Replace with 
     },
     {
       severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 333,
-      title: "Third warning",
-      details: "Could not Geocode correctly.",
-      textualReference: "Geo Geo",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
       severityText: "Error",
       errorTypeId: 1,
       error_count: 444,

@@ -14,6 +14,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get($appProperties.servicesPath + "/feeds");
     },
 
+    // Feed error pages
+    // ========================================================
+    getFeedErrors: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
     // Feed overview page
     // ========================================================
     getFeedData: function (feedid) {
@@ -121,9 +127,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedPrecinctPrecinctSplits: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedPrecinctStreetSegmentsErrors: function (servicePath) {
-      return $http.get(servicePath);
-    },
 
     // Feed Precinct Electoral District page
     // ========================================================
@@ -143,9 +146,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // Feed Precinct Splits page
     // ========================================================
     getFeedPrecinctSplits: function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedPrecinctSplitStreetSegmentsErrors: function (servicePath) {
       return $http.get(servicePath);
     },
 
