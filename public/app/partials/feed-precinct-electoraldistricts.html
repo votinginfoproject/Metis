@@ -1,0 +1,22 @@
+<i id="feed-precinct-electoraldistricts-content"></i>
+
+<section class="data-group">
+  <span ng-if="!feedElectoralDistricts" class="is-loading"></span>
+  <table ng-show="feedElectoralDistricts.length" id="electoralDistrictsTable" ng-table="electoralDistrictsTableParams" template-pagination="electoralDistrictsPagination" class="associations">
+    <tr id="electoralDistrict{{$index}}" ng-repeat="electoralDistrict in $data">
+      <td id="electoralDistrict-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{electoralDistrict.id}}">{{electoralDistrict.id}}</a></td>
+      <td id="electoralDistrict-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{electoralDistrict.id}}">{{electoralDistrict.name}}</a></td>
+      <td id="electoralDistrict-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/{{electoralDistrict.id}}">{{electoralDistrict.type}}</a></td>
+      <td id="electoralDistrict-contests{{$index}}" data-title="'Contests'" sortable="'contests'"><a href="{{$location.absUrl()}}/{{electoralDistrict.id}}">{{electoralDistrict.contests}}</a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="electoralDistrictsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == electoralDistrictsParams.page()}" ng-click="electoralDistrictParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>

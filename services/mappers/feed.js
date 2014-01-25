@@ -225,6 +225,69 @@ function mapElectoralDistricts (path, electoralDistrict) {
   });
 };
 
+function mapPrecinctElectoralDistrict(path, electoralDistrict) {
+  return {
+    id: electoralDistrict.id,
+    error_count: -1, //TODO
+    name: 'US Pres.',
+    type: 'statewide',
+    number: 123,
+    contests: _path.join(path, '/contests'),
+    precincts: _path.join(path, '/precincts'),
+    precinctsplits: _path.join(path, '/precinctsplits')
+  };
+};
+
+function mapPrecinctElectoralDistrictContests(path, electoralDistrict) {
+  return [
+    {
+      id: 123,
+      type: 'Type1',
+      title: 'Office1',
+      self: '/relativeurl'
+    },
+    {
+      id: 124,
+      type: 'Type2',
+      title: 'Office2',
+      self: '/relativeurl'
+    }
+  ]
+};
+
+function mapPrecinctElectoralDistrictPrecincts(path, precincts) {
+  return [
+    {
+      id: 1,
+      name: 'P1',
+      precinct_splits: 11,
+      self: 'relaticepath1'
+    },
+    {
+      id: 2,
+      name: 'P2',
+      precinct_splits: 22,
+      self: 'relaticepath2'
+    }
+  ]
+};
+
+function mapPrecinctElectoralDistrictPrecinctSplits(path, precinctsplits) {
+  return [
+    {
+      id: 22,
+      name: 'PS22',
+      street_segments: 222,
+      self: 'relaticepath22'
+    },
+    {
+      id: 33,
+      name: 'PS33',
+      street_segments: 333,
+      self: 'relaticepath33'
+    }
+  ]};
+
 var mapPollingLocations = function(path, pollingLocations) {
   return pollingLocations.map(function (pl) {
     return {
@@ -555,9 +618,9 @@ function mapElectionAdministration (electionAdministration) {
     rules_url: electionAdministration.rulesUrl,
     voter_services: electionAdministration.voterServices,
     election_official: electionAdministration._electionOfficial ?
-      mapElectionOfficial(electionAdministration._electionOfficial) : null, // TODO: confirm, returning null
+      mapElectionOfficial(electionAdministration._electionOfficial) : null,
     overseas_voter_contact: electionAdministration._overseasVoterContact ?
-      mapElectionOfficial(electionAdministration._overseasVoterContact) : null, // TODO: confirm, returning null
+      mapElectionOfficial(electionAdministration._overseasVoterContact) : null,
     hours: electionAdministration.hours
   };
 };
@@ -666,6 +729,10 @@ exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
 exports.mapElectoralDistricts = mapElectoralDistricts;
+exports.mapPrecinctElectoralDistrict = mapPrecinctElectoralDistrict;
+exports.mapPrecinctElectoralDistrictContests = mapPrecinctElectoralDistrictContests;
+exports.mapPrecinctElectoralDistrictPrecincts = mapPrecinctElectoralDistrictPrecincts;
+exports.mapPrecinctElectoralDistrictPrecinctSplits = mapPrecinctElectoralDistrictPrecinctSplits;
 exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
