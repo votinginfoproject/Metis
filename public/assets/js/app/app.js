@@ -140,8 +140,9 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     });
 
     // all errors can now go to the same html partial and the same angular controller
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors',{ templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
 
     // done
     $routeProvider.when('/template/feed', {
