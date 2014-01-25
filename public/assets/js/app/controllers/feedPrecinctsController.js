@@ -24,7 +24,7 @@ function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $app
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid);
+      FeedPrecinctsCtrl__getFeedPrecincts($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, localityid);
 
     }).error(function (data, $http) {
 
@@ -49,7 +49,7 @@ function FeedPrecinctsCtrl($scope, $rootScope, $feedsService, $routeParams, $app
  * Get the Feed Locality Precincts for the Feed detail page
  *
  */
-function FeedPrecinctsCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid){
+function FeedPrecinctsCtrl__getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, localityid){
 
   // get Feed Precincts
   $feedsService.getFeedPrecincts(servicePath)

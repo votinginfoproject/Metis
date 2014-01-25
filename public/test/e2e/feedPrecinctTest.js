@@ -112,7 +112,7 @@ describe('Feed Precinct Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the Precinct Street Segments Error page
-      expect(element('#feed-precinct-streetsegments-errors-content').count()).toBe(1);
+      expect(element('#feeds-election-state-localities-precincts-streetsegments-errors-content').count()).toBe(1);
 
     });
   });
