@@ -119,6 +119,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-electoraldistricts.html',
+      controller: 'FeedPrecinctElectoralDistrictsCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-electoraldistrict.html',
+      controller: 'FeedPrecinctElectoralDistrictCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-streetsegments-errors.html',
       controller: 'FeedPrecinctStreetsegmentsErrorsCtrl'
@@ -437,7 +447,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "electionadministration"){
         name = "election administration";
-        url = null;
+      }
+
+      if(name === "electoraldistricts"){
+        name = "electoral districts";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)

@@ -124,6 +124,26 @@ function feedPrecinctElectoralDistrictsGET (req, res) {
   });
 };
 
+function feedPrecinctElectoralDistrictGET (req, res) {
+  var electoralDistrict = { id: req.params.districtid }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctElectoralDistrict(req.path, electoralDistrict));
+};
+
+function feedPrecinctElectoralDistrictContestsGET (req, res) {
+  var contests = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctElectoralDistrictContests(req.path, contests));
+};
+
+function feedPrecinctElectoralDistrictPrecinctsGET (req, res) {
+  var precincts = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctElectoralDistrictPrecincts(req.path, precincts));
+};
+
+function feedPrecinctElectoralDistrictPrecinctSplitsGET (req, res) {
+  var precinctsplits = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctElectoralDistrictPrecinctSplits(req.path, precinctsplits));
+};
+
 function feedPrecinctPollingLocationsGET (req, res) {
   dao.getPrecinctPollingLocations(req.params.feedid, req.params.precinctid, function (err, pollingLocations) {
     notFoundHandler(res, err, pollingLocations, function() {
@@ -292,6 +312,10 @@ exports.feedLocalityPrecinctsGET = feedLocalityPrecinctsGET;
 exports.feedPrecinctGET = feedPrecinctGET;
 exports.feedPrecinctEarlyVoteSitesGET = feedPrecinctEarlyVoteSitesGET;
 exports.feedPrecinctElectoralDistrictsGET = feedPrecinctElectoralDistrictsGET;
+exports.feedPrecinctElectoralDistrictGET = feedPrecinctElectoralDistrictGET;
+exports.feedPrecinctElectoralDistrictContestsGET = feedPrecinctElectoralDistrictContestsGET;
+exports.feedPrecinctElectoralDistrictPrecinctsGET = feedPrecinctElectoralDistrictPrecinctsGET;
+exports.feedPrecinctElectoralDistrictPrecinctSplitsGET = feedPrecinctElectoralDistrictPrecinctSplitsGET;
 exports.feedPrecinctPollingLocationsGET = feedPrecinctPollingLocationsGET;
 exports.feedPrecinctPrecinctSplitsGET = feedPrecinctPrecinctSplitsGET;
 exports.feedPrecinctStreetSegmentsGET = feedPrecinctStreetSegmentsGET;
