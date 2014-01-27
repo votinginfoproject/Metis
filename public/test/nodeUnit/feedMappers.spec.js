@@ -264,4 +264,90 @@ describe('Feed Mappers Tests', function() {
       expect(res.hours).toBe(admin.hours);
     });
   });
+
+  describe('mapContest Test', function() {
+    it('returns the data', function() {
+      var contest = data.electionContest;
+      var res = mappers.mapContest('path', contest);
+      expect(res.id).toBe(contest.elementId);
+      expect(res.type).toBe(contest.type);
+      expect(res.partisan).toBe(contest.partisan);
+      expect(res.primary_party).toBe(contest.primaryParty);
+      expect(res.electorate_specifications).toBe(contest.electorateSpecifications);
+      expect(res.special).toBe(contest.special);
+      expect(res.office).toBe(contest.office);
+      expect(res.filing_closed_date).toBe(moment(contest.filingClosedDate).utc().format('YYYY-MM-DD'));
+      expect(res.number_elected).toBe(contest.numberElected);
+      expect(res.number_voting_for).toBe(contest.numberVotingFor);
+      expect(res.ballot_placement).toBe(contest.ballotPlacement);
+      expect(res.ballot.id).toBe(contest._ballot.elementId);
+      expect(res.ballot.candidate_count).toBe(contest._ballot.candidates.length);
+      expect(res.ballot.referendum_count).toBe(contest._ballot.referendumIds.length);
+      expect(res.electoral_district.id).toBe(contest._electoralDistrict.elementId);
+      expect(res.electoral_district.name).toBe(contest._electoralDistrict.name);
+      expect(res.electoral_district.precincts).toBe(contest._electoralDistrict._precincts.length);
+      expect(res.electoral_district.precinct_splits).toBe(contest._electoralDistrict._precinctSplits.length);
+      expect(res.contest_results.id).toBe(contest._contestResults.elementId);
+      expect(res.contest_results.votes).toBe(contest._contestResults.totalVotes);
+      expect(res.contest_results.valid_votes).toBe(contest._contestResults.totalValidVotes);
+      expect(res.contest_results.overvotes).toBe(contest._contestResults.overvotes);
+      expect(res.contest_results.blank_votes).toBe(contest._contestResults.blankVotes);
+      expect(res.contest_results.certification).toBe(contest._contestResults.certification);
+      expect(res.ballot_line_results.id).toBe(contest._ballotLineResults.data.elementId);
+      expect(res.ballot_line_results.candidate_id).toBe(contest._ballotLineResults.data.candidateId);
+      expect(res.ballot_line_results.response_id).toBe(contest._ballotLineResults.data.ballotResponseId);
+      expect(res.ballot_line_results.votes).toBe(contest._ballotLineResults.data.votes);
+      expect(res.ballot_line_results.certification).toBe(contest._ballotLineResults.data.certification);
+    });
+  });
+
+  describe('mapBallot Test', function() {
+    it('returns the data', function() {
+      var ballot = data.ballot;
+      var res = mappers.mapBallot('path', ballot);
+      expect(res.id).toBe(ballot.elementId);
+      expect(res.write_in).toBe(ballot.writeIn);
+      expect(res.image_url).toBe(ballot.imageUrl);
+      expect(res.referenda.id).toBe(ballot._referenda.data.elementId);
+      expect(res.referenda.title).toBe(ballot._referenda.data.title);
+      expect(res.custom_ballot.id).toBe(ballot._customBallot.elementId);
+      expect(res.custom_ballot.heading).toBe(ballot._customBallot.heading);
+      expect(res.custom_ballot.ballot_responses.id).toBe(ballot._customBallot.ballotResponses.data._response.elementId);
+      expect(res.custom_ballot.ballot_responses.text).toBe(ballot._customBallot.ballotResponses.data._response.text);
+      expect(res.custom_ballot.ballot_responses.sort_order).toBe(ballot._customBallot.ballotResponses.data._response.sortOrder);
+    });
+  });
+
+  describe('mapBallotCandidates Test', function() {
+    it('returns the data', function() {
+      var candidates = data.candidates;
+      data.mapFunc.map = function(callback) {
+        return callback(candidates);
+      };
+      var res = mappers.mapBallotCandidates('path', data.mapFunc);
+
+      expect(res.id).toBe(candidates.elementId);
+      expect(res.name).toBe(candidates._candidate.name);
+      expect(res.party).toBe(candidates._candidate.party);
+      expect(res.sort_order).toBe(candidates.sortOrder);
+    });
+  });
+
+  describe('mapCandidate Test', function() {
+    it('returns the data', function() {
+      var candidate = data.candidate;
+      var res = mappers.mapCandidate('path', candidate);
+      expect(res.id).toBe(candidate.elementId);
+      expect(res.name).toBe(candidate.name);
+      expect(res.incumbent).toBe(candidate.incumbent);
+      expect(res.party).toBe(candidate.party);
+      expect(res.candidate_url).toBe(candidate.candidateUrl);
+      expect(res.biography).toBe(candidate.biography);
+      expect(res.phone).toBe(candidate.phone);
+      expect(res.photo_url).toBe(candidate.photoUrl);
+      nodeUtil.testMapperAddress(res.filed_mailing_address, candidate.filedMailingAddress)
+      expect(res.email).toBe(candidate.email);
+      expect(res.sort_order).toBe(candidate.sortOrder);
+    });
+  });
 });

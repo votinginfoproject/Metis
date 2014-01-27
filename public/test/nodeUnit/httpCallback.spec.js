@@ -225,4 +225,36 @@ describe('Feeds Unit Tests', function() {
       httpCallback.feedLocalityElectionAdministrationGET(req, res);
     });
   });
+
+  describe('Feed Contest GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedContest = nodeUtil.daoFunc;
+      feedStub.mapContest = nodeUtil.feedFunc;
+      httpCallback.feedContestGET(req, res);
+    });
+  });
+
+  describe('Feed Contest Ballot GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedContestBallot = nodeUtil.daoFunc;
+      feedStub.mapBallot = nodeUtil.feedFunc;
+      httpCallback.feedContestBallotGET(req, res);
+    });
+  });
+
+  describe('Feed Ballot Candidates GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedBallotCandidates = nodeUtil.daoFunc;
+      feedStub.mapBallotCandidates = nodeUtil.feedFunc;
+      httpCallback.feedBallotCandidatesGET(req, res);
+    });
+  });
+
+  describe('Feed Candidate GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedCandidate = nodeUtil.daoFunc;
+      feedStub.mapCandidate = nodeUtil.feedFunc;
+      httpCallback.feedCandidateGET(req, res);
+    });
+  });
 });

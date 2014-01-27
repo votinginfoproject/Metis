@@ -29,7 +29,7 @@
 <section class="data-group">
 
   <h2>Ballot</h2>
-  <table ng-show="feedBallot" id="ballotTable" class="associations">
+  <table ng-show="feedContest.ballot" id="ballotTable" class="associations">
     <thead>
       <tr>
         <th>ID</th>
@@ -39,16 +39,16 @@
     </thead>
     <tbod>
       <tr>
-        <td id="ballot-id"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedBallot.id}}</a></td>
-        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedBallot.referendums}}</a></td>
-        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedBallot.candidates}}</a></td>
+        <td id="ballot-id"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedContest.ballot.id}}</a></td>
+        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedContest.ballot.referendum_count}}</a></td>
+        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/{{feedBallot.id}}">{{feedContest.ballot.candidate_count}}</a></td>
       </tr>
     </tbod>
   </table>
 </section>
 
 <section class="data-group">
-  <h4><span ng-if="!feedContest.electoral_district">No </span>Electoral District</h4>
+  <h2><span ng-if="!feedContest.electoral_district">No </span>Electoral District</h2>
 
   <div ng-if="!feedContest.electoral_district"></br><span class="is-loading"></span></div>
   <table ng-show="feedContest.electoral_district" id="districtTable" class="associations">
@@ -72,7 +72,7 @@
 </section>
 
 <section class="data-group">
-  <h5><span ng-if="!feedContest.contest_results">No</span> Contest Results</h5>
+  <h2><span ng-if="!feedContest.contest_results">No</span> Contest Results</h2>
 
   <div ng-if="!feedContest.contest_results && feedContest.contest_results !== null"></br><span class="is-loading"></span></div>
   <table ng-show="feedContest.contest_results" id="contestResultsTable" class="associations" >
@@ -100,7 +100,7 @@
 </section>
 
 <section class="data-group">
-  <h5>{{feedContest.ballot_line_results.length}} Ballot Line Results</h5>
+  <h2>{{feedContest.ballot_line_results.length}} Ballot Line Results</h2>
 
   <div ng-if="!feedContest.ballot_line_results"></br><span class="is-loading"></span></div>
   <table ng-show="feedContest.ballot_line_results.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">

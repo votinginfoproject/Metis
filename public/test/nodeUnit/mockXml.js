@@ -18,11 +18,11 @@ var mockedData = {
       id: 1
     },
 
-    referendum_id: 2,
+    referendum_id: [2],
     candidate_id: [{$text: 3, $: {sort_order: 4}}, {$text: 5, $: {sort_order: 6}}],
     custom_ballot_id: 7,
     write_in: 'yes',
-    image_url: 'http://fakeUrl.com',
+    image_url: 'http://fakeUrl.com'
   },
 
   ballotLineResultXml: {
@@ -105,7 +105,7 @@ var mockedData = {
       id: 1
     },
     heading: 'heading',
-    ballot_response_id: [ { $text: 'text', $: {sort_order: 2} } ]
+    ballot_response_id: [ { $text: 3, $: {sort_order: 2} } ]
   },
 
   earlyVoteSiteXml: {
