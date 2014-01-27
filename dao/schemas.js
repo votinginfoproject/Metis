@@ -21,15 +21,18 @@ var simpleAddressSchema = {
  */
 var ballotSchema = {
   elementId: Number, //required
-  referendumId: Number,
+  referendumIds: [Number],
   candidates: [{
-    id: Number,
-    sortOrder: Number
+    elementId: Number,
+    sortOrder: Number,
+    _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate }
   }],
   customBallotId: Number,
   writeIn: Boolean,
   imageUrl: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _referenda: [{ type: Types.ObjectId, ref: config.mongoose.model.referendum }],
+  _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot }
 };
 
 var ballotLineResultSchema = {
@@ -106,9 +109,10 @@ var contestResultSchema = {
 var customBallotSchema = {
   elementId: Number, //required
   heading: String,
-  ballotResponse: [{
-    id: Number,
-    sortOrder: Number
+  ballotResponses: [{
+    elementId: Number,
+    sortOrder: Number,
+    _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };

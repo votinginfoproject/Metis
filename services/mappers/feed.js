@@ -399,7 +399,12 @@ function mapContest (path, contest) {
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
     overview: mapContestOverview(null, null), //TODO: replace with real data
-    ballot: _path.join(path, '/ballot'),
+    ballot: contest._ballot ? {
+      id: contest._ballot.elementId,
+      candidate_count: contest._ballot.candidates ? contest._ballot.candidates.length : 0,
+      referendum_count: contest._ballot.referendumIds ? contest._ballot.referendumIds.length : 0,
+      self: _path.join(path, '/ballot')
+    } : null,
     candidates: _path.join(path, '/candidates'),
     electoral_district: contest._electoralDistrict ? {
       id: contest._electoralDistrict.elementId,
@@ -690,14 +695,38 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
-var mapContestBallot = function(path, ballot) {
+var mapBallot = function(path, ballot) {
   return {
-    id: 120045,
-    sort_order: 13,
-    write_in: 'No',
-    image_url: 'http://fakeUrl.com',
-    candidates: -1,
-    referendums: -1
+    id: ballot.elementId,
+    write_in: ballot.writeIn,
+    image_url: ballot.imageUrl,
+    candidates: ballot.candidates ? ballot.candidates.map(function(candidate) {
+      return {
+        id: candidate.elementId,
+        name: candidate._candidate.name,
+        party: candidate._candidate.party,
+        sort_order: candidate.sortOrder,
+        self: _path.join(path, '/candidates/' + candidate.elementId.toString())
+      };
+    }) : [],
+    referenda: ballot._referenda ? ballot._referenda.map(function(referendum) {
+      return {
+        id: referendum.elementId,
+        title: referendum.title,
+        self: _path.join(path, '/referenda/' + referendum.elementId.toString())
+      };
+    }) : [],
+    custom_ballot: ballot._customBallot ? {
+      id: ballot._customBallot.elementId,
+      heading: ballot._customBallot.heading,
+      ballot_responses: ballot._customBallot.ballotResponses.map(function(response) {
+        return {
+          id: response._response.elementId,
+          text: response._response.text,
+          sort_order: response._response.sortOrder
+        };
+      })
+    } : null
   };
 };
 
@@ -807,7 +836,7 @@ exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
-exports.mapContestBallot = mapContestBallot;
+exports.mapBallot = mapBallot;
 exports.mapContestCandidates = mapContestCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;

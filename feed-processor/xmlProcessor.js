@@ -64,6 +64,7 @@ function readXMLFile(filePath) {
   xml.collect('electoral_district_id');
   xml.collect('polling_location_id');
   xml.collect('ballot_response_id');
+  xml.collect('referendum_id');
 
   xml.on('end', function() { parsingComplete = true; console.log('Parsing Complete!')});
   xml.on('startElement: vip_object', processFeedAttributes)

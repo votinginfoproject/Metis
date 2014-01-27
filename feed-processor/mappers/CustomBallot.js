@@ -14,9 +14,9 @@ CustomBallot.prototype.mapXml3_0 = function (customBallot) {
   this.model = new this.models.CustomBallot({
     elementId: customBallot.$.id,     //required
     heading: customBallot.heading,
-    ballotResponse: _.map(customBallot.ballot_response_id, function(response) {
+    ballotResponses: _.map(customBallot.ballot_response_id, function(response) {
       return {
-        id: (response.$text === undefined) ? response : response.$text,
+        elementId: (response.$text === undefined) ? response : response.$text,
         sortOrder: (response.$ === undefined) ? undefined : response.$.sort_order
       };
     }),

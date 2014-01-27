@@ -178,6 +178,36 @@ function createRelationshipsElectoralDistrict(feedId, models) {
   });
 };
 
+function createRelationshipsBallot(feedId, models) {
+  var promise = models.Ballot.find({ _feed: feedId }).exec();
+
+  promise.then(function(ballots) {
+    ballots.forEach(function(ballot) {
+      if (ballot.candidates && ballot.candidates.length > 0) {
+        joinBallotCandidates(models, ballot);
+      }
+      if (ballot.referendumIds && ballot.referendumIds.length > 0) {
+        joinBallotReferenda(models, ballot);
+      }
+      if (ballot.customBallotId) {
+        joinBallotCustomBallot(models, ballot);
+      }
+    });
+  });
+};
+
+function createRelationshipsCustomBallot(feedId, models) {
+  var promise = models.CustomBallot.find({ _feed: feedId }).exec();
+
+  promise.then(function(cbs) {
+    if (cbs.length > 0) {
+      cbs.forEach(function(cb) {
+        joinCustomBallotResponses(models, cb);
+      });
+    }
+  });
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -417,7 +447,64 @@ function joinElectoralDistrictPrecincts(models, electoralDistrict) {
         onUpdate);
     }
   });
+};
 
+function joinBallotCandidates(models, ballot) {
+  var candidateIds = ballot.candidates.map(function(candidate) { return candidate.elementId });
+  var promise = models.Candidate.find({ _feed: ballot._feed, elementId: { $in: candidateIds } })
+    .select('_id elementId')
+    .exec();
+
+  promise.then(function (candidates) {
+    candidates.forEach(function(candidate) {
+      updateRelationship(models.Ballot,
+        {_id: ballot._id, 'candidates.elementId': candidate.elementId },
+        {$set: { 'candidates.$._candidate': candidate._id } },
+        onUpdate);
+    });
+  });
+};
+
+function joinBallotReferenda(models, ballot) {
+  var promise = models.Referendum.find({ _feed: ballot._feed, elementId: { $in: ballot.referendumIds } })
+    .select('_id')
+    .exec();
+
+  promise.then(function(referenda) {
+    if (referenda.length > 0) {
+      updateRelationship(models.Ballot,
+        { _id: ballot._id },
+        { $addToSet: { _referenda: { $each: referenda } } },
+        onUpdate);
+    }
+  });
+};
+
+function joinBallotCustomBallot(models, ballot) {
+  var promise = models.CustomBallot.findOne({ _feed: ballot._feed, elementId: ballot.customBallotId })
+    .select('_id')
+    .exec();
+
+  promise.then(function(customBallot) {
+    updateRelationship(models.Ballot, { _id: ballot._id }, { $set: { _customBallot: customBallot } },
+    onUpdate);
+  });
+};
+
+function joinCustomBallotResponses(models, customBallot) {
+  var ballotResponseIds = customBallot.ballotResponses.map(function(resp) { return resp.elementId; })
+  var promise = models.BallotResponse.find({ _feed: customBallot._feed, elementId: { $in: ballotResponseIds } })
+    .select('_id elementId')
+    .exec();
+
+  promise.then(function(responses) {
+    responses.forEach(function(resp) {
+      updateRelationship(models.CustomBallot,
+        {_id: customBallot._id, 'ballotResponses.elementId': resp.elementId },
+        {$set: { 'ballotResponses.$._response': resp._id } },
+        onUpdate);
+    });
+  });
 };
 
 function createDBRelationships(feedId, models) {
@@ -430,6 +517,8 @@ function createDBRelationships(feedId, models) {
   createRelationshipsElectionAdministration(feedId, models);
   createRelationshipsContest(feedId, models);
   createRelationshipsElectoralDistrict(feedId, models);
+  createRelationshipsBallot(feedId, models);
+  createRelationshipsCustomBallot(feedId, models);
   _feedId = feedId;
 };
 

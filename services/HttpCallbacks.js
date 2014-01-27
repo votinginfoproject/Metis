@@ -284,6 +284,14 @@ function feedContestCandidatesGET(req, res) {
   });
 }
 
+function feedContestBallotGET (req, res) {
+  dao.feedContestBallot(req.params.feedid, req.params.contestid, function (err, ballot) {
+    notFoundHandler(res, err, ballot, function () {
+      res.json(mapper.mapBallot(req.path, ballot));
+    });
+  });
+};
+
 function feedCandidateGET (req, res) {
   var candidate = { elementId: req.params.candidateid };
   res.json(mapper.mapCandidate(req.path, candidate));
@@ -307,11 +315,6 @@ function feedResultsGET (req, res) {
 function feedHistoryGET (req, res) {
   var history = {}; //TODO: get data from the database
   res.json(mapper.mapHistory(req.path, history));
-};
-
-function feedContestBallotGET (req, res) {
-  var ballot = {};//TODO: get data from the database
-  res.json(mapper.mapContestBallot(req.path, ballot));
 };
 
 function feedContestContestResultsGET (req, res) {

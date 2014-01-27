@@ -13,10 +13,10 @@ util.inherits(Ballot, basemapper);
 Ballot.prototype.mapXml3_0 = function (ballot) {
   this.model = new this.models.Ballot({
     elementId: ballot.$.id,     //required
-    referendumId: ballot.referendum_id,
+    referendumIds: ballot.referendum_id,
     candidates: _.map(ballot.candidate_id, function(candidate) {
       return {
-        id: (candidate.$text === undefined) ? candidate : candidate.$text,
+        elementId: (candidate.$text === undefined) ? candidate : candidate.$text,
         sortOrder: (candidate.$ === undefined) ? undefined : candidate.$.sort_order
       };
     }),
