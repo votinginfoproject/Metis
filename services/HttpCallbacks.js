@@ -124,6 +124,7 @@ function feedPrecinctElectoralDistrictsGET (req, res) {
   });
 };
 
+// Precinct Electoral District page
 function feedPrecinctElectoralDistrictGET (req, res) {
   var electoralDistrict = { id: req.params.districtid }; //TODO: get data from the database
   res.json(mapper.mapPrecinctElectoralDistrict(req.path, electoralDistrict));
@@ -143,6 +144,29 @@ function feedPrecinctElectoralDistrictPrecinctSplitsGET (req, res) {
   var precinctsplits = { }; //TODO: get data from the database
   res.json(mapper.mapPrecinctElectoralDistrictPrecinctSplits(req.path, precinctsplits));
 };
+// ====
+// Precinct Split Electoral District page
+function feedPrecinctSplitElectoralDistrictGET (req, res) {
+  var electoralDistrict = { id: req.params.districtid }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctSplitElectoralDistrict(req.path, electoralDistrict));
+};
+
+function feedPrecinctSplitElectoralDistrictContestsGET (req, res) {
+  var contests = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctSplitElectoralDistrictContests(req.path, contests));
+};
+
+function feedPrecinctSplitElectoralDistrictPrecinctsGET (req, res) {
+  var precincts = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctSplitElectoralDistrictPrecincts(req.path, precincts));
+};
+
+function feedPrecinctSplitElectoralDistrictPrecinctSplitsGET (req, res) {
+  var precinctsplits = { }; //TODO: get data from the database
+  res.json(mapper.mapPrecinctSplitElectoralDistrictPrecinctSplits(req.path, precinctsplits));
+};
+// ====
+
 
 function feedPrecinctPollingLocationsGET (req, res) {
   dao.getPrecinctPollingLocations(req.params.feedid, req.params.precinctid, function (err, pollingLocations) {
@@ -316,6 +340,13 @@ exports.feedPrecinctElectoralDistrictGET = feedPrecinctElectoralDistrictGET;
 exports.feedPrecinctElectoralDistrictContestsGET = feedPrecinctElectoralDistrictContestsGET;
 exports.feedPrecinctElectoralDistrictPrecinctsGET = feedPrecinctElectoralDistrictPrecinctsGET;
 exports.feedPrecinctElectoralDistrictPrecinctSplitsGET = feedPrecinctElectoralDistrictPrecinctSplitsGET;
+exports.feedPrecinctSplitElectoralDistrictsGET = feedPrecinctSplitElectoralDistrictsGET;
+
+exports.feedPrecinctSplitElectoralDistrictGET = feedPrecinctSplitElectoralDistrictGET;
+exports.feedPrecinctSplitElectoralDistrictContestsGET = feedPrecinctSplitElectoralDistrictContestsGET;
+exports.feedPrecinctSplitElectoralDistrictPrecinctsGET = feedPrecinctSplitElectoralDistrictPrecinctsGET;
+exports.feedPrecinctSplitElectoralDistrictPrecinctSplitsGET = feedPrecinctSplitElectoralDistrictPrecinctSplitsGET;
+
 exports.feedPrecinctPollingLocationsGET = feedPrecinctPollingLocationsGET;
 exports.feedPrecinctPrecinctSplitsGET = feedPrecinctPrecinctSplitsGET;
 exports.feedPrecinctStreetSegmentsGET = feedPrecinctStreetSegmentsGET;

@@ -124,10 +124,9 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctElectoralDistrictsCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinct-electoraldistrict.html',
-      controller: 'FeedPrecinctElectoralDistrictCtrl'
-    });
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' });
 
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',

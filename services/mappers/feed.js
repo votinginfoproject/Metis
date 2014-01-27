@@ -225,6 +225,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
   });
 };
 
+// === TODO
 function mapPrecinctElectoralDistrict(path, electoralDistrict) {
   return {
     id: electoralDistrict.id,
@@ -287,6 +288,70 @@ function mapPrecinctElectoralDistrictPrecinctSplits(path, precinctsplits) {
       self: 'relaticepath33'
     }
   ]};
+// ===
+function mapPrecinctSplitElectoralDistrict(path, electoralDistrict) {
+  return {
+    id: electoralDistrict.id,
+    error_count: -1, //TODO
+    name: 'Split US Pres.',
+    type: 'Split statewide',
+    number: 9123,
+    contests: _path.join(path, '/contests'),
+    precincts: _path.join(path, '/precincts'),
+    precinctsplits: _path.join(path, '/precinctsplits')
+  };
+};
+
+function mapPrecinctSplitElectoralDistrictContests(path, electoralDistrict) {
+  return [
+    {
+      id: 9123,
+      type: 'Split Type1',
+      title: 'Split Office1',
+      self: '/Splitrelativeurl'
+    },
+    {
+      id: 9124,
+      type: 'Split Type2',
+      title: 'Split Office2',
+      self: '/Splitrelativeurl'
+    }
+  ]
+};
+
+function mapPrecinctSplitElectoralDistrictPrecincts(path, precincts) {
+  return [
+    {
+      id: 91,
+      name: 'P1',
+      precinct_splits: 911,
+      self: 'Splitrelaticepath1'
+    },
+    {
+      id: 92,
+      name: 'P2',
+      precinct_splits: 922,
+      self: 'Splitrelaticepath2'
+    }
+  ]
+};
+
+function mapPrecinctSplitElectoralDistrictPrecinctSplits(path, precinctsplits) {
+  return [
+    {
+      id: 922,
+      name: 'Split PS22',
+      street_segments: 9222,
+      self: 'Splitrelaticepath22'
+    },
+    {
+      id: 933,
+      name: 'Split PS33',
+      street_segments: 9333,
+      self: 'Splitrelaticepath33'
+    }
+  ]};
+// ===
 
 var mapPollingLocations = function(path, pollingLocations) {
   return pollingLocations.map(function (pl) {
@@ -726,6 +791,10 @@ exports.mapPrecinctElectoralDistrictPrecincts = mapPrecinctElectoralDistrictPrec
 exports.mapPrecinctElectoralDistrictPrecinctSplits = mapPrecinctElectoralDistrictPrecinctSplits;
 exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
+exports.mapPrecinctSplitElectoralDistrict = mapPrecinctSplitElectoralDistrict;
+exports.mapPrecinctSplitElectoralDistrictContests = mapPrecinctSplitElectoralDistrictContests;
+exports.mapPrecinctSplitElectoralDistrictPrecincts = mapPrecinctSplitElectoralDistrictPrecincts;
+exports.mapPrecinctSplitElectoralDistrictPrecinctSplits = mapPrecinctSplitElectoralDistrictPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;
