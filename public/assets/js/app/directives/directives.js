@@ -51,30 +51,3 @@ vipApp.directive('ngElectionAdministrationTable', function() {
     templateUrl: 'assets/js/app/directives/electionAdministrationTableTemplate.html'
   }
 });
-
-/*
- * A directive that renders out an Electoral District page
- *
- */
-vipApp.directive('ngElectoralDistrictPage', function() {
-  return {
-    restrict: 'A',
-    require: '^feedElectoralDistrict',
-    scope: {
-      feedElectoralDistrict: '=',  // our angular model that we will loop over
-
-      feedContests: '=', // contests section
-      contestsTableParams: '=', // contests sorting
-
-      feedPrecincts: '=', // precincts section
-      precinctsTableParams: '=', // precincts sorting
-
-      feedPrecinctSplits: '=', // precinct splits section
-      precinctSplitsTableParams: '=', // precinct splits sorting
-
-      pageId: '=', // used to generate a unique id for the page
-      loading: '='  // our angular model that used to determine when to show and hide the loading indicator (in most cases will be the same as our ngModel)
-    },
-    templateUrl: 'assets/js/app/directives/electoralDistrictPageTemplate.html'
-  }
-});
