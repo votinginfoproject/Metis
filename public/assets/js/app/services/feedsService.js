@@ -128,18 +128,18 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
-    // Feed Precinct Electoral District page
+    // Feed Electoral District pages
     // ========================================================
-    getFeedPrecinctElectoralDistrict: function (servicePath) {
+    getFeedElectoralDistrict: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedPrecinctElectoralDistrictContests: function (servicePath) {
+    getFeedElectoralDistrictContests: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedPrecinctElectoralDistrictPrecincts: function (servicePath) {
+    getFeedElectoralDistrictPrecincts: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedPrecinctElectoralDistrictPrecinctSplits: function (servicePath) {
+    getFeedElectoralDistrictPrecinctSplits: function (servicePath) {
       return $http.get(servicePath);
     },
 
