@@ -143,6 +143,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
+    // Feed Electoral Districts pages
+    // ========================================================
+    getFeedElectoralDistricts: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
     // Feed Precinct Splits page
     // ========================================================
     getFeedPrecinctSplits: function (servicePath) {
