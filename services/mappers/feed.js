@@ -734,6 +734,22 @@ var mapBallotCandidates = function(path, candidates) {
   }) : [];
 };
 
+var mapCandidate = function (path, candidate) {
+  return {
+    id: candidate.elementId,
+    name: candidate.name,
+    incumbent: candidate.incumbent, //TODO: v5.0 element
+    party: candidate.party,
+    candidate_url: candidate.candidateUrl,
+    biography: candidate.biography,
+    phone: candidate.phone,
+    photo_url: candidate.photoUrl,
+    filed_mailing_address: addressToJson(candidate.filedMailingAddress),
+    email: candidate.email,
+    sort_order: candidate.sortOrder,
+  };
+};
+
 var mapContestOverview = function(path, data) { //TODO
   return [
     {
@@ -767,21 +783,6 @@ var mapContestOverview = function(path, data) { //TODO
       error_count: 460
     }
   ];
-};
-
-var mapCandidate = function (path, candidate) {
-  return {
-    id: candidate.elementId,
-    name: '*',
-    incumbent: '*',
-    party: '*',
-    biography: '*',
-    phone: '*',
-    photo_url: '*',
-    address: '*',
-    email: '*',
-    sort_order: '*'
-  };
 };
 
 var mapContestContestResults = function(path, contestResults) {

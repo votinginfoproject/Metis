@@ -293,8 +293,11 @@ function feedBallotCandidatesGET(req, res) {
 };
 
 function feedCandidateGET (req, res) {
-  var candidate = { elementId: req.params.candidateid };
-  res.json(mapper.mapCandidate(req.path, candidate));
+  dao.feedCandidate(req.params.feedid, req.params.candidateid, function(err, candidate) {
+    notFoundHandler(res, err, candidate, function () {
+      res.json(mapper.mapCandidate(req.path, candidate));
+    });
+  });
 };
 
 function feedPollingGET (req, res) {

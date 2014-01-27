@@ -257,7 +257,10 @@ function feedBallotCandidates(feedId, contestId, callback) {
   }).then(function(ballot) {
       callback(undefined, ballot.candidates);
     });
+};
 
+function feedCandidate(feedId, candidateId, callback) {
+  daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId }, callback);
 };
 
 exports.getFeeds = getFeedList;
@@ -288,4 +291,5 @@ exports.feedEarlyVoteSite = feedEarlyVoteSite;
 exports.feedContest = feedContest;
 exports.feedBallotCandidates = feedBallotCandidates;
 exports.feedContestBallot = feedContestBallot;
+exports.feedCandidate = feedCandidate;
 exports.dbConnect = dbConnect;
