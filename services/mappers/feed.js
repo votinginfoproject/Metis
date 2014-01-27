@@ -359,7 +359,7 @@ function mapContest (path, contest) {
         response_id: blr.ballotResponseId,
         votes: blr.votes,
         certification: blr.certification,
-        self: _path.join(path, '/ballotlineresults/' + blr.elementId.toString())
+        self: _path.join(path, '/ballotlineresults' + blr.elementId.toString())
       };
     }) : null
   };
@@ -630,7 +630,9 @@ var mapContestBallot = function(path, ballot) {
     id: 120045,
     sort_order: 13,
     write_in: 'No',
-    image_url: 'http://fakeUrl.com'
+    image_url: 'http://fakeUrl.com',
+    candidates: -1,
+    referendums: -1
   };
 };
 

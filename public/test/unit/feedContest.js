@@ -25,18 +25,6 @@ describe('Feed Contest Unit Tests', function() {
         getFeedContestBallot: function() {
           var http = $injector.get('$http');
           return http.get("/Ballot");
-        },
-        getFeedContestCandidate: function() {
-          var http = $injector.get('$http');
-          return http.get("/Candidate");
-        },
-        getFeedContestContestResults: function() {
-          var http = $injector.get('$http');
-          return http.get("/ContestResults");
-        },
-        getFeedContestBallotLineResults: function() {
-          var http = $injector.get('$http');
-          return http.get("/BallotLineResults");
         }
       }
 
@@ -91,9 +79,6 @@ describe('Feed Contest Unit Tests', function() {
       expect($rootScope.feedData).toEqual(feedData);
       expect($rootScope.feedContest).toEqual(feedData);
       expect($rootScope.feedBallot).toEqual(feedData);
-      expect($rootScope.feedCandidates).toEqual(feedData);
-      expect($rootScope.feedContestResults).toEqual(feedData);
-      expect($rootScope.feedBallotLineResults).toEqual(feedData);
     });
   });
 });
