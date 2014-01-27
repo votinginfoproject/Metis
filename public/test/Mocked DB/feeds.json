@@ -1,1 +1,0 @@
-{ "__v" : 0, "_election" : { "$oid" : "52d8619546fa32820c000006" }, "_id" : { "$oid" : "52d8619246fa32820c000004" }, "_state" : { "$oid" : "52d8619546fa32820c000007" }, "feedPath" : "XML/samplev3.xml", "feedStatus" : "Processing", "loadedOn" : { "$date" : 1389912466514 }, "name" : "samplev3" }

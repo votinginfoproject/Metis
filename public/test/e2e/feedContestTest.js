@@ -35,6 +35,13 @@ describe('Testing Feed Contest Page', function() {
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contest-content').count()).toBe(1);
     });
+
+    it('Has content on the page', function() {
+      expect(element('#ballot-id').count()).toBe(1);
+      expect(element('#electoraldistrict-id').count()).toBe(1);
+      expect(element('#contestresult-id').count()).toBe(1);
+      expect(element('#ballotlineresult-id0').count()).toBe(1);
+    });
   });
 
   describe('Checks if errors are thrown', function() {
@@ -88,6 +95,10 @@ describe('Testing Feed Contests Page', function() {
 
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contests-content').count()).toBe(1);
+    });
+
+    it('Has Content on the page', function() {
+      expect(element('#contests-id0').count()).toBe(1);
     });
   });
 

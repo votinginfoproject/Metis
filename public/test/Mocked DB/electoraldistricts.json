@@ -1,3 +1,0 @@
-{ "elementId" : 70001, "name" : "statewide", "type" : "statewide", "_feed" : { "$oid" : "52d8619246fa32820c000004" }, "_id" : { "$oid" : "52d8619546fa32820c000027" }, "__v" : 0 }
-{ "elementId" : 70002, "name" : "SD-13", "type" : "State Senate", "_feed" : { "$oid" : "52d8619246fa32820c000004" }, "_id" : { "$oid" : "52d8619546fa32820c000028" }, "__v" : 0 }
-{ "elementId" : 70003, "name" : "Ashland County", "type" : "County", "_feed" : { "$oid" : "52d8619246fa32820c000004" }, "_id" : { "$oid" : "52d8619546fa32820c000029" }, "__v" : 0 }
