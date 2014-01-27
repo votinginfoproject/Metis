@@ -276,14 +276,6 @@ function feedContestGET (req, res) {
   });
 };
 
-function feedContestCandidatesGET(req, res) {
-  dao.feedContestCandidates(req.params.feedid, req.params.contestid, function (err, candidates) {
-    notFoundHandler(res, err, candidates, function () {
-      res.json(mapper.mapContestCandidates(req.path, candidates));
-    });
-  });
-}
-
 function feedContestBallotGET (req, res) {
   dao.feedContestBallot(req.params.feedid, req.params.contestid, function (err, ballot) {
     notFoundHandler(res, err, ballot, function () {
@@ -292,10 +284,18 @@ function feedContestBallotGET (req, res) {
   });
 };
 
+function feedBallotCandidatesGET(req, res) {
+  dao.feedBallotCandidates(req.params.feedid, req.params.contestid, function (err, candidates) {
+    notFoundHandler(res, err, candidates, function () {
+      res.json(mapper.mapBallotCandidates(req.path, candidates));
+    });
+  });
+};
+
 function feedCandidateGET (req, res) {
   var candidate = { elementId: req.params.candidateid };
   res.json(mapper.mapCandidate(req.path, candidate));
-}
+};
 
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
@@ -367,7 +367,7 @@ exports.feedPollingGET = feedPollingGET;
 exports.feedContestsGET = feedContestsGET;
 exports.feedContestGET = feedContestGET;
 exports.feedContestBallotGET = feedContestBallotGET;
-exports.feedContestCandidatesGET = feedContestCandidatesGET;
+exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
 exports.feedContestContestResultsGET = feedContestContestResultsGET;

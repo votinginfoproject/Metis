@@ -220,7 +220,7 @@ function feedContest (feedId, contestId, callback) {
 
 function feedContestBallot(feedId, contestId, callback) {
   var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot')// _ballot.candidates._candidate _ballot._referenda _ballot._customBallot _customBallot.ballotResponses._response')
+    .populate('_ballot')
     .exec();
 
   promise.then(function (contest) {
@@ -242,8 +242,22 @@ function feedContestBallot(feedId, contestId, callback) {
     });
 };
 
-function feedContestCandidates (feedId, contestId, callback) {
-//  var promise = daoSchemas.models.Candidate.find({ _feed: feedId, })
+function feedBallotCandidates(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballot')
+    .exec();
+
+  promise.then(function (contest) {
+    if (contest) {
+      return daoSchemas.models.Candidate.populate(contest._ballot, { path: 'candidates._candidate' });
+    }
+    else {
+      callback(undefined, null);
+    }
+  }).then(function(ballot) {
+      callback(undefined, ballot.candidates);
+    });
+
 };
 
 exports.getFeeds = getFeedList;
@@ -272,6 +286,6 @@ exports.feedPrecinctSplitPollingLocations = feedPrecinctSplitPollingLocations;
 exports.feedPrecinctSplitStreetSegments = feedPrecinctSplitStreetSegments;
 exports.feedEarlyVoteSite = feedEarlyVoteSite;
 exports.feedContest = feedContest;
-exports.feedContestCandidates = feedContestCandidates;
+exports.feedBallotCandidates = feedBallotCandidates;
 exports.feedContestBallot = feedContestBallot;
 exports.dbConnect = dbConnect;

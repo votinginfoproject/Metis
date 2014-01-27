@@ -700,15 +700,7 @@ var mapBallot = function(path, ballot) {
     id: ballot.elementId,
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
-    candidates: ballot.candidates ? ballot.candidates.map(function(candidate) {
-      return {
-        id: candidate.elementId,
-        name: candidate._candidate.name,
-        party: candidate._candidate.party,
-        sort_order: candidate.sortOrder,
-        self: _path.join(path, '/candidates/' + candidate.elementId.toString())
-      };
-    }) : [],
+    candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
     referenda: ballot._referenda ? ballot._referenda.map(function(referendum) {
       return {
         id: referendum.elementId,
@@ -730,12 +722,16 @@ var mapBallot = function(path, ballot) {
   };
 };
 
-var mapContestCandidates = function(path, candidates) {
-  return [
-    {id: 31000655, name: 'Barack Obama', party: 'DEM'},
-    {id: 31000656, name: 'Mitt Romney', party: 'REP'},
-    {id: 31000657, name: 'Gary Johnson', party: 'LIB'}
-  ];
+var mapBallotCandidates = function(path, candidates) {
+  return candidates ? candidates.map(function(candidate) {
+    return {
+      id: candidate.elementId,
+      name: candidate._candidate.name,
+      party: candidate._candidate.party,
+      sort_order: candidate.sortOrder,
+      self: _path.join(path, candidate.elementId.toString())
+    };
+  }) : [];
 };
 
 var mapContestOverview = function(path, data) { //TODO
@@ -837,7 +833,7 @@ exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
 exports.mapBallot = mapBallot;
-exports.mapContestCandidates = mapContestCandidates;
+exports.mapBallotCandidates = mapBallotCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
 exports.mapContestContestResults = mapContestContestResults;
