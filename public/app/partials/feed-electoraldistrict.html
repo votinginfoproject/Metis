@@ -12,10 +12,10 @@
 </dl>
 
 <section class="data-group">
-  <h2><span ng-if="feedContests">{{feedContests.length}}</span> Contests</h2>
+  <h2><span ng-if="feedElectoralDistrict.contests">{{feedElectoralDistrict.contests.length}}</span> Contests</h2>
 
-  <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContests.length" id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
+  <div ng-if="!feedElectoralDistrict"></br><span class="is-loading"></span></div>
+  <table ng-show="feedElectoralDistrict.contests.length" id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
     <tr id="contests{{$index}}" ng-repeat="contest in $data">
       <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{contest.self}}">{{contest.id}}</a></td>
       <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{contest.self}}">{{contest.type}}</a></td>
@@ -38,10 +38,10 @@
 
 
 <section class="data-group">
-  <h2>{{feedPrecincts.length}} Precincts</h2>
+  <h2>{{feedElectoralDistrict.precincts.length}} Precincts</h2>
 
-  <span ng-if="!feedPrecincts" class="is-loading"></span>
-  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+  <span ng-if="!feedElectoralDistrict" class="is-loading"></span>
+  <table ng-show="feedElectoralDistrict.precincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
       <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinct.self}}">{{precinct.id}}</a></td>
       <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinct.self}}">{{precinct.name}}</a></td>
@@ -62,10 +62,10 @@
 
 
 <section class="data-group">
-  <h2>{{feedPrecinctSplits.length}} Precinct Splits</h2>
+  <h2>{{feedElectoralDistrict.precinctsplits.length}} Precinct Splits</h2>
 
-  <span ng-if="!feedPrecinctSplits" class="is-loading"></span>
-  <table ng-show="feedPrecinctSplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTableParams" template-pagination="precinctSplitsPagination" class="associations">
+  <span ng-if="!feedElectoralDistrict" class="is-loading"></span>
+  <table ng-show="feedElectoralDistrict.precinctsplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTableParams" template-pagination="precinctSplitsPagination" class="associations">
     <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in $data">
       <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinctSplit.self}}">{{precinctSplit.id}}</a></td>
       <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinctSplit.self}}">{{precinctSplit.name}}</a></td>

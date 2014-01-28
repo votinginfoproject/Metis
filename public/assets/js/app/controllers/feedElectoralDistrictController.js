@@ -60,16 +60,27 @@ function FeedElectoralDistrictCtrl_getFeedElectoralDistrict($scope, $rootScope, 
   $feedsService.getFeedElectoralDistrict(servicePath)
     .success(function (data) {
 
-      // set the feeds data into the Angular model
+      // use the self property to use as the linked URL for each item
+      for(var i=0; i< data.contests.length; i++){
+        data.contests[i].self = data.contests[i].self.replace("/services/","/#/");
+      }
+      for(var i=0; i< data.precincts.length; i++){
+        data.precincts[i].self = data.precincts[i].self.replace("/services/","/#/");
+      }
+      for(var i=0; i< data.precinctsplits.length; i++){
+        data.precinctsplits[i].self = data.precinctsplits[i].self.replace("/services/","/#/");
+      }
+
+
+        // set the feeds data into the Angular model
       $scope.feedElectoralDistrict = data;
 
       // set the title
       $rootScope.pageHeader.title = "Electoral District ID: " + data.id;
 
-      // now call the other services to get the rest of the data
-      FeedElectoralDistrictCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests, $appProperties, $filter, ngTableParams);
-      FeedElectoralDistrictCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $appProperties, $filter, ngTableParams);
-      FeedElectoralDistrictCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, data.precinctsplits, $appProperties, $filter, ngTableParams);
+      $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.contests, $appProperties.lowPagination, { id: 'asc' });
+      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.precincts, $appProperties.lowPagination, { id: 'asc' });
+      $scope.precinctSplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.precinctsplits, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data, $http) {
 
@@ -85,80 +96,5 @@ function FeedElectoralDistrictCtrl_getFeedElectoralDistrict($scope, $rootScope, 
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedElectoralDistrict = {};
-      $scope.feedContests = {};
-      $scope.feedPrecincts = {};
-      $scope.feedPrecinctSplits = {};
-    });
-}
-
-/*
- * Get the Feed Electoral District Contests for the Feed detail page
- *
- */
-function FeedElectoralDistrictCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
-
-  // get Feed Contests
-  $feedsService.getFeedElectoralDistrictContests(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedContests = data;
-
-      $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Electoral District Contests. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedContests = {};
-    });
-}
-
-/*
- * Get the Feed Electoral District Precincts for the Feed detail page
- *
- */
-function FeedElectoralDistrictCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
-
-  // get Feed Electoral District Precincts
-  $feedsService.getFeedElectoralDistrictPrecincts(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedPrecincts = data;
-
-      $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Electoral District Precincts. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedPrecincts = {};
-    });
-}
-
-/*
- * Get the Feed Electoral District PrecinctSplits for the Feed detail page
- *
- */
-function FeedElectoralDistrictCtrl_getFeedPrecinctSplits($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
-
-  // get Feed Electoral District Precinct Splits
-  $feedsService.getFeedElectoralDistrictPrecinctSplits(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedPrecinctSplits = data;
-
-      $scope.precinctSplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Electoral District Precinct Splits. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedPrecinctSplits = {};
     });
 }
