@@ -11,14 +11,35 @@ var address = {
   city: 'city',
   state: 'state',
   zip: 'zip'
-}
+};
+
+var ballotLineResultsData = {
+  elementId: 1,
+  candidateId: 2,
+  ballotResponseId: 3,
+  votes: 4,
+  certification: 'cert'
+};
 
 var electionAdministration = {
   elementId: 2,
   name: 'name',
   physicalAddress: address,
   address: address
-}
+};
+
+var referendumData = {
+  elementId: 1,
+  title: 'title'
+};
+
+var ballotResponsesData = {
+  _response: {
+    elementId: 1,
+    text: 'text',
+    sortOrder: 2
+  }
+};
 
 var electionOfficial = {
   elementId: 1,
@@ -27,7 +48,7 @@ var electionOfficial = {
   phone: 'phone',
   fax: 'fax',
   email: 'email'
-}
+};
 
 var data = {
   feed: {
@@ -176,6 +197,91 @@ var data = {
     _electionOfficial: electionOfficial,
     _overseasVoterContact: electionOfficial,
     hours: 'hours'
+  },
+
+  electionContest: {
+    elementId: 1,
+    type: 'type',
+    partisan: 'partisan',
+    primaryParty: 'primary',
+    electorateSpecifications: 'specs',
+    special: 'special',
+    office: 'office',
+    filingClosedDate: Date('2014-02-02'),
+    numberElected: 2,
+    numberVotingFor: 3,
+    ballotPlacement: 4,
+    overview: 'overviewstuff',
+    _ballot: {
+      elementId: 1,
+      candidates: { length: 2 },
+      referendumIds: {length: 3}
+    },
+    _electoralDistrict: {
+      elementId: 1,
+      name: 'name',
+      _precincts: { length: 2 },
+      _precinctSplits: { length: 3 }
+    },
+    _contestResults: {
+      elementId: 5,
+      totalVotes: 6,
+      totalValidVotes: 7,
+      overvotes: 8,
+      blankVotes: 9,
+      certification: 'cert'
+    },
+    _ballotLineResults: {
+      map: function(callback) {
+        return callback(ballotLineResultsData);
+      },
+      data: ballotLineResultsData
+    }
+  },
+
+  ballot: {
+    elementId: 1,
+    writeIn: 'yes',
+    imageUrl: 'url',
+    _referenda: {
+      map: function(callback) {
+        return callback(referendumData);
+      },
+      data: referendumData
+    },
+    _customBallot: {
+      elementId: 1,
+      heading: 'heading',
+      ballotResponses: {
+        map: function(callback) {
+          return callback(ballotResponsesData);
+        },
+        data: ballotResponsesData
+      }
+    }
+  },
+
+  candidates: {
+    elementId: 1,
+    _candidate: {
+      name: 'name',
+      party: 'party'
+    },
+    sortOrder: 2
+  },
+
+  candidate: {
+    elementId: 1,
+    name: 'name',
+    incumbent: 'incumbent',
+    party: 'party',
+    candidateUrl: 'url',
+    biography: 'bio',
+    phone: 'phone',
+    photoUrl: 'url',
+    filedMailingAddress: address,
+    email: 'email',
+    sortOrder: 2
   }
 };
 

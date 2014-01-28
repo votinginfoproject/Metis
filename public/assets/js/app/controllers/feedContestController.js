@@ -37,8 +37,6 @@ function FeedContestCtrl($scope, $rootScope, $feedsService, $routeParams, $appPr
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
       $scope.feedContest = {};
-      $scope.feedBallot = {};
-      $scope.feedCandidates = {};
     });
 }
 
@@ -52,8 +50,6 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
 
       $scope.ballotLineResultTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.ballot_line_results, $appProperties.lowPagination, { id: 'asc' });
 
-      FeedContestCtrl_getFeedContestBallot($scope, $rootScope, $feedsService, data.ballot);
-
       // set the title
       $rootScope.pageHeader.title = "Contest ID: " + data.id;
 
@@ -62,20 +58,5 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedContest = {};
-      $scope.feedBallot = {};
-      $scope.feedCandidates = {};
-    });
-};
-
-function FeedContestCtrl_getFeedContestBallot($scope, $rootScope, $feedsService, servicePath) {
-  $feedsService.getFeedContestBallot(servicePath)
-    .success(function(data) {
-      $scope.feedBallot = data;
-
-    }).error(function(data, $http) {
-      $rootScope.pageHeader.error += "Could not retrieve Feed Ballot data. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedBallot = {};
     });
 };
