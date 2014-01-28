@@ -447,6 +447,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         name = "electoral districts";
       }
 
+      if(name === "electoraldistrict"){
+        name = "electoral district";
+      }
+
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
       if(index !==1){
         name = vipApp_ns.camelCase(name);
