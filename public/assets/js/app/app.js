@@ -74,12 +74,12 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedContestCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/candidates/', {
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-candidates.html',
       controller: 'FeedCandidatesCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/candidates/:candidate', {
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-candidate.html',
       controller: 'FeedCandidateCtrl'
     });
