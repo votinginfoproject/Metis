@@ -119,10 +119,12 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
+    // all electoral districts pages can now go to the same html partial and the same angular controller
     $routeProvider
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' })
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' });
 
+    // all electoral district pages can now go to the same html partial and the same angular controller
     $routeProvider
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
