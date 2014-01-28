@@ -218,6 +218,43 @@ function feedContest (feedId, contestId, callback) {
     .exec(callback);
 };
 
+function feedContestElectoralDistrict(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_electoralDistrict')
+    .exec();
+
+  promise.then(function(contest) {
+    return daoSchemas.models.ElectoralDistrict.populate(contest._electoralDistrict,
+      [
+        { path: '_contest', model: daoSchemas.models.Contest.modelName },
+        { path: '_precincts', model: daoSchemas.models.Precinct.modelName },
+        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName },
+      ]);
+  }).then(function(electoralDistrict) {
+      electoralDistrict.populate(
+        { path: '_precinctSplits._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
+        callback);
+    });
+};
+
+function feedElectoralDistrict(feedId, districtId, callback) {
+  var promise = daoSchemas.models.ElectoralDistrict.findOne({ _feed: feedId, elementId: districtId })
+    .exec();
+
+  promise.then(function(electoralDistrict) {
+    return daoSchemas.models.ElectoralDistrict.populate(electoralDistrict,
+      [
+        { path: '_contest', model: daoSchemas.models.Contest.modelName },
+        { path: '_precincts', model: daoSchemas.models.Precinct.modelName },
+        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName },
+      ]);
+  }).then(function(electoralDistrict) {
+      electoralDistrict.populate(
+        { path: '_precinctSplits._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
+        callback);
+    });
+};
+
 function feedContestBallot(feedId, contestId, callback) {
   var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
     .populate('_ballot')
@@ -289,6 +326,8 @@ exports.feedPrecinctSplitPollingLocations = feedPrecinctSplitPollingLocations;
 exports.feedPrecinctSplitStreetSegments = feedPrecinctSplitStreetSegments;
 exports.feedEarlyVoteSite = feedEarlyVoteSite;
 exports.feedContest = feedContest;
+exports.feedContestElectoralDistrict = feedContestElectoralDistrict;
+exports.feedElectoralDistrict = feedElectoralDistrict;
 exports.feedBallotCandidates = feedBallotCandidates;
 exports.feedContestBallot = feedContestBallot;
 exports.feedCandidate = feedCandidate;

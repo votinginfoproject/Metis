@@ -285,6 +285,9 @@ function joinPrecinctPrecinctSplits (models, precinct) {
   promise.then(function (psOids) {
     if (psOids.length > 0) {
       updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _precinctSplits: { $each: psOids } } }, onUpdate);
+
+      var psIds = psOids.map(function(ps) { return ps._id; });
+      updateRelationship(models.PrecinctSplit, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
     }
   });
 };
@@ -378,6 +381,7 @@ function joinContestElectoralDistrict (models, contest) {
   promise.then(function (ed) {
     if (ed) {
       updateRelationship(models.Contest, { _id: contest._id }, { _electoralDistrict: ed._id }, onUpdate);
+      updateRelationship(models.ElectoralDistrict, { _id: ed._id }, { _contest: contest }, onUpdate);
     }
   });
 };

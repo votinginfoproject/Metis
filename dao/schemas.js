@@ -184,6 +184,7 @@ var electoralDistrictSchema = {
   type: String,
   number: Number,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
 };
@@ -249,6 +250,7 @@ var precinctSplitSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
   _pollingLocations: [{ type: Types.ObjectId, ref: config.mongoose.model.pollingLocation }],
+  _precinct: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
   _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }]
 };
 

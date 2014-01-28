@@ -169,15 +169,17 @@ var mapEarlyVoteSites = function(path, earlyVoteSites) {
 };
 
 var mapLocalityPrecincts = function(path, precincts) {
-  return precincts.map(function (precinct) {
-    return {
-      id: precinct.elementId,
-      name: precinct.name,
-      precinct_splits: precinct._precinctSplits.length,
-      self: _path.join(path, precinct.elementId.toString())
-    };
-  });
+  return precincts.map(mapLocalityPrecinct.bind(undefined, path));
 };
+
+function mapLocalityPrecinct(path, precinct) {
+  return {
+    id: precinct.elementId,
+    name: precinct.name,
+    precinct_splits: precinct._precinctSplits.length,
+    self: _path.join(path, precinct.elementId.toString())
+  };
+}
 
 var mapLocalities = function(path, localities) {
   return localities.map(function (locality) {
@@ -225,133 +227,26 @@ function mapElectoralDistricts (path, electoralDistrict) {
   });
 };
 
-// === TODO
-function mapPrecinctElectoralDistrict(path, electoralDistrict) {
+function mapElectoralDistrict(path, electoralDistrict) {
   return {
-    id: electoralDistrict.id,
+    id: electoralDistrict.elementId,
     error_count: -1, //TODO
-    name: 'US Pres.',
-    type: 'statewide',
-    number: 123,
-    contests: _path.join(path, '/contests'),
-    precincts: _path.join(path, '/precincts'),
-    precinctsplits: _path.join(path, '/precinctsplits')
+    name: electoralDistrict.name,
+    type: electoralDistrict.type,
+    number: electoralDistrict.number,
+    contests: electoralDistrict._contest ? [mapElectionContest(path, electoralDistrict._contest)] : [],
+    precincts: electoralDistrict._precincts ?
+      electoralDistrict._precincts.map(function(precinct) {
+        var precinctPath = _path.join(path, '../state/localities/', precinct.localityId.toString(), 'precincts');
+        return mapLocalityPrecinct(precinctPath, precinct)
+      }) : [],
+    precinctsplits: electoralDistrict._precinctSplits ?
+      electoralDistrict._precinctSplits.map(function(precinctSplit) {
+        var splitPath = _path.join(path, '../state/localities/', precinctSplit._precinct.localityId.toString(), '/precincts', precinctSplit.precinctId.toString(), 'precinctsplits');
+        return mapPrecinctSplitSummary(splitPath, precinctSplit)
+      }) : []
   };
 };
-
-function mapPrecinctElectoralDistrictContests(path, electoralDistrict) {
-  return [
-    {
-      id: 123,
-      type: 'Type1',
-      title: 'Office1',
-      self: '/relativeurl'
-    },
-    {
-      id: 124,
-      type: 'Type2',
-      title: 'Office2',
-      self: '/relativeurl'
-    }
-  ]
-};
-
-function mapPrecinctElectoralDistrictPrecincts(path, precincts) {
-  return [
-    {
-      id: 1,
-      name: 'P1',
-      precinct_splits: 11,
-      self: 'relaticepath1'
-    },
-    {
-      id: 2,
-      name: 'P2',
-      precinct_splits: 22,
-      self: 'relaticepath2'
-    }
-  ]
-};
-
-function mapPrecinctElectoralDistrictPrecinctSplits(path, precinctsplits) {
-  return [
-    {
-      id: 22,
-      name: 'PS22',
-      street_segments: 222,
-      self: 'relaticepath22'
-    },
-    {
-      id: 33,
-      name: 'PS33',
-      street_segments: 333,
-      self: 'relaticepath33'
-    }
-  ]};
-// ===
-function mapPrecinctSplitElectoralDistrict(path, electoralDistrict) {
-  return {
-    id: electoralDistrict.id,
-    error_count: -1, //TODO
-    name: 'Split US Pres.',
-    type: 'Split statewide',
-    number: 9123,
-    contests: _path.join(path, '/contests'),
-    precincts: _path.join(path, '/precincts'),
-    precinctsplits: _path.join(path, '/precinctsplits')
-  };
-};
-
-function mapPrecinctSplitElectoralDistrictContests(path, electoralDistrict) {
-  return [
-    {
-      id: 9123,
-      type: 'Split Type1',
-      title: 'Split Office1',
-      self: '/Splitrelativeurl'
-    },
-    {
-      id: 9124,
-      type: 'Split Type2',
-      title: 'Split Office2',
-      self: '/Splitrelativeurl'
-    }
-  ]
-};
-
-function mapPrecinctSplitElectoralDistrictPrecincts(path, precincts) {
-  return [
-    {
-      id: 91,
-      name: 'P1',
-      precinct_splits: 911,
-      self: 'Splitrelaticepath1'
-    },
-    {
-      id: 92,
-      name: 'P2',
-      precinct_splits: 922,
-      self: 'Splitrelaticepath2'
-    }
-  ]
-};
-
-function mapPrecinctSplitElectoralDistrictPrecinctSplits(path, precinctsplits) {
-  return [
-    {
-      id: 922,
-      name: 'Split PS22',
-      street_segments: 9222,
-      self: 'Splitrelaticepath22'
-    },
-    {
-      id: 933,
-      name: 'Split PS33',
-      street_segments: 9333,
-      self: 'Splitrelaticepath33'
-    }
-  ]};
-// ===
 
 var mapPollingLocations = function(path, pollingLocations) {
   return pollingLocations.map(function (pl) {
@@ -365,14 +260,16 @@ var mapPollingLocations = function(path, pollingLocations) {
 };
 
 var mapPrecinctPrecinctSplits = function(path, precinctSplits) {
-  return precinctSplits.map(function (ps) {
-    return {
-      id: ps.elementId,
-      name: ps.name,
-      street_segments: ps._streetSegments.length,
-      self: _path.join(path, ps.elementId.toString())
-    };
-  });
+  return precinctSplits.map(mapPrecinctSplitSummary.bind(undefined, path));
+};
+
+function mapPrecinctSplitSummary(path, precinctSplit) {
+  return {
+    id: precinctSplit.elementId,
+    name: precinctSplit.name,
+    street_segments: precinctSplit._streetSegments.length,
+    self: _path.join(path, precinctSplit.elementId.toString())
+  };
 };
 
 var mapElectionContest = function(path, contest) {
@@ -811,16 +708,9 @@ exports.mapLocalityPrecincts = mapLocalityPrecincts;
 exports.mapLocalities = mapLocalities;
 exports.mapPrecinct = mapPrecinct;
 exports.mapElectoralDistricts = mapElectoralDistricts;
-exports.mapPrecinctElectoralDistrict = mapPrecinctElectoralDistrict;
-exports.mapPrecinctElectoralDistrictContests = mapPrecinctElectoralDistrictContests;
-exports.mapPrecinctElectoralDistrictPrecincts = mapPrecinctElectoralDistrictPrecincts;
-exports.mapPrecinctElectoralDistrictPrecinctSplits = mapPrecinctElectoralDistrictPrecinctSplits;
+exports.mapElectoralDistrict = mapElectoralDistrict;
 exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
-exports.mapPrecinctSplitElectoralDistrict = mapPrecinctSplitElectoralDistrict;
-exports.mapPrecinctSplitElectoralDistrictContests = mapPrecinctSplitElectoralDistrictContests;
-exports.mapPrecinctSplitElectoralDistrictPrecincts = mapPrecinctSplitElectoralDistrictPrecincts;
-exports.mapPrecinctSplitElectoralDistrictPrecinctSplits = mapPrecinctSplitElectoralDistrictPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
 exports.mapContests = mapContests;

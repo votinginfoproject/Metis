@@ -26,10 +26,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid', utils.ensureAuthentication, httpCallback.feedPrecinctGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites', utils.ensureAuthentication, httpCallback.feedPrecinctEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictGET); // TODO PRECINCTS <---
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid/contests', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictContestsGET); // TODO
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid/precincts', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictPrecinctsGET); //TODO
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid/precinctsplits', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictPrecinctSplitsGET); //TODO
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid', utils.ensureAuthentication, httpCallback.feedPrecinctElectoralDistrictGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations', utils.ensureAuthentication, httpCallback.feedPrecinctPollingLocationsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits', utils.ensureAuthentication, httpCallback.feedPrecinctPrecinctSplitsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments', utils.ensureAuthentication, httpCallback.feedPrecinctStreetSegmentsGET);
@@ -37,10 +34,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid', utils.ensureAuthentication, httpCallback.feedPrecinctSplitGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/pollinglocations', utils.ensureAuthentication, httpCallback.feedPrecinctSplitPollingLocationsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictGET); //TODO PRECINCT SPLITS <---
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid/contests', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictContestsGET); // TODO
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid/precincts', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictPrecinctsGET); // TODO
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid/precinctsplits', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictPrecinctSplitsGET); // TODO
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid', utils.ensureAuthentication, httpCallback.feedPrecinctSplitElectoralDistrictGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments', utils.ensureAuthentication, httpCallback.feedPrecinctSplitStreetSegmentsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments/errors', utils.ensureAuthentication, httpCallback.feedPrecinctSplitStreetSegmentsErrorsGET);
   app.get('/services/feeds/:feedid/election/state/earlyvotesites/:evsid', utils.ensureAuthentication, httpCallback.feedEarlyVoteSiteGET);
@@ -48,10 +42,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites/:evsid', utils.ensureAuthentication, httpCallback.feedEarlyVoteSiteGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, httpCallback.feedElectionContestsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid', utils.ensureAuthentication, httpCallback.feedContestGET);
-  app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictGET); // TODO CONTESTS <---
-  app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict/contests', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictContestsGET); // TODO
-  app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict/precincts', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictPrecinctsGET); // TODO
-  app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict/precinctsplits', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictPrecinctSplitsGET); // TODO
+  app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot', utils.ensureAuthentication, httpCallback.feedContestBallotGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates', utils.ensureAuthentication, httpCallback.feedBallotCandidatesGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid', utils.ensureAuthentication, httpCallback.feedCandidateGET);
