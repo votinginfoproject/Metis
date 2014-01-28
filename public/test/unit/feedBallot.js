@@ -1,5 +1,5 @@
 /**
- * Created by rcartier13 on 1/22/14.
+ * Created by rcartier13 on 1/28/14.
  */
 
 
@@ -18,16 +18,16 @@ describe('Feed Contest Unit Tests', function() {
           var http = $injector.get('$http');
           return http.get("/Data");
         },
-        getFeedContest: function() {
+        getFeedBallot: function() {
           var http = $injector.get('$http');
-          return http.get("/Contest");
+          return http.get("/Ballot");
         }
       }
 
       $httpBackend = $injector.get('$httpBackend');
-      feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
+      feedData = {custom_ballot: {}};
       $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/Contest').respond(feedData);
+      $httpBackend.when('GET', '/Ballot').respond(feedData);
 
       $rootScope = $injector.get('$rootScope');
       var $controller = $injector.get('$controller');
@@ -49,7 +49,7 @@ describe('Feed Contest Unit Tests', function() {
       $rootScope.getBreadCrumbs = function() {};
       $rootScope.getServiceUrl = function() {};
 
-      feedCtrl = $controller('FeedContestCtrl', {
+      feedCtrl = $controller('FeedBallotCtrl', {
         '$scope': $rootScope,
         '$rootScope': $rootScope,
         '$feedsService': mockService,
@@ -68,7 +68,7 @@ describe('Feed Contest Unit Tests', function() {
     it('should have valid data', function() {
       $httpBackend.flush();
       expect($rootScope.feedData).toEqual(feedData);
-      expect($rootScope.feedContest).toEqual(feedData);
+      expect($rootScope.feedBallot).toEqual(feedData);
     });
   });
 });
