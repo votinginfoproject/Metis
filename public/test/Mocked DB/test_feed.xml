@@ -370,6 +370,8 @@ Note that the ID attributes are unique throughout the file.
 		<candidate_id>90001</candidate_id>
 		<candidate_id>90002</candidate_id>
 		<candidate_id>90003</candidate_id>
+    <write_in>yes</write_in>
+    <image_url>http://www.FakeUrl.com</image_url>
 	</ballot>
 	<ballot id="80002">
 		<candidate_id>90004</candidate_id>
@@ -380,8 +382,13 @@ Note that the ID attributes are unique throughout the file.
 		<candidate_id>90007</candidate_id>
 	</ballot>
 	<ballot id="80004">
-		<candidate_id>90008</candidate_id>
-		<candidate_id>90009</candidate_id>
+		<candidate_id>90001</candidate_id>
+		<candidate_id>90002</candidate_id>
+    <write_in>yes</write_in>
+    <image_url>http://www.FakeUrl.com</image_url>
+    <referendum_id>90011</referendum_id>
+    <referendum_id>90012</referendum_id>
+    <custom_ballot_id>90013</custom_ballot_id>
 	</ballot>
 	<ballot id="80005">
 		<candidate_id>90010</candidate_id>
@@ -408,6 +415,11 @@ Note that the ID attributes are unique throughout the file.
 		<name>Berlin Opponent</name>
 		<party>Republican</party>
 		<sort_order>2</sort_order>
+    <candidate_url>http://www.berlinOpp.org</candidate_url>
+    <biography>Daniel Berlin's opponent grew up somewhere else</biography>
+    <phone>123-456-7890</phone>
+    <filed_mailing_address><line1>1234 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
+    <email>dberlinop@example.com</email>
 	</candidate>
 	<candidate id="90003">
 		<name>Third Party Person</name>
@@ -451,7 +463,18 @@ Note that the ID attributes are unique throughout the file.
 		<ballot_response_id>120001</ballot_response_id>
 		<ballot_response_id>120002</ballot_response_id>
 	</referendum>
-	<custom_ballot id="90012">
+  <referendum id="90012">
+    <title>Proposition 12</title>
+    <subtitle>A referendum to...</subtitle>
+    <brief>A yes vote is a vote to...</brief>
+    <text>Shall the State of Ohio ... (full text of referendum as it appears on the ballot).</text>
+    <pro_statement>Vote yes please</pro_statement>
+    <con_statement>Vote no please</con_statement>
+    <passage_threshold>three-fifths</passage_threshold>
+    <effect_of_abstain>Abstaining has no effect</effect_of_abstain>
+    <ballot_response_id>120003</ballot_response_id>
+  </referendum>
+	<custom_ballot id="90013">
 		<heading>Should Judge Carlton Smith be retained?</heading>
 		<ballot_response_id>120001</ballot_response_id>
 		<ballot_response_id>120002</ballot_response_id>
@@ -464,6 +487,10 @@ Note that the ID attributes are unique throughout the file.
 		<sort_order>2</sort_order>
 		<text>No</text>
 	</ballot_response>
+  <ballot_response id="120003">
+    <sort_order>3</sort_order>
+    <text>No</text>
+  </ballot_response>
     <contest_result id="61004" certification="certified">
       <contest_id>60001</contest_id>
       <jurisdiction_id>70003</jurisdiction_id>
