@@ -37,7 +37,10 @@ describe('Testing Feed Candidate Page', function() {
       element('#contests-id0 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
 
-      element('#candidate-id0 a').click();
+      element('#ballot-id a').click();
+      expect(element('#feed-ballot-content').count()).toBe(1);
+
+      element('#ballotcandidates-id0 a').click();
 
       // Make sure there is no error on the page
       expect(element('#pageHeader-alert')).not().toBeDefined();
@@ -46,8 +49,8 @@ describe('Testing Feed Candidate Page', function() {
   });
 
   describe('Checks if errors are thrown', function() {
-    it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/candidates/1candidate");
+    it('Navigates to Candidate', function() {
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
       expect(element('#pageHeader-alert').html()).toBeDefined();
     });
   });
@@ -91,9 +94,12 @@ describe('Testing Feed Candidates Page', function() {
       element('#contests-id0 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
 
-      element('#candidate-id0 a').click();
+      element('#ballot-id a').click();
+      expect(element('#feed-ballot-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb5').click();
+      element('#ballotcandidates-id0 a').click();
+
+      element('#pageHeader-breadcrumb6').click();
 
       // Make sure there is no error on the page
       expect(element('#pageHeader-alert')).not().toBeDefined();
@@ -102,8 +108,8 @@ describe('Testing Feed Candidates Page', function() {
   });
 
   describe('Checks if errors are thrown', function() {
-    it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/candidates");
+    it('Navigates to Candidates', function() {
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates");
       expect(element('#pageHeader-alert').html()).toBeDefined();
     });
   });
