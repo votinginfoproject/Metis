@@ -399,12 +399,7 @@ function mapContest (path, contest) {
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
     overview: mapContestOverview(null, null), //TODO: replace with real data
-    ballot: contest._ballot ? {
-      id: contest._ballot.elementId,
-      candidate_count: contest._ballot.candidates ? contest._ballot.candidates.length : 0,
-      referendum_count: contest._ballot.referendumIds ? contest._ballot.referendumIds.length : 0,
-      self: _path.join(path, '/ballot')
-    } : null,
+    ballot: _path.join(path, '/ballot'),
     candidates: _path.join(path, '/candidates'),
     electoral_district: contest._electoralDistrict ? {
       id: contest._electoralDistrict.elementId,
@@ -695,59 +690,23 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
-var mapBallot = function(path, ballot) {
+var mapContestBallot = function(path, ballot) {
   return {
-    id: ballot.elementId,
-    write_in: ballot.writeIn,
-    image_url: ballot.imageUrl,
-    candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
-    referenda: ballot._referenda ? ballot._referenda.map(function(referendum) {
-      return {
-        id: referendum.elementId,
-        title: referendum.title,
-        self: _path.join(path, '/referenda/' + referendum.elementId.toString())
-      };
-    }) : [],
-    custom_ballot: ballot._customBallot ? {
-      id: ballot._customBallot.elementId,
-      heading: ballot._customBallot.heading,
-      ballot_responses: ballot._customBallot.ballotResponses.map(function(response) {
-        return {
-          id: response._response.elementId,
-          text: response._response.text,
-          sort_order: response._response.sortOrder
-        };
-      })
-    } : null
+    id: 120045,
+    sort_order: 13,
+    write_in: 'No',
+    image_url: 'http://fakeUrl.com',
+    candidates: -1,
+    referendums: -1
   };
 };
 
-var mapBallotCandidates = function(path, candidates) {
-  return candidates ? candidates.map(function(candidate) {
-    return {
-      id: candidate.elementId,
-      name: candidate._candidate.name,
-      party: candidate._candidate.party,
-      sort_order: candidate.sortOrder,
-      self: _path.join(path, candidate.elementId.toString())
-    };
-  }) : [];
-};
-
-var mapCandidate = function (path, candidate) {
-  return {
-    id: candidate.elementId,
-    name: candidate.name,
-    incumbent: candidate.incumbent, //TODO: v5.0 element
-    party: candidate.party,
-    candidate_url: candidate.candidateUrl,
-    biography: candidate.biography,
-    phone: candidate.phone,
-    photo_url: candidate.photoUrl,
-    filed_mailing_address: addressToJson(candidate.filedMailingAddress),
-    email: candidate.email,
-    sort_order: candidate.sortOrder,
-  };
+var mapContestCandidates = function(path, candidates) {
+  return [
+    {id: 31000655, name: 'Barack Obama', party: 'DEM'},
+    {id: 31000656, name: 'Mitt Romney', party: 'REP'},
+    {id: 31000657, name: 'Gary Johnson', party: 'LIB'}
+  ];
 };
 
 var mapContestOverview = function(path, data) { //TODO
@@ -783,6 +742,21 @@ var mapContestOverview = function(path, data) { //TODO
       error_count: 460
     }
   ];
+};
+
+var mapCandidate = function (path, candidate) {
+  return {
+    id: candidate.elementId,
+    name: '*',
+    incumbent: '*',
+    party: '*',
+    biography: '*',
+    phone: '*',
+    photo_url: '*',
+    address: '*',
+    email: '*',
+    sort_order: '*'
+  };
 };
 
 var mapContestContestResults = function(path, contestResults) {
@@ -833,8 +807,8 @@ exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
-exports.mapBallot = mapBallot;
-exports.mapBallotCandidates = mapBallotCandidates;
+exports.mapContestBallot = mapContestBallot;
+exports.mapContestCandidates = mapContestCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
 exports.mapContestContestResults = mapContestContestResults;
