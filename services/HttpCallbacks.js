@@ -339,15 +339,30 @@ function feedHistoryGET (req, res) {
   res.json(mapper.mapHistory(req.path, history));
 };
 
-function feedContestContestResultsGET (req, res) {
-  var results = {};//TODO: get data from the database
-  res.json(mapper.mapContestContestResults(req.path, results));
+function feedContestResultGET (req, res) {
+  dao.getContestResult(req.params.feedid, req.params.contestid, function(err, contestResult) {
+    notFoundHandler(res, err, contestResult, function () {
+      res.json(mapper.mapContestResult(req.path, contestResult));
+    });
+  });
 }
 
 function feedContestBallotLineResultsGET (req, res) {
-  var results = {};//TODO: get data from the database
-  res.json(mapper.mapContestBallotLineResults(req.path, results));
-};
+  dao.getContestBallotLineResults(req.params.feedid, req.params.contestid, function(err, results) {
+    notFoundHandler(res, err, results, function() {
+      res.json(mapper.mapBallotLineResults(req.path, results));
+    });
+  });
+}
+
+function feedBallotLineResultGET(req, res) {
+  dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
+    notFoundHandler(res, err, blr, function() {
+      res.json(mapper.mapBallotLineResult(req.path, blr));
+    });
+  });
+}
+
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;
@@ -386,8 +401,9 @@ exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
-exports.feedContestContestResultsGET = feedContestContestResultsGET;
-exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedContestResultGET = feedContestResultGET;
 exports.feedBallotReferendaGET = feedBallotReferendaGET;
 exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
+exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedBallotLineResultGET = feedBallotLineResultGET;
