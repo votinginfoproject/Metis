@@ -318,6 +318,39 @@ describe('Feed Mappers Tests', function() {
     });
   });
 
+  describe('mapReferenda Test', function() {
+    it('returns the data', function() {
+      var referenda = data.referenda;
+      data.mapFunc.map = function(callback) {
+        return callback(referenda);
+      };
+      var res = mappers.mapReferenda('path', data.mapFunc);
+
+      expect(res.id).toBe(referenda.elementId);
+      expect(res.title).toBe(referenda.title);
+    });
+  });
+
+  describe('mapReferendum Test', function() {
+    it('returns the data', function() {
+      var referendum = data.referendum;
+      var res = mappers.mapReferendum(referendum);
+
+      expect(res.id).toBe(referendum.elementId);
+      expect(res.title).toBe(referendum.title);
+      expect(res.subtitle).toBe(referendum.subtitle);
+      expect(res.brief).toBe(referendum.brief);
+      expect(res.text).toBe(referendum.text);
+      expect(res.pro_statement).toBe(referendum.proStatement);
+      expect(res.con_statement).toBe(referendum.conStatement);
+      expect(res.passage_threshold).toBe(referendum.passageThreshold);
+      expect(res.effect_of_abstain).toBe(referendum.effectOfAbstain);
+      expect(res.ballot_responses.id).toBe(data.ballotResponse._response.elementId);
+      expect(res.ballot_responses.text).toBe(data.ballotResponse._response.text);
+      expect(res.ballot_responses.sort_order).toBe(data.ballotResponse._response.sortOrder)
+    });
+  });
+
   describe('mapBallotCandidates Test', function() {
     it('returns the data', function() {
       var candidates = data.candidates;
@@ -348,6 +381,19 @@ describe('Feed Mappers Tests', function() {
       nodeUtil.testMapperAddress(res.filed_mailing_address, candidate.filedMailingAddress)
       expect(res.email).toBe(candidate.email);
       expect(res.sort_order).toBe(candidate.sortOrder);
+    });
+  });
+
+  describe('mapPollingLocation', function() {
+    it('returns the data', function() {
+      var location = data.pollingLocation;
+      var res = mappers.mapPollingLocation('path', location);
+
+      expect(res.id).toBe(location.elementId);
+      nodeUtil.testMapperAddress(res.address, location.address);
+      expect(res.directions).toBe(location.directions);
+      expect(res.photo_url).toBe(location.photoUrl);
+      expect(res.polling_hours).toBe(location.pollingHours);
     });
   });
 });

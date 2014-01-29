@@ -20,20 +20,18 @@
   <h4>{{feedReferendum.ballot_responses.length}} Ballot Responses</h4>
 
   <span ng-if="!feedReferendum.ballot_responses && feedReferendum.ballot_responses !== null" class="is-loading"></span>
-  <table ng-show="feedReferendum.ballot_responses.length" id="referendumBallotResponsesTable" ng-table="referendumBallotResponsesTableParams" template-pagination="referendumBallotResponsesPagination" class="associations">
-    <tr id="response{{$index}}" ng-repeat="response in $data">
-      <td id="response-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/response.id}}">{{response.id}}</a></td>
-      <td id="response-title{{$index}}" data-title="'Text'" sortable="'text'"><a href="{{$location.absUrl()}}/response.id">{{response.text}}</a></td>
+  <table ng-show="feedReferendum.ballot_responses.length" id="referendumBallotResponsesTable" class="associations" >
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Text</th>
     </tr>
+    </thead>
+    <tbody>
+    <tr id="response{{$index}}" ng-repeat="response in feedReferendum.ballot_responses">
+      <td id="response-id{{$index}}">{{response.id}}</td>
+      <td id="response-title{{$index}}">{{response.text}}</td>
+        </tr>
+    </tbody>
   </table>
-
-  <script type="text/ng-template" id="referendumBallotResponsesPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="referendumBallotResponsesPage{{$index}}" ng-class="{'is-active': page.number == referendumBallotResponsesTableParams.page()}"
-           ng-click="referendumBallotResponsesTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
 </section>

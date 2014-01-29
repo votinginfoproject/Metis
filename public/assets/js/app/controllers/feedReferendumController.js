@@ -47,8 +47,6 @@ function FeedReferendumCtrl_getFeedReferendum($scope, $rootScope, $feedsService,
 
       $rootScope.pageHeader.title = "Referendum ID: " + data.id;
 
-      $scope.referendumBallotResponsesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.ballot_responses, $appProperties.lowPagination, { id: 'asc' });
-
     }).error(function (data) {
       $rootScope.pageHeader.error += "Could not retrieve Referendum data. ";
 

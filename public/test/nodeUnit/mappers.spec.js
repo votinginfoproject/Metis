@@ -367,8 +367,8 @@ describe('Mapper Unit Tests', function() {
         expect(this.conStatement).toBe(xml.con_statement);
         expect(this.passageThreshold).toBe(xml.passage_threshold);
         expect(this.effectOfAbstain).toBe(xml.effect_of_abstain);
-        expect(this.ballotResponse[0].id).toBe(xml.ballot_response_id[0].$text);
-        expect(this.ballotResponse[0].sortOrder).toBe(xml.ballot_response_id[0].$.sort_order);
+        expect(this.ballotResponses[0].elementId).toBe(xml.ballot_response_id[0].$text);
+        expect(this.ballotResponses[0].sortOrder).toBe(xml.ballot_response_id[0].$.sort_order);
         cb();
       };
       nodeUtil.mapperTest(save, model, xml, done);
