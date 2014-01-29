@@ -3,7 +3,6 @@
 <!-- error table directive -->
 <div ng-show="errors.length" ng-error-table errors="errors" errors-table-params="errorsTableParams" toggle-error="toggleError" loading="errors"></div>
 
-
 <section class="data-group">
 
   <span ng-if="!errors" class="is-loading"></span>
@@ -13,7 +12,7 @@
         <a ng-click="toggleError($index)">{{error.error_count}}</a>
       </td>
       <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severityText'">
-        <a ng-click="toggleError($index)"><b>{{error.severityText}}:</b> {{error.title}}</a>
+        <a ng-click="toggleError($index)"><b><span id="errorArrowClosed{{$index}}">&#9650;</span><span id="errorArrowOpen{{$index}}" hidden>&#9660;</span> {{error.severityText}}:</b> {{error.title}}</a>
       </td>
     </tr>
     <tr id="errorDetail{{$index}}" ng-repeat-end hidden>

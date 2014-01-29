@@ -94,11 +94,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedStateCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/electionadministration', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-state-electionadministration.html',
-      controller: 'FeedStateElectionAdministrationCtrl'
-    });
-
     $routeProvider.when('/feeds/:vipfeed/election/state/localities', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-localities.html',
       controller: 'FeedLocalitiesCtrl'
@@ -109,10 +104,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedLocalityCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/electionadministration', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-locality-electionadministration.html',
-      controller: 'FeedLocalityElectionAdministrationCtrl'
-    });
+    // for all election administration pages
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/electionadministration', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electionadministration.html', controller: 'FeedElectionAdministrationCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/electionadministration', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electionadministration.html', controller: 'FeedElectionAdministrationCtrl' });
 
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precincts.html',
