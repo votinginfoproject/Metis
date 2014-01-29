@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var _path = require('path');
+var resultsMapper = require('./results');
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -310,25 +311,16 @@ function mapContest (path, contest) {
       precinct_splits: contest._electoralDistrict._precinctSplits.length,
       self: _path.join(path, '/electoraldistrict')
     } : null,
-    contest_results: contest._contestResults ? {
-      id: contest._contestResults.elementId,
-      votes: contest._contestResults.totalVotes,
-      valid_votes: contest._contestResults.totalValidVotes,
-      overvotes: contest._contestResults.overvotes,
-      blank_votes: contest._contestResults.blankVotes,
-      certification: contest._contestResults.certification,
-      self: _path.join(path, '/contestresults')
+    contest_results: contest._contestResult ? {
+      id: contest._contestResult.elementId,
+      votes: contest._contestResult.totalVotes,
+      valid_votes: contest._contestResult.totalValidVotes,
+      overvotes: contest._contestResult.overvotes,
+      blank_votes: contest._contestResult.blankVotes,
+      certification: contest._contestResult.certification,
+      self: _path.join(path, '/contestresult')
     } : null,
-    ballot_line_results: contest._ballotLineResults ? contest._ballotLineResults.map(function(blr) {
-      return {
-        id: blr.elementId,
-        candidate_id: blr.candidateId,
-        response_id: blr.ballotResponseId,
-        votes: blr.votes,
-        certification: blr.certification,
-        self: _path.join(path, '/ballotlineresults' + blr.elementId.toString())
-      };
-    }) : null
+    ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
 };
 
@@ -664,7 +656,7 @@ var mapCandidate = function (path, candidate) {
     photo_url: candidate.photoUrl,
     filed_mailing_address: addressToJson(candidate.filedMailingAddress),
     email: candidate.email,
-    sort_order: candidate.sortOrder,
+    sort_order: candidate.sortOrder
   };
 };
 
@@ -713,20 +705,6 @@ var mapContestOverview = function(path, data) { //TODO
   ];
 };
 
-var mapContestContestResults = function(path, contestResults) {
-  return [
-    { id: 302030103, votes: 2000, valid_votes: 1500, overvotes: 300, blank_votes: 200 },
-    { id: 302030104, votes: 150, valid_votes: 100, overvotes: 0, blank_votes: 15 }
-  ];
-};
-
-var mapContestBallotLineResults  = function (path, ballotLineResults) {
-  return [
-    { id: 400014, votes: 400, victorious: 'Yes' },
-    { id: 400015, votes: 100, victorious: 'No' }
-  ];
-};
-
 
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
@@ -758,8 +736,9 @@ exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
-exports.mapContestContestResults = mapContestContestResults;
-exports.mapContestBallotLineResults = mapContestBallotLineResults;
+exports.mapContestResult = resultsMapper.mapContestResult;
+exports.mapBallotLineResults = resultsMapper.mapBallotLineResults;
+exports.mapBallotLineResult = resultsMapper.mapBallotLineResult;
 exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
 exports.mapPollingLocation = mapPollingLocation;

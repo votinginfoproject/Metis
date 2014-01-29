@@ -44,6 +44,71 @@ describe('Testing Feed Contest Page', function() {
     });
   });
 
+
+  /* ----------------------------------------
+   Now from the Feed Contest page, click the first Electoral District link
+   ------------------------------------------*/
+  describe('Click the Contest first Electoral District link', function () {
+
+    it('Click and go to the Electoral District page', function () {
+
+      // Should have Electoral District link
+      expect(element('#electoraldistrict-id a').count()).toBe(1);
+
+      // click the link
+      element('#electoraldistrict-id a').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Contest Electoral District page
+      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Should have Contest Electoral District data
+   ------------------------------------------*/
+  describe('Should have Contest Electoral District data', function () {
+
+    it('Should have Contest Electoral District data', function () {
+
+      // expect data
+      expect(element('#name').count()).toBe(1);
+
+      // expect data for the first Contests row
+      expect(element('#contests0').count()).toBe(1);
+
+      // expect data for the first Precincts row
+      expect(element('#precinct0').count()).toBe(1);
+
+      // expect data for the first Precinct Splits row
+      expect(element('#precinctSplit0').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed Contest Electoral District page, click to the Contest page via the breadcrumb
+   ------------------------------------------*/
+  describe('Click the Contest breadcrumb', function () {
+
+    it('Click and go to the Contest page', function () {
+
+      // Should have Contest breadcrumb
+      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
+
+      // click the link
+      element('#pageHeader-breadcrumb4').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Contest Electoral Districts page
+      expect(element('#feed-contest-content').count()).toBe(1);
+
+    });
+  });
+
   describe('Checks if errors are thrown', function() {
     it('Navigates to Contests', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");

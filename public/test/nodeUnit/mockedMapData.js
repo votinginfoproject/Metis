@@ -223,7 +223,7 @@ var data = {
       _precincts: { length: 2 },
       _precinctSplits: { length: 3 }
     },
-    _contestResults: {
+    _contestResult: {
       elementId: 5,
       totalVotes: 6,
       totalValidVotes: 7,
