@@ -20,7 +20,7 @@ function FeedContestCtrl($scope, $rootScope, $feedsService, $routeParams, $appPr
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
+      FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties.lowPagination, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 

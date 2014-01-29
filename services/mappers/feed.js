@@ -628,7 +628,7 @@ function mapReferendum(referendum) {
     con_statement: referendum.conStatement,
     passage_threshold: referendum.passageThreshold,
     effect_of_abstain: referendum.effectOfAbstain,
-    ballotResponses: referendum.ballotResponses.map(mapBallotResponse)
+    ballot_responses: referendum.ballotResponses.map(mapBallotResponse)
   };
 };
 

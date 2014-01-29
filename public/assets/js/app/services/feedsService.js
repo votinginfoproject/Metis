@@ -168,6 +168,13 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // ========================================================
     getFeedBallot: function (servicePath) {
       return $http.get(servicePath);
+    },
+
+    // Feed Referendum page
+    // ========================================================
+    getFeedReferendum: function (servicePath) {
+      return $http.get(servicePath);
     }
+
   };
 });
