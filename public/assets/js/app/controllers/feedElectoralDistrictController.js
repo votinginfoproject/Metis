@@ -10,7 +10,7 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedsService, $routePara
   $scope.vipfeed = feedid;
 
   // create a unique id for this page based on the breadcrumbs
-  $scope.pageId = $rootScope.generatePageId(feedid);
+  $scope.pageId = $rootScope.generatePageId(feedid) + "-single";
 
   // get the electoral district param from the route
   var electoraldistrictid = $routeParams.districtid;
