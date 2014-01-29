@@ -592,30 +592,51 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
-var mapBallot = function(path, ballot) {
+function mapBallot(path, ballot) {
   return {
     id: ballot.elementId,
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
-    referenda: ballot._referenda ? ballot._referenda.map(function(referendum) {
-      return {
-        id: referendum.elementId,
-        title: referendum.title,
-        self: _path.join(path, '/referenda/' + referendum.elementId.toString())
-      };
-    }) : [],
+    referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
     custom_ballot: ballot._customBallot ? {
       id: ballot._customBallot.elementId,
       heading: ballot._customBallot.heading,
-      ballot_responses: ballot._customBallot.ballotResponses.map(function(response) {
-        return {
-          id: response._response.elementId,
-          text: response._response.text,
-          sort_order: response._response.sortOrder
-        };
-      })
+      ballot_responses: ballot._customBallot.ballotResponses.map(mapBallotResponse)
     } : null
+  };
+};
+
+function mapReferenda(path, referenda) {
+  return referenda.map(function(referendum) {
+    return {
+      id: referendum.elementId,
+      title: referendum.title,
+      self: _path.join(path, referendum.elementId.toString())
+    };
+  });
+};
+
+function mapReferendum(referendum) {
+  return {
+    id: referendum.elementId,
+    title: referendum.title,
+    subtitle: referendum.subtitle,
+    brief: referendum.brief,
+    text: referendum.text,
+    pro_statement: referendum.proStatement,
+    con_statement: referendum.conStatement,
+    passage_threshold: referendum.passageThreshold,
+    effect_of_abstain: referendum.effectOfAbstain,
+    ballotResponses: referendum.ballotResponses.map(mapBallotResponse)
+  };
+};
+
+function mapBallotResponse(response) {
+  return {
+    id: response._response.elementId,
+    text: response._response.text,
+    sort_order: response._response.sortOrder
   };
 };
 
@@ -729,3 +750,5 @@ exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
 exports.mapContestContestResults = mapContestContestResults;
 exports.mapContestBallotLineResults = mapContestBallotLineResults;
+exports.mapReferenda = mapReferenda;
+exports.mapReferendum = mapReferendum;

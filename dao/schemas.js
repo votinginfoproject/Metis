@@ -264,9 +264,10 @@ var referendumSchema = {
   conStatement: String,
   passageThreshold: String,
   effectOfAbstain: String,
-  ballotResponse: [{
-    id: Number,
-    sortOrder: Number
+  ballotResponses: [{
+    elementId: Number,
+    sortOrder: Number,
+    _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };

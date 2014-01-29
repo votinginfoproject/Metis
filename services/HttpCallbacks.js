@@ -287,6 +287,22 @@ function feedCandidateGET (req, res) {
   });
 };
 
+function feedBallotReferendaGET(req, res) {
+  dao.feedBallotReferenda(req.params.feedid, req.params.contestid, function (err, referenda) {
+    notFoundHandler(res, err, referenda, function () {
+      res.json(mapper.mapReferenda(req.path, referenda));
+    });
+  });
+};
+
+function feedBallotReferendumGET(req, res) {
+  dao.feedBallotReferendum(req.params.feedid, req.params.referendumid, function (err, referendum) {
+    notFoundHandler(res, err, referendum, function () {
+      res.json(mapper.mapReferendum(referendum));
+    });
+  });
+};
+
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
   res.json(mapper.mapPollingSummary(req.path, polling));
@@ -354,4 +370,6 @@ exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
 exports.feedContestContestResultsGET = feedContestContestResultsGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedBallotReferendaGET = feedBallotReferendaGET;
+exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;

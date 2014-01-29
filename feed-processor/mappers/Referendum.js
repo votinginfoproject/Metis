@@ -21,9 +21,9 @@ Referendum.prototype.mapXml3_0 = function (referendum) {
     conStatement: referendum.con_statement,
     passageThreshold: referendum.passage_threshold,
     effectOfAbstain: referendum.effect_of_abstain,
-    ballotResponse: _.map(referendum.ballot_response_id, function(response) {
+    ballotResponses: _.map(referendum.ballot_response_id, function(response) {
       return {
-        id: (response.$text === undefined) ? response : response.$text,
+        elementId: (response.$text === undefined) ? response : response.$text,
         sortOrder: (response.$ === undefined) ? undefined : response.$.sort_order
       };
     }),

@@ -208,6 +208,18 @@ function createRelationshipsCustomBallot(feedId, models) {
   });
 };
 
+function createRelationshipsReferendum(feedId, models) {
+  var promise = models.Referendum.find({ _feed: feedId }).exec();
+
+  promise.then(function(referenda) {
+    if (referenda.length > 0) {
+      referenda.forEach(function(referendum) {
+        joinReferendumBallotResponses(models, referendum);
+      });
+    }
+  });
+};
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -496,7 +508,7 @@ function joinBallotCustomBallot(models, ballot) {
 };
 
 function joinCustomBallotResponses(models, customBallot) {
-  var ballotResponseIds = customBallot.ballotResponses.map(function(resp) { return resp.elementId; })
+  var ballotResponseIds = customBallot.ballotResponses.map(function(resp) { return resp.elementId; });
   var promise = models.BallotResponse.find({ _feed: customBallot._feed, elementId: { $in: ballotResponseIds } })
     .select('_id elementId')
     .exec();
@@ -505,6 +517,24 @@ function joinCustomBallotResponses(models, customBallot) {
     responses.forEach(function(resp) {
       updateRelationship(models.CustomBallot,
         {_id: customBallot._id, 'ballotResponses.elementId': resp.elementId },
+        {$set: { 'ballotResponses.$._response': resp._id } },
+        onUpdate);
+    });
+  });
+};
+
+function joinReferendumBallotResponses(models, referendum) {
+  var ballotResponseIds = referendum.ballotResponses.map(function(resp) {
+    return resp.elementId;
+  });
+  var promise = models.BallotResponse.find({ _feed: referendum._feed, elementId: { $in: ballotResponseIds } })
+    .select('_id elementId')
+    .exec();
+
+  promise.then(function(responses) {
+    responses.forEach(function(resp) {
+      updateRelationship(models.Referendum,
+        {_id: referendum._id, 'ballotResponses.elementId': resp.elementId },
         {$set: { 'ballotResponses.$._response': resp._id } },
         onUpdate);
     });
@@ -523,6 +553,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsElectoralDistrict(feedId, models);
   createRelationshipsBallot(feedId, models);
   createRelationshipsCustomBallot(feedId, models);
+  createRelationshipsReferendum(feedId, models);
   _feedId = feedId;
 };
 

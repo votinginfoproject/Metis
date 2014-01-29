@@ -46,6 +46,8 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot', utils.ensureAuthentication, httpCallback.feedContestBallotGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates', utils.ensureAuthentication, httpCallback.feedBallotCandidatesGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid', utils.ensureAuthentication, httpCallback.feedCandidateGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/referenda', utils.ensureAuthentication, httpCallback.feedBallotReferendaGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/referenda/:referendumid', utils.ensureAuthentication, httpCallback.feedBallotReferendumGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/contestresults', utils.ensureAuthentication, httpCallback.feedContestContestResultsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballotlineresults', utils.ensureAuthentication, httpCallback.feedContestBallotLineResultsGET);
   app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, httpCallback.feedPollingGET);

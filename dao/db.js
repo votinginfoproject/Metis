@@ -300,6 +300,30 @@ function feedCandidate(feedId, candidateId, callback) {
   daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId }, callback);
 };
 
+function feedBallotReferenda(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballot')
+    .exec();
+
+  promise.then(function(contest) {
+    if (contest && contest._ballot) {
+      return daoSchemas.models.Ballot.populate(contest._ballot, '_referenda');
+    } else {
+      callback(undefined, null);
+    }
+  }).then(function(ballot) {
+      daoSchemas.models.BallotResponse.populate(ballot._referenda, 'ballotResponses._response', callback);
+    });
+};
+
+function feedBallotReferendum(feedId, referendumId, callback) {
+  daoSchemas.models.Referendum
+    .findOne({ _feed: feedId, elementId: referendumId })
+    .populate('ballotResponses._response')
+    .exec(callback);
+};
+
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -331,4 +355,6 @@ exports.feedElectoralDistrict = feedElectoralDistrict;
 exports.feedBallotCandidates = feedBallotCandidates;
 exports.feedContestBallot = feedContestBallot;
 exports.feedCandidate = feedCandidate;
+exports.feedBallotReferenda = feedBallotReferenda;
+exports.feedBallotReferendum = feedBallotReferendum;
 exports.dbConnect = dbConnect;
