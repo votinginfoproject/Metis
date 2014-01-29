@@ -89,10 +89,15 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedCandidateCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-referenda.html',
+      controller: 'FeedReferendaCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-referendum.html',
       controller: 'FeedReferendumCtrl'
-    })
+    });
 
     $routeProvider.when('/feeds/:vipfeed/election/state', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-state.html',

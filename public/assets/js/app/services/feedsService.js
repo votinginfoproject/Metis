@@ -174,6 +174,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // ========================================================
     getFeedReferendum: function (servicePath) {
       return $http.get(servicePath);
+    },
+
+    // Feed Referenda page
+    // ========================================================
+    getFeedReferenda: function (servicePath) {
+      return $http.get(servicePath);
     }
 
   };
