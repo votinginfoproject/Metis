@@ -348,9 +348,20 @@ function feedContestResultGET (req, res) {
 }
 
 function feedContestBallotLineResultsGET (req, res) {
-  var results = {};//TODO: get data from the database
-  res.json(mapper.mapContestBallotLineResults(req.path, results));
-};
+  dao.getContestBallotLineResults(req.params.feedid, req.params.contestid, function(err, results) {
+    notFoundHandler(res, err, results, function() {
+      res.json(mapper.mapBallotLineResults(req.path, results));
+    });
+  });
+}
+
+function feedBallotLineResultGET(req, res) {
+  dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
+    notFoundHandler(res, err, blr, function() {
+      res.json(mapper.mapBallotLineResult(req.path, blr));
+    });
+  });
+}
 
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
@@ -391,7 +402,8 @@ exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
 exports.feedContestResultGET = feedContestResultGET;
-exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotReferendaGET = feedBallotReferendaGET;
 exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
+exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedBallotLineResultGET = feedBallotLineResultGET;

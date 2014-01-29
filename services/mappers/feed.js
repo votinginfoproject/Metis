@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var _path = require('path');
+var resultsMapper = require('./results');
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -310,25 +311,16 @@ function mapContest (path, contest) {
       precinct_splits: contest._electoralDistrict._precinctSplits.length,
       self: _path.join(path, '/electoraldistrict')
     } : null,
-    contest_results: contest._contestResults ? {
-      id: contest._contestResults.elementId,
-      votes: contest._contestResults.totalVotes,
-      valid_votes: contest._contestResults.totalValidVotes,
-      overvotes: contest._contestResults.overvotes,
-      blank_votes: contest._contestResults.blankVotes,
-      certification: contest._contestResults.certification,
-      self: _path.join(path, '/contestresults')
+    contest_results: contest._contestResult ? {
+      id: contest._contestResult.elementId,
+      votes: contest._contestResult.totalVotes,
+      valid_votes: contest._contestResult.totalValidVotes,
+      overvotes: contest._contestResult.overvotes,
+      blank_votes: contest._contestResult.blankVotes,
+      certification: contest._contestResult.certification,
+      self: _path.join(path, '/contestresult')
     } : null,
-    ballot_line_results: contest._ballotLineResults ? contest._ballotLineResults.map(function(blr) {
-      return {
-        id: blr.elementId,
-        candidate_id: blr.candidateId,
-        response_id: blr.ballotResponseId,
-        votes: blr.votes,
-        certification: blr.certification,
-        self: _path.join(path, '/ballotlineresults' + blr.elementId.toString())
-      };
-    }) : null
+    ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
 };
 
@@ -713,86 +705,6 @@ var mapContestOverview = function(path, data) { //TODO
   ];
 };
 
-function mapContestResult(path, contestResult) {
-  function mapState(state) {
-    if (state) {
-      return {
-        id: state.elementId,
-        name: state.name,
-        self: _path.join(path, '../../../state')
-      };
-    } else { return null; }
-  }
-
-  function mapLocality(locality) {
-    if (locality) {
-      return {
-        id: locality.elementId,
-        name: locality.name,
-        self: _path.join(path, '../../../state/localities/', locality.elementId.toString())
-      };
-    } else { return null; }
-  }
-
-  function mapPrecinct(precinct) {
-    if (precinct) {
-      return {
-        id: precinct.elementId,
-        name: precinct.name,
-        self: _path.join(path, '../../../state/localities/', precinct.localityId.toString(), 'precincts', precinct.elementId.toString())
-      };
-    } else { return null; }
-  }
-
-  function mapPrecinctSplit(split) {
-    if (split) {
-      return {
-        id: split.elementId,
-        name: split.name,
-        self: _path.join(path, '../../../state/localities/', precinctSplit._precinct.localityId.toString(), '/precincts', precinctSplit.precinctId.toString(), 'precinctsplits', split.elementId.toString())
-      };
-    } else { return null; }
-  }
-
-  function mapElectoralDistrict(district) {
-    if (district) {
-      return {
-        id: district.elementId,
-        name: district.name,
-        self: _path.join(path, '../electoraldistrict')
-      }
-    } else { return null; }
-  }
-
-  return {
-    id: contestResult.elementId,
-    entire_district: contestResult.entireDistrict,
-    total_votes: contestResult.totalVotes,
-    total_valid_votes: contestResult.totalValidVotes,
-    overvotes: contestResult.overvotes,
-    blank_votes: contestResult.blankVotes,
-    accepted_provisional_votes: contestResult.acceptedProvisionalVotes,
-    rejected_votes: contestResult.rejectedVotes,
-    certification: contestResult.certification,
-    contest: contestResult._contest ? {
-      id: contestResult._contest.elementId,
-      type: contestResult._contest.type,
-      office: contestResult._contest.office,
-      self: _path.join(path, '..')
-    } : null,
-    jurisdiction: mapState(contestResult._state) || mapLocality(contestResult._locality) ||
-      mapPrecinct(contestResult._precinct) || mapPrecinctSplit(contestResult._precinctSplit) ||
-      mapElectoralDistrict(contestResult._electoralDistrict)
-  };
-};
-
-function mapContestBallotLineResults(path, ballotLineResults) {
-  return [
-    { id: 400014, votes: 400, victorious: 'Yes' },
-    { id: 400015, votes: 100, victorious: 'No' }
-  ];
-};
-
 
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
@@ -824,8 +736,9 @@ exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
-exports.mapContestResult = mapContestResult;
-exports.mapContestBallotLineResults = mapContestBallotLineResults;
+exports.mapContestResult = resultsMapper.mapContestResult;
+exports.mapBallotLineResults = resultsMapper.mapBallotLineResults;
+exports.mapBallotLineResult = resultsMapper.mapBallotLineResult;
 exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
 exports.mapPollingLocation = mapPollingLocation;

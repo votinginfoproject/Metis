@@ -214,7 +214,7 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
 
 function feedContest (feedId, contestId, callback) {
   daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot _electoralDistrict _contestResults _ballotLineResults')
+    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults')
     .exec(callback);
 };
 
@@ -338,8 +338,33 @@ function getContestResult(feedId, contestId, callback) {
       contestResult.populate(
         { path: '_precinctSplit._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
         callback);
-    });;
-};
+    });
+}
+
+function getContestBallotLineResults(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballotLineResults')
+    .exec()
+
+  promise.then(function(contest) {
+    if (contest) {
+      callback(undefined, contest._ballotLineResults);
+    } else { callback(undefined, null); }
+
+  });
+}
+
+function getBallotLineResult(feedId, blrId, callback) {
+  var promise = daoSchemas.models.BallotLineResult.findOne({ _feed: feedId, elementId: blrId })
+    .populate('_contest _candidate _ballotResponse _state _locality _precinct _precinctSplit _electoralDistrict')
+    .exec();
+
+  promise.then(function(blr) {
+    blr.populate(
+      { path: '_precinctSplit._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
+      callback);
+  });
+}
 
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
@@ -376,4 +401,6 @@ exports.feedBallotReferenda = feedBallotReferenda;
 exports.feedBallotReferendum = feedBallotReferendum;
 exports.getPollingLocation = getPollingLocation;
 exports.getContestResult = getContestResult;
+exports.getContestBallotLineResults = getContestBallotLineResults;
+exports.getBallotLineResult = getBallotLineResult;
 exports.dbConnect = dbConnect;

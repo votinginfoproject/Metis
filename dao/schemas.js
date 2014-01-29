@@ -45,7 +45,15 @@ var ballotLineResultSchema = {
   votes: Number,
   victorious: Boolean,
   certification: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
+  _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate },
+  _ballotResponse: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse },
+  _state: { type: Types.ObjectId, ref: config.mongoose.model.state },
+  _locality: { type: Types.ObjectId, ref: config.mongoose.model.locality },
+  _precinct: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
+  _precinctSplit: { type: Types.ObjectId, ref: config.mongoose.model.precinctSplit },
+  _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }
 };
 
 var ballotResponseSchema = {
