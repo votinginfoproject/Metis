@@ -664,7 +664,7 @@ var mapCandidate = function (path, candidate) {
     photo_url: candidate.photoUrl,
     filed_mailing_address: addressToJson(candidate.filedMailingAddress),
     email: candidate.email,
-    sort_order: candidate.sortOrder,
+    sort_order: candidate.sortOrder
   };
 };
 
@@ -713,14 +713,80 @@ var mapContestOverview = function(path, data) { //TODO
   ];
 };
 
-var mapContestContestResults = function(path, contestResults) {
-  return [
-    { id: 302030103, votes: 2000, valid_votes: 1500, overvotes: 300, blank_votes: 200 },
-    { id: 302030104, votes: 150, valid_votes: 100, overvotes: 0, blank_votes: 15 }
-  ];
+function mapContestResult(path, contestResult) {
+  function mapState(state) {
+    if (state) {
+      return {
+        id: state.elementId,
+        name: state.name,
+        self: _path.join(path, '../../../state')
+      };
+    } else { return null; }
+  }
+
+  function mapLocality(locality) {
+    if (locality) {
+      return {
+        id: locality.elementId,
+        name: locality.name,
+        self: _path.join(path, '../../../state/localities/', locality.elementId.toString())
+      };
+    } else { return null; }
+  }
+
+  function mapPrecinct(precinct) {
+    if (precinct) {
+      return {
+        id: precinct.elementId,
+        name: precinct.name,
+        self: _path.join(path, '../../../state/localities/', precinct.localityId.toString(), 'precincts', precinct.elementId.toString())
+      };
+    } else { return null; }
+  }
+
+  function mapPrecinctSplit(split) {
+    if (split) {
+      return {
+        id: split.elementId,
+        name: split.name,
+        self: _path.join(path, '../../../state/localities/', precinctSplit._precinct.localityId.toString(), '/precincts', precinctSplit.precinctId.toString(), 'precinctsplits', split.elementId.toString())
+      };
+    } else { return null; }
+  }
+
+  function mapElectoralDistrict(district) {
+    if (district) {
+      return {
+        id: district.elementId,
+        name: district.name,
+        self: _path.join(path, '../electoraldistrict')
+      }
+    } else { return null; }
+  }
+
+  return {
+    id: contestResult.elementId,
+    entire_district: contestResult.entireDistrict,
+    total_votes: contestResult.totalVotes,
+    total_valid_votes: contestResult.totalValidVotes,
+    overvotes: contestResult.overvotes,
+    blank_votes: contestResult.blankVotes,
+    accepted_provisional_votes: contestResult.acceptedProvisionalVotes,
+    rejected_votes: contestResult.rejectedVotes,
+    certification: contestResult.certification,
+    contest: contestResult._contest ? {
+      id: contestResult._contest.elementId,
+      type: contestResult._contest.type,
+      office: contestResult._contest.office,
+      self: _path.join(path, '..')
+    } : null,
+    jurisdiction: mapState(contestResult._state) || mapLocality(contestResult._locality) ||
+      mapPrecinct(contestResult._precinct) || mapPrecinctSplit(contestResult._precinctSplit) ||
+      mapElectoralDistrict(contestResult._electoralDistrict)
+  };
 };
 
-var mapContestBallotLineResults  = function (path, ballotLineResults) {
+function mapContestBallotLineResults(path, ballotLineResults) {
   return [
     { id: 400014, votes: 400, victorious: 'Yes' },
     { id: 400015, votes: 100, victorious: 'No' }
@@ -758,7 +824,7 @@ exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
-exports.mapContestContestResults = mapContestContestResults;
+exports.mapContestResult = mapContestResult;
 exports.mapContestBallotLineResults = mapContestBallotLineResults;
 exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
