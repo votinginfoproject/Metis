@@ -99,7 +99,7 @@ describe('Feed Locality Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality election administration page
-      expect(element('#feed-locality-electionadministration-content').count()).toBe(1);
+      expect(element('#feeds-election-state-localities-electionadministration-content').count()).toBe(1);
     });
 
     // if there is data
