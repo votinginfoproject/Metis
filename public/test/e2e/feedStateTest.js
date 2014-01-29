@@ -83,7 +83,7 @@ describe('Feed State Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state election administration page
-      expect(element('#feed-state-electionadministration-content').count()).toBe(1);
+      expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
     });
 
     // if there is data
