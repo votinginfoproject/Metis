@@ -287,12 +287,12 @@ describe('Feed Mappers Tests', function() {
       expect(res.electoral_district.name).toBe(contest._electoralDistrict.name);
       expect(res.electoral_district.precincts).toBe(contest._electoralDistrict._precincts.length);
       expect(res.electoral_district.precinct_splits).toBe(contest._electoralDistrict._precinctSplits.length);
-      expect(res.contest_results.id).toBe(contest._contestResults.elementId);
-      expect(res.contest_results.votes).toBe(contest._contestResults.totalVotes);
-      expect(res.contest_results.valid_votes).toBe(contest._contestResults.totalValidVotes);
-      expect(res.contest_results.overvotes).toBe(contest._contestResults.overvotes);
-      expect(res.contest_results.blank_votes).toBe(contest._contestResults.blankVotes);
-      expect(res.contest_results.certification).toBe(contest._contestResults.certification);
+      expect(res.contest_results.id).toBe(contest._contestResult.elementId);
+      expect(res.contest_results.votes).toBe(contest._contestResult.totalVotes);
+      expect(res.contest_results.valid_votes).toBe(contest._contestResult.totalValidVotes);
+      expect(res.contest_results.overvotes).toBe(contest._contestResult.overvotes);
+      expect(res.contest_results.blank_votes).toBe(contest._contestResult.blankVotes);
+      expect(res.contest_results.certification).toBe(contest._contestResult.certification);
       expect(res.ballot_line_results.id).toBe(contest._ballotLineResults.data.elementId);
       expect(res.ballot_line_results.candidate_id).toBe(contest._ballotLineResults.data.candidateId);
       expect(res.ballot_line_results.response_id).toBe(contest._ballotLineResults.data.ballotResponseId);
