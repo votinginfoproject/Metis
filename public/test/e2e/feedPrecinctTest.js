@@ -97,6 +97,105 @@ describe('Feed Precinct Test', function () {
   });
 
   /* ----------------------------------------
+   Now from the Feed Precinct page, click the first Electoral District link
+   ------------------------------------------*/
+  describe('Click the Precinct first Electoral District link', function () {
+
+    it('Click and go to the Electoral District page', function () {
+
+      // Should have Electoral District link
+      expect(element('#electoralDistrict-id0 a').count()).toBe(1);
+
+      // click the link
+      element('#electoralDistrict-id0 a').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct Electoral District page
+      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content-single').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Should have Precinct Electoral District data
+   ------------------------------------------*/
+  describe('Should have Precinct Electoral District data', function () {
+
+    it('Should have Precinct Electoral District data', function () {
+
+      // expect data
+      expect(element('#name').count()).toBe(1);
+
+      // expect data for the first Contests row
+      expect(element('#contests0').count()).toBe(1);
+
+      // expect data for the first Precincts row
+      expect(element('#precinct0').count()).toBe(1);
+
+      // expect data for the first Precinct Splits row
+      expect(element('#precinctSplit0').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed Precinct Electoral District page, click to the Electoral Districts page via the breadcrumb
+   ------------------------------------------*/
+  describe('Click the Precinct Electoral Districts breadcrumb', function () {
+
+    it('Click and go to the Electoral Districts page', function () {
+
+      // Should have Electoral Districts breadcrumb
+      expect(element('#pageHeader-breadcrumb8').count()).toBe(1);
+
+      // click the link
+      element('#pageHeader-breadcrumb8').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct Electoral Districts page
+      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Should have Precinct Electoral Districts data
+   ------------------------------------------*/
+  describe('Should have Precinct Electoral Districts data', function () {
+
+    it('Should have Precinct Electoral Districts data', function () {
+
+      // expect data
+      expect(element('#electoralDistrict0').count()).toBe(1);
+
+    });
+  });
+
+
+  /* ----------------------------------------
+   Now from the Feed Precinct Electoral Districts page, click to the Precinct page via the breadcrumb
+   ------------------------------------------*/
+  describe('Click the Precinct breadcrumb', function () {
+
+    it('Click and go to the Precinct page', function () {
+
+      // Should have Precinct breadcrumb
+      expect(element('#pageHeader-breadcrumb7').count()).toBe(1);
+
+      // click the link
+      element('#pageHeader-breadcrumb7').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct page
+      expect(element('#feed-precinct-content').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
    Now from the Feed Precinct page, click the Street Segments error link
    ------------------------------------------*/
   describe('Click the Precinct StreetSegment error link', function () {
