@@ -1,13 +1,16 @@
 'use strict';
 /*
- * Feeds State Election Administration Controller
+ * Feeds Election Administration Controller
  *
  */
-function FeedStateElectionAdministrationCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
+function FeedElectionAdministrationCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
+
+  // create a unique id for this page based on the breadcrumbs
+  $scope.pageId = $rootScope.generatePageId(feedid);
 
   // initialize page header variables
   $rootScope.setPageHeader("Election Administration", $rootScope.getBreadCrumbs(), "feeds", "", null);
@@ -21,7 +24,7 @@ function FeedStateElectionAdministrationCtrl($scope, $rootScope, $feedsService, 
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedStateCtrl_getFeedSElectionAdministration($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
+      FeedElectionAdministrationCtrl_getFeedElectionAdministration($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -42,13 +45,13 @@ function FeedStateElectionAdministrationCtrl($scope, $rootScope, $feedsService, 
 }
 
 /*
- * Get the Feed State Election Administration for the Feed detail page
+ * Get the Feed Election Administration for the Feed detail page
  *
  */
-function FeedStateCtrl_getFeedSElectionAdministration($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
+function FeedElectionAdministrationCtrl_getFeedElectionAdministration($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Feed State
-  $feedsService.getFeedStateElectionAdministration(servicePath)
+  $feedsService.getFeedElectionAdministration(servicePath)
     .success(function (data) {
 
       // set the feeds data into the Angular model
@@ -59,7 +62,7 @@ function FeedStateCtrl_getFeedSElectionAdministration($scope, $rootScope, $feeds
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve Feed State Election Administration data. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed Election Administration data. ";
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedElectionAdministration = {};

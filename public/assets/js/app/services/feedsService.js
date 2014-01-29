@@ -14,7 +14,7 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get($appProperties.servicesPath + "/feeds");
     },
 
-    // Feed error pages
+    // Feed error pages (multiple)
     // ========================================================
     getFeedErrors: function (servicePath) {
       return $http.get(servicePath);
@@ -79,7 +79,10 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedStateLocalities: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedStateElectionAdministration: function (servicePath) {
+
+    // Feed election administration pages (multiple)
+    // ========================================================
+    getFeedElectionAdministration: function (servicePath) {
       return $http.get(servicePath);
     },
 
@@ -98,9 +101,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
     getFeedLocalityPrecincts: function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedLocalityElectionAdministration: function (servicePath) {
       return $http.get(servicePath);
     },
 
@@ -128,22 +128,13 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
-    // Feed Electoral District pages
+    // Feed Electoral District pages (multiple)
     // ========================================================
     getFeedElectoralDistrict: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedElectoralDistrictContests: function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedElectoralDistrictPrecincts: function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedElectoralDistrictPrecinctSplits: function (servicePath) {
-      return $http.get(servicePath);
-    },
 
-    // Feed Electoral Districts pages
+    // Feed Electoral Districts pages (multiple)
     // ========================================================
     getFeedElectoralDistricts: function (servicePath) {
       return $http.get(servicePath);

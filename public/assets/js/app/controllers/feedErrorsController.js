@@ -27,11 +27,17 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
       $scope._toggleError = function (index) {
 
         var obj = jQuery("#errorDetail" + index);
+        var arrowClosed = jQuery("#errorArrowClosed" + index);
+        var arrowOpen = jQuery("#errorArrowOpen" + index);
 
         if (obj.is(":visible")) {
           obj.hide();
+          arrowClosed.show();
+          arrowOpen.hide();
         } else {
           obj.show();
+          arrowClosed.hide();
+          arrowOpen.show();
         }
       }
       $scope.toggleError = $scope._toggleError;
