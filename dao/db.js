@@ -323,6 +323,9 @@ function feedBallotReferendum(feedId, referendumId, callback) {
     .exec(callback);
 };
 
+function getPollingLocation(feedId, pollingLocationId, callback) {
+  daoSchemas.models.PollingLocation.findOne({ _feed: feedId, elementId: pollingLocationId }, callback);
+};
 
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
@@ -357,4 +360,5 @@ exports.feedContestBallot = feedContestBallot;
 exports.feedCandidate = feedCandidate;
 exports.feedBallotReferenda = feedBallotReferenda;
 exports.feedBallotReferendum = feedBallotReferendum;
+exports.getPollingLocation = getPollingLocation;
 exports.dbConnect = dbConnect;

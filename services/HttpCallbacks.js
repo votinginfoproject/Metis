@@ -133,6 +133,14 @@ function feedPrecinctPollingLocationsGET (req, res) {
   });
 };
 
+function feedPrecinctPollingLocationGET(req, res) {
+  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+    notFoundHandler(res, err, pollingLocation, function() {
+      res.json(mapper.mapPollingLocation(req.path, pollingLocation));
+    });
+  });
+};
+
 function feedPrecinctPrecinctSplitsGET (req, res) {
   dao.getPrecinctPrecinctSplits(req.params.feedid, req.params.precinctid, function (err, precinctSplits) {
     notFoundHandler(res, err, precinctSplits, function() {
@@ -184,6 +192,14 @@ function feedPrecinctSplitPollingLocationsGET (req, res) {
   dao.feedPrecinctSplitPollingLocations(req.params.feedid, req.params.splitid, function (err, pollingLocations) {
     notFoundHandler(res, err, pollingLocations, function () {
       res.json(mapper.mapPollingLocations(req.path, pollingLocations));
+    });
+  });
+};
+
+function feedPrecinctSplitPollingLocationGET(req, res) {
+  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+    notFoundHandler(res, err, pollingLocation, function() {
+      res.json(mapper.mapPollingLocation(req.path, pollingLocation));
     });
   });
 };
@@ -346,12 +362,14 @@ exports.feedPrecinctGET = feedPrecinctGET;
 exports.feedPrecinctEarlyVoteSitesGET = feedPrecinctEarlyVoteSitesGET;
 exports.feedPrecinctElectoralDistrictsGET = feedPrecinctElectoralDistrictsGET;
 exports.feedPrecinctPollingLocationsGET = feedPrecinctPollingLocationsGET;
+exports.feedPrecinctPollingLocationGET = feedPrecinctPollingLocationGET;
 exports.feedPrecinctPrecinctSplitsGET = feedPrecinctPrecinctSplitsGET;
 exports.feedPrecinctStreetSegmentsGET = feedPrecinctStreetSegmentsGET;
 exports.feedPrecinctStreetSegmentsErrorsGET = feedPrecinctStreetSegmentsErrorsGET;
 exports.feedPrecinctSplitGET = feedPrecinctSplitGET;
 exports.feedPrecinctSplitElectoralDistrictsGET = feedPrecinctSplitElectoralDistrictsGET;
 exports.feedPrecinctSplitPollingLocationsGET = feedPrecinctSplitPollingLocationsGET;
+exports.feedPrecinctSplitPollingLocationGET = feedPrecinctSplitPollingLocationGET;
 exports.feedPrecinctSplitStreetSegmentsGET = feedPrecinctSplitStreetSegmentsGET;
 exports.feedPrecinctSplitStreetSegmentsErrorsGET = feedPrecinctSplitStreetSegmentsErrorsGET;
 exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;

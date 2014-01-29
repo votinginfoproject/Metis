@@ -668,6 +668,16 @@ var mapCandidate = function (path, candidate) {
   };
 };
 
+function mapPollingLocation(path, pollingLocation) {
+  return {
+    id: pollingLocation.elementId,
+    address: addressToJson(pollingLocation.address),
+    directions: pollingLocation.directions,
+    photo_url: pollingLocation.photoUrl,
+    polling_hours: pollingLocation.pollingHours
+  };
+};
+
 var mapContestOverview = function(path, data) { //TODO
   return [
     {
@@ -752,3 +762,4 @@ exports.mapContestContestResults = mapContestContestResults;
 exports.mapContestBallotLineResults = mapContestBallotLineResults;
 exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
+exports.mapPollingLocation = mapPollingLocation;
