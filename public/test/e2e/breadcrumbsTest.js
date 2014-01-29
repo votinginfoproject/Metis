@@ -320,6 +320,7 @@ describe('Breadcrumbs Test', function () {
 
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits");
       sleep(testGlobals.sleepTime);
+      sleep(2);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
       expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
