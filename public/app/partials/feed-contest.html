@@ -106,7 +106,7 @@
   <table ng-show="feedContest.ballot_line_results.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
     <tr id="ballotlineresult{{$index}}" ng-repeat="result in $data">
       <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.id}}</a></td>
-      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{fresult.id}}">{{result.votes}}</a></td>
+      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.votes}}</a></td>
       <td id="ballotlineresult-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.certification}}</a></td>
     </tr>
   </table>
