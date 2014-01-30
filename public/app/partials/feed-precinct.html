@@ -21,9 +21,9 @@
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
   <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams" template-pagination="earlyVotePagination" class="associations">
     <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
-      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="no-page">{{earlyVoteSite.id}}</a></td>
-      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="no-page">{{earlyVoteSite.name}}</a></td>
-      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="no-page">{{earlyVoteSite.address}}</a></td>
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.id}}</a></td>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.name}}</a></td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.address}}</a></td>
     </tr>
   </table>
 </section>
