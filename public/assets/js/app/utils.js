@@ -36,5 +36,4 @@ vipApp_ns.findAndIndent = function(data) {
       }
     }
   }
-
 }

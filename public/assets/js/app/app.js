@@ -129,16 +129,28 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
-    // all electoral districts pages can now go to the same html partial and the same angular controller
+    // all early vote site pages can now go to the same html partial and the same angular controller
     $routeProvider
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' })
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' });
+      .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' });
+
+    // all early vote sites pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' });
 
     // all electoral district pages can now go to the same html partial and the same angular controller
     $routeProvider
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
       .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' });
+
+    // all electoral districts pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' });
 
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',
@@ -408,11 +420,26 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   };
 
   /*
-   * Currently takes the current URL path and turns it into a service path used
-   * to get the data for the current page
+   * Takes a URL path and turns it into a service path used to get the data for the current page
    */
   $rootScope.getServiceUrl = function(urlPath){
     return "/services" + urlPath;
+  }
+
+  /*
+   * Turns a service URL into the equeivlant Angular path
+   */
+  $rootScope.getAngularUrl = function(urlPath){
+    return urlPath.replace("/services/","/#/")
+  }
+
+  /*
+   * Turns an array that has a "self" property and changes the values to be the AngularPath equeivlant
+   */
+  $rootScope.changeSelfToAngularPath = function(arr){
+    for(var i=0; i< arr.length; i++){
+      arr[i].self = $rootScope.getAngularUrl(arr[i].self);
+    }
   }
 
   /*
@@ -461,6 +488,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "electoraldistrict"){
         name = "electoral district";
+      }
+
+      if(name === "earlyvotesites"){
+        name = "early vote sites";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
