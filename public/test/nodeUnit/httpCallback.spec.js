@@ -16,7 +16,7 @@ var map = function(callback) {
   callback(null);
 };
 
-var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8} };
+var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {
@@ -295,6 +295,30 @@ describe('Feeds Unit Tests', function() {
       daoStub.feedBallotReferendum = nodeUtil.daoFunc;
       feedStub.mapReferendum = nodeUtil.feedFunc;
       httpCallback.feedBallotReferendumGET(req, res);
+    });
+  });
+
+  describe('Feed Contest Result GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getContestResult = nodeUtil.daoFunc;
+      feedStub.mapContestResult = nodeUtil.feedFunc;
+      httpCallback.feedContestResultGET(req, res);
+    });
+  });
+
+  describe('Feed Contest Ballot Line Results GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getContestBallotLineResults = nodeUtil.daoFunc;
+      feedStub.mapBallotLineResults = nodeUtil.feedFunc;
+      httpCallback.feedContestBallotLineResultsGET(req, res);
+    });
+  });
+
+  describe('Feed Ballot Line Result GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getBallotLineResult = nodeUtil.daoFunc;
+      feedStub.mapBallotLineResult = nodeUtil.feedFunc;
+      httpCallback.feedBallotLineResultGET(req, res);
     });
   });
 });
