@@ -1,10 +1,10 @@
 /**
- * Created by rcartier13 on 1/28/14.
+ * Created by rcartier13 on 1/30/14.
  */
 
-describe('Feed Ballot Unit Tests', function() {
+describe('Feed Ballot Line Result Unit Tests', function() {
 
-  describe('Feed Ballot Controller Test', function() {
+  describe('Feed Contest Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
     var feedData;
@@ -12,12 +12,12 @@ describe('Feed Ballot Unit Tests', function() {
     beforeEach(inject(function($injector) {
       var mockService = {
         getFeedData: karmaUtil.setupServiceFunc($injector),
-        getFeedBallot: karmaUtil.setupServiceFunc($injector)
+        getFeedBallotLineResult: karmaUtil.setupServiceFunc($injector)
       }
       $httpBackend = $injector.get('$httpBackend');
       $rootScope = $injector.get('$rootScope');
-      feedData = {custom_ballot: {}};
-      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedBallotCtrl', mockService);
+      feedData = {something: 'something', contest: { self: 'self' }, jurisdiction: { self: 'self' }, candidate: { self: 'self' }};
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedBallotLineResultCtrl', mockService);
     }));
 
     afterEach(function() {
@@ -28,7 +28,7 @@ describe('Feed Ballot Unit Tests', function() {
     it('should have valid data', function() {
       $httpBackend.flush();
       expect($rootScope.feedData).toEqual(feedData);
-      expect($rootScope.feedBallot).toEqual(feedData);
+      expect($rootScope.feedBallotLineResult).toEqual(feedData);
     });
   });
 });

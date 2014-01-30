@@ -25,6 +25,7 @@ var karmaUtil = {
     $rootScope.createTableParams = function() {};
     $rootScope.getBreadCrumbs = function() {};
     $rootScope.getServiceUrl = function() {};
+    $rootScope.changeSelfToAngularPath = function() {};
 
     $controller(controller, {
       '$scope': $rootScope,

@@ -74,6 +74,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedContestCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresult.html',
+      controller: 'FeedBallotLineResultCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresults.html',
+      controller: 'FeedBallotLineResultsCtrl'
+    })
+
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/contestresult', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-contestresult.html',
       controller: 'FeedContestResultCtrl'

@@ -177,6 +177,12 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // ========================================================
     getFeedContestResult: function (servicePath) {
       return $http.get(servicePath);
+    },
+
+    // Feed Ballot Line Result page
+    // ========================================================
+    getFeedBallotLineResult: function (servicePath) {
+      return $http.get(servicePath);
     }
   };
 });
