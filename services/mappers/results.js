@@ -38,7 +38,7 @@ function mapPrecinctSplit(path, split) {
     return {
       id: split.elementId,
       name: split.name,
-      self: _path.join(path, '../../../state/localities/', precinctSplit._precinct.localityId.toString(), '/precincts', precinctSplit.precinctId.toString(), 'precinctsplits', split.elementId.toString())
+      self: _path.join(path, '../../../state/localities/', split._precinct.localityId.toString(), '/precincts', split.precinctId.toString(), 'precinctsplits', split.elementId.toString())
     };
   } else { return null; }
 }
