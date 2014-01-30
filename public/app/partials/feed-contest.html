@@ -72,10 +72,10 @@
 </section>
 
 <section class="data-group">
-  <h2><span ng-if="!feedContest.contest_results">No</span> Contest Results</h2>
+  <h2><span ng-if="!feedContest.contest_result">No</span> Contest Result</h2>
 
-  <div ng-if="!feedContest.contest_results && feedContest.contest_results !== null"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.contest_results" id="contestResultsTable" class="associations" >
+  <div ng-if="!feedContest.contest_result && feedContest.contest_result !== null"></br><span class="is-loading"></span></div>
+  <table ng-show="feedContest.contest_result" id="contestResultTable" class="associations" >
     <thead>
       <tr>
         <th>ID</th>
@@ -88,12 +88,12 @@
     </thead>
     <tbody>
       <tr>
-        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.id}}</a></td>
-        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.votes}}</a></td>
-        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.valid_votes}}</a></td>
-        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.overvotes}}</a></td>
-        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.blank_votes}}</a></td>
-        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresults/{{result.id}}">{{feedContest.contest_results.certification}}</a></td>
+        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.id}}</a></td>
+        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.votes}}</a></td>
+        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.valid_votes}}</a></td>
+        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.overvotes}}</a></td>
+        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.blank_votes}}</a></td>
+        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.certification}}</a></td>
       </tr>
     </tbody>
   </table>

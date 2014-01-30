@@ -349,6 +349,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Contest page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Contest page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
@@ -361,6 +364,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Contests page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Contests page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
@@ -374,6 +380,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Ballot page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Ballot page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot");
@@ -387,6 +396,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Candidate page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Candidate page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
@@ -402,6 +414,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Candidates page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Candidates page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
@@ -418,6 +433,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Referendum page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Referendum page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
@@ -433,6 +451,9 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
+  /* ----------------------------------------
+   Feed Referenda page breadcrumb
+   ------------------------------------------*/
   describe('Check Feed Referenda page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
@@ -446,6 +467,22 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
       expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("Referenda");
+    });
+  });
+
+  /* ----------------------------------------
+   Feed Contest Results page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed Contest Results page breadcrumb', function() {
+    it('Should have the correct breadcrumbs', function () {
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/contestresult");
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Contestresult");
     });
   });
 
