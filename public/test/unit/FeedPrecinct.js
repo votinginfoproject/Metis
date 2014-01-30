@@ -2,81 +2,27 @@
  * Created by rcartier13 on 1/17/14.
  */
 
-describe('Feed Contests Unit Tests', function() {
+describe('Feed Precinct Unit Tests', function() {
 
-  describe('Feed Contests Controller Test', function() {
+  describe('Feed Precinct Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
-    var feedCtrl = null;
-    var mockService;
-    var feedData, feedLocalities;
+    var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedPrecinct: function() {
-          var http = $injector.get('$http');
-          return http.get("/Locality")
-        },
-        getFeedPrecinctEarlyVoteSites: function() {
-          var http = $injector.get('$http');
-          return http.get('/EarlyVote');
-        },
-        getFeedPrecinctElectoralDistricts: function() {
-          var http = $injector.get('$http');
-          return http.get('/Districts');
-        },
-        getFeedPrecinctPollingLocations: function() {
-          var http = $injector.get('$http');
-          return http.get('/PollingLoc');
-        },
-        getFeedPrecinctPrecinctSplits: function() {
-          var http = $injector.get('$http');
-          return http.get('/PrecinctSplits');
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinct: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinctEarlyVoteSites: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinctElectoralDistricts: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinctPollingLocations: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinctPrecinctSplits: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
-      $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/Locality').respond(feedData);
-      $httpBackend.when('GET', '/EarlyVote').respond(feedData);
-      $httpBackend.when('GET', '/Districts').respond(feedData);
-      $httpBackend.when('GET', '/PollingLoc').respond(feedData);
-      $httpBackend.when('GET', '/PrecinctSplits').respond(feedData);
-
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-      var $filter = $injector.get('$filter');
-      var $appProperties = {highPagination: 30, lowPagination: 10};
-      function ngTableParams (defaults) {
-        this.page = defaults.page;
-        this.count = defaults.count;
-        this.sorting = defaults.sorting;
-      }
-
-      var routeParams = { vipfeed: 'something' };
-      $rootScope.pageHeader = {};
-      $rootScope.feedData = {};
-
-      $rootScope.setPageHeader = function() {}
-      $rootScope.createTableParams = function() {};
-      $rootScope.getBreadCrumbs = function() {};
-      $rootScope.getServiceUrl = function() {};
-
-      feedCtrl = $controller('FeedPrecinctCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$appProperties': $appProperties,
-        ngTableParams: ngTableParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedPrecinctCtrl', mockService);
     }));
 
     afterEach(function() {

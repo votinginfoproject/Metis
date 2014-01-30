@@ -311,7 +311,7 @@ function mapContest (path, contest) {
       precinct_splits: contest._electoralDistrict._precinctSplits.length,
       self: _path.join(path, '/electoraldistrict')
     } : null,
-    contest_results: contest._contestResult ? {
+    contest_result: contest._contestResult ? {
       id: contest._contestResult.elementId,
       votes: contest._contestResult.totalVotes,
       valid_votes: contest._contestResult.totalValidVotes,

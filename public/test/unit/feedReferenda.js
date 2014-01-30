@@ -7,55 +7,18 @@ describe('Feed Referenda Unit Tests', function() {
   describe('Feed Referenda Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
-    var feedCtrl = null;
-    var mockService;
     var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedReferenda: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedReferenda: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = { something: 'something' };
-      $httpBackend.when('GET', '/Data').respond(feedData);
-
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-      var $filter = $injector.get('$filter');
-      var $appProperties = {highPagination: 30, lowPagination: 10};
-
-      function ngTableParams (defaults) {
-        this.page = defaults.page;
-        this.count = defaults.count;
-        this.sorting = defaults.sorting;
-      }
-
-      var routeParams = { vipfeed: 'something' };
-      $rootScope.pageHeader = {};
-
-      $rootScope.setPageHeader = function() {}
-      $rootScope.createTableParams = function() {};
-      $rootScope.getBreadCrumbs = function() {};
-      $rootScope.getServiceUrl = function() {};
-
-      feedCtrl = $controller('FeedReferendaCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$appProperties': $appProperties,
-        ngTableParams: ngTableParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedReferendaCtrl', mockService);
     }));
 
     afterEach(function() {
