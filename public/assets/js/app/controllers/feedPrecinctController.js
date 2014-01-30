@@ -106,6 +106,9 @@ function FeedPrecinctCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsServic
   $feedsService.getFeedPrecinctEarlyVoteSites(servicePath)
     .success(function (data) {
 
+      // use the self property to use as the linked URL for each item
+      $rootScope.changeSelfToAngularPath(data);
+
       // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
 
