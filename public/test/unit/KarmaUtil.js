@@ -26,6 +26,7 @@ var karmaUtil = {
     $rootScope.getBreadCrumbs = function() {};
     $rootScope.getServiceUrl = function() {};
     $rootScope.changeSelfToAngularPath = function() {};
+    $rootScope.generatePageId = function() {};
 
     $controller(controller, {
       '$scope': $rootScope,
