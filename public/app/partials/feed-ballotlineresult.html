@@ -46,8 +46,8 @@
     </thead>
     <tbody>
       <tr>
-        <td id="jurisdiction-id"><a href="{{$location.appUrl()}}/electoraldistrict">{{feedBallotLineResult.jurisdiction.id}}</a></td>
-        <td id="jurisdiction-name"><a href="{{$location.appUrl()}}/electoraldistrict">{{feedBallotLineResult.jurisdiction.name}}</a></td>
+        <td id="jurisdiction-id"><a href="{{feedBallotLineResult.jurisdiction.self}}">{{feedBallotLineResult.jurisdiction.id}}</a></td>
+        <td id="jurisdiction-name"><a href="{{feedBallotLineResult.jurisdiction.self}}">{{feedBallotLineResult.jurisdiction.name}}</a></td>
       </tr>
     </tbody>
   </table>

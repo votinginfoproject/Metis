@@ -48,7 +48,7 @@ function mapElectoralDistrict(path, district) {
     return {
       id: district.elementId,
       name: district.name,
-      self: _path.join(path, '../electoraldistrict')
+      self: _path.join(path, '../../electoraldistrict')
     }
   } else { return null; }
 }
@@ -58,7 +58,7 @@ function mapContestSummary(path, contest) {
     id: contest.elementId,
     type: contest.type,
     office: contest.office,
-    self: _path.join(path, '..')
+    self: _path.join(path, '../..')
   } : null;
 }
 
@@ -67,7 +67,7 @@ function mapCandidateSummary(path, candidate) {
     id: candidate.elementId,
     name: candidate.name,
     party: candidate.party,
-    self: _path.join(path, '../../candidates/', candidate.elementId.toString())
+    self: _path.join(path, '../../ballot/candidates/', candidate.elementId.toString())
   } : null;
 }
 
