@@ -504,6 +504,24 @@ describe('Breadcrumbs Test', function () {
   });
 
   /* ----------------------------------------
+   Feed Ballot Line Results page breadcrumb
+   ------------------------------------------*/
+  describe('Check Feed Ballot Line Results page breadcrumb', function() {
+    it('Should have the correct breadcrumbs', function () {
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults");
+
+      element('#pageHeader-breadcrumb5').click();
+
+      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballotlineresults");
+    });
+  });
+
+  /* ----------------------------------------
    Feed Precinct Split page breadcrumb
    ------------------------------------------*/
   describe('Check Feed Precinct Split page breadcrumb', function () {
