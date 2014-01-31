@@ -42,7 +42,7 @@ describe('Testing Feed Contest Results Page', function() {
 
     it('Has content on the page', function() {
       expect(element('#contest-id').count()).toBe(1);
-      expect(element('#jurisdictin-id').count()).toBe(1);
+      expect(element('#jurisdiction-id').count()).toBe(1);
     });
   });
 

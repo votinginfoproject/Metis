@@ -46,6 +46,27 @@ describe('Testing Feed Ballot Line Result Page', function() {
       expect(element('#jurisdiction-id').count()).toBe(1);
       expect(element('#candidate-id').count()).toBe(1);
     });
+
+    it('Contest Page link works', function() {
+      element('#contest-id a').click();
+      expect(element('#feed-contest-content').count()).toBe(1);
+    });
+
+    it('Jurisdiction Link works', function() {
+      element('#ballotlineresult-id0 a').click();
+      expect(element('#feed-ballotlineresult-content').count()).toBe(1);
+      element('#jurisdiction-id a').click();
+      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+    });
+
+    it('Candidate Link works', function() {
+      element('#pageHeader-breadcrumb4').click();
+      expect(element('#feed-contest-content').count()).toBe(1);
+      element('#ballotlineresult-id0 a').click();
+      expect(element('#feed-ballotlineresult-content').count()).toBe(1);
+      element('#candidate-id a').click();
+      expect(element('#feed-candidate-content').count()).toBe(1);
+    });
   });
 
   describe('Checks if errors were thrown', function() {

@@ -41,13 +41,7 @@ describe('Testing Feed Ballot Line Results Page', function() {
 
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-ballotlineresults-content').count()).toBe(1);
-    });
-
-    it('Has content on the page', function() {
-      expect(element('#ballotlineresult-votes').count()).toBe(1);
-      expect(element('#contest-id').count()).toBe(1);
-      expect(element('#jurisdiction-id').count()).toBe(1);
-      expect(element('#candidate-id').count()).toBe(1);
+      expect(element('#result-id0').count()).toBe(1);
     });
   });
 
