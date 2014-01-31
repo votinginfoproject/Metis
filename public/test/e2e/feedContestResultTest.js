@@ -44,6 +44,18 @@ describe('Testing Feed Contest Results Page', function() {
       expect(element('#contest-id').count()).toBe(1);
       expect(element('#jurisdiction-id').count()).toBe(1);
     });
+
+    it('Contest link works', function() {
+      element('#contest-id a').click();
+      expect(element('#feed-contest-content').count()).toBe(1);
+    });
+
+    it('Jurisdiction link works', function() {
+      element('#contestresult-id a').click();
+      expect(element('#feed-contestresult-content').count()).toBe(1);
+      element('#jurisdiction-id a').click();
+      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+    });
   });
 
   describe('Checks if errors were thrown', function() {
