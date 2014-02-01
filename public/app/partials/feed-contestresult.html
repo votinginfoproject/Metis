@@ -1,19 +1,24 @@
 <i id="feed-contestresult-content"></i>
 
-<a ng-if="feedContestResult.error_count" class="error-count" href="#">{{feedContestResult.error_count}}
-  Errors in Contest ID: {{feedContestResult.id}}</a>
-<mark>link</mark>
+<a ng-if="feedContestResult.error_count" class="error-count" href="#">{{feedContestResult.error_count}} Errors in Precinct ID: {{feedContestResult.id}}</a> <mark>link</mark>
 
-<span ng-if="!feedContestResult" class="is-loading"></span>
-<dl class="attributes" ng-if="feedContestResult">
-  <dt class="key">Entire District:</dt> <dd id="result-entiredistrict" class="value">{{feedContestResult.entire_district}}</dd>
-  <dt class="key">Total Votes:</dt> <dd id="result-totalvotes" class="value">{{feedContestResult.total_votes}}</dd>
-  <dt class="key">Total Valid Votes:</dt> <dd id="result-totalvalidvotes" class="value">{{feedContestResults.total_valid_votes}}</dd>
-  <dt class="key">Overvotes:</dt> <dd id="result-overvotes" class="value">{{feedContestResults.overvotes}}</dd>
-  <dt class="key">Blank Votes:</dt> <dd id="result-blankvotes" class="value">{{feedContestResults.blank_votes}}</dd>
-  <dt class="key">Accepted Provisional Votes:</dt> <dd id="result-provisionalvotes" class="value">{{feedContestResults.accepted_provisional_votes}}</dd>
-  <dt class="key">Rejected Votes:</dt> <dd id="result-rejectedvotes" class="value">{{feedContestResults.rejected_votes}}</dd>
-  <dt class="key">Certification:</dt> <dd id="result-certification" class="value">{{feedContestResults.certification}}</dd>
+<dl class="attributes">
+  <dt class="key">Entire District:</dt>
+  <dd id="result-entiredistrict" class="value">{{feedContestResult.entire_district}}</dd>
+  <dt class="key">Total Votes:</dt>
+  <dd id="result-totalvotes" class="value">{{feedContestResult.total_votes}}</dd>
+  <dt class="key">Total Valid Votes:</dt>
+  <dd id="result-validvotes" class="value">{{feedContestResult.total_valid_votes}}</dd>
+  <dt class="key">Overvotes:</dt>
+  <dd id="result-overvotes" class="value">{{feedContestResult.overvotes}}</dd>
+  <dt class="key">Blank Votes:</dt>
+  <dd id="result-blankvotes" class="value">{{feedContestResult.blank_votes}}</dd>
+  <dt class="key">Accepted Provisional Votes:</dt>
+  <dd id="result-provisional" class="value">{{feedContestResult.accepted_provisional_votes}}</dd>
+  <dt class="key">Rejected Votes:</dt>
+  <dd id="result-rejectedvotes" class="value">{{feedContestResult.rejected_votes}}</dd>
+  <dt class="key">Certification:</dt>
+  <dd id="result-certification" class="value">{{feedContestResult.certification}}</dd>
 </dl>
 
 <section class="data-group">
