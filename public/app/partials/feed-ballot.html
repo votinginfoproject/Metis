@@ -63,20 +63,18 @@
   </dl>
 
   <h5 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h5>
-  <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" ng-table="customBallotResponsesTableParams" template-pagination="customBallotResponsesPagination" class="associations">
-    <tr id="response{{$index}}" ng-repeat="response in $data">
-      <td id="response-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/response.id}}">{{response.id}}</a></td>
-      <td id="response-title{{$index}}" data-title="'Text'" sortable="'text'"><a href="{{$location.absUrl()}}/response.id">{{response.text}}</a></td>
-    </tr>
+  <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="response{{$index}}" ng-repeat="response in feedBallot.custom_ballot.ballot_responses">
+        <td id="response-id{{$index}}">{{response.id}}</td>
+        <td id="response-text{{$index}}">{{response.text}}</td>
+      </tr>
+    </tbody>
   </table>
-
-  <script type="text/ng-template" id="customBallotResponsesPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="customBallotResponsesPage{{$index}}" ng-class="{'is-active': page.number == customBallotResponsesTableParams.page()}"
-           ng-click="customBallotResponsesTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
 </section>
