@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<a ng-if="feedElectionAdministration.error_count" class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/election/state/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a> <mark>link</mark>
+<a ng-if="feedElectionAdministration.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a>
 
 <span ng-if="!feedElectionAdministration" class="is-loading"></span>
 <dl class="attributes">

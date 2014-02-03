@@ -1,6 +1,7 @@
 <i id="feed-contestresult-content"></i>
 
-<a ng-if="feedContestResult.error_count" class="error-count" href="#">{{feedContestResult.error_count}} Errors in Precinct ID: {{feedContestResult.id}}</a> <mark>link</mark>
+<a ng-if="feedContestResult.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedContestResult.error_count}}
+  Errors in Precinct ID: {{feedContestResult.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Entire District:</dt>

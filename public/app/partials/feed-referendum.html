@@ -1,8 +1,7 @@
 <i id="feed-referendum-content"></i>
 
-<a ng-if="feedReferendum.error_count" class="error-count" href="#">{{feedReferendum.error_count}}
+<a ng-if="feedReferendum.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
   Errors in Referendum ID: {{feedReferendum.id}}</a>
-<mark>link</mark>
 
 <span ng-if="!feedReferendum" class="is-loading"></span>
 <dl class="attributes" ng-if="feedReferendum">

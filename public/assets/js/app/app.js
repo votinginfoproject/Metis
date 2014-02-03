@@ -74,25 +74,25 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedContestCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresults.html',
+      controller: 'FeedBallotLineResultsCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresult.html',
       controller: 'FeedBallotLineResultCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresults.html',
-      controller: 'FeedBallotLineResultsCtrl'
-    })
-
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/contestresult', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-contestresult.html',
       controller: 'FeedContestResultCtrl'
-    })
+    });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballot.html',
       controller: 'FeedBallotCtrl'
-    })
+    });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-candidates.html',
@@ -178,9 +178,27 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     });
 
     // all errors can now go to the same html partial and the same angular controller
+    var error = { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' };
     $routeProvider
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors',{ templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' })
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
+      .when('/feeds/:vipfeed/source/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate/errors', error)
+      .when('/feeds/:vipfeed/election/contest/:contest/ballot/referenda/:referendum/errors', error)
+      .when('/feeds/:vipfeed/election/state/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/errors', error)
+      .when('/feeds/:vipfeed/election/state/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/errors', error)
+      .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/errors', error);
 
     // done
     $routeProvider.when('/template/feed', {
