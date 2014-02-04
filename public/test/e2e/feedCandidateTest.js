@@ -44,6 +44,13 @@ describe('Testing Feed Candidate Page', function() {
     });
   });
 
+  describe('Checks the error link', function() {
+    it('Error link works', function() {
+      element('#candidate-errors').click();
+      expect(element('#feeds-election-contests-ballot-candidates-errors-content').count()).toBe(1);
+    });
+  });
+
   describe('Checks if errors are thrown', function() {
     it('Navigates to Candidate', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");

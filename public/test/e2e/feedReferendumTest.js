@@ -49,6 +49,13 @@ describe('Testing Feed Referendum Page', function() {
     });
   });
 
+  describe('Error page link works', function() {
+    it('Error link works', function() {
+      element('#referendum-errors').click();
+      expect(element('#feeds-election-contests-ballot-referenda-errors-content').count()).toBe(1);
+    })
+  })
+
   describe('Checks if errors are thrown', function() {
     it('Navigates to Referendum', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");

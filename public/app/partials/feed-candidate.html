@@ -1,6 +1,6 @@
 <i id="feed-candidate-content"></i>
 
-<a ng-if="feedCandidate.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
+<a ng-if="feedCandidate.error_count" id="candidate-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
   Errors in Candidate ID: {{feedCandidate.id}}</a>
 <mark ng-if="!feedCandidate.error_count">link</mark>
 

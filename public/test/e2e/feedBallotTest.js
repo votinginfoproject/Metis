@@ -48,6 +48,13 @@ describe('Testing Feed Ballot Page', function() {
     });
   });
 
+  describe('Checks the error page link', function() {
+    it('Error page link works', function() {
+      element('#ballot-errors').click();
+      expect(element('#feeds-election-contests-ballot-errors-content').count()).toBe(1);
+    });
+  });
+
   describe('Checks if errors were thrown', function() {
     it('Navigates to Ballot', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot");

@@ -588,6 +588,7 @@ function mapElectionOfficial (electionOfficial) {
 function mapBallot(path, ballot) {
   return {
     id: ballot.elementId,
+    error_count: -1, //TODO
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
@@ -613,6 +614,7 @@ function mapReferenda(path, referenda) {
 function mapReferendum(referendum) {
   return {
     id: referendum.elementId,
+    error_count: -1, //TODO
     title: referendum.title,
     subtitle: referendum.subtitle,
     brief: referendum.brief,
@@ -648,6 +650,7 @@ var mapBallotCandidates = function(path, candidates) {
 var mapCandidate = function (path, candidate) {
   return {
     id: candidate.elementId,
+    error_count: -1, //TODO
     name: candidate.name,
     incumbent: candidate.incumbent, //TODO: v5.0 element
     party: candidate.party,

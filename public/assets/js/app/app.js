@@ -199,7 +199,9 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/errors', error)
-      .when('/feeds/:vipfeed/election/errors', error);
+      .when('/feeds/:vipfeed/election/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/errors', error);
 
     // done
     $routeProvider.when('/template/feed', {
