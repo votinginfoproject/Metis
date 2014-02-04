@@ -94,6 +94,15 @@ describe('Testing Feed Contest Page', function() {
     });
   });
 
+  describe('Check error page link', function() {
+    it('Error page link works', function() {
+      element('#electoraldistrict-errors').click();
+      expect(element('#feeds-election-contests-electoraldistrict-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb5').click();
+      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Now from the Feed Contest Electoral District page, click to the Contest page via the breadcrumb
    ------------------------------------------*/

@@ -127,6 +127,13 @@ describe('Feed Locality Test', function () {
       expect(element('#ovc-name').html()).not().toBe("");
     });
 
+    it('Error page link works', function() {
+      element('#electionadmin-errors').click();
+      expect(element('#feeds-election-state-localities-electionadministration-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb6').click();
+      expect(element('#feeds-election-state-localities-electionadministration-content').count()).toBe(1);
+    });
+
     // go back to the locality page
     it('Should be able to go back to the Locality page via the breadcrumbs', function () {
 

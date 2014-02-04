@@ -110,6 +110,13 @@ describe('Feed State Test', function () {
       expect(element('#ovc-name').html()).not().toBe("");
     });
 
+    it('Error page link works', function() {
+      element('#electionadmin-errors').click();
+      expect(element('#feeds-election-state-electionadministration-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb4').click();
+      expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
+    });
+
     // go back to state page
     it('Should be able to go back to the State page via the breadcrumbs', function () {
 

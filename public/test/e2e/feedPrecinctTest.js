@@ -148,6 +148,15 @@ describe('Feed Precinct Test', function () {
     });
   });
 
+  describe('Check error page link', function() {
+    it('Error page link works', function() {
+      element('#electoraldistrict-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb9').click();
+      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content-single').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Now from the Feed Precinct Electoral District page, click to the Electoral Districts page via the breadcrumb
    ------------------------------------------*/

@@ -149,6 +149,15 @@ describe('Feed Precinct Split Test', function () {
     });
   });
 
+  describe('Checks the error page link', function() {
+    it('Error page link works', function() {
+      element('#electoraldistrict-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb11').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Now from the Feed PrecinctSplit Electoral District page, click to the Electoral Districts page via the breadcrumb
    ------------------------------------------*/
