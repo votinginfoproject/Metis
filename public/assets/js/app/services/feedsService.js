@@ -125,6 +125,18 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
+    // Feed Early Vote Site pages (multiple)
+    // ========================================================
+    getFeedEarlyVoteSite: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Early Vote Sites pages (multiple)
+    // ========================================================
+    getFeedEarlyVoteSites: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
     // Feed Electoral Districts pages (multiple)
     // ========================================================
     getFeedElectoralDistricts: function (servicePath) {

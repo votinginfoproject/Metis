@@ -119,7 +119,76 @@ describe('Feed Locality Test', function () {
 
       expect(element('#ovc-name').html()).not().toBe("");
     });
+
+    // go back to the locality page
+    it('Should be able to go back to the Locality page via the breadcrumbs', function () {
+
+      // now go back to the locality page
+      // click the state breadcrumb
+      element('#pageHeader-breadcrumb5').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality page
+      expect(element('#feed-locality-content').count()).toBe(1);
+    });
+
   });
+
+  /* ----------------------------------------
+   Feed Locality Early Vote Site page
+   ------------------------------------------*/
+  describe('Check Feed Locality Early Vote Site page', function () {
+    // if there is data
+    it('Should be able to go into a Locality Early Vote Site page', function () {
+
+      expect(element('#earlyVoteSite-id0 a').count()).toBe(1);
+      element('#earlyVoteSite-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality early vote site page
+      expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Early Vote Site data', function () {
+
+      expect(element('#name').html()).not().toBe("");
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed Locality Early Vote Sites page
+   ------------------------------------------*/
+  describe('Check Feed Locality Early Vote Sites page', function () {
+    // if there is data
+    it('Should be able to go into a Locality Early Vote Sites page via breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb6').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed locality early vote sites page
+      expect(element('#feeds-election-state-localities-earlyvotesites-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Early Vote Sites data', function () {
+
+      expect(element('#earlyVoteSite-id0 a').html()).not().toBe("");
+
+    });
+
+    // click to an earlyvote site
+    it('Should be able to click on the link and be taken back to an Early Vote Site page', function () {
+
+      element('#earlyVoteSite-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state early vote site page
+      expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
+    });
+  });
+
 
   /* ----------------------------------------
    Log Out

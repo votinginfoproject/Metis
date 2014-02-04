@@ -103,6 +103,74 @@ describe('Feed State Test', function () {
 
       expect(element('#ovc-name').html()).not().toBe("");
     });
+
+    // go back to state page
+    it('Should be able to go back to the State page via the breadcrumbs', function () {
+
+      // now go back to the state page
+      // click the state breadcrumb
+      element('#pageHeader-breadcrumb3').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state page
+      expect(element('#feed-state-content').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed State Early Vote Site page
+   ------------------------------------------*/
+  describe('Check Feed State Early Vote Site page', function () {
+    // if there is data
+    it('Should be able to go into a State Early Vote Site page', function () {
+
+      expect(element('#earlyVoteSite-id0 a').count()).toBe(1);
+      element('#earlyVoteSite-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state early vote site page
+      expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Early Vote Site data', function () {
+
+      expect(element('#name').html()).not().toBe("");
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed State Early Vote Sites page
+   ------------------------------------------*/
+  describe('Check Feed State Early Vote Sites page', function () {
+    // if there is data
+    it('Should be able to go into a State Early Vote Sites page via breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb4').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state early vote sites page
+      expect(element('#feeds-election-state-earlyvotesites-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Early Vote Sites data', function () {
+
+      expect(element('#earlyVoteSite-id0 a').html()).not().toBe("");
+
+    });
+
+    // click to an earlyvote site
+    it('Should be able to click on the link and be taken back to an Early Vote Site page', function () {
+
+      element('#earlyVoteSite-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed state early vote site page
+      expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
+    });
   });
 
   /* ----------------------------------------

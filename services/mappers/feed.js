@@ -538,6 +538,7 @@ function mapPrecinctSplit (path, precinctSplit) {
 function mapEarlyVoteSite (earlyVoteSite) {
   return {
     id: earlyVoteSite.elementId,
+    error_count: -1, //TODO
     name: earlyVoteSite.name,
     address: addressToJson(earlyVoteSite.address),
     directions: earlyVoteSite.directions,
