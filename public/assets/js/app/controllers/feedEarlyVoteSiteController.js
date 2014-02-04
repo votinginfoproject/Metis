@@ -27,7 +27,7 @@ function FeedEarlyVoteSiteCtrl($scope, $rootScope, $feedsService, $routeParams, 
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      //FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSite($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, earlyvotesiteid);
+      FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSite($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, earlyvotesiteid);
 
     }).error(function (data, $http) {
 

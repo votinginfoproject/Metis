@@ -24,7 +24,7 @@ function FeedEarlyVoteSitesCtrl($scope, $rootScope, $feedsService, $routeParams,
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      //FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid);
+      FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid);
 
     }).error(function (data, $http) {
 
@@ -48,14 +48,19 @@ function FeedEarlyVoteSitesCtrl($scope, $rootScope, $feedsService, $routeParams,
  * Get the Feed Early Vote Sites for the Feed detail page
  *
  */
-function FeedEarlyVoteSitesCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid){
+function FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid){
 
   // get Feed Early Vote Sites
   $feedsService.getFeedEarlyVoteSites(servicePath)
     .success(function (data) {
 
+      // use the self property to use as the linked URL for each item
+      $rootScope.changeSelfToAngularPath(data);
+
         // set the feeds data into the Angular model
       $scope.feedEarlyVoteSites = data;
+
+      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data, $http) {
 

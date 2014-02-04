@@ -1,3 +1,28 @@
 <i id="{{pageId}}"></i>
 
-LIST OF Early Vote Site
+<section class="data-group">
+
+  <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
+  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
+         template-pagination="earlyVotePagination" class="associations">
+    <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.id}}</a>
+      </td>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.name}}</a>
+      </td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.address}}</a>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}"
+           ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>
