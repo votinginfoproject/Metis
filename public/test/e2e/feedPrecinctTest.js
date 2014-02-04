@@ -238,6 +238,15 @@ describe('Feed Precinct Test', function () {
   });
 
 
+  describe('Check error page link', function() {
+    it('Error page works', function() {
+      element('#earlyvotesite-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-earlyvotesites-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb9').click();
+      expect(element('#feeds-election-state-localities-precincts-earlyvotesites-content-single').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Feed Precinct Early Vote Sites page
    ------------------------------------------*/

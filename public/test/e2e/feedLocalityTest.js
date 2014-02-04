@@ -171,6 +171,15 @@ describe('Feed Locality Test', function () {
 
   });
 
+  describe('Check error page link', function() {
+    it('Error page link works', function() {
+      element('#earlyvotesite-errors').click();
+      expect(element('#feeds-election-state-localities-earlyvotesites-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb7').click();
+      expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Feed Locality Early Vote Sites page
    ------------------------------------------*/
