@@ -129,6 +129,9 @@ function FeedPrecinctSplitCtrl_getFeedPollingLocations($scope, $rootScope, $feed
   $feedsService.getFeedPrecinctSplitPollingLocations(servicePath)
     .success(function (data) {
 
+      // use the self property to use as the linked URL for each item
+      $rootScope.changeSelfToAngularPath(data);
+
       // set the feeds data into the Angular model
       $scope.feedPollingLocations = data;
 
