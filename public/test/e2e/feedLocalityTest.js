@@ -84,6 +84,13 @@ describe('Feed Locality Test', function () {
 
       expect(element('#precinct0').count()).toBe(1);
     });
+
+    it('Error page link works', function() {
+      element('#locality-errors').click();
+      expect(element('#feeds-election-state-localities-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb5').click();
+      expect(element('#feed-locality-content').count()).toBe(1);
+    });
   });
 
   /* ----------------------------------------

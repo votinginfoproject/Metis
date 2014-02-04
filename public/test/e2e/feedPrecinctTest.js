@@ -96,6 +96,15 @@ describe('Feed Precinct Test', function () {
 
   });
 
+  describe('Check the error link', function() {
+    it('Error link works', function() {
+      element('#precinct-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb7').click();
+      expect(element('#feed-precinct-content').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Now from the Feed Precinct page, click the first Electoral District link
    ------------------------------------------*/

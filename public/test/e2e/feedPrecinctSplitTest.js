@@ -97,6 +97,15 @@ describe('Feed Precinct Split Test', function () {
 
   });
 
+  describe('Checks the error page link', function() {
+    it('error page works', function() {
+      element('#precinctsplit-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb9').click();
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Now from the Feed PrecinctSplit page, click the first Electoral District link
    ------------------------------------------*/

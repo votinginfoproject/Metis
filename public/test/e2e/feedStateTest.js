@@ -68,6 +68,12 @@ describe('Feed State Test', function () {
       expect(element('#locality-name0').count()).toBe(1);
     });
 
+    it('Error page link works', function() {
+      element('#state-errors').click();
+      expect(element('#feeds-election-state-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb3').click();
+      expect(element('#feed-state-content').count()).toBe(1);
+    })
   });
 
   /* ----------------------------------------

@@ -68,6 +68,13 @@ describe('Feed Election Test', function () {
 
   });
 
+  describe('Check Feed Error Link', function() {
+    it('Error link works', function() {
+      element('#election-errors').click();
+      expect(element('#feeds-election-errors-content').count()).toBe(1);
+    });
+  });
+
   /* ----------------------------------------
    Log Out
    ------------------------------------------*/

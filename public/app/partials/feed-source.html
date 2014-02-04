@@ -1,6 +1,6 @@
 <i id="feed-source-content"></i>
 
-<a ng-if="feedSource.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedSource.error_count}} Errors in Source ID: {{feedSource.id}}</a>
+<a ng-if="feedSource.error_count" id="source-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedSource.error_count}} Errors in Source ID: {{feedSource.id}}</a>
 
 <span ng-if="!feedSource" class="is-loading"></span>
 <dl class="attributes" ng-if="feedSource.source_info">

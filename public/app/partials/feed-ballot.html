@@ -1,5 +1,9 @@
 <i id="feed-ballot-content"></i>
 
+<a ng-if="feedBallot.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
+  Errors in Ballot ID: {{feedBallot.id}}</a>
+<mark ng-if="!feedBallot.error_count">link</mark>
+
 <span ng-if="!feedBallot" class="is-loading"></span>
 <dl class="attributes" ng-if="feedBallot">
   <dt class="key">Image URL:</dt> <dd id="ballot-imageurl" class="value">{{feedBallot.image_url}}</dd>

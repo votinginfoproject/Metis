@@ -42,6 +42,12 @@ describe('Testing Feed Contest Page', function() {
       expect(element('#contestresult-id').count()).toBe(1);
       expect(element('#ballotlineresult-id0').count()).toBe(1);
     });
+
+    it('Contest error page link works', function() {
+      element('#contest-errors').click();
+      expect(element('#feeds-election-contests-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb4').click();
+    })
   });
 
 

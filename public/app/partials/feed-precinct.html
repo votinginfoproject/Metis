@@ -1,6 +1,6 @@
 <i id="feed-precinct-content"></i>
 
-<a ng-if="feedPrecinct.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a>
+<a ng-if="feedPrecinct.error_count" id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>
