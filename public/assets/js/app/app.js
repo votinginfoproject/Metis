@@ -144,6 +144,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
+    // all polling location pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/pollinglocations/:pollinglocation', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocation.html', controller: 'FeedPollingLocationCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/pollinglocations', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocations.html', controller: 'FeedPollingLocationsCtrl' });
+
+    // all polling locations pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/pollinglocations/:pollinglocation', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocation.html', controller: 'FeedPollingLocationCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/pollinglocations', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocations.html', controller: 'FeedPollingLocationsCtrl' });
+
     // all early vote site pages can now go to the same html partial and the same angular controller
     $routeProvider
       .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' })
@@ -531,6 +541,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "earlyvotesites"){
         name = "early vote sites";
+      }
+
+      if(name === "pollinglocations"){
+        name = "polling locations";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
