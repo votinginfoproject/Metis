@@ -584,26 +584,26 @@ exports.initSchemas = function (mongoose) {
   models.State = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
 
-  models.BallotError = mongoose.model(config.mongoose.model.ballotError, mongoose.Schema(ballotErrorSchema));
-  models.BallotResponseError = mongoose.model(config.mongoose.model.ballotResponseError, mongoose.Schema(ballotResponseErrorSchema));
-  models.BallotLineResultError = mongoose.model(config.mongoose.model.ballotLineResultError, mongoose.Schema(ballotLineResultErrorSchema));
-  models.CandidateError = mongoose.model(config.mongoose.model.candidateError, mongoose.Schema(candidateErrorSchema));
-  models.ContestError = mongoose.model(config.mongoose.model.contestError, mongoose.Schema(contestErrorSchema));
-  models.ContestResultError = mongoose.model(config.mongoose.model.contestResultError, mongoose.Schema(contestResultErrorSchema));
-  models.CustomBallotError = mongoose.model(config.mongoose.model.customBallotError, mongoose.Schema(customBallotErrorSchema));
-  models.EarlyVoteSiteError = mongoose.model(config.mongoose.model.earlyVoteSiteError, mongoose.Schema(earlyVoteSiteErrorSchema));
-  models.ElectionError = mongoose.model(config.mongoose.model.electionError, mongoose.Schema(electionErrorSchema));
-  models.ElectionAdminError = mongoose.model(config.mongoose.model.electionAdministrationError, mongoose.Schema(electionAdminErrorSchema));
-  models.ElectionOfficialError = mongoose.model(config.mongoose.model.electionOfficialError, mongoose.Schema(electionOfficialErrorSchema));
-  models.ElectoralDistrictError = mongoose.model(config.mongoose.model.electoralDistrictError, mongoose.Schema(electoralDistrictErrorSchema));
-  models.LocalityError = mongoose.model(config.mongoose.model.localityError, mongoose.Schema(localityErrorSchema));
-  models.PollingLocationError = mongoose.model(config.mongoose.model.pollingLocationError, mongoose.Schema(pollingLocationErrorSchema));
-  models.PrecinctError = mongoose.model(config.mongoose.model.precinctError, mongoose.Schema(precinctErrorSchema));
-  models.PrecinctSplitError = mongoose.model(config.mongoose.model.precinctSplitError, mongoose.Schema(precinctSplitErrorSchema));
-  models.ReferendumError = mongoose.model(config.mongoose.model.referendumError, mongoose.Schema(referendumErrorSchema));
-  models.SourceError = mongoose.model(config.mongoose.model.sourceError, mongoose.Schema(sourceErrorSchema));
-  models.StateError = mongoose.model(config.mongoose.model.stateError, mongoose.Schema(stateErrorSchema));
-  models.StreetSegmentError = mongoose.model(config.mongoose.model.streetSegmentError, mongoose.Schema(streetSegmentErrorSchema));
+  models.Ballot.Error = mongoose.model(config.mongoose.model.ballotError, mongoose.Schema(ballotErrorSchema));
+  models.BallotResponse.Error = mongoose.model(config.mongoose.model.ballotResponseError, mongoose.Schema(ballotResponseErrorSchema));
+  models.BallotLineResult.Error = mongoose.model(config.mongoose.model.ballotLineResultError, mongoose.Schema(ballotLineResultErrorSchema));
+  models.Candidate.Error = mongoose.model(config.mongoose.model.candidateError, mongoose.Schema(candidateErrorSchema));
+  models.Contest.Error = mongoose.model(config.mongoose.model.contestError, mongoose.Schema(contestErrorSchema));
+  models.ContestResult.Error = mongoose.model(config.mongoose.model.contestResultError, mongoose.Schema(contestResultErrorSchema));
+  models.CustomBallot.Error = mongoose.model(config.mongoose.model.customBallotError, mongoose.Schema(customBallotErrorSchema));
+  models.EarlyVoteSite.Error = mongoose.model(config.mongoose.model.earlyVoteSiteError, mongoose.Schema(earlyVoteSiteErrorSchema));
+  models.Election.Error = mongoose.model(config.mongoose.model.electionError, mongoose.Schema(electionErrorSchema));
+  models.ElectionAdmin.Error = mongoose.model(config.mongoose.model.electionAdministrationError, mongoose.Schema(electionAdminErrorSchema));
+  models.ElectionOfficial.Error = mongoose.model(config.mongoose.model.electionOfficialError, mongoose.Schema(electionOfficialErrorSchema));
+  models.ElectoralDistrict.Error = mongoose.model(config.mongoose.model.electoralDistrictError, mongoose.Schema(electoralDistrictErrorSchema));
+  models.Locality.Error = mongoose.model(config.mongoose.model.localityError, mongoose.Schema(localityErrorSchema));
+  models.PollingLocation.Error = mongoose.model(config.mongoose.model.pollingLocationError, mongoose.Schema(pollingLocationErrorSchema));
+  models.Precinct.Error = mongoose.model(config.mongoose.model.precinctError, mongoose.Schema(precinctErrorSchema));
+  models.PrecinctSplit.Error = mongoose.model(config.mongoose.model.precinctSplitError, mongoose.Schema(precinctSplitErrorSchema));
+  models.Referendum.Error = mongoose.model(config.mongoose.model.referendumError, mongoose.Schema(referendumErrorSchema));
+  models.Source.Error = mongoose.model(config.mongoose.model.sourceError, mongoose.Schema(sourceErrorSchema));
+  models.State.Error = mongoose.model(config.mongoose.model.stateError, mongoose.Schema(stateErrorSchema));
+  models.StreetSegment.Error = mongoose.model(config.mongoose.model.streetSegmentError, mongoose.Schema(streetSegmentErrorSchema));
 
 };
 

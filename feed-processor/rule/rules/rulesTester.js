@@ -25,7 +25,7 @@ function initiateRuleTesting() {
     var rulesList = require('./rulesList').rules;
 
     rulesList.forEach(function(rule) {
-      require(rule.ruleImplementation).runCheck(schemas.models, '52e184773eb775d10e000004', rule);
+      require(rule.ruleImplementation).runCheck(schemas.models, '52f254011beffbf731c92a93', rule);
     });
   });
 };
