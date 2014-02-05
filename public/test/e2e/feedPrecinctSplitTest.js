@@ -213,6 +213,83 @@ describe('Feed Precinct Split Test', function () {
     });
   });
 
+
+  /* ----------------------------------------
+   Feed PrecinctSplit Polling Location page
+   ------------------------------------------*/
+  describe('Check Feed PrecinctSplit Polling Location page', function () {
+    // if there is data
+    it('Should be able to go into a PrecinctSplit Polling Location page', function () {
+
+      expect(element('#pollingLocation-id0 a').count()).toBe(1);
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed PrecinctSplit Polling Location page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Location data', function () {
+
+      expect(element('#address').html()).not().toBe("");
+
+      // precincts
+      expect(element('#precinct0').count()).toBe(1);
+      expect(element('#precinct-id0').count()).toBe(1);
+
+      // precinct splits
+      expect(element('#precinctsplit0').count()).toBe(1);
+      expect(element('#precinctsplit-id0').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed PrecinctSplit Polling Locations page
+   ------------------------------------------*/
+  describe('Check Feed PrecinctSplit Polling Locations page', function () {
+    // if there is data
+    it('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb10').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling locations page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Locations data', function () {
+
+      expect(element('#pollingLocation0').count()).toBe(1);
+      expect(element('#pollingLocation-id0').count()).toBe(1);
+
+    });
+
+    // click to a polling location site
+    it('Should be able to click on the link and be taken back to a Polling Location page', function () {
+
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling location page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+    });
+
+
+    // click to the precinct page
+    it('Should be able to click on the breadcrumb and be taken back to the PrecinctSplit page', function () {
+
+      element('#pageHeader-breadcrumb9').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed precinctsplit page
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
+    });
+
+  });
+
   /* ----------------------------------------
    Now from the Feed Precinct Split page, click the Street Segments error link
    ------------------------------------------*/

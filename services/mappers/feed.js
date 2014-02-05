@@ -667,10 +667,45 @@ var mapCandidate = function (path, candidate) {
 function mapPollingLocation(path, pollingLocation) {
   return {
     id: pollingLocation.elementId,
+    error_count: -1, //TODO
     address: addressToJson(pollingLocation.address),
     directions: pollingLocation.directions,
     photo_url: pollingLocation.photoUrl,
-    polling_hours: pollingLocation.pollingHours
+    polling_hours: pollingLocation.pollingHours,
+    precincts: [
+      {
+        id: 1,
+        name: 'Precinct 1',
+        electoral_districts: 5,
+        self: 'path1'
+      },
+      {
+        id: 2,
+        name: 'Precinct 2',
+        electoral_districts: 10,
+        self: 'path2'
+      }
+    ],
+    precinct_splits: [
+      {
+        id: 12,
+        name: 'PrecinctSplit 1',
+        electoral_districts: 7,
+        self: 'path3'
+      },
+      {
+        id: 13,
+        name: 'PrecinctSplit 2',
+        electoral_districts: 53,
+        self: 'path4'
+      },
+      {
+        id: 2,
+        name: 'PrecinctSplit 3',
+        electoral_districts: 1,
+        self: 'path5'
+      }
+    ]
   };
 };
 

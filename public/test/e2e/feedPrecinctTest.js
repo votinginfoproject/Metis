@@ -291,6 +291,83 @@ describe('Feed Precinct Test', function () {
 
   });
 
+
+  /* ----------------------------------------
+   Feed Precinct Polling Location page
+   ------------------------------------------*/
+  describe('Check Feed Precinct Polling Location page', function () {
+    // if there is data
+    it('Should be able to go into a Precinct Polling Location page', function () {
+
+      expect(element('#pollingLocation-id0 a').count()).toBe(1);
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed Precinct Polling Location page
+      expect(element('#feeds-election-state-localities-precincts-pollinglocations-content-single').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Location data', function () {
+
+      expect(element('#address').html()).not().toBe("");
+
+      // precincts
+      expect(element('#precinct0').count()).toBe(1);
+      expect(element('#precinct-id0').count()).toBe(1);
+
+      // precinct splits
+      expect(element('#precinctsplit0').count()).toBe(1);
+      expect(element('#precinctsplit-id0').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed Precinct Polling Locations page
+   ------------------------------------------*/
+  describe('Check Feed Precinct Polling Locations page', function () {
+    // if there is data
+    it('Should be able to go into a Precinct Polling Locations page via breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb8').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling locations page
+      expect(element('#feeds-election-state-localities-precincts-pollinglocations-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Locations data', function () {
+
+      expect(element('#pollingLocation0').count()).toBe(1);
+      expect(element('#pollingLocation-id0').count()).toBe(1);
+
+    });
+
+    // click to a polling location site
+    it('Should be able to click on the link and be taken back to an Polling Location page', function () {
+
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling location page
+      expect(element('#feeds-election-state-localities-precincts-pollinglocations-content-single').count()).toBe(1);
+    });
+
+
+    // click to the precinct page
+    it('Should be able to click on the breadcrumb and be taken back to the Precinct page', function () {
+
+      element('#pageHeader-breadcrumb7').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed precinct page
+      expect(element('#feed-precinct-content').count()).toBe(1);
+    });
+
+  });
+
   /* ----------------------------------------
    Now from the Feed Precinct page, click the Street Segments error link
    ------------------------------------------*/

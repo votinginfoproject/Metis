@@ -5,7 +5,6 @@
  */
 function FeedPollingLocationsCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
-
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
@@ -13,13 +12,8 @@ function FeedPollingLocationsCtrl($scope, $rootScope, $feedsService, $routeParam
   // create a unique id for this page based on the breadcrumbs
   $scope.pageId = $rootScope.generatePageId(feedid);
 
-  // get the polling locations param from the route
-  var pollinglocationid = $routeParams.pollinglocationid;
-
   // initialize page header variables
   $rootScope.setPageHeader("Polling Locations", $rootScope.getBreadCrumbs(), "feeds", "", null);
-
-  return;
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -30,7 +24,7 @@ function FeedPollingLocationsCtrl($scope, $rootScope, $feedsService, $routeParam
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSite($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid, earlyvotesiteid);
+      FeedPollingLocationsCtrl_getPollingLocations($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams, feedid);
 
     }).error(function (data, $http) {
 
@@ -46,39 +40,34 @@ function FeedPollingLocationsCtrl($scope, $rootScope, $feedsService, $routeParam
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
-      $scope.feedEarlyVoteSite = {};
+      $scope.feedPollingLocations = {};
     });
 }
 
 /*
- * Get the Feed Early Vote Site for the Feed detail page
+ * Get the Polling Locations for the Feed detail page
  *
  */
-function FeedEarlyVoteSiteCtrl_getFeedEarlyVoteSite($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid, earlyvotesiteid){
+function FeedPollingLocationsCtrl_getPollingLocations($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams, feedid){
 
-  // get Feed Early Vote Site
-  $feedsService.getFeedEarlyVoteSite(servicePath)
+  // get Feed Polling Locations
+  $feedsService.getFeedPollingLocations(servicePath)
     .success(function (data) {
 
-        // set the feeds data into the Angular model
-      $scope.feedEarlyVoteSite = data;
+      // use the self property to use as the linked URL for each item
+      $rootScope.changeSelfToAngularPath(data);
 
-      // set the title
-      $rootScope.pageHeader.title = "Early Vote Site ID: " + data.id;
+      // set the feeds data into the Angular model
+      $scope.feedPollingLocations = data;
+
+      $scope.pollingLocationsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+
 
     }).error(function (data, $http) {
 
-      if($http===404){
-        // feed not found
-
-        $rootScope.pageHeader.alert = "Sorry, Early Vote Site \"" + earlyvotesiteid + "\" could not be found.";
-      } else {
-        // some other error
-
-        $rootScope.pageHeader.error += "Could not retrieve Feed Early Vote Site data. ";
-      }
+      $rootScope.pageHeader.error += "Could not retrieve Polling Locations data. ";
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedEarlyVoteSite = {};
+      $scope.feedPollingLocations = {};
     });
 }
