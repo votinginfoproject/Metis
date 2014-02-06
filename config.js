@@ -49,10 +49,10 @@ config.mongoose = {
     source: 'sources',
     state: 'states',
     streetSegment: 'streetSegments',
-    violation: 'violations'
+    violation: 'violations',
+    overview: 'overviews'
   },
-  connectionString: 'mongodb://localhost/metis',
-  testConnectionString: 'mongodb://localhost/testMetis'
+  connectionString: 'mongodb://localhost/metis'
 }
 
 module.exports = config;

@@ -342,6 +342,15 @@ var violationSchema = {
   feedId: String //TODO: make DBRef
 };
 
+var overviewSchema = {
+  element_type: String,
+  amount: Number,
+  complete_pct: Number,
+  error_count: Number,
+  section: Number,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
 /*
  * End of Schema Definitions
  */
@@ -370,7 +379,7 @@ exports.initSchemas = function (mongoose) {
   models.State = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
   models.Violation = mongoose.model(config.mongoose.model.violation, mongoose.Schema(violationSchema));
-
+  models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 };
 
 
