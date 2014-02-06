@@ -1,47 +1,120 @@
-/**
- * Created by nboseman on 12/31/13.
+
+var constraints = require('./dataconstraints');
+var fetcher = require('./datafetcher');
+var Violation = require('./ruleviolation');
+var violations = [];
+var activeRules = {};
+/*
+ var ActiveRuleStats = {
+ increaseRuleCount: function(ruleDef){
+ activeRules[ruleDef.title] = activeRules[ruleDef.title] + 1;
+ },
+ decreaseRuleCount: function(ruleDef){
+ activeRules[ruleDef.title] = activeRules[ruleDef.title].length - 1;
+ },
+ statusRuleCount: function(){
+ return activeRules;
+ }
+ };
  */
 
-function MetisRule(ruleDef, constraints, helper){
+var async = require('async');
+var fn = require('when/function');
+var when = require('when');
+
+
+function Rule(ruleDef){
+  this.implementation = ruleDef.implementation;
+  this.description = ruleDef.severityText;
+  this.title = ruleDef.title;
   this.ruleDef = ruleDef;
-  this.constraints = constraints;
-  this.helper = helper;
-  this.violations = [];
+  this.dataConstraints = constraints[ruleDef.title];
+}
+
+function MetisRule() {}
+
+MetisRule.prototype.mRule = Rule;
+MetisRule.prototype.ruleInstance = Rule;
+MetisRule.prototype.MRuleStats= { activeRuleCount: 0 };
+
+MetisRule.prototype.createRule = function(ruleDef){
+  this.mRule = Rule;
+  this.ruleInstance = new this.mRule(ruleDef);
+  MetisRule.prototype.ruleInstance = this.ruleInstance;
+  return this.ruleInstance;
 }
 
 
-MetisRule.prototype.evaluate = function(vipFeedId, constraintList){
-  //given a rule def, apply the given data constraints to the rule
-  console.log("Evaluate constraint:", this.constraints);
-  this.helper.evaluate(vipFeedId, this.constraints);
-  //assessEvaluation();
+MetisRule.prototype.applyRule = function(rule, cb){
+  console.log(rule.title, "is being applied");
+  MetisRule.prototype.ruleInstance = rule;
+  async.each(constraints[rule.title], this.applyDataConstraints, function(err){console.log(rule.title, 'rule application complete');cb();});
 }
 
-MetisRule.prototype.isViolated = function() {
-  hasViolation = (this.violations.length > 0);
-  return hasViolation;
+MetisRule.prototype.applyDataConstraints = function (constraintSet, cb){
+  for(p=0; p < constraintSet.entity.length; p++){
+    fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, "", MetisRule.prototype.ruleInstance).then(
+      function(fetchedData){
+        fetchedData.resolveEntityData.then(
+          function(results){
+            MetisRule.prototype.processDataResults(fetchedData.retrieveRule.ruleDef, fetchedData.entity, results, constraintSet, cb);
+          },
+          function(err){
+            console.log('Error: inner promise for applyDataConstraints()');
+            console.log(err.message);
+          });
+      },
+      function(err){
+        console.err('Error in outer promise for applyDataConstraints()', err);
+      }
+    );
+  }
 }
 
-MetisRule.prototype.addViolation = function(violation) {
-  this.violations.push(violation);
+
+MetisRule.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
+  for(i = 0; i < results.length; i++){
+    result = results[i];
+    if(constraintSet.fields.length > 0) {
+      for(j=0; j < constraintSet.fields.length; j++){
+        field = constraintSet.fields[j];
+        if(result[field] != null) {
+          MetisRule.prototype.processRule(ruleDef, result[field], result, entity, constraintSet, cb);
+        }
+      }
+    }
+    else {
+      if(result != null){
+        MetisRule.prototype.processRule(ruleDef, result, result, entity, constraintSet, cb);
+      }
+    }
+  }
 }
 
-MetisRule.prototype.violationList = function(){
-  return this.violations;
+MetisRule.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, constraintSet, cb){
+  //ActiveRuleStats.increaseRuleCount(ruleDef);
+  fn.call(require(ruleDef.implementation).evaluate, dataItem, dataSet, entity, constraintSet, ruleDef)
+    .then(function(rule){
+      //ActiveRuleStats.decreaseRuleCount(ruleDef);
+      //console.log(MRuleStats.activeRuleCount);
+      if(rule.isViolated){
+        MetisRule.prototype.createViolation(rule.entity, rule.dataItem, rule.dataSet, ruleDef);
+        console.log('Violation Count:', violations.length);
+        //console.log(ActiveRuleStats.statusRuleCount());
+      }
+    },
+    function(error){
+      console.log('Error: in analyzeData()', error.message);
+    }
+  );
+  //cb();
 }
 
-function getInstance(ruleDef, constraints, helper){
-  return new MetisRule(ruleDef, constraints, helper);
+
+MetisRule.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
+  violation = new Violation(entity, dataSet.elementId, dataSet._id, dataSet._feed, dataSet, dataItem, ruleDef);
+  violations[violations.length] = violation;
+  //console.log('Violation:', violation);
 }
 
-MetisRule.prototype.getInstance = function(){
-  //to be implemented by descendants
-}
-
-
-//exports.getInstance = getInstance;
 module.exports = MetisRule;
-
-
-
-
