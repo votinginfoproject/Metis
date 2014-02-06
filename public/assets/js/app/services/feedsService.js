@@ -137,6 +137,16 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
+    // Feed Polling Location pages (multiple)
+    // ========================================================
+    getFeedPollingLocation: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Polling Locations pages (multiple)
+    // ========================================================
+    // can be found above in the overview section
+
     // Feed Electoral Districts pages (multiple)
     // ========================================================
     getFeedElectoralDistricts: function (servicePath) {
