@@ -50,11 +50,11 @@ function connectMongo(connectionString, next) {
   });
 }
 
-function executeProg(path) {
+function executeProg(vipFeedId) {
   schemas.initSchemas(mongoose);
   connectMongo(config.mongoose.connectionString, function () {
-    processRules(2);
+    processRules(vipFeedId);
   });
 }
 
-executeProg();
+executeProg(process.argv[2]);
