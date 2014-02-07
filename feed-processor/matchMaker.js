@@ -3,6 +3,7 @@
  */
 var updateCounter = 0;
 var _feedId;
+var _models;
 
 /**
  * Creates relationships between documents in the database
@@ -18,7 +19,10 @@ function onUpdate (err, numAffected) {
 
   if (updateCounter <= 0) {
     console.log('****Linking Complete!!!');
-    require('./rule/ruleEngine').analyzeRules(_feedId);
+    console.log('Running validation rules.');
+    var RulesTester = require('./rule/rules/rulesTester');
+    var tester = new RulesTester(_models);
+    tester.run(_feedId);
   }
 };
 
@@ -774,6 +778,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsBallotLineResult(feedId, models);
   createRelationshipsPollingLocation(feedId, models);
   _feedId = feedId;
+  _models = models;
 };
 
 exports.createDBRelationships = createDBRelationships;

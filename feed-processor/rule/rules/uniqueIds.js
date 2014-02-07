@@ -1,9 +1,12 @@
 /**
  * Created by bantonides on 1/22/14.
  */
-function UniqueIdRule(models, rule) {
+function UniqueIdRule(models, rule, callback) {
   this.models = models;
   this.rule = rule;
+  this.callback = callback;
+  this.complete = false;
+  this.refCount = 0;
 }
 
 UniqueIdRule.prototype.performCheck = function(feedId) {
@@ -18,13 +21,10 @@ UniqueIdRule.prototype.performCheck = function(feedId) {
   when.all(finds).then(processQueryResults.bind(this), errorHandler);
 };
 
-function check(models, feedId, rule) {
-  var rule = new UniqueIdRule(models, rule);
-  rule.performCheck(feedId);
-}
-
 function errorHandler(err) {
-  console.error(err);
+  if (err) {
+    console.error(err);
+  }
 }
 
 function processQueryResults(foundDocs) {
@@ -42,6 +42,8 @@ function processQueryResults(foundDocs) {
   });
 
   storeErrors(filterDuplicates(idCounts), this);
+  this.complete = true;
+  console.log('processQueryResults complete');
 }
 
 function filterDuplicates(idCounts) {
@@ -64,13 +66,14 @@ function storeErrors(dupes, context) {
   console.log('Storing errors.');
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
-      saveError(errModel, dupe.id, context);
+      saveError(context, errModel, dupe.id);
     });
   });
   console.log('Done storing errors.');
 }
 
-function saveError(errorModel, id, context) {
+function saveError(context, errorModel, id) {
+  context.refCount++;
   errorModel.model.create({
     severityCode: context.rule.severityCode,
     severityText: context.rule.severityText,
@@ -79,11 +82,20 @@ function saveError(errorModel, id, context) {
     details: context.rule.description,
     textualReference: 'id = ' + id,
     _ref: errorModel.ref
-  }, function(err, data, count) {
-    if (err) {
-      console.error(err);
-    }
-  });
-};
+  }, createHandler.bind(context));
+}
+
+function createHandler(err) {
+  this.refCount--;
+  errorHandler(err);
+  if (this.complete && this.refCount <= 0) {
+    console.log('Calling completion callback.');
+    this.callback();
+  }
+}
+function check(models, feedId, rule, callback) {
+  var rule = new UniqueIdRule(models, rule, callback);
+  rule.performCheck(feedId);
+}
 
 exports.runCheck = check;
