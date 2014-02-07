@@ -199,7 +199,9 @@ function feedPrecinctSplitPollingLocationsGET (req, res) {
 function feedPrecinctSplitPollingLocationGET(req, res) {
   dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
     notFoundHandler(res, err, pollingLocation, function() {
-      res.json(mapper.mapPollingLocation(req.path, pollingLocation));
+      //Use ../.. to normalize the path so the same code can be used for Precinct Polling Locations
+      // and Precinct Split Polling Locations
+      res.json(mapper.mapPollingLocation(_path.join(req.path, '../..'), pollingLocation));
     });
   });
 };

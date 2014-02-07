@@ -232,7 +232,9 @@ var pollingLocationSchema = {
   directions: String,
   pollingHours: String,
   photoUrl: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
+  _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
 };
 
 var precinctSchema = {

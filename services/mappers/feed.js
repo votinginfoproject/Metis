@@ -672,42 +672,28 @@ function mapPollingLocation(path, pollingLocation) {
     directions: pollingLocation.directions,
     photo_url: pollingLocation.photoUrl,
     polling_hours: pollingLocation.pollingHours,
-    precincts: [
-      {
-        id: 1,
-        name: 'Precinct 1',
-        electoral_districts: 5,
-        self: 'path1'
-      },
-      {
-        id: 2,
-        name: 'Precinct 2',
-        electoral_districts: 10,
-        self: 'path2'
-      }
-    ],
-    precinct_splits: [
-      {
-        id: 12,
-        name: 'PrecinctSplit 1',
-        electoral_districts: 7,
-        self: 'path3'
-      },
-      {
-        id: 13,
-        name: 'PrecinctSplit 2',
-        electoral_districts: 53,
-        self: 'path4'
-      },
-      {
-        id: 2,
-        name: 'PrecinctSplit 3',
-        electoral_districts: 1,
-        self: 'path5'
-      }
-    ]
+    precincts: pollingLocation._precincts.map(mapPollingLocationPrecinctSummary.bind(undefined, path)),
+    precinct_splits: pollingLocation._precinctSplits.map(mapPollingLocationPrecinctSplitSummary.bind(undefined, path))
   };
 };
+
+function mapPollingLocationPrecinctSummary(path, precinct) {
+  return {
+    id: precinct.elementId,
+    name: precinct.name,
+    electoral_districts: precinct._electoralDistricts.length,
+    self: _path.join(path, '../../..', precinct.elementId.toString())
+  };
+}
+
+function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
+  return {
+    id: precinctSplit.elementId,
+    name: precinctSplit.name,
+    electoral_districts: precinctSplit._electoralDistricts.length,
+    self: _path.join(path, '../../..', precinctSplit.precinctId.toString(), 'precinctsplits', precinctSplit.elementId.toString())
+  };
+}
 
 var mapContestOverview = function(path, data) { //TODO
   return [

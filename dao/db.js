@@ -324,7 +324,10 @@ function feedBallotReferendum(feedId, referendumId, callback) {
 };
 
 function getPollingLocation(feedId, pollingLocationId, callback) {
-  daoSchemas.models.PollingLocation.findOne({ _feed: feedId, elementId: pollingLocationId }, callback);
+  daoSchemas.models.PollingLocation
+    .findOne({ _feed: feedId, elementId: pollingLocationId })
+    .populate('_precincts _precinctSplits')
+    .exec(callback);
 };
 
 function getContestResult(feedId, contestId, callback) {
