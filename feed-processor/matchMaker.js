@@ -248,6 +248,19 @@ function createRelationshipsBallotLineResult(feedId, models) {
   });
 }
 
+function createRelationshipsPollingLocation(feedId, models) {
+  var promise = models.PollingLocation.find({ _feed: feedId }).exec();
+
+  promise.then(function(pollingLocations) {
+    if (pollingLocations.length > 0) {
+      pollingLocations.forEach(function(pollingLocation) {
+        joinPollingLocationPrecinct(models, pollingLocation);
+        joinPollingLocationPrecinctSplit(models, pollingLocation);
+      });
+    }
+  });
+}
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -718,6 +731,31 @@ function joinBallotLineResultJurisdiction(models, result) {
   });
 }
 
+function joinPollingLocationPrecinct(models, pollingLocation) {
+  var promise = models.Precinct.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
+    .select('_id')
+    .exec();
+
+  promise.then(function(precincts) {
+    updateRelationship(models.PollingLocation,
+      { _id: pollingLocation._id },
+      { $addToSet: { _precincts: { $each: precincts } } },
+      onUpdate);
+  });
+}
+
+function joinPollingLocationPrecinctSplit(models, pollingLocation) {
+  var promise = models.PrecinctSplit.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
+    .select('_id')
+    .exec();
+
+  promise.then(function(precinctSplits) {
+    updateRelationship(models.PollingLocation,
+      { _id: pollingLocation._id },
+      { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
+      onUpdate);
+  });
+}
 
 function createDBRelationships(feedId, models) {
   createRelationshipsSource(feedId, models);
@@ -734,6 +772,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsReferendum(feedId, models);
   createRelationshipsContestResult(feedId, models);
   createRelationshipsBallotLineResult(feedId, models);
+  createRelationshipsPollingLocation(feedId, models);
   _feedId = feedId;
 };
 
