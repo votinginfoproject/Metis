@@ -345,10 +345,10 @@ var violationSchema = {
 };
 
 var overviewSchema = {
-  element_type: String,
+  elementType: String,
   amount: Number,
-  complete_pct: Number,
-  error_count: Number,
+  completePct: Number,
+  errorCount: Number,
   section: Number,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -382,6 +382,18 @@ exports.initSchemas = function (mongoose) {
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
   models.Violation = mongoose.model(config.mongoose.model.violation, mongoose.Schema(violationSchema));
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
+
+  models.Ballot.fieldCount = 6;
+  models.Contest.fieldCount = 14;
+  models.Candidate.fieldCount = 16;
+  models.Referendum.fieldCount = 10;
+  models.ContestResult.fieldCount = 11;
+  models.BallotLineResult.fieldCount = 9;
+  models.ElectoralDistrict.fieldCount = 4;
+  models.Precinct.fieldCount = 10;
+  models.PollingLocation.fieldCount = 11;
+  models.StreetSegment.fieldCount = 19;
+  models.PrecinctSplit.fieldCount = 6;
 };
 
 
