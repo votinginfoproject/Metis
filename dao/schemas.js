@@ -556,6 +556,15 @@ var streetSegmentErrorSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var overviewSchema = {
+  element_type: String,
+  amount: Number,
+  complete_pct: Number,
+  error_count: Number,
+  section: Number,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
 /*
  * End of Schema Definitions
  */
@@ -604,6 +613,8 @@ exports.initSchemas = function (mongoose) {
   models.Source.Error = mongoose.model(config.mongoose.model.sourceError, mongoose.Schema(sourceErrorSchema));
   models.State.Error = mongoose.model(config.mongoose.model.stateError, mongoose.Schema(stateErrorSchema));
   models.StreetSegment.Error = mongoose.model(config.mongoose.model.streetSegmentError, mongoose.Schema(streetSegmentErrorSchema));
+
+  models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
 };
 

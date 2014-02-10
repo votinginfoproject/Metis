@@ -69,10 +69,12 @@ config.mongoose = {
     referendumError: 'referendumErrors',
     sourceError: 'sourceErrors',
     stateError: 'stateErrors',
-    streetSegmentError: 'streetSegmentErrors'
+    streetSegmentError: 'streetSegmentErrors',
+
+    overview: 'overviews'
+
   },
-  connectionString: 'mongodb://localhost/metis',
-  testConnectionString: 'mongodb://localhost/testMetis'
+  connectionString: 'mongodb://localhost/metis'
 }
 
 module.exports = config;
