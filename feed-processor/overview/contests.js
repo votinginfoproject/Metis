@@ -8,174 +8,107 @@ var async = require('async');
 function contestCalc(feedId, saveCalc) {
 
   var contestOverview = { };
+  var contestCount = 0;
+  function wait() {
+    if(++contestCount === 5)
+      saveCalc(contestOverview);
+  }
   schemas.models.Contest.find({ _feed: feedId })
-    .populate('_ballot')
-    .populate('_contestResult')
-    .populate('_ballotLineResults')
-    .populate('_electoralDistrict')
     .exec(function(err, contests) {
       contestOverview.contestAmount = contests.length;
-      contestOverview.ballotFields = contestOverview.contestFields = contestOverview.ballotSchemaFieldCount = contestOverview.contestSchemaFieldCount = 0;
-      contestOverview.contestResultFields = contestOverview.contestResultSchemaFieldCount = contestOverview.contestResultAmount = 0;
-      contestOverview.ballotLineResultFields = contestOverview.ballotLineResultSchemaFieldCount = contestOverview.ballotLineResultAmount = 0;
-      contestOverview.electoralDistrictFields = contestOverview.electoralDistrictFields = 0;
+      contestOverview.contestFieldCount = contestOverview.contestSchemaFieldCount = 0;
       async.each(contests, function(contest, done) {
-        var contestCount = 0;
-        contestOverview.contestFields += Object.keys(contest).length - 6;
+        contestOverview.contestFieldCount += Object.keys(contest).length - 6;
         contestOverview.contestSchemaFieldCount += schemas.models.Contest.fieldCount;
-        contestContestResultCalc(contest, contestOverview);
-        contestBallotLineResultCalc(contest, contestOverview);
-        contestBallotCalc(contest._ballot, feedId, function(total, schemaFieldCount) {
-          contestOverview.ballotFields += total;
-          contestOverview.ballotSchemaFieldCount += schemaFieldCount;
-          if(++contestCount === 2)
-            done();
-        });
-        contestElectoralDistrictCalc(contest._electoralDistrict, feedId, function(total, schemaFieldCount) {
-          contestOverview.electoralDistrictFields += total;
-          contestOverview.electoralDistrictSchemaFieldCount += schemaFieldCount;
-          if(++contestCount === 2)
-            done();
-        })
-      }, function(err) {
-        console.log('Finished Contests');
-        saveCalc(contestOverview);
-      });
+        done();
+      }, function(err) { wait() });
+    });
+
+  contestBallotCalc(feedId, function(amount, fieldCount, schemaFieldCount) {
+    contestOverview.ballotAmount = amount;
+    contestOverview.ballotFieldCount = fieldCount;
+    contestOverview.ballotSchemaFieldCount = schemaFieldCount;
+    wait();
+  });
+
+  contestCandidateCalc(feedId, function(amount, fieldCount, schemaFieldCount) {
+    contestOverview.candidateAmount = amount;
+    contestOverview.candidateFieldCount = fieldCount;
+    contestOverview.candidateSchemaFieldCount = schemaFieldCount;
+    wait();
+  });
+
+  contestReferendumCalc(feedId, function(amount, fieldCount, schemaFieldCount) {
+    contestOverview.referendumAmount = amount;
+    contestOverview.referendumFieldCount = fieldCount;
+    contestOverview.referendumSchemaFieldCount = schemaFieldCount;
+    wait();
+  });
+
+  contestElectoralDistrictCalc(feedId, function(amount, fieldCount, schemaFieldCount) {
+    contestOverview.electoralDistrictAmount = amount;
+    contestOverview.electoralDistrictFieldCount = fieldCount;
+    contestOverview.electoralDistrictSchemaFieldCount = schemaFieldCount;
+    wait();
+  });
+}
+
+function contestBallotCalc(feedId, returnTotal) {
+  var amount = 0, fieldCount = 0, schemaFieldCount = 0;
+  schemas.models.Ballot.find({ _feed: feedId })
+    .exec(function(err, ballots) {
+      amount = ballots.length;
+      async.each(ballots, function(ballot, done) {
+        fieldCount += Object.keys(ballot).length - 4;
+        schemaFieldCount += schemas.models.Ballot.fieldCount;
+        done();
+      }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); });
     });
 }
 
-function contestBallotCalc(ballot, feedId, returnTotal) {
-  var ballotTotal = Object.keys(ballot).length - 4;
-  var ballotSchemaCount = schemas.models.Ballot.fieldCount;
-  var totalFinished = 0;
-  var waitTillDone = function(fieldTotal, schemaFieldTotal) {
-    ballotTotal += fieldTotal;
-    ballotSchemaCount += schemaFieldTotal;
-    if(++totalFinished === 2)
-      returnTotal(ballotTotal, ballotSchemaCount);
-  }
-
-  ballot.candidates ? ballotCandidateCalc(ballot, feedId, waitTillDone) : waitTillDone(0,0);
-  ballot._referenda ? ballotReferendumCalc(ballot, feedId, waitTillDone) : waitTillDone(0,0);
-}
-
-function ballotCandidateCalc(ballot, feedId, done) {
+function contestCandidateCalc(feedId, returnTotal) {
+  var amount = 0;
   var candidateTotal = 0;
   var schemaFieldTotal = 0;
-  async.each(ballot.candidates, function(candidate, callback) {
-    schemas.models.Candidate.find({ _feed: feedId, _id: candidate._candidate })
-      .exec(function(err, data) {
-        if(err) {
-          callback('Did not find Candidate');
-          return;
-        }
+  schemas.models.Candidate.find({ _feed: feedId })
+    .exec(function (err, candidates) {
+      amount = candidates.length;
+      async.each(candidates, function (candidate, done) {
         schemaFieldTotal += schemas.models.Candidate.fieldCount;
-        var candidate = data[0]._doc;
         candidateTotal += Object.keys(candidate).length - 2;
-        if(candidate.filedMailingAddress) {
+        if (candidate.filedMailingAddress) {
           --candidateTotal;
           candidateTotal += Object.keys(candidate.filedMailingAddress).length;
         }
-        callback();
-      });
-  }, function(err) { done(candidateTotal, schemaFieldTotal); });
+        done();
+      }, function (err) { returnTotal(amount, candidateTotal, schemaFieldTotal); });
+    });
 }
 
-function ballotReferendumCalc(ballot, feedId, done) {
+function contestReferendumCalc(feedId, returnTotal) {
+  var amount;
   var referendumTotal = 0;
   var schemaFieldTotal = 0;
-  async.each(ballot._referenda, function(referendum, referendaCB) {
-    schemas.models.Referendum.find({ _feed: feedId, _id: referendum })
-      .exec(function(err, data) {
-        if(err) {
-          callback('Did not find Referendum');
-          return;
-        }
+  schemas.models.Referendum.find({ _feed: feedId })
+    .exec(function(err, referenda) {
+      amount = referenda.length;
+      async.each(referenda, function(referendum, done) {
         schemaFieldTotal += schemas.models.Referendum.fieldCount;
-        var referendum = data[0]._doc;
         referendumTotal += Object.keys(referendum).length - 2;
         if(referendum.ballotResponses) {
           async.each(referendum.ballotResponses, function(response, responsesCB) {
             referendumTotal += Object.keys(response).length - 2;
             responsesCB();
-          }, function(err) { referendaCB(); });
-        } else {
-          referendaCB();
-        }
+          }, function(err) { done(); });
+        } else { done(); }
       });
-  }, function(err) { done(referendumTotal, schemaFieldTotal); });
-}
-
-function contestContestResultCalc(contest, contestOverview) {
-  contestOverview.contestResultAmount += contest._contestResult ? 1 : 0;
-  contestOverview.contestResultFields += contest._contestResult ? Object.keys(contest._contestResult).length - 5 : 0;
-  contestOverview.contestResultSchemaFieldCount += contest._contestResult ? schemas.models.ContestResult.fieldCount : 0;
-}
-
-function contestBallotLineResultCalc(contest, contestOverview) {
-  contest._ballotLineResults.forEach(function(result) {
-    ++contestOverview.ballotLineResultAmount;
-    contestOverview.ballotLineResultFields += Object.keys(result).length - 6;
-    contestOverview.ballotLineResultSchemaFieldCount += schemas.models.BallotLineResult.fieldCount;
-  });
+  }, function(err) { returnTotal(amount, referendumTotal, schemaFieldTotal); });
 }
 
 function contestElectoralDistrictCalc(electoralDistrict, feedId, returnTotal) {
   var districtFields = Object.keys(electoralDistrict).length - 6;
   var districtSchemaCount = schemas.models.ElectoralDistrict.fieldCount;
   returnTotal(districtFields, districtSchemaCount);
-}
-
-function electoralDistrictPrecinctsCalc(electoralDistrict, feedId, returnTotal) {
-  var precinctsTotal = 0;
-  var schemaFieldTotal = 0;
-  var precinctCount = 0;
-  async.each(electoralDistrict._precincts, function(precinctId, done) {
-    schemas.models.Precinct.find({ _feed: feedId, _id: precinctId })
-      .populate('_pollingLocations')
-      .populate('_streetSegments')
-      .exec(function(err, precinct) {
-        precinctsTotal += Object.keys(precinct).length - 9;
-        schemaFieldTotal += schemas.models.Precinct.fieldCount;
-        async.each(precinct._pollingLocations, function(pollingLocation, cb) {
-          precinctsTotal += Object.keys(pollingLocation).length - 5;
-          schemaFieldTotal += schemas.models.PollingLocation.fieldCount;
-          if(pollingLocation.address) {
-            --precinctsTotal;
-            precinctsTotal += Object.keys(pollingLocation.address).length;
-          }
-          cb();
-        }, function(err) {
-            if(++precinctCount === 2)
-              done();
-          });
-        async.each(precinct._streetSegments, function(segment, cb) {
-          precinctsTotal += Object.keys(segment).length - 3;
-          schemaFieldTotal += schemas.models.StreetSegment.fieldCount;
-          if(segment.nonHouseAddress) {
-            --precinctsTotal;
-            precinctsTotal += Object.keys(segment.nonHouseAddress).length;
-          }
-          cb();
-        }, function(err) {
-            if(++precinctCount === 2)
-              done();
-          });
-      });
-  }, function(err) { returnTotal(precinctsTotal, schemaFieldTotal); });
-}
-
-function electoralDistrictPrecinctSplitsCalc(electoralDistrict, feedId, returnTotal) {
-  var precinctSplitTotal = 0;
-  var schemaFieldTotal = 0;
-    // 7
-  async.each(electoralDistrict._precinctSplits, function(precinctSplitId, done) {
-    schemas.models.PrecinctSplit.find({ _feed: feedId, _id: precinctSplitId })
-      .exec(function(err, precinctSplit) {
-        precinctSplitTotal += Object.keys(precinctSplit).length - 7;
-        schemaFieldTotal += schemas.models.PrecinctSplit.fieldCount;
-      });
-  }, function(err) { returnTotal(precinctSplitTotal, schemaFieldTotal); })
 }
 
 exports.contestCalc = contestCalc;

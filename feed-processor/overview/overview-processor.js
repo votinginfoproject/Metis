@@ -54,13 +54,11 @@ function calculateFields(saveCalc) {
 
     console.log('Starting Contests Calc...');
     contests.contestCalc(feedId, function(contestOverview) {
-      var contestFields = contestOverview.contestFields + contestOverview.ballotFields + contestOverview.contestResultFields + contestOverview.ballotLineResultFields;
-      var contestSchemaFieldCount = contestOverview.contestSchemaFieldCount + contestOverview.ballotSchemaFieldCount + contestOverview.contestResultSchemaFieldCount +
-        contestOverview.ballotLineResultSchemaFieldCount;
-      createOverviewModel('Contests', contestOverview.contestAmount, contestFields, contestSchemaFieldCount, -1, 1);
-      createOverviewModel('Ballots', contestOverview.contestAmount, contestOverview.ballotFields, contestOverview.ballotSchemaFieldCount, -1, 1);
-      createOverviewModel('Contest Results', contestOverview.contestResultAmount, contestOverview.contestResultFields, contestOverview.contestResultSchemaFieldCount, -1, 1);
-      createOverviewModel('Ballot Line Results', contestOverview.ballotLineResultAmount, contestOverview.ballotLineResultFields, contestOverview.ballotLineResultSchemaFieldCount, -1, 1);
+      console.log('Finished Contests');
+      createOverviewModel('Ballots', contestOverview.ballotAmount, contestOverview.ballotFieldCount, contestOverview.ballotSchemaFieldCount, -1, 1);
+      createOverviewModel('Candidates', contestOverview.candidateAmount, contestOverview.candidateFieldCount, contestOverview.candidateSchemaFieldCount, -1, 1);
+      createOverviewModel('Contests', contestOverview.contestAmount, contestOverview.contestFieldCount, contestOverview.contestSchemaFieldCount, -1, 1);
+      createOverviewModel('Electoral Districts', contestOverview.electoralDistrictAmount, contestOverview.electoralDistrictFieldCount, contestOverview.electoralDistrictSchemaFieldCount, -1, 1);
       wait();
     });
 
