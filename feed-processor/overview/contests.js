@@ -5,6 +5,45 @@
 var schemas = require('../../dao/schemas');
 var async = require('async');
 
+function contestCalc(feedId, saveCalc) {
+
+  var contestOverview = { };
+  schemas.models.Contest.find({ _feed: feedId })
+    .populate('_ballot')
+    .populate('_contestResult')
+    .populate('_ballotLineResults')
+    .populate('_electoralDistrict')
+    .exec(function(err, contests) {
+      contestOverview.contestAmount = contests.length;
+      contestOverview.ballotFields = contestOverview.contestFields = contestOverview.ballotSchemaFieldCount = contestOverview.contestSchemaFieldCount = 0;
+      contestOverview.contestResultFields = contestOverview.contestResultSchemaFieldCount = contestOverview.contestResultAmount = 0;
+      contestOverview.ballotLineResultFields = contestOverview.ballotLineResultSchemaFieldCount = contestOverview.ballotLineResultAmount = 0;
+      contestOverview.electoralDistrictFields = contestOverview.electoralDistrictFields = 0;
+      async.each(contests, function(contest, done) {
+        var contestCount = 0;
+        contestOverview.contestFields += Object.keys(contest).length - 6;
+        contestOverview.contestSchemaFieldCount += schemas.models.Contest.fieldCount;
+        contestContestResultCalc(contest, contestOverview);
+        contestBallotLineResultCalc(contest, contestOverview);
+        contestBallotCalc(contest._ballot, feedId, function(total, schemaFieldCount) {
+          contestOverview.ballotFields += total;
+          contestOverview.ballotSchemaFieldCount += schemaFieldCount;
+          if(++contestCount === 2)
+            done();
+        });
+        contestElectoralDistrictCalc(contest._electoralDistrict, feedId, function(total, schemaFieldCount) {
+          contestOverview.electoralDistrictFields += total;
+          contestOverview.electoralDistrictSchemaFieldCount += schemaFieldCount;
+          if(++contestCount === 2)
+            done();
+        })
+      }, function(err) {
+        console.log('Finished Contests');
+        saveCalc(contestOverview);
+      });
+    });
+}
+
 function contestBallotCalc(ballot, feedId, returnTotal) {
   var ballotTotal = Object.keys(ballot).length - 4;
   var ballotSchemaCount = schemas.models.Ballot.fieldCount;
@@ -139,7 +178,4 @@ function electoralDistrictPrecinctSplitsCalc(electoralDistrict, feedId, returnTo
   }, function(err) { returnTotal(precinctSplitTotal, schemaFieldTotal); })
 }
 
-exports.contestBallotCalc = contestBallotCalc;
-exports.contestContestResultCalc = contestContestResultCalc;
-exports.contestBallotLineResultCalc = contestBallotLineResultCalc;
-exports.contestElectoralDistrictCalc = contestElectoralDistrictCalc;
+exports.contestCalc = contestCalc;
