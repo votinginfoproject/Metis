@@ -157,11 +157,6 @@ function feedPrecinctStreetSegmentsGET (req, res) {
   });
 };
 
-function feedPrecinctStreetSegmentsErrorsGET (req, res) {
-  var streetSegments = {}; //TODO: get data from the database
-  res.json(mapper.mapStreetSegmentsErrors(req.path, streetSegments));
-};
-
 function feedElectionContestsGET (req, res) {
   dao.getFeedContests(req.params.feedid, function (err, contests) {
     notFoundHandler(res, err, contests, function () {
@@ -212,11 +207,6 @@ function feedPrecinctSplitStreetSegmentsGET (req, res) {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
   });
-};
-
-function feedPrecinctSplitStreetSegmentsErrorsGET (req, res) {
-  var streetSegments = {}; //TODO: get data from the database
-  res.json(mapper.mapStreetSegmentsErrors2(req.path, streetSegments));
 };
 
 function feedEarlyVoteSiteGET (req, res) {
@@ -382,13 +372,11 @@ exports.feedPrecinctPollingLocationsGET = feedPrecinctPollingLocationsGET;
 exports.feedPrecinctPollingLocationGET = feedPrecinctPollingLocationGET;
 exports.feedPrecinctPrecinctSplitsGET = feedPrecinctPrecinctSplitsGET;
 exports.feedPrecinctStreetSegmentsGET = feedPrecinctStreetSegmentsGET;
-exports.feedPrecinctStreetSegmentsErrorsGET = feedPrecinctStreetSegmentsErrorsGET;
 exports.feedPrecinctSplitGET = feedPrecinctSplitGET;
 exports.feedPrecinctSplitElectoralDistrictsGET = feedPrecinctSplitElectoralDistrictsGET;
 exports.feedPrecinctSplitPollingLocationsGET = feedPrecinctSplitPollingLocationsGET;
 exports.feedPrecinctSplitPollingLocationGET = feedPrecinctSplitPollingLocationGET;
 exports.feedPrecinctSplitStreetSegmentsGET = feedPrecinctSplitStreetSegmentsGET;
-exports.feedPrecinctSplitStreetSegmentsErrorsGET = feedPrecinctSplitStreetSegmentsErrorsGET;
 exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;
 exports.feedElectionContestsGET = feedElectionContestsGET;
 exports.feedStateElectionAdministrationGET = feedStateElectionAdministrationGET;

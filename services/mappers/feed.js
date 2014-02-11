@@ -303,7 +303,6 @@ function mapContest (path, contest) {
       referendum_count: contest._ballot.referendumIds ? contest._ballot.referendumIds.length : 0,
       self: _path.join(path, '/ballot')
     } : null,
-    candidates: _path.join(path, '/candidates'),
     electoral_district: contest._electoralDistrict ? {
       id: contest._electoralDistrict.elementId,
       name: contest._electoralDistrict.name,

@@ -62,6 +62,7 @@ config.mongoose = {
     electionAdministrationError: 'electionAdministrationErrors',
     electionOfficialError: 'electionOfficialErrors',
     electoralDistrictError: 'electoralDistrictErrors',
+    feedError: 'feedErrors',
     localityError: 'localityErrors',
     pollingLocationError: 'pollingLocationErrors',
     precinctError: 'precinctErrors',

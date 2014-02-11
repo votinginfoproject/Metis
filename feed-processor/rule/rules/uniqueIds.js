@@ -1,16 +1,15 @@
 /**
  * Created by bantonides on 1/22/14.
  */
+var when = require('when');
+
 function UniqueIdRule(models, rule, callback) {
   this.models = models;
   this.rule = rule;
   this.callback = callback;
-  this.complete = false;
-  this.refCount = 0;
 }
 
 UniqueIdRule.prototype.performCheck = function(feedId) {
-  var when = require('when');
 
   var finds = [];
 
@@ -18,7 +17,7 @@ UniqueIdRule.prototype.performCheck = function(feedId) {
     finds.push(this.models[m].find({ _feed: feedId }).select('elementId').exec());
   }, this);
 
-  when.all(finds).then(processQueryResults.bind(this), errorHandler);
+  when.all(finds).then(processQueryResults.bind(this, feedId), errorHandler);
 };
 
 function errorHandler(err) {
@@ -27,7 +26,7 @@ function errorHandler(err) {
   }
 }
 
-function processQueryResults(foundDocs) {
+function processQueryResults(feedId, foundDocs) {
   console.log('All queries completed.');
   var idCounts = {};
 
@@ -41,13 +40,13 @@ function processQueryResults(foundDocs) {
     idCounts[id].errorModel.push( { model: doc.constructor.Error, ref: doc._id });
   });
 
-  storeErrors(filterDuplicates(idCounts), this);
+  storeErrors(filterDuplicates(idCounts), feedId, this);
   this.complete = true;
   console.log('processQueryResults complete');
 }
 
 function filterDuplicates(idCounts) {
-  console.log('Filtering dulicates.');
+  console.log('Filtering duplicates.');
   var duplicateIds = Object.keys(idCounts).filter(function(key) {
     return idCounts[key].count > 1;
   });
@@ -62,37 +61,33 @@ function filterDuplicates(idCounts) {
   return duplicates;
 }
 
-function storeErrors(dupes, context) {
+function storeErrors(dupes, feedId, context) {
   console.log('Storing errors.');
+  var savePromises = [];
+
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
-      saveError(context, errModel, dupe.id);
+      savePromises.push(saveError(context, errModel, dupe.id, feedId));
     });
   });
-  console.log('Done storing errors.');
+
+  when.all(savePromises).then(context.callback, errorHandler);
 }
 
-function saveError(context, errorModel, id) {
-  context.refCount++;
-  errorModel.model.create({
+function saveError(context, errorModel, id, feedId) {
+  return errorModel.model.create({
     severityCode: context.rule.severityCode,
     severityText: context.rule.severityText,
     errorCode: context.rule.errorCode,
     title: context.rule.title,
     details: context.rule.description,
     textualReference: 'id = ' + id,
-    _ref: errorModel.ref
-  }, createHandler.bind(context));
+    refElementId: id,
+    _ref: errorModel.ref,
+    _feed: feedId
+  });
 }
 
-function createHandler(err) {
-  this.refCount--;
-  errorHandler(err);
-  if (this.complete && this.refCount <= 0) {
-    console.log('Calling completion callback.');
-    this.callback();
-  }
-}
 function check(models, feedId, rule, callback) {
   var rule = new UniqueIdRule(models, rule, callback);
   rule.performCheck(feedId);
