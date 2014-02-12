@@ -55,6 +55,12 @@ var theseConstraints = {
     {
       entity: [models.source], fields: ["organizationUrl"]
     }
+  ],
+
+  localityType: [
+    {
+      entity: [models.locality], fields: ['type']
+    }
   ]
 
 };
