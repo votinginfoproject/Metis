@@ -22,16 +22,18 @@
     <tr id="errorDetail{{$index}}" ng-repeat-end hidden style="background-color: #f2f2f2">
       <td></td>
       <td class="error-item" style="padding: 20px 0px; padding-right: 20px;">
-        <div ng-repeat="textual_reference in error.textual_references">
-          <div ng-if="error._code" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{textual_reference}}</code></pre></div>
-          <div ng-if="!error._code" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px">{{textual_reference}}</div>
-          <button>Download Report</button>
+        <div>
+          <small>Sample from the Report:</small>
+          <div ng-if="error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textual_references[0]}}</code></pre></div>
+          <div ng-if="!error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px">{{error.textual_references[0]}}</div>
+          <br>
+          <button>Download Error Report</button>
           <br><br>
         </div>
       </td>
     </tr>
   </table>
-  <button ng-show="errors.length">Download Full Report</button>
+  <button ng-show="errors.length">Download Full Error Report</button>
 
   <script type="text/ng-template" id="errorsPagination">
     <ul class="pagination ng-cloak">
