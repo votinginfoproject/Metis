@@ -2,6 +2,7 @@
  * Created by nboseman on 12/25/13.
  */
 var mongoose = require('mongoose');
+var config = require('../../config');
 
 function Violation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
   this.entity = entity;
@@ -34,12 +35,12 @@ function deriveErrorSchema(entity){
 }
 
 Violation.prototype.save = function(){
-  if(require('../../config').ruleEngine.isPersistent)
+  if(config.ruleEngine.isPersistent)
     this.model().save();
   else
     console.log(
       "\n**Warning**: Violation captured as DEBUG only. The following will NOT be saved in mongo: \n",
-      this,
+     deriveErrorSchema(this.entity), this.model(),
       "\nTo store the above record in Mongo, update the RuleEngine setting in config.js\n"
     );
 }

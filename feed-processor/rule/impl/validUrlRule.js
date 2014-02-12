@@ -7,6 +7,8 @@ var async = require('async');
 var when = require('when');
 var url = require('url');
 
+var Violation = require('../ruleviolation');
+
 
 var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleDef){
   //TODO: refactor to switch statement for readability
@@ -35,7 +37,7 @@ var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleD
     isViolated = true;
   }
 
-  resultant = [isViolated, result, urlString, entity];
+  //resultant = [isViolated, result, urlString, entity];
   if(isViolated){
     console.log('FAILURE:', urlString);
   }

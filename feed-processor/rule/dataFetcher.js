@@ -17,8 +17,9 @@ function fetchEntityData(entity, searchTerms, resultFields){
   };
   return deferred.promise;
 }
-
+/*
 function resolveRuleWithConstraints(entity, searchTerms, resultFields, rule){
+
  return when.resolve(
    {
      resolveEntityData: fetchEntityData(entity, searchTerms, resultFields),
@@ -27,6 +28,26 @@ function resolveRuleWithConstraints(entity, searchTerms, resultFields, rule){
    }
  );
 }
+*/
+function resolveRuleWithConstraints(entity, searchTerms, resultFields, rule){
+
+  var deferredResults = when.defer();
+  fetchEntityData(entity, searchTerms, resultFields).then(
+    function(results){
+      deferredResults.resolve(
+        {
+          dataResults: results,
+          retrieveRule: rule,
+          entity: entity
+        }
+      );
+    },
+    function(error){
+      deferredResults.reject(new Error("Issues During Fetch"));
+    });
+  return deferredResults.promise;
+}
+
 /**
  * future: to be used to pair down result set members
  * @param vipFeedId

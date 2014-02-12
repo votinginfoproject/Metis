@@ -1,6 +1,6 @@
 
 var metisRule = require('./metisrule');
-var ruleDefs = require('./rulelist');
+var ruleList = require('./rulelist');
 
 var async = require('async');
 var config = require('../../config');
@@ -13,7 +13,7 @@ var ruleHandler = new metisRule();
 
 var processRules = function(vipFeedId){
   console.log('initializing rules..');
-  async.each(ruleDefs, loadRule, function(err){
+  async.each(ruleList, loadRule, function(err){
     console.log(rules.length, 'Metis rules loaded and staged for analysis');
     applyRules(vipFeedId);
   });
@@ -25,16 +25,16 @@ var loadRule = function(ruleDef, next){
   next();
 }
 
-var applyRules = function(next){
+var applyRules = function(vipFeedId){
   console.log(rules.length, 'Rules to apply');
-  async.each(rules, function(rule, nextRule){
-    ruleHandler.applyRule(rule, nextRule);
-  }, function(err){console.log("done")});
+  async.each(rules, function(rule){
+    ruleHandler.applyRule(rule, vipFeedId, endSession);
+  });
 }
 
 
 var endSession = function(){
-  console.log("Data analysis complete. Processor shutting down.");
+  console.log("Data analysis complete. Processor shutting down");
   process.exit();
 }
 

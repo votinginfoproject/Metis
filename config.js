@@ -19,7 +19,7 @@ config.crowd = {
 };
 
 config.ruleEngine = {
-  isPersistent: true  //true if you want to save rule violations to mongo dB
+  isPersistent: false  //true if you want to save rule violations to mongo dB
 }
 
 /**
