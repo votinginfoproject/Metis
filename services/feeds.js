@@ -44,6 +44,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites/:evsid', utils.ensureAuthentication, httpCallback.feedEarlyVoteSiteGET);
   app.get('/services/feeds/:feedid/election/contests', utils.ensureAuthentication, httpCallback.feedElectionContestsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid', utils.ensureAuthentication, httpCallback.feedContestGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/contestoverview', utils.ensureAuthentication, httpCallback.feedContestContestOverviewGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict', utils.ensureAuthentication, httpCallback.feedContestElectoralDistrictGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot', utils.ensureAuthentication, httpCallback.feedContestBallotGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates', utils.ensureAuthentication, httpCallback.feedBallotCandidatesGET);

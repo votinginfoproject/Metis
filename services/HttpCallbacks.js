@@ -327,13 +327,19 @@ function feedPollingGET (req, res) {
 };
 
 function feedContestsGET (req, res) {
-  var contests = {}; //TODO: get data from the database
-  res.json(mapper.mapContests(req.path, contests));
+  dao.getOverviewTable(req.params.feedid, 1, function(err, overviews) {
+    notFoundHandler(res, err, overviews, function() {
+      res.json(mapper.mapOverviewTables(overviews));
+    });
+  });
 };
 
 function feedResultsGET (req, res) {
-  var results = {}; //TODO: get data from the database
-  res.json(mapper.mapResults(req.path, results));
+  dao.getOverviewTable(req.params.feedid, 2, function(err, overviews) {
+    notFoundHandler(res, err, overviews, function() {
+      res.json(mapper.mapOverviewTables(overviews));
+    });
+  });
 };
 
 function feedHistoryGET (req, res) {
@@ -361,6 +367,14 @@ function feedBallotLineResultGET(req, res) {
   dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
     notFoundHandler(res, err, blr, function() {
       res.json(mapper.mapBallotLineResult(req.path, blr));
+    });
+  });
+}
+
+function feedContestContestOverviewGET(req, res) {
+  dao.getOverviewTable(req.params.feedid, req.params.contestid, function(err, overviews) {
+    notFoundHandler(res, err, overviews, function() {
+      res.json(mapper.mapOverviewTables(overviews));
     });
   });
 }
@@ -409,3 +423,4 @@ exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
+exports.feedContestContestOverviewGET = feedContestContestOverviewGET;

@@ -369,6 +369,11 @@ function getBallotLineResult(feedId, blrId, callback) {
   });
 }
 
+function getOverviewTable(feedId, section, callback) {
+  daoSchemas.models.Overview.find({ feed: feedId, section: section })
+    .exec(callback);
+}
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -407,3 +412,4 @@ exports.getContestResult = getContestResult;
 exports.getContestBallotLineResults = getContestBallotLineResults;
 exports.getBallotLineResult = getBallotLineResult;
 exports.dbConnect = dbConnect;
+exports.getOverviewTable = getOverviewTable;

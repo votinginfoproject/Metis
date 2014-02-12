@@ -37,6 +37,7 @@ function FeedContestCtrl($scope, $rootScope, $feedsService, $routeParams, $appPr
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
       $scope.feedContest = {};
+      $scope.feedContestOverview = {};
     });
 }
 
@@ -50,6 +51,8 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
 
       $scope.ballotLineResultTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.ballot_line_results, $appProperties.lowPagination, { id: 'asc' });
 
+      FeedContestCtrl_getFeedContestOverview($scope, $rootScope, $feedsService, data.overview);
+
       // set the title
       $rootScope.pageHeader.title = "Contest ID: " + data.id;
 
@@ -60,3 +63,14 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
       $scope.feedContest = {};
     });
 };
+
+function FeedContestCtrl_getFeedContestOverview($scope, $rootScope, $feedsService, servicePath) {
+  $feedsService.getFeedContest(servicePath)
+    .success(function(data) {
+      $scope.feedContestOverview = data;
+    }).error(function(data, $http) {
+      $rootScope.pageHeader.error += "Could not retrieve Feed Contest Overview data. "
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedContestOverview = {};
+    })
+}
