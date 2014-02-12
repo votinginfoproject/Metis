@@ -31,7 +31,7 @@ function contestCalc(feedId, saveCalc) {
           }
           wait();
         });
-        contestCandidateCalc(contest._ballot, function(amount, fieldCount, schemaFieldCount) {
+        contestCandidateCalc(feedId, contest._ballot, function(amount, fieldCount, schemaFieldCount) {
           contestOverview[overviewPos].candidate = {
             amount: amount,
             fieldCount: fieldCount,
@@ -65,23 +65,35 @@ function contestCalc(feedId, saveCalc) {
 
 function contestBallotCalc(ballot, returnTotal) {
   var amount = 1;
-  var fieldCount = Object.keys(ballot._doc).length - 5;
+  var fieldCount = Object.keys(ballot._doc).length - 4;
+  if(ballot._doc._customBallot)
+    --fieldCount;
+  if(ballot._doc.candidates)
+    --fieldCount;
   var schemaFieldCount = schemas.models.Ballot.fieldCount;
   returnTotal(amount, fieldCount, schemaFieldCount);
 }
 
-function contestCandidateCalc(ballot, returnTotal) {
+function contestCandidateCalc(feedId, ballot, returnTotal) {
   var amount = 0, fieldCount = 0, schemaFieldCount = 0;
-  ballot._doc.candidates.forEach(function(data) {
-    var candidate = data._doc;
-    ++amount;
-    fieldCount += Object.keys(candidate).length - 3;
-    schemaFieldCount += schemas.models.Candidate.fieldCount;
-    if(candidate.filedMailingAddress) {
-      fieldCount += Object.keys(candidate.filedMailingAddress).length - 1;
-    }
-  });
-  returnTotal(amount, fieldCount, schemaFieldCount);
+  async.each(ballot._doc.candidates, function(candidateId, done) {
+
+    schemas.models.Candidate.find( { _feed: feedId, _id: candidateId._candidate })
+      .exec(function(err, data) {
+        var candidate = data[0]._doc;
+        ++amount;
+        fieldCount += Object.keys(candidate).length - 3;
+        schemaFieldCount += schemas.models.Candidate.fieldCount;
+        if(candidate.sortOrder)
+          --fieldCount;
+        if(candidate.filedMailingAddress) {
+          --fieldCount;
+          fieldCount += Object.keys(candidate.filedMailingAddress).length;
+        }
+        done();
+      });
+  }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); });
+
 }
 
 function contestReferendumCalc(feedId, ballot, returnTotal) {

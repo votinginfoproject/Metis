@@ -79,6 +79,8 @@ function contestCandidateCalc(feedId, returnTotal) {
         var candidate = data._doc
         schemaFieldTotal += schemas.models.Candidate.fieldCount;
         candidateTotal += Object.keys(candidate).length - 2;
+        if(candidate.sortOrder)
+          --candidateTotal;
         if (candidate.filedMailingAddress) {
           --candidateTotal;
           candidateTotal += Object.keys(candidate.filedMailingAddress).length;
@@ -98,13 +100,9 @@ function contestReferendumCalc(feedId, returnTotal) {
       referenda.forEach(function(data) {
         var referendum = data._doc;
         schemaFieldTotal += schemas.models.Referendum.fieldCount;
-        referendumTotal += Object.keys(referendum).length - 2;
-        if(referendum.ballotResponses.length) {
-          referendum.ballotResponses.forEach(function(data) {
-            var response = data._doc;
-            referendumTotal += Object.keys(response).length - 2;
-          });
-        }
+        referendumTotal += Object.keys(referendum).length - 3;
+        if(referendum.ballotResponses)
+          --referendumTotal;
       });
       returnTotal(amount, referendumTotal, schemaFieldTotal);
   });

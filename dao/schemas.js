@@ -383,10 +383,10 @@ exports.initSchemas = function (mongoose) {
   models.Violation = mongoose.model(config.mongoose.model.violation, mongoose.Schema(violationSchema));
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
-  models.Ballot.fieldCount = 6;
+  models.Ballot.fieldCount = 5;
   models.Contest.fieldCount = 14;
-  models.Candidate.fieldCount = 16;
-  models.Referendum.fieldCount = 10;
+  models.Candidate.fieldCount = 15;
+  models.Referendum.fieldCount = 9;
   models.ContestResult.fieldCount = 11;
   models.BallotLineResult.fieldCount = 9;
   models.ElectoralDistrict.fieldCount = 4;
