@@ -10,6 +10,7 @@ var when = require('when');
 
 var contests = require('./contests');
 var results = require('./results');
+var contest = require('./contest');
 
 var overviewModels = [];
 
@@ -48,7 +49,7 @@ function calculateFields(saveCalc) {
       console.log('Feed not found');
     var fieldCount = 0;
     function wait() {
-      if(++fieldCount === 2)
+      if(++fieldCount === 3)
         saveCalc();
     }
 
@@ -59,6 +60,7 @@ function calculateFields(saveCalc) {
       createOverviewModel('Candidates', contestOverview.candidateAmount, contestOverview.candidateFieldCount, contestOverview.candidateSchemaFieldCount, -1, 1);
       createOverviewModel('Contests', contestOverview.contestAmount, contestOverview.contestFieldCount, contestOverview.contestSchemaFieldCount, -1, 1);
       createOverviewModel('Electoral Districts', contestOverview.electoralDistrictAmount, contestOverview.electoralDistrictFieldCount, contestOverview.electoralDistrictSchemaFieldCount, -1, 1);
+      createOverviewModel('Referenda', contestOverview.referendumAmount, contestOverview.referendumFieldCount, contestOverview.referendumSchemaFieldCount, -1, 1);
       wait();
     });
 
@@ -69,6 +71,18 @@ function calculateFields(saveCalc) {
       createOverviewModel('Ballot Line Results', resultsOverview.ballotLineResultsAmount, resultsOverview.ballotLineResultsFieldTotal, resultsOverview.ballotLineResultSchemaFieldTotal, -1, 2);
       wait();
     });
+
+    console.log('Starting Single Contest Calc...');
+    contest.contestCalc(feedId, function(contestOverview) {
+      console.log('Finsihed Single Contest');
+      contestOverview.forEach(function(overview) {
+        createOverviewModel('Ballot', overview.ballot.amount, overview.ballot.fieldCount, overview.ballot.schemaFieldCount, -1, overview.section);
+        createOverviewModel('Candidates', overview.candidate.amount, overview.candidate.fieldCount, overview.candidate.schemaFieldCount, -1, overview.section);
+        createOverviewModel('Electoral District', overview.electoralDistrict.amount, overview.electoralDistrict.fieldCount, overview.electoralDistrict.schemaFieldCount, -1, overview.section);
+        createOverviewModel('Referenda', overview.referenda.amount, overview.referenda.fieldCount, overview.referenda.schemaFieldCount, -1, overview.section);
+      });
+      wait();
+    });
   };
 };
 
@@ -76,7 +90,7 @@ function createOverviewModel(name, amount, num, denom, errors, section) {
   overviewModels.push({
     elementType: name,
     amount: amount,
-    completePct: parseInt((num / denom) * 100),
+    completePct: denom === 0 ? 0 : parseInt((num / denom) * 100),
     errorCount: errors,
     section: section
   });

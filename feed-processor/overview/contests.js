@@ -17,11 +17,12 @@ function contestCalc(feedId, saveCalc) {
     .exec(function(err, contests) {
       contestOverview.contestAmount = contests.length;
       contestOverview.contestFieldCount = contestOverview.contestSchemaFieldCount = 0;
-      async.each(contests, function(contest, done) {
+      contests.forEach(function(data) {
+        var contest = data._doc;
         contestOverview.contestFieldCount += Object.keys(contest).length - 6;
         contestOverview.contestSchemaFieldCount += schemas.models.Contest.fieldCount;
-        done();
-      }, function(err) { wait() });
+      });
+      wait();
     });
 
   contestBallotCalc(feedId, function(amount, fieldCount, schemaFieldCount) {
@@ -58,11 +59,12 @@ function contestBallotCalc(feedId, returnTotal) {
   schemas.models.Ballot.find({ _feed: feedId })
     .exec(function(err, ballots) {
       amount = ballots.length;
-      async.each(ballots, function(ballot, done) {
+      ballots.forEach(function(data) {
+        var ballot = data._doc
         fieldCount += Object.keys(ballot).length - 4;
         schemaFieldCount += schemas.models.Ballot.fieldCount;
-        done();
-      }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); });
+      });
+      returnTotal(amount, fieldCount, schemaFieldCount);
     });
 }
 
@@ -73,15 +75,16 @@ function contestCandidateCalc(feedId, returnTotal) {
   schemas.models.Candidate.find({ _feed: feedId })
     .exec(function (err, candidates) {
       amount = candidates.length;
-      async.each(candidates, function (candidate, done) {
+      candidates.forEach(function (data) {
+        var candidate = data._doc
         schemaFieldTotal += schemas.models.Candidate.fieldCount;
         candidateTotal += Object.keys(candidate).length - 2;
         if (candidate.filedMailingAddress) {
           --candidateTotal;
           candidateTotal += Object.keys(candidate.filedMailingAddress).length;
         }
-        done();
-      }, function (err) { returnTotal(amount, candidateTotal, schemaFieldTotal); });
+      });
+      returnTotal(amount, candidateTotal, schemaFieldTotal);
     });
 }
 
@@ -92,19 +95,18 @@ function contestReferendumCalc(feedId, returnTotal) {
   schemas.models.Referendum.find({ _feed: feedId })
     .exec(function(err, referenda) {
       amount = referenda.length;
-      async.each(referenda, function(referendum, done) {
+      referenda.forEach(function(data) {
+        var referendum = data._doc;
         schemaFieldTotal += schemas.models.Referendum.fieldCount;
         referendumTotal += Object.keys(referendum).length - 2;
         if(referendum.ballotResponses.length) {
-          async.each(referendum.ballotResponses, function(response, responsesCB) {
+          referendum.ballotResponses.forEach(function(data) {
+            var response = data._doc;
             referendumTotal += Object.keys(response).length - 2;
-            responsesCB();
-          }, function(err) { done(); });
+          });
         }
-        else {
-          done();
-        }
-      }, function(err) { returnTotal(amount, referendumTotal, schemaFieldTotal); });
+      });
+      returnTotal(amount, referendumTotal, schemaFieldTotal);
   });
 }
 
@@ -116,12 +118,13 @@ function contestElectoralDistrictCalc(feedId, returnTotal) {
   schemas.models.ElectoralDistrict.find({ _feed: feedId })
     .exec(function(err, districts) {
       amount = districts.length;
-      async.each(districts, function(district, done) {
+      districts.forEach(function(data) {
+        var district = data._doc
         districtFields += Object.keys(district).length - 6;
         districtSchemaCount += schemas.models.ElectoralDistrict.fieldCount;
-        done();
-      }, function(err) { returnTotal(amount, districtFields, districtSchemaCount); });
-    })
+      });
+      returnTotal(amount, districtFields, districtSchemaCount);
+    });
 }
 
 exports.contestCalc = contestCalc;

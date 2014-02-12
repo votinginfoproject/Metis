@@ -33,12 +33,12 @@ function contestResultsCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.ContestResult.find({_feed: feedId})
     .exec(function(err, results) {
-      async.each(results, function(result, done) {
+      results.forEach(function(result) {
         ++amount;
         fieldTotal += Object.keys(result).length - 5;
         schemaFieldTotal += schemas.models.ContestResult.fieldCount;
-        done();
-      }, function(err) { returnTotal(fieldTotal, schemaFieldTotal, amount); })
+      });
+      returnTotal(fieldTotal, schemaFieldTotal, amount);
     });
 }
 
@@ -48,12 +48,12 @@ function ballotLineResultCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.BallotLineResult.find({_feed: feedId})
     .exec(function(err, results) {
-      async.each(results, function(result, done) {
+      results.forEach(function(result) {
         ++amount;
         fieldTotal += Object.keys(result).length - 6;
         schemaFieldTotal += schemas.models.BallotLineResult.fieldCount;
-        done();
-      }, function(err) { returnTotal(fieldTotal, schemaFieldTotal, amount); })
+      });
+      returnTotal(fieldTotal, schemaFieldTotal, amount);
     })
 }
 
