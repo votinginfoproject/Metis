@@ -81,8 +81,11 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
 
       $scope.errorsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 15, { id: 'asc' });
 
+      // count total errors
+      var total_errors = vipApp_ns.countAllErrors(data);
+
       // update the title
-      $rootScope.pageHeader.title = $scope.errors.length + " Total " + $rootScope.pageHeader.title;
+      $rootScope.pageHeader.title = total_errors + " Total " + $rootScope.pageHeader.title;
 
     }).error(function (data) {
 

@@ -8,20 +8,26 @@
   <span ng-if="!errors" class="is-loading"></span>
   <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="associations">
     <tr id="error{{$index}}" ng-repeat-start="error in $data">
-      <td width="15%" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
-        <a ng-click="toggleError($index)">{{error.error_count}}</a>
+      <td width="10%" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
+        <a ng-click="toggleError($index)">{{error.textual_references.length}}</a>
       </td>
       <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severityText'">
-        <a ng-click="toggleError($index)"><b><span id="errorArrowClosed{{$index}}">&#9650;</span><span id="errorArrowOpen{{$index}}" hidden>&#9660;</span> {{error.severityText}}:</b> {{error.title}}</a>
+        <a ng-click="toggleError($index)">
+          <b><span id="errorArrowClosed{{$index}}">&#9650;</span><span id="errorArrowOpen{{$index}}" hidden>&#9660;</span> {{error.severity_text}}:</b> {{error.title}}
+          <br>
+          <span style="color: black">{{error.details}}</span>
+        </a>
       </td>
     </tr>
-    <tr id="errorDetail{{$index}}" ng-repeat-end hidden>
-      <td class="error-item" style="padding: 20px;" colspan="2">
-        <p>{{error.details}}</p>
-        <div ng-if="error._code" style="border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textualReference}}</code></pre></div>
-        <div ng-if="!error._code" style="border: 1px solid #cecece; padding: 10px">{{error.textualReference}}</div>
-        <br>
-        <button>Download Report</button>
+    <tr id="errorDetail{{$index}}" ng-repeat-end hidden style="background-color: #f2f2f2">
+      <td></td>
+      <td class="error-item" style="padding: 20px 0px; padding-right: 20px;">
+        <div ng-repeat="textual_reference in error.textual_references">
+          <div ng-if="error._code" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{textual_reference}}</code></pre></div>
+          <div ng-if="!error._code" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px">{{textual_reference}}</div>
+          <button>Download Report</button>
+          <br><br>
+        </div>
       </td>
     </tr>
   </table>
