@@ -22,7 +22,7 @@ RulesTester.prototype.run = function(feedId) {
   console.log('End initRuleTesting.');
 };
 
-function exit() {
+function exit(results) {
   console.log('exiting...');
   process.exit();
 }

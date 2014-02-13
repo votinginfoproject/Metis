@@ -89,6 +89,7 @@ function saveError(context, errorModel, id, feedId) {
 }
 
 function check(models, feedId, rule, callback) {
+  console.log('Starting UniqueId rule validation.');
   var rule = new UniqueIdRule(models, rule, callback);
   rule.performCheck(feedId);
 }

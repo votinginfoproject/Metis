@@ -8,7 +8,7 @@ var constraints = require('./dataconstraints');
 
 var metisRuleList = [
 
- {
+  {
     title: 'validUrl',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
@@ -19,7 +19,7 @@ var metisRuleList = [
     dataConstraints: constraints['validUrl']
   },
   {
-    title: 'uniqueStreetSegment',
+    title: 'localityTypes',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     errorCode: 2,
@@ -37,7 +37,28 @@ var metisRuleList = [
     severityText: 'All top-level metis elements must have a unique ID value',
     implementation: './impl/uniqueIdToo',
     dataConstraints: constraints['uniqueIdCheck']
-  }/*,
+  }/*
+  {
+    title: 'localityTypeRuleToo',
+    type: 'feedLevelRule',
+    isFeedLevelRule: true,
+    errorCode: 4,
+    severityCode: 2,
+    severityText: 'Invalid locality type',
+    implementation: './impl/localityTypes',
+    acceptableValues: [
+      'county',
+      'city',
+      'town',
+      'township',
+      'borough',
+      'parish',
+      'village',
+      'region'
+    ],
+    dataConstraints: constraints['localityType']
+  }
+  /*,
   {
     title: 'uniqueIdCheck',
     type: 'objectLevelRule',

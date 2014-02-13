@@ -31,5 +31,27 @@ exports.rules = [
       'StreetSegment'
     ],
     ruleImplementation: './uniqueIds'
+  },
+  {
+    errorCode: 2,
+    title: 'Invalid Locality Type',
+    severityCode: 2,
+    severityText: 'Warning',
+    description: 'The locality type is not in the list of recognized types.',
+    collections: [
+      { name: 'Locality', field: 'type' }
+    ],
+    acceptableValues: [
+      'county',
+      'city',
+      'town',
+      'township',
+      'borough',
+      'parish',
+      'village',
+      'region'
+    ],
+    ruleImplementation: './localityTypes'
   }
+
 ];
