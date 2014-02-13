@@ -4,7 +4,7 @@
 
 var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
-var violation = require('../ruleViolation');
+var ruleViolation = require('../ruleViolation');
 var when = require('when');
 var deferred = when.defer();
 
@@ -19,7 +19,7 @@ var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition){
     constraintSet.entity.forEach(function(model) {
     collectionName = model
       Model = mongoose.model(model);
-      finds.push(Model.find({ _feed: feedId }).select('elementId').exec());
+      finds.push(Model.find({ _feed: feedId },{'elementId':1,'_feed':1}).exec());
     }, this);
 
     when.all(finds)
@@ -46,7 +46,7 @@ function processQueryResults(foundDocs) {
       idCounts[id] = { count: 0, errorModel: [] };
     }
     idCounts[id].count++;
-    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, _ref: doc._id });
+    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, _ref: doc._id, doc: doc });
   });
 
   storeErrors(filterDuplicates(idCounts));
@@ -77,28 +77,28 @@ function storeErrors(dupes, feedId) {
 
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
-      savePromises.push(saveError(errModel, dupe.id, feedId));
+      savePromises.push(createError(errModel, dupe.id, feedId));
     });
   });
 
-  when.all(savePromises).then(function(){ console.log('resolving'); deferred.resolve({ isViolated: false });});
+  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, errorList: promisedErrors});});
 }
 
 
-  function saveError(errorModel, id) {
+  function createError(errorModel, id) {
     console.log('Unique Id Rule Violation: ');
-    //errorModel.model.create({
-    console.log({
+    error = new errorModel.model({
       severityCode: rule.severityCode,
       severityText: rule.severityText,
       errorCode: rule.errorCode,
       title: rule.title,
-      details: rule.details,
+      details: errorModel.doc,
       textualReference: 'id = ' + id,
       refElementId: id,
       _ref: errorModel._ref,
       _feed: errorModel._feed
     });
+    return error;
   }
 
 

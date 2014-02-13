@@ -19,17 +19,17 @@ function Rule(ruleDef){
   this.dataConstraints = ruleDef.dataConstraints;
 }
 
-function MetisRule() {}
+function RuleHandler() {}
 
-MetisRule.prototype.createRule = function(ruleDef){
+RuleHandler.prototype.createRule = function(ruleDef){
   return new Rule(ruleDef);
 }
 
-MetisRule.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallback){
+RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallback){
   console.log(rule.title, "is being applied");
   ActiveRuleStats.applyRule(rule.ruleDef);
-  MetisRule.prototype.ruleInstance = rule;
-  MetisRule.prototype.vipFeedId = feedId;
+  RuleHandler.prototype.ruleInstance = rule;
+  RuleHandler.prototype.vipFeedId = feedId;
 
   async.each(rule.dataConstraints, this.applyDataConstraints,
     function(err){console.log('rule application complete');
@@ -37,14 +37,14 @@ MetisRule.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallb
   });
 }
 
-MetisRule.prototype.applyDataConstraints = function (constraintSet, cb){
+RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 
   //TODO: Make this a case statement
-  if(MetisRule.prototype.ruleInstance.type != 'feedLevelRule'){
+  if(RuleHandler.prototype.ruleInstance.type != 'feedLevelRule'){
     for(p=0; p < constraintSet.entity.length; p++){
-      fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, MetisRule.prototype.vipFeedId, MetisRule.prototype.ruleInstance).then(
+      fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, RuleHandler.prototype.vipFeedId, RuleHandler.prototype.ruleInstance).then(
         function(fetchedData){
-          MetisRule.prototype.processDataResults(fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet, cb);
+          RuleHandler.prototype.processDataResults(fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet, cb);
         },
         function(err){
           console.log('In applyDataConstraints()', err);
@@ -53,42 +53,42 @@ MetisRule.prototype.applyDataConstraints = function (constraintSet, cb){
     }
   }
   else {
-    MetisRule.prototype.processFeedLevelRule(MetisRule.prototype.ruleInstance.ruleDef, MetisRule.prototype.vipFeedId, constraintSet, cb);
+    RuleHandler.prototype.processFeedLevelRule(RuleHandler.prototype.ruleInstance.ruleDef, RuleHandler.prototype.vipFeedId, constraintSet, cb);
   }
 }
 
 
-MetisRule.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
+RuleHandler.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
   for(i = 0; i < results.length; i++){
     result = results[i];
     if(constraintSet.fields.length > 0) {
       for(j=0; j < constraintSet.fields.length; j++){
         field = constraintSet.fields[j];
         if(result[field] != null) {
-          MetisRule.prototype.processRule(ruleDef, result[field], result, entity, constraintSet, cb);
+          RuleHandler.prototype.processRule(ruleDef, result[field], result, entity, constraintSet, cb);
         }
       }
     }
     else {
       if(result != null){
-        MetisRule.prototype.processRule(ruleDef, result, result, entity, constraintSet, cb);
+        RuleHandler.prototype.processRule(ruleDef, result, result, entity, constraintSet, cb);
       }
     }
   }
 }
 
 
-MetisRule.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, constraintSet, cb){
+RuleHandler.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, constraintSet, cb){
   ActiveRuleStats.increaseRuleCount(ruleDef);
-  console.log(ActiveRuleStats.statusRuleCount());
+  //console.log(ActiveRuleStats.statusRuleCount());
   fn.call(require(ruleDef.implementation).evaluate, dataItem, dataSet, entity, constraintSet, ruleDef)
     .then(function(rule){
 
       if(rule.isViolated){
-        MetisRule.prototype.createViolation(rule.entity, rule.dataItem, rule.dataSet, rule.ruleDef);
+        RuleHandler.prototype.createViolation(rule.entity, rule.dataItem, rule.dataSet, rule.ruleDef);
       }
       ActiveRuleStats.decreaseRuleCount(ruleDef);
-      console.log(ActiveRuleStats.statusRuleCount());
+      //console.log(ActiveRuleStats.statusRuleCount());
       if(ActiveRuleStats.atTerminalState())
         cb();
     },
@@ -98,18 +98,18 @@ MetisRule.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, c
   );
 }
 
-MetisRule.prototype.processFeedLevelRule = function(ruleDef, feedId, constraintSet, cb){
+RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constraintSet, cb){
   ActiveRuleStats.increaseRuleCount(ruleDef);
-  console.log(ActiveRuleStats.statusRuleCount());
+  //console.log(ActiveRuleStats.statusRuleCount());
   fn.call(require(ruleDef.implementation).evaluate, feedId, constraintSet, ruleDef)
     .then(function(rule){
 
-      if(rule.isViolated){
-        console.log('violated', rule);
-        //MetisRule.prototype.createViolation(rule.entity, rule.dataItem, rule.dataSet, rule.ruleDef);
+
+      if(rule.errorList != null){
+        RuleHandler.prototype.addErrorViolations(rule.errorList);
       }
       ActiveRuleStats.decreaseRuleCount(ruleDef);
-      console.log(ActiveRuleStats.statusRuleCount());
+      //console.log(ActiveRuleStats.statusRuleCount());
       if(ActiveRuleStats.atTerminalState())
         cb();
     },
@@ -119,12 +119,19 @@ MetisRule.prototype.processFeedLevelRule = function(ruleDef, feedId, constraintS
   );
 }
 
+RuleHandler.prototype.addErrorViolations = function addErrorViolations(errorList){
+  for(i = 0; i < errorList.length; i++){
+    violation = new Violation();
+    violations[violations.length] = errorList[i];
+    violation.createModel(errorList[i]);
+  }
+}
 
-MetisRule.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
+RuleHandler.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
   violation = new Violation(entity, dataSet.elementId, dataSet._id, dataSet._feed, dataSet, dataItem, ruleDef);
   violations[violations.length] = violation;
   ActiveRuleStats.logRuleViolation();
   violation.save();
 }
 
-module.exports = MetisRule;
+module.exports = RuleHandler;
