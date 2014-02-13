@@ -3,15 +3,16 @@
  */
 
 var schemas = require('../../../dao/schemas');
-var masterIdCollection = [];
 var mongoose = require('mongoose');
+var violation = require('../ruleViolation');
+var when = require('when');
+var deferred = when.defer();
 
 var evaluateUniqueId = function(feedId, constraintSet, ruleDef){
   var when = require('when');
 
-  console.log("feedId", feedId);
+  //console.log("feedId", feedId);
   var finds = [];
-  if(masterIdCollection.length == 0){
     constraintSet.entity.forEach(function(model) {
     collectionName = model
       Model = mongoose.model(model);
@@ -20,10 +21,8 @@ var evaluateUniqueId = function(feedId, constraintSet, ruleDef){
 
     when.all(finds)
       .then(processQueryResults.bind(this), errorHandler);
-  }else
-  console.log('do nothing');
 
-  return when.resolve({ isViolated: false });
+  return deferred.promise;
 }
 
 function errorHandler(err) {
@@ -35,7 +34,6 @@ function errorHandler(err) {
 function processQueryResults(foundDocs) {
   console.log('All queries completed.');
 
-  console.log(masterIdCollection);
   var idCounts = {};
 
   var docs = Array.prototype.concat.apply([], foundDocs);
@@ -76,23 +74,24 @@ function storeErrors(dupes, feedId, context) {
 
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
-      console.log('dupe found');
       savePromises.push(saveError(context, errModel, dupe.id, feedId));
     });
   });
 
-  when.all(savePromises).then(context.callback, errorHandler);
+  //when.all(savePromises).then(context.callback, errorHandler).then(function(){deferred.resolve({ isViolated: false });});
+  when.all(savePromises).then(function(){ console.log('resolving'); deferred.resolve({ isViolated: false });});
 }
 
 
   function saveError(context, errorModel, id) {
     //context.refCount++;
     console.log('Saving error: ');
-    console.log('id=', id);
-    console.log(context);
+
     //errorModel.model.create({
 // createHandler.bind(context));
-
+    console.log('id=', id);
+    //console.log(errorModel);
+    //console.log(context);
     /*console.log({
       severityCode: context.rule.severityCode,
       severityText: context.rule.severityText,

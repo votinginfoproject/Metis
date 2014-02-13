@@ -40,8 +40,8 @@ Violation.prototype.save = function(){
   else
     console.log(
       "\n**Warning**: Violation captured as DEBUG only. The following will NOT be saved in mongo: \n",
-     deriveErrorSchema(this.entity), this.model(),
-      "\nTo store the above record in Mongo, update the RuleEngine setting in config.js\n"
+     deriveErrorSchema(this.entity), this.model()  //,
+     // "\nTo store the above record in Mongo, update the RuleEngine setting in config.js\n"
     );
 }
 

@@ -8,9 +8,10 @@ var constraints = require('./dataconstraints');
 
 var metisRuleList = [
 
-  {
+ {
     title: 'validUrl',
     type: 'objectLevelRule',
+    isFeedLevelRule: false,
     errorCode: 1,
     severityCode: 0,
     severityText: 'Metis url elements cannot be malformed',
@@ -20,6 +21,7 @@ var metisRuleList = [
   {
     title: 'uniqueStreetSegment',
     type: 'objectLevelRule',
+    isFeedLevelRule: false,
     errorCode: 2,
     severityCode: 0,
     severityText: 'Street Segments must be valid and cannot have overlap',
@@ -29,6 +31,7 @@ var metisRuleList = [
   {
     title: 'uniqueIdCheckToo',
     type: 'feedLevelRule',
+    isFeedLevelRule: true,
     errorCode: 3,
     severityCode: 1,
     severityText: 'All top-level metis elements must have a unique ID value',

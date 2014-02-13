@@ -25,23 +25,22 @@ MetisRule.prototype.createRule = function(ruleDef){
   return new Rule(ruleDef);
 }
 
-MetisRule.prototype.applyRule = function(rule, feedId, cb){
+MetisRule.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallback){
   console.log(rule.title, "is being applied");
   ActiveRuleStats.applyRule(rule.ruleDef);
   MetisRule.prototype.ruleInstance = rule;
   MetisRule.prototype.vipFeedId = feedId;
 
-  async.each(rule.dataConstraints, this.applyDataConstraints, function(err){console.log('rule application complete');cb();});
+  async.each(rule.dataConstraints, this.applyDataConstraints,
+    function(err){console.log('rule application complete');
+      ruleEngineCompletionCallback();
+  });
 }
 
 MetisRule.prototype.applyDataConstraints = function (constraintSet, cb){
 
   //TODO: Make this a case statement
-  if(MetisRule.prototype.ruleInstance.type == 'feedLevelRule'){
-    MetisRule.prototype.processFeedLevelRule(MetisRule.prototype.ruleInstance.ruleDef, MetisRule.prototype.vipFeedId, constraintSet, cb);
-  }
-  else {
-
+  if(MetisRule.prototype.ruleInstance.type != 'feedLevelRule'){
     for(p=0; p < constraintSet.entity.length; p++){
       fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, MetisRule.prototype.vipFeedId, MetisRule.prototype.ruleInstance).then(
         function(fetchedData){
@@ -53,7 +52,11 @@ MetisRule.prototype.applyDataConstraints = function (constraintSet, cb){
       );
     }
   }
+  else {
+    MetisRule.prototype.processFeedLevelRule(MetisRule.prototype.ruleInstance.ruleDef, MetisRule.prototype.vipFeedId, constraintSet, cb);
+  }
 }
+
 
 MetisRule.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
   for(i = 0; i < results.length; i++){
