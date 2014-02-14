@@ -30,7 +30,7 @@ function countProperties(obj){
 
     // ignore properties that start with an underscore _ (these are Mongo added properties)
     // and are "sortOrder"
-    if(property.charAt(0)!=="_" && property !== "sortOrder"){
+    if(property.charAt(0)!=="_" && property !== "sortOrder" && !(objToUse[property] instanceof Array)){
 
       if(typeof objToUse[property] !== "object"){
         // not object can count property
