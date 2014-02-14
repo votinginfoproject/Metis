@@ -395,6 +395,11 @@ exports.initSchemas = function (mongoose) {
   models.StreetSegment.fieldCount = 19;
   models.PrecinctSplit.fieldCount = 6;
   models.BallotResponse.fieldCount = 2;
+  models.EarlyVoteSite.fieldCount = 14;
+  models.ElectionAdmin.fieldCount = 27;
+  models.Precinct.fieldCount = 7;
+  models.PrecinctSplit.fieldCount = 4;
+  models.PollingLocation.fieldCount = 11;
 };
 
 

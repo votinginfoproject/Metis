@@ -11,6 +11,7 @@ var when = require('when');
 var contests = require('./contests');
 var results = require('./results');
 var contest = require('./contest');
+var locality = require('./locality');
 
 var overviewModels = [];
 
@@ -52,7 +53,7 @@ function calculateFields(saveCalc) {
       var feedId = feed._doc._id;
       var fieldCount = 0;
       function wait() {
-        if(++fieldCount === 3)
+        if(++fieldCount === 4)
           done();
       }
 
@@ -77,7 +78,7 @@ function calculateFields(saveCalc) {
 
       console.log('Starting Single Contest Calc...');
       contest.contestCalc(feedId, function(contestOverview) {
-        console.log('Finsihed Single Contest');
+        console.log('Finished Single Contest');
         contestOverview.forEach(function(overview) {
           createOverviewModel('Ballot', overview.ballot.amount, overview.ballot.fieldCount, overview.ballot.schemaFieldCount, -1, overview.section, feedId);
           createOverviewModel('Candidates', overview.candidate.amount, overview.candidate.fieldCount, overview.candidate.schemaFieldCount, -1, overview.section, feedId);
@@ -86,6 +87,21 @@ function calculateFields(saveCalc) {
         });
         wait();
       });
+
+      console.log('Starting Single Locality Calc...');
+      locality.localityCalc(feedId, function(localityOverview) {
+        console.log('Finished Single Locality');
+        localityOverview.forEach(function(overview) {
+          createOverviewModel('Early Vote Sites', overview.earlyVoteSites.amount, overview.earlyVoteSites.fieldCount, overview.earlyVoteSites.schemaFieldCount, -1, overview.section, feedId);
+          createOverviewModel('Election Administration', overview.electionAdmin.amount, overview.electionAdmin.fieldCount, overview.electionAdmin.schemaFieldCount, -1, overview.section, feedId);
+          createOverviewModel('Precincts', overview.precincts.amount, overview.precincts.fieldCount, overview.precincts.schemaFieldCount, -1, overview.section, feedId);
+          createOverviewModel('Precinct Splits', overview.precinctSplits.amount, overview.precinctSplits.fieldCount, overview.precinctSplits.schemaFieldCount, -1, overview.section, feedId);
+          createOverviewModel('Polling Locations', overview.pollingLocations.amount, overview.pollingLocations.fieldCount, overview.pollingLocations.schemaFieldCount, -1, overview.section, feedId);
+          createOverviewModel('Street Segments', overview.streetSegments.amount, overview.streetSegments.fieldCount, overview.streetSegments.schemaFieldCount, -1, overview.section, feedId);
+        });
+        wait();
+      });
+
     }, function(err) { saveCalc(); });
   };
 };
