@@ -14,7 +14,7 @@ var metisRuleList = [
     isFeedLevelRule: false,
     errorCode: 1,
     severityCode: 0,
-    severityText: 'Metis url elements cannot be malformed',
+    severityText: 'Invalid Url format cannot be malformed',
     implementation: './impl/validUrlRule',
     dataConstraints: constraints['validUrl']
   },
@@ -24,9 +24,9 @@ var metisRuleList = [
     isFeedLevelRule: false,
     errorCode: 2,
     severityCode: 0,
-    severityText: 'Street Segments must be valid and cannot have overlap',
-    implementation: './impl/streetSegmentRule',
-    dataConstraints: constraints['uniqueStreetSegment']
+    severityText: 'Invalid Locality Type',
+    implementation: './impl/localitytyperule',
+    dataConstraints: constraints['localityType']
   },
   {
     title: 'uniqueIdCheckToo',

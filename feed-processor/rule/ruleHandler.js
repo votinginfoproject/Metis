@@ -104,7 +104,6 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
   fn.call(require(ruleDef.implementation).evaluate, feedId, constraintSet, ruleDef)
     .then(function(rule){
 
-
       if(rule.errorList != null){
         RuleHandler.prototype.addErrorViolations(rule.errorList);
       }
