@@ -51,5 +51,22 @@ function countProperties(obj){
   return count;
 }
 
-exports.countProperties = countProperties;
+function createOverviewObject(amount, fieldCount, schemaFieldCount) {
+  return {
+    amount: amount ? amount : 0,
+    fieldCount: fieldCount ? fieldCount : 0,
+    schemaFieldCount: schemaFieldCount ? schemaFieldCount : 0
+  }
+}
 
+function addOverviewObjects(first, second) {
+  return {
+    amount: first.amount + second.amount,
+    fieldCount: first.fieldCount + second.fieldCount,
+    schemaFieldCount: first.schemaFieldCount + second.schemaFieldCount
+  }
+}
+
+exports.countProperties = countProperties;
+exports.createOverviewObject = createOverviewObject;
+exports.addOverviewObjects = addOverviewObjects;

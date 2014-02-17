@@ -370,7 +370,7 @@ function getBallotLineResult(feedId, blrId, callback) {
 }
 
 function getOverviewTable(feedId, section, callback) {
-  daoSchemas.models.Overview.find({ feed: feedId, section: section })
+  daoSchemas.models.Overview.find({ _feed: feedId, section: section })
     .exec(callback);
 }
 

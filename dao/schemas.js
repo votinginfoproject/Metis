@@ -352,7 +352,7 @@ var overviewSchema = {
   completePct: Number,
   errorCount: Number,
   section: Number,
-  feed: String
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 /*

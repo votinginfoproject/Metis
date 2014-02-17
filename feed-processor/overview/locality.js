@@ -4,6 +4,8 @@
 
 var schemas = require('../../dao/schemas');
 var async = require('async');
+var util = require('./utils');
+var _ = require('underscore');
 
 function localityCalc(feedId, saveCalc) {
  var localityOverview = [];
@@ -14,40 +16,19 @@ function localityCalc(feedId, saveCalc) {
    .exec(function(err, localities) {
 
      async.each(localities, function(data, done) {
-       var counter = 0;
-       function wait() {
-         if(++counter === 3)
-           done();
-       }
-
        var locality = data._doc;
        localityOverview.push({ section: locality.elementId });
        var overviewPos = localityOverview.length - 1;
 
-       earlyVoteSiteCalc(locality._earlyVoteSites, function(amount, fieldCount, schemaFieldCount) {
-         localityOverview[overviewPos].earlyVoteSites = {
-           amount: amount,
-           fieldCount: fieldCount,
-           schemaFieldCount: schemaFieldCount
-         }
-         wait();
-       });
-
-       electionAdminCalc(locality._electionAdministration, function(amount, fieldCount, schemaFieldCount) {
-         localityOverview[overviewPos].electionAdmin = {
-           amount: amount,
-           fieldCount: fieldCount,
-           schemaFieldCount: schemaFieldCount
-         }
-         wait();
-       });
+       localityOverview[overviewPos].earlyVoteSites = earlyVoteSiteCalc(locality._earlyVoteSites, util.createOverviewObject());
+       localityOverview[overviewPos].electionAdmin = electionAdminCalc(locality._electionAdministration);
 
        precinctsCalc(feedId, locality._precincts, function(precinct, split, pollingLoc, streetSeg) {
          localityOverview[overviewPos].precincts = precinct;
          localityOverview[overviewPos].precinctSplits = split;
          localityOverview[overviewPos].pollingLocations = pollingLoc;
          localityOverview[overviewPos].streetSegments = streetSeg;
-         wait();
+         done();
        });
 
      }, function(err) { saveCalc(localityOverview); });
@@ -55,27 +36,23 @@ function localityCalc(feedId, saveCalc) {
    });
 }
 
-function earlyVoteSiteCalc(voteSites, returnTotal) {
-  var amount = 0, fieldCount = 0, schemaFieldCount = 0;
-  voteSites.forEach(function(data) {
-    var voteSite = data._doc;
-    ++amount;
-    fieldCount += Object.keys(voteSite).length - 4;
-    schemaFieldCount += schemas.models.EarlyVoteSite.fieldCount;
-    if(voteSite.address) {
-      --fieldCount;
-      fieldCount += Object.keys(voteSite.address).length;
+function earlyVoteSiteCalc(voteSites, initial) {
+  return voteSites.reduce(function(memo, current) {
+    memo.amount++;
+    memo.fieldCount += Object.keys(current._doc).length - 4;
+    memo.schemaFieldCount += schemas.models.EarlyVoteSite.fieldCount;
+    if (current.address) {
+      memo.fieldCount += Object.keys(current._doc.address).length - 1;
     }
-  });
-  returnTotal(amount, fieldCount, schemaFieldCount);
+    return memo;
+  }, initial);
 }
 
-function electionAdminCalc(data, returnTotal) {
+function electionAdminCalc(data) {
   if(data === null)
-    return returnTotal(0, 0, 0);
+    return util.createOverviewObject(0, 0, 0);
 
   var admin = data._doc;
-  var amount = 1;
   var fieldCount = Object.keys(admin).length - 5;
   var schemaFieldCount = schemas.models.ElectionAdmin.fieldCount;
   if(admin.mailingAddress) {
@@ -86,26 +63,21 @@ function electionAdminCalc(data, returnTotal) {
     --fieldCount;
     fieldCount += Object.keys(admin.physicalAddress).length;
   }
-  returnTotal(amount, fieldCount, schemaFieldCount);
+
+  return util.createOverviewObject(1, fieldCount, schemaFieldCount);
 }
 
 function precinctsCalc(feedId, precincts, returnTotal) {
-  var precinct = { amount: 0, fieldCount: 0, schemaFieldCount: 0 };
-  var split = { amount: 0, fieldCount: 0, schemaFieldCount: 0 };
-  var pollingLoc = { amount: 0, fieldCount: 0, schemaFieldCount: 0 };
-  var streetSeg = { amount: 0, fieldCount: 0, schemaFieldCount: 0 };
+  var precinctOverview = util.createOverviewObject();
+  var splitOverview = util.createOverviewObject();
+  var pollingLocOverview = util.createOverviewObject();
+  var streetSegOverview = util.createOverviewObject();
 
   async.each(precincts, function(data, done) {
     var precinct = data._doc;
-    ++precinct.amount;
-    precinct.fieldCount += Object.keys(precinct).length - 8;
-    precinct.schemaFieldCount += schemas.models.Precinct.fieldCount;
-    if(precinct.electoralDistrictIds)
-      --precinct.fieldCount;
-    if(precinct.pollingLocationIds)
-      --precinct.fieldCount;
-    if(precinct.earlyVoteSiteIds)
-      --precinct.fieldCount;
+    ++precinctOverview.amount;
+    precinctOverview.fieldCount += Object.keys(precinct).length - 8;
+    precinctOverview.schemaFieldCount += schemas.models.Precinct.fieldCount;
 
     var count = 0;
     function wait() {
@@ -113,82 +85,56 @@ function precinctsCalc(feedId, precincts, returnTotal) {
         done();
     }
 
-    precinctSplitsCalc(feedId, precinct._precinctSplits, function(amount, fieldCount, schemaFieldCount) {
-      split.amount += amount;
-      split.fieldCount += fieldCount;
-      split.schemaFieldCount += schemaFieldCount;
-      wait();
-    });
+    precinctSplitsCalc(feedId, precinct._precinctSplits, function(res) { util.addOverviewObjects(splitOverview, res); wait(); });
+    pollingLocationCalc(feedId, precinct._pollingLocations, function(res) { util.addOverviewObjects(pollingLocOverview, res); wait(); });
+    streetSegmentsCalc(feedId, precinct._streetSegments, function(res) { util.addOverviewObjects(streetSegOverview, res); wait(); });
 
-    pollingLocationCalc(feedId, precinct._pollingLocations, function(amount, fieldCount, schemaFieldCount) {
-      pollingLoc.amount = amount;
-      pollingLoc.fieldCount = fieldCount;
-      pollingLoc.schemaFieldCount = schemaFieldCount;
-      wait();
-    });
-
-    streetSegmentsCalc(feedId, precinct._streetSegments, function(amount, fieldCount, schemaFieldCount) {
-      streetSeg.amount = amount;
-      streetSeg.fieldCount = fieldCount;
-      streetSeg.schemaFieldCount = schemaFieldCount;
-      wait();
-    });
-
-  }, function(err) { returnTotal(precinct, split, pollingLoc, streetSeg); });
+  }, function(err) { returnTotal(precinctOverview, splitOverview, pollingLocOverview, streetSegOverview); });
 }
 
 function precinctSplitsCalc(feedId, splits, returnTotal) {
-  var amount = 0, fieldCount = 0, schemaFieldCount = 0;
-  async.each(splits, function(splitId, done) {
-    schemas.models.PrecinctSplit.find( { _feed: feedId, _id: splitId } )
-      .exec(function(err, data) {
-        var split = data[0]._doc;
-        ++amount;
-        fieldCount += Object.keys(split).length - 7;
-        schemaFieldCount += schemas.models.PrecinctSplit.fieldCount;
-        if(split.electoralDistrictIds)
-          --fieldCount;
-        if(split.pollingLocationIds)
-          --fieldCount;
-        done();
-      });
-  }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); })
+  schemas.models.PrecinctSplit.find( { _feed: feedId, _id: { $in: splits } }, function(err, results) {
+    var initial = util.createOverviewObject();
+    results.reduce(function(memo, current) {
+      memo.amount++;
+      memo.fieldCount += Object.keys(current._doc).length - 7;
+      memo.schemaFieldCount += schemas.models.PrecinctSplit.fieldCount;
+      return memo;
+    }, initial);
+    returnTotal(initial);
+  });
 }
 
 function pollingLocationCalc(feedId, locations, returnTotal) {
-  var amount = 0, fieldCount = 0, schemaFieldCount = 0;
-  async.each(locations, function(locId, done) {
-    schemas.models.PollingLocation.find( { _feed: feedId, _id: locId })
-      .exec(function(err, data) {
-        var location = data[0]._doc;
-        ++amount;
-        fieldCount += Object.keys(location).length - 5;
-        schemaFieldCount += schemas.models.PollingLocation.fieldCount;
-        if(location.address) {
-          --fieldCount;
-          fieldCount += Object.keys(location.address).length;
-        }
-        done();
-      });
-  }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); });
+  schemas.models.PollingLocation.find( { _feed: feedId, _id: { $in: locations } }, function(err, results) {
+    var initial = util.createOverviewObject();
+    results.reduce(function(memo, current) {
+      memo.amount++;
+      memo.fieldCount += Object.keys(current._doc).length - 5;
+      memo.schemaFieldCount += schemas.models.PollingLocation.fieldCount;
+      if(current._doc.address) {
+        memo.fieldCount += Object.keys(current._doc.address).length - 1;
+      }
+      return memo;
+    }, initial);
+    returnTotal(initial);
+  });
 }
 
 function streetSegmentsCalc(feedId, segments, returnTotal) {
-  var amount = 0, fieldCount = 0, schemaFieldCount = 0;
-  async.each(segments, function(segId, done) {
-    schemas.models.StreetSegment.find({ _feed: feedId, _id: segId })
-      .exec(function(err, data) {
-        var segment = data[0]._doc;
-        ++amount;
-        fieldCount += Object.keys(segment).length - 3;
-        schemaFieldCount += schemas.models.StreetSegment.fieldCount;
-        if(segment.nonHouseAddress) {
-          --fieldCount;
-          fieldCount += Object.keys(segment.nonHouseAddress).length;
-        }
-        done();
-      });
-  }, function(err) { returnTotal(amount, fieldCount, schemaFieldCount); })
+  schemas.models.StreetSegment.find({ _feed: feedId, _id: { $in: segments } }, function(err, results) {
+    var initial = util.createOverviewObject();
+    results.reduce(function(memo, current) {
+      memo.amount++;
+      memo.fieldCount += Object.keys(current._doc).length - 3;
+      memo.schemaFieldCount += schemas.models.StreetSegment.fieldCount;
+      if(current.nonHouseAddress) {
+        memo.schemaFieldCount += Object.keys(current.nonHouseAddress).length - 1;
+      }
+      return memo;
+    }, initial);
+    returnTotal(initial);
+  });
 }
 
 exports.localityCalc = localityCalc;
