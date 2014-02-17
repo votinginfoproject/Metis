@@ -1,7 +1,8 @@
 /**
  * Created by bantonides on 12/13/13.
  */
-var Types = require('mongoose').Schema.Types;
+var mongoose = require('mongoose');
+var Types = mongoose.Schema.Types;
 var config = require('../config');
 
 var models = {};
@@ -598,6 +599,7 @@ var overviewSchema = {
 /*
  * End of Schema Definitions
  */
+exports.types = mongoose.Types;
 exports.models = models;
 
 exports.initSchemas = function (mongoose) {
