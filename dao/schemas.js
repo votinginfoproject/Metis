@@ -4,6 +4,8 @@
 var Types = require('mongoose').Schema.Types;
 var config = require('../config');
 
+var utils = require('../feed-processor/overview/utils');
+
 var models = {};
 
 var simpleAddressSchema = {
@@ -383,23 +385,23 @@ exports.initSchemas = function (mongoose) {
   models.Violation = mongoose.model(config.mongoose.model.violation, mongoose.Schema(violationSchema));
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
-  models.Ballot.fieldCount = 5;
-  models.Contest.fieldCount = 14;
-  models.Candidate.fieldCount = 15;
-  models.Referendum.fieldCount = 9;
-  models.ContestResult.fieldCount = 11;
-  models.BallotLineResult.fieldCount = 9;
-  models.ElectoralDistrict.fieldCount = 4;
-  models.Precinct.fieldCount = 10;
-  models.PollingLocation.fieldCount = 11;
-  models.StreetSegment.fieldCount = 19;
-  models.PrecinctSplit.fieldCount = 6;
-  models.BallotResponse.fieldCount = 2;
-  models.EarlyVoteSite.fieldCount = 14;
-  models.ElectionAdmin.fieldCount = 27;
-  models.Precinct.fieldCount = 7;
-  models.PrecinctSplit.fieldCount = 4;
-  models.PollingLocation.fieldCount = 11;
+
+  models.Ballot.fieldCount = utils.countProperties(ballotSchema);
+  models.Contest.fieldCount = utils.countProperties(contestSchema);
+  models.Candidate.fieldCount = utils.countProperties(candidateSchema);
+  models.Referendum.fieldCount = utils.countProperties(referendumSchema);
+  models.ContestResult.fieldCount = utils.countProperties(contestResultSchema);
+  models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);
+  models.ElectoralDistrict.fieldCount = utils.countProperties(electoralDistrictSchema);
+  models.Precinct.fieldCount = utils.countProperties(precinctSchema);
+  models.PollingLocation.fieldCount = utils.countProperties(pollingLocationSchema);
+  models.StreetSegment.fieldCount = utils.countProperties(streetSegmentSchema);
+  models.PrecinctSplit.fieldCount = utils.countProperties(precinctSplitSchema);
+  models.BallotResponse.fieldCount = utils.countProperties(ballotResponseSchema);
+
+  models.EarlyVoteSite.fieldCount = utils.countProperties(earlyVoteSiteSchema);
+  models.ElectionAdmin.fieldCount = utils.countProperties(electionAdminSchema);
+  models.Locality.fieldCount = utils.countProperties(localitySchema);
 };
 
 
