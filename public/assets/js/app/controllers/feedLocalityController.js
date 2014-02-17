@@ -43,6 +43,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedsService, $routeParams, $appP
       $scope.feedLocality = {};
       $scope.feedEarlyVoteSites = {};
       $scope.feedPrecincts = {};
+      $scope.feedLocalityOverview = {};
     });
 }
 
@@ -65,6 +66,7 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
       // now call the other services to get the rest of the data
       FeedLocalityCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $appProperties, $filter, ngTableParams);
       FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, data.precincts, $appProperties, $filter, ngTableParams);
+      FeedLocalityCtrl_getFeedLocalityOverview($scope, $rootScope, $feedsService, data.overview);
 
 
     }).error(function (data, $http) {
@@ -83,6 +85,7 @@ function FeedLocalityCtrl_getFeedLocality($scope, $rootScope, $feedsService, ser
       $scope.feedLocality = {};
       $scope.feedEarlyVoteSites = {};
       $scope.feedPrecincts = {};
+      $scope.feedLocalityOverview = {};
     });
 }
 
@@ -134,5 +137,22 @@ function FeedLocalityCtrl_getFeedPrecincts($scope, $rootScope, $feedsService, se
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedPrecincts = {};
+    });
+}
+
+function FeedLocalityCtrl_getFeedLocalityOverview($scope, $rootScope, $feedsService, servicePath) {
+  // get Feed Precincts
+  $feedsService.getFeedLocalityOverview(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedLocalityOverview = data;
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Locality Overview. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedLocalityOverview = {};
     });
 }

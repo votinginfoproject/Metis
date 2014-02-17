@@ -321,4 +321,20 @@ describe('Feeds Unit Tests', function() {
       httpCallback.feedBallotLineResultGET(req, res);
     });
   });
+
+  describe('feed Contest Contest Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      httpCallback.feedContestContestOverviewGET(req, res);
+    });
+  });
+
+  describe('feed Locality Locality Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      httpCallback.feedLocalityLocalityOverviewGET(req, res);
+    });
+  });
 });

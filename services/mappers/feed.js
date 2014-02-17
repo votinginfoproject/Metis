@@ -121,32 +121,7 @@ var mapLocality = function(path, locality) {
     type: locality.type,
     election_machine_type: "Requires 5.0 Schema",
     poll_book_type: "Requires 5.0 Schema",
-    overview: [ //TODO
-      {
-        element_type: 'Electoral Districts',
-        amount: 0,
-        complete_pct: 0,
-        error_count: 0
-      },
-      {
-        element_type: 'Precincts',
-        amount: 2564,
-        complete_pct: 94,
-        error_count: 206
-      },
-      {
-        element_type: 'Precinct Splits',
-        amount: 2311,
-        complete_pct: 12,
-        error_count: 322
-      },
-      {
-        element_type: 'Street Segments',
-        amount: 234,
-        complete_pct: 19,
-        error_count: 4223
-      }
-    ],
+    overview: _path.join(path, '/localityoverview'),
     administration: locality._electionAdministration ? {
       id: locality._electionAdministration.elementId,
       name: locality._electionAdministration.name,

@@ -310,8 +310,23 @@ var data = {
     address: address,
     directions: 'dir',
     photoUrl: 'url',
-    pollingHours: 'hours'
-  }
+    pollingHours: 'hours',
+    _precincts: {
+      map: function() {}
+    },
+    _precinctSplits: {
+      map: function() {}
+    }
+  },
+
+  overview: [
+    {
+      elementType: 'type',
+      amount: 1,
+      completePct: 2,
+      errorCount: 3
+    }
+  ]
 };
 
 module.exports = data;

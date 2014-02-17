@@ -379,6 +379,14 @@ function feedContestContestOverviewGET(req, res) {
   });
 }
 
+function feedLocalityLocalityOverviewGET(req, res) {
+  dao.getOverviewTable(req.params.feedid, req.params.localityid, function(err, overviews) {
+    notFoundHandler(res, err, overviews, function() {
+      res.json(mapper.mapOverviewTables(overviews));
+    });
+  });
+}
+
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;
@@ -424,3 +432,4 @@ exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
 exports.feedContestContestOverviewGET = feedContestContestOverviewGET;
+exports.feedLocalityLocalityOverviewGET = feedLocalityLocalityOverviewGET;

@@ -20,6 +20,7 @@ function registerFeedsServices (app) {
   app.get('/services/feeds/:feedid/election/state/electionadministration', utils.ensureAuthentication, httpCallback.feedStateElectionAdministrationGET);
   app.get('/services/feeds/:feedid/election/state/localities', utils.ensureAuthentication, httpCallback.feedLocalitiesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid', utils.ensureAuthentication, httpCallback.feedLocalityGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/localityoverview', utils.ensureAuthentication, httpCallback.feedLocalityLocalityOverviewGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/earlyvotesites', utils.ensureAuthentication, httpCallback.feedLocalityEarlyVoteSitesGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/electionadministration', utils.ensureAuthentication, httpCallback.feedLocalityElectionAdministrationGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts', utils.ensureAuthentication, httpCallback.feedLocalityPrecinctsGET);
