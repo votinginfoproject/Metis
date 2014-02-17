@@ -14,6 +14,7 @@ function Rule(ruleDef){
   this.implementation = ruleDef.implementation;
   this.description = ruleDef.severityText;
   this.title = ruleDef.title;
+  this.isActive = JSON.parse(ruleDef.isActive) ? JSON.parse(ruleDef.isActive) : false;
   this.ruleDef = ruleDef;
   this.type = ruleDef.type;
   this.dataConstraints = ruleDef.dataConstraints;
@@ -26,11 +27,11 @@ RuleHandler.prototype.createRule = function(ruleDef){
 }
 
 RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallback){
-  console.log(rule.title, "is being applied");
+
   ActiveRuleStats.applyRule(rule.ruleDef);
   RuleHandler.prototype.ruleInstance = rule;
   RuleHandler.prototype.vipFeedId = feedId;
-
+  console.log('applying rule', rule.title);
   async.each(rule.dataConstraints, this.applyDataConstraints,
     function(err){console.log('rule application complete');
       ruleEngineCompletionCallback();
@@ -38,7 +39,6 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
 }
 
 RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
-
   //TODO: Make this a case statement
   if(RuleHandler.prototype.ruleInstance.type != 'feedLevelRule'){
     for(p=0; p < constraintSet.entity.length; p++){

@@ -57,11 +57,29 @@ var theseConstraints = {
     }
   ],
 
+  /* locality type range */
   localityType: [
     {
       entity: [models.locality], fields: ['type']
-    }
-  ]
+  }],
+
+  /* email format */
+  emailFormat : [
+    {
+      entity: [], fields: []
+    }],
+
+  /* phone number format */
+  phoneNumberFormat : [
+    {
+      entity: [], fields: []
+    }],
+
+  /* zip code format */
+  zipCodeFormat : [
+    {
+      entity: [], fields: []
+  }]
 
 };
 

@@ -18,7 +18,8 @@ function processRules(vipFeedId){
 
 var loadRule = function(ruleDef, next){
   console.log('loading rule..', ruleDef.title);
-  rules[rules.length] = ruleHandler.createRule(ruleDef);
+  if(isActiveRule(ruleDef))
+    rules[rules.length] = ruleHandler.createRule(ruleDef);
   next();
 }
 
@@ -29,10 +30,20 @@ var applyRules = function(vipFeedId){
   });
 }
 
-
 var endSession = function(){
-  console.log("Data analysis complete. Processor shutting down");
+  console.log("Data analysis complete. Rules processor shutting down");
   process.exit();
+}
+
+
+function isActiveRule(rule){
+  var activeState = false
+  try {
+    activeState = JSON.parse(rule.isActive)
+  }
+  catch(err){ /* doNothing() */ }
+  if(!activeState) console.log(rule.title, "is inactive");
+  return activeState;
 }
 
 exports.processRules = processRules;
