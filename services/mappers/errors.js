@@ -3,12 +3,13 @@
  */
 function mapError(error) {
   return {
-    severity_code: error.severityCode,
-    severity_text: error.severityText,
-    error_code: error.errorCode,
-    title: error.title,
-    details: error.details,
-    textual_reference: error.textualReference
+    severity_code: error._id.severityCode,
+    severity_text: error._id.severityText,
+    error_code: error._id.errorCode,
+    title: error._id.title,
+    details: error._id.details,
+    textual_references: error.textualReferences,
+    error_count: error.count
   };
 }
 
