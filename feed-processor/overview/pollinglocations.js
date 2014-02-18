@@ -2,14 +2,14 @@ var schemas = require('../../dao/schemas');
 var utils = require('./utils');
 var async = require('async');
 
-function pollinglocationsCalc(feedId, saveCalc) {
+function pollingLocationsCalc(feedId, saveCalc) {
 
   var pollinglocationsOverview = { };
   var pollinglocationsCount = 0;
 
   // wait for each of the Calc functions to finish
   function wait() {
-    if(++pollinglocationsCount === 5)
+    if(++pollinglocationsCount === 7)
       saveCalc(pollinglocationsOverview);
   }
 
@@ -34,7 +34,7 @@ function pollinglocationsCalc(feedId, saveCalc) {
     pollinglocationsOverview.localities.schemaFieldTotal = schemaFieldTotal;
     wait();
   });
-  pollingLocationsCalc(feedId, function(fieldTotal, schemaFieldTotal, amount) {
+  pollinglocationsCalc(feedId, function(fieldTotal, schemaFieldTotal, amount) {
     pollinglocationsOverview.pollinglocations = {};
     pollinglocationsOverview.pollinglocations.amount = amount;
     pollinglocationsOverview.pollinglocations.fieldTotal = fieldTotal;
@@ -48,24 +48,29 @@ function pollinglocationsCalc(feedId, saveCalc) {
     pollinglocationsOverview.precincts.schemaFieldTotal = schemaFieldTotal;
     wait();
   });
-  /*
-  streetSegmentsCalc(feedId, function(fieldTotal, schemaFieldTotal, amount) {
-    pollinglocationsOverview.streetSegments.amount = amount;
-    pollinglocationsOverview.streetSegments.fieldTotal = fieldTotal;
-    pollinglocationsOverview.streetSegments.schemaFieldTotal = schemaFieldTotal;
+  precinctsplitsCalc(feedId, function(fieldTotal, schemaFieldTotal, amount) {
+    pollinglocationsOverview.precinctsplits = {};
+    pollinglocationsOverview.precinctsplits.amount = amount;
+    pollinglocationsOverview.precinctsplits.fieldTotal = fieldTotal;
+    pollinglocationsOverview.precinctsplits.schemaFieldTotal = schemaFieldTotal;
     wait();
   });
-
+  streetsegmentsCalc(feedId, function(fieldTotal, schemaFieldTotal, amount) {
+    pollinglocationsOverview.streetsegments = {};
+    pollinglocationsOverview.streetsegments.amount = amount;
+    pollinglocationsOverview.streetsegments.fieldTotal = fieldTotal;
+    pollinglocationsOverview.streetsegments.schemaFieldTotal = schemaFieldTotal;
+    wait();
+  });
+/*
    early vote sites
    election administrations
    localities
    polling locations
    precincts
+   precinct splits,
 
-   state, , , , , precinct splits,
-    and street segments
-   that is what i believe the slist is
-   the last two polling locations and street segments im not 100% sure about
+   street segments
 */
 }
 
@@ -75,8 +80,6 @@ function earlyVoteSitesCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.EarlyVoteSite.find({_feed: feedId})
     .exec(function(err, results) {
-
-      console.log("earlyVoteSitesCalc: " + results.length);
       results.forEach( function(result){
         ++amount;
         fieldTotal += utils.countProperties(result);
@@ -92,8 +95,6 @@ function electionAdministrationsCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.ElectionAdmin.find({_feed: feedId})
     .exec(function(err, results) {
-
-      console.log("electionAdministrationsCalc: " + results.length);
       results.forEach( function(result){
         ++amount;
         fieldTotal += utils.countProperties(result);
@@ -109,8 +110,6 @@ function localitiesCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.Locality.find({_feed: feedId})
     .exec(function(err, results) {
-
-      console.log("localitiesCalc: " + results.length);
       results.forEach( function(result){
         ++amount;
         fieldTotal += utils.countProperties(result);
@@ -120,14 +119,12 @@ function localitiesCalc(feedId, returnTotal) {
     });
 }
 
-function pollingLocationsCalc(feedId, returnTotal) {
+function pollinglocationsCalc(feedId, returnTotal) {
   var amount = 0;
   var fieldTotal = 0;
   var schemaFieldTotal = 0;
   schemas.models.PollingLocation.find({_feed: feedId})
     .exec(function(err, results) {
-
-      console.log("pollingLocationsCalc: " + results.length);
       results.forEach( function(result){
         ++amount;
         fieldTotal += utils.countProperties(result);
@@ -143,8 +140,6 @@ function precinctsCalc(feedId, returnTotal) {
   var schemaFieldTotal = 0;
   schemas.models.Precinct.find({_feed: feedId})
     .exec(function(err, results) {
-
-      console.log("precinctsCalc: " + results.length);
       results.forEach( function(result){
         ++amount;
         fieldTotal += utils.countProperties(result);
@@ -153,4 +148,35 @@ function precinctsCalc(feedId, returnTotal) {
       returnTotal(fieldTotal, schemaFieldTotal, amount);
     });
 }
-exports.pollinglocationsCalc = pollinglocationsCalc;
+
+function precinctsplitsCalc(feedId, returnTotal) {
+  var amount = 0;
+  var fieldTotal = 0;
+  var schemaFieldTotal = 0;
+  schemas.models.PrecinctSplit.find({_feed: feedId})
+    .exec(function(err, results) {
+      results.forEach( function(result){
+        ++amount;
+        fieldTotal += utils.countProperties(result);
+        schemaFieldTotal += schemas.models.PrecinctSplit.fieldCount;
+      });
+      returnTotal(fieldTotal, schemaFieldTotal, amount);
+    });
+}
+
+function streetsegmentsCalc(feedId, returnTotal) {
+  var amount = 0;
+  var fieldTotal = 0;
+  var schemaFieldTotal = 0;
+  schemas.models.StreetSegment.find({_feed: feedId})
+    .exec(function(err, results) {
+      results.forEach( function(result){
+        ++amount;
+        fieldTotal += utils.countProperties(result);
+        schemaFieldTotal += schemas.models.StreetSegment.fieldCount;
+      });
+      returnTotal(fieldTotal, schemaFieldTotal, amount);
+    });
+}
+
+exports.pollingLocationsCalc = pollingLocationsCalc;
