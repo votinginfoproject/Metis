@@ -11,6 +11,7 @@ var auth = require('./auth');
 
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
+var overviewServices = require('./services/overviews');
 
 var app = express();
 
@@ -39,6 +40,7 @@ auth.authSetup(config, passport, config.crowd.uselocalauth);
 //register REST services
 authServices.registerAuthServices(config, app, passport);
 feedServices.registerFeedsServices(app);
+overviewServices.registerOverviewServices(app);
 
 http.createServer(app).listen(config.web.port, function() {
   console.log('Express server listening on port ' + config.web.port);

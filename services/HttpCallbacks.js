@@ -321,27 +321,6 @@ function feedBallotReferendumGET(req, res) {
   });
 };
 
-function feedPollingGET (req, res) {
-  var polling = {}; //TODO: get data from the database
-  res.json(mapper.mapPollingSummary(req.path, polling));
-};
-
-function feedContestsGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, 1, function(err, overviews) {
-    notFoundHandler(res, err, overviews, function() {
-      res.json(mapper.mapOverviewTables(overviews));
-    });
-  });
-};
-
-function feedResultsGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, 2, function(err, overviews) {
-    notFoundHandler(res, err, overviews, function() {
-      res.json(mapper.mapOverviewTables(overviews));
-    });
-  });
-};
-
 function feedHistoryGET (req, res) {
   var history = {}; //TODO: get data from the database
   res.json(mapper.mapHistory(req.path, history));
@@ -367,22 +346,6 @@ function feedBallotLineResultGET(req, res) {
   dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
     notFoundHandler(res, err, blr, function() {
       res.json(mapper.mapBallotLineResult(req.path, blr));
-    });
-  });
-}
-
-function feedContestContestOverviewGET(req, res) {
-  dao.getOverviewTable(req.params.feedid, req.params.contestid, function(err, overviews) {
-    notFoundHandler(res, err, overviews, function() {
-      res.json(mapper.mapOverviewTables(overviews));
-    });
-  });
-}
-
-function feedLocalityLocalityOverviewGET(req, res) {
-  dao.getOverviewTable(req.params.feedid, req.params.localityid, function(err, overviews) {
-    notFoundHandler(res, err, overviews, function() {
-      res.json(mapper.mapOverviewTables(overviews));
     });
   });
 }
@@ -415,15 +378,12 @@ exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;
 exports.feedElectionContestsGET = feedElectionContestsGET;
 exports.feedStateElectionAdministrationGET = feedStateElectionAdministrationGET;
 exports.feedLocalityElectionAdministrationGET = feedLocalityElectionAdministrationGET;
-exports.feedPollingGET = feedPollingGET;
-exports.feedContestsGET = feedContestsGET;
 exports.feedContestGET = feedContestGET;
 exports.feedContestElectoralDistrictGET = feedContestElectoralDistrictGET;
 exports.feedPrecinctElectoralDistrictGET = feedPrecinctElectoralDistrictGET;
 exports.feedPrecinctSplitElectoralDistrictGET = feedPrecinctSplitElectoralDistrictGET;
 exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
-exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
 exports.feedContestResultGET = feedContestResultGET;
 exports.feedBallotReferendaGET = feedBallotReferendaGET;
@@ -431,5 +391,3 @@ exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
-exports.feedContestContestOverviewGET = feedContestContestOverviewGET;
-exports.feedLocalityLocalityOverviewGET = feedLocalityLocalityOverviewGET;
