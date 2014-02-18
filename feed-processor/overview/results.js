@@ -14,37 +14,8 @@ function resultsCalc(feedId, saveCalc) {
       saveCalc(resultsOverview);
   }
 
-  contestResultsCalc(feedId, function(res) { resultsOverview.contestResults = res; wait(); });
-  ballotLineResultCalc(feedId, function(res) { resultsOverview.ballotLineResults = res; wait(); });
-}
-
-function contestResultsCalc(feedId, returnTotal) {
-  schemas.models.ContestResult.find({_feed: feedId}, function(err, results) {
-    var initial = util.createOverviewObject();
-    results.reduce(function(memo, current) {
-      memo.amount++;
-      memo.fieldCount += Object.keys(current._doc).length - 5;
-      memo.schemaFieldCount += schemas.models.ContestResult.fieldCount;
-      return memo;
-    }, initial);
-    returnTotal(initial);
-  });
-}
-
-function ballotLineResultCalc(feedId, returnTotal) {
-  schemas.models.BallotLineResult.find( { _feed: feedId }, function(err, results) {
-    var initial = util.createOverviewObject();
-    results.reduce(function(memo, current) {
-      memo.amount++;
-      memo.fieldCount += Object.keys(current._doc).length - 6;
-      memo.schemaFieldCount += schemas.models.BallotLineResult.fieldCount;
-      return memo;
-    }, initial);
-    returnTotal(initial);
-  });
+  util.findOverviewObject(feedId, 0, schemas.models.ContestResult, function(res) { resultsOverview.contestResults = res; wait(); });
+  util.findOverviewObject(feedId, 0, schemas.models.BallotLineResult, function(res) { resultsOverview.ballotLineResults = res; wait(); });
 }
 
 exports.resultsCalc = resultsCalc;
-// Exported so they can be tested
-exports.contestResultsCalc = contestResultsCalc;
-exports.ballotLineResultCalc = ballotLineResultCalc;

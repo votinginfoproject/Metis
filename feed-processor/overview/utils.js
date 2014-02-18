@@ -67,6 +67,31 @@ function addOverviewObjects(first, second) {
   }
 }
 
+function reduceOverviewObject(arr, schemaFieldCount) {
+  var initial = createOverviewObject();
+  return arr.reduce(function(memo, current) {
+    memo.amount++;
+    memo.fieldCount += countProperties(current);
+    memo.schemaFieldCount += schemaFieldCount;
+    return memo;
+  }, initial);
+}
+
+function findOverviewObject(feedId, ids, model, returnTotal) {
+  if(ids === 0) {
+    model.find({ _feed: feedId }, function(err, results) {
+      returnTotal(reduceOverviewObject(results, model.fieldCount));
+    });
+  }
+  else {
+    model.find({ _feed: feedId, _id: { $in: ids } }, function(err, results) {
+      returnTotal(reduceOverviewObject(results, model.fieldCount));
+    });
+  }
+}
+
 exports.countProperties = countProperties;
 exports.createOverviewObject = createOverviewObject;
 exports.addOverviewObjects = addOverviewObjects;
+exports.reduceOverviewObject = reduceOverviewObject;
+exports.findOverviewObject = findOverviewObject;
