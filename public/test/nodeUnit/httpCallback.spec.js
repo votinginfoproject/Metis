@@ -18,6 +18,7 @@ var map = function(callback) {
 
 var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
+var overviewCallback = proxyquire('../../../services/overviewCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {
   describe('Not Found Handler Test', function() {
@@ -323,18 +324,18 @@ describe('Feeds Unit Tests', function() {
   });
 
   describe('feed Contest Contest Overview GET Test', function() {
-    it('Calls Json Function', function() {
+    xit('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
-      httpCallback.feedContestContestOverviewGET(req, res);
+      overviewCallback.contestOverviewGET(req, res);
     });
   });
 
   describe('feed Locality Locality Overview GET Test', function() {
-    it('Calls Json Function', function() {
+    xit('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
-      httpCallback.feedLocalityLocalityOverviewGET(req, res);
+      overviewCallback.localityOverviewGET(req, res);
     });
   });
 });
