@@ -30,10 +30,14 @@ function countProperties(obj){
 
     // ignore properties that start with an underscore _ (these are Mongo added properties)
     // and are "sortOrder"
-    if(property.charAt(0)!=="_" && property !== "sortOrder" && !(objToUse[property] instanceof Array)){
+    if(property.charAt(0)!=="_" &&
+       property !== "sortOrder" &&
+       property !== "ballotResponses" &&
+       property !== "candidates"){
 
-      if(typeof objToUse[property] !== "object"){
-        // not object can count property
+      if(typeof objToUse[property] !== "object" || (objToUse[property] instanceof Array)){
+        // if not object can count property as one count
+        // or if array can count property as one count
         count++;
       } else {
         // found object, call this same function recursively
