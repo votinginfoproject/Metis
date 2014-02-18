@@ -49,16 +49,16 @@ function calculateFields(feedId, saveCalc) {
       saveCalc();
   }
 
-  console.log('Starting PollingLocations Calc...');
+  console.log('Starting Localities Calc...');
   pollinglocations.pollingLocationsCalc(feedId, function(pollinglocationsOverview) {
-    console.log('Finished PollingLocations');
-    createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, -1, 1, feedId);
-    createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, -1, 1, feedId);
-    createOverviewModel('Localities', pollinglocationsOverview.localities, -1, 1, feedId);
-    createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, -1, 1, feedId);
-    createOverviewModel('Precincts', pollinglocationsOverview.precincts, -1, 1, feedId);
-    createOverviewModel('Precinct Splits', pollinglocationsOverview.precinctsplits, -1, 1, feedId);
-    createOverviewModel('Street Segments', pollinglocationsOverview.streetsegments, -1, 1, feedId);
+    console.log('Finished Localities');
+    createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, -1, 0, feedId);
+    createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, -1, 0, feedId);
+    createOverviewModel('Localities', pollinglocationsOverview.localities, -1, 0, feedId);
+    createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, -1, 0, feedId);
+    createOverviewModel('Precincts', pollinglocationsOverview.precincts, -1, 0, feedId);
+    createOverviewModel('Precinct Splits', pollinglocationsOverview.precinctsplits, -1, 0, feedId);
+    createOverviewModel('Street Segments', pollinglocationsOverview.streetsegments, -1, 0, feedId);
     wait();
   });
 
