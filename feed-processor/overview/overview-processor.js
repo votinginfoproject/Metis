@@ -12,6 +12,7 @@ var contests = require('./contests');
 var results = require('./results');
 var contest = require('./contest');
 var locality = require('./locality');
+var pollinglocations = require('./pollinglocations');
 
 var overviewModels = [];
 
@@ -44,9 +45,22 @@ function onSaveComplete(results) {
 function calculateFields(feedId, saveCalc) {
   var calcCount = 0;
   function wait() {
-    if(++calcCount === 4)
+    if(++calcCount === 5)
       saveCalc();
   }
+
+  console.log('Starting PollingLocations Calc...');
+  pollinglocations.pollingLocationsCalc(feedId, function(pollinglocationsOverview) {
+    console.log('Finished PollingLocations');
+    createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, -1, 1, feedId);
+    createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, -1, 1, feedId);
+    createOverviewModel('Localities', pollinglocationsOverview.localities, -1, 1, feedId);
+    createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, -1, 1, feedId);
+    createOverviewModel('Precincts', pollinglocationsOverview.precincts, -1, 1, feedId);
+    createOverviewModel('Precinct Splits', pollinglocationsOverview.precinctsplits, -1, 1, feedId);
+    createOverviewModel('Street Segments', pollinglocationsOverview.streetsegments, -1, 1, feedId);
+    wait();
+  });
 
   console.log('Starting Contests Calc...');
   contests.contestCalc(feedId, function(contestOverview) {
