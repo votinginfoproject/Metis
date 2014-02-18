@@ -387,21 +387,20 @@ exports.initSchemas = function (mongoose) {
 
 
   models.Ballot.fieldCount = utils.countProperties(ballotSchema);
-  models.Contest.fieldCount = utils.countProperties(contestSchema);
-  models.Candidate.fieldCount = utils.countProperties(candidateSchema);
-  models.Referendum.fieldCount = utils.countProperties(referendumSchema);
-  models.ContestResult.fieldCount = utils.countProperties(contestResultSchema);
   models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);
-  models.ElectoralDistrict.fieldCount = utils.countProperties(electoralDistrictSchema);
-  models.Precinct.fieldCount = utils.countProperties(precinctSchema);
-  models.PollingLocation.fieldCount = utils.countProperties(pollingLocationSchema);
-  models.StreetSegment.fieldCount = utils.countProperties(streetSegmentSchema);
-  models.PrecinctSplit.fieldCount = utils.countProperties(precinctSplitSchema);
   models.BallotResponse.fieldCount = utils.countProperties(ballotResponseSchema);
-
+  models.Contest.fieldCount = utils.countProperties(contestSchema);
+  models.ContestResult.fieldCount = utils.countProperties(contestResultSchema);
+  models.Candidate.fieldCount = utils.countProperties(candidateSchema);
   models.EarlyVoteSite.fieldCount = utils.countProperties(earlyVoteSiteSchema);
   models.ElectionAdmin.fieldCount = utils.countProperties(electionAdminSchema);
+  models.ElectoralDistrict.fieldCount = utils.countProperties(electoralDistrictSchema);
   models.Locality.fieldCount = utils.countProperties(localitySchema);
+  models.PollingLocation.fieldCount = utils.countProperties(pollingLocationSchema);
+  models.Precinct.fieldCount = utils.countProperties(precinctSchema);
+  models.PrecinctSplit.fieldCount = utils.countProperties(precinctSplitSchema);
+  models.Referendum.fieldCount = utils.countProperties(referendumSchema);
+  models.StreetSegment.fieldCount = utils.countProperties(streetSegmentSchema);
 };
 
 
