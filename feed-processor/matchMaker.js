@@ -19,10 +19,7 @@ function onUpdate (err, numAffected) {
 
   if (updateCounter <= 0) {
     console.log('****Linking Complete!!!');
-    console.log('Running validation rules.');
-    var RulesTester = require('./rule/rules/rulesTester');
-    var tester = new RulesTester(_models);
-    tester.run(_feedId);
+    process.exit(0);
   }
 };
 
