@@ -311,21 +311,6 @@ function feedBallotReferendumGET(req, res) {
   });
 };
 
-function feedPollingGET (req, res) {
-  var polling = {}; //TODO: get data from the database
-  res.json(mapper.mapPollingSummary(req.path, polling));
-};
-
-function feedContestsGET (req, res) {
-  var contests = {}; //TODO: get data from the database
-  res.json(mapper.mapContests(req.path, contests));
-};
-
-function feedResultsGET (req, res) {
-  var results = {}; //TODO: get data from the database
-  res.json(mapper.mapResults(req.path, results));
-};
-
 function feedHistoryGET (req, res) {
   var history = {}; //TODO: get data from the database
   res.json(mapper.mapHistory(req.path, history));
@@ -381,15 +366,12 @@ exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;
 exports.feedElectionContestsGET = feedElectionContestsGET;
 exports.feedStateElectionAdministrationGET = feedStateElectionAdministrationGET;
 exports.feedLocalityElectionAdministrationGET = feedLocalityElectionAdministrationGET;
-exports.feedPollingGET = feedPollingGET;
-exports.feedContestsGET = feedContestsGET;
 exports.feedContestGET = feedContestGET;
 exports.feedContestElectoralDistrictGET = feedContestElectoralDistrictGET;
 exports.feedPrecinctElectoralDistrictGET = feedPrecinctElectoralDistrictGET;
 exports.feedPrecinctSplitElectoralDistrictGET = feedPrecinctSplitElectoralDistrictGET;
 exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
-exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
 exports.feedContestResultGET = feedContestResultGET;
 exports.feedBallotReferendaGET = feedBallotReferendaGET;

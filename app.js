@@ -12,6 +12,7 @@ var auth = require('./auth');
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
 var errorServices = require('./services/errors');
+var overviewServices = require('./services/overviews');
 
 var app = express();
 
@@ -41,6 +42,7 @@ auth.authSetup(config, passport, config.crowd.uselocalauth);
 authServices.registerAuthServices(config, app, passport);
 feedServices.registerFeedsServices(app);
 errorServices.registerErrorServices(app);
+overviewServices.registerOverviewServices(app);
 
 
 http.createServer(app).listen(config.web.port, function() {

@@ -396,4 +396,16 @@ describe('Feed Mappers Tests', function() {
       expect(res.polling_hours).toBe(location.pollingHours);
     });
   });
+
+  describe('mapOverviewTables' , function() {
+    it('returns the data', function() {
+      var overview = data.overview;
+      var res = mappers.mapOverviewTables(overview);
+
+      expect(res[0].element_type).toBe(overview[0].elementType);
+      expect(res[0].amount).toBe(overview[0].amount);
+      expect(res[0].complete_pct).toBe(overview[0].completePct);
+      expect(res[0].error_count).toBe(overview[0].errorCount);
+    });
+  });
 });

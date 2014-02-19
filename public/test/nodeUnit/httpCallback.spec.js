@@ -18,6 +18,7 @@ var map = function(callback) {
 
 var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
+var overviewCallback = proxyquire('../../../services/overviewCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {
   describe('Not Found Handler Test', function() {
@@ -319,6 +320,46 @@ describe('Feeds Unit Tests', function() {
       daoStub.getBallotLineResult = nodeUtil.daoFunc;
       feedStub.mapBallotLineResult = nodeUtil.feedFunc;
       httpCallback.feedBallotLineResultGET(req, res);
+    });
+  });
+
+  describe('Contest Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.contestOverviewGET(req, res);
+    });
+  });
+
+  describe('Locality Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.localityOverviewGET(req, res);
+    });
+  });
+
+  describe('Contests Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.contestsOverviewGET(req, res);
+    });
+  });
+
+  describe('Localities Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.localitiesOverviewGET(req, res);
+    });
+  });
+
+  describe('Results Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.resultsOverviewGET(req, res);
     });
   });
 });

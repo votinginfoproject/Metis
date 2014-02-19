@@ -14,7 +14,8 @@ describe('Feed Contests Unit Tests', function() {
         getFeedData: karmaUtil.setupServiceFunc($injector),
         getFeedLocality: karmaUtil.setupServiceFunc($injector),
         getFeedLocalityEarlyVoteSites: karmaUtil.setupServiceFunc($injector),
-        getFeedLocalityPrecincts: karmaUtil.setupServiceFunc($injector)
+        getFeedLocalityPrecincts: karmaUtil.setupServiceFunc($injector),
+        getFeedLocalityOverview: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');

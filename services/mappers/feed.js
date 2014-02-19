@@ -121,32 +121,7 @@ var mapLocality = function(path, locality) {
     type: locality.type,
     election_machine_type: "Requires 5.0 Schema",
     poll_book_type: "Requires 5.0 Schema",
-    overview: [ //TODO
-      {
-        element_type: 'Electoral Districts',
-        amount: 0,
-        complete_pct: 0,
-        error_count: 0
-      },
-      {
-        element_type: 'Precincts',
-        amount: 2564,
-        complete_pct: 94,
-        error_count: 206
-      },
-      {
-        element_type: 'Precinct Splits',
-        amount: 2311,
-        complete_pct: 12,
-        error_count: 322
-      },
-      {
-        element_type: 'Street Segments',
-        amount: 234,
-        complete_pct: 19,
-        error_count: 4223
-      }
-    ],
+    overview: _path.join(path, '/localityoverview'),
     administration: locality._electionAdministration ? {
       id: locality._electionAdministration.elementId,
       name: locality._electionAdministration.name,
@@ -296,7 +271,7 @@ function mapContest (path, contest) {
     number_elected: contest.numberElected,
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
-    overview: mapContestOverview(null, null), //TODO: replace with real data
+    overview: _path.join(path, '/contestoverview'),
     ballot: contest._ballot ? {
       id: contest._ballot.elementId,
       candidate_count: contest._ballot.candidates ? contest._ballot.candidates.length : 0,
@@ -346,46 +321,17 @@ var mapPolling = function(path, data) {
   ];
 };
 
-var mapContests = function(path, data) {
-  return [ //TODO: All of these are hardcoded currently
-    {
-      element_type: 'Contests',
-      amount: 976,
-      complete_pct: 0,
-      error_count: 14
-    },
-    {
-      element_type: 'Ballots',
-      amount: 976,
-      complete_pct: 38,
-      error_count: 140
-    },
-    {
-      element_type: 'Candidates',
-      amount: 1761,
-      complete_pct: 91,
-      error_count: 1156
-    }
-  ];
-};
-
-
-
-var mapResults = function(path, data) {
-  return [ //TODO: All of these are hardcoded currently
-    {
-      element_type: 'Contest Results',
-      amount: 0,
-      complete_pct: 0,
-      error_count: 0
-    },
-    {
-      element_type: 'Ballot Line Results',
-      amount: 10,
-      complete_pct: 100,
-      error_count: 2
-    }
-  ];
+var mapOverviewTables = function(data) {
+  var overview = [];
+  data.forEach(function(element) {
+    overview.push({
+      element_type: element.elementType,
+      amount: element.amount,
+      complete_pct: element.completePct,
+      error_count: element.errorCount
+    });
+  });
+  return overview;
 };
 
 var mapHistory = function(path, data) {
@@ -694,42 +640,6 @@ function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
   };
 }
 
-var mapContestOverview = function(path, data) { //TODO
-  return [
-    {
-      element_type: 'Ballots',
-      amount: 976,
-      complete_pct: 38,
-      error_count: 140
-    },
-    {
-      element_type: 'Candidates',
-      amount: 1761,
-      complete_pct: 91,
-      error_count: 1156
-    },
-    {
-      element_type: 'Referendums',
-      amount: 123,
-      complete_pct: 52,
-      error_count: 640
-    },
-    {
-      element_type: 'Custom Ballots',
-      amount: 99,
-      complete_pct: 100,
-      error_count: 0
-    },
-    {
-      element_type: 'Ballot Responses',
-      amount: 1003,
-      complete_pct: 10,
-      error_count: 460
-    }
-  ];
-};
-
-
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -746,8 +656,6 @@ exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapPollingSummary = mapPolling;
-exports.mapContests = mapContests;
-exports.mapResults = mapResults;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapStreetSegmentsErrors = mapStreetSegmentsErrors;
@@ -758,7 +666,6 @@ exports.mapElectionAdministration = mapElectionAdministration;
 exports.mapContest = mapContest;
 exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
-exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
 exports.mapContestResult = resultsMapper.mapContestResult;
 exports.mapBallotLineResults = resultsMapper.mapBallotLineResults;
@@ -766,3 +673,4 @@ exports.mapBallotLineResult = resultsMapper.mapBallotLineResult;
 exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
 exports.mapPollingLocation = mapPollingLocation;
+exports.mapOverviewTables = mapOverviewTables;

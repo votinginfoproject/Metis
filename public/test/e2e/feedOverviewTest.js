@@ -36,7 +36,19 @@ describe('Feed Overview Test', function () {
     // check the the number of items
     it('Should have polling locations', function () {
 
+      // let's make sure we have the various sections available in the polling locations section
       expect(element('#pollingLocation0').count()).toBe(1);
+      //...
+      expect(element('#pollingLocation6').count()).toBe(1);
+
+
+      expect(element('#pollingLocation-element-type0').html()).toBe("Early Vote Sites");
+      expect(element('#pollingLocation-element-type1').html()).toBe("Election Administrations");
+      expect(element('#pollingLocation-element-type2').html()).toBe("Localities");
+      expect(element('#pollingLocation-element-type3').html()).toBe("Polling Locations");
+      expect(element('#pollingLocation-element-type4').html()).toBe("Precincts");
+      expect(element('#pollingLocation-element-type5').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type6').html()).toBe("Street Segments");
     });
 
   });

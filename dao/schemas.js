@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var Types = mongoose.Schema.Types;
 var config = require('../config');
 
+var utils = require('../feed-processor/overview/utils');
+
 var models = {};
 
 var simpleAddressSchema = {
@@ -588,10 +590,10 @@ var streetSegmentErrorSchema = {
 };
 
 var overviewSchema = {
-  element_type: String,
+  elementType: String,
   amount: Number,
-  complete_pct: Number,
-  error_count: Number,
+  completePct: Number,
+  errorCount: Number,
   section: Number,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -649,6 +651,21 @@ exports.initSchemas = function (mongoose) {
 
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
+  models.Ballot.fieldCount = utils.countProperties(ballotSchema);
+  models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);
+  models.BallotResponse.fieldCount = utils.countProperties(ballotResponseSchema);
+  models.Contest.fieldCount = utils.countProperties(contestSchema);
+  models.ContestResult.fieldCount = utils.countProperties(contestResultSchema);
+  models.Candidate.fieldCount = utils.countProperties(candidateSchema);
+  models.EarlyVoteSite.fieldCount = utils.countProperties(earlyVoteSiteSchema);
+  models.ElectionAdmin.fieldCount = utils.countProperties(electionAdminSchema);
+  models.ElectoralDistrict.fieldCount = utils.countProperties(electoralDistrictSchema);
+  models.Locality.fieldCount = utils.countProperties(localitySchema);
+  models.PollingLocation.fieldCount = utils.countProperties(pollingLocationSchema);
+  models.Precinct.fieldCount = utils.countProperties(precinctSchema);
+  models.PrecinctSplit.fieldCount = utils.countProperties(precinctSplitSchema);
+  models.Referendum.fieldCount = utils.countProperties(referendumSchema);
+  models.StreetSegment.fieldCount = utils.countProperties(streetSegmentSchema);
 };
 
 

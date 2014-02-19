@@ -30,9 +30,9 @@ var util = {
 
   daoFunc: function(feedId, first, second) {
     if(!second)
-      first(null, feedId);
+      first(null, [feedId]);
     else
-      second(null, first);
+      second(null, [first]);
   },
 
   feedFunc: function(path, election) {

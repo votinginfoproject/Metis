@@ -130,6 +130,7 @@ Note that the ID attributes are unique throughout the file.
 		<ballot_style_image_url>http://www.example.com/precinct_split_101_ballot.pdf</ballot_style_image_url>
 		<polling_location_id>20141</polling_location_id>
 		<polling_location_id>20142</polling_location_id>
+		<polling_location_id>20121</polling_location_id>
 	</precinct_split>
 	<precinct_split id="30102">
 		<name>Fake Twp-B</name>
