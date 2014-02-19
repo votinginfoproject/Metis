@@ -374,6 +374,14 @@ function getOverviewTable(feedId, section, callback) {
     .exec(callback);
 }
 
+function getCounties(stateId, callback) {
+  daoSchemas.models.County.find({ stateFIPS: stateId }, callback);
+}
+
+function getCounty(countyId, callback) {
+  daoSchemas.models.County.find({ countyFIPS: countyId }, callback);
+}
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -413,3 +421,6 @@ exports.getContestBallotLineResults = getContestBallotLineResults;
 exports.getBallotLineResult = getBallotLineResult;
 exports.dbConnect = dbConnect;
 exports.getOverviewTable = getOverviewTable;
+
+exports.getCounties = getCounties;
+exports.getCounty = getCounty;
