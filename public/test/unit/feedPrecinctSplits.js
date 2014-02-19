@@ -2,61 +2,23 @@
  * Created by rcartier13 on 1/17/14.
  */
 
-describe('Feed Contests Unit Tests', function() {
+describe('Feed Precinct Splits Unit Tests', function() {
 
-  describe('Feed Contests Controller Test', function() {
+  describe('Feed Precicnt Splits Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
-    var feedCtrl = null;
-    var mockService;
     var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedPrecinctSplits: function() {
-          var http = $injector.get('$http');
-          return http.get("/PrecinctSplits")
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedPrecinctSplits: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
-      $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/PrecinctSplits').respond(feedData);
-
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-      var $filter = $injector.get('$filter');
-      var $appProperties = {highPagination: 30, lowPagination: 10};
-      function ngTableParams (defaults) {
-        this.page = defaults.page;
-        this.count = defaults.count;
-        this.sorting = defaults.sorting;
-      }
-
-      var routeParams = { vipfeed: 'something' };
-      $rootScope.pageHeader = {};
-      $rootScope.feedData = {};
-
-      $rootScope.setPageHeader = function() {}
-      $rootScope.createTableParams = function() {};
-      $rootScope.getBreadCrumbs = function() {};
-      $rootScope.getServiceUrl = function() {};
-
-      feedCtrl = $controller('FeedPrecinctSplitsCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$appProperties': $appProperties,
-        ngTableParams: ngTableParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedPrecinctSplitsCtrl', mockService);
     }));
 
     afterEach(function() {

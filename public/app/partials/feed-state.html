@@ -1,6 +1,6 @@
 <i id="feed-state-content"></i>
 
-<a ng-if="feedState.error_count" class="error-count" href="/feeds/vipfeed-37-2012-11-06-2/election/state/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a> <mark>link</mark>
+<a ng-if="feedState.error_count" id="state-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>
@@ -14,11 +14,11 @@
   <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
          template-pagination="earlyVotePagination" class="associations">
     <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
-      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="no-page">{{earlyVoteSite.id}}</a>
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.id}}</a>
       </td>
-      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="no-page">{{earlyVoteSite.name}}</a>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.name}}</a>
       </td>
-      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="no-page">{{earlyVoteSite.address}}</a>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.address}}</a>
       </td>
     </tr>
   </table>
@@ -73,11 +73,11 @@
          class="associations">
     <tr id="locality{{$index}}" ng-repeat="locality in $data">
       <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a
-        href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.id}}</a></td>
+        href="{{locality.self}}">{{locality.id}}</a></td>
       <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a
-        href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.name}}</a></td>
+        href="{{locality.self}}">{{locality.name}}</a></td>
       <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a
-        href="{{$location.absUrl()}}/localities/{{locality.id}}">{{locality.precincts}}</a></td>
+        href="{{locality.self}}">{{locality.precincts}}</a></td>
     </tr>
   </table>
 

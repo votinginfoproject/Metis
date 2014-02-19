@@ -74,10 +74,25 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedContestCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresults.html',
+      controller: 'FeedBallotLineResultsCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresult.html',
+      controller: 'FeedBallotLineResultCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/contestresult', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-contestresult.html',
+      controller: 'FeedContestResultCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballot.html',
       controller: 'FeedBallotCtrl'
-    })
+    });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-candidates.html',
@@ -87,6 +102,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-candidate.html',
       controller: 'FeedCandidateCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-referenda.html',
+      controller: 'FeedReferendaCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-referendum.html',
+      controller: 'FeedReferendumCtrl'
     });
 
     $routeProvider.when('/feeds/:vipfeed/election/state', {
@@ -119,10 +144,27 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedPrecinctCtrl'
     });
 
-    // all electoral districts pages can now go to the same html partial and the same angular controller
+    // all polling location pages can now go to the same html partial and the same angular controller
     $routeProvider
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' })
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' });
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/pollinglocations/:pollinglocation', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocation.html', controller: 'FeedPollingLocationCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/pollinglocations', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocations.html', controller: 'FeedPollingLocationsCtrl' });
+
+    // all polling locations pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/pollinglocations/:pollinglocation', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocation.html', controller: 'FeedPollingLocationCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/pollinglocations', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-pollinglocations.html', controller: 'FeedPollingLocationsCtrl' });
+
+    // all early vote site pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesite.html', controller: 'FeedEarlyVoteSiteCtrl' });
+
+    // all early vote sites pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-earlyvotesites.html', controller: 'FeedEarlyVoteSitesCtrl' });
 
     // all electoral district pages can now go to the same html partial and the same angular controller
     $routeProvider
@@ -130,7 +172,12 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' })
       .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistrict.html', controller: 'FeedElectoralDistrictCtrl' });
 
-    $routeProvider.when('/afeeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
+    // all electoral districts pages can now go to the same html partial and the same angular controller
+    $routeProvider
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' })
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electoraldistricts.html', controller: 'FeedElectoralDistrictsCtrl' });
+
+    $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-precinctsplits.html',
       controller: 'FeedPrecinctSplitsCtrl'
     });
@@ -141,9 +188,33 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     });
 
     // all errors can now go to the same html partial and the same angular controller
+    var error = { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' };
     $routeProvider
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors',{ templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' })
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' });
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
+      .when('/feeds/:vipfeed/source/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate/errors', error)
+      .when('/feeds/:vipfeed/election/contest/:contest/ballot/referenda/:referendum/errors', error)
+      .when('/feeds/:vipfeed/election/state/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/errors', error)
+      .when('/feeds/:vipfeed/election/state/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/errors', error)
+      .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/errors', error)
+      .when('/feeds/:vipfeed/election/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/errors', error)
+      .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error);
 
     // done
     $routeProvider.when('/template/feed', {
@@ -398,11 +469,26 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   };
 
   /*
-   * Currently takes the current URL path and turns it into a service path used
-   * to get the data for the current page
+   * Takes a URL path and turns it into a service path used to get the data for the current page
    */
   $rootScope.getServiceUrl = function(urlPath){
     return "/services" + urlPath;
+  }
+
+  /*
+   * Turns a service URL into the equeivlant Angular path
+   */
+  $rootScope.getAngularUrl = function(urlPath){
+    return urlPath.replace("/services/","/#/")
+  }
+
+  /*
+   * Turns an array that has a "self" property and changes the values to be the AngularPath equeivlant
+   */
+  $rootScope.changeSelfToAngularPath = function(arr){
+    for(var i=0; i< arr.length; i++){
+      arr[i].self = $rootScope.getAngularUrl(arr[i].self);
+    }
   }
 
   /*
@@ -451,6 +537,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "electoraldistrict"){
         name = "electoral district";
+      }
+
+      if(name === "earlyvotesites"){
+        name = "early vote sites";
+      }
+
+      if(name === "pollinglocations"){
+        name = "polling locations";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)

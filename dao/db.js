@@ -214,7 +214,7 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
 
 function feedContest (feedId, contestId, callback) {
   daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot _electoralDistrict _contestResults _ballotLineResults')
+    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults')
     .exec(callback);
 };
 
@@ -228,7 +228,7 @@ function feedContestElectoralDistrict(feedId, contestId, callback) {
       [
         { path: '_contest', model: daoSchemas.models.Contest.modelName },
         { path: '_precincts', model: daoSchemas.models.Precinct.modelName },
-        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName },
+        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName }
       ]);
   }).then(function(electoralDistrict) {
       electoralDistrict.populate(
@@ -246,7 +246,7 @@ function feedElectoralDistrict(feedId, districtId, callback) {
       [
         { path: '_contest', model: daoSchemas.models.Contest.modelName },
         { path: '_precincts', model: daoSchemas.models.Precinct.modelName },
-        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName },
+        { path: '_precinctSplits', model: daoSchemas.models.PrecinctSplit.modelName }
       ]);
   }).then(function(electoralDistrict) {
       electoralDistrict.populate(
@@ -300,6 +300,75 @@ function feedCandidate(feedId, candidateId, callback) {
   daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId }, callback);
 };
 
+function feedBallotReferenda(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballot')
+    .exec();
+
+  promise.then(function(contest) {
+    if (contest && contest._ballot) {
+      return daoSchemas.models.Ballot.populate(contest._ballot, '_referenda');
+    } else {
+      callback(undefined, null);
+    }
+  }).then(function(ballot) {
+      daoSchemas.models.BallotResponse.populate(ballot._referenda, 'ballotResponses._response', callback);
+    });
+};
+
+function feedBallotReferendum(feedId, referendumId, callback) {
+  daoSchemas.models.Referendum
+    .findOne({ _feed: feedId, elementId: referendumId })
+    .populate('ballotResponses._response')
+    .exec(callback);
+};
+
+function getPollingLocation(feedId, pollingLocationId, callback) {
+  daoSchemas.models.PollingLocation
+    .findOne({ _feed: feedId, elementId: pollingLocationId })
+    .populate('_precincts _precinctSplits')
+    .exec(callback);
+};
+
+function getContestResult(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_contestResult')
+    .exec();
+
+  promise.then(function(contest) {
+    return daoSchemas.models.ContestResult.populate(contest._contestResult, '_contest _state _locality _precinct _precinctSplit _electoralDistrict');
+  }).then(function(contestResult) {
+      contestResult.populate(
+        { path: '_precinctSplit._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
+        callback);
+    });
+}
+
+function getContestBallotLineResults(feedId, contestId, callback) {
+  var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballotLineResults')
+    .exec()
+
+  promise.then(function(contest) {
+    if (contest) {
+      callback(undefined, contest._ballotLineResults);
+    } else { callback(undefined, null); }
+
+  });
+}
+
+function getBallotLineResult(feedId, blrId, callback) {
+  var promise = daoSchemas.models.BallotLineResult.findOne({ _feed: feedId, elementId: blrId })
+    .populate('_contest _candidate _ballotResponse _state _locality _precinct _precinctSplit _electoralDistrict')
+    .exec();
+
+  promise.then(function(blr) {
+    blr.populate(
+      { path: '_precinctSplit._precinct', select: 'localityId', model: daoSchemas.models.Precinct.modelName },
+      callback);
+  });
+}
+
 exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
@@ -331,4 +400,10 @@ exports.feedElectoralDistrict = feedElectoralDistrict;
 exports.feedBallotCandidates = feedBallotCandidates;
 exports.feedContestBallot = feedContestBallot;
 exports.feedCandidate = feedCandidate;
+exports.feedBallotReferenda = feedBallotReferenda;
+exports.feedBallotReferendum = feedBallotReferendum;
+exports.getPollingLocation = getPollingLocation;
+exports.getContestResult = getContestResult;
+exports.getContestBallotLineResults = getContestBallotLineResults;
+exports.getBallotLineResult = getBallotLineResult;
 exports.dbConnect = dbConnect;

@@ -26,6 +26,7 @@ module.exports = function(config) {
       'public/assets/js/app/app.js',
       'public/assets/js/app/services/*.js',
       'public/assets/js/app/controllers/*.js',
+      'public/test/unit/KarmaUtil.js',
       'public/test/unit/*.js'
     ],
 

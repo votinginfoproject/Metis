@@ -58,15 +58,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedContest: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedContestBallot: function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedContestContestResults : function (servicePath) {
-      return $http.get(servicePath);
-    },
-    getFeedContestBallotLineResults: function (servicePath) {
-      return $http.get(servicePath);
-    },
 
     // Feed state page
     // ========================================================
@@ -134,6 +125,28 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
 
+    // Feed Early Vote Site pages (multiple)
+    // ========================================================
+    getFeedEarlyVoteSite: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Early Vote Sites pages (multiple)
+    // ========================================================
+    getFeedEarlyVoteSites: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Polling Location pages (multiple)
+    // ========================================================
+    getFeedPollingLocation: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Polling Locations pages (multiple)
+    // ========================================================
+    // can be found above in the overview section
+
     // Feed Electoral Districts pages (multiple)
     // ========================================================
     getFeedElectoralDistricts: function (servicePath) {
@@ -167,6 +180,30 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // Feed Ballot page
     // ========================================================
     getFeedBallot: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Referendum page
+    // ========================================================
+    getFeedReferendum: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Referenda page
+    // ========================================================
+    getFeedReferenda: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Contest Result page
+    // ========================================================
+    getFeedContestResult: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed Ballot Line Result page
+    // ========================================================
+    getFeedBallotLineResult: function (servicePath) {
       return $http.get(servicePath);
     }
   };

@@ -49,7 +49,6 @@ function FeedBallotCtrl_getFeedBallot($scope, $rootScope, $feedsService, service
 
       $scope.ballotCandidatesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.candidates, $appProperties.lowPagination, { id: 'asc' });
       $scope.referendaTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.referenda, $appProperties.lowPagination, { id: 'asc' });
-      $scope.customBallotResponsesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.custom_ballot.ballot_responses, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function(data) {
       $rootScope.pageHeader.error += "Could not retrieve Ballot data."

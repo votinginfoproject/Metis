@@ -6,7 +6,7 @@ var proxyquire = require('proxyquire');
 var nodeUtil = require('./nodeUtil');
 var daoStub = { };
 var feedStub = { };
-var res = {};
+var res = { };
 
 res.json = function(something) {
   expect(true).toBeTruthy();
@@ -16,7 +16,7 @@ var map = function(callback) {
   callback(null);
 };
 
-var req = { path: 0, params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8} };
+var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
 describe('Feeds Unit Tests', function() {
@@ -234,6 +234,30 @@ describe('Feeds Unit Tests', function() {
     });
   });
 
+  describe('Feed Contest Electoral District GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedContestElectoralDistrict = nodeUtil.daoFunc;
+      feedStub.mapElectoralDistrict = nodeUtil.feedFunc;
+      httpCallback.feedContestElectoralDistrictGET(req, res);
+    });
+  });
+
+  describe('Feed Precinct Electoral District GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedElectoralDistrict = nodeUtil.daoFunc;
+      feedStub.mapElectoralDistrict = nodeUtil.feedFunc;
+      httpCallback.feedPrecinctElectoralDistrictGET(req, res);
+    });
+  });
+
+  describe('Feed Precinct Split Electoral District GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedElectoralDistrict = nodeUtil.daoFunc;
+      feedStub.mapElectoralDistrict = nodeUtil.feedFunc;
+      httpCallback.feedPrecinctSplitElectoralDistrictGET(req, res);
+    });
+  });
+
   describe('Feed Contest Ballot GET Test', function() {
     it('Calls Json Function', function() {
       daoStub.feedContestBallot = nodeUtil.daoFunc;
@@ -255,6 +279,46 @@ describe('Feeds Unit Tests', function() {
       daoStub.feedCandidate = nodeUtil.daoFunc;
       feedStub.mapCandidate = nodeUtil.feedFunc;
       httpCallback.feedCandidateGET(req, res);
+    });
+  });
+
+  describe('Feed Ballot Referenda GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedBallotReferenda = nodeUtil.daoFunc;
+      feedStub.mapReferenda = nodeUtil.feedFunc;
+      httpCallback.feedBallotReferendaGET(req, res);
+    });
+  });
+
+  describe('Feed Ballot Referendum GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.feedBallotReferendum = nodeUtil.daoFunc;
+      feedStub.mapReferendum = nodeUtil.feedFunc;
+      httpCallback.feedBallotReferendumGET(req, res);
+    });
+  });
+
+  describe('Feed Contest Result GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getContestResult = nodeUtil.daoFunc;
+      feedStub.mapContestResult = nodeUtil.feedFunc;
+      httpCallback.feedContestResultGET(req, res);
+    });
+  });
+
+  describe('Feed Contest Ballot Line Results GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getContestBallotLineResults = nodeUtil.daoFunc;
+      feedStub.mapBallotLineResults = nodeUtil.feedFunc;
+      httpCallback.feedContestBallotLineResultsGET(req, res);
+    });
+  });
+
+  describe('Feed Ballot Line Result GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getBallotLineResult = nodeUtil.daoFunc;
+      feedStub.mapBallotLineResult = nodeUtil.feedFunc;
+      httpCallback.feedBallotLineResultGET(req, res);
     });
   });
 });

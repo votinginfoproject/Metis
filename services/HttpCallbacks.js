@@ -133,6 +133,14 @@ function feedPrecinctPollingLocationsGET (req, res) {
   });
 };
 
+function feedPrecinctPollingLocationGET(req, res) {
+  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+    notFoundHandler(res, err, pollingLocation, function() {
+      res.json(mapper.mapPollingLocation(req.path, pollingLocation));
+    });
+  });
+};
+
 function feedPrecinctPrecinctSplitsGET (req, res) {
   dao.getPrecinctPrecinctSplits(req.params.feedid, req.params.precinctid, function (err, precinctSplits) {
     notFoundHandler(res, err, precinctSplits, function() {
@@ -147,11 +155,6 @@ function feedPrecinctStreetSegmentsGET (req, res) {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
   });
-};
-
-function feedPrecinctStreetSegmentsErrorsGET (req, res) {
-  var streetSegments = {}; //TODO: get data from the database
-  res.json(mapper.mapStreetSegmentsErrors(req.path, streetSegments));
 };
 
 function feedElectionContestsGET (req, res) {
@@ -188,17 +191,22 @@ function feedPrecinctSplitPollingLocationsGET (req, res) {
   });
 };
 
+function feedPrecinctSplitPollingLocationGET(req, res) {
+  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+    notFoundHandler(res, err, pollingLocation, function() {
+      //Use ../.. to normalize the path so the same code can be used for Precinct Polling Locations
+      // and Precinct Split Polling Locations
+      res.json(mapper.mapPollingLocation(_path.join(req.path, '../..'), pollingLocation));
+    });
+  });
+};
+
 function feedPrecinctSplitStreetSegmentsGET (req, res) {
   dao.feedPrecinctSplitStreetSegments(req.params.feedid, req.params.splitid, function (err, streetSegments) {
     notFoundHandler(res, err, streetSegments, function () {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
   });
-};
-
-function feedPrecinctSplitStreetSegmentsErrorsGET (req, res) {
-  var streetSegments = {}; //TODO: get data from the database
-  res.json(mapper.mapStreetSegmentsErrors2(req.path, streetSegments));
 };
 
 function feedEarlyVoteSiteGET (req, res) {
@@ -287,6 +295,22 @@ function feedCandidateGET (req, res) {
   });
 };
 
+function feedBallotReferendaGET(req, res) {
+  dao.feedBallotReferenda(req.params.feedid, req.params.contestid, function (err, referenda) {
+    notFoundHandler(res, err, referenda, function () {
+      res.json(mapper.mapReferenda(req.path, referenda));
+    });
+  });
+};
+
+function feedBallotReferendumGET(req, res) {
+  dao.feedBallotReferendum(req.params.feedid, req.params.referendumid, function (err, referendum) {
+    notFoundHandler(res, err, referendum, function () {
+      res.json(mapper.mapReferendum(referendum));
+    });
+  });
+};
+
 function feedPollingGET (req, res) {
   var polling = {}; //TODO: get data from the database
   res.json(mapper.mapPollingSummary(req.path, polling));
@@ -307,15 +331,30 @@ function feedHistoryGET (req, res) {
   res.json(mapper.mapHistory(req.path, history));
 };
 
-function feedContestContestResultsGET (req, res) {
-  var results = {};//TODO: get data from the database
-  res.json(mapper.mapContestContestResults(req.path, results));
+function feedContestResultGET (req, res) {
+  dao.getContestResult(req.params.feedid, req.params.contestid, function(err, contestResult) {
+    notFoundHandler(res, err, contestResult, function () {
+      res.json(mapper.mapContestResult(req.path, contestResult));
+    });
+  });
 }
 
 function feedContestBallotLineResultsGET (req, res) {
-  var results = {};//TODO: get data from the database
-  res.json(mapper.mapContestBallotLineResults(req.path, results));
-};
+  dao.getContestBallotLineResults(req.params.feedid, req.params.contestid, function(err, results) {
+    notFoundHandler(res, err, results, function() {
+      res.json(mapper.mapBallotLineResults(req.path, results));
+    });
+  });
+}
+
+function feedBallotLineResultGET(req, res) {
+  dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
+    notFoundHandler(res, err, blr, function() {
+      res.json(mapper.mapBallotLineResult(req.path, blr));
+    });
+  });
+}
+
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;
@@ -330,14 +369,14 @@ exports.feedPrecinctGET = feedPrecinctGET;
 exports.feedPrecinctEarlyVoteSitesGET = feedPrecinctEarlyVoteSitesGET;
 exports.feedPrecinctElectoralDistrictsGET = feedPrecinctElectoralDistrictsGET;
 exports.feedPrecinctPollingLocationsGET = feedPrecinctPollingLocationsGET;
+exports.feedPrecinctPollingLocationGET = feedPrecinctPollingLocationGET;
 exports.feedPrecinctPrecinctSplitsGET = feedPrecinctPrecinctSplitsGET;
 exports.feedPrecinctStreetSegmentsGET = feedPrecinctStreetSegmentsGET;
-exports.feedPrecinctStreetSegmentsErrorsGET = feedPrecinctStreetSegmentsErrorsGET;
 exports.feedPrecinctSplitGET = feedPrecinctSplitGET;
 exports.feedPrecinctSplitElectoralDistrictsGET = feedPrecinctSplitElectoralDistrictsGET;
 exports.feedPrecinctSplitPollingLocationsGET = feedPrecinctSplitPollingLocationsGET;
+exports.feedPrecinctSplitPollingLocationGET = feedPrecinctSplitPollingLocationGET;
 exports.feedPrecinctSplitStreetSegmentsGET = feedPrecinctSplitStreetSegmentsGET;
-exports.feedPrecinctSplitStreetSegmentsErrorsGET = feedPrecinctSplitStreetSegmentsErrorsGET;
 exports.feedEarlyVoteSiteGET = feedEarlyVoteSiteGET;
 exports.feedElectionContestsGET = feedElectionContestsGET;
 exports.feedStateElectionAdministrationGET = feedStateElectionAdministrationGET;
@@ -352,6 +391,9 @@ exports.feedContestBallotGET = feedContestBallotGET;
 exports.feedBallotCandidatesGET = feedBallotCandidatesGET;
 exports.feedResultsGET = feedResultsGET;
 exports.feedHistoryGET = feedHistoryGET;
-exports.feedContestContestResultsGET = feedContestContestResultsGET;
-exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedContestResultGET = feedContestResultGET;
+exports.feedBallotReferendaGET = feedBallotReferendaGET;
+exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
+exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
+exports.feedBallotLineResultGET = feedBallotLineResultGET;

@@ -8,56 +8,18 @@ describe('Feed Contest Unit Tests', function() {
   describe('Feed Contest Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
-    var feedCtrl = null;
-    var mockService;
     var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedContest: function() {
-          var http = $injector.get('$http');
-          return http.get("/Contest");
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedContest: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
-      $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/Contest').respond(feedData);
-
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-      var $filter = $injector.get('$filter');
-      var $appProperties = {highPagination: 30, lowPagination: 10};
-
-      function ngTableParams (defaults) {
-        this.page = defaults.page;
-        this.count = defaults.count;
-        this.sorting = defaults.sorting;
-      }
-
-      var routeParams = { vipfeed: 'something' };
-      $rootScope.pageHeader = {};
-
-      $rootScope.setPageHeader = function() {}
-      $rootScope.createTableParams = function() {};
-      $rootScope.getBreadCrumbs = function() {};
-      $rootScope.getServiceUrl = function() {};
-
-      feedCtrl = $controller('FeedContestCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$appProperties': $appProperties,
-        ngTableParams: ngTableParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedContestCtrl', mockService);
     }));
 
     afterEach(function() {

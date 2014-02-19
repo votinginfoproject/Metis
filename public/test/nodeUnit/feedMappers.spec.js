@@ -287,12 +287,12 @@ describe('Feed Mappers Tests', function() {
       expect(res.electoral_district.name).toBe(contest._electoralDistrict.name);
       expect(res.electoral_district.precincts).toBe(contest._electoralDistrict._precincts.length);
       expect(res.electoral_district.precinct_splits).toBe(contest._electoralDistrict._precinctSplits.length);
-      expect(res.contest_results.id).toBe(contest._contestResults.elementId);
-      expect(res.contest_results.votes).toBe(contest._contestResults.totalVotes);
-      expect(res.contest_results.valid_votes).toBe(contest._contestResults.totalValidVotes);
-      expect(res.contest_results.overvotes).toBe(contest._contestResults.overvotes);
-      expect(res.contest_results.blank_votes).toBe(contest._contestResults.blankVotes);
-      expect(res.contest_results.certification).toBe(contest._contestResults.certification);
+      expect(res.contest_result.id).toBe(contest._contestResult.elementId);
+      expect(res.contest_result.votes).toBe(contest._contestResult.totalVotes);
+      expect(res.contest_result.valid_votes).toBe(contest._contestResult.totalValidVotes);
+      expect(res.contest_result.overvotes).toBe(contest._contestResult.overvotes);
+      expect(res.contest_result.blank_votes).toBe(contest._contestResult.blankVotes);
+      expect(res.contest_result.certification).toBe(contest._contestResult.certification);
       expect(res.ballot_line_results.id).toBe(contest._ballotLineResults.data.elementId);
       expect(res.ballot_line_results.candidate_id).toBe(contest._ballotLineResults.data.candidateId);
       expect(res.ballot_line_results.response_id).toBe(contest._ballotLineResults.data.ballotResponseId);
@@ -315,6 +315,39 @@ describe('Feed Mappers Tests', function() {
       expect(res.custom_ballot.ballot_responses.id).toBe(ballot._customBallot.ballotResponses.data._response.elementId);
       expect(res.custom_ballot.ballot_responses.text).toBe(ballot._customBallot.ballotResponses.data._response.text);
       expect(res.custom_ballot.ballot_responses.sort_order).toBe(ballot._customBallot.ballotResponses.data._response.sortOrder);
+    });
+  });
+
+  describe('mapReferenda Test', function() {
+    it('returns the data', function() {
+      var referenda = data.referenda;
+      data.mapFunc.map = function(callback) {
+        return callback(referenda);
+      };
+      var res = mappers.mapReferenda('path', data.mapFunc);
+
+      expect(res.id).toBe(referenda.elementId);
+      expect(res.title).toBe(referenda.title);
+    });
+  });
+
+  describe('mapReferendum Test', function() {
+    it('returns the data', function() {
+      var referendum = data.referendum;
+      var res = mappers.mapReferendum(referendum);
+
+      expect(res.id).toBe(referendum.elementId);
+      expect(res.title).toBe(referendum.title);
+      expect(res.subtitle).toBe(referendum.subtitle);
+      expect(res.brief).toBe(referendum.brief);
+      expect(res.text).toBe(referendum.text);
+      expect(res.pro_statement).toBe(referendum.proStatement);
+      expect(res.con_statement).toBe(referendum.conStatement);
+      expect(res.passage_threshold).toBe(referendum.passageThreshold);
+      expect(res.effect_of_abstain).toBe(referendum.effectOfAbstain);
+      expect(res.ballot_responses.id).toBe(data.ballotResponse._response.elementId);
+      expect(res.ballot_responses.text).toBe(data.ballotResponse._response.text);
+      expect(res.ballot_responses.sort_order).toBe(data.ballotResponse._response.sortOrder)
     });
   });
 
@@ -348,6 +381,19 @@ describe('Feed Mappers Tests', function() {
       nodeUtil.testMapperAddress(res.filed_mailing_address, candidate.filedMailingAddress)
       expect(res.email).toBe(candidate.email);
       expect(res.sort_order).toBe(candidate.sortOrder);
+    });
+  });
+
+  describe('mapPollingLocation', function() {
+    it('returns the data', function() {
+      var location = data.pollingLocation;
+      var res = mappers.mapPollingLocation('path', location);
+
+      expect(res.id).toBe(location.elementId);
+      nodeUtil.testMapperAddress(res.address, location.address);
+      expect(res.directions).toBe(location.directions);
+      expect(res.photo_url).toBe(location.photoUrl);
+      expect(res.polling_hours).toBe(location.pollingHours);
     });
   });
 });

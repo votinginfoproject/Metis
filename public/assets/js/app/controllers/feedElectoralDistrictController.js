@@ -10,7 +10,7 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedsService, $routePara
   $scope.vipfeed = feedid;
 
   // create a unique id for this page based on the breadcrumbs
-  $scope.pageId = $rootScope.generatePageId(feedid);
+  $scope.pageId = $rootScope.generatePageId(feedid) + "-single";
 
   // get the electoral district param from the route
   var electoraldistrictid = $routeParams.districtid;
@@ -61,16 +61,9 @@ function FeedElectoralDistrictCtrl_getFeedElectoralDistrict($scope, $rootScope, 
     .success(function (data) {
 
       // use the self property to use as the linked URL for each item
-      for(var i=0; i< data.contests.length; i++){
-        data.contests[i].self = data.contests[i].self.replace("/services/","/#/");
-      }
-      for(var i=0; i< data.precincts.length; i++){
-        data.precincts[i].self = data.precincts[i].self.replace("/services/","/#/");
-      }
-      for(var i=0; i< data.precinctsplits.length; i++){
-        data.precinctsplits[i].self = data.precinctsplits[i].self.replace("/services/","/#/");
-      }
-
+      $rootScope.changeSelfToAngularPath(data.contests);
+      $rootScope.changeSelfToAngularPath(data.precincts);
+      $rootScope.changeSelfToAngularPath(data.precinctsplits);
 
         // set the feeds data into the Angular model
       $scope.feedElectoralDistrict = data;

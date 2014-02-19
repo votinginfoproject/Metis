@@ -19,7 +19,7 @@ config.crowd = {
 };
 
 config.ruleEngine = {
-  isPersistent: true  //true if you want to save rule violations to mongo dB
+  isPersistent: false  //true if you want to save rule violations to mongo dB
 }
 
 /**
@@ -49,10 +49,33 @@ config.mongoose = {
     source: 'sources',
     state: 'states',
     streetSegment: 'streetSegments',
-    violation: 'violations'
+
+    ballotError: 'ballotErrors',
+    ballotLineResultError: 'ballotLineResultErrors',
+    ballotResponseError: 'ballotResponseErrors',
+    candidateError: 'candidateErrors',
+    contestError: 'contestErrors',
+    contestResultError: 'contestResultErrors',
+    customBallotError: 'customBallotErrors',
+    earlyVoteSiteError: 'earlyVoteSiteErrors',
+    electionError: 'electionErrors',
+    electionAdministrationError: 'electionAdministrationErrors',
+    electionOfficialError: 'electionOfficialErrors',
+    electoralDistrictError: 'electoralDistrictErrors',
+    feedError: 'feedErrors',
+    localityError: 'localityErrors',
+    pollingLocationError: 'pollingLocationErrors',
+    precinctError: 'precinctErrors',
+    precinctSplitError: 'precinctSplitErrors',
+    referendumError: 'referendumErrors',
+    sourceError: 'sourceErrors',
+    stateError: 'stateErrors',
+    streetSegmentError: 'streetSegmentErrors',
+
+    overview: 'overviews'
+
   },
-  connectionString: 'mongodb://localhost/metis',
-  testConnectionString: 'mongodb://localhost/testMetis'
+  connectionString: 'mongodb://localhost/metis'
 }
 
 module.exports = config;

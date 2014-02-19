@@ -62,15 +62,7 @@ function FeedElectoralDistrictsCtrl_getFeedElectoralDistricts($scope, $rootScope
 
     }).error(function (data, $http) {
 
-      if($http===404){
-        // feed not found
-
-        $rootScope.pageHeader.alert = "Sorry, Electoral Districts could not be found.";
-      } else {
-        // some other error
-
-        $rootScope.pageHeader.error += "Could not retrieve Electoral Districts data. ";
-      }
+      $rootScope.pageHeader.error += "Could not retrieve Electoral Districts data. ";
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedElectoralDistricts = {};

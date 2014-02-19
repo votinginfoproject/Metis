@@ -97,6 +97,199 @@ describe('Feed Precinct Split Test', function () {
 
   });
 
+  describe('Checks the error page link', function() {
+    it('error page works', function() {
+      element('#precinctsplit-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb9').click();
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed PrecinctSplit page, click the first Electoral District link
+   ------------------------------------------*/
+  describe('Click the PrecinctSplit first Electoral District link', function () {
+
+    it('Click and go to the Electoral District page', function () {
+
+      // Should have Electoral District link
+      expect(element('#electoralDistrict-id0 a').count()).toBe(1);
+
+      // click the link
+      element('#electoralDistrict-id0 a').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct Electoral District page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Should have PrecinctSplit Electoral District data
+   ------------------------------------------*/
+  describe('Should have PrecinctSplit Electoral District data', function () {
+
+    it('Should have PrecinctSplit Electoral District data', function () {
+
+      // expect data
+      expect(element('#name').count()).toBe(1);
+
+      // expect data for the first Contests row
+      expect(element('#contests0').count()).toBe(1);
+
+      // expect data for the first Precincts row
+      expect(element('#precinct0').count()).toBe(1);
+
+      // expect data for the first Precinct Splits row
+      expect(element('#precinctSplit0').count()).toBe(1);
+
+    });
+  });
+
+  describe('Checks the error page link', function() {
+    it('Error page link works', function() {
+      element('#electoraldistrict-errors').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-errors-content').count()).toBe(1);
+      element('#pageHeader-breadcrumb11').click();
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed PrecinctSplit Electoral District page, click to the Electoral Districts page via the breadcrumb
+   ------------------------------------------*/
+  describe('Click the PrecinctSpit Electoral Districts breadcrumb', function () {
+
+    it('Click and go to the Electoral Districts page', function () {
+
+      // Should have Electoral Districts breadcrumb
+      expect(element('#pageHeader-breadcrumb10').count()).toBe(1);
+
+      // click the link
+      element('#pageHeader-breadcrumb10').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct Electoral Districts page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Should have PrecinctSplit Electoral Districts data
+   ------------------------------------------*/
+  describe('Should have PrecinctSplit Electoral Districts data', function () {
+
+    it('Should have PrecinctSplit Electoral Districts data', function () {
+
+      // expect data
+      expect(element('#electoralDistrict0').count()).toBe(1);
+
+    });
+  });
+
+  /* ----------------------------------------
+   Now from the Feed PrecinctSplit Electoral Districts page, click to the PrecinctSplit page via the breadcrumb
+   ------------------------------------------*/
+  describe('Click the Precinct breadcrumb', function () {
+
+    it('Click and go to the Precinct page', function () {
+
+      // Should have Precinct breadcrumb
+      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
+
+      // click the link
+      element('#pageHeader-breadcrumb9').click();
+
+      sleep(testGlobals.sleepTime);
+
+      // should be on the Precinct page
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
+
+    });
+  });
+
+
+  /* ----------------------------------------
+   Feed PrecinctSplit Polling Location page
+   ------------------------------------------*/
+  describe('Check Feed PrecinctSplit Polling Location page', function () {
+    // if there is data
+    it('Should be able to go into a PrecinctSplit Polling Location page', function () {
+
+      expect(element('#pollingLocation-id0 a').count()).toBe(1);
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed PrecinctSplit Polling Location page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Location data', function () {
+
+      expect(element('#address').html()).not().toBe("");
+
+      // precincts
+      expect(element('#precinct0').count()).toBe(1);
+      expect(element('#precinct-id0').count()).toBe(1);
+
+      // precinct splits
+      expect(element('#precinctsplit0').count()).toBe(1);
+      expect(element('#precinctsplit-id0').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed PrecinctSplit Polling Locations page
+   ------------------------------------------*/
+  describe('Check Feed PrecinctSplit Polling Locations page', function () {
+    // if there is data
+    it('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
+
+      element('#pageHeader-breadcrumb10').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling locations page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Locations data', function () {
+
+      expect(element('#pollingLocation0').count()).toBe(1);
+      expect(element('#pollingLocation-id0').count()).toBe(1);
+
+    });
+
+    // click to a polling location site
+    it('Should be able to click on the link and be taken back to a Polling Location page', function () {
+
+      element('#pollingLocation-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed polling location page
+      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+    });
+
+
+    // click to the precinct page
+    it('Should be able to click on the breadcrumb and be taken back to the PrecinctSplit page', function () {
+
+      element('#pageHeader-breadcrumb9').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed precinctsplit page
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
+    });
+
+  });
+
   /* ----------------------------------------
    Now from the Feed Precinct Split page, click the Street Segments error link
    ------------------------------------------*/

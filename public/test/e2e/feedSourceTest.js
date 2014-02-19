@@ -58,6 +58,13 @@ describe('Feed Source Test', function () {
 
   });
 
+  describe('Check The Error Links', function() {
+    it('Error page link works', function() {
+      element('#source-errors').click();
+      expect(element('#feeds-source-errors-content').count()).toBe(1);
+    })
+  });
+
   /* ----------------------------------------
    Log Out
    ------------------------------------------*/

@@ -7,69 +7,20 @@ describe('Feed Election Unit Tests', function() {
   describe('Feed Election Controller Test', function() {
     var $rootScope = null;
     var $httpBackend = null;
-    var feedCtrl = null;
-    var mockService;
-    var feedData, feedElection;
+    var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedElection: function() {
-          var http = $injector.get('$http');
-          return http.get("/Election")
-        },
-        getFeedState: function() {
-          var http = $injector.get('$http');
-          return http.get("/FeedState")
-        },
-        getFeedElectionContests: function() {
-          var http = $injector.get('$http');
-          return http.get("/Contests")
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedElection: karmaUtil.setupServiceFunc($injector),
+        getFeedState: karmaUtil.setupServiceFunc($injector),
+        getFeedElectionContests: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
       feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
-      $httpBackend.when('GET', '/Data').respond(feedData);
-      $httpBackend.when('GET', '/Election').respond(feedData);
-      $httpBackend.when('GET', '/Contests').respond(feedData);
-      $httpBackend.when('GET', '/FeedState').respond(feedData);
-
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-      var $filter = $injector.get('$filter');
-      var $appProperties = {highPagination: 30, lowPagination: 10};
-      function ngTableParams (defaults) {
-        this.page = defaults.page;
-        this.count = defaults.count;
-        this.sorting = defaults.sorting;
-      }
-
-      var routeParams = { vipfeed: 'something' };
-      $rootScope.pageHeader = {};
-      $rootScope.feedData = {};
-      $rootScope.feedElection = {};
-      $rootScope.feedContests = {};
-
-      $rootScope.setPageHeader = function() {}
-
-      $rootScope.createTableParams = function() {};
-
-      $rootScope.getBreadCrumbs = function() {};
-
-      feedCtrl = $controller('FeedElectionCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$appProperties': $appProperties,
-        ngTableParams: ngTableParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedElectionCtrl', mockService);
     }));
 
     afterEach(function() {

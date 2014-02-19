@@ -7,70 +7,21 @@ describe('Feed Overview Unit Tests', function() {
   describe('Feed Overview Controller Test', function () {
     var $rootScope = null;
     var $httpBackend = null;
-    var adminCtrl = null;
-    var mockService;
-    var response;
+    var feedData;
 
     beforeEach(inject(function($injector) {
-      mockService = {
-        getFeedData: function() {
-          var http = $injector.get('$http');
-          return http.get("/Data");
-        },
-        getFeedPollingLocations: function() {
-          var http = $injector.get('$http');
-          return http.get("/Locations");
-        },
-        getFeedContests: function() {
-          var http = $injector.get('$http');
-          return http.get("/Contests");
-        },
-        getFeedResults: function() {
-          var http = $injector.get('$http');
-          return http.get("/Results");
-        },
-        getFeedLocalities: function() {
-          var http = $injector.get('$http');
-          return http.get("/Localities")
-        }
+      var mockService = {
+        getFeedData: karmaUtil.setupServiceFunc($injector),
+        getFeedPollingLocations: karmaUtil.setupServiceFunc($injector),
+        getFeedContests: karmaUtil.setupServiceFunc($injector),
+        getFeedResults: karmaUtil.setupServiceFunc($injector),
+        getFeedLocalities: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');
-
-      response = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
-
-      $httpBackend.when('GET', '/Data').respond(response);
-      $httpBackend.when('GET', '/Locations').respond(response);
-      $httpBackend.when('GET', '/Contests').respond(response);
-      $httpBackend.when('GET', '/Results').respond(response);
-      $httpBackend.when('GET', '/Localities').respond(response);
-
-
+      feedData = [ {date: '2011-11-01', state: 'Ohio', type: 'Federal', status: 'Undetermined'} ];
       $rootScope = $injector.get('$rootScope');
-      var $controller = $injector.get('$controller');
-      var $location = $injector.get('$location');
-
-      var routeParams = { badlogin: true };
-
-      $rootScope.setPageHeader = function() {};
-
-      $rootScope.createTableParams = function() {};
-
-      $rootScope.getBreadCrumbs = function() {};
-
-      $rootScope.feedData = {};
-      $rootScope.feedPollingLocations = {};
-      $rootScope.feedContests = {};
-      $rootScope.feedResults = {};
-      $rootScope.pageHeader = {};
-
-      adminCtrl = $controller('FeedOverviewCtrl', {
-        '$scope': $rootScope,
-        '$rootScope': $rootScope,
-        '$feedsService': mockService,
-        '$routeParams': routeParams,
-        '$location': $location
-      });
+      karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedOverviewCtrl', mockService);
     }));
 
     afterEach(function() {
@@ -80,11 +31,11 @@ describe('Feed Overview Unit Tests', function() {
 
     it('should have valid data', function () {
       $httpBackend.flush();
-      expect($rootScope.feedData).toEqual(response);
-      expect($rootScope.feedPollingLocations).toEqual(response);
-      expect($rootScope.feedContests).toEqual(response);
-      expect($rootScope.feedResults).toEqual(response);
-      expect($rootScope.feedLocalities).toEqual(response);
+      expect($rootScope.feedData).toEqual(feedData);
+      expect($rootScope.feedPollingLocations).toEqual(feedData);
+      expect($rootScope.feedContests).toEqual(feedData);
+      expect($rootScope.feedResults).toEqual(feedData);
+      expect($rootScope.feedLocalities).toEqual(feedData);
     });
   });
 });

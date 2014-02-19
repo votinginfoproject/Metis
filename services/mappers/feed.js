@@ -3,6 +3,7 @@
  */
 var moment = require('moment');
 var _path = require('path');
+var resultsMapper = require('./results');
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -302,7 +303,6 @@ function mapContest (path, contest) {
       referendum_count: contest._ballot.referendumIds ? contest._ballot.referendumIds.length : 0,
       self: _path.join(path, '/ballot')
     } : null,
-    candidates: _path.join(path, '/candidates'),
     electoral_district: contest._electoralDistrict ? {
       id: contest._electoralDistrict.elementId,
       name: contest._electoralDistrict.name,
@@ -310,25 +310,16 @@ function mapContest (path, contest) {
       precinct_splits: contest._electoralDistrict._precinctSplits.length,
       self: _path.join(path, '/electoraldistrict')
     } : null,
-    contest_results: contest._contestResults ? {
-      id: contest._contestResults.elementId,
-      votes: contest._contestResults.totalVotes,
-      valid_votes: contest._contestResults.totalValidVotes,
-      overvotes: contest._contestResults.overvotes,
-      blank_votes: contest._contestResults.blankVotes,
-      certification: contest._contestResults.certification,
-      self: _path.join(path, '/contestresults')
+    contest_result: contest._contestResult ? {
+      id: contest._contestResult.elementId,
+      votes: contest._contestResult.totalVotes,
+      valid_votes: contest._contestResult.totalValidVotes,
+      overvotes: contest._contestResult.overvotes,
+      blank_votes: contest._contestResult.blankVotes,
+      certification: contest._contestResult.certification,
+      self: _path.join(path, '/contestresult')
     } : null,
-    ballot_line_results: contest._ballotLineResults ? contest._ballotLineResults.map(function(blr) {
-      return {
-        id: blr.elementId,
-        candidate_id: blr.candidateId,
-        response_id: blr.ballotResponseId,
-        votes: blr.votes,
-        certification: blr.certification,
-        self: _path.join(path, '/ballotlineresults' + blr.elementId.toString())
-      };
-    }) : null
+    ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
 };
 
@@ -546,6 +537,7 @@ function mapPrecinctSplit (path, precinctSplit) {
 function mapEarlyVoteSite (earlyVoteSite) {
   return {
     id: earlyVoteSite.elementId,
+    error_count: -1, //TODO
     name: earlyVoteSite.name,
     address: addressToJson(earlyVoteSite.address),
     directions: earlyVoteSite.directions,
@@ -592,30 +584,53 @@ function mapElectionOfficial (electionOfficial) {
   };
 };
 
-var mapBallot = function(path, ballot) {
+function mapBallot(path, ballot) {
   return {
     id: ballot.elementId,
+    error_count: -1, //TODO
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
-    referenda: ballot._referenda ? ballot._referenda.map(function(referendum) {
-      return {
-        id: referendum.elementId,
-        title: referendum.title,
-        self: _path.join(path, '/referenda/' + referendum.elementId.toString())
-      };
-    }) : [],
+    referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
     custom_ballot: ballot._customBallot ? {
       id: ballot._customBallot.elementId,
       heading: ballot._customBallot.heading,
-      ballot_responses: ballot._customBallot.ballotResponses.map(function(response) {
-        return {
-          id: response._response.elementId,
-          text: response._response.text,
-          sort_order: response._response.sortOrder
-        };
-      })
+      ballot_responses: ballot._customBallot.ballotResponses.map(mapBallotResponse)
     } : null
+  };
+};
+
+function mapReferenda(path, referenda) {
+  return referenda.map(function(referendum) {
+    return {
+      id: referendum.elementId,
+      title: referendum.title,
+      self: _path.join(path, referendum.elementId.toString())
+    };
+  });
+};
+
+function mapReferendum(referendum) {
+  return {
+    id: referendum.elementId,
+    error_count: -1, //TODO
+    title: referendum.title,
+    subtitle: referendum.subtitle,
+    brief: referendum.brief,
+    text: referendum.text,
+    pro_statement: referendum.proStatement,
+    con_statement: referendum.conStatement,
+    passage_threshold: referendum.passageThreshold,
+    effect_of_abstain: referendum.effectOfAbstain,
+    ballot_responses: referendum.ballotResponses.map(mapBallotResponse)
+  };
+};
+
+function mapBallotResponse(response) {
+  return {
+    id: response._response.elementId,
+    text: response._response.text,
+    sort_order: response._response.sortOrder
   };
 };
 
@@ -634,6 +649,7 @@ var mapBallotCandidates = function(path, candidates) {
 var mapCandidate = function (path, candidate) {
   return {
     id: candidate.elementId,
+    error_count: -1, //TODO
     name: candidate.name,
     incumbent: candidate.incumbent, //TODO: v5.0 element
     party: candidate.party,
@@ -643,9 +659,40 @@ var mapCandidate = function (path, candidate) {
     photo_url: candidate.photoUrl,
     filed_mailing_address: addressToJson(candidate.filedMailingAddress),
     email: candidate.email,
-    sort_order: candidate.sortOrder,
+    sort_order: candidate.sortOrder
   };
 };
+
+function mapPollingLocation(path, pollingLocation) {
+  return {
+    id: pollingLocation.elementId,
+    error_count: -1, //TODO
+    address: addressToJson(pollingLocation.address),
+    directions: pollingLocation.directions,
+    photo_url: pollingLocation.photoUrl,
+    polling_hours: pollingLocation.pollingHours,
+    precincts: pollingLocation._precincts.map(mapPollingLocationPrecinctSummary.bind(undefined, path)),
+    precinct_splits: pollingLocation._precinctSplits.map(mapPollingLocationPrecinctSplitSummary.bind(undefined, path))
+  };
+};
+
+function mapPollingLocationPrecinctSummary(path, precinct) {
+  return {
+    id: precinct.elementId,
+    name: precinct.name,
+    electoral_districts: precinct._electoralDistricts.length,
+    self: _path.join(path, '../../..', precinct.elementId.toString())
+  };
+}
+
+function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
+  return {
+    id: precinctSplit.elementId,
+    name: precinctSplit.name,
+    electoral_districts: precinctSplit._electoralDistricts.length,
+    self: _path.join(path, '../../..', precinctSplit.precinctId.toString(), 'precinctsplits', precinctSplit.elementId.toString())
+  };
+}
 
 var mapContestOverview = function(path, data) { //TODO
   return [
@@ -682,20 +729,6 @@ var mapContestOverview = function(path, data) { //TODO
   ];
 };
 
-var mapContestContestResults = function(path, contestResults) {
-  return [
-    { id: 302030103, votes: 2000, valid_votes: 1500, overvotes: 300, blank_votes: 200 },
-    { id: 302030104, votes: 150, valid_votes: 100, overvotes: 0, blank_votes: 15 }
-  ];
-};
-
-var mapContestBallotLineResults  = function (path, ballotLineResults) {
-  return [
-    { id: 400014, votes: 400, victorious: 'Yes' },
-    { id: 400015, votes: 100, victorious: 'No' }
-  ];
-};
-
 
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
@@ -727,5 +760,9 @@ exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
 exports.mapContestOverview = mapContestOverview;
 exports.mapCandidate = mapCandidate;
-exports.mapContestContestResults = mapContestContestResults;
-exports.mapContestBallotLineResults = mapContestBallotLineResults;
+exports.mapContestResult = resultsMapper.mapContestResult;
+exports.mapBallotLineResults = resultsMapper.mapBallotLineResults;
+exports.mapBallotLineResult = resultsMapper.mapBallotLineResult;
+exports.mapReferenda = mapReferenda;
+exports.mapReferendum = mapReferendum;
+exports.mapPollingLocation = mapPollingLocation;

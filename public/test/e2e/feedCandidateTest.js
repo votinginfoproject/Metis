@@ -2,10 +2,6 @@
  * Created by rcartier13 on 1/23/14.
  */
 
-/**
- * Created by rcartier13 on 1/22/14.
- */
-
 describe('Testing Feed Candidate Page', function() {
 
   describe('Log in', function () {
@@ -45,6 +41,13 @@ describe('Testing Feed Candidate Page', function() {
       // Make sure there is no error on the page
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-candidate-content').count()).toBe(1);
+    });
+  });
+
+  describe('Checks the error link', function() {
+    it('Error link works', function() {
+      element('#candidate-errors').click();
+      expect(element('#feeds-election-contests-ballot-candidates-errors-content').count()).toBe(1);
     });
   });
 

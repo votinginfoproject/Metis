@@ -28,7 +28,7 @@ var electionAdministration = {
   address: address
 };
 
-var referendumData = {
+var referendaData = {
   elementId: 1,
   title: 'title'
 };
@@ -223,7 +223,7 @@ var data = {
       _precincts: { length: 2 },
       _precinctSplits: { length: 3 }
     },
-    _contestResults: {
+    _contestResult: {
       elementId: 5,
       totalVotes: 6,
       totalValidVotes: 7,
@@ -245,9 +245,9 @@ var data = {
     imageUrl: 'url',
     _referenda: {
       map: function(callback) {
-        return callback(referendumData);
+        return callback(referendaData);
       },
-      data: referendumData
+      data: referendaData
     },
     _customBallot: {
       elementId: 1,
@@ -282,6 +282,35 @@ var data = {
     filedMailingAddress: address,
     email: 'email',
     sortOrder: 2
+  },
+
+  referenda: referendaData,
+
+  referendum: {
+    elementId: 1,
+    title: 'title',
+    subtitle: 'subtitle',
+    brief: 'brief',
+    text: 'text',
+    proStatement: 'pro',
+    conStatement: 'con',
+    passageThreshold: 'threshold',
+    effectOfAbstain: 'abstain',
+    ballotResponses: {
+      map: function(callback) {
+        return callback(ballotResponsesData);
+      }
+    }
+  },
+
+  ballotResponse: ballotResponsesData,
+
+  pollingLocation: {
+    elementId: 1,
+    address: address,
+    directions: 'dir',
+    photoUrl: 'url',
+    pollingHours: 'hours'
   }
 };
 
