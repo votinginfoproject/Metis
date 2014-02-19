@@ -29,7 +29,9 @@ function getFeedList (callback) {
 };
 
 function getFeedOverview (id, callback) {
-  daoSchemas.models.Feed.findById(id, { payload: 0 }, callback);
+  daoSchemas.models.Feed.findById(id, { payload: 0 })
+    .populate('_state')
+    .exec(callback);
 };
 
 function getFeedSource (feedId, callback) {
