@@ -3,7 +3,8 @@
  */
 var mongoose = require('mongoose');
 var config = require('../../config');
-var model = null;
+var isBaseModel = false;
+var thisModel = null;
 
 function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
   this.entity = entity;
@@ -19,8 +20,8 @@ function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, 
 
 RuleViolation.prototype.model = function(){
   var Violation = mongoose.model(deriveErrorSchema(this.entity));
-  if(model == null){
-    model = new Violation({
+  if(!isBaseModel){
+    thisModel = new Violation({
       severityCode: this.ruleDef.severityCode,
       severityText: this.ruleDef.severityText,
       errorCode: this.ruleDef.errorCode,
@@ -31,11 +32,11 @@ RuleViolation.prototype.model = function(){
       _feed: this.feedId
     });
   }
-  return model;
+  return thisModel;
 }
 
 RuleViolation.prototype.createModel = function(model){
-  'creating model..'
+  thisModel = model;
   if(model != null) {
     if(config.ruleEngine.isPersistent) {
       model.save();
@@ -58,8 +59,7 @@ RuleViolation.prototype.save = function(){
   else
     console.log(
       "\n**Warning**: Error will NOT be saved in mongo: \n",
-     deriveErrorSchema(this.entity), this.model()  //,
-     // "\nTo store the above record in Mongo, update the RuleEngine setting in config.js\n"
+      deriveErrorSchema(this.entity), this.model()
     );
 }
 

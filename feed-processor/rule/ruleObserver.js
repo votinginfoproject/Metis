@@ -25,6 +25,7 @@ var ActiveRuleStats = {
     //activeRules['errors'] = violations.length;
   },
   statusRuleCount: function(){
+    //TODO: do a little more here than return the rules. Show trends, etc
     return activeRules;
   },
   atTerminalState: function(){

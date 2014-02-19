@@ -16,14 +16,21 @@ var evaluateUniqueId = function(uniqueId, dataSet, entity, constraintSet, ruleDe
   var allResults = [];
 
 
-  when.all(allResults).then( function(results){
-    if(results[0] != undefined && results[0].isViolated){
-      console.log('vio:', results);
-      deferred.resolve(results[0]);
+  when.all(allResults).then(
+
+    function(results){
+
+      if(results[0] != undefined && results[0].isViolated){
+        console.log('vio:', results);
+        deferred.resolve(results[0]);
+      }
+      else
+        deferred.resolve(resolution);
+    },
+    function(err){
+      console.log("all kinds of errors coming back in ID Rule");
     }
-    else
-      deferred.resolve(resolution);
-  });
+  );
 
   constraintSet.entity.forEach(function(thisEntity, next){
     //for(j = 0; j < constraintSet.entity; j++){

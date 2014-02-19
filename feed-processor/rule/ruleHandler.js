@@ -14,7 +14,6 @@ function Rule(ruleDef){
   this.implementation = ruleDef.implementation;
   this.description = ruleDef.severityText;
   this.title = ruleDef.title;
-  this.isActive = JSON.parse(ruleDef.isActive) ? JSON.parse(ruleDef.isActive) : false;
   this.ruleDef = ruleDef;
   this.type = ruleDef.type;
   this.dataConstraints = ruleDef.dataConstraints;
@@ -34,7 +33,7 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
   console.log('applying rule', rule.title);
   async.each(rule.dataConstraints, this.applyDataConstraints,
     function(err){console.log('rule application complete');
-      ruleEngineCompletionCallback();
+      ruleEngineCompletionCallback(violations);
   });
 }
 

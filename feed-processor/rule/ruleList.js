@@ -45,17 +45,18 @@ var metisRuleList = [
     title: 'uniqueStreetSegment',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
-    isActive: true,
+    isActive: false,
     errorCode: 4,
     severityCode: 1,
     severityText: 'Street Segments must be valid and cannot have overlap',
     implementation: './impl/streetSegmentRule',
     dataConstraints: constraints['uniqueStreetSegment']
-  },/*
+  },
   {
     title: 'localityTypeRuleToo',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
+    isActive: false,
     errorCode: 4,
     severityCode: 2,
     severityText: 'Invalid locality type',
@@ -71,17 +72,19 @@ var metisRuleList = [
       'region'
     ],
     dataConstraints: constraints['localityType']
-  }
-  /*,
+  },
   {
     title: 'uniqueIdCheck',
     type: 'objectLevelRule',
-    errorCode: 3,
+    isFeedLevelRule: false,
+    isActive: false,
+    errorCode: 4,
     severityCode: 1,
     severityText: 'All top-level metis elements must have a unique ID value',
     implementation: './impl/uniqueId',
     dataConstraints: constraints['uniqueIdCheck']
-  },*/
+  },
+
   /* address direction range */
   {
     title: 'addressDirectionRule',

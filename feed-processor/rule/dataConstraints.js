@@ -1,7 +1,4 @@
 
-
-
-
 var models = require('../../config').mongoose.model;
 
 var theseConstraints = {

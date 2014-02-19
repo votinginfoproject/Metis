@@ -86,7 +86,6 @@ function storeErrors(dupes, feedId) {
 
 
   function createError(errorModel, id) {
-    console.log('Unique Id Rule Violation: ');
     error = new errorModel.model({
       severityCode: rule.severityCode,
       severityText: rule.severityText,
@@ -98,6 +97,7 @@ function storeErrors(dupes, feedId) {
       _ref: errorModel._ref,
       _feed: errorModel._feed
     });
+
     return error;
   }
 

@@ -30,8 +30,11 @@ var applyRules = function(vipFeedId){
   });
 }
 
-var endSession = function(){
-  console.log("Data analysis complete. Rules processor shutting down");
+var endSession = function(violations){
+  console.log("Data analysis complete.")
+  console.log(rules.length + " Rules applied");
+  console.log(violations.length + " Rule errors created");
+  console.log("Rules processor shutting down");
   process.exit();
 }
 
