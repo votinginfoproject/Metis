@@ -52,32 +52,32 @@ function calculateFields(feedId, saveCalc) {
   console.log('Starting Localities Calc...');
   pollinglocations.pollingLocationsCalc(feedId, function(pollinglocationsOverview) {
     console.log('Finished Localities');
-    createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, -1, 0, feedId);
-    createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, -1, 0, feedId);
-    createOverviewModel('Localities', pollinglocationsOverview.localities, -1, 0, feedId);
-    createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, -1, 0, feedId);
-    createOverviewModel('Precincts', pollinglocationsOverview.precincts, -1, 0, feedId);
-    createOverviewModel('Precinct Splits', pollinglocationsOverview.precinctsplits, -1, 0, feedId);
-    createOverviewModel('Street Segments', pollinglocationsOverview.streetsegments, -1, 0, feedId);
+    createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, pollinglocationsOverview.earlyvotesites.errorCount, 0, feedId);
+    createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, pollinglocationsOverview.electionadministrations.errorCount, 0, feedId);
+    createOverviewModel('Localities', pollinglocationsOverview.localities, pollinglocationsOverview.localities.errorCount, 0, feedId);
+    createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, pollinglocationsOverview.pollinglocations.errorCount, 0, feedId);
+    createOverviewModel('Precincts', pollinglocationsOverview.precincts, pollinglocationsOverview.precincts.errorCount, 0, feedId);
+    createOverviewModel('Precinct Splits', pollinglocationsOverview.precinctsplits, pollinglocationsOverview.precinctsplits.errorCount, 0, feedId);
+    createOverviewModel('Street Segments', pollinglocationsOverview.streetsegments, pollinglocationsOverview.streetsegments.errorCount, 0, feedId);
     wait();
   });
 
   console.log('Starting Contests Calc...');
   contests.contestCalc(feedId, function(contestOverview) {
     console.log('Finished Contests');
-    createOverviewModel('Ballots', contestOverview.ballots, -1, 1, feedId);
-    createOverviewModel('Candidates', contestOverview.candidates, -1, 1, feedId);
-    createOverviewModel('Contests', contestOverview.contests, -1, 1, feedId);
-    createOverviewModel('Electoral Districts', contestOverview.electoralDistricts, -1, 1, feedId);
-    createOverviewModel('Referenda', contestOverview.referenda, -1, 1, feedId);
+    createOverviewModel('Ballots', contestOverview.ballots, contestOverview.ballots.errorCount, 1, feedId);
+    createOverviewModel('Candidates', contestOverview.candidates, contestOverview.candidates.errorCount, 1, feedId);
+    createOverviewModel('Contests', contestOverview.contests, contestOverview.contests.errorCount, 1, feedId);
+    createOverviewModel('Electoral Districts', contestOverview.electoralDistricts, contestOverview.electoralDistricts.errorCount, 1, feedId);
+    createOverviewModel('Referenda', contestOverview.referenda, contestOverview.referenda.errorCount, 1, feedId);
     wait();
   });
 
   console.log('Starting Results Calc...');
   results.resultsCalc(feedId, function(resultsOverview) {
     console.log('Finished Results');
-    createOverviewModel('Contest Results', resultsOverview.contestResults, -1, 2, feedId);
-    createOverviewModel('Ballot Line Results', resultsOverview.ballotLineResults, -1, 2, feedId);
+    createOverviewModel('Contest Results', resultsOverview.contestResults, resultsOverview.contestResults.errorCount, 2, feedId);
+    createOverviewModel('Ballot Line Results', resultsOverview.ballotLineResults, resultsOverview.ballotLineResults.errorCount, 2, feedId);
     wait();
   });
 

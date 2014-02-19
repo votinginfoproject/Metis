@@ -14,8 +14,20 @@ function resultsCalc(feedId, saveCalc) {
       saveCalc(resultsOverview);
   }
 
-  util.findOverviewObject(feedId, 0, schemas.models.ContestResult, function(res) { resultsOverview.contestResults = res; wait(); });
-  util.findOverviewObject(feedId, 0, schemas.models.BallotLineResult, function(res) { resultsOverview.ballotLineResults = res; wait(); });
+  util.findOverviewObject(feedId, 0, schemas.models.ContestResult, function(res) {
+    resultsOverview.contestResults = res;
+    schemas.models.ContestResult.Error.count({}, function(err, count) {
+      resultsOverview.contestResults.errorCount = count;
+      wait();
+    });
+  });
+  util.findOverviewObject(feedId, 0, schemas.models.BallotLineResult, function(res) {
+    resultsOverview.ballotLineResults = res;
+    schemas.models.BallotLineResult.Error.count({}, function(err, count) {
+      resultsOverview.ballotLineResults.errorCount = count;
+      wait();
+    });
+  });
 }
 
 exports.resultsCalc = resultsCalc;
