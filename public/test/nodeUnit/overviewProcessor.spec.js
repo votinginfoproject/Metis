@@ -54,4 +54,29 @@ describe('Overview Utility Tests', function() {
     });
   });
 
+  describe('Reduce Overview Object works properly', function() {
+    it('Returns an object with the correct values', function() {
+      var res = util.reduceOverviewObject([
+        {
+          _something: 0,
+          sortOrder: 0,
+          one: 1,
+          two: 2,
+          three: 3
+        },
+        {
+          _something: 0,
+          one: 1,
+          two: 2,
+          three: 3,
+          four: 4,
+          five: 5
+        }
+      ], 5);
+
+      expect(res.amount).toBe(2);
+      expect(res.fieldCount).toBe(8);
+      expect(res.schemaFieldCount).toBe(10);
+    });
+  });
 });

@@ -323,19 +323,43 @@ describe('Feeds Unit Tests', function() {
     });
   });
 
-  describe('feed Contest Contest Overview GET Test', function() {
-    xit('Calls Json Function', function() {
+  describe('Contest Overview GET Test', function() {
+    it('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
       overviewCallback.contestOverviewGET(req, res);
     });
   });
 
-  describe('feed Locality Locality Overview GET Test', function() {
-    xit('Calls Json Function', function() {
+  describe('Locality Overview GET Test', function() {
+    it('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
       overviewCallback.localityOverviewGET(req, res);
+    });
+  });
+
+  describe('Contests Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.contestsOverviewGET(req, res);
+    });
+  });
+
+  describe('Localities Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.localitiesOverviewGET(req, res);
+    });
+  });
+
+  describe('Results Overview GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getOverviewTable = nodeUtil.daoFunc;
+      feedStub.mapOverviewTables = nodeUtil.feedFunc;
+      overviewCallback.resultsOverviewGET(req, res);
     });
   });
 });
