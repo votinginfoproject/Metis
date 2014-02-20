@@ -13,7 +13,8 @@
 // VIP app module with its dependencies
 var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 
-// Constants - will be added to with the properties from the external properties file "vip.properties"
+// Constants - will be added to with the properties from the external properties files
+// "vip.properties" and "map.properties"
 // the properties that should not be configurable will be placed here beforehand
 vipApp.constant('$appProperties', {
   contextRoot: '',
@@ -358,24 +359,15 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
-    var props = response.data.split("\n");
-
-    // parse the properties file
-    for(var i=0; i<props.length; i++){
-      var prop = props[i];
-      var prop_kv = prop.split("=");
-
-      // if the value is a number
-      if(!isNaN(prop_kv[1])){
-        prop_kv[1] = parseFloat(prop_kv[1]);
-      }
-
-      // adding the external properties to the appProperties object
-      $appProperties[prop_kv[0]] = prop_kv[1];
-    }
-
-    $rootScope.$appProperties = $appProperties;
+    vipApp_ns.parseAndAddProperties(response.data, $appProperties);
   });
+
+  // read the properties file from the server "map.properties"
+  $http.get('map.properties').then(function (response) {
+    vipApp_ns.parseAndAddProperties(response.data, $appProperties);
+  });
+
+  $rootScope.$appProperties = $appProperties;
 
   /*
    * Initialize the cache for the app

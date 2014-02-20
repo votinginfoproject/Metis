@@ -157,11 +157,13 @@ function FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, ser
 
       var map = L.map('map').setView([37.8, -96], 4);
 
+      var mapBundle = $rootScope.$appProperties.mapBundle;
+
       var cloudmade = L.tileLayer(
-        $rootScope.$appProperties.mapTileLayer, {
-        attribution: $rootScope.$appProperties.mapAttribution,
-        key: 'ce0a90b096c94385bd3464d989727af0',
-        styleId: 22677
+        $rootScope.$appProperties["mapBundle" + mapBundle + "_TileLayer"], {
+        attribution: $rootScope.$appProperties["mapBundle" + mapBundle + "_Attribution"],
+        key: $rootScope.$appProperties.mapKey,
+        styleId: $rootScope.$appProperties["mapBundle" + mapBundle + "_StyleId"]
       }).addTo(map);
 
       var geojson = L.geoJson(data, {
