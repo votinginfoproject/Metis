@@ -157,8 +157,9 @@ function FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, ser
 
       var map = L.map('map').setView([37.8, -96], 4);
 
-      var cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+      var cloudmade = L.tileLayer(
+        $rootScope.$appProperties.mapTileLayer, {
+        attribution: $rootScope.$appProperties.mapAttribution,
         key: 'ce0a90b096c94385bd3464d989727af0',
         styleId: 22677
       }).addTo(map);
