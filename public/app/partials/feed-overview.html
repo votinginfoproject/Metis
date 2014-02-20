@@ -26,15 +26,16 @@
   </header>
 
   <!-- element table directive -->
+  <span ng-if="!feedPollingLocations" class="is-loading"></span>
   <div ng-show="feedPollingLocations.length" ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
   <br/>
   <h3>{{feedLocalities.length}} Localities
-    <small>(Counties)</small>
+    <small>({{feedCounties.features.length}} Counties)</small>
   </h3>
-  <span ng-if="!feedLocalities" class="more-detail is-loading"></span>
+  <span ng-if="!feedCounties" class="is-loading"></span>
   <p>
-    <mark>Map goes here.</mark>
+    <div id="map" class="map" hidden></div>
   </p>
 
 </section>
@@ -43,10 +44,12 @@
 <section class="data-group started">
   <header class="data-group-header">
     <h2>Contests</h2>
-    <a class="more-detail" href="{{$location.absUrl()}}/election/contests">More Detail</a>
+    <span ng-if="!feedData" class="more-detail is-loading"></span>
+    <a class="more-detail" ng-if="feedData.state" href="{{$location.absUrl()}}/election/contests">More Detail</a>
   </header>
 
   <!-- element table directive -->
+  <span ng-if="!feedContests" class="is-loading"></span>
   <div ng-show="feedContests.length" ng-elementtable ng-model="feedContests" loading="feedContests" label="feedContests"></div>
 
 </section>
@@ -58,6 +61,7 @@
   </header>
 
   <!-- element table directive -->
+  <span ng-if="!feedResults" class="is-loading"></span>
   <div ng-show="feedResults.length" ng-elementtable ng-model="feedResults" loading="feedResults" label="feedResults"></div>
 
 </section>
