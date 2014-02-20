@@ -5,10 +5,6 @@
  */
 function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
 
-  // TODO
-  // clear the feedData from the cache
-  //$rootScope.cache.remove("feedData");
-
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
@@ -24,19 +20,15 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $scope.feedData = data;
       $rootScope.feedData = data;
 
-      // TODO
-      // set the feed data variable into the cache
-      //$rootScope.cache.put("feedData", data);
-
       // set the title
       $rootScope.pageHeader.title = data.title;
 
       // now call the other services to get the rest of the data
-
       FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
       FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
       FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, data.results);
       FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities);
+      FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
 
     }).error(function (data, $http) {
 
@@ -56,6 +48,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $scope.feedContests = {};
       $scope.feedResults = {};
       $scope.feedLocalities = {};
+      $scope.feedCounties = {};
     });
 }
 
@@ -144,5 +137,53 @@ function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, s
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedLocalities = {};
+    });
+}
+
+/*
+ * Get the Feed Counties (Map) for the Feed Overview page
+ *
+ */
+function FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, servicePath){
+
+  // get Results
+  $feedsService.getFeedCounties(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedCounties = data;
+
+      jQuery("#map").show();
+
+      var map = L.map('map').setView([37.8, -96], 4);
+
+      var cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+        key: 'ce0a90b096c94385bd3464d989727af0',
+        styleId: 22677
+      }).addTo(map);
+
+      var geojson = L.geoJson(data, {
+        style: {
+          fillColor: $rootScope.$appProperties.mapFillColor,
+          color: $rootScope.$appProperties.mapColor,
+          weight: $rootScope.$appProperties.mapWeight,
+          fillOpacity: $rootScope.$appProperties.mapFillOpacity
+        },
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup(feature.properties.name);
+        }
+      });
+      map.fitBounds(geojson.getBounds());
+      geojson.addTo(map);
+
+      map.attributionControl.addAttribution('County data &copy; <a target="_blank" href="http://census.gov/">US Census Bureau</a>');
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Feed Counties. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedCounties = {};
     });
 }

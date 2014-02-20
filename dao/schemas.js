@@ -598,6 +598,15 @@ var overviewSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var countySchema = {
+  stateFIPS: Number,
+  countyFIPS: Number,
+  name: String,
+  fullName: String,
+  polygon: String,
+  multipolygon: String
+};
+
 /*
  * End of Schema Definitions
  */
@@ -650,6 +659,10 @@ exports.initSchemas = function (mongoose) {
   models.StreetSegment.Error = mongoose.model(config.mongoose.model.streetSegmentError, mongoose.Schema(streetSegmentErrorSchema));
 
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
+
+
+  models.County = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
+
 
   models.Ballot.fieldCount = utils.countProperties(ballotSchema);
   models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);

@@ -13,6 +13,7 @@ var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
 var errorServices = require('./services/errors');
 var overviewServices = require('./services/overviews');
+var geoServices = require('./services/geo');
 
 var app = express();
 
@@ -43,7 +44,7 @@ authServices.registerAuthServices(config, app, passport);
 feedServices.registerFeedsServices(app);
 errorServices.registerErrorServices(app);
 overviewServices.registerOverviewServices(app);
-
+geoServices.registerGeoServices(app);
 
 http.createServer(app).listen(config.web.port, function() {
   console.log('Express server listening on port ' + config.web.port);

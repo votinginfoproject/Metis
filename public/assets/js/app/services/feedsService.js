@@ -34,6 +34,9 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     getFeedResults: function (servicePath) {
       return $http.get(servicePath);
     },
+    getFeedCounties: function (servicePath) {
+      return $http.get(servicePath);
+    },
 
     // Feed source page
     // ========================================================

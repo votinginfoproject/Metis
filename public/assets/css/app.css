@@ -813,7 +813,9 @@ th {
   font-style: italic; }
 
 .map {
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+  width: 800px;
+  height: 500px; }
 
 .branding {
   color: black;
