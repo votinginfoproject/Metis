@@ -36,9 +36,10 @@ function contestCalc(feedId, saveCalc) {
           wait();
         });
 
-        util.findOverviewObject(feedId, contest._ballot._doc.candidates, schemas.models.Candidate, function(res) {
+        var candidates = util.convertObjArrToIdArr(contest._ballot.candidates);
+        util.findOverviewObject(feedId, candidates, schemas.models.Candidate, function(res) {
           contestOverview[overviewPos].candidate = res;
-          schemas.models.Candidate.Error.count({_ref: {$in: contest._ballot._doc.candidates}}, function(err, count) {
+          schemas.models.Candidate.Error.count({_ref: {$in: candidates}}, function(err, count) {
             contestOverview[overviewPos].candidate.errorCount = count;
             wait();
           });
@@ -50,7 +51,7 @@ function contestCalc(feedId, saveCalc) {
     });
 }
 function contestReferendumCalc(feedId, ballot, returnTotal) {
-  schemas.models.Referendum.find({_feed: feedId, _id: { $in: ballot._doc._referenda } }, function(err, results) {
+  schemas.models.Referendum.find({_feed: feedId, _id: { $in: ballot._referenda } }, function(err, results) {
     var initial = util.createOverviewObject();
     async.each(results, function(current, done) {
 
@@ -58,8 +59,9 @@ function contestReferendumCalc(feedId, ballot, returnTotal) {
       initial.fieldCount += util.countProperties(current);
       initial.schemaFieldCount += schemas.models.Referendum.fieldCount;
       if(current._doc.ballotResponses) {
-        util.findOverviewObject(feedId, current._doc.ballotResponses, schemas.models.BallotResponse, function(res) { util.addOverviewObjects(initial, res);
-          schemas.models.BallotResponse.Error.count({_ref: {$in: current._doc.ballotResponses}}, function(err, count) {
+        util.findOverviewObject(feedId, util.convertObjArrToIdArr(current.ballotResponses), schemas.models.BallotResponse, function(res) {
+          util.addOverviewObjects(initial, res);
+          schemas.models.BallotResponse.Error.count({_ref: {$in: util.convertObjArrToIdArr(current.ballotResponses)}}, function(err, count) {
             initial.errorCount += count;
             done();
           })
