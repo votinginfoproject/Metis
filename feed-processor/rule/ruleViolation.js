@@ -43,8 +43,8 @@ RuleViolation.prototype.createModel = function(model){
     }
     else {
       console.log(
-        "\n**Warning**: Error will NOT be saved in mongo: \n",
-        model);
+        "**Rule Error**: ",
+        thisModel.ruleDef.errorCode, thisModel.entity, thisModel.textualReference);
     }
   }
 }
@@ -56,11 +56,11 @@ function deriveErrorSchema(entity){
 RuleViolation.prototype.save = function(){
   if(config.ruleEngine.isPersistent)
     this.model().save();
-  else
+  else {
     console.log(
-      "\n**Warning**: Error will NOT be saved in mongo: \n",
-      deriveErrorSchema(this.entity), this.model()
-    );
+      "**Rule Error**: ", this.ruleDef.errorCode,
+      deriveErrorSchema(this.entity), this.textualReference);
+  }
 }
 
 module.exports = RuleViolation;

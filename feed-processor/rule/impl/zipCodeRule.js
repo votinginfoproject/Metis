@@ -5,16 +5,15 @@
 var when = require('when');
 
 var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, ruleDef){
-
   var isViolated = false;
-  if((zipCode == null || zipCode == "")){
-    isViolated = true;
+  if((zipCode == null || zipCode.trim() == "")){
+    isViolated = false;
   }
   else {
     matcher = new RegExp(/\d{5}(?:[-\s]\d{4})?/);
-    isViolated = matcher.test(zipCode);
+    isViolated = !matcher.test(zipCode.trim());
   }
-  return when.resolve({isViolated: isViolated, dataItem: zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 }
 exports.evaluate = evaluateValidZipCode;
 

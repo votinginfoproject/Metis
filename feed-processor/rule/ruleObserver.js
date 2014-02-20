@@ -15,8 +15,7 @@ var ActiveRuleStats = {
     activeRules[ruleDef.title] = this.resolveRuleCount(ruleDef) - 1;
   },
   resolveRuleCount: function(ruleDef){
-    count = activeRules[ruleDef.title] ? activeRules[ruleDef.title] : 0;
-    return count;
+    return activeRules[ruleDef.title] ? activeRules[ruleDef.title] : 0;
   },
   applyRule: function(ruleDef){
     activeRules[ruleDef.title] = NaN;

@@ -15,6 +15,6 @@ var evaluateLocalityType = function(localityType, dataSet, entity, constraintSet
   else {
     isViolated = (localityTypesList.indexOf(localityType) < 0);
   }
-  return when.resolve({isViolated: isViolated, dataItem: localityType, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + localityType, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 }
 exports.evaluate = evaluateLocalityType;

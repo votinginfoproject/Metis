@@ -19,7 +19,8 @@ function onUpdate (err, numAffected) {
 
   if (updateCounter <= 0) {
     console.log('****Linking Complete!!!');
-    process.exit(0);
+    console.log('****Initializing Rules Engine');
+    require('./rule/rulesengine').processRules(_feedId);
   }
 };
 
