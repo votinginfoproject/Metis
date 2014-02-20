@@ -72,7 +72,8 @@ config.mongoose = {
     stateError: 'stateErrors',
     streetSegmentError: 'streetSegmentErrors',
 
-    overview: 'overviews'
+    overview: 'overviews',
+    county: 'counties'
 
   },
   connectionString: 'mongodb://localhost/metis'

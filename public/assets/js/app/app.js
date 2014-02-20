@@ -13,13 +13,13 @@
 // VIP app module with its dependencies
 var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
 
-// Constants
+// Constants - will be added to with the properties from the external properties file "vip.properties"
+// the properties that should not be configurable will be placed here beforehand
 vipApp.constant('$appProperties', {
   contextRoot: '',
-  servicesPath: '/services',
-  highPagination: 30,
-  lowPagination: 10
+  servicesPath: '/services'
 });
+
 
 /*
  * VIP App configuration
@@ -301,8 +301,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
     });
 
-
-
     $routeProvider.when('/profile', {
       templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
       controller: 'ProfileCtrl'
@@ -315,8 +313,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
-
-
 
     /*
      * HTTP Interceptor
@@ -358,10 +354,28 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Static initialization block
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http) {
 
-  // TODO
-  //$rootScope.cache = $cacheFactory('vipApp');
+  // read the properties file from the server "vip.properties"
+  $http.get('vip.properties').then(function (response) {
+    var props = response.data.split("\n");
+
+    // parse the properties file
+    for(var i=0; i<props.length; i++){
+      var prop = props[i];
+      var prop_kv = prop.split("=");
+
+      // if the value is a number
+      if(!isNaN(prop_kv[1])){
+        prop_kv[1] = parseFloat(prop_kv[1]);
+      }
+
+      // adding the external properties to the appProperties object
+      $appProperties[prop_kv[0]] = prop_kv[1];
+    }
+
+    $rootScope.$appProperties = $appProperties;
+  });
 
   /*
    * Initialize the cache for the app

@@ -16,7 +16,7 @@
     "vkBeautify": "https://github.com/vkiryukhin/vkBeautify.git"
   },
   "ignoredByBower": {
-    "quickCopyAndPasteOfPotentialDependencies": {
+    "quickCopyAndPasteOfPotentialAngularDependencies": {
       "angular-animate": "1.2.1",
       "angular-loader": "1.2.1",
       "angular-sanitize": "1.2.1",
