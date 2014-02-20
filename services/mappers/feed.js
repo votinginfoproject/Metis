@@ -102,6 +102,7 @@ var mapState = function(path, state) {
   return {
     id: state.elementId,
     error_count: 99, //TODO
+    errors: _path.join(path, '/errors'),
     name: state.name,
     administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
@@ -118,6 +119,7 @@ var mapLocality = function(path, locality) {
   return {
     id: locality.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: locality.name,
     type: locality.type,
     election_machine_type: "Requires 5.0 Schema",
@@ -174,6 +176,7 @@ var mapPrecinct = function(path, precinct) {
   return {
     id: precinct.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: precinct.name,
     number: precinct.number,
     ward: precinct.ward,
@@ -186,6 +189,7 @@ var mapPrecinct = function(path, precinct) {
     streetsegments: {
       total: precinct._streetSegments.length,
       error_count: -1, //TODO
+      errors: path.join(path, '/streetsegments/errors'),
       self: _path.join(path, '/streetsegments')
     }
   };
@@ -208,6 +212,7 @@ function mapElectoralDistrict(path, electoralDistrict) {
   return {
     id: electoralDistrict.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: electoralDistrict.name,
     type: electoralDistrict.type,
     number: electoralDistrict.number,
@@ -262,6 +267,7 @@ function mapContest (path, contest) {
   return {
     id: contest.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     type: contest.type,
     partisan: contest.partisan,
     primary_party: contest.primaryParty,
@@ -297,29 +303,6 @@ function mapContest (path, contest) {
     } : null,
     ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
-};
-
-var mapPolling = function(path, data) {
-  return [ //TODO: All of these are hardcoded currently
-    {
-      element_type: 'Localities',
-      amount: 100,
-      complete_pct: 6,
-      error_count: 0
-    },
-    {
-      element_type: 'Electoral Districts',
-      amount: 976,
-      complete_pct: 21,
-      error_count: 888
-    },
-    {
-      element_type: 'Precincts',
-      amount: 2756,
-      complete_pct: 94,
-      error_count: 206
-    }
-  ];
 };
 
 var mapOverviewTables = function(data) {
@@ -470,21 +453,24 @@ function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: precinctSplit.name,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
       error_count: -1, //TODO
+      errors: path.join(path, '/streetsegments/errors'),
       total: precinctSplit._streetSegments.length,
       self: _path.join(path, '/streetsegments')
     }
   };
 };
 
-function mapEarlyVoteSite (earlyVoteSite) {
+function mapEarlyVoteSite (path, earlyVoteSite) {
   return {
     id: earlyVoteSite.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: earlyVoteSite.name,
     address: addressToJson(earlyVoteSite.address),
     directions: earlyVoteSite.directions,
@@ -495,10 +481,11 @@ function mapEarlyVoteSite (earlyVoteSite) {
   };
 };
 
-function mapElectionAdministration (electionAdministration) {
+function mapElectionAdministration (path, electionAdministration) {
   return {
     id: electionAdministration.elementId,
     error_count: -1, // TODO: need field
+    errors: _path.join(path, '/errors'),
     name: electionAdministration.name,
     physical_address: addressToJson(electionAdministration.physicalAddress),
     mailing_address: addressToJson(electionAdministration.mailingAddress),
@@ -535,6 +522,7 @@ function mapBallot(path, ballot) {
   return {
     id: ballot.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
@@ -557,10 +545,11 @@ function mapReferenda(path, referenda) {
   });
 };
 
-function mapReferendum(referendum) {
+function mapReferendum(path, referendum) {
   return {
     id: referendum.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     title: referendum.title,
     subtitle: referendum.subtitle,
     brief: referendum.brief,
@@ -597,6 +586,7 @@ var mapCandidate = function (path, candidate) {
   return {
     id: candidate.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     name: candidate.name,
     incumbent: candidate.incumbent, //TODO: v5.0 element
     party: candidate.party,
@@ -614,6 +604,7 @@ function mapPollingLocation(path, pollingLocation) {
   return {
     id: pollingLocation.elementId,
     error_count: -1, //TODO
+    errors: _path.join(path, '/errors'),
     address: addressToJson(pollingLocation.address),
     directions: pollingLocation.directions,
     photo_url: pollingLocation.photoUrl,
@@ -656,7 +647,6 @@ exports.mapElectoralDistrict = mapElectoralDistrict;
 exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
-exports.mapPollingSummary = mapPolling;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapStreetSegmentsErrors = mapStreetSegmentsErrors;
