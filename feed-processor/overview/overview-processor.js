@@ -85,10 +85,10 @@ function calculateFields(feedId, saveCalc) {
   contest.contestCalc(feedId, function(contestOverview) {
     console.log('Finished Single Contest');
     contestOverview.forEach(function(overview) {
-      createOverviewModel('Ballot', overview.ballot, -1, overview.section, feedId);
-      createOverviewModel('Candidates', overview.candidate, -1, overview.section, feedId);
-      createOverviewModel('Electoral District', overview.electoralDistrict, -1, overview.section, feedId);
-      createOverviewModel('Referenda', overview.referenda, -1, overview.section, feedId);
+      createOverviewModel('Ballot', overview.ballot, overview.ballot.errorCount, overview.section, feedId);
+      createOverviewModel('Candidates', overview.candidate, overview.candidate.errorCount, overview.section, feedId);
+      createOverviewModel('Electoral District', overview.electoralDistrict, overview.electoralDistrict.errorCount, overview.section, feedId);
+      createOverviewModel('Referenda', overview.referenda, overview.referenda.errorCount, overview.section, feedId);
     });
     wait();
   });
@@ -97,12 +97,12 @@ function calculateFields(feedId, saveCalc) {
   locality.localityCalc(feedId, function(localityOverview) {
     console.log('Finished Single Locality');
     localityOverview.forEach(function(overview) {
-      createOverviewModel('Early Vote Sites', overview.earlyVoteSites, -1, overview.section, feedId);
-      createOverviewModel('Election Administration', overview.electionAdmin, -1, overview.section, feedId);
-      createOverviewModel('Precincts', overview.precincts, -1, overview.section, feedId);
-      createOverviewModel('Precinct Splits', overview.precinctSplits, -1, overview.section, feedId);
-      createOverviewModel('Polling Locations', overview.pollingLocations, -1, overview.section, feedId);
-      createOverviewModel('Street Segments', overview.streetSegments, -1, overview.section, feedId);
+      createOverviewModel('Early Vote Sites', overview.earlyVoteSites, overview.earlyVoteSites.errorCount, overview.section, feedId);
+      createOverviewModel('Election Administration', overview.electionAdmin, overview.electionAdmin.errorCount, overview.section, feedId);
+      createOverviewModel('Precincts', overview.precincts, overview.precincts.errorCount, overview.section, feedId);
+      createOverviewModel('Precinct Splits', overview.precinctSplits, overview.precinctSplits.errorCount, overview.section, feedId);
+      createOverviewModel('Polling Locations', overview.pollingLocations, overview.pollingLocations.errorCount, overview.section, feedId);
+      createOverviewModel('Street Segments', overview.streetSegments, overview.streetSegments.errorCount, overview.section, feedId);
     });
     wait();
   });

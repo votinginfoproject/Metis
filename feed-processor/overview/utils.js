@@ -55,11 +55,12 @@ function countProperties(obj){
   return count;
 }
 
-function createOverviewObject(amount, fieldCount, schemaFieldCount) {
+function createOverviewObject(amount, fieldCount, schemaFieldCount, errorCount) {
   return {
     amount: amount ? amount : 0,
     fieldCount: fieldCount ? fieldCount : 0,
-    schemaFieldCount: schemaFieldCount ? schemaFieldCount : 0
+    schemaFieldCount: schemaFieldCount ? schemaFieldCount : 0,
+    errorCount: errorCount ? errorCount : 0
   }
 }
 
@@ -67,18 +68,20 @@ function addOverviewObjects(first, second) {
   return {
     amount: first.amount + second.amount,
     fieldCount: first.fieldCount + second.fieldCount,
-    schemaFieldCount: first.schemaFieldCount + second.schemaFieldCount
+    schemaFieldCount: first.schemaFieldCount + second.schemaFieldCount,
+    errorCount: first.errorCount + second.errorCount
   }
 }
 
 function reduceOverviewObject(arr, schemaFieldCount) {
   var initial = createOverviewObject();
-  return arr.reduce(function(memo, current) {
+  arr.reduce(function(memo, current) {
     memo.amount++;
     memo.fieldCount += countProperties(current);
     memo.schemaFieldCount += schemaFieldCount;
     return memo;
   }, initial);
+  return initial;
 }
 
 function findOverviewObject(feedId, ids, model, returnTotal) {

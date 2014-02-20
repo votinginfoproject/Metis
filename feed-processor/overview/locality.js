@@ -20,17 +20,36 @@ function localityCalc(feedId, saveCalc) {
        localityOverview.push({ section: locality.elementId });
        var overviewPos = localityOverview.length - 1;
 
+       var localityCount = 0;
+       function wait() {
+         if(++localityCount === 3)
+          done();
+       }
+
        localityOverview[overviewPos].earlyVoteSites = util.reduceOverviewObject(locality._earlyVoteSites, schemas.models.EarlyVoteSite.fieldCount);
+       schemas.models.EarlyVoteSite.Error.count({ _ref: {$in: locality._earlyVoteSites} }, function(err, count) {
+         localityOverview[overviewPos].earlyVoteSites.errorCount = count;
+         wait();
+       });
 
        var adminCount = locality._electionAdministration ? util.countProperties(locality._electionAdministration) : 0;
        localityOverview[overviewPos].electionAdmin = util.createOverviewObject(adminCount ? 1 : 0, adminCount, schemas.models.ElectionAdmin.fieldCount);
+       schemas.models.ElectionAdmin.Error.count({ _ref: locality._electionAdministration }, function(err, count) {
+         localityOverview[overviewPos].electionAdmin.errorCount = count;
+         wait();
+       });
+
 
        precinctsCalc(feedId, locality._precincts, function(precinct, split, pollingLoc, streetSeg) {
          localityOverview[overviewPos].precincts = precinct;
          localityOverview[overviewPos].precinctSplits = split;
          localityOverview[overviewPos].pollingLocations = pollingLoc;
          localityOverview[overviewPos].streetSegments = streetSeg;
-         done();
+
+         schemas.models.Precinct.Error.count({ _ref: {$in: locality._precincts} }, function(err, count) {
+           localityOverview[overviewPos].precincts.errorCount = count;
+           wait();
+         });
        });
 
      }, function(err) { saveCalc(localityOverview); });
@@ -56,9 +75,27 @@ function precinctsCalc(feedId, precincts, returnTotal) {
         done();
     }
 
-    util.findOverviewObject(feedId, precinct._precinctSplits, schemas.models.PrecinctSplit, function(res) { util.addOverviewObjects(splitOverview, res); wait(); });
-    util.findOverviewObject(feedId, precinct._pollingLocations, schemas.models.PollingLocation, function(res) { util.addOverviewObjects(pollingLocOverview, res); wait(); });
-    util.findOverviewObject(feedId, precinct._streetSegments, schemas.models.StreetSegment, function(res) { util.addOverviewObjects(streetSegOverview, res); wait(); });
+    util.findOverviewObject(feedId, precinct._precinctSplits, schemas.models.PrecinctSplit, function(res) {
+      splitOverview = util.addOverviewObjects(splitOverview, res);
+      schemas.models.PrecinctSplit.Error.count({ _ref: {$in: precinct._precinctSplits} }, function(err, count) {
+        splitOverview.errorCount += count;
+        wait();
+      });
+    });
+    util.findOverviewObject(feedId, precinct._pollingLocations, schemas.models.PollingLocation, function(res) {
+      pollingLocOverview = util.addOverviewObjects(pollingLocOverview, res);
+      schemas.models.PollingLocation.Error.count({ _ref: {$in: precinct._pollingLocations} }, function(err, count) {
+        pollingLocOverview.errorCount += count;
+        wait();
+      });
+    });
+    util.findOverviewObject(feedId, precinct._streetSegments, schemas.models.StreetSegment, function(res) {
+      streetSegOverview = util.addOverviewObjects(streetSegOverview, res);
+      schemas.models.StreetSegment.Error.count({ _ref: {$in: precinct._streetSegments} }, function(err, count) {
+        streetSegOverview.errorCount += count;
+        wait();
+      });
+    });
 
   }, function(err) { returnTotal(precinctOverview, splitOverview, pollingLocOverview, streetSegOverview); });
 }

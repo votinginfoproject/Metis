@@ -16,7 +16,7 @@ function contestCalc(feedId, saveCalc) {
       async.each(contests, function(data, done) {
         var counter = 0;
         function wait() {
-          if(++counter === 2)
+          if(++counter === 4)
             done();
         }
 
@@ -24,10 +24,25 @@ function contestCalc(feedId, saveCalc) {
         contestOverview.push({ section: contest.elementId });
         var overviewPos = contestOverview.length - 1;
 
-        contestOverview[overviewPos].ballot = util.createOverviewObject(1, util.countProperties(contest._ballot), schemas.models.Ballot.fieldCount);
-        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(1, util.countProperties(contest._electoralDistrict), schemas.models.ElectoralDistrict.fieldCount);
+        contestOverview[overviewPos].ballot = util.createOverviewObject(1, util.countProperties(contest._ballot), schemas.models.Ballot.fieldCount, 0);
+        schemas.models.Ballot.Error.count({_ref: contest._ballot}, function(err, count) {
+          contestOverview[overviewPos].ballot.errorCount = count;
+          wait();
+        });
 
-        util.findOverviewObject(feedId, contest._ballot._doc.candidates, schemas.models.Candidate, function(res) { contestOverview[overviewPos].candidate = res; wait(); });
+        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(1, util.countProperties(contest._electoralDistrict), schemas.models.ElectoralDistrict.fieldCount, 0);
+        schemas.models.ElectoralDistrict.Error.count({_ref: contest._electoralDistrict}, function(err, count) {
+          contestOverview[overviewPos].electoralDistrict.errorCount = count;
+          wait();
+        });
+
+        util.findOverviewObject(feedId, contest._ballot._doc.candidates, schemas.models.Candidate, function(res) {
+          contestOverview[overviewPos].candidate = res;
+          schemas.models.Candidate.Error.count({_ref: {$in: contest._ballot._doc.candidates}}, function(err, count) {
+            contestOverview[overviewPos].candidate.errorCount = count;
+            wait();
+          });
+        });
         contestReferendumCalc(feedId, contest._ballot, function(res) { contestOverview[overviewPos].referenda = res; wait(); });
 
       }, function(err) { saveCalc(contestOverview); });
@@ -43,12 +58,22 @@ function contestReferendumCalc(feedId, ballot, returnTotal) {
       initial.fieldCount += util.countProperties(current);
       initial.schemaFieldCount += schemas.models.Referendum.fieldCount;
       if(current._doc.ballotResponses) {
-        util.findOverviewObject(feedId, current._doc.ballotResponses, schemas.models.BallotResponse, function(res) { util.addOverviewObjects(initial, res); done(); });
+        util.findOverviewObject(feedId, current._doc.ballotResponses, schemas.models.BallotResponse, function(res) { util.addOverviewObjects(initial, res);
+          schemas.models.BallotResponse.Error.count({_ref: {$in: current._doc.ballotResponses}}, function(err, count) {
+            initial.errorCount += count;
+            done();
+          })
+        });
       }
       else
         done();
 
-    }, function(err) { returnTotal(initial) });
+    }, function(err) {
+      schemas.models.Referendum.Error.count({_ref: {$in: results}}, function(err, count) {
+        initial.errorCount += count;
+        returnTotal(initial);
+      });
+    });
   });
 }
 
