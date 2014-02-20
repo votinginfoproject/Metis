@@ -97,8 +97,18 @@ function findOverviewObject(feedId, ids, model, returnTotal) {
   }
 }
 
+function convertObjArrToIdArr(arr) {
+  return arr.map(function(cur) {
+    if(cur._response)
+      return cur._response;
+    else
+      return cur._candidate;
+  });
+}
+
 exports.countProperties = countProperties;
 exports.createOverviewObject = createOverviewObject;
 exports.addOverviewObjects = addOverviewObjects;
 exports.reduceOverviewObject = reduceOverviewObject;
 exports.findOverviewObject = findOverviewObject;
+exports.convertObjArrToIdArr = convertObjArrToIdArr;
