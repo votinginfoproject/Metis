@@ -14,12 +14,10 @@ var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition){
   var when = require('when');
   rule = ruleDefinition;
 
-  //console.log("feedId", feedId);
   var finds = [];
     constraintSet.entity.forEach(function(model) {
-    collectionName = model
       Model = mongoose.model(model);
-      finds.push(Model.find({ _feed: feedId },{'elementId':1,'_feed':1}).exec());
+      finds.push(Model.find({ '_feed': feedId },{'elementId':1,'_feed':1}).exec());
     }, this);
 
     when.all(finds)
@@ -98,7 +96,7 @@ function storeErrors(dupes, feedId) {
       _feed: errorModel._feed
     });
 
-    return error;
+    return error.save();
   }
 
 

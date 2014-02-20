@@ -7,14 +7,14 @@ var when = require('when');
 var evaluateAddressDirectionType = function(addressDirectionType, dataSet, entity, constraintSet, ruleDef){
 
   var isViolated = false;
-  var addressDirectionTypesList = ['n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest']
+  var addressDirectionTypesList = ['n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest'];
 
   if((addressDirectionType == null || addressDirectionType == "")){
-    isViolated = true;
+    isViolated = false;
   }
   else {
-    isViolated = (addressDirectionTypesList.indexOf(addressDirectionType) < 0);
+    isViolated = (addressDirectionTypesList.indexOf(addressDirectionType.trim().toLowerCase()) < 0);
   }
-  return when.resolve({isViolated: isViolated, dataItem: addressDirectionType, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: "direction = " + addressDirectionType, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 }
 exports.evaluate = evaluateAddressDirectionType;

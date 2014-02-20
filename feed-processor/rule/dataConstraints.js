@@ -11,9 +11,9 @@ var theseConstraints = {
   /* Unique Ids */
   uniqueIdCheck : [
     {
-      entity: [ "ballots", "candidates", "contests", "elections", "electionAdministrations", "electionOfficials",
-        "electoralDistricts","localitys","pollingLocations","precincts", "precinctSplits", "sources", "states" ],
-      fields: [ "elementId" ]
+      entity: [ 'ballots', 'candidates', 'contests', 'elections', 'electionAdministrations', 'electionOfficials',
+        'electoralDistricts','localitys','pollingLocations','precincts', 'precinctSplits', 'sources', 'states' ],
+      fields: [ 'elementId' ]
     }
   ],
 
@@ -27,32 +27,36 @@ var theseConstraints = {
   /*  Valid Url  */
   validUrl : [
     {
-      entity: [models.ballot], fields: ["imageUrl"]
+      entity: [models.ballot], fields: ['imageUrl']
     } ,
     {
-      entity: [models.candidate], fields: ["candidateUrl", "photoUrl"]
+      entity: [models.candidate], fields: ['candidateUrl', 'photoUrl']
     },
     {
-      entity: [models.election], fields: ["resultsUrl"]
+      entity: [models.election], fields: ['resultsUrl']
     },
     {
-      entity: [models.electionAdministration], fields: [ "electionsUrl","registrationUrl", "amIRegisteredUrl",
-                                                         "absenteeUrl", "whereDoIVoteUrl", "whatIsOnMyBallotUrl",
-                                                         "rulesUrl" ]
+      entity: [models.electionAdministration], fields: [ 'electionsUrl','registrationUrl', 'amIRegisteredUrl',
+                                                         'absenteeUrl', 'whereDoIVoteUrl', 'whatIsOnMyBallotUrl',
+                                                         'rulesUrl' ]
     },
     {
-      entity: [models.pollingLocation], fields: ["photoUrl"]
+      entity: [models.pollingLocation], fields: ['photoUrl']
     },
     {
-      entity: [models.precinct], fields: ["ballotStyleImageUrl"]
+      entity: [models.precinct], fields: ['ballotStyleImageUrl']
     },
     {
-      entity: [models.precinctSplit], fields: ["ballotStyleImageUrl"]
+      entity: [models.precinctSplit], fields: ['ballotStyleImageUrl']
     },
     {
-      entity: [models.source], fields: ["organizationUrl"]
+      entity: [models.source], fields: ['organizationUrl']
     }
   ],
+  addressDirection : [
+    {
+      entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection', 'nonHouseAddress.streetDirection']
+    }],
 
   /* locality type range */
   localityType: [
@@ -63,20 +67,29 @@ var theseConstraints = {
   /* email format */
   emailFormat : [
     {
-      entity: [], fields: []
+      entity: [models.candidate], fields: ['email']
+    },
+    {
+      entity: [models.electionOfficial], fields: ['email']
     }],
 
   /* phone number format */
   phoneNumberFormat : [
     {
-      entity: [], fields: []
+      entity: [models.candidate], fields: ['phone']
+    },
+    {
+      entity: [models.electionOfficial], fields: ['phone']
     }],
 
   /* zip code format */
   zipCodeFormat : [
     {
-      entity: [], fields: []
-  }]
+      entity: [models.electionAdministration], fields: ['mailingAddress.zip', 'physicalAddress.zip']
+    },
+    {
+      entity: [models.pollingLocation], fields: ['address.zip']
+    }]
 
 };
 

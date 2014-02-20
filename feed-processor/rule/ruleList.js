@@ -34,7 +34,7 @@ var metisRuleList = [
     title: 'uniqueIdCheckToo',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
-    isActive: true,
+    isActive: false,
     errorCode: 3,
     severityCode: 1,
     severityText: 'All top-level metis elements must have a unique ID value',
@@ -57,7 +57,7 @@ var metisRuleList = [
     type: 'feedLevelRule',
     isFeedLevelRule: true,
     isActive: false,
-    errorCode: 4,
+    errorCode: 'V',
     severityCode: 2,
     severityText: 'Invalid locality type',
     implementation: './impl/localityTypes',
@@ -78,7 +78,7 @@ var metisRuleList = [
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: false,
-    errorCode: 4,
+    errorCode: 'D',
     severityCode: 1,
     severityText: 'All top-level metis elements must have a unique ID value',
     implementation: './impl/uniqueId',
@@ -88,9 +88,9 @@ var metisRuleList = [
   /* address direction range */
   {
     title: 'addressDirectionRule',
-    type: 'addressDirectionRule',
+    type: 'objectLevelRule',
     isFeedLevelRule: false,
-    isActive: false,
+    isActive: true,
     errorCode: 5,
     severityCode: 1,
     severityText: 'Address Direction value does not fall within the predefined set of recognized value types or formats',
@@ -100,8 +100,9 @@ var metisRuleList = [
   /* email format */
   {
     title: 'emailFormatRule',
-    type: 'emailFormatRule',
+    type: 'objectLevelRule',
     isFeedLevelRule: false,
+    isActive: true,
     errorCode: 6,
     severityCode: 1,
     severityText: 'Invalid email address format provided',
@@ -111,9 +112,10 @@ var metisRuleList = [
   /* phone number format */
   {
     title: 'phoneNumberRule',
-    type: 'phoneNumberRule',
+    type: 'objectLevelRule',
     isFeedLevelRule: false,
-    errorCode: 6,
+    isActive: true,
+    errorCode: 7,
     severityCode: 1,
     severityText: 'Invalid phone number provided',
     implementation: './impl/phoneNumberRule',
@@ -124,10 +126,10 @@ var metisRuleList = [
   /* zip code format */
   {
     title: 'zipCodeRule',
-    type: 'zipCodeRule',
+    type: 'objectLevelRule',
     isFeedLevelRule: false,
-    isActive: false,
-    errorCode: 6,
+    isActive: true,
+    errorCode: 8,
     severityCode: 1,
     severityText: 'Invalid zip code format provided',
     implementation: './impl/zipCodeRule',

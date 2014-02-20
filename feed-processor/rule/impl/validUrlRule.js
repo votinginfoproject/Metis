@@ -10,10 +10,15 @@ var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleD
     isViolated = true;
   }
   else {
-    matcher = new RegExp(/http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))/);
-    isViolated = !matcher.test(urlString);
+    try {
+      matcher = new RegExp(/http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))/);
+      isViolated = !matcher.test(urlString);
+    }
+    catch(err){
+      console.log(err);
+    }
   }
-  return when.resolve({isViolated: isViolated, dataItem: urlString, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + urlString, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 };
 
 exports.evaluate = evaluateValidUrl;

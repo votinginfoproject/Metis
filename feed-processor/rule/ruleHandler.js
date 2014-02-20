@@ -40,7 +40,8 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
 RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
   //TODO: Make this a case statement
   if(RuleHandler.prototype.ruleInstance.type != 'feedLevelRule'){
-    for(p=0; p < constraintSet.entity.length; p++){
+    for(var p=0; p < constraintSet.entity.length; p++){
+      //console.log('fetching..' + RuleHandler.prototype.ruleInstance.ruleDef.title, constraintSet.entity, constraintSet.fields);
       fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, RuleHandler.prototype.vipFeedId, RuleHandler.prototype.ruleInstance).then(
         function(fetchedData){
           RuleHandler.prototype.processDataResults(fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet, cb);
@@ -58,13 +59,14 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 
 
 RuleHandler.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
-  for(i = 0; i < results.length; i++){
+  for(var i = 0; i < results.length; i++){
     result = results[i];
     if(constraintSet.fields.length > 0) {
       for(j=0; j < constraintSet.fields.length; j++){
         field = constraintSet.fields[j];
-        if(result[field] != null) {
-          RuleHandler.prototype.processRule(ruleDef, result[field], result, entity, constraintSet, cb);
+        resultItem = formatNestedResult(field, result);
+        if(resultItem != null) {
+          RuleHandler.prototype.processRule(ruleDef, resultItem, result, entity, constraintSet, cb);
         }
       }
     }
@@ -74,8 +76,23 @@ RuleHandler.prototype.processDataResults = function(ruleDef, entity, results, co
       }
     }
   }
+  if(i==0){
+    console.log('no results for ', ruleDef.title);
+    ActiveRuleStats.increaseRuleCount(ruleDef);
+    ActiveRuleStats.decreaseRuleCount(ruleDef);
+  }
 }
 
+function formatNestedResult(field, result){
+  resultItem = null;
+  if(field.indexOf('.') > 0){
+    nestedParam = field.split('.');
+    resultItem = result[nestedParam[0]][nestedParam[1]];
+  }else {
+    resultItem = result[field];
+  }
+  return resultItem;
+}
 
 RuleHandler.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, constraintSet, cb){
   ActiveRuleStats.increaseRuleCount(ruleDef);
@@ -102,9 +119,8 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
   //console.log(ActiveRuleStats.statusRuleCount());
   fn.call(require(ruleDef.implementation).evaluate, feedId, constraintSet, ruleDef)
     .then(function(rule){
-
       if(rule.errorList != null){
-        RuleHandler.prototype.addErrorViolations(rule.errorList);
+        //RuleHandler.prototype.addErrorViolations(rule.errorList);
       }
       ActiveRuleStats.decreaseRuleCount(ruleDef);
       //console.log(ActiveRuleStats.statusRuleCount());

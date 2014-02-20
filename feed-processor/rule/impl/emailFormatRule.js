@@ -12,9 +12,9 @@ var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, 
   }
   else {
     matcher = new RegExp(/[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]/);
-    isViolated = matcher.test(emailAddress);
+    isViolated = !matcher.test(emailAddress);
   }
 
-  return when.resolve({isViolated: isViolated, dataItem: emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 }
 exports.evaluate = evaluateValidEmail;
