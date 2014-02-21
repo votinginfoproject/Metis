@@ -98,3 +98,39 @@ vipApp_ns.parseAndAddProperties = function(data, $appProperties) {
     }
   }
 }
+
+/*
+ * Generates a LeafLet map on the page given an element with id of "map"
+ *
+ * @data - contains the map data
+ * @properties - contains map properties
+ */
+vipApp_ns.generateMap = function(data, properties) {
+
+  jQuery("#map").show();
+  var map = L.map('map').setView([37.8, -96], 4);
+
+  var cloudmade = L.tileLayer(
+    properties.mapTileLayer, {
+      attribution: properties.mapAttribution,
+      key: properties.mapKey,
+      styleId: properties.mapStyleId
+    }).addTo(map);
+
+  var geojson = L.geoJson(data, {
+    style: {
+      fillColor: properties.mapFillColor,
+      color: properties.mapColor,
+      weight: properties.mapWeight,
+      fillOpacity: properties.mapFillOpacity
+    },
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup(feature.properties.name);
+    }
+  });
+  map.fitBounds(geojson.getBounds());
+  geojson.addTo(map);
+
+  map.attributionControl.addAttribution('County data &copy; <a target="_blank" href="http://census.gov/">US Census Bureau</a>');
+
+}

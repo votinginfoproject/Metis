@@ -104,6 +104,7 @@ var mapState = function(path, state) {
     error_count: 99, //TODO
     errors: _path.join(path, '/errors'),
     name: state.name,
+    county_map: _path.join('/services/geo/', state.elementId.toString(), 'counties'),
     administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
