@@ -195,6 +195,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
       .when('/feeds/:vipfeed/source/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/contestresult/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate/errors', error)
       .when('/feeds/:vipfeed/election/contest/:contest/ballot/referenda/:referendum/errors', error)

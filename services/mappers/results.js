@@ -75,6 +75,7 @@ function mapContestResult(path, contestResult) {
   return {
     id: contestResult.elementId,
     error_count: -1, // TODO
+    errors: _path.join(path, '/errors'),
     entire_district: contestResult.entireDistrict,
     total_votes: contestResult.totalVotes,
     total_valid_votes: contestResult.totalValidVotes,
