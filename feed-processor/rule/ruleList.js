@@ -34,7 +34,7 @@ var metisRuleList = [
     title: 'uniqueIdCheckToo',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
-    isActive: false,
+    isActive: true,
     errorCode: 3,
     severityCode: 1,
     severityText: 'All top-level metis elements must have a unique ID value',

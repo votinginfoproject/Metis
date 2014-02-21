@@ -3,7 +3,6 @@
  */
 var mongoose = require('mongoose');
 var config = require('../../config');
-var isBaseModel = false;
 var thisModel = null;
 
 function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
@@ -16,11 +15,17 @@ function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, 
   this.textualReference = item;
 }
 
-//TODO: prototype toString()
+RuleViolation.prototype.model = function(modelName){
+  var Violation = null;
 
-RuleViolation.prototype.model = function(){
-  var Violation = mongoose.model(deriveErrorSchema(this.entity));
-  if(!isBaseModel){
+  if(modelName == null || modelName.trim() == "")
+    Violation = mongoose.model(deriveErrorSchema(this.entity));
+  else {
+    this.entity = modelName;
+    Violation = mongoose.model(modelName);
+  }
+
+  if(thisModel == null){
     thisModel = new Violation({
       severityCode: this.ruleDef.severityCode,
       severityText: this.ruleDef.severityText,
@@ -35,19 +40,6 @@ RuleViolation.prototype.model = function(){
   return thisModel;
 }
 
-RuleViolation.prototype.createModel = function(model){
-  thisModel = model;
-  if(model != null) {
-    if(config.ruleEngine.isPersistent) {
-      model.save();
-    }
-    else {
-      console.log(
-        "**Rule Error**: ",
-        thisModel.ruleDef.errorCode, thisModel.entity, thisModel.textualReference);
-    }
-  }
-}
 
 function deriveErrorSchema(entity){
   return (entity.substring(0,entity.length-1) + 'Errors');
@@ -58,7 +50,7 @@ RuleViolation.prototype.save = function(){
     this.model().save();
   else {
     console.log(
-      "**Rule Error**: ", this.ruleDef.errorCode,
+      "**Rule (errorCode:", this.ruleDef.errorCode + ") -",
       deriveErrorSchema(this.entity), this.textualReference);
   }
 }

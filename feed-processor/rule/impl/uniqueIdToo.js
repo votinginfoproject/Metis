@@ -4,7 +4,7 @@
 
 var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
+var ruleViolation = require('../ruleviolation');
 var when = require('when');
 var deferred = when.defer();
 
@@ -33,7 +33,7 @@ function errorHandler(err) {
 }
 
 function processQueryResults(foundDocs) {
-  console.log('All queries completed.');
+  //console.log('All queries completed.');
 
   var idCounts = {};
 
@@ -49,11 +49,11 @@ function processQueryResults(foundDocs) {
 
   storeErrors(filterDuplicates(idCounts));
   this.complete = true;
-  console.log('processQueryResults complete');
+  //console.log('processQueryResults complete');
 }
 
 function filterDuplicates(idCounts) {
-  console.log('Filtering duplicates.');
+ // console.log('Filtering duplicates.');
   var duplicateIds = Object.keys(idCounts).filter(function(key) {
     return idCounts[key].count > 1;
   });
@@ -61,7 +61,6 @@ function filterDuplicates(idCounts) {
   var duplicates = [];
 
   duplicateIds.forEach(function(id) {
-    console.log('dupe found', id);
     idCounts[id].id = id;
     duplicates.push(idCounts[id]);
   });
@@ -70,12 +69,12 @@ function filterDuplicates(idCounts) {
 }
 
 function storeErrors(dupes, feedId) {
-  console.log('Storing errors.');
+  //console.log('Storing errors.');
   var savePromises = [];
 
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
-      savePromises.push(createError(errModel, dupe.id, feedId));
+      savePromises.push(createError(errModel, dupe.id));
     });
   });
 
@@ -84,19 +83,9 @@ function storeErrors(dupes, feedId) {
 
 
   function createError(errorModel, id) {
-    error = new errorModel.model({
-      severityCode: rule.severityCode,
-      severityText: rule.severityText,
-      errorCode: rule.errorCode,
-      title: rule.title,
-      details: errorModel.doc,
-      textualReference: 'id = ' + id,
-      refElementId: id,
-      _ref: errorModel._ref,
-      _feed: errorModel._feed
-    });
-
-    return error.save();
+    ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
+    violation = ruleErrors.model(errorModel.model.modelName);
+    return ruleErrors.save();
   }
 
 

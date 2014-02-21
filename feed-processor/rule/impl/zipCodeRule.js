@@ -13,7 +13,7 @@ var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, rul
     matcher = new RegExp(/\d{5}(?:[-\s]\d{4})?/);
     isViolated = !matcher.test(zipCode.trim());
   }
-  return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
+  return when.resolve({isViolated: isViolated, dataItem: "valid value: zip = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 }
 exports.evaluate = evaluateValidZipCode;
 

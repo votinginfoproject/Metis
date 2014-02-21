@@ -119,9 +119,6 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
   //console.log(ActiveRuleStats.statusRuleCount());
   fn.call(require(ruleDef.implementation).evaluate, feedId, constraintSet, ruleDef)
     .then(function(rule){
-      if(rule.errorList != null){
-        //RuleHandler.prototype.addErrorViolations(rule.errorList);
-      }
       ActiveRuleStats.decreaseRuleCount(ruleDef);
       //console.log(ActiveRuleStats.statusRuleCount());
       if(ActiveRuleStats.atTerminalState())
@@ -135,9 +132,9 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
 
 RuleHandler.prototype.addErrorViolations = function addErrorViolations(errorList){
   for(i = 0; i < errorList.length; i++){
-    violation = new Violation();
-    violations[violations.length] = errorList[i];
-    violation.createModel(errorList[i]);
+    violation = errorList[i];
+    violations[violations.length] = violation;
+    violation.save();
   }
 }
 
