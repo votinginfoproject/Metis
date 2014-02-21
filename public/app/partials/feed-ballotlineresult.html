@@ -1,7 +1,7 @@
 <i id="feed-ballotlineresult-content"></i>
 
 <a ng-if="feedBallotLineResult.error_count" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallotLineResult.error_count}}
-  Errors In Ballot Line Result ID: {{feedBallotLineResult.error_count}}</a>
+  Errors In Ballot Line Result ID: {{feedBallotLineResult.id}}</a>
 <mark ng-if="!feedBallotLineResult.error_count">link</mark>
 
 <span ng-if="!feedBallotLineResult" class="is-loading"></span>
