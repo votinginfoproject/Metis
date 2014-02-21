@@ -205,9 +205,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/errors', error)
       .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/pollinglocations/:pollinglocations/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/electoraldistricts/:electoraldistrict/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/electoraldistricts/:electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/pollinglocations/:pollinglocations/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/electoraldistrict/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/errors', error)
       .when('/feeds/:vipfeed/election/errors', error)
@@ -245,43 +247,43 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/template/precinct-split', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
     });
-
+    // done
     $routeProvider.when('/template/election-administration', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/election-administration.html'
     });
-
+    // done
     $routeProvider.when('/template/early-vote-site', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/early-vote-site.html'
     });
-
+    // done
     $routeProvider.when('/template/polling-location', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/polling-location.html'
     });
-
+    // done
     $routeProvider.when('/template/contests', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/contests.html'
     });
-
+    // done
     $routeProvider.when('/template/contest', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest.html'
     });
-
+    // done
     $routeProvider.when('/template/ballot', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot.html'
     });
-
+    // done
     $routeProvider.when('/template/candidate', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/candidate.html'
     });
-
+    // done
     $routeProvider.when('/template/electoral-district', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/electoral-district.html'
     });
-
+    // done
     $routeProvider.when('/template/contest-result', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest-result.html'
     });
-
+    // done
     $routeProvider.when('/template/ballot-line-result', {
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot-line-result.html'
     });
@@ -551,6 +553,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "pollinglocations"){
         name = "polling locations";
+      }
+
+      if(name === "contestresult"){
+        name = "contest result";
+      }
+
+      if(name === "ballotlineresults"){
+        name = "ballot line results";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
