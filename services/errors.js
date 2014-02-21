@@ -25,7 +25,9 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/earlyvotesites/:evsid/errors', utils.ensureAuthentication, callbacks.earlyVoteSiteErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/electionadministration/errors', utils.ensureAuthentication, callbacks.localityElectionAdminErrorsGET);
   app.get('/services/feeds/:feedid/election/state/electionadministration/errors', utils.ensureAuthentication, callbacks.stateElectionAdminErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/contestresult/errors', utils.ensureAuthentication, callbacks.contestResultErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/errors', utils.ensureAuthentication, callbacks.ballotErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/ballotlineresults/:ballotlineresult/errors', utils.ensureAuthentication, callbacks.ballotLineResultErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/referenda/:referendumid/errors', utils.ensureAuthentication, callbacks.referendumErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid/errors', utils.ensureAuthentication, callbacks.candidateErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations/:pollinglocationid/errors', utils.ensureAuthentication, callbacks.pollingLocErrorsGET);
