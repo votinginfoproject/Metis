@@ -61,11 +61,11 @@
 
 <section class="data-group">
   <h2>{{feedLocalities.length}} Localities
-    <small>(Counties)</small>
+    <small>({{feedCounties.features.length}} Counties)</small>
   </h2>
-
+  <span ng-if="!feedCounties" class="is-loading"></span>
   <p>
-    <mark>Map goes here.</mark>
+  <div id="map" class="map" hidden></div>
   </p>
 
   <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
