@@ -84,6 +84,16 @@ function ballotErrorsGET(req, res) {
     mapAndReturnErrors.bind(undefined, res));
 }
 
+function ballotLineResultErrorsGET(req, res) {
+  daoErrors.ballotLineResultErrors(req.params.feedid, req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res));
+}
+
+function contestResultErrorsGET(req, res) {
+  daoErrors.contestResultErrors(req.params.feedid, req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res));
+}
+
 function referendumErrorsGET(req, res) {
   daoErrors.referendumErrors(req.params.feedid, req.params.referendumid,
   mapAndReturnErrors.bind(undefined, res));
@@ -125,6 +135,8 @@ exports.earlyVoteSiteErrorsGET = earlyVoteSiteErrorsGET;
 exports.localityElectionAdminErrorsGET = localityElectionAdminErrorsGET;
 exports.stateElectionAdminErrorsGET = stateElectionAdminErrorsGET;
 exports.ballotErrorsGET = ballotErrorsGET;
+exports.ballotLineResultErrorsGET = ballotLineResultErrorsGET;
+exports.contestResultErrorsGET = contestResultErrorsGET;
 exports.referendumErrorsGET = referendumErrorsGET;
 exports.candidateErrorsGET = candidateErrorsGET;
 exports.pollingLocErrorsGET = pollingLocErrorsGET;

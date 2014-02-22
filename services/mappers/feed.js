@@ -104,6 +104,7 @@ var mapState = function(path, state) {
     error_count: 99, //TODO
     errors: _path.join(path, '/errors'),
     name: state.name,
+    county_map: _path.join('/services/geo/', state.elementId.toString(), 'counties'),
     administration: (state._electionAdministration === undefined) ? null : {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
@@ -189,7 +190,7 @@ var mapPrecinct = function(path, precinct) {
     streetsegments: {
       total: precinct._streetSegments.length,
       error_count: -1, //TODO
-      errors: path.join(path, '/streetsegments/errors'),
+      errors: _path.join(path, '/streetsegments/errors'),
       self: _path.join(path, '/streetsegments')
     }
   };
@@ -459,7 +460,7 @@ function mapPrecinctSplit (path, precinctSplit) {
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
       error_count: -1, //TODO
-      errors: path.join(path, '/streetsegments/errors'),
+      errors: _path.join(path, '/streetsegments/errors'),
       total: precinctSplit._streetSegments.length,
       self: _path.join(path, '/streetsegments')
     }
