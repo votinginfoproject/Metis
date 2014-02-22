@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var config = require('../../config');
-var thisModel = null;
+var thisModelName = null;
 
 function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
   this.entity = entity;
@@ -17,37 +17,41 @@ function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, 
 
 RuleViolation.prototype.model = function(modelName){
   var Violation = null;
-
-  if(modelName == null || modelName.trim() == "")
-    Violation = mongoose.model(deriveErrorSchema(this.entity));
+  if(modelName == null || modelName.trim() == ""){
+    thisModelName = deriveErrorSchema(this.entity);
+    //TODO: enhance debug here with console.log('created derived model for', thisModelName);
+    Violation = mongoose.model(thisModelName);
+  }
   else {
-    this.entity = modelName;
+    //TODO: enhance debug here with console.log('create model for', modelName);
     Violation = mongoose.model(modelName);
+    thisModelName = modelName;
   }
 
-  if(thisModel == null){
-    thisModel = new Violation({
-      severityCode: this.ruleDef.severityCode,
-      severityText: this.ruleDef.severityText,
-      errorCode: this.ruleDef.errorCode,
-      title: this.ruleDef.title,
-      details: this.details,
-      textualReference: this.textualReference,
-      _ref: this.refEntityId,
-      _feed: this.feedId
-    });
-  }
-  return thisModel;
+  Model = new Violation({
+    severityCode: this.ruleDef.severityCode,
+    severityText: this.ruleDef.severityText,
+    errorCode: this.ruleDef.errorCode,
+    title: this.ruleDef.title,
+    details: this.details,
+    textualReference: this.textualReference,
+    _ref: this.refEntityId,
+    _feed: this.feedId
+  });
+  //TODO: enhance debug here with console.log(Model);
+  return Model;
 }
-
 
 function deriveErrorSchema(entity){
   return (entity.substring(0,entity.length-1) + 'Errors');
 }
 
 RuleViolation.prototype.save = function(){
-  if(config.ruleEngine.isPersistent)
+  //TODO: enhance debug here with console.log('about to save', thisModelName);
+  //TODO: enhance error handling here with try catch
+  if(config.ruleEngine.isPersistent){
     this.model().save();
+  }
   else {
     console.log(
       "**Rule (errorCode:", this.ruleDef.errorCode + ") -",
