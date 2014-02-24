@@ -8,6 +8,7 @@ var config = require('../config');
 //database setup
 var mongoose = require('mongoose');
 var daoSchemas = require('./schemas');
+var when = require('when');
 
 function dbConnect() {
   mongoose.connect(config.mongoose.connectionString);
@@ -32,10 +33,38 @@ function getFeedOverview (id, callback) {
   daoSchemas.models.Feed.findById(id, { payload: 0 })
     .populate('_state')
     .exec(function(err, overview) {
-      daoSchemas.models.Feed.Error.count({_ref: id}, function(err, count) {
-        overview.errorCount = count;
+      var allErrorModels = [daoSchemas.models.Ballot.Error,
+        daoSchemas.models.BallotResponse.Error,
+        daoSchemas.models.BallotLineResult.Error,
+        daoSchemas.models.Candidate.Error,
+        daoSchemas.models.Contest.Error,
+        daoSchemas.models.ContestResult.Error,
+        daoSchemas.models.CustomBallot.Error,
+        daoSchemas.models.EarlyVoteSite.Error,
+        daoSchemas.models.Election.Error,
+        daoSchemas.models.ElectionAdmin.Error,
+        daoSchemas.models.ElectionOfficial.Error,
+        daoSchemas.models.ElectoralDistrict.Error,
+        daoSchemas.models.Locality.Error,
+        daoSchemas.models.PollingLocation.Error,
+        daoSchemas.models.Precinct.Error,
+        daoSchemas.models.PrecinctSplit.Error,
+        daoSchemas.models.Referendum.Error,
+        daoSchemas.models.Source.Error,
+        daoSchemas.models.State.Error,
+        daoSchemas.models.StreetSegment.Error];
+
+      overview.errorCount = 0;
+      var errorQueries = allErrorModels.map(function (model) {
+        return model.count({_feed: overview._id}).exec();
+      });
+
+      when.all(errorQueries).then(function(counts) {
+        counts.forEach(function(count) {
+          overview.errorCount += count;
+        });
         callback(null, overview);
-      })
+      });
     });
 };
 
