@@ -153,34 +153,8 @@ function FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, ser
       // set the feeds data into the Angular model
       $scope.feedCounties = data;
 
-      jQuery("#map").show();
-
-      var map = L.map('map').setView([37.8, -96], 4);
-
-      var mapBundle = $rootScope.$appProperties.mapBundle;
-
-      var cloudmade = L.tileLayer(
-        $rootScope.$appProperties["mapBundle" + mapBundle + "_TileLayer"], {
-        attribution: $rootScope.$appProperties["mapBundle" + mapBundle + "_Attribution"],
-        key: $rootScope.$appProperties.mapKey,
-        styleId: $rootScope.$appProperties["mapBundle" + mapBundle + "_StyleId"]
-      }).addTo(map);
-
-      var geojson = L.geoJson(data, {
-        style: {
-          fillColor: $rootScope.$appProperties.mapFillColor,
-          color: $rootScope.$appProperties.mapColor,
-          weight: $rootScope.$appProperties.mapWeight,
-          fillOpacity: $rootScope.$appProperties.mapFillOpacity
-        },
-        onEachFeature: function (feature, layer) {
-          layer.bindPopup(feature.properties.name);
-        }
-      });
-      map.fitBounds(geojson.getBounds());
-      geojson.addTo(map);
-
-      map.attributionControl.addAttribution('County data &copy; <a target="_blank" href="http://census.gov/">US Census Bureau</a>');
+      // generate the map
+      vipApp_ns.generateMap(data, $rootScope.$appProperties);
 
     }).error(function (data) {
 

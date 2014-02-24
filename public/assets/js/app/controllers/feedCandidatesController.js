@@ -9,7 +9,7 @@ function FeedCandidatesCtrl($scope, $rootScope, $feedsService, $routeParams, $ap
   $scope.vipfeed = feedid;
 
   // initialize page header variables
-  $rootScope.setPageHeader("Contests", $rootScope.getBreadCrumbs(), "feeds", "", null);
+  $rootScope.setPageHeader("Candidates", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -52,9 +52,9 @@ function FeedContestsCtrl_getFeedCandidates($scope, $rootScope, $feedsService, s
       $scope.candidatesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
       // set the title
-      $rootScope.pageHeader.title = $scope.feedCandidates.length + " Contests";
+      $rootScope.pageHeader.title = $scope.feedCandidates.length + " Candidates";
     }).error(function(data, $http) {
-      $rootScope.pageHeader.error += "Could not retrieve Feed Contests data. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed Candidates data. ";
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedCandidates = {};

@@ -33,11 +33,8 @@ var evaluateUniqueId = function(uniqueId, dataSet, entity, constraintSet, ruleDe
   );
 
   constraintSet.entity.forEach(function(thisEntity, next){
-    //for(j = 0; j < constraintSet.entity; j++){
     if(isViolated) next();
     Model = mongoose.model(thisEntity);
-    //Model = mongoose.model(constraintSet.entity[j]);
-
     promise = Model
       .find({_feed:dataSet._feed})
       .where({'elementId':uniqueId}, {_feed:1, _id:1, elementId:1})
@@ -48,12 +45,10 @@ var evaluateUniqueId = function(uniqueId, dataSet, entity, constraintSet, ruleDe
         console.log('resolving..');
         resolution = {isViolated: isViolated, dataItem: uniqueId, dataSet: dataSet, entity: entity, ruleDef: ruleDef };
         allResults.push(resolution);
-        //deferred.resolve(resolution);
-
       }
     });
     promise.onerror = function(){
-      deferred.reject(new Error("Issues During Fetch"));
+      deferred.reject(new Error("Issues During Data Processing"));
     };
   },
   function(err){

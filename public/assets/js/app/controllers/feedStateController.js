@@ -61,6 +61,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
 
       FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $appProperties, $filter, ngTableParams);
       FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
+      FeedStateCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
 
     }).error(function (data) {
 
@@ -70,6 +71,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       $scope.feedState = {};
       $scope.feedEarlyVoteSites = {};
       $scope.feedLocalities = {};
+      $scope.feedCounties = {};
     });
 }
 
@@ -124,5 +126,30 @@ function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, serv
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedLocalities = {};
+    });
+}
+
+/*
+ * Get the Feed Counties (Map) for the Feed State page
+ *
+ */
+function FeedStateCtrl_getFeedCounties($scope, $rootScope, $feedsService, servicePath){
+
+  // get Results
+  $feedsService.getFeedCounties(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedCounties = data;
+
+      // generate the map
+      vipApp_ns.generateMap(data, $rootScope.$appProperties);
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Feed Counties. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedCounties = {};
     });
 }

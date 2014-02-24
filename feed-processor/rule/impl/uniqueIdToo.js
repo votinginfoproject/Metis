@@ -85,7 +85,7 @@ function storeErrors(dupes, feedId) {
   function createError(errorModel, id) {
     ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
     violation = ruleErrors.model(errorModel.model.modelName);
-    return ruleErrors.save();
+    return violation.save();
   }
 
 
