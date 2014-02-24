@@ -1,6 +1,11 @@
 /**
  * Created by bantonides on 12/26/13.
  */
+const
+  path = require('path'),
+  fs = require('fs');
+
+
 var feedDoc;
 var schemaVersion;
 var models;
@@ -38,25 +43,39 @@ function onError(err) {
 
 function addRef() {
   saveCounter++;
-//  console.log('save++ - ' + saveCounter);
 };
 
 function decRef() {
   saveCounter--;
-//  console.log('save-- - ' + saveCounter);
+  console.log(saveCounter);
 
-  if (parsingComplete && saveCounter == 0) {
-    console.log('Creating database relationships...');
-    require('./matchMaker').createDBRelationships(feedDoc._id, models);
+  if (parsingComplete) {
+    if (saveCounter <= 0) {
+      console.log('Creating database relationships...');
+      require('./matchMaker').createDBRelationships(feedDoc._id, models);
+    }
+    else {
+      console.log(saveCounter);
+    }
   }
 };
 
-function readXMLFile(filePath) {
-  var xstream = require('xml-stream');
-  var fs = require('fs');
-  var path = require('path');
+function processZipEntry(entry) {
+  switch (path.extname(entry.path).toLowerCase()) {
+    case '.xml':
+      readXMLFromStream(entry);
+      break;
+    case '.txt':
+    case '.csv':
+      break;
+    default:
+      entry.autodrain();
+      break;
+  }
+}
 
-  var stream = fs.createReadStream(path.join(__dirname, filePath));
+function readXMLFromStream(stream) {
+  var xstream = require('xml-stream');
   var xml = new xstream(stream);
 
   xml.collect('early_vote_site_id');
@@ -90,15 +109,14 @@ function readXMLFile(filePath) {
   xml.on('endElement: street_segment', processStreetSegmentElement);
 };
 
-function saveBasicFeedInfo(schemas, filePath) {
-  var path = require('path');
+function saveBasicFeedInfo(schemas, filePath, fileName, filePath) {
   models = schemas.models;
 
   var feed = new models.Feed({
     loadedOn: new Date(),
     feedPath: filePath,
     feedStatus: 'Processing',
-    name: path.basename(filePath, path.extname(filePath))
+    name: fileName
   });
 
   feed.save(function (err, feed) {
@@ -107,7 +125,12 @@ function saveBasicFeedInfo(schemas, filePath) {
     }
     else {
       feedDoc = feed;
-      readXMLFile(filePath);
+      var unzip = require('unzip');
+      fs.createReadStream(filePath)
+        .pipe(unzip.Parse())
+        .on('entry', processZipEntry);
+
+//      readXMLFromStream(fs.createReadStream(filePath));
     }
   });
 };
