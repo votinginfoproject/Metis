@@ -1,6 +1,6 @@
 <i id="feed-ballot-content"></i>
 
-<a ng-if="feedBallot.error_count" id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
+<a ng-if="feedBallot.error_count !== undefined" id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
   Errors in Ballot ID: {{feedBallot.id}}</a>
 <mark ng-if="!feedBallot.error_count">link</mark>
 

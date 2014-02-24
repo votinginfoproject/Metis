@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<a ng-if="feedEarlyVoteSite.error_count" id="earlyvotesite-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedEarlyVoteSite.error_count}} Errors in Early Vote Site ID: {{feedEarlyVoteSite.id}}</a>
+<a ng-if="feedEarlyVoteSite.error_count !== undefined" id="earlyvotesite-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedEarlyVoteSite.error_count}} Errors in Early Vote Site ID: {{feedEarlyVoteSite.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>
