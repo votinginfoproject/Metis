@@ -13,8 +13,6 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:loaclityid/errors', utils.ensureAuthentication, callbacks.localityErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/errors', utils.ensureAuthentication, callbacks.precinctErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid/errors', utils.ensureAuthentication, callbacks.electoralDistrictErrorsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctStreetSegmentsErrorsGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctSplitStreetSegmentsErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/electoraldistricts/:districtid/errors', utils.ensureAuthentication, callbacks.electoralDistrictErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/electoraldistricts/:districtid', utils.ensureAuthentication, callbacks.electoralDistrictErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/electoraldistrict/errors', utils.ensureAuthentication, callbacks.contestElectoralDistrictErrorsGET);
@@ -30,6 +28,10 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid/errors', utils.ensureAuthentication, callbacks.candidateErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/pollinglocations/:pollinglocationid/errors', utils.ensureAuthentication, callbacks.pollingLocErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/pollinglocations/:pollinglocationid/errors', utils.ensureAuthentication, callbacks.pollingLocErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/ballotlineresults/:blrid/errors', utils.ensureAuthentication, callbacks.ballotLineResultErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid/contestresult/errors', utils.ensureAuthentication, callbacks.contestResultErrorsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctStreetSegmentsErrorsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid/precincts/:precinctid/precinctsplits/:splitid/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctSplitStreetSegmentsErrorsGET);
 
 }
 

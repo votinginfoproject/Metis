@@ -37,7 +37,7 @@ var mapOverview = function(path, feed) {
   return {
     id: feed.id,
     title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
-    error_count: 333, //TODO: replace this with the real error count
+    error_count: feed.errorCount,
     errors: _path.join(path, '/errors'),
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
@@ -54,7 +54,7 @@ var mapOverview = function(path, feed) {
 var mapSource = function(path, source) {
   return {
     id: source.elementId,
-    error_count: 111, //TODO
+    error_count: source.errorCount,
     errors: _path.join(path, '/errors'),
     source_info: {
       name: source.name,
@@ -76,7 +76,7 @@ var mapSource = function(path, source) {
 var mapElection = function(path, election) {
   return {
     id: election.elementId,
-    error_count: 222, //TODO
+    error_count: election.errorCount,
     errors: _path.join(path, '/errors'),
     date: moment(election.date).utc().format('YYYY-MM-DD'),
     type: election.electionType,
@@ -101,7 +101,7 @@ var mapElection = function(path, election) {
 var mapState = function(path, state) {
   return {
     id: state.elementId,
-    error_count: 99, //TODO
+    error_count: state.errorCount,
     errors: _path.join(path, '/errors'),
     name: state.name,
     administration: (state._electionAdministration === undefined) ? null : {
@@ -118,7 +118,7 @@ var mapState = function(path, state) {
 var mapLocality = function(path, locality) {
   return {
     id: locality.elementId,
-    error_count: -1, //TODO
+    error_count: locality.errorCount,
     errors: _path.join(path, '/errors'),
     name: locality.name,
     type: locality.type,
@@ -175,7 +175,7 @@ var mapLocalities = function(path, localities) {
 var mapPrecinct = function(path, precinct) {
   return {
     id: precinct.elementId,
-    error_count: -1, //TODO
+    error_count: precinct.errorCount,
     errors: _path.join(path, '/errors'),
     name: precinct.name,
     number: precinct.number,
@@ -188,8 +188,8 @@ var mapPrecinct = function(path, precinct) {
     precinctsplits: _path.join(path, '/precinctsplits'),
     streetsegments: {
       total: precinct._streetSegments.length,
-      error_count: -1, //TODO
-      errors: path.join(path, '/streetsegments/errors'),
+      error_count: precinct._streetSegments.errorCount,
+      errors: _path.join(path, '/streetsegments/errors'),
       self: _path.join(path, '/streetsegments')
     }
   };
@@ -211,7 +211,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
 function mapElectoralDistrict(path, electoralDistrict) {
   return {
     id: electoralDistrict.elementId,
-    error_count: -1, //TODO
+    error_count: electoralDistrict.errorCount,
     errors: _path.join(path, '/errors'),
     name: electoralDistrict.name,
     type: electoralDistrict.type,
@@ -266,7 +266,7 @@ var mapElectionContest = function(path, contest) {
 function mapContest (path, contest) {
   return {
     id: contest.elementId,
-    error_count: -1, //TODO
+    error_count: contest.errorCount,
     errors: _path.join(path, '/errors'),
     type: contest.type,
     partisan: contest.partisan,
@@ -452,14 +452,14 @@ function mapStreetSegmentsErrors2 (path, streetSegments) { //TODO: Replace with 
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
-    error_count: -1, //TODO
+    error_count: precinctSplit.errorCount,
     errors: _path.join(path, '/errors'),
     name: precinctSplit.name,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
-      error_count: -1, //TODO
-      errors: path.join(path, '/streetsegments/errors'),
+      error_count: precinctSplit._streetSegments.errorCount,
+      errors: _path.join(path, '/streetsegments/errors'),
       total: precinctSplit._streetSegments.length,
       self: _path.join(path, '/streetsegments')
     }
@@ -469,7 +469,7 @@ function mapPrecinctSplit (path, precinctSplit) {
 function mapEarlyVoteSite (path, earlyVoteSite) {
   return {
     id: earlyVoteSite.elementId,
-    error_count: -1, //TODO
+    error_count: earlyVoteSite.errorCount,
     errors: _path.join(path, '/errors'),
     name: earlyVoteSite.name,
     address: addressToJson(earlyVoteSite.address),
@@ -484,7 +484,7 @@ function mapEarlyVoteSite (path, earlyVoteSite) {
 function mapElectionAdministration (path, electionAdministration) {
   return {
     id: electionAdministration.elementId,
-    error_count: -1, // TODO: need field
+    error_count: electionAdministration.errorCount,
     errors: _path.join(path, '/errors'),
     name: electionAdministration.name,
     physical_address: addressToJson(electionAdministration.physicalAddress),
@@ -521,7 +521,7 @@ function mapElectionOfficial (electionOfficial) {
 function mapBallot(path, ballot) {
   return {
     id: ballot.elementId,
-    error_count: -1, //TODO
+    error_count: ballot.errorCount,
     errors: _path.join(path, '/errors'),
     write_in: ballot.writeIn,
     image_url: ballot.imageUrl,
@@ -548,7 +548,7 @@ function mapReferenda(path, referenda) {
 function mapReferendum(path, referendum) {
   return {
     id: referendum.elementId,
-    error_count: -1, //TODO
+    error_count: referendum.errorCount,
     errors: _path.join(path, '/errors'),
     title: referendum.title,
     subtitle: referendum.subtitle,
@@ -585,7 +585,7 @@ var mapBallotCandidates = function(path, candidates) {
 var mapCandidate = function (path, candidate) {
   return {
     id: candidate.elementId,
-    error_count: -1, //TODO
+    error_count: candidate.errorCount,
     errors: _path.join(path, '/errors'),
     name: candidate.name,
     incumbent: candidate.incumbent, //TODO: v5.0 element
@@ -603,7 +603,7 @@ var mapCandidate = function (path, candidate) {
 function mapPollingLocation(path, pollingLocation) {
   return {
     id: pollingLocation.elementId,
-    error_count: -1, //TODO
+    error_count: pollingLocation.errorCount,
     errors: _path.join(path, '/errors'),
     address: addressToJson(pollingLocation.address),
     directions: pollingLocation.directions,
