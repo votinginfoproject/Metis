@@ -189,7 +189,7 @@ var mapPrecinct = function(path, precinct) {
     precinctsplits: _path.join(path, '/precinctsplits'),
     streetsegments: {
       total: precinct._streetSegments.length,
-      error_count: -1, //TODO
+      error_count: precinct._streetSegments.errorCount,
       errors: _path.join(path, '/streetsegments/errors'),
       self: _path.join(path, '/streetsegments')
     }
