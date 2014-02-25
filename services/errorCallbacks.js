@@ -19,12 +19,12 @@ function electionErrorsGET(req, res) {
 }
 
 function precinctStreetSegmentsErrorsGET(req, res) {
-  daoErrors.precinctStreetSegmentErrors(req.params.feedid, req.params.precinctid,
+  daoErrors.precinctStreetSegmentErrors(req.params.feedid, parseInt(req.params.precinctid),
     mapAndReturnErrors.bind(undefined, res));
 };
 
 function precinctSplitStreetSegmentsErrorsGET(req, res) {
-  daoErrors.precinctSplitStreetSegmentErrors(req.params.feedid, req.params.splitid,
+  daoErrors.precinctSplitStreetSegmentErrors(req.params.feedid, parseInt(req.params.splitid),
     mapAndReturnErrors.bind(undefined, res));
 };
 
@@ -33,89 +33,83 @@ function stateErrorsGET(req, res) {
 };
 
 function localityErrorsGET(req, res) {
-  daoErrors.localityErrors(req.params.feedid, req.params.localityid,
+  daoErrors.localityErrors(req.params.feedid, parseInt(req.params.localityid),
     mapAndReturnErrors.bind(undefined, res));
 };
 
 function precinctErrorsGET(req, res) {
-  daoErrors.precinctErrors(req.params.feedid, req.params.precinctid,
+  daoErrors.precinctErrors(req.params.feedid, parseInt(req.params.precinctid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function electoralDistrictErrorsGET(req, res) {
-  daoErrors.electoralDistrictErrors(req.params.feedid, req.params.districtid,
+  daoErrors.electoralDistrictErrors(req.params.feedid, parseInt(req.params.districtid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function contestElectoralDistrictErrorsGET(req, res) {
-  daoErrors.electoralDistrictErrors(req.params.feedid, req.params.contestid,
+  dao.feedContestElectoralDistrict(req.params.feedid, req.params.contestid, function(err, district) {
+  daoErrors.electoralDistrictErrors(req.params.feedid, district.elementId,
     mapAndReturnErrors.bind(undefined, res));
+  });
 }
 
 function contestErrorsGET(req, res) {
-  daoErrors.contestErrors(req.params.feedid, req.params.contestid,
+  daoErrors.contestErrors(req.params.feedid, parseInt(req.params.contestid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function precinctSplitErrorsGET(req, res) {
-  daoErrors.precinctSplitErrors(req.params.feedid, req.params.splitid,
+  daoErrors.precinctSplitErrors(req.params.feedid, parseInt(req.params.splitid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function earlyVoteSiteErrorsGET(req, res) {
-  daoErrors.earlyVoteSiteErrors(req.params.feedid, req.params.evsid,
+  daoErrors.earlyVoteSiteErrors(req.params.feedid, parseInt(req.params.evsid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function localityElectionAdminErrorsGET(req, res) {
-  dao.feedLocalityElectionAdministration(req.params.feedid, req.params.localityid, function(err, admin) {
-    daoErrors.electionAdminErrors(req.params.feedid, admin._id, mapAndReturnErrors.bind(undefined, res));
+  dao.feedLocalityElectionAdministration(req.params.feedid, parseInt(req.params.localityid), function(err, admin) {
+    daoErrors.electionAdminErrors(req.params.feedid, admin.elementId, mapAndReturnErrors.bind(undefined, res));
   });
 }
 
 function stateElectionAdminErrorsGET(req, res) {
   dao.feedStateElectionAdministration(req.params.feedid, function(err, admin) {
-    daoErrors.electionAdminErrors(req.params.feedid, admin._id, mapAndReturnErrors.bind(undefined, res));
+    daoErrors.electionAdminErrors(req.params.feedid, admin.elementId, mapAndReturnErrors.bind(undefined, res));
   });
 }
 
 function ballotErrorsGET(req, res) {
-  daoErrors.ballotErrors(req.params.feedid, req.params.contestid,
-    mapAndReturnErrors.bind(undefined, res));
-}
-
-function ballotLineResultErrorsGET(req, res) {
-  daoErrors.ballotLineResultErrors(req.params.feedid, req.params.contestid,
-    mapAndReturnErrors.bind(undefined, res));
-}
-
-function contestResultErrorsGET(req, res) {
-  daoErrors.contestResultErrors(req.params.feedid, req.params.contestid,
-    mapAndReturnErrors.bind(undefined, res));
+  dao.feedContestBallot(req.params.feedid, req.params.contestid, function(err, ballot) {
+    daoErrors.ballotErrors(req.params.feedid, ballot.elementId,
+      mapAndReturnErrors.bind(undefined, res));
+  });
 }
 
 function referendumErrorsGET(req, res) {
-  daoErrors.referendumErrors(req.params.feedid, req.params.referendumid,
+  daoErrors.referendumErrors(req.params.feedid, parseInt(req.params.referendumid),
   mapAndReturnErrors.bind(undefined, res));
 }
 
 function candidateErrorsGET(req, res) {
-  daoErrors.candidateErrors(req.params.feedid, req.params.candidateid,
+  daoErrors.candidateErrors(req.params.feedid, parseInt(req.params.candidateid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function pollingLocErrorsGET(req, res) {
-  daoErrors.pollingLocationErrors(req.params.feedid, req.params.localityid,
+  daoErrors.pollingLocationErrors(req.params.feedid, parseInt(req.params.pollinglocationid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function ballotLineResultErrorsGET(req, res) {
-  daoErrors.ballotLineResultErrors(req.params.feedid, req.params.blrid,
+  daoErrors.ballotLineResultErrors(req.params.feedid, parseInt(req.params.blrid),
     mapAndReturnErrors.bind(undefined, res));
 }
 
 function contestResultErrorsGET(req, res) {
-  dao.getContestResult(req.params.feedid, req.params.contestid, function(err, result) {
+  dao.getContestResult(req.params.feedid, parseInt(req.params.contestid), function(err, result) {
     daoErrors.contestResultErrors(req.params.feedid, result._id, mapAndReturnErrors.bind(undefined, res));
   });
 }
@@ -151,5 +145,3 @@ exports.contestResultErrorsGET = contestResultErrorsGET;
 exports.referendumErrorsGET = referendumErrorsGET;
 exports.candidateErrorsGET = candidateErrorsGET;
 exports.pollingLocErrorsGET = pollingLocErrorsGET;
-exports.ballotLineResultErrorsGET = ballotLineResultErrorsGET;
-exports.contestResultErrorsGET = contestResultErrorsGET;
