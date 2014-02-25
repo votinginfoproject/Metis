@@ -47,8 +47,10 @@ function addRef() {
 
 function decRef() {
   saveCounter--;
-  console.log(saveCounter);
+  completeCheck();
+};
 
+function completeCheck() {
   if (parsingComplete) {
     if (saveCounter <= 0) {
       console.log('Creating database relationships...');
@@ -58,7 +60,13 @@ function decRef() {
       console.log(saveCounter);
     }
   }
-};
+}
+
+function onParsingEnd() {
+  parsingComplete = true;
+  console.log('Parsing Complete!');
+  completeCheck();
+}
 
 function processZipEntry(entry) {
   switch (path.extname(entry.path).toLowerCase()) {
@@ -85,7 +93,7 @@ function readXMLFromStream(stream) {
   xml.collect('ballot_response_id');
   xml.collect('referendum_id');
 
-  xml.on('end', function() { parsingComplete = true; console.log('Parsing Complete!')});
+  xml.on('end', onParsingEnd);
   xml.on('startElement: vip_object', processFeedAttributes)
   xml.on('endElement: ballot', processBallotElement);
   xml.on('endElement: ballot_line_result', processBallotLineResultElement);
