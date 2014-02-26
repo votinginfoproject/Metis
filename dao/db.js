@@ -389,6 +389,11 @@ function feedContestBallot(feedId, contestId, callback) {
         { path: '_customBallot.ballotResponses._response' }, function(err, bal) {
           daoSchemas.models.Ballot.Error.count({_feed: feedId, refElementId: bal.elementId}, function(err, count) {
             bal.errorCount = count;
+            if(!bal['_customBallot']) {
+              callback(null, bal);
+              return;
+            }
+
             daoSchemas.models.CustomBallot.Error.count({_feed: feedId, refElementId: bal._customBallot.elementId}, function(err, customCount) {
               bal._customBallot.errorCount = customCount;
 
