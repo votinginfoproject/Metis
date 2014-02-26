@@ -6,7 +6,7 @@ function pollingLocationsCalc(feedId, saveCalc) {
   var pollinglocationsOverview = { };
   var pollinglocationsCount = 0;
   function wait() {
-    if(++pollinglocationsCount === 7)
+    if(++pollinglocationsCount === 8)
       saveCalc(pollinglocationsOverview);
   }
   utils.findOverviewObject(feedId, 0, schemas.models.EarlyVoteSite, function(res) {
@@ -20,6 +20,13 @@ function pollingLocationsCalc(feedId, saveCalc) {
     pollinglocationsOverview.electionadministrations = res;
     schemas.models.ElectionAdmin.Error.count({}, function(err, count) {
       pollinglocationsOverview.electionadministrations.errorCount = count;
+      wait();
+    });
+  });
+  utils.findOverviewObject(feedId, 0, schemas.models.ElectionOfficial, function(res) {
+    pollinglocationsOverview.electionofficials = res;
+    schemas.models.ElectionOfficial.Error.count({}, function(err, count) {
+      pollinglocationsOverview.electionofficials.errorCount = count;
       wait();
     });
   });

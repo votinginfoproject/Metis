@@ -54,6 +54,7 @@ function calculateFields(feedId, saveCalc) {
     console.log('Finished Localities');
     createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, pollinglocationsOverview.earlyvotesites.errorCount, 0, feedId);
     createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, pollinglocationsOverview.electionadministrations.errorCount, 0, feedId);
+    createOverviewModel('Election Officilas', pollinglocationsOverview.electionofficials, pollinglocationsOverview.electionofficials.errorCount, 0, feedId);
     createOverviewModel('Localities', pollinglocationsOverview.localities, pollinglocationsOverview.localities.errorCount, 0, feedId);
     createOverviewModel('Polling Locations', pollinglocationsOverview.pollinglocations, pollinglocationsOverview.pollinglocations.errorCount, 0, feedId);
     createOverviewModel('Precincts', pollinglocationsOverview.precincts, pollinglocationsOverview.precincts.errorCount, 0, feedId);
