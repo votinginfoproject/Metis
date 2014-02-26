@@ -126,6 +126,11 @@ function stateErrors(feedId, callback) {
     .exec(callback);
 }
 
+function ballotResponseErrors(feedId, responseIds, callback) {
+  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: responseIds } } }, daoSchemas.models.BallotResponse.Error)
+    .exec(callback);
+}
+
 function precinctStreetSegmentErrors(feedId, precinctId, callback) {
   var promise = daoSchemas.models.Precinct
     .findOne({ _feed: feedId, elementId: precinctId })
@@ -210,3 +215,4 @@ exports.sourceErrors = sourceErrors;
 exports.stateErrors = stateErrors;
 exports.precinctStreetSegmentErrors = precinctStreetSegmentErrors;
 exports.precinctSplitStreetSegmentErrors = precinctSplitStreetSegmentErrors;
+exports.ballotResponseErrors = ballotResponseErrors;

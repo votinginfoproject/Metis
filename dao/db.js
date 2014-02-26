@@ -389,7 +389,15 @@ function feedContestBallot(feedId, contestId, callback) {
         { path: '_customBallot.ballotResponses._response' }, function(err, bal) {
           daoSchemas.models.Ballot.Error.count({_feed: feedId, refElementId: bal.elementId}, function(err, count) {
             bal.errorCount = count;
-            callback(null, bal);
+            daoSchemas.models.CustomBallot.Error.count({_feed: feedId, refElementId: bal._customBallot.elementId}, function(err, customCount) {
+              bal._customBallot.errorCount = customCount;
+
+              var responses = bal._customBallot.ballotResponses.map(function(response) { return response._response.elementId; });
+              daoSchemas.models.BallotResponse.Error.count({_feed: feedId, refElementId: { $in: responses}}, function(err, responsesCount) {
+                bal._customBallot.ballotResponseErrorCount = responsesCount;
+                callback(null, bal);
+              })
+            });
           });
         });
     });
@@ -448,7 +456,11 @@ function feedBallotReferendum(feedId, referendumId, callback) {
   promise.then(function(referendum) {
     daoSchemas.models.Referendum.Error.count({_feed: feedId, _ref: referendum._id}, function(err, count) {
       referendum.errorCount = count;
-      callback(null, referendum);
+      var responses = referendum.ballotResponses.map(function(response) { return response._response.elementId });
+      daoSchemas.models.BallotResponse.Error.count({_feed: feedId, refElementId: { $in: responses }}, function(err, responseCount) {
+        referendum.ballotResponsesErrorCount = responseCount;
+        callback(null, referendum);
+      });
     });
   });
 };

@@ -25,8 +25,11 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/state/electionadministration/errors', utils.ensureAuthentication, callbacks.stateElectionAdminErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/contestresult/errors', utils.ensureAuthentication, callbacks.contestResultErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/errors', utils.ensureAuthentication, callbacks.ballotErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/customballot/errors', utils.ensureAuthentication, callbacks.ballotCustomBallotErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/ballotresponses/errors', utils.ensureAuthentication, callbacks.ballotBallotResponsesErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballotlineresults/:ballotlineresult(\\d+)/errors', utils.ensureAuthentication, callbacks.ballotLineResultErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/referenda/:referendumid(\\d+)/errors', utils.ensureAuthentication, callbacks.referendumErrorsGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/referenda/:referendumid(\\d+)/ballotresponses/errors', utils.ensureAuthentication, callbacks.referendumBallotResponsesErrorsGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/ballot/candidates/:candidateid(\\d+)/errors', utils.ensureAuthentication, callbacks.candidateErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/pollinglocations/:pollinglocationid(\\d+)/errors', utils.ensureAuthentication, callbacks.pollingLocErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/precinctsplits/:splitid(\\d+)/pollinglocations/:pollinglocationid(\\d+)/errors', utils.ensureAuthentication, callbacks.pollingLocErrorsGET);

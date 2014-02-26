@@ -218,7 +218,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/errors', error)
       .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error);
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/customballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
 
     // done
     $routeProvider.when('/template/feed', {

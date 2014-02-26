@@ -109,8 +109,28 @@ function ballotLineResultErrorsGET(req, res) {
 }
 
 function contestResultErrorsGET(req, res) {
-  dao.getContestResult(req.params.feedid, parseInt(req.params.contestid), function(err, result) {
+  dao.getContestResult(req.params.feedid, req.params.contestid, function(err, result) {
     daoErrors.contestResultErrors(req.params.feedid, result._id, mapAndReturnErrors.bind(undefined, res));
+  });
+}
+
+function ballotCustomBallotErrorsGET(req, res) {
+  dao.feedContestBallot(req.params.feedid, req.params.contestid, function(err, ballot) {
+    daoErrors.customBallotErrors(req.params.feedid, ballot._customBallot.elementId, mapAndReturnErrors.bind(undefined, res));
+  });
+}
+
+function ballotBallotResponsesErrorsGET(req, res) {
+  dao.feedContestBallot(req.params.feedid, req.params.contestid, function(err, ballot) {
+    var responses = ballot._customBallot.ballotResponses.map(function(response) { return response._response.elementId; });
+    daoErrors.ballotResponseErrors(req.params.feedid, responses, mapAndReturnErrors.bind(undefined, res));
+  });
+}
+
+function referendumBallotResponsesErrorsGET(req, res) {
+  dao.feedBallotReferendum(req.params.feedid, req.params.referendumid, function(err, referendum) {
+    var responses = referendum.ballotResponses.map(function(response) { return response._response.elementId; });
+    daoErrors.ballotResponseErrors(req.params.feedid, responses, mapAndReturnErrors.bind(undefined, res));
   });
 }
 
@@ -145,3 +165,6 @@ exports.contestResultErrorsGET = contestResultErrorsGET;
 exports.referendumErrorsGET = referendumErrorsGET;
 exports.candidateErrorsGET = candidateErrorsGET;
 exports.pollingLocErrorsGET = pollingLocErrorsGET;
+exports.ballotCustomBallotErrorsGET = ballotCustomBallotErrorsGET;
+exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
+exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
