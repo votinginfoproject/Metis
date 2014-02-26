@@ -469,8 +469,13 @@ img {
   vertical-align: middle; }
 
 /* form.scss */
-.disabled, button,
-input[type="submit"], .button-errors, .feed-nav ul li > *, .button-approve {
+.button,
+.disabled,
+button,
+input[type="submit"],
+.button-errors,
+.feed-nav ul li > *,
+.button-approve {
   background: #386097;
   border: none;
   color: white;
@@ -481,8 +486,13 @@ input[type="submit"], .button-errors, .feed-nav ul li > *, .button-approve {
   padding: 0.5em 1em;
   text-align: center;
   text-shadow: none; }
-  .disabled:hover, button:hover,
-  input[type="submit"]:hover, .button-errors:hover, .feed-nav ul li > :hover, .button-approve:hover {
+  .button:hover,
+  .disabled:hover,
+  button:hover,
+  input[type="submit"]:hover,
+  .button-errors:hover,
+  .feed-nav ul li > :hover,
+  .button-approve:hover {
     background: #2a4872;
     color: white; }
 
