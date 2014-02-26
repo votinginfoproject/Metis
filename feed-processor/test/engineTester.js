@@ -18,7 +18,7 @@ function connectMongo(connectionString, next) {
 function executeProg(vipFeedId) {
   schemas.initSchemas(mongoose);
   connectMongo(config.mongoose.connectionString, function () {
-    require('./rulesengine').processRules(vipFeedId);
+    require('../rule/rulesengine').processRules(vipFeedId);
   });
 }
 
