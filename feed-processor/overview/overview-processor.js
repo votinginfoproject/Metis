@@ -34,6 +34,7 @@ function errorHandler(err) {
 }
 
 function onSaveComplete(results) {
+  console.log("Shutting down overview processor");
   mongoose.disconnect();
   process.exit();
 }

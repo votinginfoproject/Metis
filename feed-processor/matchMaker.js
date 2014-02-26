@@ -22,8 +22,10 @@ function onUpdate (err, numAffected) {
     console.log('****Initializing Rules Engine');
     var promise = require('./rule/rulesengine').processRules(_feedId);
 
-    console.log("****Processing Overview Details");
-    promise.then(require('./overview/overview-processor').runOverviewProcessor);
+
+    promise.then(function(emptyPromise){
+      console.log("****Processing Overview Details");
+      require('./overview/overview-processor').runOverviewProcessor(_feedId)});
   }
 };
 
