@@ -159,11 +159,11 @@ function mapAndReturnErrors(res, req, err, errors) {
 
           for(var j=0; j< feederror.textual_references.length; j++){
             response +=
-                feed + delim +
-                feederror.severity_text + delim +
-                feederror.title + delim +
-                feederror.details + delim +
-                feederror.textual_references[j] + endOfLine;
+              makeCSVSafe(feed, delim) + delim +
+              makeCSVSafe(feederror.severity_text, delim) + delim +
+              makeCSVSafe(feederror.title, delim) + delim +
+              makeCSVSafe(feederror.details, delim) + delim +
+              makeCSVSafe(feederror.textual_references[j], delim) + endOfLine;
           }
         }
       }
@@ -181,6 +181,19 @@ function mapAndReturnErrors(res, req, err, errors) {
     }
 
   }
+}
+
+function makeCSVSafe(value, delim){
+  // the delim is in our value we need to put quotes around our value
+  if(value.indexOf(delim)!==-1){
+
+    // if we are putting quotes around our value, we need to escape any existing quotes first
+    value = value.replace(/"/g, '""');
+
+    value = '"' + value + '"';
+  }
+
+  return value;
 }
 
 exports.allErrorsGET = allErrorsGET;
