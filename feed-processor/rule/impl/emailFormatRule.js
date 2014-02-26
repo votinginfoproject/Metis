@@ -3,6 +3,7 @@
  */
 
 var when = require('when');
+var matcher = new RegExp(/[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]/);
 
 var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, ruleDef){
 
@@ -11,7 +12,7 @@ var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, 
     isViolated = true;
   }
   else {
-    matcher = new RegExp(/[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]/);
+
     isViolated = !matcher.test(emailAddress);
   }
 

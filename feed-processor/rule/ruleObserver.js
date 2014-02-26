@@ -6,6 +6,7 @@ var activeRules = {};
 
 var ActiveRuleStats = {
   overallCount: 0,
+  errorCount: 0,
   increaseRuleCount: function(ruleDef){
     this.overallCount++;
     activeRules[ruleDef.title] = this.resolveRuleCount(ruleDef) + 1;
