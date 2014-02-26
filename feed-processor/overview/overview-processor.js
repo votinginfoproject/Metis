@@ -16,13 +16,8 @@ var pollinglocations = require('./pollinglocations');
 
 var overviewModels = [];
 
-mongoose.connect(config.mongoose.connectionString);
-console.log("initialized VIP database via Mongoose");
-schemas.initSchemas(mongoose);
-schemas.models.Feed.find({})
-  .exec(function(err, feeds) {
-
-  calculateFields(feeds[0]._id, function() {
+function runOverviewProcessor(feedId) {
+calculateFields(feedId, function() {
     var createOverviews = [];
 
     console.log('Saving models');
@@ -32,7 +27,8 @@ schemas.models.Feed.find({})
 
     when.all(createOverviews).then(onSaveComplete, errorHandler);
   });
-});
+}
+
 function errorHandler(err) {
   console.error(err);
 }
@@ -118,3 +114,5 @@ function createOverviewModel(name, overview, errors, section, feed) {
     _feed: feed
   });
 };
+
+exports.runOverviewProcessor = runOverviewProcessor;

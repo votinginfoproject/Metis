@@ -105,12 +105,12 @@ var mapState = function(path, state) {
     errors: _path.join(path, '/errors'),
     name: state.name,
     county_map: _path.join('/services/geo/', state.elementId.toString(), 'counties'),
-    administration: (state._electionAdministration === undefined) ? null : {
+    administration: (state['_electionAdministration']) ? {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
       address: addressToShortString(state._electionAdministration.physicalAddress),
       self: _path.join(path, '/electionadministration')
-    },
+    } : null,
     localities: _path.join(path, '/localities'),
     earlyvotesites: _path.join(path, '/earlyvotesites')
   };
