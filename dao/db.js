@@ -161,7 +161,7 @@ function getLocalityPrecinct (feedId, precinctId, callback) {
   promise.then(function(precinct) {
     daoSchemas.models.Precinct.Error.count({_feed: feedId, _ref: precinct._id}, function(err, count) {
       precinct.errorCount = count;
-      daoSchemas.models.StreetSegment.Error.count({_feed: feedId, _ref: precinct._streetSegments._id}, function(err, count) {
+      daoSchemas.models.StreetSegment.Error.count({_feed: feedId, _ref: { $in: precinct._streetSegments }}, function(err, count) {
         precinct._streetSegments.errorCount = count;
         callback(null, precinct);
       })
@@ -222,7 +222,7 @@ function feedPrecinctSplit (feedId, precinctSplitId, callback) {
   promise.then(function(split) {
     daoSchemas.models.PrecinctSplit.Error.count({_feed: feedId, _ref: split._id}, function(err, count) {
       split.errorCount = count;
-      daoSchemas.models.StreetSegment.Error.count({_feed: feedId, _ref: split._streetSegments}, function(err, count) {
+      daoSchemas.models.StreetSegment.Error.count({_feed: feedId, _ref: { $in: split._streetSegments }}, function(err, count) {
         split._streetSegments.errorCount = count;
         callback(null, split);
       })
@@ -386,10 +386,18 @@ function feedContestBallot(feedId, contestId, callback) {
     }
   }).then(function(ballot) {
       daoSchemas.models.BallotResponse.populate(ballot,
-        { path: '_customBallot.ballotResponses._response' }, function(err, ballot) {
-          daoSchemas.models.BallotResponse.Error.count({_feed: feedId, _ref: ballot._id}, function(err, count) {
-            ballot.errorCount = count;
-            callback(null, ballot);
+        { path: '_customBallot.ballotResponses._response' }, function(err, bal) {
+          daoSchemas.models.Ballot.Error.count({_feed: feedId, refElementId: bal.elementId}, function(err, count) {
+            bal.errorCount = count;
+            daoSchemas.models.CustomBallot.Error.count({_feed: feedId, refElementId: bal._customBallot.elementId}, function(err, customCount) {
+              bal._customBallot.errorCount = customCount;
+
+              var responses = bal._customBallot.ballotResponses.map(function(response) { return response._response.elementId; });
+              daoSchemas.models.BallotResponse.Error.count({_feed: feedId, refElementId: { $in: responses}}, function(err, responsesCount) {
+                bal._customBallot.ballotResponseErrorCount = responsesCount;
+                callback(null, bal);
+              })
+            });
           });
         });
     });
@@ -448,7 +456,11 @@ function feedBallotReferendum(feedId, referendumId, callback) {
   promise.then(function(referendum) {
     daoSchemas.models.Referendum.Error.count({_feed: feedId, _ref: referendum._id}, function(err, count) {
       referendum.errorCount = count;
-      callback(null, referendum);
+      var responses = referendum.ballotResponses.map(function(response) { return response._response.elementId });
+      daoSchemas.models.BallotResponse.Error.count({_feed: feedId, refElementId: { $in: responses }}, function(err, responseCount) {
+        referendum.ballotResponsesErrorCount = responseCount;
+        callback(null, referendum);
+      });
     });
   });
 };
@@ -460,7 +472,7 @@ function getPollingLocation(feedId, pollingLocationId, callback) {
     .exec();
 
   promise.then(function(location) {
-    daoSchemas.models.PollingLocation.Error.count({_feed: feedId, _ref: location._id}, function(err, count){
+    daoSchemas.models.PollingLocation.Error.count({_feed: feedId, refElementId: location.elementId}, function(err, count){
       location.errorCount = count;
       callback(null, location);
     });

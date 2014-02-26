@@ -15,13 +15,19 @@ var evaluate = function(streetSegment, dataSet, entity, constraintSet, ruleDef){
   var deferred = when.defer();
 
   promise = Model
-    .find({
+    .find({'_feed':streetSegment._feed,
       'nonHouseAddress.streetName': streetSegment.nonHouseAddress.streetName,
       'nonHouseAddress.streetDirection': streetSegment.streetDirection,
       'nonHouseAddress.streetSuffix': streetSegment.streetSuffix,
       'nonHouseAddress.city': streetSegment.nonHouseAddress.city,
-      'nonHouseAddress.zip': streetSegment.nonHouseAddress.zip
-   }).exec();
+      'nonHouseAddress.zip': streetSegment.nonHouseAddress.zip },
+    { '_feed':1,
+      'nonHouseAddress.streetName': 1,
+      'nonHouseAddress.streetDirection': 1,
+      'nonHouseAddress.streetSuffix': 1,
+      'nonHouseAddress.city': 1,
+      'nonHouseAddress.zip': 1 }
+    ).exec();
 
   promise.then(function(results){
     async.each(results, buildIntervals, function(err){

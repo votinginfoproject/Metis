@@ -23,6 +23,8 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
       $scope.feedData = data;
       $rootScope.feedData = data;
 
+      $scope.servicePath = $rootScope.getServiceUrl($location.path());
+
       // Toggle showing/hiding each error's detail panel
       $scope._toggleError = function (index) {
 

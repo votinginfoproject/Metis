@@ -530,7 +530,10 @@ function mapBallot(path, ballot) {
     referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
     custom_ballot: ballot._customBallot ? {
       id: ballot._customBallot.elementId,
+      error_count: ballot._customBallot.errorCount,
+      errors: _path.join(path, '/customballot/errors'),
       heading: ballot._customBallot.heading,
+      ballot_responses_error_count: ballot._customBallot.ballotResponseErrorCount,
       ballot_responses: ballot._customBallot.ballotResponses.map(mapBallotResponse)
     } : null
   };
@@ -559,6 +562,7 @@ function mapReferendum(path, referendum) {
     con_statement: referendum.conStatement,
     passage_threshold: referendum.passageThreshold,
     effect_of_abstain: referendum.effectOfAbstain,
+    ballot_responses_error_count: referendum.ballotResponsesErrorCount,
     ballot_responses: referendum.ballotResponses.map(mapBallotResponse)
   };
 };

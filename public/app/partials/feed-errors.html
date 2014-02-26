@@ -6,13 +6,13 @@
 <section class="data-group">
 
   <span ng-if="!errors" class="is-loading"></span>
-  <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="associations">
+  <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination">
     <tr id="error{{$index}}" ng-repeat-start="error in $data">
       <td width="10%" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
-        <a ng-click="toggleError($index)">{{error.textual_references.length}}</a>
+        <a href="javascript:void(0)" ng-click="toggleError($index)">{{error.textual_references.length}}</a>
       </td>
-      <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severityText'">
-        <a ng-click="toggleError($index)">
+      <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severity_text'">
+        <a href="javascript:void(0)" ng-click="toggleError($index)">
           <b><span id="errorArrowClosed{{$index}}">&#9650;</span><span id="errorArrowOpen{{$index}}" hidden>&#9660;</span> {{error.severity_text}}:</b> {{error.title}}
           <br>
           <span style="color: black">{{error.details}}</span>
@@ -27,13 +27,13 @@
           <div ng-if="error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textual_references[0]}}</code></pre></div>
           <div ng-if="!error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px">{{error.textual_references[0]}}</div>
           <br>
-          <button>Download Error Report</button>
+          <a class="button" href="{{servicePath}}?error_report&error_code={{error.error_code}}" ng-show="errors.length">Download Error Report</a>
           <br><br>
         </div>
       </td>
     </tr>
   </table>
-  <button ng-show="errors.length">Download Full Error Report</button>
+  <a class="button" href="{{servicePath}}?error_report" ng-show="errors.length">Download Full Error Report</a>
 
   <script type="text/ng-template" id="errorsPagination">
     <ul class="pagination ng-cloak">

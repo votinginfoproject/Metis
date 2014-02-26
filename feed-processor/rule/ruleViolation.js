@@ -33,8 +33,9 @@ RuleViolation.prototype.model = function(modelName){
     severityText: this.ruleDef.severityText,
     errorCode: this.ruleDef.errorCode,
     title: this.ruleDef.title,
-    details: this.details,
+    details: this.ruleDef.errorText,
     textualReference: this.textualReference,
+    refElementId: this.elementId,
     _ref: this.refEntityId,
     _feed: this.feedId
   });

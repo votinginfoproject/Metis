@@ -16,7 +16,7 @@ var map = function(callback) {
   callback(null);
 };
 
-var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10} };
+var req = { path: 'path', params: {feedid: 1, localityid: 2, precinctid: 3, splitid: 4, evsid: 5, contestid: 6, candidateid: 7, districtid: 8, blrid: 9, referendumid: 10 , pollinglocationid: 11} };
 var httpCallback = proxyquire('../../../services/HttpCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 var overviewCallback = proxyquire('../../../services/overviewCallbacks', {'../dao/db': daoStub, './mappers/feed': feedStub});
 
