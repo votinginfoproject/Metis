@@ -7,10 +7,7 @@ var matcher = new RegExp(/http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:
 
 var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleDef){
   var isViolated = false;
-  if(urlString == null || urlString == ""){
-    isViolated = false;
-  }
-  else {
+  if(urlString != null && urlString != ""){
     try {
       isViolated = !matcher.test(urlString.trim().toLowerCase());
     }

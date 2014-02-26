@@ -9,10 +9,7 @@ var evaluatePhoneNumber = function(phoneNumber, dataSet, entity, constraintSet, 
   var isViolated = false;
 
   //TODO: parseInt check for value passed in
-  if((phoneNumber == null || phoneNumber == "")){
-    isViolated = true;
-  }
-  else {
+  if(phoneNumber != null && phoneNumber != ""){
     isViolated = !matcher.test(phoneNumber.trim().toLowerCase());
   }
   return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + phoneNumber, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
