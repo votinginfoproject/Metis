@@ -23,10 +23,10 @@ function Rule(ruleDef){
 function RuleHandler() {}
 
 RuleHandler.prototype.createRule = function(ruleDef){
-  if(!rules[ruleDef.title]){
-    rules[ruleDef.title] = new Rule(ruleDef);
+  if(!rules[ruleDef.ruleId]){
+    rules[ruleDef.ruleId] = new Rule(ruleDef);
   }
-  return rules[ruleDef.title];
+  return rules[ruleDef.ruleId];
 }
 
 RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCallback){
@@ -34,7 +34,7 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
   ActiveRuleStats.applyRule(rule.ruleDef);
   RuleHandler.prototype.ruleInstance = rule;
   RuleHandler.prototype.vipFeedId = feedId;
-  console.log('applying rule', rule.title);
+  console.log('applying rule', rule.name);
   async.each(rule.dataConstraints, this.applyDataConstraints,
     function(err){console.log('rule application complete');
       ruleEngineCompletionCallback(violationCount);
@@ -45,7 +45,7 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
   //TODO: Make this a case statement
   if(RuleHandler.prototype.ruleInstance.type != 'feedLevelRule'){
     for(var p=0; p < constraintSet.entity.length; p++){
-      //console.log('fetching..' + RuleHandler.prototype.ruleInstance.ruleDef.title, constraintSet.entity, constraintSet.fields);
+      //console.log('fetching..' + RuleHandler.prototype.ruleInstance.ruleDef.ruleId, constraintSet.entity, constraintSet.fields);
       fetcher.applyConstraints(constraintSet.entity[p], constraintSet.fields, RuleHandler.prototype.vipFeedId, RuleHandler.prototype.ruleInstance).then(
         function(fetchedData){
           RuleHandler.prototype.processDataResults(fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet, cb);
@@ -65,7 +65,7 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 RuleHandler.prototype.processDataResults = function(ruleDef, entity, results, constraintSet, cb){
   for(var i = 0; i < results.length; i++){
     if(constraintSet.fields.length > 0) {
-      //console.log('applying data rule ', ruleDef.title, 'for', constraintSet);
+      //console.log('applying data rule ', ruleDef.ruleId, 'for', constraintSet);
       for(j=0; j < constraintSet.fields.length; j++){
         resultItem = formatNestedResult(constraintSet.fields[j], results[i]);
         if(resultItem != null) {
@@ -74,14 +74,14 @@ RuleHandler.prototype.processDataResults = function(ruleDef, entity, results, co
       }
     }
     else {
-      //console.log('applying data rule ', ruleDef.title, 'for', constraintSet);
+      //console.log('applying data rule ', ruleDef.ruleId, 'for', constraintSet);
       if(results[i] != null){
         RuleHandler.prototype.processRule(ruleDef, results[i], results[i], entity, constraintSet, cb);
       }
     }
   }
   if(i==0){
-    //console.log('detecting no data for ', ruleDef.title, 'in', constraintSet);
+    //console.log('detecting no data for ', ruleDef.ruleId, 'in', constraintSet);
     ActiveRuleStats.increaseRuleCount(ruleDef);
     ActiveRuleStats.decreaseRuleCount(ruleDef);
   }
@@ -144,7 +144,9 @@ RuleHandler.prototype.addErrorViolations = function addErrorViolations(errorList
 RuleHandler.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
   violation = new Violation(entity, dataSet.elementId, dataSet._id, dataSet._feed, dataSet, dataItem, ruleDef);
   violationCount++;
-  //violation.save();
+  //console.log(dataSet);
+  //console.log(violation.model());
+  violation.model().save();
 }
 
 module.exports = RuleHandler;

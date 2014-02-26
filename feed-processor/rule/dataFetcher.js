@@ -63,7 +63,8 @@ var formatSearchResultFields = function(resultFields){
     for(i = 0; i < resultFields.length; i++)
       queryFields[resultFields[i]] = 1;
   }
-
+  queryFields['elementId'] = 1;
+  queryFields['_feed'] = 1;
   return queryFields;
 }
 

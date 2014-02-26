@@ -9,19 +9,21 @@ var constraints = require('./dataconstraints');
 var metisRuleList = [
 
   {
-    title: 'validUrl',
+    ruleId: 'uniqueId',
+    title: 'Url format must be valid',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 1,
-    errorText: 'Invalid Url format cannot be malformed',
+    errorText: 'Url must conform to the format: http[?s]://<domain>.<org>',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/validUrlRule',
     dataConstraints: constraints['validUrl']
   },
   {
-    title: 'localityTypes',
+    ruleId: 'localityTypes',
+    title: 'Invalid Locality Type',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -33,37 +35,41 @@ var metisRuleList = [
     dataConstraints: constraints['localityType']
   },
   {
-    title: 'uniqueIdCheck',
+    ruleId: 'uniqueIdCheck',
+    title: 'Top-level Metis element IDs must be unique',
     type: 'feedLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 3,
-    errorText: 'All top-level metis elements must have a unique ID value',
+    errorText: 'Top-level Metis element IDs must be unique',
     severityCode: 1,
     severityText: 'Error',
     implementation: './impl/uniqueIdRule',
     dataConstraints: constraints['uniqueIdCheck']
   },
   {
-    title: 'uniqueStreetSegment',
+    ruleId: 'streetSegmentOverlap',
+    title: 'Street Segment ranges cannot overlap',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: false,
     errorCode: 4,
-    errorText: 'Street Segments must be valid and cannot have overlap',
+    errorText: 'Street Segment ranges cannot overlap',
     severityCode: 1,
     severityText: 'Error',
     implementation: './impl/streetSegmentRule',
-    dataConstraints: constraints['uniqueStreetSegment']
+    dataConstraints: constraints['streetSegmentOverlap']
   },
   /* address direction range */
   {
-    title: 'addressDirectionRule',
+
+    ruleId: 'addressDirection',
+    title: 'Address Direction Invalid',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
     isActive: false,
     errorCode: 5,
-    errorText: 'Address Direction value does not fall within the predefined set of recognized value types or formats',
+    errorText: 'Address Direction Invalid',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/addressDirectionRule',
@@ -71,12 +77,13 @@ var metisRuleList = [
   },
   /* email format */
   {
-    title: 'emailFormatRule',
+    ruleId: 'emailFormatRule',
+    title: 'Invalid email address format provided',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 6,
-    errorText: 'Invalid email address format provided',
+    errorText: 'Invalid email address format provided. Expected <username>@<domain>',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/emailFormatRule',
@@ -84,12 +91,13 @@ var metisRuleList = [
   },
   /* phone number format */
   {
-    title: 'phoneNumberRule',
+    ruleId: 'phoneNumberRule',
+    title: 'Invalid phone number provided.',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 7,
-    errorText: 'Invalid phone number provided',
+    errorText: 'Invalid phone number provided.  Expected format / d[2-9]dd-ddd-ddd / i.e.- 864-478-5239',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/phoneNumberRule',
@@ -99,12 +107,13 @@ var metisRuleList = [
   /* valid url format */
   /* zip code format */
   {
-    title: 'zipCodeRule',
+    ruleId: 'zipCodeRule',
+    title: 'Invalid zip code format provided',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 8,
-    errorText: 'Invalid zip code format provided',
+    errorText: 'Invalid zip code format provided.  Expected format / ddddd-dddd / i.e.- 95239-7839 or 91210',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/zipCodeRule',
