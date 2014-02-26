@@ -21,7 +21,9 @@ function onUpdate (err, numAffected) {
     console.log('****Linking Complete!!!');
     console.log('****Initializing Rules Engine');
     var promise = require('./rule/rulesengine').processRules(_feedId);
-    //promise.then(require('./overview/overview-processor').runOverviewProcessor);
+
+    console.log("****Processing Overview Details");
+    promise.then(require('./overview/overview-processor').runOverviewProcessor);
   }
 };
 
