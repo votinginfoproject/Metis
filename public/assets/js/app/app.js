@@ -191,9 +191,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     // all errors can now go to the same html partial and the same angular controller
     var error = { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' };
     $routeProvider
+      .when('/feeds/:vipfeed/source/errors', error)
+      .when('/feeds/:vipfeed/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
-      .when('/feeds/:vipfeed/source/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/contestresult/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
