@@ -7,12 +7,12 @@ var matcher = new RegExp(/http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:
 
 var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleDef){
   var isViolated = false;
-  if((urlString == null || urlString == "")){
-    isViolated = true;
+  if(urlString == null || urlString == ""){
+    isViolated = false;
   }
   else {
     try {
-      isViolated = !matcher.test(urlString);
+      isViolated = !matcher.test(urlString.trim().toLowerCase());
     }
     catch(err){
       //console.log(err); doNothing

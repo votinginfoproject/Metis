@@ -13,7 +13,7 @@ var evaluatePhoneNumber = function(phoneNumber, dataSet, entity, constraintSet, 
     isViolated = true;
   }
   else {
-    isViolated = !matcher.test(phoneNumber);
+    isViolated = !matcher.test(phoneNumber.trim().toLowerCase());
   }
   return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + phoneNumber, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 };

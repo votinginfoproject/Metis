@@ -13,7 +13,7 @@ var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, 
   }
   else {
 
-    isViolated = !matcher.test(emailAddress);
+    isViolated = !matcher.test(emailAddress.trim().toLowerCase());
   }
 
   return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
