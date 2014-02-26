@@ -672,6 +672,7 @@ exports.initSchemas = function (mongoose) {
   models.Candidate.fieldCount = utils.countProperties(candidateSchema);
   models.EarlyVoteSite.fieldCount = utils.countProperties(earlyVoteSiteSchema);
   models.ElectionAdmin.fieldCount = utils.countProperties(electionAdminSchema);
+  models.ElectionOfficial.fieldCount = utils.countProperties(electionOfficialSchema);
   models.ElectoralDistrict.fieldCount = utils.countProperties(electoralDistrictSchema);
   models.Locality.fieldCount = utils.countProperties(localitySchema);
   models.PollingLocation.fieldCount = utils.countProperties(pollingLocationSchema);

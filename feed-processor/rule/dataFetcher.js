@@ -45,7 +45,6 @@ function resolveRuleWithConstraints(entity, resultFields, feedId, rule){
  * @returns {{}}
  */
 var formatQueryArgs = function(vipFeedId){
-
   var queryArgs = {};
   if(vipFeedId != null && vipFeedId != "") {
     queryArgs = {'_feed':vipFeedId};
@@ -59,13 +58,14 @@ var formatQueryArgs = function(vipFeedId){
  * @returns {{}}
  */
 var formatSearchResultFields = function(resultFields){
-  /*
-  var searchThings = {};
-  if(resultFields != null && resultFields[0] != ""){
-    resultField = resultFields[0];
+  var queryFields = {};
+  if(resultFields != null && resultFields.length > 0){
+    for(i = 0; i < resultFields.length; i++)
+      queryFields[resultFields[i]] = 1;
   }
-  */
-  return {};  //future this will utilized for performance gains within larger feed sets
+  queryFields['elementId'] = 1;
+  queryFields['_feed'] = 1;
+  return queryFields;
 }
 
 exports.fetchEntityData = fetchEntityData;

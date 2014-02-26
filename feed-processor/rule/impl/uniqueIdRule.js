@@ -1,64 +1,92 @@
 /**
- * Created by nboseman on 1/29/14.
+ * Created by nboseman on 2/11/14.
  */
 
+var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
+var ruleViolation = require('../ruleviolation');
 var when = require('when');
+var deferred = when.defer();
 
-var Violation = require('../ruleviolation');
+var rule = null;
 
-var evaluateUniqueId = function(uniqueId, dataSet, entity, constraintSet, ruleDef){
-  //console.log(uniqueId, dataSet, entity, constraintSet);
-  var deferred = when.deferred();
-  var Model = null;
-  var isViolated = false;
-  var resolution = {isViolated: isViolated, dataItem: null, dataSet: null, entity: null, ruleDef: null };
-  var allResults = [];
+var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition){
+  var when = require('when');
+  rule = ruleDefinition;
 
+  var finds = [];
+    constraintSet.entity.forEach(function(model) {
+      Model = mongoose.model(model);
+      finds.push(Model.find({ '_feed': feedId },{'elementId':1,'_feed':1}).exec());
+    }, this);
 
-  when.all(allResults).then(
-
-    function(results){
-
-      if(results[0] != undefined && results[0].isViolated){
-        console.log('vio:', results);
-        deferred.resolve(results[0]);
-      }
-      else
-        deferred.resolve(resolution);
-    },
-    function(err){
-      console.log("all kinds of errors coming back in ID Rule");
-    }
-  );
-
-  constraintSet.entity.forEach(function(thisEntity, next){
-    if(isViolated) next();
-    Model = mongoose.model(thisEntity);
-    promise = Model
-      .find({_feed:dataSet._feed})
-      .where({'elementId':uniqueId}, {_feed:1, _id:1, elementId:1})
-      .exec();
-    promise.then(function(results){
-      if(results.length > 1){
-        isViolated = true;
-        console.log('resolving..');
-        resolution = {isViolated: isViolated, dataItem: uniqueId, dataSet: dataSet, entity: entity, ruleDef: ruleDef };
-        allResults.push(resolution);
-      }
-    });
-    promise.onerror = function(){
-      deferred.reject(new Error("Issues During Data Processing"));
-    };
-  },
-  function(err){
-    if(!isViolated){
-
-    }
-
-  });
+    when.all(finds)
+      .then(processQueryResults, errorHandler);
 
   return deferred.promise;
 }
+
+function errorHandler(err) {
+  if (err) {
+    console.error(err);
+  }
+}
+
+function processQueryResults(foundDocs) {
+  //console.log('All queries completed.');
+
+  var idCounts = {};
+
+  var docs = Array.prototype.concat.apply([], foundDocs);
+  docs.forEach(function (doc) {
+    var id = doc.elementId;
+    if (idCounts[id] === undefined) {
+      idCounts[id] = { count: 0, errorModel: [] };
+    }
+    idCounts[id].count++;
+    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, _ref: doc._id, doc: doc });
+  });
+
+  storeErrors(filterDuplicates(idCounts));
+  this.complete = true;
+  //console.log('processQueryResults complete');
+}
+
+function filterDuplicates(idCounts) {
+ // console.log('Filtering duplicates.');
+  var duplicateIds = Object.keys(idCounts).filter(function(key) {
+    return idCounts[key].count > 1;
+  });
+
+  var duplicates = [];
+
+  duplicateIds.forEach(function(id) {
+    idCounts[id].id = id;
+    duplicates.push(idCounts[id]);
+  });
+
+  return duplicates;
+}
+
+function storeErrors(dupes, feedId) {
+  //console.log('Storing errors.');
+  var savePromises = [];
+
+  dupes.forEach(function(dupe) {
+    dupe.errorModel.forEach(function(errModel) {
+      savePromises.push(createError(errModel, dupe.id));
+    });
+  });
+
+  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, errorList: promisedErrors});});
+}
+
+
+function createError(errorModel, id) {
+  ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
+  violation = ruleErrors.model(errorModel.model.modelName);
+  return violation.save();
+}
+
 
 exports.evaluate = evaluateUniqueId;

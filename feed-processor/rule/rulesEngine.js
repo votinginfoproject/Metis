@@ -36,10 +36,10 @@ var applyRules = function(vipFeedId){
   });
 }
 
-var endSession = function(violations){
+var endSession = function(violationCount){
   console.log("Data analysis complete.")
   console.log(rules.length + " Rules applied");
-  console.log(violations.length + " Rule errors created");
+  console.log(violationCount + " Rule errors created");
   console.log("Rules processor shutting down");
   process.exit();
 }
