@@ -1,6 +1,6 @@
 <i id="feed-ballot-content"></i>
 
-<a ng-if="feedBallot.error_count" id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
+<a ng-if="feedBallot.error_count !== undefined" id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
   Errors in Ballot ID: {{feedBallot.id}}</a>
 <mark ng-if="!feedBallot.error_count">link</mark>
 
@@ -56,6 +56,9 @@
 
 <section class="data-group">
   <h2>Custom Ballot ID: {{feedBallot.custom_ballot.id}}</h2>
+  <a ng-if="feedBallot.custom_ballot.error_count !== undefined" id="response-errors" class="error-count" href="{{$location.absUrl()}}/customballot/errors">{{feedBallot.custom_ballot.error_count}}
+    Errors in Contest Result</a>
+
   <div ng-if="!feedBallot.custom_ballot && feedBallot.custom_ballot !== null"></br><span class="is-loading"></span></div>
   <dl class="attributes" ng-if="feedBallot.custom_ballot">
     <dt class="key">Heading:</dt> <dd id="customballot-heading" class="value">{{feedBallot.custom_ballot.heading}}</dd>
@@ -63,6 +66,8 @@
   </dl>
 
   <h5 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h5>
+  <a ng-if="feedBallot.custom_ballot.ballot_responses_error_count !== undefined" id="ballotResponse-errors" class="error-count" href="{{$location.absUrl()}}/ballotresponses/errors">{{feedBallot.custom_ballot.ballot_responses_error_count}}
+    Errors in Ballot Responses</a>
   <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations">
     <thead>
       <tr>

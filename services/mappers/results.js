@@ -74,7 +74,7 @@ function mapCandidateSummary(path, candidate) {
 function mapContestResult(path, contestResult) {
   return {
     id: contestResult.elementId,
-    error_count: -1, // TODO
+    error_count: contestResult.errorCount,
     errors: _path.join(path, '/errors'),
     entire_district: contestResult.entireDistrict,
     total_votes: contestResult.totalVotes,
@@ -109,7 +109,8 @@ function mapBallotLineResults(path, ballotLineResults) {
 function mapBallotLineResult(path, ballotLineResult) {
   return {
     id: ballotLineResult.elementId,
-    error_count: -1, // TODO
+    error_count: ballotLineResult.errorCount,
+    errors: _path.join(path, '/errors'),
     votes: ballotLineResult.votes,
     victorious: ballotLineResult.victorious,
     certification: ballotLineResult.certification,

@@ -1,6 +1,6 @@
 <i id="feed-precinctsplit-content"></i>
 
-<a ng-if="feedPrecinctSplit.error_count" id="precinctsplit-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a>
+<a ng-if="feedPrecinctSplit.error_count !== undefined" id="precinctsplit-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>
@@ -56,7 +56,7 @@
 
 <section class="data-group">
   <h2>{{feedPrecinctSplit.street_segments.total}} Street Segments</h2>
-  <a ng-if="feedPrecinctSplit.street_segments.error_count" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>
+  <a ng-if="feedPrecinctSplit.street_segments.error_count !== undefined" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>
 
   <span ng-if="!feedPrecinctSplit" class="is-loading"></span>
 </section>

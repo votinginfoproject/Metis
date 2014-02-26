@@ -1,6 +1,6 @@
 <i id="feed-election-content"></i>
 
-<a ng-if="feedElection.error_count" id="election-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElection.error_count}}
+<a ng-if="feedElection.error_count !== undefined" id="election-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElection.error_count}}
   Errors in Election ID: {{feedElection.id}}</a>
 
 <span ng-if="!feedElection" class="is-loading"></span>

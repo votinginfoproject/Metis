@@ -1,6 +1,6 @@
 <i id="feed-precinct-content"></i>
 
-<a ng-if="feedPrecinct.error_count" id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a>
+<a ng-if="feedPrecinct.error_count !== undefined" id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>
@@ -107,7 +107,7 @@
 
 <section class="data-group">
   <h2>{{feedPrecinct.streetsegments.total}} Street Segments</h2>
-  <a ng-if="feedPrecinct.streetsegments.error_count" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinct.streetsegments.error_count}} Errors in Street Segments</a>
+  <a ng-if="feedPrecinct.streetsegments.error_count !== undefined" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinct.streetsegments.error_count}} Errors in Street Segments</a>
 
   <span ng-if="!feedPrecinct" class="is-loading"></span>
 </section>

@@ -1,6 +1,6 @@
 <i id="feed-referendum-content"></i>
 
-<a ng-if="feedReferendum.error_count" id="referendum-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
+<a ng-if="feedReferendum.error_count !== undefined" id="referendum-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
   Errors in Referendum ID: {{feedReferendum.id}}</a>
 
 <span ng-if="!feedReferendum" class="is-loading"></span>
@@ -17,6 +17,8 @@
 
 <section class="data-group">
   <h4>{{feedReferendum.ballot_responses.length}} Ballot Responses</h4>
+  <a ng-if="feedReferendum.ballot_responses_error_count !== undefined" id="response-errors" class="error-count" href="{{$location.absUrl()}}/ballotresponses/errors">{{feedReferendum.ballot_responses_error_count}}
+    Errors in Ballot Responses</a>
 
   <span ng-if="!feedReferendum.ballot_responses && feedReferendum.ballot_responses !== null" class="is-loading"></span>
   <table ng-show="feedReferendum.ballot_responses.length" id="referendumBallotResponsesTable" class="associations" >

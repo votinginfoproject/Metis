@@ -191,9 +191,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     // all errors can now go to the same html partial and the same angular controller
     var error = { templateUrl: $appProperties.contextRoot + '/app/partials/feed-errors.html', controller: 'FeedErrorsCtrl' };
     $routeProvider
+      .when('/feeds/:vipfeed/source/errors', error)
+      .when('/feeds/:vipfeed/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/streetsegments/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
-      .when('/feeds/:vipfeed/source/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/contestresult/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
@@ -218,7 +219,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/errors', error)
       .when('/feeds/:vipfeed/election/state/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/earlyvotesites/:earlyvotesite/errors', error)
-      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error);
+      .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/customballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
 
     // done
     $routeProvider.when('/template/feed', {
