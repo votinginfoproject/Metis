@@ -7,7 +7,7 @@ var thisModelName = null;
 
 function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
   this.entity = entity;
-  this.elementId = elementId;
+  this.refElementId = elementId;
   this.details = details;
   this.refEntityId = mongoObjectId;
   this.feedId = feedId;
@@ -35,7 +35,7 @@ RuleViolation.prototype.model = function(modelName){
     title: this.ruleDef.title,
     details: this.ruleDef.errorText,
     textualReference: this.textualReference,
-    refElementId: this.elementId,
+    refElementId: this.refElementId,
     _ref: this.refEntityId,
     _feed: this.feedId
   });

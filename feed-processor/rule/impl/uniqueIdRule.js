@@ -44,7 +44,7 @@ function processQueryResults(foundDocs) {
       idCounts[id] = { count: 0, errorModel: [] };
     }
     idCounts[id].count++;
-    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, _ref: doc._id, doc: doc });
+    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, elementId: doc.elementId, _ref: doc._id, doc: doc });
   });
 
   storeErrors(filterDuplicates(idCounts));
@@ -84,8 +84,7 @@ function storeErrors(dupes, feedId) {
 
 function createError(errorModel, id) {
   ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
-  violation = ruleErrors.model(errorModel.model.modelName);
-  return violation.save();
+  return ruleErrors.model(errorModel.model.modelName).save();
 }
 
 
