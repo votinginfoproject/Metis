@@ -28,7 +28,7 @@ var metisRuleList = [
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 2,
-    errorText: 'Invalid Locality Type',
+    errorText: "Valid Locality types: 'county','city','town','township','borough','parish','village','region'",
     severityCode: 1,
     severityText: 'Error',
     implementation: './impl/localitytyperule',
