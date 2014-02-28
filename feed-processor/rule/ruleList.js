@@ -67,7 +67,7 @@ var metisRuleList = [
     title: 'Address Direction Invalid',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
-    isActive: false,
+    isActive: true,
     errorCode: 5,
     errorText: 'Address Direction Invalid',
     severityCode: 2,
