@@ -100,15 +100,15 @@ function formatNestedResult(field, result){
 
 RuleHandler.prototype.processRule = function(ruleDef, dataItem, dataSet, entity, constraintSet, cb){
   ActiveRuleStats.increaseRuleCount(ruleDef);
-  //console.log(ActiveRuleStats.statusRuleCount());
+  //TODO: log as debug --> console.log(ActiveRuleStats.statusRuleCount());
   fn.call(require(ruleDef.implementation).evaluate, dataItem, dataSet, entity, constraintSet, ruleDef)
     .then(function(rule){
 
       if(rule.isViolated){
         RuleHandler.prototype.createViolation(rule.entity, rule.dataItem, rule.dataSet, rule.ruleDef);
       }
-      ActiveRuleStats.decreaseRuleCount(ruleDef);
-      //console.log(ActiveRuleStats.statusRuleCount());
+      ActiveRuleStats.decreaseRuleCount(rule.ruleDef);
+      //TODO: log as debug --> console.log(ActiveRuleStats.statusRuleCount());
       if(ActiveRuleStats.atTerminalState())
         cb();
     },
@@ -124,7 +124,7 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
   fn.call(require(ruleDef.implementation).evaluate, feedId, constraintSet, ruleDef)
     .then(function(rule){
       ActiveRuleStats.decreaseRuleCount(ruleDef);
-      RuleHandler.prototype.addErrorViolations(rule.promisedErrors);
+      RuleHandler.prototype.addErrorViolations(rule.promisedErrorCount);
       //console.log(ActiveRuleStats.statusRuleCount());
       if(ActiveRuleStats.atTerminalState())
         cb();
@@ -135,17 +135,15 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
   );
 }
 
-RuleHandler.prototype.addErrorViolations = function addErrorViolations(errorList){
-  if(errorList){
-    //violationCount = violationCount + errorList.length;
+RuleHandler.prototype.addErrorViolations = function addErrorViolations(promisedErrorCount){
+  if(promisedErrorCount){
+    violationCount += promisedErrorCount;
   }
 }
 
 RuleHandler.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
   violation = new Violation(entity, dataSet.elementId, dataSet._id, dataSet._feed, dataSet, dataItem, ruleDef);
   violationCount++;
-  //console.log(dataSet);
-  //console.log(violation.model());
   violation.model().save();
 }
 

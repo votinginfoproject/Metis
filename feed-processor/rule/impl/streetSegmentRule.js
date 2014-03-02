@@ -9,39 +9,63 @@ var when = require('when');
 var interval = require('interval-query');
 var tree = new interval.SegmentTree;
 
-var evaluate = function(streetSegment, dataSet, entity, constraintSet, ruleDef){
-  var Model = mongoose.model(entity);
+
+var evaluate = function(feedId, constraintSet, ruleDefinition){
+  var Model = mongoose.model("streetSegments");
   var isViolated = false;
   var deferred = when.defer();
+  var segmentQueries = [];
 
-  promise = Model
-    .find({'_feed':streetSegment._feed,
-      'nonHouseAddress.streetName': streetSegment.nonHouseAddress.streetName,
-      'nonHouseAddress.streetDirection': streetSegment.streetDirection,
-      'nonHouseAddress.streetSuffix': streetSegment.streetSuffix,
-      'nonHouseAddress.city': streetSegment.nonHouseAddress.city,
-      'nonHouseAddress.zip': streetSegment.nonHouseAddress.zip },
-    { '_feed':1,
-      'nonHouseAddress.streetName': 1,
-      'nonHouseAddress.streetDirection': 1,
-      'nonHouseAddress.streetSuffix': 1,
-      'nonHouseAddress.city': 1,
-      'nonHouseAddress.zip': 1 }
-    ).exec();
+  promise = Model.find({ '_feed':feedId }).exec();
 
-  promise.then(function(results){
-    async.each(results, buildIntervals, function(err){
+  promise.then(function(streetSegments){
+
+     streetSegments.forEach(function(streetSegment){
+     // console.log(streetSegment);
+      segmentQueries.push( Model.find(
+       {'_feed':streetSegment._feed,
+        'startHouseNumber': { $gte : streetSegment.startHouseNumber },
+        'endHouseNumber': { $lte : streetSegment.endHouseNumber },
+        'oddEvenBoth': streetSegment.oddEvenBoth,
+        'nonHouseAddress.streetName': streetSegment.nonHouseAddress.streetName,
+        //'nonHouseAddress.streetDirection': streetSegment.streetDirection,
+        'nonHouseAddress.streetSuffix': streetSegment.streetSuffix,
+        'nonHouseAddress.city': streetSegment.nonHouseAddress.city,
+        'nonHouseAddress.zip': streetSegment.nonHouseAddress.zip,
+         $nin : { '_id':streetSegment._id } },
+      { '_feed':1,
+        'elementId':1,
+        'oddEvenBoth': 1,
+        'nonHouseAddress.streetName': 1,
+        'nonHouseAddress.streetDirection': 1,
+        'nonHouseAddress.streetSuffix': 1,
+        'nonHouseAddress.city': 1,
+        'nonHouseAddress.zip': 1 })
+      .exec());
+       //console.log('length', segmentQueries.length());
+     });
+
+    when.all(segmentQueries).then(function(streetSegments){
+      console.log('what came back..', streetSegments);
+      promisedSegments = 0;
+      deferred.resolve({isViolated: isViolated, promisedErrorCount: promisedSegments});
+    });
+  });
+
+
+
+    //async.each(results, buildIntervals, function(err){
 
       //query to see if there are any overlaps in returned intervals and set violation status
-      overlaps = tree.queryInterval(streetSegment.startHouseNumber, streetSegment.endHouseNumber);
-      isViolated = (overlaps != null && overlaps > 0);
-      deferred.resolve({isViolated: isViolated, dataItem: streetSegment, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
-    });
+      //overlaps = tree.queryInterval(streetSegment.startHouseNumber, streetSegment.endHouseNumber);
+      //isViolated = (overlaps != null && overlaps > 0);
 
-  });
-  promise.onerror = function(){
-    deferred.reject(new Error("Issues During Street Segment Validation"));
-  };
+    //});
+
+  //});
+  //promise.onerror = function(){
+  //  deferred.reject(new Error("Issues During Street Segment Validation"));
+ // };
 
   return deferred.promise;
 }

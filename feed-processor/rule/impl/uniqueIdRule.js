@@ -71,14 +71,14 @@ function filterDuplicates(idCounts) {
 function storeErrors(dupes, feedId) {
   //console.log('Storing errors.');
   var savePromises = [];
-
+  errorCount = 0;
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
+      errorCount++;
       savePromises.push(createError(errModel, dupe.id));
     });
   });
-
-  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, errorList: promisedErrors});});
+  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
 }
 
 

@@ -13,6 +13,7 @@ constraints = null;
 var addressDirectionTypesList = ['n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest'];
 var when = require('when');
 var deferred = when.defer();
+var errorCount = 0;
 
 var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinition){
   rule = ruleDefinition;
@@ -26,29 +27,33 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
   mixedCaseDirections = upperCaseMap.concat(addressDirectionTypesList);
 
   savePromises.push(Model.find({ 'nonHouseAddress.streetDirection': { $exists: true, $nin: mixedCaseDirections }}, {'_feed':1, 'elementId':1, 'nonHouseAddress.streetDirection':1}).exec()); //formatReturnFields(constraintSet[1])
-  savePromises2.push(Model.find({ 'nonHouseAddress.addressDirection': { $exists: true, $nin: mixedCaseDirections }}, {'_feed':1, 'elementId':1, 'nonHouseAddress.addressDirection':1}).exec());
+  //savePromises.push(Model.find({ 'nonHouseAddress.addressDirection': { $exists: true, $nin: mixedCaseDirections }}, {'_feed':1, 'elementId':1, 'nonHouseAddress.addressDirection':1}).exec());
 
   var errorPromises = [];
+
   when.all(savePromises).then(
     function(streetSegmentResult){
-      streetSegmentResult[0].forEach(function(streetSegmentResultSet){
-        errorPromises.push(createError(streetSegmentResultSet, "streetDirection = " + streetSegmentResultSet.nonHouseAddress.streetDirection));
-      });
-  });
-  when.all(savePromises2).then(
-    function(streetSegmentResult){
-      streetSegmentResult[0].forEach(function(streetSegmentResultSet){
-        errorPromises.push(createError(streetSegmentResultSet, "addressDirection = " + streetSegmentResultSet.nonHouseAddress.addressDirection));
-      });
-  });
-
-  when.all(errorPromises).then( function(emptyPromises){ deferred.resolve({ isViolated: isViolated, errorList: emptyPromises }) });
+     // if(streetSegmentResultSet.nonHouseAddress.streetDirection.trim() != ""){
+        streetSegmentResult[0].forEach(function(streetSegmentResultSet){
+          errorPromises.push(createError(streetSegmentResultSet, "streetDirection = " + streetSegmentResultSet.nonHouseAddress.streetDirection));
+        });
+     // }
+/*
+    when.all(savePromises2).then(
+      function(streetSegmentResult){
+        streetSegmentResult[0].forEach(function(streetSegmentResultSet){
+          errorPromises.push(createError(streetSegmentResultSet, "addressDirection = " + streetSegmentResultSet.nonHouseAddress.addressDirection));
+        });
+ */       when.all(errorPromises).then( function(emptyPromises){  deferred.resolve({ isViolated: isViolated, promisedErrorCount: errorCount }) });
+     }
+    );
+ // });
 
   return deferred.promise;
 }
 
-
 function createError(errorModel, directionalError) {
+  errorCount++;
   ruleErrors = new ruleViolation(constraints.entity[0], errorModel.elementId, errorModel._id, errorModel._feed, directionalError, directionalError, rule);
   return ruleErrors.model().save();
 }
