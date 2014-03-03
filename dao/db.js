@@ -30,8 +30,11 @@ function getFeedList (callback) {
 };
 
 function getFeedOverview (id, callback) {
+
   daoSchemas.models.Feed.findById(id, { payload: 0 })
     .populate('_state')
+    .populate('_feedContact')
+    .populate('_election')
     .exec(function(err, overview) {
       var allErrorModels = [daoSchemas.models.Ballot.Error,
         daoSchemas.models.BallotResponse.Error,

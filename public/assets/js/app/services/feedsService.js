@@ -24,6 +24,14 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // ========================================================
     getFeedData: function (feedid) {
       return $http.get($appProperties.servicesPath + "/feeds/" + feedid);
+
+      /*
+      return $http({
+        method: 'GET',
+        url: $appProperties.servicesPath + "/feeds/" + feedid,
+        cache: true
+      });
+      */
     },
     getFeedPollingLocations: function (servicePath) {
       return $http.get(servicePath);

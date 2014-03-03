@@ -9,54 +9,35 @@
 <div class="details" ng-hide="mobileDimensions && toggleAside">
   <div class="wrapper">
 
-    <form role="search">
-      <input type="search" placeholder="Search">
-    </form>
-
-  <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">{{feedData.error_count}} Total Feed Errors <time datetime="2012-09-25" class="due-date">Final feed due date</time></a>
+  <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
+    {{feedData.error_count}} Total Feed Errors
+    <br>
+    <time ng-show="getDueDateText()" class="due-date">Final feed due {{getDueDateText()}}</time>
+  </a>
 
     <h2 class="feed-status">Revisions Needed</h2>
 
     <nav class="feed-nav">
       <ul>
-        <li><a class="is-finished" href="">Source</a></li>
-        <li><a class="is-finished" href="">Election</a></li>
-        <li><a class="is-started" href="">Polling Locations</a></li>
-        <li><a class="is-started" href="">Contests</a></li>
-        <li><span class="is-unstarted">Results</span></li>
+        <li><a class="is-finished" href="/#/feeds/{{feedData.id}}/source">Source</a></li>
+        <li><a class="is-finished" href="/#/feeds/{{feedData.id}}/election">Election</a></li>
+        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/state">Polling Locations</a></li>
+        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/contests">Contests</a></li>
+        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/results">Results</a></li>
       </ul>
     </nav>
 
-    <a class="button-approve disabled" href="#">Approve Feed</a>
+    <a class="button-approve disabled" href="javascript: void(0);">Approve Feed</a>
 
-    <p class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
-
-    <!-- Only visible to Admins -->
-    <h2>Feed Users</h2>
-    <ul>
-      <li>Stephen Miller <a href="#">Delete</a></li>
-      <li>Jody Bonavides <a href="#">Delete</a></li>
-    </ul>
-    <form>
-      <select>
-        <optgroup label="Ohio"><!-- Only users from the state the feed belongs to. -->
-          <option>Select User</option>
-          <option>Tyler Bassen</option>
-          <option>Mike Smith</option>
-        </optgroup>
-      </select>
-      <input type="submit" class="button-add-user" value="Add User">
-    </form>
-    <a href="#">Delete this feed</a>
-    <!-- /Only visible to Admins -->
+    <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
 
     <h2>Feed Contact</h2>
-    <div class="vcard">
-      <span class="fn">Alissa P. Hacker</span>
-      <span class="title">Information Technology Specialist</span>
-      <span class="tel">P: (101) 555-1235</span>
-      <span class="fax">F: (101) 555-1236</span>
-      <span class="email"><a href="mailto:ahacker@ohio.gov">ahacker@ohio.gov</a></span>
+    <div ng-show="feedData.feed_contact" class="vcard">
+      <span class="fn">{{feedData.feed_contact.name}}</span>
+      <span class="title">{{feedData.feed_contact.title}}</span>
+      <span class="tel">P: {{feedData.feed_contact.phone}}</span>
+      <span class="fax">F: F{{feedData.feed_contact.fax}}</span>
+      <span class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
     </div>
 
   </div>

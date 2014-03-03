@@ -357,7 +357,8 @@ var feedSchema = {
   name: String,
   feedPath: String,
   _election: { type: Types.ObjectId, ref: config.mongoose.model.election },
-  _state: { type: Types.ObjectId, ref: config.mongoose.model.state }
+  _state: { type: Types.ObjectId, ref: config.mongoose.model.state },
+  _feedContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
 var feedErrorSchema = {

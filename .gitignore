@@ -18,3 +18,4 @@ node_modules
 .sass-cache
 
 public/assets/js/lib/*
+!/public/assets/js/lib/leaflet

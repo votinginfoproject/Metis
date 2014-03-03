@@ -794,8 +794,10 @@ th {
   .feed-title h2 {
     font-size: .875em; }
 
-.button-errors time {
-  font-weight: normal; }
+.button-errors {
+  width: 100%; }
+  .button-errors time {
+    font-weight: normal; }
 
 .feed-status {
   font-size: .875em;
