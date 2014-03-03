@@ -4,8 +4,12 @@
   @include box-sizing(border-box);
 }
 
+body {
+  background: #003b6f
+}
+
 aside {
-  background-color: $gray-light;
+  //background-color: $gray-light;
   display: table-caption;
   width: 100%;
 
@@ -25,12 +29,24 @@ footer[role="contentinfo"] {
 }
 
 header[role="banner"] {
-  background-color: $gray-medium;
-  text-align: center;
+  background-color: #01244c;
+  // background-color: $gray-medium;
+  // text-align: center;
+  .wrapper {
+    padding-top: $base-lg;
+    padding-bottom: $base-sm;
+  }
 }
 
 .main {
   overflow-x: auto;
+  background: #013a6f; /* Old browsers */
+  background: -moz-linear-gradient(top,  #013a6f 0%, #003b6f 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#013a6f), color-stop(100%,#003b6f)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #013a6f 0%,#003b6f 100%);
 }
 
 .wrapper {

@@ -46,7 +46,8 @@ h6 {
 }
 
 h1 {
-  font-size: $base-font-size * 2.25; // 16 * 2.25 = 36px
+  font-size: 2.25em; // 36px
+  font-size: 2.25rem;
 }
 
 h2 {
@@ -86,7 +87,13 @@ p {
 }
 
 .helper {
-  font-size: .75em;
+  //font-size: .75em;
+  font-style: italic;
+  text-align: center;
+  padding: $base-sm $base;
+  border: 2px solid $gray-light;
+  border-radius: 15px;
+  opacity: 0.4;
 }
 
 // pre

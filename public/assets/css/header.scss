@@ -1,0 +1,82 @@
+// ============================================================================
+// Nav
+// ============================================================================
+
+.branding {
+  color: $gray-light;
+  font: 300 1.125em $header-font-family;
+  font-size: 1.125rem;
+  // Old CSS:
+  // font-family: $header-font-family;
+  // font-size: 1.125em;
+  // font-weight: bold;
+  // text-transform: uppercase;
+
+  @include bp(c6) {
+    float: left;
+    //font-size: 1.5em;
+    //font-size: 1.5rem;
+    font-size: 3.75em;
+    font-size: 3.75rem;
+    //margin-top: .25em;
+  }
+
+  @include bp(c12) {
+    //font-size: 3.75em;
+    //font-size: 3.75rem;
+    // Old CSS:
+    // font-size: 2.25em;    
+  }
+
+}
+
+.main-nav {
+  font-family: $header-font-family;
+
+  @include bp(c6) {
+    float: right;
+    padding-top: $base-med;
+  }
+
+  ul {
+    @extend .no-bullet;
+    text-align:center;
+  }
+
+  li {
+    display: inline;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: .875em;
+    font-size: .875rem;
+    margin-left: $base-sm;
+    @include bp(c12) {
+      font-size: 1.125em;
+      font-size: 1.125rem;
+    }    
+  }
+
+  a {
+    color: $gray-light;
+    display: inline-block;
+    border: 2px solid $gray-light;
+    border-radius: 30px;
+    padding: $base-xs $base;
+
+    &:hover, &:focus {
+      color: lighten($gray-light, 10);
+    }
+
+    &.is-active {
+      color: $white;
+    }
+  }
+
+  
+
+  // @include bp(c12) {
+  //   ul {
+  //     font-size: 1.125em;
+  //   }
+  // }
+}

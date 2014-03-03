@@ -1,0 +1,49 @@
+// ============================================================================
+// Data Group
+// ============================================================================
+// TODO: rename data-group
+
+.data-group {
+  color: $blue;
+  margin-bottom: $base-lg;
+
+  > div {
+    background: $white;
+  }
+}
+
+.data-group-header {
+  @include clearfix;
+  background: $blue-med;
+  color: $white;
+  padding: $base-sm $base $base;
+  margin-bottom: -$base;
+  border-radius: 8px 8px 0 0;
+
+  .data-group.finished & {
+    padding-bottom: $base-sm;
+    border-radius: 0;
+  }
+
+  h2 {
+    float: left;
+    font-size: 1.5em;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+
+  a {
+    color: $white;
+  }
+}
+
+.more-detail {
+  display: block;
+  float: right;
+  font-size: 0.875em;
+  font-size: 0.875rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: $base-sm;
+}
