@@ -20,6 +20,7 @@ var evaluate = function(feedId, constraintSet, ruleDefinition){
 
   promise.then(function(streetSegments){
 
+    //TODO: implement as a 'group by' query and utilize interval tree to discover overlaps; Street name, odd/even, direction, suffix, city, zip
      streetSegments.forEach(function(streetSegment){
      // console.log(streetSegment);
       segmentQueries.push( Model.find(

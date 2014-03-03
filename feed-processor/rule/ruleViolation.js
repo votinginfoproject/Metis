@@ -28,7 +28,7 @@ RuleViolation.prototype.model = function(modelName){
     Violation = mongoose.model(modelName);
     thisModelName = modelName;
   }
-  console.log(thisModelName);
+  //console.log(thisModelName);
   Model = new Violation({
     severityCode: this.ruleDef.severityCode,
     severityText: this.ruleDef.severityText,

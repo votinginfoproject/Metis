@@ -75,6 +75,21 @@ var metisRuleList = [
     implementation: './impl/addressDirectionRule',
     dataConstraints: constraints['addressDirection']
   },
+  /* street direction range
+  {
+
+    ruleId: 'steetDirection',
+    title: 'Street Direction Invalid',
+    type: 'feedLevelRule',
+    isFeedLevelRule: true,
+    isActive: true,
+    errorCode: 5,
+    errorText: 'Street Direction Invalid',
+    severityCode: 2,
+    severityText: 'Warning',
+    implementation: './impl/addressDirectionRule',
+    dataConstraints: constraints['streetDirection']
+  },
   /* email format */
   {
     ruleId: 'emailFormatRule',
