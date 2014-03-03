@@ -7,7 +7,7 @@ var thisModelName = null;
 
 function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, ruleDef){
   this.entity = entity;
-  this.elementId = elementId;
+  this.refElementId = elementId;
   this.details = details;
   this.refEntityId = mongoObjectId;
   this.feedId = feedId;
@@ -19,6 +19,7 @@ RuleViolation.prototype.model = function(modelName){
   var Violation = null;
   if(modelName == null || modelName.trim() == ""){
     thisModelName = deriveErrorSchema(this.entity);
+
     //TODO: enhance debug here with console.log('created derived model for', thisModelName);
     Violation = mongoose.model(thisModelName);
   }
@@ -27,15 +28,15 @@ RuleViolation.prototype.model = function(modelName){
     Violation = mongoose.model(modelName);
     thisModelName = modelName;
   }
-
+  //console.log(thisModelName);
   Model = new Violation({
     severityCode: this.ruleDef.severityCode,
     severityText: this.ruleDef.severityText,
     errorCode: this.ruleDef.errorCode,
     title: this.ruleDef.title,
     details: this.ruleDef.errorText,
-    textualReference: this.textualReference,
-    refElementId: this.elementId,
+    textualReference: 'id = ' + this.refElementId + " (" + this.textualReference + ")",
+    refElementId: this.refElementId,
     _ref: this.refEntityId,
     _feed: this.feedId
   });

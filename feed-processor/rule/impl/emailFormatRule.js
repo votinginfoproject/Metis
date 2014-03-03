@@ -8,12 +8,8 @@ var matcher = new RegExp(/[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]/
 var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, ruleDef){
 
   var isViolated = false;
-  if((emailAddress == null || emailAddress == "")){
-    isViolated = true;
-  }
-  else {
-
-    isViolated = !matcher.test(emailAddress);
+  if(emailAddress != null && emailAddress != ""){
+    isViolated = !matcher.test(emailAddress.trim().toLowerCase());
   }
 
   return when.resolve({isViolated: isViolated, dataItem: constraintSet.fields + " = " + emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef});

@@ -55,9 +55,12 @@ var theseConstraints = {
   ],
   addressDirection : [
     {
-      entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection', 'nonHouseAddress.streetDirection']
+      entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection']
     }],
-
+  streetDirection : [
+    {
+      entity: [models.streetSegment], fields: ['nonHouseAddress.streetDirection']
+    }],
   /* locality type range */
   localityType: [
     {

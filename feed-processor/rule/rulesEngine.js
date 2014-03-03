@@ -6,14 +6,17 @@ var ruleList = require('./rulelist');
 
 var ruleHandler = new metisRuleHandler();
 var rules = [];
+var deferred = null;
 
 
 function processRules(vipFeedId){
+  deferred = require('when').defer();
   console.log('initializing rules..');
   async.each(ruleList, loadRule, function(err){
     console.log(rules.length, 'Metis rules loaded and staged for analysis');
-    applyRules(vipFeedId);
+    applyRules(vipFeedId, deferred);
   });
+  return deferred.promise;
 }
 
 var loadRule = function(ruleDef, next){
@@ -23,7 +26,7 @@ var loadRule = function(ruleDef, next){
   }
   catch(err){ /* doNothing() */ }
   if(activeState) {
-    console.log('loading...', ruleDef.title);
+    console.log('loading...', ruleDef.ruleId);
     rules[rules.length] = ruleHandler.createRule(ruleDef);
   }
   next();
@@ -41,13 +44,8 @@ var endSession = function(violationCount){
   console.log(rules.length + " Rules applied");
   console.log(violationCount + " Rule errors created");
   console.log("Rules processor shutting down");
-  process.exit();
+  deferred.resolve();
 }
 
-
-function isActiveRule(rule){
-
-  return activeState;
-}
 
 exports.processRules = processRules;

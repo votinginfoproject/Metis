@@ -44,7 +44,7 @@ function processQueryResults(foundDocs) {
       idCounts[id] = { count: 0, errorModel: [] };
     }
     idCounts[id].count++;
-    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, _ref: doc._id, doc: doc });
+    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, elementId: doc.elementId, _ref: doc._id, doc: doc });
   });
 
   storeErrors(filterDuplicates(idCounts));
@@ -71,21 +71,20 @@ function filterDuplicates(idCounts) {
 function storeErrors(dupes, feedId) {
   //console.log('Storing errors.');
   var savePromises = [];
-
+  errorCount = 0;
   dupes.forEach(function(dupe) {
     dupe.errorModel.forEach(function(errModel) {
+      errorCount++;
       savePromises.push(createError(errModel, dupe.id));
     });
   });
-
-  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, errorList: promisedErrors});});
+  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
 }
 
 
 function createError(errorModel, id) {
   ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
-  violation = ruleErrors.model(errorModel.model.modelName);
-  return violation.save();
+  return ruleErrors.model(errorModel.model.modelName).save();
 }
 
 

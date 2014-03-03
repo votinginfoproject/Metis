@@ -28,7 +28,7 @@ var metisRuleList = [
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 2,
-    errorText: 'Invalid Locality Type',
+    errorText: "Valid Locality types: 'county','city','town','township','borough','parish','village','region'",
     severityCode: 1,
     severityText: 'Error',
     implementation: './impl/localitytyperule',
@@ -50,8 +50,8 @@ var metisRuleList = [
   {
     ruleId: 'streetSegmentOverlap',
     title: 'Street Segment ranges cannot overlap',
-    type: 'objectLevelRule',
-    isFeedLevelRule: false,
+    type: 'feedLevelRule',
+    isFeedLevelRule: true,
     isActive: false,
     errorCode: 4,
     errorText: 'Street Segment ranges cannot overlap',
@@ -67,13 +67,28 @@ var metisRuleList = [
     title: 'Address Direction Invalid',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
-    isActive: false,
+    isActive: true,
     errorCode: 5,
     errorText: 'Address Direction Invalid',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/addressDirectionRule',
     dataConstraints: constraints['addressDirection']
+  },
+  /* street direction range
+  {
+
+    ruleId: 'steetDirection',
+    title: 'Street Direction Invalid',
+    type: 'feedLevelRule',
+    isFeedLevelRule: true,
+    isActive: true,
+    errorCode: 5,
+    errorText: 'Street Direction Invalid',
+    severityCode: 2,
+    severityText: 'Warning',
+    implementation: './impl/addressDirectionRule',
+    dataConstraints: constraints['streetDirection']
   },
   /* email format */
   {

@@ -105,12 +105,12 @@ var mapState = function(path, state) {
     errors: _path.join(path, '/errors'),
     name: state.name,
     county_map: _path.join('/services/geo/', state.elementId.toString(), 'counties'),
-    administration: (state._electionAdministration === undefined) ? null : {
+    administration: (state['_electionAdministration']) ? {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
       address: addressToShortString(state._electionAdministration.physicalAddress),
       self: _path.join(path, '/electionadministration')
-    },
+    } : null,
     localities: _path.join(path, '/localities'),
     earlyvotesites: _path.join(path, '/earlyvotesites')
   };
@@ -126,7 +126,7 @@ var mapLocality = function(path, locality) {
     election_machine_type: "Requires 5.0 Schema",
     poll_book_type: "Requires 5.0 Schema",
     overview: _path.join(path, '/localityoverview'),
-    administration: locality._electionAdministration ? {
+    administration: locality['_electionAdministration'] ? {
       id: locality._electionAdministration.elementId,
       name: locality._electionAdministration.name,
       address: addressToShortString(locality._electionAdministration.physicalAddress),
@@ -280,20 +280,20 @@ function mapContest (path, contest) {
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
     overview: _path.join(path, '/contestoverview'),
-    ballot: contest._ballot ? {
+    ballot: contest['_ballot'] ? {
       id: contest._ballot.elementId,
       candidate_count: contest._ballot.candidates ? contest._ballot.candidates.length : 0,
       referendum_count: contest._ballot.referendumIds ? contest._ballot.referendumIds.length : 0,
       self: _path.join(path, '/ballot')
     } : null,
-    electoral_district: contest._electoralDistrict ? {
+    electoral_district: contest['_electoralDistrict'] ? {
       id: contest._electoralDistrict.elementId,
       name: contest._electoralDistrict.name,
       precincts: contest._electoralDistrict._precincts.length,
       precinct_splits: contest._electoralDistrict._precinctSplits.length,
       self: _path.join(path, '/electoraldistrict')
     } : null,
-    contest_result: contest._contestResult ? {
+    contest_result: contest['_contestResult'] ? {
       id: contest._contestResult.elementId,
       votes: contest._contestResult.totalVotes,
       valid_votes: contest._contestResult.totalValidVotes,
@@ -528,7 +528,7 @@ function mapBallot(path, ballot) {
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
     referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
-    custom_ballot: ballot._customBallot ? {
+    custom_ballot: ballot['_customBallot'] ? {
       id: ballot._customBallot.elementId,
       error_count: ballot._customBallot.errorCount,
       errors: _path.join(path, '/customballot/errors'),
