@@ -11,14 +11,14 @@
   <tbody>
   <tr id="{{label}}{{$index}}" ng-repeat="row in ngModel">
     <td id="{{label}}-element-type{{$index}}" class="element-type">{{row.element_type}}</td>
-    <td id="{{label}}-amount{{$index}}" class="amount">{{row.amount | number}}</td>
+    <td id="{{label}}-amount{{$index}}" class="numeric amount">{{row.amount | number}}</td>
     <td id="{{label}}-complete{{$index}}" class="completion">
       <div class="completeness">
         <span class="complete-{{row.complete_pct}}"></span>
         <span class="counter">{{row.complete_pct | number}}% complete</span>
       </div>
     </td>
-    <td id="{{label}}-errors{{$index}}" class="element-errors"><span
+    <td id="{{label}}-errors{{$index}}" class="numeric element-errors"><span
       ng-class="{none: row.error_count===0}"
       class="errors">{{row.error_count | number}}</span></td>
   </tr>

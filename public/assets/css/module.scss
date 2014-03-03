@@ -295,6 +295,7 @@
 
 .button-errors {
   @extend %button;
+  width: 100%;
 
   time {
     font-weight: normal;

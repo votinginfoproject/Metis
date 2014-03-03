@@ -15,11 +15,6 @@ vipApp.factory('$appService', function ($http, $appProperties) {
         },
         getReferenceData: function () {
             return $http.get($appProperties.mockServicesPath + "/referenceDataMockService.html");
-        },
-        postService: function () {
-            var postData = {key: "One", value: "1"};
-
-            return $http.post("http://www.google.com", data);
         }
     };
 });

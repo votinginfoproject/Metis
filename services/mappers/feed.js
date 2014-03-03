@@ -34,10 +34,19 @@ var mapFeed = function(path, feed) {
 };
 
 var mapOverview = function(path, feed) {
+
   return {
     id: feed.id,
     title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
     error_count: feed.errorCount,
+    feed_contact: {
+      name: (feed._feedContact) ? feed._feedContact.name : null,
+      title: (feed._feedContact) ? feed._feedContact.title : null,
+      phone: (feed._feedContact) ? feed._feedContact.phone : null,
+      fax: (feed._feedContact) ? feed._feedContact.fax : null,
+      email: (feed._feedContact) ? feed._feedContact.email : null
+    },
+    date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
     errors: _path.join(path, '/errors'),
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),

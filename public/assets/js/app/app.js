@@ -361,12 +361,26 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
 /*
  * Static initialization block
  *
+ * Runs after the vipApp.config block above.
+ *
  */
 vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
     vipApp_ns.parseAndAddProperties(response.data, $appProperties);
+
+    $rootScope.getDueDateText = function(){
+
+      if($rootScope.feedData !== undefined){
+
+        var dueDate = moment($rootScope.feedData.date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+
+        return moment(dueDate).utc().format('YYYY-MM-DD');
+        //return dueDate;
+      }
+
+    }
   });
 
   // read the properties file from the server "map.properties"
@@ -377,7 +391,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   $rootScope.$appProperties = $appProperties;
 
   /*
-   * Initialize the cache for the app
+   * Initialize variables for the app
    */
   $rootScope.pageHeader = {};
   $rootScope.user = null;
@@ -445,6 +459,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * When the window is resized manage the show/hiding of the aside
    */
   window.onresize = function(){
+
     $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
     if(!$rootScope.mobileDimensions){
 
@@ -613,5 +628,4 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     return id;
   }
-
 });
