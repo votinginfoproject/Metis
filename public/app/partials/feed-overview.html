@@ -29,11 +29,18 @@
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
   <div ng-show="feedPollingLocations.length" ng-elementtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
-  <br/>
-  <h3>{{feedLocalities.length}} Localities
-    <small>({{feedCounties.features.length}} Counties)</small>
-  </h3>
-  <span ng-if="!feedCounties" class="is-loading"></span>
+</section>
+<!-- /.data-group -->
+
+<section class="data-group started">
+  <header class="data-group-header">
+    <h2>{{feedLocalities.length}} Localities
+    <small>({{feedCounties.features.length}} Counties)</small></h2>
+    <span ng-if="!feedCounties" class="is-loading"></span>
+    <a class="more-detail" href="#">More Detail</a>
+  </header>
+
+  <!-- element table directive -->
   <p>
     <div id="map" class="map" hidden></div>
   </p>
