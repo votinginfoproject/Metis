@@ -37,7 +37,7 @@
     <h2>{{feedLocalities.length}} Localities
     <small>({{feedCounties.features.length}} Counties)</small></h2>
     <span ng-if="!feedCounties" class="is-loading"></span>
-    <a class="more-detail" href="#">More Detail</a>
+    <a class="more-detail" href="{{$location.absUrl()}}/election/state/localities/">More Detail</a>
   </header>
 
   <!-- element table directive -->

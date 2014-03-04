@@ -26,15 +26,27 @@ aside {
 
 footer[role="contentinfo"] {
   margin: 2em 0;
+  clear: both;
 }
 
 header[role="banner"] {
   background-color: #01244c;
-  // background-color: $gray-medium;
-  // text-align: center;
+  text-align: center;
   .wrapper {
-    padding-top: $base-lg;
-    padding-bottom: $base-sm;
+    padding: $base-sm $base-sm $base;
+
+    @include bp(c6) {
+      padding: $base percentage(60/600) $base;
+    }
+
+    @include bp(c12) {
+      padding: $base-lg percentage(72/1116) $base-sm;
+    }
+
+    @include bp(c16) {
+      max-width: 1308px;
+      padding: $base-lg 0 $base-sm;
+    }
   }
 }
 

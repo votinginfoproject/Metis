@@ -10,6 +10,26 @@
   > div {
     background: $white;
   }
+
+  @include bp(c12) {
+    // @include span-columns(4 of 8);
+    // float: left;
+
+    // &:nth-child(2n) {
+    //   margin-left: 0;
+    //   clear: left;
+    // }
+  }
+
+  @include bp(c16) {
+    @include span-columns(6 of 12);
+    float: left;
+
+    &:nth-child(2n) {
+      margin-left: 0;
+      clear: left;
+    }
+  }
 }
 
 .data-group-header {

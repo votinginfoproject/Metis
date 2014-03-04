@@ -241,6 +241,8 @@
 // Aside
 // ============================================================================
 aside {
+  color: $gray-light; 
+
   h2 {
     color: $gray-light;
     font-size: 1.5em;
@@ -255,24 +257,29 @@ aside {
 // ============================================================================
 
 .feed-title {
-  //background-color: $gray-medium;
+  background-color: $gray-medium;
   cursor: pointer;
 
   @include bp(c12) {
-    //background-color: $gray-light;
-    //color: $black;
+    background-color: transparent;
     cursor: default;
-    //font-size: 1.5em;
   }
 
   h2 {
     color: $white;
     font-weight: bold;
+    @include word-break;
+
+    @include bp(c12) {
+      font-size: 2em;
+      font-size: 2rem;
+    }
   }
 }
 
 .details {
-
+  //background: $gray-light;
+  //color: $black;
 }
 
 .button-errors {
@@ -379,8 +386,8 @@ aside {
 
 .map {
   margin-bottom: 1em;
-  width: 800px;
-  height: 500px;
+  max-width: 100%;
+  min-height: 480px;
 }
 
 
@@ -388,6 +395,8 @@ aside {
 // Search
 // ============================================================================
 form[role="search"] {
+  margin-bottom: $base;
+
   input[type="search"]{
     background: transparent;
     font-style: italic;

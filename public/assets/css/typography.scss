@@ -46,8 +46,13 @@ h6 {
 }
 
 h1 {
+  @include word-break;
   font-size: 2.25em; // 36px
   font-size: 2.25rem;
+  margin-bottom: $base-sm;
+  @include bp(c6) {
+    margin-bottom: 0;
+  }
 }
 
 h2 {
@@ -87,10 +92,10 @@ p {
 }
 
 .helper {
-  //font-size: .75em;
   font-style: italic;
+  line-height: 1.125;
   text-align: center;
-  padding: $base-sm $base;
+  padding: $base $base-med;
   border: 2px solid $gray-light;
   border-radius: 15px;
   opacity: 0.4;
