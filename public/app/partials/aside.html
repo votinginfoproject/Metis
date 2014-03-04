@@ -12,7 +12,7 @@
   <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
     {{feedData.error_count}} Total Feed Errors
     <br>
-    <time ng-show="getDueDateText()" class="due-date">Final feed due {{getDueDateText()}}</time>
+    <time id="feedDueDate" ng-if="getDueDateText()" class="due-date">Final feed due {{getDueDateText()}}</time>
   </a>
 
     <h2 class="feed-status">Revisions Needed</h2>
@@ -33,11 +33,11 @@
 
     <h2>Feed Contact</h2>
     <div ng-show="feedData.feed_contact" class="vcard">
-      <span class="fn">{{feedData.feed_contact.name}}</span>
-      <span class="title">{{feedData.feed_contact.title}}</span>
-      <span class="tel">P: {{feedData.feed_contact.phone}}</span>
-      <span class="fax">F: F{{feedData.feed_contact.fax}}</span>
-      <span class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
+      <span id="feed_contact_name" class="fn">{{feedData.feed_contact.name}}</span>
+      <span id="feed_contact_title" class="title">{{feedData.feed_contact.title}}</span>
+      <span id="feed_contact_tel" class="tel">P: {{feedData.feed_contact.phone}}</span>
+      <span id="feed_contact_fax" class="fax">F: F{{feedData.feed_contact.fax}}</span>
+      <span id="feed_contact_email" class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
     </div>
 
   </div>
