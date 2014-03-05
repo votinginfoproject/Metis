@@ -58,6 +58,8 @@
 <section class="data-group unstarted">
   <header class="data-group-header">
     <h2>Results</h2>
+    <span ng-if="!feedData" class="more-detail is-loading"></span>
+    <a id="results-link" ng-if="feedData.contestresults" class="more-detail" href="{{$location.absUrl()}}/election/results">More Detail</a>
   </header>
 
   <!-- element table directive -->

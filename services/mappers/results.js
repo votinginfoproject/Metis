@@ -91,6 +91,33 @@ function mapContestResult(path, contestResult) {
   };
 }
 
+function mapResultsContestResults(path, contestResult) {
+  return {
+    id: contestResult.elementId,
+    office: contestResult._contest.office,
+    self: _path.join(path, "../../contests/", contestResult.contestId.toString(), "contestresult"),
+    jurisdiction: mapState(path, contestResult._state) || mapLocality(path, contestResult._locality) ||
+      mapPrecinct(path, contestResult._precinct) || mapPrecinctSplit(path, contestResult._precinctSplit) ||
+      mapElectoralDistrict(path, contestResult._electoralDistrict),
+    certification: contestResult.certification
+  };
+}
+
+function mapResultsBallotLineResults(path, ballotLineResult) {
+  console.dir(ballotLineResult);
+
+  return {
+    id: ballotLineResult.elementId,
+    office: ballotLineResult._contest.office,
+    self: _path.join(path, "../../contests/", ballotLineResult.contestId.toString(), "ballotlineresults", ballotLineResult.elementId.toString() ),
+    jurisdiction: mapState(path, ballotLineResult._state) || mapLocality(path, ballotLineResult._locality) ||
+      mapPrecinct(path, ballotLineResult._precinct) || mapPrecinctSplit(path, ballotLineResult._precinctSplit) ||
+      mapElectoralDistrict(path, ballotLineResult._electoralDistrict),
+    candidate: (ballotLineResult._candidate ? ballotLineResult._candidate.name : "")
+  }
+}
+
+
 function mapBallotLineResultSummary(path, blr) {
   return {
     id: blr.elementId,
@@ -123,6 +150,8 @@ function mapBallotLineResult(path, ballotLineResult) {
   };
 }
 
+exports.mapResultsContestResults = mapResultsContestResults;
+exports.mapResultsBallotLineResults = mapResultsBallotLineResults;
 exports.mapContestResult = mapContestResult;
 exports.mapBallotLineResults = mapBallotLineResults;
 exports.mapBallotLineResult = mapBallotLineResult;

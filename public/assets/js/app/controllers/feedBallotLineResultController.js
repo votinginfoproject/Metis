@@ -43,9 +43,16 @@ function FeedBallotLineResultCtrl($scope, $rootScope, $feedsService, $routeParam
 function FeedBallotLineResultCtrl_getFeedBallotLineResult ($scope, $rootScope, $feedsService, servicePath) {
   $feedsService.getFeedBallotLineResult(servicePath)
     .success(function(data) {
-      data.contest.self = data.contest.self.replace('/services/', '/#/');
-      data.candidate.self = data.candidate.self.replace('/services/', '/#/');
-      data.jurisdiction.self = data.jurisdiction.self.replace('/services/', '/#/');
+
+      if(data.contest !== undefined && data.contest !== null){
+        data.contest.self = $rootScope.getAngularUrl(data.contest.self);
+      }
+      if(data.candidate !== undefined && data.candidate !== null){
+        data.candidate.self = $rootScope.getAngularUrl(data.candidate.self);
+      }
+      if(data.jurisdiction !== undefined && data.jurisdiction !== null){
+        data.jurisdiction.self = $rootScope.getAngularUrl(data.jurisdiction.self);
+      }
 
       // set the feeds data into the Angular model
       $scope.feedBallotLineResult = data;

@@ -564,9 +564,10 @@ Note that the ID attributes are unique throughout the file.
           <street_suffix>Dr</street_suffix>
           <state>VA</state>
           <city>Annandale</city>
-          <zip>22003</zip>
+          <zip>2200</zip>
         </non_house_address>
         <precinct_id>10101</precinct_id>
+        <precinct_split_id>30101</precinct_split_id>
         <precinct_split_id>30102</precinct_split_id>
     </street_segment>
     <street_segment id="1210003">

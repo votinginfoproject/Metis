@@ -56,6 +56,8 @@ var mapOverview = function(path, feed) {
     polling_locations: _path.join(path, '/polling'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
+    contest_results: _path.join(path, '/election/results/contestresults'),
+    ballot_line_results: _path.join(path, '/election/results/ballotlineresults'),
     history: _path.join(path, '/history')
   };
 };
@@ -212,7 +214,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
       name: ed.name,
       type: ed.type,
       number: ed.number,
-      contests: -1, //TODO: replace this with count from database
+      contests: -1, //ed.contests.length, TODO fix
       self: _path.join(path, ed.elementId.toString())
     };
   });
@@ -314,6 +316,7 @@ function mapContest (path, contest) {
     ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
 };
+
 
 var mapOverviewTables = function(data) {
   var overview = [];
@@ -679,3 +682,5 @@ exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
 exports.mapPollingLocation = mapPollingLocation;
 exports.mapOverviewTables = mapOverviewTables;
+exports.mapResultsContestResults = resultsMapper.mapResultsContestResults;
+exports.mapResultsBallotLineResults = resultsMapper.mapResultsBallotLineResults;

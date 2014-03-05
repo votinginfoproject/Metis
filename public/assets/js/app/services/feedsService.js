@@ -24,14 +24,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // ========================================================
     getFeedData: function (feedid) {
       return $http.get($appProperties.servicesPath + "/feeds/" + feedid);
-
-      /*
-      return $http({
-        method: 'GET',
-        url: $appProperties.servicesPath + "/feeds/" + feedid,
-        cache: true
-      });
-      */
     },
     getFeedPollingLocations: function (servicePath) {
       return $http.get(servicePath);
@@ -43,6 +35,15 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
     getFeedCounties: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed results page
+    // ========================================================
+    getFeedContestResults: function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedBallotLineResults: function (servicePath) {
       return $http.get(servicePath);
     },
 
