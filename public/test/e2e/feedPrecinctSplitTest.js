@@ -326,6 +326,7 @@ describe('Feed Precinct Split Test', function () {
       // expect data for the first column in the first row
       expect(element('#error-count0').count()).toBe(1);
 
+      /*
       // expect data for the detail for the first error row should be hidden
       expect(element("#errorDetail0:visible").count()).toBe(0);
 
@@ -336,7 +337,7 @@ describe('Feed Precinct Split Test', function () {
 
       // the detail for the first error row should now be showing
       expect(element("#errorDetail0:visible").count()).toBe(1);
-
+      */
     });
   });
 
