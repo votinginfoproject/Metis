@@ -1,6 +1,6 @@
 <i id="feed-locality-content"></i>
 
-<a ng-if="feedLocality" id="locality-errors !== undefined" class="error-count" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a>
+<a ng-if="feedLocality !== undefined" id="locality-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a>
 
 <dl class="attributes">
   <dt class="key">Name:</dt>

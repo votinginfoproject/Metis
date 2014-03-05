@@ -15,15 +15,13 @@
     <time id="feedDueDate" ng-if="getDueDateText()" class="due-date">Final feed due {{getDueDateText()}}</time>
   </a>
 
-    <h2 class="feed-status">Revisions Needed</h2>
-
     <nav class="feed-nav">
       <ul>
-        <li><a class="is-finished" href="/#/feeds/{{feedData.id}}/source">Source</a></li>
-        <li><a class="is-finished" href="/#/feeds/{{feedData.id}}/election">Election</a></li>
-        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/state">Polling Locations</a></li>
-        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/contests">Contests</a></li>
-        <li><a class="is-started" href="/#/feeds/{{feedData.id}}/election/results">Results</a></li>
+        <li><a id="sidebar-source" class="is-finished" href="/#/feeds/{{feedData.id}}/source">Source</a></li>
+        <li><a id="sidebar-election" class="is-finished" href="/#/feeds/{{feedData.id}}/election">Election</a></li>
+        <li><a id="sidebar-pollinglocations" class="is-started" href="/#/feeds/{{feedData.id}}/election/state">Polling Locations</a></li>
+        <li><a id="sidebar-contests" class="is-started" href="/#/feeds/{{feedData.id}}/election/contests">Contests</a></li>
+        <li><a id="sidebar-results" class="is-started" href="/#/feeds/{{feedData.id}}/election/results">Results</a></li>
       </ul>
     </nav>
 

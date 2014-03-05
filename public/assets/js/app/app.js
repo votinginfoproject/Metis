@@ -65,6 +65,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedElectionCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/election/results', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-results.html',
+      controller: 'FeedResultsCtrl'
+    });
+
     $routeProvider.when('/feeds/:vipfeed/election/contests', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-contests.html',
       controller: 'FeedContestsCtrl'
@@ -376,8 +381,8 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
         var dueDate = moment($rootScope.feedData.date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
 
-        return moment(dueDate).utc().format('YYYY-MM-DD');
-        //return dueDate;
+        var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
+        return dueDateText;
       }
 
     }
@@ -507,7 +512,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * Turns a service URL into the equeivlant Angular path
    */
   $rootScope.getAngularUrl = function(urlPath){
-    return urlPath.replace("/services/","/#/")
+    if(urlPath !== undefined && urlPath !== null){
+      urlPath = urlPath.replace("/services/","/#/")
+    }
+
+    return urlPath;
   }
 
   /*
@@ -621,7 +630,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       if(isNaN(token) && token !== feedId ){
         id += token.toLowerCase() + "-";
       }
-
     }
 
     id += 'content';

@@ -57,17 +57,22 @@ function getFeedOverview (id, callback) {
         daoSchemas.models.State.Error,
         daoSchemas.models.StreetSegment.Error];
 
-      overview.errorCount = 0;
-      var errorQueries = allErrorModels.map(function (model) {
-        return model.count({_feed: overview._id}).exec();
-      });
+      if(overview !== undefined && overview !== null){
+        overview.errorCount = 0;
 
-      when.all(errorQueries).then(function(counts) {
-        counts.forEach(function(count) {
-          overview.errorCount += count;
+        var errorQueries = allErrorModels.map(function (model) {
+          return model.count({_feed: overview._id}).exec();
         });
+
+        when.all(errorQueries).then(function(counts) {
+          counts.forEach(function(count) {
+            overview.errorCount += count;
+          });
+          callback(null, overview);
+        });
+      } else {
         callback(null, overview);
-      });
+      }
     });
 };
 
@@ -102,6 +107,29 @@ function getElectionOfficial (feedId, officialId, callback) {
 
 function getFeedContests (feedId, callback) {
   daoSchemas.models.Contest.find( { _feed: feedId}, callback);
+};
+
+function getFeedContestResults (feedId, callback) {
+  daoSchemas.models.ContestResult.find( { _feed: feedId})
+    .populate('_contest')
+    .populate('_state')
+    .populate('_locality')
+    .populate('_precinct')
+    .populate('_precinctSplit')
+    .populate('_electoralDistrict')
+    .exec(callback);
+};
+
+function getFeedBallotLineResults (feedId, callback) {
+  daoSchemas.models.BallotLineResult.find( { _feed: feedId})
+    .populate('_candidate')
+    .populate('_contest')
+    .populate('_state')
+    .populate('_locality')
+    .populate('_precinct')
+    .populate('_precinctSplit')
+    .populate('_electoralDistrict')
+    .exec(callback);
 };
 
 function getState (feedId, callback) {
@@ -551,6 +579,8 @@ exports.getFeeds = getFeedList;
 exports.getFeedOverview = getFeedOverview;
 exports.getFeedSource = getFeedSource;
 exports.getFeedElection = getFeedElection;
+exports.getFeedContestResults = getFeedContestResults;
+exports.getFeedBallotLineResults = getFeedBallotLineResults;
 exports.getElectionOfficial = getElectionOfficial;
 exports.getFeedContests = getFeedContests;
 exports.getState = getState;
