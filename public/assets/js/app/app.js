@@ -314,16 +314,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
     });
 
-    $routeProvider.when('/profile', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
-      controller: 'ProfileCtrl'
-    });
-
-    $routeProvider.when('/styleguide', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/styleguide.html',
-      controller: 'StyleguideCtrl'
-    });
-
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
 
