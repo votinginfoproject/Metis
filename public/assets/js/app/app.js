@@ -40,11 +40,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'HomeCtrl'
     });
 
-    $routeProvider.when('/admin', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/admin.html',
-      controller: 'AdminCtrl'
-    });
-
     $routeProvider.when('/feeds', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feeds.html',
       controller: 'FeedsCtrl'
@@ -228,91 +223,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/customballot/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
-
-    // done
-    $routeProvider.when('/template/feed', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
-    });
-    // done
-    $routeProvider.when('/template/source', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
-    });
-    // done
-    $routeProvider.when('/template/election', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/election.html'
-    });
-    // done
-    $routeProvider.when('/template/state', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
-    });
-    // done
-    $routeProvider.when('/template/locality', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
-    });
-    // done
-    $routeProvider.when('/template/precinct', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
-    });
-    // done
-    $routeProvider.when('/template/precinct-split', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
-    });
-    // done
-    $routeProvider.when('/template/election-administration', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/election-administration.html'
-    });
-    // done
-    $routeProvider.when('/template/early-vote-site', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/early-vote-site.html'
-    });
-    // done
-    $routeProvider.when('/template/polling-location', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/polling-location.html'
-    });
-    // done
-    $routeProvider.when('/template/contests', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contests.html'
-    });
-    // done
-    $routeProvider.when('/template/contest', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest.html'
-    });
-    // done
-    $routeProvider.when('/template/ballot', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot.html'
-    });
-    // done
-    $routeProvider.when('/template/candidate', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/candidate.html'
-    });
-    // done
-    $routeProvider.when('/template/electoral-district', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/electoral-district.html'
-    });
-    // done
-    $routeProvider.when('/template/contest-result', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest-result.html'
-    });
-    // done
-    $routeProvider.when('/template/ballot-line-result', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot-line-result.html'
-    });
-
-    $routeProvider.when('/template/results', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/results.html'
-    });
-    // done
-    $routeProvider.when('/template/errors', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/errors.html'
-    });
-
-    $routeProvider.when('/template/search-results', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/search-results.html'
-    });
-
-    $routeProvider.when('/template/grid', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
-    });
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
