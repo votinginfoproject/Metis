@@ -11,7 +11,8 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // Feed index page
     // ========================================================
     getFeeds: function () {
-      return $http.get($appProperties.servicesPath + "/feeds");
+      // don't want this service call to ever be cached by IE
+      return $http.get($appProperties.servicesPath + "/feeds" + "?t=" + Math.random());
     },
 
     // Feed error pages (multiple)
