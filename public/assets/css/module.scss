@@ -85,14 +85,14 @@
       }
 
       > * {
-        padding:0;
+        // padding:0;
       }
     }
   }
 
   a {
-    display: block;
-    padding: ($base-line-height / 2) 0;
+    //display: block;
+    //padding: ($base-line-height / 2) 0;
 
     &:hover {
       color: $base-link-color;
@@ -184,6 +184,8 @@
 
 .attributes {
   @include clearfix;
+  background: $white;
+  color: $blue;
   margin-bottom: 1em;
   width: 100%;
 
@@ -388,6 +390,10 @@ aside {
   margin-bottom: 1em;
   max-width: 100%;
   min-height: 480px;
+
+  .data-group-header + & {
+    top: 1em;
+  }
 }
 
 

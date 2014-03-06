@@ -4,11 +4,11 @@
 // TODO: rename data-group
 
 .data-group {
-  color: $blue;
+  //color: $blue;
   margin-bottom: $base-lg;
 
   > div {
-    background: $white;
+    //background: $white;
   }
 
   @include bp(c12) {
@@ -36,13 +36,12 @@
   @include clearfix;
   background: $blue-med;
   color: $white;
-  padding: $base-sm $base $base;
+  padding: $base-sm $base $base-sm;
   margin-bottom: -$base;
-  border-radius: 8px 8px 0 0;
-
-  .data-group.finished & {
-    padding-bottom: $base-sm;
-    border-radius: 0;
+  
+  .started & {
+    padding-bottom: $base;
+    border-radius: 8px 8px 0 0;
   }
 
   h2 {

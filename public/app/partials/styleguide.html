@@ -28,7 +28,8 @@
   <div class="example">
     <p>50% complete</p>
     <div class="completeness">
-      <span class="completed" style="width: 50%"></span>
+      <span class="complete-50"></span>
+      <span class="counter ng-binding">50% complete</span>
     </div>
 
     <hr>
@@ -162,16 +163,28 @@
 
   <div class="example">
     <nav class="breadcrumbs">
-      <a href="#">Home</a>
-      <a href="#">Features</a>
-      <a class="unavailable" href="#">Gene Splicing</a>
-      <a class="current" href="#">Cloning</a>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Home</a></li>
+        <li class="is-active"><a href="#">Cloning</a></li>
+      </ul>
     </nav>
+
   </div><!-- /.example -->
 
   <h3 id="data-group-header">Data Group Header</h3>
 
   <div class="example">
+    <header class="data-group-header">
+      <h2>Source</h2>
+      <a class="more-detail" href="data-group">More Detail </a>
+    </header>
+  </div><!-- /.example -->
+
+  <h3>Data Group Header Started - with data</h3>
+
+  <div class="example started">
     <header class="data-group-header">
       <h2>Source</h2>
       <a class="more-detail" href="data-group">More Detail </a>

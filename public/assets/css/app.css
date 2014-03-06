@@ -210,19 +210,24 @@ h1 {
       margin-bottom: 0; } }
 
 h2 {
-  font-size: 2em; }
+  font-size: 2em;
+  font-size: 2rem; }
 
 h3 {
-  font-size: 1.75em; }
+  font-size: 1.75em;
+  font-size: 1.75rem; }
 
 h4 {
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  font-size: 1.5rem; }
 
 h5 {
-  font-size: 1.25em; }
+  font-size: 1.25em;
+  font-size: 1.25rem; }
 
 h6 {
-  font-size: 1em; }
+  font-size: 1em;
+  font-size: 1rem; }
 
 hgroup {
   margin-bottom: 0.75em; }
@@ -626,7 +631,15 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
 table {
   margin: 0.75em 0;
   width: 100%;
-  text-align: left; }
+  text-align: left;
+  background: white;
+  color: #33699c; }
+
+caption {
+  background: white;
+  font-size: 1.5em;
+  font-size: 1.5rem;
+  padding: 1em; }
 
 th {
   font-size: 0.875em;
@@ -695,13 +708,8 @@ th {
       display: table-header-group; } }
 .associations tbody tr:hover {
   background: #eaf5ff; }
-.associations tbody tr > * {
-  padding: 0; }
-.associations a {
-  display: block;
-  padding: 0.75em 0; }
-  .associations a:hover {
-    color: #3c5f87; }
+.associations a:hover {
+  color: #3c5f87; }
 .associations tr {
   border-top: 1px solid #b1b3b6; }
   @media (min-width: 600px) {
@@ -757,6 +765,8 @@ th {
 
 .attributes {
   *zoom: 1;
+  background: white;
+  color: #33699c;
   margin-bottom: 1em;
   width: 100%; }
   .attributes:before, .attributes:after {
@@ -895,6 +905,8 @@ aside {
   margin-bottom: 1em;
   max-width: 100%;
   min-height: 480px; }
+  .data-group-header + .map {
+    top: 1em; }
 
 form[role="search"] {
   margin-bottom: 1em; }
@@ -1415,10 +1427,7 @@ form[role="search"] {
   background-color: #00cc66; }
 
 .data-group {
-  color: #33699c;
   margin-bottom: 2em; }
-  .data-group > div {
-    background: white; }
   @media (min-width: 1452px) {
     .data-group {
       float: right;
@@ -1435,17 +1444,16 @@ form[role="search"] {
   *zoom: 1;
   background: #006cb1;
   color: white;
-  padding: 0.5em 1em 1em;
-  margin-bottom: -1em;
-  border-radius: 8px 8px 0 0; }
+  padding: 0.5em 1em 0.5em;
+  margin-bottom: -1em; }
   .data-group-header:before, .data-group-header:after {
     content: " ";
     display: table; }
   .data-group-header:after {
     clear: both; }
-  .data-group.finished .data-group-header {
-    padding-bottom: 0.5em;
-    border-radius: 0; }
+  .started .data-group-header {
+    padding-bottom: 1em;
+    border-radius: 8px 8px 0 0; }
   .data-group-header h2 {
     float: left;
     font-size: 1.5em;
