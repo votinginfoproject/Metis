@@ -22,12 +22,27 @@ function addressToJson (address) {
 };
 
 var mapFeed = function(path, feed) {
+  var dueIn = "N/A"
+  if(feed._election){
+    var now = moment();
+    var electionDate = moment(feed._election.date).utc();
+    dueIn = electionDate.diff(now, 'days');
+
+    if(dueIn < 0){
+      dueIn = Math.abs(dueIn) + " days ago";
+    } else {
+      dueIn = dueIn + " days";
+    }
+  }
+
   return {
     id: feed.id,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
+    due_in: dueIn,
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
+    complete: true, // TODO: add in the boolean to say if the feed is finished completing or not
     name: feed.name,
     self: _path.join(path, feed.id)
   };
@@ -35,17 +50,22 @@ var mapFeed = function(path, feed) {
 
 var mapOverview = function(path, feed) {
 
-  return {
-    id: feed.id,
-    title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
-    error_count: feed.errorCount,
-    feed_contact: {
+  var feedContact = null;
+  if(feed._feedContact){
+    feedContact = {
       name: (feed._feedContact) ? feed._feedContact.name : null,
       title: (feed._feedContact) ? feed._feedContact.title : null,
       phone: (feed._feedContact) ? feed._feedContact.phone : null,
       fax: (feed._feedContact) ? feed._feedContact.fax : null,
       email: (feed._feedContact) ? feed._feedContact.email : null
-    },
+    };
+  }
+
+  return {
+    id: feed.id,
+    title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
+    error_count: feed.errorCount,
+    feed_contact: feedContact,
     date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
     errors: _path.join(path, '/errors'),
     source: _path.join(path, '/source'),

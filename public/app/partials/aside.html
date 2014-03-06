@@ -30,12 +30,15 @@
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
 
     <h2>Feed Contact</h2>
-    <div ng-show="feedData.feed_contact" class="vcard">
-      <span id="feed_contact_name" class="fn">{{feedData.feed_contact.name}}</span>
-      <span id="feed_contact_title" class="title">{{feedData.feed_contact.title}}</span>
-      <span id="feed_contact_tel" class="tel">P: {{feedData.feed_contact.phone}}</span>
-      <span id="feed_contact_fax" class="fax">F: F{{feedData.feed_contact.fax}}</span>
-      <span id="feed_contact_email" class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
+    <div ng-show="feedData.feed_contact && feedData.feed_contact!=null" class="vcard">
+      <span ng-show="feedData.feed_contact.name" id="feed_contact_name" class="fn">{{feedData.feed_contact.name}}</span>
+      <span ng-show="feedData.feed_contact.title" id="feed_contact_title" class="title">{{feedData.feed_contact.title}}</span>
+      <span ng-show="feedData.feed_contact.tel" id="feed_contact_tel" class="tel">P: {{feedData.feed_contact.phone}}</span>
+      <span ng-show="feedData.feed_contact.fax" id="feed_contact_fax" class="fax">F: {{feedData.feed_contact.fax}}</span>
+      <span ng-show="feedData.feed_contact.email" id="feed_contact_email" class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
+    </div>
+    <div ng-show="feedData.feed_contact ==null" class="vcard">
+      N/A
     </div>
 
   </div>

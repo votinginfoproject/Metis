@@ -12,6 +12,15 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   $feedsService.getFeeds()
     .success(function (data) {
 
+      for(var i=0; i< data.length; i++){
+        if(data[i].complete){
+          data[i].self = $location.absUrl() + "/" + data[i].id;
+        } else {
+          data[i].self = "javascript: void(0);";
+          $rootScope.pageHeader.alert = "One or more Feeds are processing. Please refresh this page to get an update.";
+        }
+      }
+
       // set the feeds data into the Angular model
       $scope.feeds = data;
 
