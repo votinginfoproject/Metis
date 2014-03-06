@@ -22,23 +22,10 @@ function addressToJson (address) {
 };
 
 var mapFeed = function(path, feed) {
-  var dueIn = "N/A"
-  if(feed._election){
-    var now = moment();
-    var electionDate = moment(feed._election.date).utc();
-    dueIn = electionDate.diff(now, 'days');
-
-    if(dueIn < 0){
-      dueIn = Math.abs(dueIn) + " days ago";
-    } else {
-      dueIn = dueIn + " days";
-    }
-  }
-
   return {
     id: feed.id,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
-    due_in: dueIn,
+    date_now: moment().utc().format('YYYY-MM-DD'),
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,

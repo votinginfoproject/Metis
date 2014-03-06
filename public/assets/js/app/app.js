@@ -365,17 +365,36 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   $http.get('vip.properties').then(function (response) {
     vipApp_ns.parseAndAddProperties(response.data, $appProperties);
 
-    $rootScope.getDueDateText = function(){
+    $rootScope.getDueDateText = function(date){
 
-      if($rootScope.feedData !== undefined){
-
-        var dueDate = moment($rootScope.feedData.date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
-
+      if(date){
+        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
         var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
         return dueDateText;
+      } else {
+        return "N/A";
       }
 
     }
+
+    $rootScope.getDueDateTextDays = function(date, now){
+
+      var dueIn = "N/A"
+      if(date){
+        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+        var nowDate = moment(now).utc();
+        dueIn = dueDate.diff(nowDate, 'days');
+
+        if(dueIn < 0){
+          dueIn = Math.abs(dueIn) + " days ago";
+        } else {
+          dueIn = dueIn + " days";
+        }
+      }
+
+      return dueIn;
+    }
+
   });
 
   // read the properties file from the server "map.properties"

@@ -134,17 +134,3 @@ vipApp_ns.generateMap = function(data, properties) {
   map.attributionControl.addAttribution('County data &copy; <a target="_blank" href="http://census.gov/">US Census Bureau</a>');
 
 }
-
-/*
- * Gets the due date text to display on the sidebar
- *
- * @date - date of election
- * @properties - contains vip properties
- */
-vipApp_ns.getDueDateText = function(date, properties) {
-
-  //moment(date, "YYYY-MM-DD");.subtract('months', 1)
-
-}
-
-

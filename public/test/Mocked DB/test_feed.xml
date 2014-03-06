@@ -27,7 +27,7 @@ Note that the ID attributes are unique throughout the file.
         <tou_url>http://www.sos.state.oh.us/vipFeed/terms_of_use.html</tou_url>
       </source>
 	<election id="1">
-		<date>2012-11-06</date>
+		<date>2014-04-10</date>
 		<election_type>Federal</election_type>
 		<state_id>39</state_id>
 		<statewide>yes</statewide>
