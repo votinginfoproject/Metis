@@ -522,6 +522,9 @@ img {
 form {
   margin-bottom: 1em; }
 
+form > div, fieldset > div {
+  margin-bottom: 1em; }
+
 .button,
 .disabled,
 button,
@@ -566,7 +569,6 @@ input[type="submit"] {
   user-select: none; }
 
 fieldset {
-  background: #cbcdcf;
   border: 1px solid #b1b3b6;
   margin: 0 0 0.75em 0;
   padding: 1.5em; }
@@ -984,9 +986,7 @@ form[role="search"] {
     clear: both; }
 
 .swatches {
-  *zoom: 1;
-  float: left;
-  margin-bottom: 1em; }
+  *zoom: 1; }
   .swatches:before, .swatches:after {
     content: " ";
     display: table; }
@@ -997,13 +997,20 @@ form[role="search"] {
   width: 7em;
   height: 7em;
   background: #b1b3b6;
-  float: left; }
+  float: left;
+  color: black; }
+  .swatch.blue {
+    background: #33699c; }
   .swatch.blue-dark {
     background: #3c5f87; }
   .swatch.blue-light {
     background: #b7dbff; }
+  .swatch.blue-med {
+    background: #006cb1; }
   .swatch.red {
     background: #ce3d3d; }
+  .swatch.red-dark {
+    background: #660000; }
   .swatch.red-light {
     background: #fbe3e4; }
   .swatch.yellow-light {

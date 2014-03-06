@@ -527,25 +527,35 @@ form[role="search"] {
 .swatches {
   @include clearfix;
   @extend .no-bullet;
-  float: left;
-  margin-bottom: 1em;
+  //float: left;
+  //margin-bottom: 1em;
 }
 
 .swatch {
   @include size(7em);
   background: $gray-light;
   float: left;
-
+  color: $black;
+  
+  &.blue {
+    background: $blue;
+  }
   &.blue-dark {
     background: $blue-dark;
   }
   &.blue-light {
     background: $blue-light;
   }
+  &.blue-med {
+    background: $blue-med;
+  }
+
   &.red {
     background: $red;
   }
-
+  &.red-dark {
+    background: $red-dark;
+  }
   &.red-light {
     background: $red-light;
   }
