@@ -71,52 +71,52 @@
 .associations {
 
   thead {
+    display: none;
 
     @include bp(c6) {
       display: table-header-group;
     }
-    display: none;
   }
 
   tbody {
     tr {
+      background: $gray-light;
+
+      &:nth-child(2n){
+        background: $white;
+      }
       &:hover {
         background: lighten($blue-light, 10);
-      }
-
-      > * {
-        // padding:0;
       }
     }
   }
 
   a {
-    //display: block;
-    //padding: ($base-line-height / 2) 0;
-
-    &:hover {
+    &:hover, &:focus {
       color: $base-link-color;
     }
   }
 
   tr {
+    border-top: $base-border;
 
     @include bp(c6) {
       border: none;
     }
-    border-top: $base-border;
+    
   }
 
   td {
+    border: none;
+    clear: left;
+    float: left;
 
     @include bp(c6) {
       border-top: $base-border;
       clear: none;
       float: none;
     }
-    border: none;
-    clear: left;
-    float: left;
+    
   }
 
   .admin {
@@ -125,35 +125,35 @@
   }
 
   .address:before {
+    content: "Address ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Address ";
   }
 
   .id:before {
+    content: "ID ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "ID ";
   }
 
   .name:before {
+    content: "Name ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Name ";
   }
 
   .precinct-splits:before {
+    content: "Precinct Splits ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Precinct Splits ";
   }
 
 }
@@ -184,8 +184,6 @@
 
 .attributes {
   @include clearfix;
-  background: $white;
-  color: $blue;
   margin-bottom: 1em;
   width: 100%;
 
@@ -197,32 +195,45 @@
 
 .key {
   @include box-sizing(border-box);
+  background: $blue-med;
+  border-top: 1px solid $blue;
+  clear: left;
+  color: $white;
+  font-weight: normal;
+  margin: 0;
+  padding: $base-xs $base;
+
+  &:first-child {
+    border-top: none;
+    border-radius: 10px 0 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 0 10px;
+  }
 
   @include bp(c6) {
     float: left;
-    padding: .25em;
-    text-align: right;
     width: 30%;
   }
-  border-top: $base-border;
-  clear: left;
-  color: $gray-medium;
-  font-weight: normal;
-  margin: 0;
-  padding-top: .25em;
 }
 
 .value {
   @include box-sizing(border-box);
+  background: $white;
+  color: $blue;
+  margin: 0;
+  padding: $base-xs $base;
+
+  &:first-child {
+    border-top: none;
+  }
 
   @include bp(c6) {
-    border-top: $base-border;
+    border-top: 1px solid $blue;
     float: left;
-    padding: .25em;
     width: 70%;
   }
-  margin: 0;
-  padding-bottom: .25em;
 }
 
 

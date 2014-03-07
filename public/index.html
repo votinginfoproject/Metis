@@ -23,25 +23,6 @@
   <!-- jQuery lib -->
   <script src="assets/js/lib/jquery/jquery.min.js"></script>
 
-  <style>
-  #dimensions { position: fixed; background: rgba(0,0,0,0.5); color: #fff; top: 0; left: 0; z-index: 100000; font-size: 20px; padding: 2px; }
-</style>
-
-<script>
-  $(document).ready(function() {
-  $('body').append('<p id="dimensions">Dimensions</p>');
-  });
-
-  window.onresize = displayWindowSize;
-  window.onload = displayWindowSize;
-  function displayWindowSize() {
-  var windowWidth = $(window).width(); //retrieve current window width
-  var windowHeight = $(window).height(); //retrieve current window height
-  document.getElementById("dimensions").innerHTML = windowWidth + "x" + windowHeight;
-  };
-
-</script>
-
   <!-- javaScript debug lib -->
   <script src="assets/js/lib/javascript-debug/ba-debug.min.js"></script>
 
