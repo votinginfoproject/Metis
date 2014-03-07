@@ -11,8 +11,10 @@ var theseConstraints = {
   /* Unique Ids */
   uniqueIdCheck : [
     {
-      entity: [ 'ballots', 'candidates', 'contests', 'elections', 'electionAdministrations', 'electionOfficials',
-        'electoralDistricts','localitys','pollingLocations','precincts', 'precinctSplits', 'sources', 'states' ],
+      entity: [ 'ballots', 'ballotLineResults', 'ballotResponses', 'candidates', 'contests', 'contestResults',
+        'customBallots', 'earlyVoteSites', 'elections', 'electionAdministrations', 'electionOfficials',
+        'electoralDistricts','localitys','pollingLocations','precincts', 'precinctSplits', 'referendums',
+        'sources', 'states', 'streetSegments' ],
       fields: [ 'elementId' ]
     }
   ],
