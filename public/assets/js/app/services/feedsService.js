@@ -11,7 +11,8 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
     // Feed index page
     // ========================================================
     getFeeds: function () {
-      return $http.get($appProperties.servicesPath + "/feeds");
+      // don't want this service call to ever be cached by IE
+      return $http.get($appProperties.servicesPath + "/feeds" + "?t=" + Math.random());
     },
 
     // Feed error pages (multiple)
@@ -35,6 +36,15 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       return $http.get(servicePath);
     },
     getFeedCounties: function (servicePath) {
+      return $http.get(servicePath);
+    },
+
+    // Feed results page
+    // ========================================================
+    getFeedContestResults: function (servicePath) {
+      return $http.get(servicePath);
+    },
+    getFeedBallotLineResults: function (servicePath) {
       return $http.get(servicePath);
     },
 

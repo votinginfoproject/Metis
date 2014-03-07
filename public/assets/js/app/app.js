@@ -40,11 +40,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'HomeCtrl'
     });
 
-    $routeProvider.when('/admin', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/admin.html',
-      controller: 'AdminCtrl'
-    });
-
     $routeProvider.when('/feeds', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feeds.html',
       controller: 'FeedsCtrl'
@@ -63,6 +58,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/feeds/:vipfeed/election', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-election.html',
       controller: 'FeedElectionCtrl'
+    });
+
+    $routeProvider.when('/feeds/:vipfeed/election/results', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-results.html',
+      controller: 'FeedResultsCtrl'
     });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests', {
@@ -224,101 +224,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
 
-    // done
-    $routeProvider.when('/template/feed', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/feed.html'
-    });
-    // done
-    $routeProvider.when('/template/source', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/source.html'
-    });
-    // done
-    $routeProvider.when('/template/election', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/election.html'
-    });
-    // done
-    $routeProvider.when('/template/state', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/state.html'
-    });
-    // done
-    $routeProvider.when('/template/locality', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/locality.html'
-    });
-    // done
-    $routeProvider.when('/template/precinct', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct.html'
-    });
-    // done
-    $routeProvider.when('/template/precinct-split', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/precinct-split.html'
-    });
-    // done
-    $routeProvider.when('/template/election-administration', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/election-administration.html'
-    });
-    // done
-    $routeProvider.when('/template/early-vote-site', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/early-vote-site.html'
-    });
-    // done
-    $routeProvider.when('/template/polling-location', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/polling-location.html'
-    });
-    // done
-    $routeProvider.when('/template/contests', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contests.html'
-    });
-    // done
-    $routeProvider.when('/template/contest', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest.html'
-    });
-    // done
-    $routeProvider.when('/template/ballot', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot.html'
-    });
-    // done
-    $routeProvider.when('/template/candidate', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/candidate.html'
-    });
-    // done
-    $routeProvider.when('/template/electoral-district', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/electoral-district.html'
-    });
-    // done
-    $routeProvider.when('/template/contest-result', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/contest-result.html'
-    });
-    // done
-    $routeProvider.when('/template/ballot-line-result', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/ballot-line-result.html'
-    });
-
-    $routeProvider.when('/template/results', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/results.html'
-    });
-    // done
-    $routeProvider.when('/template/errors', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/errors.html'
-    });
-
-    $routeProvider.when('/template/search-results', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/search-results.html'
-    });
-
-    $routeProvider.when('/template/grid', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/templates/grid.html'
-    });
-
-    $routeProvider.when('/profile', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
-      controller: 'ProfileCtrl'
-    });
-
-    $routeProvider.when('/styleguide', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/styleguide.html',
-      controller: 'StyleguideCtrl'
-    });
-
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
 
@@ -361,12 +266,45 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
 /*
  * Static initialization block
  *
+ * Runs after the vipApp.config block above.
+ *
  */
 vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
     vipApp_ns.parseAndAddProperties(response.data, $appProperties);
+
+    $rootScope.getDueDateText = function(date){
+
+      if(date){
+        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+        var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
+        return dueDateText;
+      } else {
+        return "N/A";
+      }
+
+    }
+
+    $rootScope.getDueDateTextDays = function(date, now){
+
+      var dueIn = "N/A"
+      if(date){
+        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+        var nowDate = moment(now).utc();
+        dueIn = dueDate.diff(nowDate, 'days');
+
+        if(dueIn < 0){
+          dueIn = Math.abs(dueIn) + " days ago";
+        } else {
+          dueIn = dueIn + " days";
+        }
+      }
+
+      return dueIn;
+    }
+
   });
 
   // read the properties file from the server "map.properties"
@@ -377,7 +315,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   $rootScope.$appProperties = $appProperties;
 
   /*
-   * Initialize the cache for the app
+   * Initialize variables for the app
    */
   $rootScope.pageHeader = {};
   $rootScope.user = null;
@@ -445,6 +383,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * When the window is resized manage the show/hiding of the aside
    */
   window.onresize = function(){
+
     $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
     if(!$rootScope.mobileDimensions){
 
@@ -492,7 +431,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * Turns a service URL into the equeivlant Angular path
    */
   $rootScope.getAngularUrl = function(urlPath){
-    return urlPath.replace("/services/","/#/")
+    if(urlPath !== undefined && urlPath !== null){
+      urlPath = urlPath.replace("/services/","/#/")
+    }
+
+    return urlPath;
   }
 
   /*
@@ -606,12 +549,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       if(isNaN(token) && token !== feedId ){
         id += token.toLowerCase() + "-";
       }
-
     }
 
     id += 'content';
 
     return id;
   }
-
 });

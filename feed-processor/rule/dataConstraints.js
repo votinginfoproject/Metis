@@ -88,11 +88,21 @@ var theseConstraints = {
   /* zip code format */
   zipCodeFormat : [
     {
+      entity: [models.candidate], fields: ['filedMailingAddress.zip']
+    },
+    {
+      entity: [models.earlyVoteSite], fields: ['address.zip']
+    },
+    {
       entity: [models.electionAdministration], fields: ['mailingAddress.zip', 'physicalAddress.zip']
     },
     {
       entity: [models.pollingLocation], fields: ['address.zip']
-    }]
+    },
+    {
+      entity: [models.streetSegment], fields: ['nonHouseAddress.zip']
+    }
+  ]
 
 };
 

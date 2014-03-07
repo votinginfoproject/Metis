@@ -20,6 +20,9 @@
   <!-- Modernizr lib -->
   <script src="assets/js/lib/modernizr/modernizr.js"></script>
 
+  <!-- Moment lib -->
+  <script src="assets/js/lib/moment/min/moment.min.js"></script>
+
   <!-- jQuery lib -->
   <script src="assets/js/lib/jquery/jquery.min.js"></script>
 
@@ -39,8 +42,8 @@
   <script src="assets/js/lib/vkBeautify/vkbeautify.js"></script>
 
   <!-- Leaflet -->
-  <link href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" rel="stylesheet">
-  <script src="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+  <link href="assets/js/lib/leaflet/0.7.2/leaflet.css" rel="stylesheet">
+  <script src="assets/js/lib/leaflet/0.7.2/leaflet.js"></script>
 
   <!-- ======================================= -->
 
@@ -58,10 +61,6 @@
   <!-- Home -->
   <script src="assets/js/app/controllers/homeController.js"></script>
   <script src="assets/js/app/services/homeService.js"></script>
-
-  <!-- Admin -->
-  <script src="assets/js/app/controllers/adminController.js"></script>
-  <script src="assets/js/app/services/adminService.js"></script>
 
   <!-- Feeds -->
   <script src="assets/js/app/controllers/feedsController.js"></script>
@@ -82,6 +81,7 @@
   <script src="assets/js/app/controllers/feedSourceController.js"></script>
   <script src="assets/js/app/controllers/feedElectionController.js"></script>
   <script src="assets/js/app/controllers/feedStateController.js"></script>
+  <script src="assets/js/app/controllers/feedResultsController.js"></script>
 
   <script src="assets/js/app/controllers/feedLocalitiesController.js"></script>
   <script src="assets/js/app/controllers/feedLocalityController.js"></script>
@@ -105,13 +105,6 @@
 
   <script src="assets/js/app/services/feedsService.js"></script>
 
-  <!-- Profile -->
-  <script src="assets/js/app/controllers/profileController.js"></script>
-  <script src="assets/js/app/services/profileService.js"></script>
-
-  <!-- Styleguide -->
-  <script src="assets/js/app/controllers/styleguideController.js"></script>
-
 </head>
 <body role="application">
 
@@ -122,11 +115,7 @@
       <nav class="main-nav" ng-if="user.isAuthenticated">
         <ul>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}">Feeds</a></li>
-          <!--
-            If user is admin, show this link instead of user
-            <li><a id="pageHeader-adminLink" ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
-          -->
-          <li><a id="pageHeader-userName" href="#/profile" ng-class="{'is-active': pageHeader.section=='profile'}" >{{user.userName}}</a></li>
+          <li>{{user.userName}}</li>
           <li><a id="pageHeader-sign-out" href="/logout">Sign Out</a></li>
         </ul>
       </nav>
@@ -160,7 +149,7 @@
       <div ng-view></div>
 
         <footer role="contentinfo">
-          <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+          <small>&copy; Copyright 2013 Voting Information Project.
         </footer><!-- / contentinfo -->
       </div><!-- /.content -->
 

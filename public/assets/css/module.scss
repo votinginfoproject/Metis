@@ -296,7 +296,6 @@ aside {
 }
 
 .button-errors {
-  //@extend %button;
   display: block;
   background: $red;
   color: $white;
@@ -307,7 +306,9 @@ aside {
   text-align: center;
   padding: $base-sm;
   border: 2px solid $white;
-  border-radius: 15px;
+  border-radius: 15px;  
+  width: 100%;
+
 
   time {
     display: block;

@@ -482,7 +482,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Contestresult");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Contest Result");
     });
   });
 
@@ -498,7 +498,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballotlineresults");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot Line Results");
       expect(element('#pageHeader-breadcrumb6').html()).toBe("1ballotlineresult");
     });
   });
@@ -517,7 +517,7 @@ describe('Breadcrumbs Test', function () {
       expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
       expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballotlineresults");
+      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot Line Results");
     });
   });
 

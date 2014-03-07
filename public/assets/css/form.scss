@@ -45,6 +45,17 @@ form > div, fieldset > div {
   }
 }
 
+.disabled_row {
+  background: $gray-lightest;
+  color: $gray-medium;
+  cursor: default;
+
+  &:hover {
+    color: $gray-medium !important;
+    cursor: default;
+  }
+}
+
 button,
 input[type="submit"] {
   @extend %button;

@@ -556,6 +556,14 @@ input[type="submit"],
     color: white;
     cursor: default; }
 
+.disabled_row {
+  background: #eeeeee;
+  color: #b1b3b6;
+  cursor: default; }
+  .disabled_row:hover {
+    color: #b1b3b6 !important;
+    cursor: default; }
+
 button,
 input[type="submit"] {
   -webkit-appearance: none;
@@ -864,7 +872,8 @@ aside {
   text-align: center;
   padding: 0.5em;
   border: 2px solid white;
-  border-radius: 15px; }
+  border-radius: 15px;
+  width: 100%; }
   .button-errors time {
     display: block;
     color: #660000;
@@ -1547,6 +1556,12 @@ form[role="search"] {
   background: url(/assets/images/spinner.gif) no-repeat;
   min-width: 30px;
   min-height: 30px;
+  display: inline-block; }
+
+.is-loading-small {
+  background: url(/assets/images/spinner-small.gif) no-repeat;
+  min-width: 16px;
+  min-height: 16px;
   display: inline-block; }
 
 /* print.scss */

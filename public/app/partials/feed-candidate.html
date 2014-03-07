@@ -2,7 +2,6 @@
 
 <a ng-if="feedCandidate.error_count !== undefined" id="candidate-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
   Errors in Candidate ID: {{feedCandidate.id}}</a>
-<mark ng-if="!feedCandidate.error_count">link</mark>
 
 <span ng-if="!feedCandidate" class="is-loading"></span>
 <dl class="attributes" ng-if="feedCandidate">

@@ -44,11 +44,12 @@ describe('Feed Overview Test', function () {
 
       expect(element('#pollingLocation-element-type0').html()).toBe("Early Vote Sites");
       expect(element('#pollingLocation-element-type1').html()).toBe("Election Administrations");
-      expect(element('#pollingLocation-element-type2').html()).toBe("Localities");
-      expect(element('#pollingLocation-element-type3').html()).toBe("Polling Locations");
-      expect(element('#pollingLocation-element-type4').html()).toBe("Precincts");
-      expect(element('#pollingLocation-element-type5').html()).toBe("Precinct Splits");
-      expect(element('#pollingLocation-element-type6').html()).toBe("Street Segments");
+      expect(element('#pollingLocation-element-type2').html()).toBe("Election Officials");
+      expect(element('#pollingLocation-element-type3').html()).toBe("Localities");
+      expect(element('#pollingLocation-element-type4').html()).toBe("Polling Locations");
+      expect(element('#pollingLocation-element-type5').html()).toBe("Precincts");
+      expect(element('#pollingLocation-element-type6').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type7').html()).toBe("Street Segments");
     });
 
   });
@@ -73,6 +74,22 @@ describe('Feed Overview Test', function () {
     it('Should have results', function () {
 
       expect(element('#feedResults0').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
+   Feed Sidebar
+   ------------------------------------------*/
+  describe('Check Feed Sidebar', function () {
+    // check the the number of items
+    it('Should have results', function () {
+
+      // feed due date
+      expect(element('#feedDueDate').count()).toBe(1);
+
+      // feed contact
+      expect(element('#feed_contact_name').html()).not().toBe("");
     });
 
   });

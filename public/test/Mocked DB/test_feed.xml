@@ -27,7 +27,7 @@ Note that the ID attributes are unique throughout the file.
         <tou_url>http://www.sos.state.oh.us/vipFeed/terms_of_use.html</tou_url>
       </source>
 	<election id="1">
-		<date>2012-11-06</date>
+		<date>2014-04-10</date>
 		<election_type>Federal</election_type>
 		<state_id>39</state_id>
 		<statewide>yes</statewide>
@@ -564,7 +564,7 @@ Note that the ID attributes are unique throughout the file.
           <street_suffix>Dr</street_suffix>
           <state>VA</state>
           <city>Annandale</city>
-          <zip>22003</zip>
+          <zip>2200</zip>
         </non_house_address>
         <precinct_id>10101</precinct_id>
         <precinct_split_id>30102</precinct_split_id>
@@ -580,9 +580,10 @@ Note that the ID attributes are unique throughout the file.
           <street_suffix>Dr</street_suffix>
           <state>VA</state>
           <city>Annandale</city>
-          <zip>22003</zip>
+          <zip>223</zip>
         </non_house_address>
         <precinct_id>10102</precinct_id>
+        <precinct_split_id>30101</precinct_split_id>
     </street_segment>
     <street_segment id="1210004">
         <start_house_number>0</start_house_number>

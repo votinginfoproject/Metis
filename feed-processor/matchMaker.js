@@ -38,6 +38,17 @@ function updateRelationship (model, conditions, update, options, callback) {
   model.update(conditions, update, options, callback);
 };
 
+function createRelationshipsFeed (feedId, models) {
+  var sourcePromise = models.Source.findOne({ _feed: feedId }).exec();
+  var sourceId;
+
+  sourcePromise.then(function (source) {
+    return models.ElectionOfficial.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
+  }, onError).then(function (eoId) {
+      updateRelationship(models.Feed, { _id: feedId }, { _feedContact: eoId }, onUpdate);
+    }, onError);
+};
+
 function createRelationshipsSource (feedId, models) {
   var sourcePromise = models.Source.findOne({ _feed: feedId }).exec();
   var sourceId;
@@ -765,6 +776,7 @@ function joinPollingLocationPrecinctSplit(models, pollingLocation) {
 }
 
 function createDBRelationships(feedId, models) {
+  createRelationshipsFeed(feedId, models);
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
   createRelationshipsElection(feedId, models);

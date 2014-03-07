@@ -25,19 +25,35 @@ var mapFeed = function(path, feed) {
   return {
     id: feed.id,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
+    date_now: moment().utc().format('YYYY-MM-DD'),
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
+    complete: true, // TODO: add in the boolean to say if the feed is finished completing or not
     name: feed.name,
     self: _path.join(path, feed.id)
   };
 };
 
 var mapOverview = function(path, feed) {
+
+  var feedContact = null;
+  if(feed._feedContact){
+    feedContact = {
+      name: (feed._feedContact) ? feed._feedContact.name : null,
+      title: (feed._feedContact) ? feed._feedContact.title : null,
+      phone: (feed._feedContact) ? feed._feedContact.phone : null,
+      fax: (feed._feedContact) ? feed._feedContact.fax : null,
+      email: (feed._feedContact) ? feed._feedContact.email : null
+    };
+  }
+
   return {
     id: feed.id,
     title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
     error_count: feed.errorCount,
+    feed_contact: feedContact,
+    date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
     errors: _path.join(path, '/errors'),
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
@@ -47,6 +63,8 @@ var mapOverview = function(path, feed) {
     polling_locations: _path.join(path, '/polling'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
+    contest_results: _path.join(path, '/election/results/contestresults'),
+    ballot_line_results: _path.join(path, '/election/results/ballotlineresults'),
     history: _path.join(path, '/history')
   };
 };
@@ -203,7 +221,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
       name: ed.name,
       type: ed.type,
       number: ed.number,
-      contests: -1, //TODO: replace this with count from database
+      contests: -1, //ed.contests.length, TODO fix
       self: _path.join(path, ed.elementId.toString())
     };
   });
@@ -305,6 +323,7 @@ function mapContest (path, contest) {
     ballot_line_results: resultsMapper.mapBallotLineResults(path, contest._ballotLineResults)
   };
 };
+
 
 var mapOverviewTables = function(data) {
   var overview = [];
@@ -670,3 +689,5 @@ exports.mapReferenda = mapReferenda;
 exports.mapReferendum = mapReferendum;
 exports.mapPollingLocation = mapPollingLocation;
 exports.mapOverviewTables = mapOverviewTables;
+exports.mapResultsContestResults = resultsMapper.mapResultsContestResults;
+exports.mapResultsBallotLineResults = resultsMapper.mapResultsBallotLineResults;

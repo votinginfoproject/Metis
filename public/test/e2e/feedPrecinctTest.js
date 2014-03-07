@@ -407,6 +407,7 @@ describe('Feed Precinct Test', function () {
       // expect data for the detail for the first error row should be hidden
       expect(element("#errorDetail0:visible").count()).toBe(0);
 
+      /*
       // click on the first row to show the error details
       element('#error-count0 a').click();
 
@@ -414,7 +415,7 @@ describe('Feed Precinct Test', function () {
 
       // the detail for the first error row should now be showing
       expect(element("#errorDetail0:visible").count()).toBe(1);
-
+      */
     });
   });
 
