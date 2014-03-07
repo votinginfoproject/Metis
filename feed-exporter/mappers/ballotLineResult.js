@@ -3,47 +3,37 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function ballotLineResultExport(feedId, writer, receiver, namespace, callback) {
+function ballotLineResultExport(feedId, callback) {
   schemas.models.BallotLineResult.find({_feed: feedId}, function(err, results) {
-    var ballotLineResult = writer.declareElement(namespace, 'ballot_line_result');
-    var contestId = writer.declareElement(namespace, 'contest_id');
-    var jurisdictionId = writer.declareElement(namespace, 'jurisdiction_id');
-    var entireDistrict = writer.declareElement(namespace, 'entire_district');
-    var candidateId = writer.declareElement(namespace, 'candidate_id');
-    var ballotResponseId = writer.declareElement(namespace, 'ballot_response_id');
-    var votes = writer.declareElement(namespace, 'votes');
-    var victorious = writer.declareElement(namespace, 'victorious');
-
-    var certification = writer.declareAttribute('certification');
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(ballotLineResult).addAttribute(idAttr, result.elementId.toString()).addAttribute(certification, result.certification);
+      var chunk = util.startElement('ballot_line_result', 'id', result.elementId.toString(), 'certification', result.certification);
 
       if(result.contestId)
-        receiver = receiver.startElement(contestId).addText(result.contestId.toString()).endElement();
+        chunk += util.startEndElement('contest_id', result.contestId.toString());
       if(result.jurisdictionId)
-        receiver = receiver.startElement(jurisdictionId).addText(result.jurisdictionId.toString()).endElement();
+        chunk += util.startEndElement('jurisdiction_id', result.jurisdictionId.toString());
       if(result.entireDistrict != undefined && result.entireDistrict != null)
-        receiver = receiver.startElement(entireDistrict).addText(result.entireDistrict ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('entire_district', result.entireDistrict ? 'yes' : 'no');
       if(result.candidateId)
-        receiver = receiver.startElement(candidateId).addText(result.candidateId.toString()).endElement();
+        chunk += util.startEndElement('candidate_id', result.candidateId.toString());
       if(result.ballotResponseId)
-        receiver = receiver.startElement(ballotResponseId).addText(result.ballotResponseId.toString()).endElement();
+        chunk += util.startEndElement('ballot_response_id', result.ballotResponseId.toString());
       if(result.votes)
-        receiver = receiver.startElement(votes).addText(result.votes.toString()).endElement();
+        chunk += util.startEndElement('votes', result.votes.toString());
       if(result.victorious != undefined && result.entireDistrict != null)
-        receiver = receiver.startElement(victorious).addText(result.victorious ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('victorious', result.victorious ? 'yes' : 'no');
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('ballot_line_result');
+      callback(chunk);
     });
 
     console.log('ballot line result finished');
-    callback();
   });
 }
 

@@ -3,58 +3,44 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function referendumExport(feedId, writer, receiver, namespace, callback) {
+function referendumExport(feedId, callback) {
   schemas.models.Referendum.find({_feed: feedId}, function(err, results) {
-    var referendum = writer.declareElement(namespace, 'referendum');
-    var title = writer.declareElement(namespace, 'title');
-    var subtitle = writer.declareElement(namespace, 'subtitle');
-    var brief = writer.declareElement(namespace, 'brief');
-    var text = writer.declareElement(namespace, 'text');
-    var proStatement = writer.declareElement(namespace, 'pro_statement');
-    var conStatement = writer.declareElement(namespace, 'con_statement');
-    var passageThreshold = writer.declareElement(namespace, 'passage_threshold');
-    var effectOfAbstain = writer.declareElement(namespace, 'effect_of_abstain');
-    var ballotResponseId = writer.declareElement(namespace, 'ballot_response_id');
-
-    var idAttr = writer.declareAttribute('id');
-    var sortOrder = writer.declareAttribute('sort_order');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(referendum).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('referendum', 'id', result.elementId.toString());
 
       if(result.title)
-        receiver = receiver.startElement(title).addText(result.title).endElement();
+        chunk += util.startEndElement('title', result.title);
       if(result.subtitle)
-        receiver = receiver.startElement(subtitle).addText(result.subtitle).endElement();
+        chunk += util.startEndElement('subtitle', result.subtitle);
       if(result.brief)
-        receiver = receiver.startElement(brief).addText(result.brief).endElement();
+        chunk += util.startEndElement('brief', result.brief);
       if(result.text)
-        receiver = receiver.startElement(text).addText(result.text).endElement();
+        chunk += util.startEndElement('text', result.text);
       if(result.proStatement)
-        receiver = receiver.startElement(proStatement).addText(result.proStatement).endElement();
+        chunk += util.startEndElement('pro_statement', result.proStatement);
       if(result.conStatement)
-        receiver = receiver.startElement(conStatement).addText(result.conStatement).endElement();
+        chunk += util.startEndElement('con_statement', result.conStatement);
       if(result.passageThreshold)
-        receiver = receiver.startElement(passageThreshold).addText(result.passageThreshold).endElement();
+        chunk += util.startEndElement('passage_threshold', result.passageThreshold);
       if(result.effectOfAbstain)
-        receiver = receiver.startElement(effectOfAbstain).addText(result.effectOfAbstain).endElement();
+        chunk += util.startEndElement('effect_of_abstain', result.effectOfAbstain);
       if(result.ballotResponses.length) {
         result.ballotResponses.forEach(function(response) {
-          receiver = receiver.startElement(ballotResponseId);
-          if(response.sortOrder)
-            receiver = receiver.addAttribute(sortOrder, response.sortOrder.toString());
-          receiver = receiver.addText(response.elementId.toString()).endElement();
+          chunk += util.startEndAttributeElement('ballot_response_id', 'sort_order', response.sortOrder ? response.sortOrder.toString() : null, response.elementId.toString());
         });
       }
-      receiver = receiver.endElement();
+
+      chunk += util.endElement('referendum');
+      callback(chunk);
     });
 
     console.log('referendum finished');
-    callback();
   });
 }
 

@@ -3,53 +3,41 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function contestResultExport(feedId, writer, receiver, namespace, callback) {
+function contestResultExport(feedId, callback) {
   schemas.models.ContestResult.find({_feed: feedId}, function(err, results) {
-    var contestResult = writer.declareElement(namespace, 'contest_result');
-    var contestId = writer.declareElement(namespace, 'contest_id');
-    var jurisdictionId = writer.declareElement(namespace, 'jurisdiction_id');
-    var entireDistrict = writer.declareElement(namespace, 'entire_district');
-    var totalVotes = writer.declareElement(namespace, 'total_votes');
-    var totalValidVotes = writer.declareElement(namespace, 'total_valid_votes');
-    var overvotes = writer.declareElement(namespace, 'overvotes');
-    var blankVotes = writer.declareElement(namespace, 'blank_votes');
-    var acceptedProvisionalVotes = writer.declareElement(namespace, 'accepted_provisional_votes');
-    var rejectedVotes = writer.declareElement(namespace, 'rejected_votes');
-
-    var certification = writer.declareAttribute('certification');
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(contestResult).addAttribute(idAttr, result.elementId.toString()).addAttribute(certification, result.certification);
+      var chunk = util.startElement('contest_result', 'id', result.elementId.toString(), 'certification', result.certification);
 
       if(result.contestId)
-        receiver = receiver.startElement(contestId).addText(result.contestId.toString()).endElement();
+        chunk += util.startEndElement('contest_id', result.contestId.toString());
       if(result.jurisdictionId)
-        receiver = receiver.startElement(jurisdictionId).addText(result.jurisdictionId.toString()).endElement();
+        chunk += util.startEndElement('jurisdiction_id', result.jurisdictionId.toString());
       if(result.entireDistrict != undefined && result.entireDistrict != null)
-        receiver = receiver.startElement(entireDistrict).addText(result.entireDistrict ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('entire_district', result.entireDistrict ? 'yes' : 'no');
       if(result.totalVotes)
-        receiver = receiver.startElement(totalVotes).addText(result.totalVotes.toString()).endElement();
+        chunk += util.startEndElement('total_votes', result.totalVotes.toString());
       if(result.totalValidVotes)
-        receiver = receiver.startElement(totalValidVotes).addText(result.totalValidVotes.toString()).endElement();
+        chunk += util.startEndElement('total_valid_votes', result.totalValidVotes.toString());
       if(result.overvotes)
-        receiver = receiver.startElement(overvotes).addText(result.overvotes.toString()).endElement();
+        chunk += util.startEndElement('overvotes', result.overvotes.toString());
       if(result.blankVotes)
-        receiver = receiver.startElement(blankVotes).addText(result.blankVotes.toString()).endElement();
+        chunk += util.startEndElement('blank_votes', result.blankVotes.toString());
       if(result.acceptedProvisionalVotes)
-        receiver = receiver.startElement(acceptedProvisionalVotes).addText(result.acceptedProvisionalVotes.toString()).endElement();
+        chunk += util.startEndElement('accepted_provisional_votes', result.acceptedProvisionalVotes.toString());
       if(result.rejectedVotes)
-        receiver = receiver.startElement(rejectedVotes).addText(result.rejectedVotes.toString()).endElement();
+        chunk += util.startEndElement('rejected_votes', result.rejectedVotes.toString());
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('contest_result');
+      callback(chunk);
     });
 
     console.log('contest result finished');
-    callback();
   });
 }
 

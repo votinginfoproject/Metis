@@ -2,63 +2,51 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function precinctExport(feedId, writer, receiver, namespace, callback) {
+function precinctExport(feedId, callback) {
   schemas.models.Precinct.find({_feed: feedId}, function(err, results) {
-    var precinct = writer.declareElement(namespace, 'precinct');
-    var name = writer.declareElement(namespace, 'name');
-    var number = writer.declareElement(namespace, 'number');
-    var ward = writer.declareElement(namespace, 'ward');
-    var mailOnly = writer.declareElement(namespace, 'mail_only');
-    var ballotImage = writer.declareElement(namespace, 'ballot_style_image_url');
-    var localityId = writer.declareElement(namespace, 'locality_id');
-    var electoralDistrictId = writer.declareElement(namespace, 'electoral_district_id');
-    var pollingLocationId = writer.declareElement(namespace, 'polling_location_id');
-    var earlyVoteSiteId = writer.declareElement(namespace, 'early_vote_site_id');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(precinct).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('precinct', 'id', result.elementId, null, null);
 
       if(result.name)
-        receiver = receiver.startElement(name).addText(result.name).endElement();
+        chunk += util.startEndElement('name', result.name);
       if(result.number)
-        receiver = receiver.startElement(number).addText(result.number.toString()).endElement();
+        chunk += util.startEndElement('number', result.number);
       if(result.ward)
-        receiver = receiver.startElement(ward).addText(result.ward.toString()).endElement();
+        chunk += util.startEndElement('ward', result.ward.toString());
       if(result.mailOnly != undefined && result.mailOnly != null)
-        receiver = receiver.startElement(mailOnly).addText(result.mailOnly ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('mail_only', result.mailOnly ? 'yes' : 'no');
       if(result.ballotStyleImageUrl)
-        receiver = receiver.startElement(ballotImage).addText(result.ballotStyleImageUrl).endElement();
+        chunk += util.startEndElement('ballot_style_image_image', result.ballotStyleImageUrl);
       if(result.localityId)
-        receiver = receiver.startElement(localityId).addText(result.localityId.toString()).endElement();
+        chunk += util.startEndElement('locality_id', result.localityId.toString());
       if(result.electoralDistrictIds.length) {
         result.electoralDistrictIds.forEach(function(ids) {
-          receiver = receiver.startElement(electoralDistrictId).addText(ids.toString()).endElement();
+          chunk += util.startEndElement('electoral_district_id', ids.toString());
         });
       }
       if(result.pollingLocationIds.length) {
         result.pollingLocationIds.forEach(function(ids) {
-          receiver = receiver.startElement(pollingLocationId).addText(ids.toString()).endElement();
+          chunk += util.startEndElement('polling_location_id', ids.toString());
         });
       }
       if(result.earlyVoteSiteIds.length) {
         result.earlyVoteSiteIds.forEach(function(ids) {
-          receiver = receiver.startElement(earlyVoteSiteId).addText(ids.toString()).endElement();
+          chunk += util.startEndElement('early_vote_site_id', ids.toString());
         });
       }
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('precinct');
+      callback(chunk);
     });
 
     console.log('precinct finished');
-    callback();
   });
 }
 

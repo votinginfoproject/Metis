@@ -2,59 +2,46 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
 var db = require('../../dao/db');
 var moment = require('moment');
+var util = require('./util');
 
-function electionExport(feedId, writer, receiver, namespace, callback) {
+function electionExport(feedId, callback) {
   db.getFeedElection(feedId, function(err, result) {
-    var election = writer.declareElement(namespace, 'election');
-    var date = writer.declareElement(namespace, 'date');
-    var type = writer.declareElement(namespace, 'election_type');
-    var statewide = writer.declareElement(namespace, 'statewide');
-    var registrationInfo = writer.declareElement(namespace, 'registration_info');
-    var resultsUrl = writer.declareElement(namespace, 'results_url');
-    var pollingHours = writer.declareElement(namespace, 'polling_hours');
-    var electionDayRegistration = writer.declareElement(namespace, 'election_day_registration');
-    var registrationDeadline = writer.declareElement(namespace, 'registration_deadline');
-    var absenteeRequestDeadline = writer.declareElement(namespace, 'absentee_request_deadline');
-    var stateId = writer.declareElement(namespace, 'state_id');
-    var absenteeBallot = writer.declareElement(namespace, 'absentee_ballot_info');
 
-    var idAttr = writer.declareAttribute('id');
-
-    if(!result)
+    if(!result) {
+      callback(-1);
       return;
+    }
 
-    receiver = receiver.startElement(election).addAttribute(idAttr, result.elementId.toString());
+    var chunk = util.startElement('election', 'id', result.elementId.toString());
 
     if(result.date)
-      receiver = receiver.startElement(date).addText(moment(result.date).utc().format('YYYY-MM-DD')).endElement();
+      chunk += util.startEndElement('date', moment(result.date).utc().format('YYYY-MM-DD'));
     if(result.electionType)
-      receiver = receiver.startElement(type).addText(result.electionType).endElement();
+      chunk += util.startEndElement('type', result.electionType);
     if(result.statewide != undefined && result.statewide != null)
-      receiver = receiver.startElement(statewide).addText(result.statewide ? 'yes' : 'no').endElement();
+      chunk += util.startEndElement('state_wide', result.statewide ? 'yes' : 'no');
     if(result.registrationInfo)
-      receiver = receiver.startElement(registrationInfo).addText(result.registrationInfo).endElement();
+      chunk += util.startEndElement('registration_info', result.registrationInfo);
     if(result.absenteeBallotInfo)
-      receiver = receiver.startElement(absenteeBallot).addText(result.absenteeBallotInfo).endElement();
+      chunk += util.startEndElement('absentee_ballot_info', result.absenteeBallotInfo);
     if(result.resultsUrl)
-      receiver = receiver.startElement(resultsUrl).addText(result.resultsUrl).endElement();
+      chunk += util.startEndElement('results_url', result.resultsUrl);
     if(result.pollingHours)
-      receiver = receiver.startElement(pollingHours).addText(result.pollingHours).endElement();
+      chunk += util.startEndElement('polling_hours', result.pollingHours);
     if(result.electionDayRegistration != null && result.electionDayRegistration != undefined)
-      receiver = receiver.startElement(electionDayRegistration).addText(result.electionDayRegistration ? 'yes' : 'no').endElement();
+      chunk += util.startEndElement('election_day_registration', result.electionDayRegistration ? 'yes' : 'no');
     if(result.registrationDeadline)
-      receiver = receiver.startElement(registrationDeadline).addText(moment(result.registrationDeadline).utc().format('YYYY-MM-DD')).endElement();
+      chunk += util.startEndElement('registration_deadline', moment(result.registrationDeadline).utc().format('YYYY-MM-DD'));
     if(result.absenteeRequestDeadline)
-      receiver = receiver.startElement(absenteeRequestDeadline).addText(moment(result.absenteeRequestDeadline).utc().format('YYYY-MM-DD')).endElement();
+      chunk += util.startEndElement('absentee_request_deadline', moment(result.absenteeRequestDeadline).utc().format('YYYY-MM-DD'));
     if(result.stateId)
-      receiver = receiver.startElement(stateId).addText(result.stateId).endElement();
+      chunk += util.startEndElement('state_id', result.stateId);
 
-    receiver = receiver.endElement();
-
+    chunk += util.endElement('election');
     console.log('election finished');
-    callback();
+    callback(chunk);
   });
 }
 

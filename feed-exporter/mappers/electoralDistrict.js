@@ -4,34 +4,29 @@
 
 var genx = require('genx');
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function electoralDistrictExport(feedId, writer, receiver, namespace, callback) {
+function electoralDistrictExport(feedId, callback) {
   schemas.models.ElectoralDistrict.find({_feed: feedId}, function(err, results) {
-    var district = writer.declareElement(namespace, 'electoral_district');
-    var name = writer.declareElement(namespace, 'name');
-    var type = writer.declareElement(namespace, 'type');
-    var number = writer.declareElement(namespace, 'number');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(district).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('electoral_district', 'id', result.elementId.toString());
 
       if(result.name)
-        receiver = receiver.startElement(name).addText(result.name).endElement();
+        chunk += util.startEndElement('name', result.name);
       if(result.type)
-        receiver = receiver.startElement(type).addText(result.type).endElement();
+        chunk += util.startEndElement('type', result.type);
       if(result.number)
-        receiver = receiver.startElement(number).addText(result.number).endElement();
+        chunk += util.startEndElement('number', result.number);
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('electoral_district');
+      callback(chunk);
     });
 
     console.log('electoral district finished');
-    callback();
   });
 }
 

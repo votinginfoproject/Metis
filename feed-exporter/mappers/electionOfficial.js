@@ -3,40 +3,33 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function electionOfficialExport(feedId, writer, receiver, namespace, callback) {
+function electionOfficialExport(feedId, callback) {
   schemas.models.ElectionOfficial.find({_feed: feedId}, function(err, results) {
-    var electionOfficial = writer.declareElement(namespace, 'election_official');
-    var name = writer.declareElement(namespace, 'name');
-    var title = writer.declareElement(namespace, 'title');
-    var phone = writer.declareElement(namespace, 'phone');
-    var fax = writer.declareElement(namespace, 'fax');
-    var email = writer.declareElement(namespace, 'email');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(electionOfficial).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('election_official', 'id', result.elementId.toString(), null, null);
 
       if(result.name)
-        receiver = receiver.startElement(name).addText(result.name).endElement();
+        chunk += util.startEndElement('name', result.name);
       if(result.title)
-        receiver = receiver.startElement(title).addText(result.title).endElement();
+        chunk += util.startEndElement('title', result.title);
       if(result.phone)
-        receiver = receiver.startElement(phone).addText(result.phone).endElement();
+        chunk += util.startEndElement('phone', result.phone);
       if(result.fax)
-        receiver = receiver.startElement(fax).addText(result.fax).endElement();
+        chunk += util.startEndElement('fax', result.fax);
       if(result.email)
-        receiver = receiver.startElement(email).addText(result.email).endElement();
+        chunk += util.startEndElement('email', result.email);
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('election_official');
+      callback(chunk);
     });
 
     console.log('election official finished');
-    callback();
   });
 }
 

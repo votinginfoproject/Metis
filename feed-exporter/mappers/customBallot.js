@@ -3,38 +3,30 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function customBallotExport(feedId, writer, receiver, namespace, callback) {
+function customBallotExport(feedId, callback) {
   schemas.models.CustomBallot.find({_feed: feedId}, function(err, results) {
-    var customBallot = writer.declareElement(namespace, 'custom_ballot');
-    var heading = writer.declareElement(namespace, 'heading');
-    var ballotResponseId = writer.declareElement(namespace, 'ballot_response_id');
-
-    var idAttr = writer.declareAttribute('id');
-    var sortOrder = writer.declareAttribute('sort_order');
 
     if(!results.length)
-      return;
+      callback(-1);
 
-    receiver = results.forEach(function(result) {
-      receiver = receiver.startElement(customBallot).addAttribute(idAttr, result.elementId.toString());
+    results.forEach(function(result) {
+      var chunk = util.startElement('custom_ballot', 'id', result.elementId.toString());
 
       if(result.heading)
-        receiver = receiver.startElement(heading).addText(result.heading).endElement();
+        chunk += util.startEndElement('heading', result.heading);
       if(result.ballotResponses.length) {
         result.ballotResponses.forEach(function(response) {
-          receiver = receiver.startElement(ballotResponseId);
-            if(response.sortOrder)
-              receiver = receiver.addAttribute(sortOrder, response.sortOrder.toString());
-          receiver = receiver.addText(response.elementId.toString()).endElement();
+          chunk += util.startEndAttributeElement('ballot_response_id', 'sort_order', response.sortOrder ? response.sortOrder.toString() : null, response.elementId.toString());
         });
       }
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('custom_ballot');
+      callback(chunk);
     });
 
     console.log('custom ballot finished');
-    callback();
   });
 }
 

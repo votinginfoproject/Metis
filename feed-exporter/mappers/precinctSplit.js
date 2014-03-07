@@ -3,46 +3,39 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function precinctSplitExport(feedId, writer, receiver, namespace, callback) {
+function precinctSplitExport(feedId, callback) {
   schemas.models.PrecinctSplit.find({_feed: feedId}, function(err, results) {
-    var split = writer.declareElement(namespace, 'precinct_split');
-    var name = writer.declareElement(namespace, 'name');
-    var precinctId = writer.declareElement(namespace, 'precinct_id');
-    var electoralDistrictId = writer.declareElement(namespace, 'electoral_district_id');
-    var pollingLocationId = writer.declareElement(namespace, 'polling_location_id');
-    var ballotStyleImageUrl = writer.declareElement(namespace, 'ballot_style_image_url');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(split).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('precinct_split', 'id', result.elementId.toString());
 
       if(result.name)
-        receiver = receiver.startElement(name).addText(result.name).endElement();
+        chunk += util.startEndElement('name', result.name);
       if(result.precinctId)
-        receiver = receiver.startElement(precinctId).addText(result.precinctId.toString()).endElement();
+        chunk += util.startEndElement('precinct_id', result.precinctId);
       if(result.electoralDistrictIds.length) {
         result.electoralDistrictIds.forEach(function(ids) {
-          receiver = receiver.startElement(electoralDistrictId).addText(ids.toString()).endElement();
+          chunk += util.startEndElement('electoral_district_id', ids.toString());
         });
       }
       if(result.pollingLocationIds.length) {
         result.pollingLocationIds.forEach(function(ids) {
-          receiver = receiver.startElement(pollingLocationId).addText(ids.toString()).endElement();
+          chunk += util.startEndElement('polling_location_id', ids.toString());
         });
       }
       if(result.ballotStyleImageUrl)
-        receiver = receiver.startElement(ballotStyleImageUrl).addText(result.ballotStyleImageUrl).endElement();
+        chunk += util.startEndElement('ballot_style_image_url', result.ballotStyleImageUrl);
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('precinct_split');
+      callback(chunk);
     });
 
     console.log('precinct split finished');
-    callback();
   });
 }
 

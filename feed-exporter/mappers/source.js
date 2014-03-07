@@ -2,46 +2,39 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
 var db = require('../../dao/db');
 var moment = require('moment');
+var util = require('./util');
 
-function sourceExport(feedId, writer, receiver, namespace, callback) {
+function sourceExport(feedId, callback) {
   db.getFeedSource(feedId, function(err, result) {
-    var source = writer.declareElement(namespace, 'source');
-    var name = writer.declareElement(namespace, 'name');
-    var date = writer.declareElement(namespace, 'datetime');
-    var desc = writer.declareElement(namespace, 'description');
-    var org = writer.declareElement(namespace, 'organization_url');
-    var tou = writer.declareElement(namespace, 'touUrl');
-    var vipId = writer.declareElement(namespace, 'vip_id');
-    var feedContactId = writer.declareElement(namespace, 'feed_contact_id');
 
-    var idAttr = writer.declareAttribute('id');
-    if(!result)
+    if(!result) {
+      callback(-1);
       return;
+    }
 
-    receiver = receiver.startElement(source).addAttribute(idAttr, result.elementId.toString());
+    var chunk = util.startElement('source', 'id', result.elementId.toString());
 
     if(result.name)
-      receiver = receiver.startElement(name).addText(result.name).endElement();
+      chunk += util.startEndElement('name', result.name);
     if(result.datetime)
-      receiver = receiver.startElement(date).addText(moment(result.datetime).utc().format('YYYY-MM-DD[T]HH:mm:ss')).endElement();
+      chunk += util.startEndElement('date_time', moment(result.datetime).utc().format('YYYY-MM-DD[T]HH:mm:ss'));
     if(result.description)
-      receiver = receiver.startElement(desc).addText(result.description).endElement();
+      chunk += util.startEndElement('description', result.description);
     if(result.organizationUrl)
-      receiver = receiver.startElement(org).addText(result.organizationUrl).endElement();
+      chunk += util.startEndElement('organization_url', result.organizationUrl);
     if(result.touUrl)
-      receiver = receiver.startElement(tou).addText(result.touUrl).endElement();
+      chunk += util.startEndElement('tou_url', result.touUrl);
     if(result.vipId)
-      receiver = receiver.startElement(vipId).addText(result.vipId.toString()).endElement();
+      chunk += util.startEndElement('vip_id', result.vipId.toString());
     if(result.feedContactId)
-      receiver = receiver.startElement(feedContactId).addText(result.feedContactId.toString()).endElement();
+      chunk += util.startEndElement('feed_contact_id', result.feedContactId.toString());
 
-    receiver = receiver.endElement();
+    chunk += util.endElement('source');
 
     console.log('source finished');
-    callback();
+    callback(chunk);
   });
 }
 

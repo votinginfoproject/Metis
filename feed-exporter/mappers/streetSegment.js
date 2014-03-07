@@ -3,83 +3,63 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function streetSegmentExport(feedId, writer, receiver, namespace, callback) {
+function streetSegmentExport(feedId, callback) {
   schemas.models.StreetSegment.find({_feed: feedId}, function(err, results) {
-    var streetSegment = writer.declareElement(namespace, 'street_segment');
-    var startHouseNumber = writer.declareElement(namespace, 'start_house_number');
-    var endHouseNumber = writer.declareElement(namespace, 'end_house_number');
-    var oddEvenBoth = writer.declareElement(namespace, 'odd_even_both');
-    var startApartmentNumber = writer.declareElement(namespace, 'start_apartment_number');
-    var nonHouseAddress = writer.declareElement(namespace, 'non_house_address');
-      var houseNumber = writer.declareElement(namespace, 'house_number');
-      var houseNumberPrefix = writer.declareElement(namespace, 'house_number_prefix');
-      var houseNumberSuffix = writer.declareElement(namespace, 'house_number_suffix');
-      var streetDirection = writer.declareElement(namespace, 'street_direction');
-      var streetName = writer.declareElement(namespace, 'street_name');
-      var streetSuffix = writer.declareElement(namespace, 'street_suffix');
-      var addressDirection = writer.declareElement(namespace, 'address_direction');
-      var apartment = writer.declareElement(namespace, 'apartment');
-      var city = writer.declareElement(namespace, 'city');
-      var state = writer.declareElement(namespace, 'state');
-      var zip = writer.declareElement(namespace, 'zip');
-    var precinctId = writer.declareElement(namespace, 'precinct_id');
-    var precinctSplitId = writer.declareElement(namespace, 'precinct_split_id');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(streetSegment).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement("street_segment", "id", result.elementId.toString(), null, null);
 
       if(result.startHouseNumber)
-        receiver = receiver.startElement(startHouseNumber).addText(result.startHouseNumber.toString()).endElement();
+        chunk += util.startEndElement("start_house_number", result.startHouseNumber.toString());
       if(result.endHouseNumber)
-        receiver = receiver.startElement(endHouseNumber).addText(result.endHouseNumber.toString()).endElement();
+        chunk += util.startEndElement("end_house_number", result.endHouseNumber.toString());
       if(result.oddEvenBoth)
-        receiver = receiver.startElement(oddEvenBoth).addText(result.oddEvenBoth).endElement();
+        chunk += util.startEndElement("odd_even_both", result.oddEvenBoth);
       if(result.startApartmentNumber)
-        receiver = receiver.startElement(startApartmentNumber).addText(result.startApartmentNumber).endElement();
+        chunk += util.startEndElement("start_apartment_number", result.startApartmentNumber);
       if(result.nonHouseAddress) {
-        receiver = receiver.startElement(nonHouseAddress);
+        chunk += util.startElement("non_house_address", null, null, null, null);
         var address = result.nonHouseAddress;
         if(address.houseNumber)
-          receiver = receiver.startElement(houseNumber).addText(address.houseNumber.toElement()).endElement();
+          chunk += util.startEndElement("house_number", result.houseNumber);
         if(address.houseNumberPrefix)
-          receiver = receiver.startElement(houseNumberPrefix).addText(address.houseNumberPrefix).endElement();
+          chunk += util.startEndElement("house_number_prefix", result.houseNumberPrefix);
         if(address.houseNumberSuffix)
-          receiver = receiver.startElement(houseNumberSuffix).addText(address.houseNumberSuffix).endElement();
+          chunk += util.startEndElement("house_number_suffix", result.houseNumberSuffix);
         if(address.streetDirection)
-          receiver = receiver.startElement(streetDirection).addText(address.streetDirection).endElement();
+          chunk += util.startEndElement("street_direction", result.streetDirection);
         if(address.streetName)
-          receiver = receiver.startElement(streetName).addText(address.streetName).endElement();
+          chunk += util.startEndElement("street_name", result.streetName);
         if(address.streetSuffix)
-          receiver = receiver.startElement(streetSuffix).addText(address.streetSuffix).endElement();
+          chunk += util.startEndElement("street_suffix", result.streetSuffix);
         if(address.addressDirection)
-          receiver = receiver.startElement(addressDirection).addText(address.addressDirection).endElement();
+          chunk += util.startEndElement("address_direction", result.addressDirection);
         if(address.apartment)
-          receiver = receiver.startElement(apartment).addText(address.apartment).endElement();
+          chunk += util.startEndElement("apartment", result.apartment);
         if(address.city)
-          receiver = receiver.startElement(city).addText(address.city).endElement();
+          chunk += util.startEndElement("city", result.city);
         if(address.state)
-          receiver = receiver.startElement(state).addText(address.state).endElement();
+          chunk += util.startEndElement("state", result.state);
         if(address.zip)
-          receiver = receiver.startElement(zip).addText(address.zip).endElement();
+          chunk += util.startEndElement("zip", result.zip);
 
-        receiver = receiver.endElement();
+        chunk += util.endElement("non_house_address");
       }
       if(result.precinctId)
-        receiver = receiver.startElement(precinctId).addText(result.precinctId.toString()).endElement();
+        chunk += util.startEndElement("precinct_id", result.precinctId.toString());
       if(result.precinctSplitId)
-        receiver = receiver.startElement(precinctSplitId).addText(result.precinctSplitId.toString()).endElement();
+        chunk += util.startEndElement("precinct_split_id", result.precinctSplitId.toString());
 
-      receiver = receiver.endElement();
+      chunk += util.endElement("street_segment");
+      callback(chunk);
     });
 
     console.log('street segment finished');
-    callback();
   });
 }
 

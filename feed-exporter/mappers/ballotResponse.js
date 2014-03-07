@@ -3,31 +3,27 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function ballotResponseExport(feedId, writer, receiver, namespace, callback) {
+function ballotResponseExport(feedId, callback) {
   schemas.models.BallotResponse.find({_feed: feedId}, function(err, results) {
-    var ballotResponse = writer.declareElement(namespace, 'ballot_response');
-    var text = writer.declareElement(namespace, 'text');
-    var sortOrder = writer.declareElement(namespace, 'sort_order');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
-    results.forEach(function(result) {
-      receiver = receiver.startElement(ballotResponse).addAttribute(idAttr, result.elementId.toString());
+    results.forEach(function(result) {;
+      var chunk = util.startElement('ballot_response', 'id', result.elementId.toString());
 
       if(result.text)
-        receiver = receiver.startElement(text).addText(result.text).endElement();
+        chunk += util.startEndElement('text', result.text);
       if(result.sortOrder)
-        receiver = receiver.startElement(sortOrder).addText(result.sortOrder.toString()).endElement();
+        chunk += util.startEndElement('text', result.sortOrder.toString());
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('ballot_response');
+      callback(chunk);
     });
 
     console.log('ballot response finished');
-    callback();
   });
 }
 

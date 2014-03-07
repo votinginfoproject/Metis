@@ -3,46 +3,41 @@
  */
 
 var schemas = require('../../dao/schemas');
+var util = require('./util');
 
-function ballotExport(feedId, writer, receiver, namespace, callback) {
+function ballotExport(feedId, callback) {
   schemas.models.Ballot.find({_feed: feedId}, function(err, results) {
-    var ballot = writer.declareElement(namespace, 'ballot');
-    var referendumId = writer.declareElement(namespace, 'referendum_id');
-    var candidateId = writer.declareElement(namespace, 'candidate_id');
-    var customBallotId = writer.declareElement(namespace, 'custom_ballot_id');
-    var writeIn = writer.declareElement(namespace, 'write_in');
-    var imageUrl = writer.declareElement(namespace, 'image_url');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
+
+    var chunk = "";
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(ballot).addAttribute(idAttr, result.elementId.toString())
+      chunk = util.startElement("ballot", "id", result.elementId.toString(), null, null);
 
       if(result.referendumIds.length) {
         result.referendumIds.forEach(function(refId) {
-          receiver = receiver.startElement(referendumId).addText(refId.toString()).endElement();
+          chunk += util.startEndElement("referendum_id", refId.toString());
         });
       }
       if(result.candidates.length) {
         result.candidates.forEach(function(candidate) {
-          receiver = receiver.startElement(candidateId).addText(candidate.elementId.toString()).endElement();
+          chunk += util.startEndElement("candidate_id", candidate.elementId.toString());
         });
       }
       if(result.customBallotId)
-        receiver = receiver.startElement(customBallotId).addText(result.customBallotId.toString()).endElement();
+        chunk += util.startEndElement("custom_ballot_id", result.customBallotId.toString());
       if(result.writeIn != undefined && result.writeIn != null)
-        receiver = receiver.startElement(writeIn).addText(result.writeIn ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement("write_in", result.writeIn ? 'yes' : 'no');
       if(result.imageUrl)
-        receiver = receiver.startElement(imageUrl).addText(result.imageUrl).endElement();
+        chunk += util.startEndElement("image_url", result.imageUrl);
 
-      receiver = receiver.endElement();
+      chunk += util.endElement("ballot");
+      callback(chunk);
     });
 
     console.log('ballot finished');
-    callback();
   });
 }
 

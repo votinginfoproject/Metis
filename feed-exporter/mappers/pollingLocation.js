@@ -4,37 +4,31 @@
 
 var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
+var util = require('./util');
 
-function pollingLocationExport(feedId, writer, receiver, namespace, callback) {
+function pollingLocationExport(feedId, callback) {
   schemas.models.PollingLocation.find({_feed: feedId}, function(err, results) {
-    var pollingLocation = writer.declareElement(namespace, 'polling_location');
-    var address = writer.declareElement(namespace, 'address');
-    var directions = writer.declareElement(namespace, 'directions');
-    var pollingHours = writer.declareElement(namespace, 'polling_hours');
-    var photoUrl = writer.declareElement(namespace, 'photo_url');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(pollingLocation).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('polling_location', 'id', result.elementId.toString());
 
       if(result.address)
-        addrEx.addressExport(receiver, writer, namespace, address, result.address);
+        chunk += addrEx.addressExport('address', result.address);
       if(result.directions)
-        receiver = receiver.startElement(directions).addText(result.directions).endElement();
+        chunk += util.startEndElement('directions', result.directions);
       if(result.pollingHours)
-        receiver = receiver.startElement(pollingHours).addText(result.pollingHours).endElement();
+        chunk += util.startEndElement('polling_hours', result.pollingHours);
       if(result.photoUrl)
-        receiver = receiver.startElement(photoUrl).addText(result.photoUrl).endElement();
+        chunk += util.startEndElement('photo_url', result.photoUrl);
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('polling_location');
+      callback(chunk);
     });
 
     console.log('polling location finished');
-    callback();
   });
 }
 

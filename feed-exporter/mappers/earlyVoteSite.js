@@ -2,53 +2,42 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
-var db = require('../../dao/db');
 var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var moment = require('moment');
+var util = require('./util');
 
-function earlyVoteSitesExport(feedId, writer, receiver, namespace, callback) {
+function earlyVoteSitesExport(feedId, callback) {
 
   schemas.models.EarlyVoteSite.find({_feed: feedId}, function(err, results) {
-    var evs = writer.declareElement(namespace, 'early_vote_site');
-    var name = writer.declareElement(namespace, 'name');
-    var address = writer.declareElement(namespace, 'address');
-    var directions = writer.declareElement(namespace, 'directions');
-    var voterServices = writer.declareElement(namespace, 'voter_services');
-    var startDate = writer.declareElement(namespace, 'start_date');
-    var endDate = writer.declareElement(namespace, 'end_date');
-    var daysTimesOpen = writer.declareElement(namespace, 'days_times_open');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(evs).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('early_vote_site', 'id', result.elementId.toString());
 
       if(result.name)
-        receiver = receiver.startElement(name).addText(result.name).endElement();
+        chunk += util.startEndElement('name', result.name);
       if(result.address)
-        addrEx.addressExport(receiver, writer, namespace, address, result.address);
+        chunk += addrEx.addressExport('address', result.address);
       if(result.directions)
-        receiver = receiver.startElement(directions).addText(result.directions).endElement();
+        chunk += util.startEndElement('directions', result.directions);
       if(result.voterServices)
-        receiver = receiver.startElement(voterServices).addText(result.voterServices).endElement();
+        chunk += util.startEndElement('voter_services', result.voterServices);
       if(result.startDate)
-        receiver = receiver.startElement(startDate).addText(moment(result.startDate).utc().format('YYYY-MM-DD')).endElement();
+        chunk += util.startEndElement('start_date', moment(result.startDate).utc().format('YYYY-MM-DD'));
       if(result.endDate)
-        receiver = receiver.startElement(endDate).addText(moment(result.endDate).utc().format('YYYY-MM-DD')).endElement();
+        chunk += util.startEndElement('end_date', moment(result.endDate).utc().format('YYYY-MM-DD'));
       if(result.daysTimesOpen)
-        receiver = receiver.startElement(daysTimesOpen).addText(result.daysTimesOpen).endElement();
+        chunk += util.startEndElement('days_times_open', '<![CDATA[' + result.daysTimesOpen + ']]>');
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('early_vote_site');
+      callback(chunk);
     });
   });
 
   console.log('early vote site finished');
-  callback();
 }
 
 exports.earlyVoteSitesExport = earlyVoteSitesExport;

@@ -4,64 +4,49 @@
 
 var schemas = require('../../dao/schemas');
 var moment = require('moment');
+var util = require('./util');
 
-function contestExport(feedId, writer, receiver, namespace, callback) {
+function contestExport(feedId, callback) {
   schemas.models.Contest.find({_feed: feedId}, function(err, results) {
-    var contest = writer.declareElement(namespace, 'contest');
-    var type = writer.declareElement(namespace, 'type');
-    var partisan = writer.declareElement(namespace, 'partisan');
-    var primaryParty = writer.declareElement(namespace, 'primary_party');
-    var electorateSpec = writer.declareElement(namespace, 'electorate_specifications');
-    var special = writer.declareElement(namespace, 'special');
-    var office = writer.declareElement(namespace, 'office');
-    var filingDate = writer.declareElement(namespace, 'filing_closed_date');
-    var numberElected = writer.declareElement(namespace, 'number_elected');
-    var numberVotingFor = writer.declareElement(namespace, 'number_voting_for');
-    var ballotPlacement = writer.declareElement(namespace, 'ballot_placement');
-    var electionId = writer.declareElement(namespace, 'election_id');
-    var electoralDistrictId = writer.declareElement(namespace, 'electoral_district_id');
-    var ballotId = writer.declareElement(namespace, 'ballot_id');
-
-    var idAttr = writer.declareAttribute('id');
 
     if(!results.length)
-      return;
+      callback(-1);
 
     results.forEach(function(result) {
-      receiver = receiver.startElement(contest).addAttribute(idAttr, result.elementId.toString());
+      var chunk = util.startElement('contest', 'id', result.elementId.toString(), null, null);
 
       if(result.type)
-        receiver = receiver.startElement(type).addText(result.type).endElement();
+        chunk += util.startEndElement('type', result.type);
       if(result.partisan != undefined && result.partisan != null)
-        receiver = receiver.startElement(partisan).addText(result.partisan ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('partisan', result.partisan ? 'yes' : 'no');
       if(result.primaryParty)
-        receiver = receiver.startElement(primaryParty).addText(result.primaryParty).endElement();
+        chunk += util.startEndElement('primary_party', result.primaryParty);
       if(result.electorateSpecifications)
-        receiver = receiver.startElement(electorateSpec).addText(result.electorateSpecifications).endElement();
+        chunk += util.startEndElement('electorate_specifications', result.electorateSpecifications);
       if(result.special != undefined && result.special != null)
-        receiver = receiver.startElement(special).addText(result.special ? 'yes' : 'no').endElement();
+        chunk += util.startEndElement('special', result.special ? 'yes' : 'no');
       if(result.office)
-        receiver = receiver.startElement(office).addText(result.office).endElement();
+        chunk += util.startEndElement('office', result.office);
       if(result.filingClosedDate)
-        receiver = receiver.startElement(filingDate).addText(moment(result.filingClosedDate).utc().format('YYYY-MM-DD')).endElement();
+        chunk += util.startEndElement('filing_date', moment(result.filingClosedDate).utc().format('YYYY-MM-DD'));
       if(result.numberElected)
-        receiver = receiver.startElement(numberElected).addText(result.numberElected.toString()).endElement();
+        chunk += util.startEndElement('number_elected', result.numberElected.toString());
       if(result.numberVotingFor)
-        receiver = receiver.startElement(numberVotingFor).addText(result.numberVotingFor.toString()).endElement();
+        chunk += util.startEndElement('number_voting_for', result.numberVotingFor.toString());
       if(result.ballotPlacement)
-        receiver = receiver.startElement(ballotPlacement).addText(result.ballotPlacement.toString()).endElement();
+        chunk += util.startEndElement('ballot_placement', result.ballotPlacement.toString());
       if(result.electionId)
-        receiver = receiver.startElement(electionId).addText(result.electionId.toString()).endElement();
+        chunk += util.startEndElement('election_id', result.electionId.toString());
       if(result.electoralDistrictId)
-        receiver = receiver.startElement(electoralDistrictId).addText(result.electoralDistrictId.toString()).endElement();
+        chunk += util.startEndElement('electoral_district_id', result.electoralDistrictId.toString());
       if(result.ballotId)
-        receiver = receiver.startElement(ballotId).addText(result.ballotId.toString()).endElement();
+        chunk += util.startEndElement('ballot_id', result.ballotId.toString());
 
-      receiver = receiver.endElement();
+      chunk += util.endElement('contest');
+      callback(chunk);
     });
 
     console.log('contest finished');
-    callback();
   })
 }
 

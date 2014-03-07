@@ -2,33 +2,28 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
+var util = require('./util');
 
-function addressExport(receiver, writer, namespace, addrElement, address) {
-  var locationName = writer.declareElement(namespace, 'location_name');
-  var line1 = writer.declareElement(namespace, 'line1');
-  var line2 = writer.declareElement(namespace, 'line2');
-  var line3 = writer.declareElement(namespace, 'line3');
-  var city = writer.declareElement(namespace, 'city');
-  var state = writer.declareElement(namespace, 'state');
-  var zip = writer.declareElement(namespace, 'zip');
+function addressExport(label, address) {
 
-  receiver = receiver.startElement(addrElement)
+  var chunk = util.startElement(label, null, null, null, null);
   if(address.locationName)
-    receiver = receiver.startElement(locationName).addText(address.locationName).endElement();
+    chunk += util.startEndElement('location_name', address.locationName);
   if(address.line1)
-    receiver = receiver.startElement(line1).addText(address.line1).endElement();
+    chunk += util.startEndElement('line1', address.line1);
   if(address.line2)
-    receiver = receiver.startElement(line2).addText(address.line2).endElement();
+    chunk += util.startEndElement('line2', address.line2);
   if(address.line3)
-    receiver = receiver.startElement(line3).addText(address.line3).endElement();
+    chunk += util.startEndElement('line3', address.line3);
   if(address.city)
-    receiver = receiver.startElement(city).addText(address.city).endElement();
+    chunk += util.startEndElement('city', address.city);
   if(address.state)
-    receiver = receiver.startElement(state).addText(address.state).endElement();
+    chunk += util.startEndElement('state', address.state);
   if(address.zip)
-    receiver = receiver.startElement(zip).addText(address.zip).endElement();
-  receiver = receiver.endElement();
+    chunk += util.startEndElement('zip', address.zip);
+
+  chunk += util.endElement(label);
+  return chunk;
 }
 
 exports.addressExport = addressExport;
