@@ -4,15 +4,26 @@
 // Typography
 // ============================================================================
 
-$base-font-family: $georgia;
-$header-font-family: $helvetica;
+// $base-font-family: $georgia;
+// $header-font-family: $helvetica;
 
+$base-font-family: 'Source Sans Pro', sans-serif;
+$header-font-family: 'Source Sans Pro', sans-serif;
 
 // ============================================================================
 // Sizes
 // ============================================================================
 
+$base: 1em;
+$base-xs: $base/4;
+$base-sm: $base/2;
+$base-med: $base * 1.5;
+$base-lg: $base * 2;
+$base-xl: $base * 3;
+$base-xxl: $base * 4;
+
 $base-font-size: 1em;
+$base-font-rem: 1rem;
 $base-line-height: $base-font-size * 1.5;
 $base-border-radius: em(3);
 
@@ -21,24 +32,34 @@ $base-border-radius: em(3);
 // Colors
 // ============================================================================
 
-$blue-dark:     #386097;
+// $blue is used for text
+$blue:          #33699c;
+$blue-dark:     #3c5f87;
+$blue-med:      #006cb1;
 $blue-light:    #b7dbff;
-$red:           #cc3333;
-$red-light:     #FBE3E4;
-$yellow-light:  #FFF6BF;
-$green:         #849b29;
-$green-light:   #E6EFC2;
+
+//$red:           #cc3333;
+$red:           #ce3d3d;
+$red-light:     #fbe3e4;
+$red-dark:      #600;
+
+$yellow-light:  #fff6bf;
+
+//$green:         #849b29;
+$green:         #0c6;
+$green-light:   #e6efc2;
 
 $black:         #000;
 $gray-dark:     #333;
-$gray-medium:   #999;
-$gray-light:    #DDD;
-$gray-lightest: #EEE;
-$white:         #FFF;
+$gray-medium:   #b1b3b6;
+$gray-light:    #ebebeb;
+$gray-lightest: #eee;
+$white:         #fff;
+
 
 // Font Colors
 // ----------------------------------------------------------------------------
-$base-font-color: $gray-dark;
+$base-font-color: $white;
 $base-accent-color: $blue-dark;
 
 // Text Link Colors
@@ -77,6 +98,15 @@ $base-padding: .5em 1em;
 // ============================================================================
 // Mixins
 // ============================================================================
+@mixin word-break {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  // Non standard for webkit
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
 
 @mixin span-columns($span: $columns of $container-columns) {
   $columns: nth($span, 1);

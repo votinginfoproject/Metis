@@ -50,6 +50,7 @@
   <!-- VIP App -->
   <script src="assets/js/app/utils.js"></script>
 
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
   <link href="assets/css/app.css" rel="stylesheet">
   <script src="assets/js/app/app.js"></script>
   <script src="assets/js/app/services/appService.js"></script>
@@ -127,8 +128,12 @@
 
       <div class="content" ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+
         <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-          <a id="pageHeader-breadcrumb{{$index}}" href="{{crumb.url}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs">{{crumb.name}}</a>
+          <ul>
+            <li id="pageHeader-breadcrumb{{$index}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs"><a href="{{crumb.url}}">{{crumb.name}}</a></li>
+          </ul>          
         </nav>
 
         <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
@@ -139,7 +144,6 @@
         NOTE: {{pageHeader.alert}}
       </div>
 
-        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
 
       <!-- Current Page -->
       <div ng-view></div>

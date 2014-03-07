@@ -12,18 +12,31 @@
 table {
   margin: ($base-line-height / 2) 0;
   width: 100%;
+  text-align: left;
+  background: $white;
+  color: $blue;
+}
+
+caption {
+  background: $white;
+  font-size: 1.5em; 
+  font-size: 1.5rem;
+  padding: $base;
 }
 
 th {
-  border-bottom: 1px solid darken($base-border-color, 15%);
+  //border-bottom: 1px solid darken($base-border-color, 15%);
+  font-size: 0.875em;
+  font-size: 0.875rem;
   font-weight: bold;
-  padding: ($base-line-height / 2) 0;
-  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: $base;  
 }
 
 td {
-  border-bottom: 1px solid $base-border-color;
-  padding: ($base-line-height / 2) 0;
+  border-top: 1px solid $blue;
+  padding: $base;
 }
 
 tr,

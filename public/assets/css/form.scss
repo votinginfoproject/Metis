@@ -1,5 +1,13 @@
 /* form.scss */
 
+form {
+  margin-bottom: $base;
+}
+
+form > div, fieldset > div {
+  margin-bottom: $base;
+}
+
 .button,
 %button {
   background: $base-accent-color;
@@ -62,7 +70,6 @@ input[type="submit"] {
 // colgroup
 
 fieldset {
-  background: lighten($base-border-color, 10);
   border: 1px solid $base-border-color;
   margin: 0 0 ($base-line-height / 2) 0;
   padding: $base-line-height;

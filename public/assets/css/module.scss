@@ -71,52 +71,52 @@
 .associations {
 
   thead {
+    display: none;
 
     @include bp(c6) {
       display: table-header-group;
     }
-    display: none;
   }
 
   tbody {
     tr {
+      background: $gray-light;
+
+      &:nth-child(2n){
+        background: $white;
+      }
       &:hover {
         background: lighten($blue-light, 10);
-      }
-
-      > * {
-        padding:0;
       }
     }
   }
 
   a {
-    display: block;
-    padding: ($base-line-height / 2) 0;
-
-    &:hover {
+    &:hover, &:focus {
       color: $base-link-color;
     }
   }
 
   tr {
+    border-top: $base-border;
 
     @include bp(c6) {
       border: none;
     }
-    border-top: $base-border;
+    
   }
 
   td {
+    border: none;
+    clear: left;
+    float: left;
 
     @include bp(c6) {
       border-top: $base-border;
       clear: none;
       float: none;
     }
-    border: none;
-    clear: left;
-    float: left;
+    
   }
 
   .admin {
@@ -125,35 +125,35 @@
   }
 
   .address:before {
+    content: "Address ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Address ";
   }
 
   .id:before {
+    content: "ID ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "ID ";
   }
 
   .name:before {
+    content: "Name ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Name ";
   }
 
   .precinct-splits:before {
+    content: "Precinct Splits ";
 
     @include bp(c6) {
       content: none;
     }
-    content: "Precinct Splits ";
   }
 
 }
@@ -195,63 +195,45 @@
 
 .key {
   @include box-sizing(border-box);
+  background: $blue-med;
+  border-top: 1px solid $blue;
+  clear: left;
+  color: $white;
+  font-weight: normal;
+  margin: 0;
+  padding: $base-xs $base;
+
+  &:first-child {
+    border-top: none;
+    border-radius: 10px 0 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 0 10px;
+  }
 
   @include bp(c6) {
     float: left;
-    padding: .25em;
-    text-align: right;
     width: 30%;
   }
-  border-top: $base-border;
-  clear: left;
-  color: $gray-medium;
-  font-weight: normal;
-  margin: 0;
-  padding-top: .25em;
 }
 
 .value {
   @include box-sizing(border-box);
+  background: $white;
+  color: $blue;
+  margin: 0;
+  padding: $base-xs $base;
+
+  &:first-child {
+    border-top: none;
+  }
 
   @include bp(c6) {
-    border-top: $base-border;
+    border-top: 1px solid $blue;
     float: left;
-    padding: .25em;
     width: 70%;
   }
-  margin: 0;
-  padding-bottom: .25em;
-}
-
-
-// ============================================================================
-// Data Group
-// ============================================================================
-// TODO: rename data-group
-
-.data-group {
-  margin-bottom: 2em;
-}
-
-.data-group-header {
-  @include clearfix;
-  border-bottom: 4px solid $black;
-  padding-bottom: .5em;
-  margin-bottom: .5em;
-
-  h2 {
-    float: left;
-    font-size: 1.5em;
-    margin-bottom: 0;
-  }
-}
-
-.more-detail {
-  display: block;
-  float: right;
-  font-size: 1.125em;
-  line-height: 1.666666667;
-  margin-top: .125em;
 }
 
 
@@ -269,36 +251,71 @@
 
 
 // ============================================================================
+// Aside
+// ============================================================================
+aside {
+  color: $gray-light; 
+
+  h2 {
+    color: $gray-light;
+    font-size: 1.5em;
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+}
+
+
+// ============================================================================
 // Feed Meta
 // ============================================================================
 
 .feed-title {
   background-color: $gray-medium;
-  color: $white;
   cursor: pointer;
 
   @include bp(c12) {
-    background-color: $gray-light;
-    color: $black;
+    background-color: transparent;
     cursor: default;
-    font-size: 1.5em;
   }
 
   h2 {
-    font-size: .875em;
+    color: $white;
+    font-weight: bold;
+    @include word-break;
+
+    @include bp(c12) {
+      font-size: 2em;
+      font-size: 2rem;
+    }
   }
 }
 
 .details {
-
+  //background: $gray-light;
+  //color: $black;
 }
 
 .button-errors {
-  @extend %button;
+  display: block;
+  background: $red;
+  color: $white;
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: $base-sm;
+  border: 2px solid $white;
+  border-radius: 15px;  
   width: 100%;
 
+
   time {
+    display: block;
+    color: $red-dark;
+    font-style: italic;
     font-weight: normal;
+    text-transform: none;
   }
 }
 
@@ -309,16 +326,39 @@
 
 .feed-nav ul {
   @extend .no-bullet;
+  font-size: 1.125em;
+  font-size: 1.125rem;
   font-weight: bold;
+  text-transform: uppercase;
   margin-top: 1em;
+  border: 2px solid $gray-light;
+  border-radius: 15px;
 
   li {
-    margin-bottom: .125em;
+    // margin-bottom: .125em;
+    color: $gray-light;
+    border-top: 2px solid $gray-light;
     > * {
-      @extend %button;
-      background-color: $gray-medium;
+      // @extend %button;
+      // background-color: $gray-medium;
+      // display: block;
+      // text-align: left;
       display: block;
-      text-align: left;
+      opacity: 0.4;
+      padding: $base-sm;      
+    }
+    &:first-child {
+      border-top: none;
+      > * {
+        border-radius: 15px 15px 0 0;
+      }
+    }
+    &:last-child > * {
+      border-radius: 0 0 15px 15px;
+    }
+    a {
+      color: $gray-light;
+      opacity: 1;
     }
   }
 
@@ -335,7 +375,7 @@
 .button-approve {
   @extend %button;
   display: block;
-  margin-top: 1em;
+  margin: 1em 0;
 }
 
 .vcard {
@@ -360,106 +400,59 @@
 
 .map {
   margin-bottom: 1em;
-  width: 800px;
-  height: 500px;
+  max-width: 100%;
+  min-height: 480px;
+
+  .data-group-header + & {
+    top: 1em;
+  }
 }
+
 
 // ============================================================================
-// Nav
+// Search
 // ============================================================================
+form[role="search"] {
+  margin-bottom: $base;
 
-.branding {
-  color: $black;
-  font-family: $header-font-family;
-  font-size: 1.125em;
-  font-weight: bold;
-  text-transform: uppercase;
-
-  @include bp(c6) {
-    float: left;
-    font-size: 1.5em;
-    margin-top: .25em;
-  }
-
-  @include bp(c12) {
-    font-size: 2.25em;
-  }
-
-}
-
-.main-nav {
-  font-family: $header-font-family;
-
-  ul {
-    @extend .no-bullet;
-
-    @include bp(c12) {
-      font-size: 1.125em;
-    }
-    font-size: .875em;
-    text-align:center;
-  }
-
-  li {
-    display: inline;
-  }
-
-  a {
-    color: $gray-light;
-    display:inline-block;
-    font-weight: bold;
-    padding: $base-padding;
-
-    &:hover {
-      color: lighten($gray-light, 10);
-    }
-
-    &.is-active {
-      color: $white;
-    }
-  }
-
-  @include bp(c6) {
-    float: right;
-  }
-
-  @include bp(c12) {
-    ul {
-      font-size: 1.125em;
-    }
+  input[type="search"]{
+    background: transparent;
+    font-style: italic;
+    padding: $base-sm $base;
+    border-radius: 30px;
+    border-width: 2px;
   }
 }
 
+
+// ============================================================================
+// Breadcrumbs
+// ============================================================================
 .breadcrumbs {
-  border: $base-border;
-  border-radius: $base-border-radius;
   display: none;
-  list-style: none;
-  margin: 0 0 1em 0;
+  margin: 0 0 $base-med;
   overflow: hidden;
-  padding: $base-padding;
 
   @include bp(c6) {
     display: block;
   }
 
-  a {
-    float: left;
-    font-size: 0.6875em;
+  ul {
+    padding: 0;
     margin: 0;
-    text-transform: uppercase;
+  }
 
-    &:hover,
-    &:focus {
-      text-decoration: underline;
-    }
+  li {
+    list-style: none;
+    display: inline;
+    margin: 0;
 
     &:before {
       color: $gray-medium;
       content: "/";
-      margin: 0 0.75em;
-      position: relative;
-      top: .1em;
+      margin: 0 $base-xs;
+      //position: relative;
+      //top: .1em;
     }
 
     &:first-child:before {
@@ -468,152 +461,26 @@
     }
   }
 
-  .is-active {
-    color: $base-font-color;
+  a {
+    color: $gray-light;
+    text-decoration: underline;
+
+    &:hover, &:focus {
+      
+    }
+  }
+
+  .is-active a {
+    color: $white;
+    text-decoration: none;
     cursor: default;
 
     &:hover,
     &:focus {
-      text-decoration: none;
     }
   }
 
 }
-
-
-// ============================================================================
-// Overview
-// ============================================================================
-
-.overview {
-  font-family: $header-font-family;
-
-  thead {
-
-    @include bp(c6) {
-      display: table-header-group;
-    }
-    display: none;
-  }
-
-  tr {
-    @include clearfix;
-
-    @include bp(c6) {
-      border-bottom: none;
-      display: table-row;
-      padding: 1em 0;
-      position: static;;
-    }
-    border-bottom: $base-border;
-    display: block;
-    padding: 1em 0;
-    position: relative;
-  }
-
-  td {
-    @include span-columns(1 of 2);
-
-    @include bp(c6) {
-      border-bottom: $base-border;
-      display: table-cell;
-      float: none;
-      margin: 0;
-      padding: .5em 1em .5em 0;
-      width: inherit;
-    }
-    border: none;
-    font-size: .875em;
-    padding: 0;
-  }
-
-  .element-type {
-
-    @include bp(c6) {
-      float: none;
-      margin-top: 0;
-    }
-    float: left;
-    margin-top: 2em;
-  }
-
-  .amount {
-
-    @include bp(c6) {
-      font-size: .875em;
-      position: static;
-    }
-    font-size: 1.5em;
-    left: 0;
-    position: absolute;
-    top: .6666em;
-  }
-
-  .completion,
-  .element-errors {
-
-    @include bp(c6) {
-      clear: none;
-      width: default;
-    }
-    clear: right;
-    margin-right: 0;
-  }
-}
-
-.completeness {
-  background-color: transparent;
-  border: $base-border;
-  height: $base-line-height * 1.25;
-  padding: 0.125em;
-  position: relative;
-}
-
-.complete {
-  background: $green;
-  display: block;
-  height: 100%;
-}
-
-@for $i from 0 through 100 {
-  .complete-#{$i} {
-    @extend .complete;
-    width: percentage($i/100);
-  }
-}
-
-.counter {
-  font-size: .875em;
-  left: 0;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 100%;
-}
-
-.errors {
-  background-color: $red;
-  border-radius: 71em;
-  color: $white;
-  display: inline-block;
-  font-size: 0.875em;
-  font-weight: bold;
-  line-height: 1;
-  padding: 0.1875em 0.625em 0.25em;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-
-  &:hover {
-    color: $white;
-  }
-}
-
-.errors.none {
-  background-color: $green;
-}
-
 
 // ============================================================================
 // Pagination
@@ -672,25 +539,35 @@
 .swatches {
   @include clearfix;
   @extend .no-bullet;
-  float: left;
-  margin-bottom: 1em;
+  //float: left;
+  //margin-bottom: 1em;
 }
 
 .swatch {
   @include size(7em);
   background: $gray-light;
   float: left;
-
+  color: $black;
+  
+  &.blue {
+    background: $blue;
+  }
   &.blue-dark {
     background: $blue-dark;
   }
   &.blue-light {
     background: $blue-light;
   }
+  &.blue-med {
+    background: $blue-med;
+  }
+
   &.red {
     background: $red;
   }
-
+  &.red-dark {
+    background: $red-dark;
+  }
   &.red-light {
     background: $red-light;
   }

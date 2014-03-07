@@ -119,8 +119,10 @@ hr {
 // Address styling not present in IE 8/9.
 
 mark {
-    background: #ff0;
-    color: #000;
+    // background: #ff0;
+    // color: #000;
+    background: transparent;
+    color: inherit;
 }
 
 // Correct font family set oddly in Safari 5 and Chrome.

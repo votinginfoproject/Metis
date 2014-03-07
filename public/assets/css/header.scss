@@ -1,0 +1,77 @@
+// ============================================================================
+// Nav
+// ============================================================================
+
+.branding {
+  display: block;
+  color: $gray-light;
+  font: 300 2em $header-font-family;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: $base-xs;
+
+  @include bp(c6) {
+    font-size: 3.125em;
+    font-size: 3.125rem;
+  }
+
+  @include bp(c12) {
+    float: left;
+    font-size: 3.75em;
+    font-size: 3.75rem;
+    margin-bottom: 0;     
+  }
+
+}
+
+.main-nav {
+  font-family: $header-font-family;
+
+  @include bp(c12) {
+    float: right;
+    padding-top: $base-med;
+  }
+
+  ul {
+    @extend .no-bullet;
+    text-align:center;
+  }
+
+  li {
+    display: inline;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: .75em;
+    font-size: .75rem;
+    margin-left: $base-sm;
+
+    @include bp(c6) {
+      font-size: 1.125em;
+      font-size: 1.125rem;
+    }   
+  }
+
+  a {
+    color: $gray-light;
+    display: inline-block;
+    border: 2px solid $gray-light;
+    border-radius: 30px;
+    padding: $base-xs $base;
+
+    &:hover, &:focus {
+      color: lighten($gray-light, 10);
+    }
+
+    &.is-active {
+      
+    }
+  }
+
+  
+
+  // @include bp(c12) {
+  //   ul {
+  //     font-size: 1.125em;
+  //   }
+  // }
+}
