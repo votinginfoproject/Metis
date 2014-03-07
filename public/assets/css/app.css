@@ -1092,11 +1092,10 @@ form[role="search"] {
     .overview .element-type {
       float: none;
       margin-top: 0; } }
-.overview .amount {
+.overview .numeric {
   text-align: right; }
 .overview .completion,
 .overview .element-errors {
-  text-align: right;
   clear: right;
   margin-right: 0; }
   @media (min-width: 600px) {

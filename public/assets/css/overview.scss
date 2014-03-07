@@ -52,10 +52,12 @@
     margin-top: 2em;
   }
 
+  .numeric {
+    text-align: right;
+  }
+
   .amount {
 	
-	text-align: right;
-
     @include bp(c6) {
       //font-size: .875em;
       //position: static;
@@ -68,8 +70,6 @@
 
   .completion,
   .element-errors {
-
-	text-align: right;
 
     @include bp(c6) {
       clear: none;
