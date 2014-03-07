@@ -6,71 +6,59 @@ const
   mongoose = require('mongoose'),
   schemas = require('../dao/schemas'),
   xmlProc = require('./xmlProcessor'),
+  vaveProc = require('./vaveProcessor')
   path = require('path'),
   fs = require('fs'),
   unzip = require('unzip');
 
-var db;
+function processFeed(filePath) {
+  var db;
+  var x = xmlProc();
+  var vave = vaveProc();
 
-function connectMongo(connectionString, next) {
-  mongoose.connect(connectionString);
-  db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'MongoDB connection error: '));
-  db.once('open', function callback(){
-    console.log("initialized VIP database via Mongoose");
-    next();
-  });
-};
-
-function initiateFeedParsing(file) {
   schemas.initSchemas(mongoose);
 
-  connectMongo(config.mongoose.connectionString, startProcessing.bind(undefined, file));
-};
+  connectMongo(config.mongoose.connectionString, startProcessing.bind(undefined, filePath));
 
-function startProcessing(file) {
-  var filePath = path.join(__dirname, file);
-  xmlProc.processXml(schemas, file, path.basename(file, path.extname(file)), filePath);
-/*
-  switch (path.extname(file).toLowerCase()) {
-    case '.xml':
-      xmlProc.processXml(schemas, file, path.basename(file, path.extname(file)),
-        filePath);
-      break;
-    case '.zip':
-      console.log('Found zip file');
-      fs.createReadStream(filePath)
-        .pipe(unzip.Parse())
-        .on('entry', processZipEntry.bind(undefined, filePath));
-      break;
-    case '':
-      console.log('Found directory');
-      process.exit();
-      break;
-    default:
-      console.log('Unknown file type');
-      process.exit();
-      break;
+  function connectMongo(connectionString, next) {
+    mongoose.connect(connectionString);
+    db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+    db.once('open', function callback() {
+      console.log("initialized VIP database via Mongoose");
+      next();
+    });
+  };
+
+  function startProcessing(file) {
+    var filePath = path.join(__dirname, file);
+    fs.createReadStream(filePath)
+      .pipe(unzip.Parse())
+      .on('entry', processZipEntry);
+
   }
-*/
-}
 
-function processZipEntry(filePath, entry) {
-  switch (path.extname(entry.path).toLowerCase()) {
-    case '.xml':
-      xmlProc.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
-      break;
-    case '.txt':
-    case '.csv':
-      break;
-    default:
-      entry.autodrain();
-      break;
+  function processZipEntry(entry) {
+    switch (path.extname(entry.path).toLowerCase()) {
+      case '.xml':
+        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
+        break;
+      case '.txt':
+      case '.csv':
+        vave.processCSV(schemas, filePath, entry);
+        break;
+      case '':
+        console.log('Directory - ' + entry.path);
+        break;
+      default:
+        entry.autodrain();
+        break;
+    }
   }
 }
 
 if (process.argv.length > 2 && process.argv[2] != null) {
-  initiateFeedParsing(process.argv[2]);
+  processFeed(process.argv[2]);
 }
 else {
   console.error("ERROR: insufficient arguments provided \n");

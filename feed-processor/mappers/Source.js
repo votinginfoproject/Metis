@@ -28,6 +28,17 @@ Source.prototype.mapXml5_0 = function (source) {
 };
 
 Source.prototype.mapCsv = function (source) {
+  this.model = new this.models.Source({
+    elementId: source.id,
+    vipId: source.vip_id,
+    datetime: source.datetime,
+    description: source.description,
+    name: source.name,
+    organizationUrl: source.organization_url,
+    feedContactId: source.feed_contact_id,
+    touUrl: source.tou_url,
+    _feed: this.feedId
+  });
 
 };
 

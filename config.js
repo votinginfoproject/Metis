@@ -78,8 +78,9 @@ config.mongoose = {
     streetSegmentError: 'streetSegmentErrors',
 
     overview: 'overviews',
-    county: 'counties'
+    county: 'counties',
 
+    ballotCandidate: 'ballotCandidates'
   },
   connectionString: 'mongodb://localhost/metis'
 }

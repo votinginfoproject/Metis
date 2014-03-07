@@ -31,7 +31,20 @@ ContestResult.prototype.mapXml5_0 = function (contestResult) {
 };
 
 ContestResult.prototype.mapCsv = function (contestResult) {
-
+  this.model = new this.models.ContestResult({
+    elementId: contestResult.id,     //required
+    contestId: contestResult.contest_id,
+    jurisdictionId: contestResult.jurisdiction_id,
+    entireDistrict: this.convertYesNo(contestResult.entire_district),
+    totalVotes: contestResult.total_votes,
+    totalValidVotes: contestResult.total_valid_votes,
+    overvotes: contestResult.overvotes,
+    blankVotes: contestResult.blank_votes,
+    acceptedProvisionalVotes: contestResult.accepted_provisional_votes,
+    rejectedVotes: contestResult.rejected_votes,
+    certification: contestResult.$.certification,
+    _feed: this.feedId
+  });
 };
 
 

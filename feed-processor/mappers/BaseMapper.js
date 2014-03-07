@@ -47,7 +47,7 @@ BaseModel.prototype.mapSimpleAddress = function (address) {
     state: address.state,
     zip: address.zip
   };
-}
+};
 
 
 module.exports = BaseModel;

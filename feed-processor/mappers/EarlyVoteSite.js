@@ -28,7 +28,25 @@ EarlyVoteSite.prototype.mapXml5_0 = function (earlyVoteSite) {
 };
 
 EarlyVoteSite.prototype.mapCsv = function (earlyVoteSite) {
-
+  this.model = new this.models.EarlyVoteSite({
+    elementId: earlyVoteSite.id,     //required
+    name: earlyVoteSite.name,
+    address: {
+      locationName: earlyVoteSite.address_location_name,
+      line1: earlyVoteSite.address_line1,
+      line2: earlyVoteSite.address_line2,
+      line3: earlyVoteSite.address_line3,
+      city: earlyVoteSite.address_city,
+      state: earlyVoteSite.address_state,
+      zip: earlyVoteSite.address_zip
+    },
+    directions: earlyVoteSite.directions,
+    voterServices: earlyVoteSite.voter_services,
+    startDate: earlyVoteSite.start_date,
+    endDate: earlyVoteSite.end_date,
+    daysTimesOpen: earlyVoteSite.days_times_open,
+    _feed: this.feedId
+  });
 };
 
 
