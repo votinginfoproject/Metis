@@ -50,7 +50,7 @@ var theseConstraints = {
       entity: [models.precinctSplit], fields: ['ballotStyleImageUrl']
     },
     {
-      entity: [models.source], fields: ['organizationUrl']
+      entity: [models.source], fields: ['organizationUrl', 'touUrl']
     }
   ],
   addressDirection : [
