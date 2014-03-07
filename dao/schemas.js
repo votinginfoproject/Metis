@@ -372,7 +372,7 @@ var feedErrorSchema = {
 };
 
 var localitySchema = {
-  elementId: Number,
+  elementId: Number, //required
   name: String,
   stateId: Number,
   type: String,
@@ -397,7 +397,7 @@ var localityErrorSchema = {
 };
 
 var pollingLocationSchema = {
-  elementId: Number,   //required
+  elementId: Number, //required
   address: simpleAddressSchema,
   directions: String,
   pollingHours: String,
