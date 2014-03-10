@@ -722,8 +722,11 @@ th {
     background: white; }
   .associations tbody tr:hover {
     background: #eaf5ff; }
-.associations a:hover, .associations a:focus {
-  color: #3c5f87; }
+.associations a {
+  display: block;
+  padding: 1em; }
+  .associations a:hover, .associations a:focus {
+    color: #3c5f87; }
 .associations tr {
   border-top: 1px solid #ebebeb; }
   @media (min-width: 600px) {
@@ -732,7 +735,8 @@ th {
 .associations td {
   border: none;
   clear: left;
-  float: left; }
+  float: left;
+  padding: 0; }
   @media (min-width: 600px) {
     .associations td {
       border-top: 1px solid #ebebeb;
