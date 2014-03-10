@@ -15,35 +15,35 @@ function contestCalc(feedId, saveCalc) {
   }
   util.findOverviewObject(feedId, 0, schemas.models.Contest, function(res) {
     contestsOverview.contests = res;
-    schemas.models.Contest.Error.count({}, function(err, count) {
+    schemas.models.Contest.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.contests.errorCount = count;
       wait();
     });
   });
   util.findOverviewObject(feedId, 0, schemas.models.Ballot, function(res) {
     contestsOverview.ballots = res;
-    schemas.models.Ballot.Error.count({}, function(err, count) {
+    schemas.models.Ballot.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.ballots.errorCount = count;
       wait();
     });
   });
   util.findOverviewObject(feedId, 0, schemas.models.Candidate, function(res) {
     contestsOverview.candidates = res;
-    schemas.models.Candidate.Error.count({}, function(err, count) {
+    schemas.models.Candidate.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.candidates.errorCount = count;
       wait();
     });
   });
   util.findOverviewObject(feedId, 0, schemas.models.Referendum, function(res) {
     contestsOverview.referenda = res;
-    schemas.models.Referendum.Error.count({}, function(err, count) {
+    schemas.models.Referendum.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.referenda.errorCount = count;
       wait();
     });
   });
   util.findOverviewObject(feedId, 0, schemas.models.ElectoralDistrict, function(res) {
     contestsOverview.electoralDistricts = res;
-    schemas.models.ElectoralDistrict.Error.count({}, function(err, count) {
+    schemas.models.ElectoralDistrict.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.electoralDistricts.errorCount = count;
       wait();
     });

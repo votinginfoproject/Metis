@@ -8,8 +8,9 @@ var constraints = require('./dataconstraints');
 
 var metisRuleList = [
 
+  /* valid url format */
   {
-    ruleId: 'uniqueId',
+    ruleId: 'validUrl',
     title: 'Url format must be valid',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
@@ -21,6 +22,7 @@ var metisRuleList = [
     implementation: './impl/validUrlRule',
     dataConstraints: constraints['validUrl']
   },
+  /* locality type range */
   {
     ruleId: 'localityTypes',
     title: 'Invalid Locality Type',
@@ -62,7 +64,6 @@ var metisRuleList = [
   },
   /* address direction range */
   {
-
     ruleId: 'addressDirection',
     title: 'Address Direction Invalid',
     type: 'feedLevelRule',
@@ -75,9 +76,8 @@ var metisRuleList = [
     implementation: './impl/addressDirectionRule',
     dataConstraints: constraints['addressDirection']
   },
-  /* street direction range
+  /* street direction range */
   {
-
     ruleId: 'steetDirection',
     title: 'Street Direction Invalid',
     type: 'feedLevelRule',
@@ -118,8 +118,6 @@ var metisRuleList = [
     implementation: './impl/phoneNumberRule',
     dataConstraints: constraints['phoneNumberFormat']
   },
-  /* address direction range */
-  /* valid url format */
   /* zip code format */
   {
     ruleId: 'zipCodeRule',
@@ -134,7 +132,7 @@ var metisRuleList = [
     implementation: './impl/zipCodeRule',
     dataConstraints: constraints['zipCodeFormat']
   }
-  /* locality type range */
+  /* address direction range */
 
 
 ];
