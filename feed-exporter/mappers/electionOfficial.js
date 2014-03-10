@@ -4,6 +4,7 @@
 
 var schemas = require('../../dao/schemas');
 var util = require('./util');
+var _ = require('underscore');
 
 function electionOfficialExport(feedId, callback) {
   schemas.models.ElectionOfficial.find({_feed: feedId}, function(err, results) {
@@ -12,18 +13,18 @@ function electionOfficialExport(feedId, callback) {
       callback(-1);
 
     results.forEach(function(result) {
-      var chunk = util.startElement('election_official', 'id', result.elementId.toString(), null, null);
+      var chunk = util.startElement('election_official', 'id', _.escape(result.elementId.toString()), null, null);
 
       if(result.name)
-        chunk += util.startEndElement('name', result.name);
+        chunk += util.startEndElement('name', _.escape(result.name));
       if(result.title)
-        chunk += util.startEndElement('title', result.title);
+        chunk += util.startEndElement('title', _.escape(result.title));
       if(result.phone)
-        chunk += util.startEndElement('phone', result.phone);
+        chunk += util.startEndElement('phone', _.escape(result.phone));
       if(result.fax)
-        chunk += util.startEndElement('fax', result.fax);
+        chunk += util.startEndElement('fax', _.escape(result.fax));
       if(result.email)
-        chunk += util.startEndElement('email', result.email);
+        chunk += util.startEndElement('email', _.escape(result.email));
 
       chunk += util.endElement('election_official');
       callback(chunk);

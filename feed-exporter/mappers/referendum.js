@@ -4,6 +4,7 @@
 
 var schemas = require('../../dao/schemas');
 var util = require('./util');
+var _ = require('underscore');
 
 function referendumExport(feedId, callback) {
   schemas.models.Referendum.find({_feed: feedId}, function(err, results) {
@@ -12,27 +13,28 @@ function referendumExport(feedId, callback) {
       callback(-1);
 
     results.forEach(function(result) {
-      var chunk = util.startElement('referendum', 'id', result.elementId.toString());
+      var chunk = util.startElement('referendum', 'id', _.escape(result.elementId.toString()));
 
       if(result.title)
-        chunk += util.startEndElement('title', result.title);
+        chunk += util.startEndElement('title', _.escape(result.title));
       if(result.subtitle)
-        chunk += util.startEndElement('subtitle', result.subtitle);
+        chunk += util.startEndElement('subtitle', _.escape(result.subtitle));
       if(result.brief)
-        chunk += util.startEndElement('brief', result.brief);
+        chunk += util.startEndElement('brief', _.escape(result.brief));
       if(result.text)
-        chunk += util.startEndElement('text', result.text);
+        chunk += util.startEndElement('text', _.escape(result.text));
       if(result.proStatement)
-        chunk += util.startEndElement('pro_statement', result.proStatement);
+        chunk += util.startEndElement('pro_statement', _.escape(result.proStatement));
       if(result.conStatement)
-        chunk += util.startEndElement('con_statement', result.conStatement);
+        chunk += util.startEndElement('con_statement', _.escape(result.conStatement));
       if(result.passageThreshold)
-        chunk += util.startEndElement('passage_threshold', result.passageThreshold);
+        chunk += util.startEndElement('passage_threshold', _.escape(result.passageThreshold));
       if(result.effectOfAbstain)
-        chunk += util.startEndElement('effect_of_abstain', result.effectOfAbstain);
+        chunk += util.startEndElement('effect_of_abstain', _.escape(result.effectOfAbstain));
       if(result.ballotResponses.length) {
         result.ballotResponses.forEach(function(response) {
-          chunk += util.startEndAttributeElement('ballot_response_id', 'sort_order', response.sortOrder ? response.sortOrder.toString() : null, response.elementId.toString());
+          chunk += util.startEndAttributeElement('ballot_response_id', 'sort_order',
+                response.sortOrder ? _.escape(response.sortOrder.toString()) : null, _.escape(response.elementId.toString()));
         });
       }
 

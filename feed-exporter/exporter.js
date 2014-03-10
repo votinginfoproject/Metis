@@ -41,8 +41,8 @@ var finished = false;
 var functionCalls = [];
 
 // test_feed:
-// NC: 531a4cca897df5861e000004
-createXml(schemas.types.ObjectId('531a4cca897df5861e000004'));
+// NC: 531dcf317ccecb5a23000004
+createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
 
 function createXml(feedId) {
 

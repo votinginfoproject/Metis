@@ -4,6 +4,7 @@
 
 var schemas = require('../../dao/schemas');
 var util = require('./util');
+var _ = require('underscore');
 
 function ballotResponseExport(feedId, callback) {
   schemas.models.BallotResponse.find({_feed: feedId}, function(err, results) {
@@ -12,12 +13,12 @@ function ballotResponseExport(feedId, callback) {
       callback(-1);
 
     results.forEach(function(result) {;
-      var chunk = util.startElement('ballot_response', 'id', result.elementId.toString());
+      var chunk = util.startElement('ballot_response', 'id', _.escape(result.elementId.toString()));
 
       if(result.text)
-        chunk += util.startEndElement('text', result.text);
+        chunk += util.startEndElement('text', _.escape(result.text));
       if(result.sortOrder)
-        chunk += util.startEndElement('text', result.sortOrder.toString());
+        chunk += util.startEndElement('text', _.escape(result.sortOrder.toString()));
 
       chunk += util.endElement('ballot_response');
       callback(chunk);
