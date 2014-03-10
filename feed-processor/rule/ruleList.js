@@ -62,33 +62,19 @@ var metisRuleList = [
     implementation: './impl/streetSegmentRule',
     dataConstraints: constraints['streetSegmentOverlap']
   },
-  /* address direction range */
+  /* valid direction range */
   {
-    ruleId: 'addressDirection',
-    title: 'Address Direction Invalid',
+    ruleId: 'validDirections',
+    title: 'Invalid Direction',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
     isActive: true,
     errorCode: 5,
-    errorText: 'Address Direction Invalid',
+    errorText: "Valid directions are: 'n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest'",
     severityCode: 2,
     severityText: 'Warning',
-    implementation: './impl/addressDirectionRule',
-    dataConstraints: constraints['addressDirection']
-  },
-  /* street direction range */
-  {
-    ruleId: 'steetDirection',
-    title: 'Street Direction Invalid',
-    type: 'feedLevelRule',
-    isFeedLevelRule: true,
-    isActive: true,
-    errorCode: 5,
-    errorText: 'Street Direction Invalid',
-    severityCode: 2,
-    severityText: 'Warning',
-    implementation: './impl/addressDirectionRule',
-    dataConstraints: constraints['streetDirection']
+    implementation: './impl/directionRule',
+    dataConstraints: constraints['direction']
   },
   /* email format */
   {
@@ -97,8 +83,8 @@ var metisRuleList = [
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
-    errorCode: 6,
-    errorText: 'Invalid email address format provided. Expected <username>@<domain>',
+    errorCode: 7,
+    errorText: 'Invalid email address format provided. Expected <username>@<domain>.',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/emailFormatRule',
@@ -111,7 +97,7 @@ var metisRuleList = [
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
-    errorCode: 7,
+    errorCode: 8,
     errorText: 'Invalid phone number provided.  Expected format / d[2-9]dd-ddd-ddd / i.e.- 864-478-5239',
     severityCode: 2,
     severityText: 'Warning',
@@ -125,7 +111,7 @@ var metisRuleList = [
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
-    errorCode: 8,
+    errorCode: 9,
     errorText: 'Invalid zip code format provided.  Expected format / ddddd-dddd / i.e.- 95239-7839 or 91210',
     severityCode: 2,
     severityText: 'Warning',
