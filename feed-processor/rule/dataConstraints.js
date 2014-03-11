@@ -19,10 +19,10 @@ var theseConstraints = {
     }
   ],
 
-  /* Unique Street Segments */
+  /* Street Segments don't overlap */
   streetSegmentOverlap : [
     {
-      entity: [models.streetSegment], fields: []
+      entity: [models.streetSegment], fields: [] // leave the fields blank as we need to check against
     }
   ],
 
