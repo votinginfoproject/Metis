@@ -1,3 +1,5 @@
+{{data}}
+
 <form class="form-sign-in" action="/login" method="post">
   <div>
     <label for="username">Username</label>
@@ -7,7 +9,10 @@
     <label for="password">Password</label>
     <input id="password" name="password" ng-model="password" tabindex="2" type="password">
   </div>
-  <br/>
+  <div>
+    <input id="remember-me" name="remember-me" tabindex="3" type="checkbox" value="remember-me">
+    <label for="remember-me">Stay signed in</label>
+  </div>
   <input id="sign-in" name="sign-in" type="submit" value="Sign In">
-  <a id="forgot-password" class="helper_forgotpassword" href="mailto:{{forgotPasswordEmail}}?subject=Forgot Password">Forgot your password?</a>
+  <a id="forgot-password" class="helper" href="#">Forgot your password?</a>
 </form>
