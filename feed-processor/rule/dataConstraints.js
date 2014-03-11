@@ -55,13 +55,9 @@ var theseConstraints = {
       entity: [models.source], fields: ['organizationUrl', 'touUrl']
     }
   ],
-  addressDirection : [
+  direction : [
     {
-      entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection']
-    }],
-  streetDirection : [
-    {
-      entity: [models.streetSegment], fields: ['nonHouseAddress.streetDirection']
+      entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection','nonHouseAddress.streetDirection']
     }],
   /* locality type range */
   localityType: [

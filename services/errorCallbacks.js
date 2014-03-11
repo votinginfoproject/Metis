@@ -160,12 +160,14 @@ function mapAndReturnErrors(res, req, err, errors) {
 
       // csv header
       response +=
+        "#" + delim +
         "Feed" + delim +
         "Severity" + delim +
         "Title" + delim +
         "Details" + delim +
         "Reference" + endOfLine;
 
+      var count = 1;
       for(var i=0; i< feederrors.length; i++){
         var feederror = feederrors[i];
 
@@ -179,6 +181,7 @@ function mapAndReturnErrors(res, req, err, errors) {
 
           for(var j=0; j< feederror.textual_references.length; j++){
             response +=
+              makeCSVSafe((count++).toString(), delim) + delim +
               makeCSVSafe(feed, delim) + delim +
               makeCSVSafe(feederror.severity_text, delim) + delim +
               makeCSVSafe(feederror.title, delim) + delim +
