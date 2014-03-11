@@ -9,11 +9,12 @@
 <div class="details" ng-hide="mobileDimensions && toggleAside">
   <div class="wrapper">
 
-  <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
-    {{feedData.error_count}} Total Feed Errors
-    <br>
-    <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date">Final feed due {{getDueDateText(feedData.date)}}</time>
-  </a>
+  <div class="aside-nav">
+    <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
+      {{feedData.error_count}} Total Feed Errors
+      <br>
+      <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date">Final feed due {{getDueDateText(feedData.date)}}</time>
+    </a>
 
     <nav class="feed-nav">
       <ul>
@@ -28,6 +29,7 @@
     <a class="button-approve disabled" href="javascript: void(0);">Approve Feed</a>
 
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
+  </div>
 
     <h2>Feed Contact</h2>
     <div ng-show="feedData.feed_contact && feedData.feed_contact!=null" class="vcard">

@@ -277,6 +277,29 @@ aside {
   }
 }
 
+.aside-nav {
+  @include bp(c6) {
+    @include clearfix;
+
+    .button-errors, .feed-nav, .button-approve, p.helper, {
+      @include span-columns(3 of 6);
+    }
+
+    .feed-nav {
+      float: left;
+      margin-left: 0;
+    }
+  }
+
+  @include bp(c12) {
+    .button-errors, .feed-nav, .button-approve, p.helper, {
+      float: none;
+      width: 100%;
+      margin-left: 0; 
+    }
+  }
+}
+
 
 // ============================================================================
 // Feed Meta
@@ -311,6 +334,7 @@ aside {
   text-transform: uppercase;
   text-align: center;
   padding: $base-sm;
+  margin-bottom: $base;
   border: 2px solid $white;
   border-radius: 15px;  
   width: 100%;
@@ -336,9 +360,9 @@ aside {
   font-size: 1.125rem;
   font-weight: bold;
   text-transform: uppercase;
-  margin-top: 1em;
   border: 2px solid $gray-medium;
   border-radius: 15px;
+  margin-bottom: $base;
 
   li {
     // margin-bottom: .125em;
@@ -378,7 +402,10 @@ aside {
 .button-approve {
   @extend %button;
   display: block;
-  margin: 1em 0;
+  margin: 0 0 1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 10px;
 }
 
 .vcard {

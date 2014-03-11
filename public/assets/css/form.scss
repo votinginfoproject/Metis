@@ -10,9 +10,9 @@ form > div, fieldset > div {
 
 .button,
 %button {
-  background: $base-accent-color;
+  background: $blue;
   border: none;
-  color: $white;
+  color: $gray-light;
   display: inline-block;
   font-family: $header-font-family;
   font-size: $base-font-size;
@@ -36,11 +36,11 @@ form > div, fieldset > div {
 .disabled {
   @extend %button;
   background: $gray-medium;
-  color: lighten($gray-light, 10);
+  color: $gray-light;
 
   &:hover {
     background: $gray-medium;
-    color: lighten($gray-light, 10);
+    color: $gray-light;
     cursor: default;
   }
 }

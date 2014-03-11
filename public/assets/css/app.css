@@ -516,9 +516,9 @@ form > div, fieldset > div {
 button,
 input[type="submit"],
 .button-approve {
-  background: #3c5f87;
+  background: #33699c;
   border: none;
-  color: white;
+  color: #ebebeb;
   display: inline-block;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1em;
@@ -536,10 +536,10 @@ input[type="submit"],
 
 .disabled {
   background: #b1b3b6;
-  color: white; }
+  color: #ebebeb; }
   .disabled:hover {
     background: #b1b3b6;
-    color: white;
+    color: #ebebeb;
     cursor: default; }
 
 .disabled_row {
@@ -837,6 +837,27 @@ aside {
     font-size: 1.5rem;
     font-weight: normal; }
 
+@media (min-width: 600px) {
+  .aside-nav {
+    *zoom: 1; }
+    .aside-nav:before, .aside-nav:after {
+      content: " ";
+      display: table; }
+    .aside-nav:after {
+      clear: both; }
+    .aside-nav .button-errors, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
+      float: right;
+      margin-left: 5%;
+      width: 47.5%; }
+    .aside-nav .feed-nav {
+      float: left;
+      margin-left: 0; } }
+@media (min-width: 1116px) {
+  .aside-nav .button-errors, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
+    float: none;
+    width: 100%;
+    margin-left: 0; } }
+
 .feed-title {
   cursor: pointer; }
   @media (min-width: 1116px) {
@@ -862,6 +883,7 @@ aside {
   text-transform: uppercase;
   text-align: center;
   padding: 0.5em;
+  margin-bottom: 1em;
   border: 2px solid white;
   border-radius: 15px;
   width: 100%; }
@@ -881,9 +903,9 @@ aside {
   font-size: 1.125rem;
   font-weight: bold;
   text-transform: uppercase;
-  margin-top: 1em;
   border: 2px solid #b1b3b6;
-  border-radius: 15px; }
+  border-radius: 15px;
+  margin-bottom: 1em; }
   .feed-nav ul li {
     color: #ebebeb;
     border-top: 2px solid #b1b3b6; }
@@ -904,7 +926,10 @@ aside {
 
 .button-approve {
   display: block;
-  margin: 1em 0; }
+  margin: 0 0 1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 10px; }
 
 .vcard span {
   display: block; }
