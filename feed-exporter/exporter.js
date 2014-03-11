@@ -30,8 +30,8 @@ var config = require('../config');
 var mongoose = require('mongoose');
 var schemas = require('../dao/schemas');
 
-schemas.initSchemas(mongoose);
-mongoose.connect(config.mongoose.connectionString);
+//schemas.initSchemas(mongoose);
+//mongoose.connect(config.mongoose.connectionString);
 
 var once = false;
 var sent = 0;
@@ -42,9 +42,9 @@ var functionCalls = [];
 
 // test_feed:
 // NC: 531dcf317ccecb5a23000004
-createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
+//createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
 
-function createXml(feedId) {
+function createXml(feedId, feedName) {
 
   functionCalls.push(ballot.ballotExport);
   functionCalls.push(ballotLineResult.ballotLineResultExport);
@@ -67,7 +67,7 @@ function createXml(feedId) {
   functionCalls.push(state.stateExport);
   functionCalls.push(streetSegment.streetSegmentExport);
 
-  var stream = fs.createWriteStream('./NC_EXPORT_TEST.xml');
+  var stream = fs.createWriteStream('./exported-feeds/' + feedName + '.xml');
   writeFeed(feedId, stream);
 }
 
@@ -90,6 +90,10 @@ function writeFeed(feedId, stream) {
       if(finished) {
         stream.end();
         console.log('Finished writing XML');
+        once = false;
+        sent = 0;
+        written = 0;
+        finished = false;
       }
       else
         writeFeed(feedId, stream);
