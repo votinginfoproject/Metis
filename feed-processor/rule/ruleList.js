@@ -11,7 +11,7 @@ var metisRuleList = [
   /* valid url format */
   {
     ruleId: 'validUrl',
-    title: 'Url format must be valid',
+    title: 'Url Format Invalid',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -25,7 +25,7 @@ var metisRuleList = [
   /* locality type range */
   {
     ruleId: 'localityTypes',
-    title: 'Invalid Locality Type',
+    title: 'Locality Type Invalid',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -39,7 +39,7 @@ var metisRuleList = [
   /* unique id check */
   {
     ruleId: 'uniqueIdCheck',
-    title: 'Top-level Metis element IDs must be unique',
+    title: 'Duplicate IDs',
     type: 'feedLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -53,7 +53,7 @@ var metisRuleList = [
   /* street segment overlap */
   {
     ruleId: 'streetSegmentOverlap',
-    title: 'Street Segment ranges cannot overlap',
+    title: 'Street Segments Overlap',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
     isActive: false,
@@ -81,7 +81,7 @@ var metisRuleList = [
   /* email format */
   {
     ruleId: 'emailFormatRule',
-    title: 'Invalid email address format provided',
+    title: 'Invalid Email Address',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -95,12 +95,12 @@ var metisRuleList = [
   /* phone number format */
   {
     ruleId: 'phoneNumberRule',
-    title: 'Invalid phone number provided.',
+    title: 'Invalid Phone Number.',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
     errorCode: 8,
-    errorText: 'Invalid phone number provided.  Expected format / d[2-9]dd-ddd-ddd / i.e.- 864-478-5239',
+    errorText: 'Invalid phone number provided. Expected format / d[2-9]dd-ddd-ddd / i.e.- 864-478-5239',
     severityCode: 2,
     severityText: 'Warning',
     implementation: './impl/phoneNumberRule',
@@ -109,7 +109,7 @@ var metisRuleList = [
   /* zip code format */
   {
     ruleId: 'zipCodeRule',
-    title: 'Invalid zip code format provided',
+    title: 'Invalid Zip Code',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -119,6 +119,20 @@ var metisRuleList = [
     severityText: 'Warning',
     implementation: './impl/zipCodeRule',
     dataConstraints: constraints['zipCodeFormat']
+  },
+  /* house and apartment number check */
+  {
+    ruleId: 'houseAptRule',
+    title: 'Invalid House or Apt Number',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 10,
+    errorText: 'Invalid House or Apt number provided.  Number must be greater than 0',
+    severityCode: 2,
+    severityText: 'Warning',
+    implementation: './impl/houseAptRule',
+    dataConstraints: constraints['houseAptNumber']
   }
 ];
 

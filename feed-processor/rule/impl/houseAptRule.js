@@ -1,7 +1,3 @@
-/**
- * Created by nboseman on 2/12/14.
- */
-
 var mongoose = require('mongoose');
 var ruleViolation = require('../ruleviolation');
 var when = require('when');
@@ -11,9 +7,7 @@ var errorCount = 0;
 var constraints = null;
 var rule = null;
 
-var directionTypesList = ['n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest'];
-
-var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinition){
+var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition){
   rule = ruleDefinition;
   constraints = constraintSet;
   var savePromises = [];
@@ -26,12 +20,10 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
 
     errorList = null;
     Model = mongoose.model(constraintSet.entity[0]);
-    upperCaseMap = directionTypesList.map(function(item, index){ return item.toUpperCase(); });
-    mixedCaseDirections = upperCaseMap.concat(directionTypesList);
 
     var conditions = {};
     conditions['_feed'] = feedId;
-    conditions[fieldStrings[i]] = { $exists: true, $nin: mixedCaseDirections };
+    conditions[fieldStrings[i]] = { $exists: true, $lte: 0};
 
     var fields = {};
     fields['_feed'] = 1;
@@ -39,28 +31,25 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     fields[fieldStrings[i]] = 1;
 
     savePromises.push(Model.find(conditions, fields).exec());
-
-    //formatReturnFields(constraintSet[1])
-    //savePromises.push(Model.find({ 'nonHouseAddress.addressDirection': { $exists: true, $nin: mixedCaseDirections }}, {'_feed':1, 'elementId':1, 'nonHouseAddress.addressDirection':1}).exec());
   }
 
   var errorPromises = [];
 
   when.all(savePromises).then(
-    function(addressSegmentResult){
+    function(houseAptNumSegmentResult){
 
-      addressSegmentResult.forEach(function(addressSegmentResultSetArray, index){
+      houseAptNumSegmentResult.forEach(function(houseAptNumSegmentResultSetArray, index){
 
-        addressSegmentResultSetArray.forEach(function(addressSegmentResultSet){
+        houseAptNumSegmentResultSetArray.forEach(function(houseAptNumSegmentResultSet){
 
           var fieldPath = fieldStrings[index].split(".");
-          var resultSet= addressSegmentResultSet;
+          var resultSet= houseAptNumSegmentResultSet;
           for(var i=0; i< fieldPath.length; i++){
             var path = (fieldPath[i]).toString();
             resultSet = resultSet[path];
           }
 
-          errorPromises.push(createError(addressSegmentResultSet, fieldStrings[index] + " = " + resultSet));
+          errorPromises.push(createError(houseAptNumSegmentResultSet, fieldStrings[index] + " = " + resultSet));
         });
 
       });
@@ -70,9 +59,9 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
   return deferred.promise;
 }
 
-function createError(addressSegment, directionalError) {
+function createError(houseAptNumSegment, directionalError) {
   errorCount++;
-  ruleErrors = new ruleViolation(constraints.entity[0], addressSegment.elementId, addressSegment._id, addressSegment._feed, directionalError, directionalError, rule);
+  ruleErrors = new ruleViolation(constraints.entity[0], houseAptNumSegment.elementId, houseAptNumSegment._id, houseAptNumSegment._feed, directionalError, directionalError, rule);
   return ruleErrors.model().save();
 }
 
@@ -86,4 +75,4 @@ var formatReturnFields = function (fields) {
   queryFields['_feed'] = 1;
   return queryFields;
 }
-exports.evaluate = evaluateAddressDirectionType;
+exports.evaluate = evaluateHouseAptNumber;
