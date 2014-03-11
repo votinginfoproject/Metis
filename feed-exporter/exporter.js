@@ -44,7 +44,7 @@ var functionCalls = [];
 // NC: 531dcf317ccecb5a23000004
 //createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
 
-function createXml(feedId, feedName) {
+function createXml(feedId, feedName, callback) {
 
   functionCalls.push(ballot.ballotExport);
   functionCalls.push(ballotLineResult.ballotLineResultExport);
@@ -68,10 +68,12 @@ function createXml(feedId, feedName) {
   functionCalls.push(streetSegment.streetSegmentExport);
 
   var stream = fs.createWriteStream('./exported-feeds/' + feedName + '.xml');
-  writeFeed(feedId, stream);
+  writeFeed(feedId, stream, function(err) {
+    callback(err);
+  });
 }
 
-function writeFeed(feedId, stream) {
+function writeFeed(feedId, stream, callback) {
 
   if(!once) {
     stream.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
@@ -81,13 +83,15 @@ function writeFeed(feedId, stream) {
   }
 
   function finishedWrite(err) {
-    if (err)
-      console.log(err);
+    if (err) {
+      callback(err);
+    }
 
     --written;
 
     if(written === 0) {
       if(finished) {
+        callback(err);
         stream.end();
         console.log('Finished writing XML');
         once = false;
@@ -96,13 +100,13 @@ function writeFeed(feedId, stream) {
         finished = false;
       }
       else
-        writeFeed(feedId, stream);
+        writeFeed(feedId, stream, callback);
     }
   }
 
   function sendToBuffer(chunk) {
     if(chunk === -1) {
-      writeFeed(feedId, stream);
+      writeFeed(feedId, stream, callback);
       return;
     }
 
