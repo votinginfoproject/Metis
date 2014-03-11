@@ -84,10 +84,10 @@ header[role="banner"] {
   caption-side: top;
   display: table;
   width: 100%;
+  padding-top: 0;
 
   @include bp(c12) {
-    display: block;
-    padding-top: 0;
+    display: block;    
   }
 }
 
@@ -103,9 +103,11 @@ aside .wrapper {
 
 .content.feed {
   margin-left: 0;
+  border-top: 1px solid $gray-medium;
 
   @include bp(c12) {
     @include span-columns(8 of 12);
+    border-top: none;
   }
 
   @include bp(c16) {

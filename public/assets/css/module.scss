@@ -283,11 +283,9 @@ aside {
 // ============================================================================
 
 .feed-title {
-  background-color: $gray-medium;
   cursor: pointer;
 
   @include bp(c12) {
-    background-color: transparent;
     cursor: default;
   }
 
@@ -295,10 +293,6 @@ aside {
     color: $white;
     font-weight: bold;
     @include word-break;
-
-    @include bp(c12) {
-      
-    }
   }
 }
 

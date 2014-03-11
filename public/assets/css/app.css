@@ -399,11 +399,11 @@ header[role="banner"] {
 .main > .wrapper {
   caption-side: top;
   display: table;
-  width: 100%; }
+  width: 100%;
+  padding-top: 0; }
   @media (min-width: 1116px) {
     .main > .wrapper {
-      display: block;
-      padding-top: 0; } }
+      display: block; } }
 
 @media (min-width: 1116px) {
   aside .wrapper {
@@ -413,12 +413,14 @@ header[role="banner"] {
   padding-top: 1em; }
 
 .content.feed {
-  margin-left: 0; }
+  margin-left: 0;
+  border-top: 1px solid #b1b3b6; }
   @media (min-width: 1116px) {
     .content.feed {
       float: right;
       margin-left: 3.7037%;
-      width: 65.4321%; } }
+      width: 65.4321%;
+      border-top: none; } }
   @media (min-width: 1452px) {
     .content.feed {
       float: right;
@@ -836,11 +838,9 @@ aside {
     font-weight: normal; }
 
 .feed-title {
-  background-color: #b1b3b6;
   cursor: pointer; }
   @media (min-width: 1116px) {
     .feed-title {
-      background-color: transparent;
       cursor: default; } }
   .feed-title h2 {
     color: white;
