@@ -189,6 +189,15 @@
   @include clearfix;
   margin-bottom: 1em;
   width: 100%;
+  background-color: $white;
+  /* IE9, iOS 3.2+ */
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 0%,color-stop(0, $blue-med),color-stop(0.3, $blue-med),color-stop(0.3, rgb(255, 255, 255)),color-stop(1, rgb(255, 255, 255)));
+  /* Android 2.3 */
+  background-image: -webkit-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+  /* IE10+ */
+  background-image: repeating-linear-gradient(to right,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+  background-image: -ms-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
 
   .errors {
     min-height: $base-line-height;
@@ -198,8 +207,8 @@
 
 .key {
   @include box-sizing(border-box);
-  background: $blue-med;
-  border-top: 1px solid $blue;
+  //background: $blue-med;
+  border-top: 1px solid #628eb7;
   clear: left;
   color: $white;
   font-weight: normal;
@@ -208,11 +217,11 @@
 
   &:first-child {
     border-top: none;
-    border-radius: 10px 0 0 0;
+    //border-radius: 10px 0 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 0 10px;
+    //border-radius: 0 0 0 10px;
   }
 
   @include bp(c6) {
@@ -223,17 +232,18 @@
 
 .value {
   @include box-sizing(border-box);
-  background: $white;
+  //background: $white;
+  border-top: 1px solid #628eb7;
   color: $blue;
   margin: 0;
   padding: $base-xs $base;
 
-  &:first-child {
+  &:nth-child(2) {
     border-top: none;
   }
 
   @include bp(c6) {
-    border-top: 1px solid $blue;
+    //border-top: 1px solid $blue;
     float: left;
     width: 70%;
   }
@@ -287,8 +297,7 @@ aside {
     @include word-break;
 
     @include bp(c12) {
-      font-size: 2em;
-      font-size: 2rem;
+      
     }
   }
 }
@@ -334,18 +343,14 @@ aside {
   font-weight: bold;
   text-transform: uppercase;
   margin-top: 1em;
-  border: 2px solid $gray-light;
+  border: 2px solid $gray-medium;
   border-radius: 15px;
 
   li {
     // margin-bottom: .125em;
     color: $gray-light;
-    border-top: 2px solid $gray-light;
+    border-top: 2px solid $gray-medium;
     > * {
-      // @extend %button;
-      // background-color: $gray-medium;
-      // display: block;
-      // text-align: left;
       display: block;
       opacity: 0.4;
       padding: $base-sm;      
@@ -360,7 +365,8 @@ aside {
       border-radius: 0 0 15px 15px;
     }
     a {
-      color: $gray-light;
+      color: $gray-medium;
+      background: $blue-darkest;
       opacity: 1;
     }
   }

@@ -94,6 +94,10 @@ input[type="checkbox"], input[type="radio"] {
   margin-right: $base-line-height / 4;
 }
 
+input[type="checkbox"] + label , input[type="radio"] + label {
+  display: inline;
+}
+
 label {
   font-weight: bold;
   margin-bottom: $base-line-height / 4;

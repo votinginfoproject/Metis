@@ -9,9 +9,9 @@ body {
 }
 
 aside {
-  //background-color: $gray-light;
   display: table-caption;
   width: 100%;
+  margin-left: 0 !important;
 
   @include bp(c12) {
     @include span-columns(4 of 12);

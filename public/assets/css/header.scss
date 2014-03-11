@@ -4,7 +4,7 @@
 
 .branding {
   display: block;
-  color: $gray-light;
+  color: $gray-medium;
   font: 300 2em $header-font-family;
   font-size: 2rem;
   text-align: center;
@@ -39,6 +39,7 @@
 
   li {
     display: inline;
+    color: $gray-medium;
     font-weight: bold;
     text-transform: uppercase;
     font-size: .75em;
@@ -52,9 +53,9 @@
   }
 
   a {
-    color: $gray-light;
+    color: $gray-medium;;
     display: inline-block;
-    border: 2px solid $gray-light;
+    border: 2px solid $gray-medium;;
     border-radius: 30px;
     padding: $base-xs $base;
 

@@ -4,12 +4,7 @@
 // TODO: rename data-group
 
 .data-group {
-  //color: $blue;
   margin-bottom: $base-lg;
-
-  > div {
-    //background: $white;
-  }
 
   @include bp(c12) {
     // @include span-columns(4 of 8);
@@ -24,7 +19,7 @@
   @include bp(c16) {
     @include span-columns(6 of 12);
     float: left;
-
+    
     &:nth-child(2n) {
       margin-left: 0;
       clear: left;
