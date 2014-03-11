@@ -1463,15 +1463,15 @@ form[role="search"] {
 .errors.none {
   background-color: #00cc66; }
 
-.data-group {
+.data-module {
   margin-bottom: 2em; }
   @media (min-width: 1452px) {
-    .data-group {
+    .data-module {
       float: right;
       margin-left: 3.7037%;
       width: 48.14815%;
       float: left; }
-      .data-group:nth-child(2n) {
+      .data-module:nth-child(2n) {
         margin-left: 0;
         clear: left; } }
 
