@@ -30,8 +30,8 @@ var config = require('../config');
 var mongoose = require('mongoose');
 var schemas = require('../dao/schemas');
 
-schemas.initSchemas(mongoose);
-mongoose.connect(config.mongoose.connectionString);
+//schemas.initSchemas(mongoose);
+//mongoose.connect(config.mongoose.connectionString);
 
 var once = false;
 var sent = 0;
@@ -42,9 +42,9 @@ var functionCalls = [];
 
 // test_feed:
 // NC: 531dcf317ccecb5a23000004
-createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
+//createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
 
-function createXml(feedId) {
+function createXml(feedId, feedName, callback) {
 
   functionCalls.push(ballot.ballotExport);
   functionCalls.push(ballotLineResult.ballotLineResultExport);
@@ -67,11 +67,13 @@ function createXml(feedId) {
   functionCalls.push(state.stateExport);
   functionCalls.push(streetSegment.streetSegmentExport);
 
-  var stream = fs.createWriteStream('./NC_EXPORT_TEST.xml');
-  writeFeed(feedId, stream);
+  var stream = fs.createWriteStream('./exported-feeds/' + feedName + '.xml');
+  writeFeed(feedId, stream, function(err) {
+    callback(err);
+  });
 }
 
-function writeFeed(feedId, stream) {
+function writeFeed(feedId, stream, callback) {
 
   if(!once) {
     stream.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
@@ -81,24 +83,30 @@ function writeFeed(feedId, stream) {
   }
 
   function finishedWrite(err) {
-    if (err)
-      console.log(err);
+    if (err) {
+      callback(err);
+    }
 
     --written;
 
     if(written === 0) {
       if(finished) {
+        callback(err);
         stream.end();
         console.log('Finished writing XML');
+        once = false;
+        sent = 0;
+        written = 0;
+        finished = false;
       }
       else
-        writeFeed(feedId, stream);
+        writeFeed(feedId, stream, callback);
     }
   }
 
   function sendToBuffer(chunk) {
     if(chunk === -1) {
-      writeFeed(feedId, stream);
+      writeFeed(feedId, stream, callback);
       return;
     }
 

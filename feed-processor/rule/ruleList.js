@@ -36,6 +36,7 @@ var metisRuleList = [
     implementation: './impl/localitytyperule',
     dataConstraints: constraints['localityType']
   },
+  /* unique id check */
   {
     ruleId: 'uniqueIdCheck',
     title: 'Top-level Metis element IDs must be unique',
@@ -49,6 +50,7 @@ var metisRuleList = [
     implementation: './impl/uniqueIdRule',
     dataConstraints: constraints['uniqueIdCheck']
   },
+  /* street segment overlap */
   {
     ruleId: 'streetSegmentOverlap',
     title: 'Street Segment ranges cannot overlap',
@@ -118,9 +120,6 @@ var metisRuleList = [
     implementation: './impl/zipCodeRule',
     dataConstraints: constraints['zipCodeFormat']
   }
-  /* address direction range */
-
-
 ];
 
 module.exports = metisRuleList;
