@@ -81,31 +81,46 @@
 }
 
 .completeness {
-  //background-color: transparent;
   background: $blue-light;
   color: $gray-light;
-  //border: $base-border;
   height: $base;
-  //padding: 0.125em;
   position: relative;
   border-radius: 20px;
 }
 
 .complete {
-  //background: $green;
   background: $blue-dark;
   display: block;
   height: 100%;
   border-radius: 20px 0 0 20px;
 }
 
-@for $i from 0 through 100 {
+@for $i from 1 through 3 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage(3/100);
+  }
+}
+
+@for $i from 4 through 95 {
   .complete-#{$i} {
     @extend .complete;
     width: percentage($i/100);
   }
 }
 
+@for $i from 96 through 99 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage(95/100);
+  }
+}
+
+.complete-100 {
+  @extend .complete;
+  width: 100%;
+  border-radius: 20px;
+}
 .counter {
   font-size: 0.75em;
   font-size: 0.75rem;

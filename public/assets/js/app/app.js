@@ -305,8 +305,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       return dueIn;
     }
 
-    $rootScope.forgotPasswordEmail = $rootScope.$appProperties.forgotPasswordEmail;
-
   });
 
   // read the properties file from the server "map.properties"
@@ -527,16 +525,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     }
 
     return breadcrumbs;
-  }
-
-  $rootScope.exportFeedPost = function(feedData) {
-    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.title })
-      .success(function(data, status) {
-
-      })
-      .error(function(data, status) {
-        alert("Error Exporting Feed");
-      });
   }
 
   /*
