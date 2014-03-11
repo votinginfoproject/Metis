@@ -305,6 +305,8 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       return dueIn;
     }
 
+    $rootScope.forgotPasswordEmail = $rootScope.$appProperties.forgotPasswordEmail;
+
   });
 
   // read the properties file from the server "map.properties"
