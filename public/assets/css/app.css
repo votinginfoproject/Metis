@@ -813,6 +813,12 @@ th {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
   border-top: 1px solid #628eb7;
   color: #33699c;
   margin: 0;
@@ -1463,15 +1469,15 @@ form[role="search"] {
 .errors.none {
   background-color: #00cc66; }
 
-.data-module {
+section.data-module {
   margin-bottom: 2em; }
   @media (min-width: 1452px) {
-    .data-module {
+    section.data-module {
       float: right;
       margin-left: 3.7037%;
       width: 48.14815%;
       float: left; }
-      .data-module:nth-child(2n) {
+      section.data-module:nth-of-type(2n+1) {
         margin-left: 0;
         clear: left; } }
 

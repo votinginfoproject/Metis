@@ -232,7 +232,7 @@
 
 .value {
   @include box-sizing(border-box);
-  //background: $white;
+  @include word-break;
   border-top: 1px solid #628eb7;
   color: $blue;
   margin: 0;
