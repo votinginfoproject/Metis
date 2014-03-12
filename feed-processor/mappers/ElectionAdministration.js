@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ElectionAdministration = function (models, feedId) {
-    basemapper.call(this, models, feedId);
+    basemapper.call(this, models, feedId, models.ElectionAdmin);
   };
 util.inherits(ElectionAdministration, basemapper);
 

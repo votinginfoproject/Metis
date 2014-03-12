@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   Candidate = function (models, feedId) {
-    basemapper.call(this, models, feedId);
+    basemapper.call(this, models, feedId, models.Candidate);
   };
 util.inherits(Candidate, basemapper);
 

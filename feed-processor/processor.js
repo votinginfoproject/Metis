@@ -34,7 +34,8 @@ function processFeed(filePath) {
     var filePath = path.join(__dirname, file);
     fs.createReadStream(filePath)
       .pipe(unzip.Parse())
-      .on('entry', processZipEntry);
+      .on('entry', processZipEntry)
+      .on('close', vave.readingComplete);
 
   }
 

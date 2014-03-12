@@ -6,7 +6,7 @@ const
   util = require('util'),
   _ = require('underscore'),
   CustomBallot = function (models, feedId) {
-    basemapper.call(this, models, feedId);
+    basemapper.call(this, models, feedId, models.CustomBallot);
   };
 util.inherits(CustomBallot, basemapper);
 

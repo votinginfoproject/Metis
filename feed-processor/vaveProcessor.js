@@ -3,6 +3,7 @@
  */
 const
   path = require('path'),
+  unfold = require('when/unfold'),
   csv = require('fast-csv'),
   config = require('./vaveConfig');
 
@@ -11,16 +12,10 @@ module.exports = function () {
   var models;
   var feedId;
 
+  var readComplete = false;
   var writeQue = [];
 
-  function onError(err) {
-    console.error(err);
-  }
-
-  function onSave(docType) {
-    console.log('Stored %s to database.', docType);
-
-  }
+  var unfolding = false;
 
   function createFeedEntry(filePath) {
     models.Feed.create({
@@ -45,14 +40,66 @@ module.exports = function () {
 
     var mapper = new mapperCtr(models, feedId);
 
+    console.log(fileName);
+    var recordCount = 0;
+
     csv
       .fromStream(fileStream, { headers: true })
       .on('record', function (data) {
         mapper.mapCsv(data);
-        mapper.save(onError, onSave.bind(undefined, fileName))
+        writeQue.push(mapper.save());
+        recordCount++;
+
+        if (recordCount % 10000 == 0) {
+          console.log('record count = %d and queue length = %d', recordCount, writeQue.length);
+        }
+
+        if (!unfolding && writeQue.length > 20000) {
+          startUnfold();
+        }
     }).on('end', function () {
         console.log('end');
+        startUnfold();
       });
+  }
+
+  function startUnfold() {
+    if (unfolding) {
+      return;
+    }
+
+    console.log('Starting unfold');
+
+    unfolding = true;
+    unfold(unspool, condition, log, 0)
+      .catch(function(err) {
+        console.error (err);
+      })
+      .then(function() {
+        console.log('read %d records', recordCount);
+        console.log('unfold completed!!!!');
+      });
+
+  }
+
+  function unspool(count) {
+    var currentWrite = writeQue.shift();
+    return [currentWrite, count++];
+  }
+
+  function condition(writes) {
+    if (writeQue.length == 0) {
+      console.log('condition = true');
+      unfolding = false;
+    }
+
+    return writeQue.length == 0;
+  }
+
+  function log(data) {
+    if (data) {
+//      console.log(data._id.toString());
+    } else { console.log('data null'); }
   }
 
   return {
@@ -68,6 +115,10 @@ module.exports = function () {
       }
 
       parseCSV(fileStream);
+    },
+    readingComplete: function () {
+      console.log('read complete')
+      readComplete = true;
     }
   };
 };

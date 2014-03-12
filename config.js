@@ -80,7 +80,17 @@ config.mongoose = {
     overview: 'overviews',
     county: 'counties',
 
-    ballotCandidate: 'ballotCandidates'
+    ballotCandidate: 'ballotCandidates',
+    customBallotBallotResponse: 'customBallotBallotResponses',
+    localityEarlyVoteSite: 'localityEarlyVoteSites',
+    precinctEarlyVoteSite: 'precinctEarlyVoteSites',
+    precinctElectoralDistrict: 'precinctElectoralDistricts',
+    precinctPollingLocation: 'precinctPollingLocations',
+    precinctSplitElectoralDistrict: 'precinctSplitElectoralDistricts',
+    precinctSplitPollingLocation: 'precinctSplitPollingLocations',
+    referendumBallotResponse: 'referendumBallotResponses',
+    stateEarlyVoteSite: 'stateEarlyVoteSites'
+
   },
   connectionString: 'mongodb://localhost/metis'
 }

@@ -2,29 +2,14 @@
  * Created by bantonides on 12/20/13.
  */
 const
-  events = require('events'),
-  util = require('util'),
-  BaseModel = function (models, feedId) {
+  BaseModel = function (models, feedId, collection) {
     this.models = models;
     this.feedId = feedId;
-    events.EventEmitter.call(this);
+    this.collection = collection;
   };
-util.inherits(BaseModel, events.EventEmitter);
 
-BaseModel.prototype.save = function(onerror, onsuccess) {
-  if (this.model === undefined) {
-    return false;
-  }
-
-  var self = this;
-  self.emit('saving'); //emit event to notify that a save operation is starting
-
-  this.model.save(function (err, data) {
-    self.emit('saved');
-
-    if (err) { onerror(err); }
-    else { onsuccess(data); }
-  });
+BaseModel.prototype.save = function () {
+  return this.collection.create(this.model);
 };
 
 BaseModel.prototype.convertYesNo = function (yesNoValue) {
