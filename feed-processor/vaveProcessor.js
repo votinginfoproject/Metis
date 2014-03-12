@@ -79,7 +79,6 @@ module.exports = function () {
         console.log('read %d records', recordCount);
         console.log('unfold completed!!!!');
       });
-
   }
 
   function unspool(count) {
@@ -98,8 +97,12 @@ module.exports = function () {
 
   function log(data) {
     if (data) {
-//      console.log(data._id.toString());
     } else { console.log('data null'); }
+  }
+
+  function consolidate() {
+    var consolidator = require('./vaveConsolidator')();
+    consolidator.consolidate(models, feedId);
   }
 
   return {
@@ -116,9 +119,10 @@ module.exports = function () {
 
       parseCSV(fileStream);
     },
-    readingComplete: function () {
-      console.log('read complete')
+    consolidateFeedData: function () {
+      console.log('consolidating feed data...')
       readComplete = true;
+      consolidate();
     }
   };
 };
