@@ -528,12 +528,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   }
 
   $rootScope.exportFeedPost = function(feedData) {
-    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.title })
+//    feedData.isExporting = true;
+    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.title, feedFolder : '' + feedData.title[0] + feedData.title[1] })
       .success(function(data, status) {
-
+//        feedData.isExporting = false;
       })
       .error(function(data, status) {
         alert("Error Exporting Feed");
+//        feedData.isExporting = false;
       });
   }
 

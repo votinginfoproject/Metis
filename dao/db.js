@@ -269,7 +269,18 @@ function feedPrecinctSplitElectoralDistricts (feedId, precinctSplitId, callback)
 
   promise.then(function (precinctSplit) {
     if (precinctSplit) {
-      callback(undefined, precinctSplit._electoralDistricts);
+      var promises = precinctSplit._electoralDistricts.map(function(district) {
+        return daoSchemas.models.Contest.count({_feed: feedId, _electoralDistrict: district._id}).exec();
+      });
+
+      when.all(promises).then(function(counts) {
+
+        for(var i = 0; i < precinctSplit._electoralDistricts.length; ++i) {
+          precinctSplit._electoralDistricts[i].contests = counts[i];
+        }
+
+        callback(undefined, precinctSplit._electoralDistricts);
+      });
     }
     else { callback(undefined); }
   });
