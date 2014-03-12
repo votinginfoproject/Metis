@@ -362,12 +362,11 @@ function feedBallotLineResultGET(req, res) {
 }
 
 function feedExportPOST(req, res) {
-  res.send(200);
-  exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err) {
-//    if(err)
-//      res.send(400)
-//    else
-//      res.send(200);
+  exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err, location) {
+    if(err)
+      res.send(400)
+    else
+      res.send(location);
   });
 }
 

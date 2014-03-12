@@ -73,14 +73,18 @@ var functionCalls = [
 //createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
 
 function createXml(feedId, feedName, feedFolder, instance, callback) {
+
   if(instance.stream != null) {
     callback(400);
     return;
   }
 
-  if( !fs.existsSync('./exported-feeds/' + feedFolder + '/') )
-    fs.mkdirSync('./exported-feeds/' + feedFolder + '/');
-  instance.stream = fs.createWriteStream('./exported-feeds/' + feedFolder + '/' + feedName + '.xml'); //moment().format('YYYYMMDDHHmmss') +
+  var dirLoc = './exported-feeds/' + feedFolder + '/';
+  var fileLoc = './exported-feeds/' + feedFolder + '/' + feedName + '.xml';
+  if( !fs.existsSync(dirLoc) )
+    fs.mkdirSync(dirLoc);
+  instance.stream = fs.createWriteStream(fileLoc); //moment().format('YYYYMMDDHHmmss') +
+  callback(undefined, fileLoc)
   writeFeed(feedId, instance, function(err) {
     callback(err);
   });
@@ -104,7 +108,7 @@ function writeFeed(feedId, instance, callback) {
 
     if(instance.written === 0) {
       if(instance.finished) {
-        callback(err);
+//        callback(err, 'finished');
         instance.stream.end();
         console.log('Finished writing XML');
 //        instance.once = false;
