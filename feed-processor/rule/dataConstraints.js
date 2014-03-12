@@ -22,7 +22,7 @@ var theseConstraints = {
   /* Unique Street Segments */
   streetSegmentOverlap : [
     {
-      entity: [models.streetSegment], fields: []
+      entity: [models.streetSegment], fields: [] // leaving fields blank as we will need to query against several fields within street segments
     }
   ],
 
