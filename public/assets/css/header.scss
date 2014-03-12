@@ -3,12 +3,24 @@
 // ============================================================================
 
 .branding {
-  display: block;
-  color: $gray-light;
+  display: inline-block;
+  color: $gray-medium;
   font: 300 2em $header-font-family;
   font-size: 2rem;
   text-align: center;
   margin-bottom: $base-xs;
+
+  span {
+    display: inline-block;
+    padding-left: 1.55em;
+    background-repeat: no-repeat;
+    background-size: contain;  
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2017.1.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%2275.3px%22%20height%3D%2272px%22%20viewBox%3D%220%200%2075.3%2072%22%20enable-background%3D%22new%200%200%2075.3%2072%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2233.2%2C45.3%2033.2%2C67.8%2024.4%2C64.2%2024.4%2C42.4%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23D71920%22%20points%3D%2233.2%2C67.8%2037.7%2C69.6%2037.7%2C46.8%2033.2%2C45.3%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23D71920%22%20points%3D%2215.5%2C60.7%2024.4%2C64.2%2024.4%2C42.4%2015.5%2C39.5%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23D71920%22%20points%3D%222.2%2C55.3%206.6%2C57%206.6%2C36.7%202.2%2C35.2%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2215.5%2C39.5%2015.5%2C60.7%206.6%2C57%206.6%2C36.7%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%230067AC%22%20points%3D%222.2%2C35.2%2037.7%2C46.8%2037.7%2C23.9%202.2%2C15.2%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%238B0304%22%20points%3D%2242.1%2C67.8%2037.7%2C69.6%2037.7%2C46.8%2042.1%2C45.3%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%238B0304%22%20points%3D%2259.8%2C60.7%2050.9%2C64.2%2050.9%2C42.4%2059.8%2C39.5%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%238B0304%22%20points%3D%2273.1%2C55.3%2068.7%2C57%2068.7%2C36.7%2073.1%2C35.2%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23004071%22%20points%3D%2273.1%2C35.2%2037.7%2C46.8%2037.7%2C23.9%2073.1%2C15.2%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2273.1%2C15.2%2037.7%2C8.3%202.2%2C15.2%2037.7%2C23.9%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2230.1%2C31.5%2028.8%2C26.5%2027.5%2C30.7%2023.2%2C29.5%2026.7%2C33.3%2025.4%2C37.3%2028.7%2C35.6%2032.3%2C39.5%2030.9%2C34.4%20%0D%0A%09%09%0934.2%2C32.6%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23FFFFFF%22%20points%3D%2212.4%2C26.4%2011.1%2C21.7%209.8%2C25.7%205.7%2C24.6%209.1%2C28.2%207.9%2C32.1%2011%2C30.4%2014.4%2C34.1%2013.1%2C29.2%2016.2%2C27.5%20%0D%0A%09%09%09%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23B1B3B6%22%20points%3D%2247.8%2C30.7%2046.5%2C26.5%2045.2%2C31.5%2041.1%2C32.6%2044.4%2C34.4%2043%2C39.5%2046.6%2C35.6%2049.9%2C37.3%2048.6%2C33.3%20%0D%0A%09%09%0952.1%2C29.5%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23B1B3B6%22%20points%3D%2269.6%2C24.6%2065.5%2C25.7%2064.2%2C21.7%2062.9%2C26.4%2059.1%2C27.5%2062.2%2C29.2%2060.9%2C34.1%2064.3%2C30.4%2067.4%2C32.1%20%0D%0A%09%09%0966.2%2C28.2%20%09%09%22/%3E%0D%0A%09%09%3Cpath%20fill%3D%22%23B1B3B6%22%20d%3D%22M45.8%2C7.7V0L29.7%2C3.1v4.5L0%2C13.3v43.4L37.7%2C72l37.6-15.2V13.3L45.8%2C7.7z%20M73.1%2C55.3L68.7%2C57V36.7l-8.9%2C2.9%0D%0A%09%09%09v21.2l-8.9%2C3.5V42.4l-8.9%2C2.9v22.5l-4.4%2C1.8L2.2%2C55.3V15.2l27.5-5.3v8.7L45.8%2C15V9.9l27.3%2C5.3V55.3z%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23004071%22%20points%3D%2245.8%2C12.6%2045.8%2C15%2051.3%2C13.8%20%09%09%22/%3E%0D%0A%09%09%3Cpolygon%20fill%3D%22%23004071%22%20points%3D%2224.1%2C17.3%2029.7%2C16.1%2029.7%2C18.6%20%09%09%22/%3E%0D%0A%09%3C/g%3E%0D%0A%3C/g%3E%0D%0A%3C/svg%3E%0D%0A');
+
+    .no-svg & {
+      background-image: url('/assets/images/logo-vip.png');
+    }
+  }
 
   @include bp(c6) {
     font-size: 3.125em;
@@ -19,7 +31,8 @@
     float: left;
     font-size: 3.75em;
     font-size: 3.75rem;
-    margin-bottom: 0;     
+    margin-bottom: 0; 
+    padding-left: percentage(24/1116) 
   }
 
 }
@@ -39,6 +52,7 @@
 
   li {
     display: inline;
+    color: $gray-medium;
     font-weight: bold;
     text-transform: uppercase;
     font-size: .75em;
@@ -52,9 +66,9 @@
   }
 
   a {
-    color: $gray-light;
+    color: $gray-medium;;
     display: inline-block;
-    border: 2px solid $gray-light;
+    border: 2px solid $gray-medium;;
     border-radius: 30px;
     padding: $base-xs $base;
 

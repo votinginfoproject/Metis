@@ -35,6 +35,7 @@ $base-border-radius: em(3);
 // $blue is used for text
 $blue:          #33699c;
 $blue-dark:     #3c5f87;
+$blue-darkest:  #01244c;
 $blue-med:      #006cb1;
 $blue-light:    #b7dbff;
 
@@ -130,7 +131,7 @@ $base-padding: .5em 1em;
   width: $width;
 
   &:last-child {
-    margin-left: 0;
+    //margin-left: 0;
   }
 }
 

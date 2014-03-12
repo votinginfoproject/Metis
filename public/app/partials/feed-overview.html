@@ -1,6 +1,6 @@
 <i id="feed-overview-content"></i>
 
-<section class="data-group finished">
+<section class="data-group data-module finished">
   <header class="data-group-header">
     <h2>Source</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
@@ -9,7 +9,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group finished">
+<section class="data-group data-module finished">
   <header class="data-group-header">
     <h2>Election</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
@@ -18,7 +18,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group started">
+<section class="data-group data-module started">
   <header class="data-group-header">
     <h2>Polling Locations</h2>
     <span ng-if="!feedPollingLocations" class="more-detail is-loading"></span>
@@ -32,7 +32,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group started">
+<section class="data-group data-module started">
   <header class="data-group-header">
     <h2>{{feedLocalities.length}} Localities
     <small>({{feedCounties.features.length}} Counties)</small></h2>
@@ -46,7 +46,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group started">
+<section class="data-group data-module started">
   <header class="data-group-header">
     <h2>Contests</h2>
     <span ng-if="!feedContests" class="more-detail is-loading"></span>
@@ -60,7 +60,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group unstarted">
+<section class="data-group data-module unstarted">
   <header class="data-group-header">
     <h2>Results</h2>
     <span ng-if="!feedResults" class="more-detail is-loading"></span>

@@ -105,6 +105,14 @@ p {
   border-radius: 15px;
   opacity: 0.4;
 }
+a.helper {
+  padding: $base-sm $base;
+  color: $gray-lightest;
+  vertical-align: middle;
+  input + & {
+    margin-left: $base;
+  }
+}
 
 // pre
 

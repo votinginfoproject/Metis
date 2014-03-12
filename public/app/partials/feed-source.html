@@ -1,9 +1,11 @@
 <i id="feed-source-content"></i>
 
-<a ng-if="feedSource.error_count !== undefined" id="source-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedSource.error_count}} Errors in Source ID: {{feedSource.id}}</a>
+<p ng-if="feedSource.error_count !== undefined"><a id="source-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedSource.error_count}} Errors in Source ID: {{feedSource.id}}</a></p>
 
 <span ng-if="!feedSource" class="is-loading"></span>
-<dl class="attributes" ng-if="feedSource.source_info">
+
+<section class="data-module" ng-if="feedSource.source_info">
+<dl class="attributes">
   <dt class="key">Name:</dt>
   <dd id="source-name" class="value">{{feedSource.source_info.name}}</dd>
   <dt class="key">Datetime:</dt>
@@ -19,8 +21,10 @@
                                            href="{{feedSource.source_info.tou_url}}">{{feedSource.source_info.tou_url}}</a>
   </dd>
 </dl>
+</section>
 
-<section class="data-group">
+
+<section class="data-group data-module">
   <h2>Feed Contact</h2>
 
   <span ng-if="!feedSource" class="is-loading"></span>
