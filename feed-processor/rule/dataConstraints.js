@@ -55,6 +55,8 @@ var theseConstraints = {
       entity: [models.source], fields: ['organizationUrl', 'touUrl']
     }
   ],
+  /* house or street direction */
+  // implementation will work with one entity currently
   direction : [
     {
       entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection','nonHouseAddress.streetDirection']
@@ -99,6 +101,14 @@ var theseConstraints = {
     },
     {
       entity: [models.streetSegment], fields: ['nonHouseAddress.zip']
+    }
+  ],
+
+  /* house and apt number  */
+  // implementation will work with one entity currently
+  houseAptNumber : [
+    {
+      entity: [models.streetSegment], fields: ['startHouseNumber', 'endHouseNumber', 'startApartmentNumber', 'endApartmentNumber']
     }
   ]
 
