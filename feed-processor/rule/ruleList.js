@@ -54,7 +54,7 @@ var metisRuleList = [
     title: 'Street Segment ranges cannot overlap',
     type: 'objectLevelRule',
     isFeedLevelRule: true,
-    isActive: true,
+    isActive: false,
     errorCode: 4,
     errorText: 'Street Segment ranges cannot overlap',
     severityCode: 1,

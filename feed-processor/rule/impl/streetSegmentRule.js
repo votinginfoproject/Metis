@@ -19,16 +19,16 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
   promise = Model
     .find({_feed:streetSegment._feed}) // find streetsegments
     .where({'_id': {$nin: [streetSegment._id]}}) // that are not the current street segment
-    //.where({'nonHouseAddress.streetName':streetSegment.nonHouseAddress.streetName})
-    //.where('startHouseNumber')
+    //.where({'oddEvenBoth':streetSegment.oddEvenBoth}) // oddEvenBoth
+    //.where({'nonHouseAddress.streetDirection':streetSegment.nonHouseAddress.streetDirection}) // street direction
+    //.where({'nonHouseAddress.houseNumberSuffix':streetSegment.nonHouseAddress.houseNumberSuffix}) // suffix is the same
+    //.where({'nonHouseAddress.addressDirection':streetSegment.nonHouseAddress.addressDirection}) // address direction
+    //.where({'nonHouseAddress.streetName':streetSegment.nonHouseAddress.streetName}) // streetname is the same
+    //.where({'nonHouseAddress.city':streetSegment.nonHouseAddress.city}) // city
+    //.where({'nonHouseAddress.zip':streetSegment.nonHouseAddress.zip}) // zip
 
-    //streetname
-    //suffix
-    //street-direction
-    //address-direction
-    //
-    //state
-    //city
+    // start_house_number between the other segments start and end house numbers
+
 //.gt(streetSegment.startHouseNumber)
 //.lt(streetSegment.endHouseNumber)
     .exec();
@@ -36,7 +36,7 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
   promise.then(function(results){
 
     console.log("results....." + results.length)
-    //console.log(results);
+    console.log(results);
 
     if(results.length > 1){
       isViolated = true;
