@@ -2,6 +2,11 @@
 // Data Group
 // ============================================================================
 
+.data-module-full {
+  clear: both;
+  margin-bottom: $base-lg;
+}
+
 section.data-module {
   margin-bottom: $base-lg;
 
@@ -13,8 +18,25 @@ section.data-module {
       margin-left: 0;
       clear: left;
     }
+
+    &:only-of-type {
+      width: 100%;
+      float: none;
+      margin-left: 0;
+    }
   }
   
+}
+
+.data-module > h2 {
+  background: $blue-med;
+  color: $white;
+  padding: $base-sm;
+  border-radius: 8px 8px 0 0;
+  font-size: 1.5em;
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 0;
 }
 
 .data-group-header {
@@ -22,7 +44,6 @@ section.data-module {
   background: $blue-med;
   color: $white;
   padding: $base-sm $base $base-sm;
-  margin-bottom: -$base;
   
   .started & {
     padding-bottom: $base;

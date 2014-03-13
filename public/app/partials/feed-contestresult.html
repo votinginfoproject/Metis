@@ -1,28 +1,31 @@
 <i id="feed-contestresult-content"></i>
 
-<a ng-if="feedContestResult.error_count !== undefined" class="error-count" href="{{$location.absUrl()}}/errors">{{feedContestResult.error_count}}
-  Errors in Contest Result ID: {{feedContestResult.id}}</a>
+<p ng-if="feedContestResult.error_count !== undefined"><a class="error-count" href="{{$location.absUrl()}}/errors">{{feedContestResult.error_count}}
+  Errors in Contest Result ID: {{feedContestResult.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Entire District:</dt>
-  <dd id="result-entiredistrict" class="value">{{feedContestResult.entire_district}}</dd>
-  <dt class="key">Total Votes:</dt>
-  <dd id="result-totalvotes" class="value">{{feedContestResult.total_votes}}</dd>
-  <dt class="key">Total Valid Votes:</dt>
-  <dd id="result-validvotes" class="value">{{feedContestResult.total_valid_votes}}</dd>
-  <dt class="key">Overvotes:</dt>
-  <dd id="result-overvotes" class="value">{{feedContestResult.overvotes}}</dd>
-  <dt class="key">Blank Votes:</dt>
-  <dd id="result-blankvotes" class="value">{{feedContestResult.blank_votes}}</dd>
-  <dt class="key">Accepted Provisional Votes:</dt>
-  <dd id="result-provisional" class="value">{{feedContestResult.accepted_provisional_votes}}</dd>
-  <dt class="key">Rejected Votes:</dt>
-  <dd id="result-rejectedvotes" class="value">{{feedContestResult.rejected_votes}}</dd>
-  <dt class="key">Certification:</dt>
-  <dd id="result-certification" class="value">{{feedContestResult.certification}}</dd>
-</dl>
 
-<section class="data-group">
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Entire District:</dt>
+    <dd id="result-entiredistrict" class="value">{{feedContestResult.entire_district}}</dd>
+    <dt class="key">Total Votes:</dt>
+    <dd id="result-totalvotes" class="value">{{feedContestResult.total_votes}}</dd>
+    <dt class="key">Total Valid Votes:</dt>
+    <dd id="result-validvotes" class="value">{{feedContestResult.total_valid_votes}}</dd>
+    <dt class="key">Overvotes:</dt>
+    <dd id="result-overvotes" class="value">{{feedContestResult.overvotes}}</dd>
+    <dt class="key">Blank Votes:</dt>
+    <dd id="result-blankvotes" class="value">{{feedContestResult.blank_votes}}</dd>
+    <dt class="key">Accepted Provisional Votes:</dt>
+    <dd id="result-provisional" class="value">{{feedContestResult.accepted_provisional_votes}}</dd>
+    <dt class="key">Rejected Votes:</dt>
+    <dd id="result-rejectedvotes" class="value">{{feedContestResult.rejected_votes}}</dd>
+    <dt class="key">Certification:</dt>
+    <dd id="result-certification" class="value">{{feedContestResult.certification}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
   <h2><span ng-if="!feedContestResult.contest">No </span>Contest</h2>
 
   <div ng-if="!feedContestResult.contest"></br><span class="is-loading"></span></div>
@@ -44,7 +47,7 @@
   </table>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2><span ng-if="!feedContestResult.jurisdiction">No </span>Jurisdiction</h2>
 
   <div ng-if="!feedContestResult.jurisdiction"></br><span class="is-loading"></span></div>

@@ -281,7 +281,7 @@ form ol, .feed-nav ul, .pagination, .swatches, .main-nav ul {
 
 dl {
   line-height: 1.5em;
-  margin-bottom: 0.75em; }
+  margin: 0 0 1em; }
   dl dt {
     font-weight: bold;
     margin-top: 0.75em; }
@@ -628,7 +628,7 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
 
 /* table.scss */
 table {
-  margin: 0.75em 0;
+  margin: 0 0 1em;
   width: 100%;
   text-align: left;
   background: white;
@@ -948,8 +948,6 @@ aside {
   margin-bottom: 1em;
   max-width: 100%;
   min-height: 480px; }
-  .data-group-header + .map {
-    top: 1em; }
 
 form[role="search"] {
   margin-bottom: 1em; }
@@ -1469,9 +1467,13 @@ form[role="search"] {
 .errors.none {
   background-color: #00cc66; }
 
+.data-module-full {
+  clear: both;
+  margin-bottom: 2em; }
+
 section.data-module {
   margin-bottom: 2em; }
-  @media (min-width: 1452px) {
+  @media (min-width: 1116px) {
     section.data-module {
       float: right;
       margin-left: 3.7037%;
@@ -1479,14 +1481,27 @@ section.data-module {
       float: left; }
       section.data-module:nth-of-type(2n+1) {
         margin-left: 0;
-        clear: left; } }
+        clear: left; }
+      section.data-module:only-of-type {
+        width: 100%;
+        float: none;
+        margin-left: 0; } }
+
+.data-module > h2 {
+  background: #006cb1;
+  color: white;
+  padding: 0.5em;
+  border-radius: 8px 8px 0 0;
+  font-size: 1.5em;
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 0; }
 
 .data-group-header {
   *zoom: 1;
   background: #006cb1;
   color: white;
-  padding: 0.5em 1em 0.5em;
-  margin-bottom: -1em; }
+  padding: 0.5em 1em 0.5em; }
   .data-group-header:before, .data-group-header:after {
     content: " ";
     display: table; }

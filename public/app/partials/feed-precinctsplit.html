@@ -1,15 +1,18 @@
 <i id="feed-precinctsplit-content"></i>
 
-<a ng-if="feedPrecinctSplit.error_count !== undefined" id="precinctsplit-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a>
+<p ng-if="feedPrecinctSplit.error_count !== undefined"><a id="precinctsplit-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Name:</dt>
-  <dd id="precinctsplit-name" class="value">{{feedPrecinctSplit.name}}</dd>
-  <dt class="key">Ballot Style Image URL:</dt>
-  <dd id="precinctsplit-ballotimage" class="value"><a target="_blank" href="{{feedPrecinctSplit.ballotimage}}">{{feedPrecinctSplit.ballotimage}}</a></dd>
-</dl>
 
-<section class="data-group">
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="precinctsplit-name" class="value">{{feedPrecinctSplit.name}}</dd>
+    <dt class="key">Ballot Style Image URL:</dt>
+    <dd id="precinctsplit-ballotimage" class="value"><a target="_blank" href="{{feedPrecinctSplit.ballotimage}}">{{feedPrecinctSplit.ballotimage}}</a></dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
   <h2>{{feedElectoralDistricts.length}} Electoral Districts</h2>
 
   <span ng-if="!feedElectoralDistricts" class="is-loading"></span>
@@ -32,7 +35,7 @@
   </ul>
 </script>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPollingLocations.length}} Polling Locations</h2>
 
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
@@ -54,7 +57,7 @@
   </ul>
 </script>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPrecinctSplit.street_segments.total}} Street Segments</h2>
   <a ng-if="feedPrecinctSplit.street_segments.error_count !== undefined" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>
 
