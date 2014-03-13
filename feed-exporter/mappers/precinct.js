@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function precinctExport(feedId, callback) {
   schemas.models.Precinct.find({_feed: feedId}, function(err, results) {
@@ -44,7 +45,7 @@ function precinctExport(feedId, callback) {
       }
 
       chunk += util.endElement('precinct');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('precinct finished');

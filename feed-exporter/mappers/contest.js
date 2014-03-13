@@ -6,6 +6,7 @@ var schemas = require('../../dao/schemas');
 var moment = require('moment');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function contestExport(feedId, callback) {
   schemas.models.Contest.find({_feed: feedId}, function(err, results) {
@@ -44,7 +45,7 @@ function contestExport(feedId, callback) {
         chunk += util.startEndElement('ballot_id', _.escape(result.ballotId.toString()));
 
       chunk += util.endElement('contest');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('contest finished');

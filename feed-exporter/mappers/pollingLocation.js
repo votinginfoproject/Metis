@@ -6,6 +6,7 @@ var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function pollingLocationExport(feedId, callback) {
   schemas.models.PollingLocation.find({_feed: feedId}, function(err, results) {
@@ -26,7 +27,7 @@ function pollingLocationExport(feedId, callback) {
         chunk += util.startEndElement('photo_url', _.escape(result.photoUrl));
 
       chunk += util.endElement('polling_location');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('polling location finished');

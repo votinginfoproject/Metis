@@ -52,6 +52,7 @@ var mapOverview = function(path, feed) {
     id: feed.id,
     title: moment(feed._election.date).utc().format('YYYY-MM-DD') + ' ' + feed._state.name + ' ' + feed._election.electionType,
     feed_name: feed.name,
+    state_name: feed._state.name,
     error_count: feed.errorCount,
     feed_contact: feedContact,
     date: moment(feed._election.date).utc().format('YYYY-MM-DD'),

@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function ballotResponseExport(feedId, callback) {
   schemas.models.BallotResponse.find({_feed: feedId}, function(err, results) {
@@ -21,7 +22,7 @@ function ballotResponseExport(feedId, callback) {
         chunk += util.startEndElement('text', _.escape(result.sortOrder.toString()));
 
       chunk += util.endElement('ballot_response');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('ballot response finished');

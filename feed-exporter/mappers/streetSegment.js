@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function streetSegmentExport(feedId, callback) {
 
@@ -71,7 +72,7 @@ function streetSegmentExport(feedId, callback) {
       chunk += util.startEndElement("precinct_split_id", _.escape(result.precinctSplitId.toString()));
 
     chunk += util.endElement("street_segment");
-    if( !callback(chunk, resume) )
+    if( !callback(pd.xml(chunk), resume) )
       stream.pause();
     //});
   });

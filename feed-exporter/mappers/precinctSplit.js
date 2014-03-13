@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function precinctSplitExport(feedId, callback) {
   schemas.models.PrecinctSplit.find({_feed: feedId}, function(err, results) {
@@ -33,7 +34,7 @@ function precinctSplitExport(feedId, callback) {
         chunk += util.startEndElement('ballot_style_image_url', _.escape(result.ballotStyleImageUrl));
 
       chunk += util.endElement('precinct_split');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('precinct split finished');

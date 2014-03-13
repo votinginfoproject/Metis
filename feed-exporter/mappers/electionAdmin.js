@@ -6,6 +6,7 @@ var schemas = require('../../dao/schemas');
 var attrEx = require('./address');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function electionAdminExport(feedId, callback) {
   schemas.models.ElectionAdmin.find({_feed: feedId}, function(err, results) {
@@ -46,7 +47,7 @@ function electionAdminExport(feedId, callback) {
         chunk += util.startEndElement('hours', _.escape(result.hours));
 
       chunk += util.endElement('election_administration');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('election admin finished');

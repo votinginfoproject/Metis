@@ -528,7 +528,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   }
 
   $rootScope.exportFeedPost = function(feedData) {
-    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder : '' + feedData.feed_name[0] + feedData.feed_name[1] })
+    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.state_name.toLowerCase()})
       .success(function(data, status) {
         feedData.is_exporting = true;
         feedData.export_status = data;

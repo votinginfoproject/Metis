@@ -2,10 +2,10 @@
  * Created by rcartier13 on 3/4/14.
  */
 
-var genx = require('genx');
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function electoralDistrictExport(feedId, callback) {
   schemas.models.ElectoralDistrict.find({_feed: feedId}, function(err, results) {
@@ -24,7 +24,7 @@ function electoralDistrictExport(feedId, callback) {
         chunk += util.startEndElement('number', _.escape(result.number));
 
       chunk += util.endElement('electoral_district');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('electoral district finished');

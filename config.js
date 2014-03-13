@@ -22,6 +22,11 @@ config.ruleEngine = {
   isPersistent: true  //true if you want to save rule violations to mongo dB
 }
 
+config.exporter = {
+  tempLocation: './temp/',
+  dirLocation: './feeds/'
+}
+
 /**
  * vipModel contains data regarding db schema model values
  * @type {{feed: string, election: string, source: string}}

@@ -5,6 +5,9 @@
 var db = require('../dao/db');
 var fs = require('fs');
 
+var states = require('./states');
+var config = require('../config');
+
 var ballot = require('./mappers/ballot');
 var ballotLineResult = require('./mappers/ballotLineResult');
 var ballotResponse = require('./mappers/ballotResponse');
@@ -30,9 +33,7 @@ var config = require('../config');
 var mongoose = require('mongoose');
 var schemas = require('../dao/schemas');
 var moment = require('moment');
-
-//schemas.initSchemas(mongoose);
-//mongoose.connect(config.mongoose.connectionString);
+var AdmZip = require('adm-zip');
 
 function Instance() {
   return {
@@ -41,7 +42,10 @@ function Instance() {
     written: 0,
     finished: false,
     streetSegmentCallback: null,
-    stream: null
+    stream: null,
+    zip: null,
+    tempLoc: null,
+    zipLoc: null
   }
 }
 
@@ -68,10 +72,6 @@ var functionCalls = [
   streetSegment.streetSegmentExport
 ];
 
-// test_feed:
-// NC: 531dcf317ccecb5a23000004
-//createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
-
 function createXml(feedId, feedName, feedFolder, instance, callback) {
 
   if(instance.stream != null) {
@@ -79,15 +79,22 @@ function createXml(feedId, feedName, feedFolder, instance, callback) {
     return;
   }
 
-  var firstDirLoc = './exported-feeds/';
-  var dirLoc = './exported-feeds/' + feedFolder + '/';
-  var fileLoc = './exported-feeds/' + feedFolder + '/' + feedName + '.xml';
-  if( !fs.existsSync(firstDirLoc) )
-    fs.mkdirSync(firstDirLoc);
-  if( !fs.existsSync(dirLoc) )
-    fs.mkdirSync(dirLoc);
-  instance.stream = fs.createWriteStream(fileLoc); //moment().format('YYYYMMDDHHmmss') +
-  callback(undefined, fileLoc)
+  var folderName = states.findAbrev(feedFolder);
+  instance.tempLoc = './temp/' + feedName + '.xml';
+  instance.zipLoc = './feeds/' + folderName + '/' + feedName + '.zip';
+
+  if( !fs.existsSync(config.exporter.dirLocation) )
+    fs.mkdirSync(config.exporter.dirLocation);
+
+  if( !fs.existsSync(config.exporter.dirLocation + '/' + folderName) )
+    fs.mkdirSync(config.exporter.dirLocation + '/' + folderName);
+
+  if( !fs.existsSync(config.exporter.tempLocation) )
+    fs.mkdirSync(config.exporter.tempLocation);
+
+  instance.stream = fs.createWriteStream(instance.tempLoc);
+  instance.zip = new AdmZip();
+  callback(undefined, instance.zipLoc);
   writeFeed(feedId, instance, function(err) {
     callback(err);
   });
@@ -98,7 +105,7 @@ function writeFeed(feedId, instance, callback) {
   if(!instance.once) {
     instance.stream.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 
-    instance.stream.write("<vip_object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://election-info-standard.googlecode.com/files/election_spec_v3.0.xsd\" schemaVersion=\"3.0\">");
+    instance.stream.write("<vip_object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://election-info-standard.googlecode.com/files/election_spec_v3.0.xsd\" schemaVersion=\"3.0\">\n");
     instance.once = true;
   }
 
@@ -111,14 +118,14 @@ function writeFeed(feedId, instance, callback) {
 
     if(instance.written === 0) {
       if(instance.finished) {
-//        callback(err, 'finished');
         instance.stream.end();
         console.log('Finished writing XML');
-//        instance.once = false;
-//        instance.sent = 0;
-//        instance.written = 0;
-//        instance.finished = false;
-//        instance.streetSegmentCallback = null;
+        console.log('***Zip XML***');
+        instance.zip.addLocalFile(instance.tempLoc);
+        instance.zip.writeZip(instance.zipLoc);
+        fs.unlinkSync(instance.tempLoc);
+        fs.rmdirSync(config.exporter.tempLocation);
+        console.log('***Zip Finished***');
       }
       else if(instance.streetSegmentCallback)
         instance.streetSegmentCallback();
@@ -138,7 +145,6 @@ function writeFeed(feedId, instance, callback) {
       instance.streetSegmentCallback = strSegCallback;
       return false;
     }
-
     return true;
   }
 

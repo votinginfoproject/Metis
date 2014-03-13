@@ -6,6 +6,7 @@ var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function candidateExport(feedId, callback) {
   schemas.models.Candidate.find({_feed: feedId}, function(err, results) {
@@ -36,7 +37,7 @@ function candidateExport(feedId, callback) {
         chunk += util.startEndElement('sort_order', _.escape(result.sortOrder.toString()));
 
       chunk += util.endElement('candidate');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('candidate finished');

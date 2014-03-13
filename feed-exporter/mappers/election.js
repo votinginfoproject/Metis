@@ -6,6 +6,7 @@ var db = require('../../dao/db');
 var moment = require('moment');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function electionExport(feedId, callback) {
   db.getFeedElection(feedId, function(err, result) {
@@ -43,7 +44,7 @@ function electionExport(feedId, callback) {
 
     chunk += util.endElement('election');
     console.log('election finished');
-    callback(chunk);
+    callback(pd.xml(chunk));
   });
 }
 

@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function stateExport(feedId, callback) {
   schemas.models.State.findOne({_feed: feedId}, function(err, result) {
@@ -28,7 +29,7 @@ function stateExport(feedId, callback) {
 
     chunk += util.endElement('state');
     console.log('state finished');
-    callback(chunk)
+    callback(pd.xml(chunk))
   });
 }
 
