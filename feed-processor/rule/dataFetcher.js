@@ -66,6 +66,7 @@ var formatSearchResultFields = function(resultFields){
   queryFields['elementId'] = 1;
   queryFields['_feed'] = 1;
   return queryFields;
+  //return {};
 }
 
 exports.fetchEntityData = fetchEntityData;
