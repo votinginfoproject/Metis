@@ -316,6 +316,16 @@ aside {
     color: $white;
     font-weight: bold;
     @include word-break;
+    position: relative;
+  }
+
+  i {
+    position: absolute;
+    right: 0;
+    top: 0;
+    @include bp(c12) {
+      display: none;
+    }
   }
 }
 
