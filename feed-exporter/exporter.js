@@ -79,8 +79,11 @@ function createXml(feedId, feedName, feedFolder, instance, callback) {
     return;
   }
 
+  var firstDirLoc = './exported-feeds/';
   var dirLoc = './exported-feeds/' + feedFolder + '/';
   var fileLoc = './exported-feeds/' + feedFolder + '/' + feedName + '.xml';
+  if( !fs.existsSync(firstDirLoc) )
+    fs.mkdirSync(firstDirLoc);
   if( !fs.existsSync(dirLoc) )
     fs.mkdirSync(dirLoc);
   instance.stream = fs.createWriteStream(fileLoc); //moment().format('YYYYMMDDHHmmss') +
