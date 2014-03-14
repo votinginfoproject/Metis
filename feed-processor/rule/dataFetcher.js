@@ -59,14 +59,21 @@ var formatQueryArgs = function(vipFeedId){
  */
 var formatSearchResultFields = function(resultFields){
   var queryFields = {};
+
   if(resultFields != null && resultFields.length > 0){
     for(i = 0; i < resultFields.length; i++)
       queryFields[resultFields[i]] = 1;
   }
   queryFields['elementId'] = 1;
   queryFields['_feed'] = 1;
-  return queryFields;
-  //return {};
+
+  if(resultFields.length > 0){
+    return queryFields;
+  } else {
+    // street segments overlap would apply here
+    return {};
+  }
+
 }
 
 exports.fetchEntityData = fetchEntityData;

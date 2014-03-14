@@ -22,7 +22,9 @@ var theseConstraints = {
   /* Unique Street Segments */
   streetSegmentOverlap : [
     {
-      entity: [models.streetSegment], fields: [] // leaving fields blank as we will need to query against several fields within street segments
+      // leaving fields blank as we will need to query against several fields within street segments
+      // and this will also change the behavior of dataFetcher.js formatSearchResultFields()
+      entity: [models.streetSegment], fields: []
     }
   ],
 
