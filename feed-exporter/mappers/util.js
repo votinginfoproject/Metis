@@ -29,7 +29,18 @@ function startEndAttributeElement(label, attributeLabel, attribute, data) {
     return startEndElement(label, data);
 }
 
+function testEmptyObject(obj) {
+  var keys = Object.keys(obj);
+  for(var i = 0; i < keys.length; ++i) {
+    if(obj[keys[i]] && keys[i] !== 'toObject')
+      return true;
+  };
+
+  return false;
+}
+
 exports.endElement = endElement;
 exports.startElement = startElement;
 exports.startEndElement = startEndElement;
 exports.startEndAttributeElement = startEndAttributeElement;
+exports.testEmptyObject = testEmptyObject;

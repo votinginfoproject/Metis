@@ -21,7 +21,7 @@ function earlyVoteSitesExport(feedId, callback) {
 
       if(result.name)
         chunk += util.startEndElement('name', _.escape(result.name));
-      if(result.address)
+      if(util.testEmptyObject(result.address))
         chunk += addrEx.addressExport('address', result.address);
       if(result.directions)
         chunk += util.startEndElement('directions', _.escape(result.directions));

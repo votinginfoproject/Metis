@@ -23,9 +23,9 @@ function electionAdminExport(feedId, callback) {
         chunk += util.startEndElement('eo_id', _.escape(result.eoId.toString()));
       if(result.ovcId)
         chunk += util.startEndElement('ovc_id', _.escape(result.ovcId.toString()));
-      if(result.physicalAddress)
+      if(util.testEmptyObject(result.physicalAddress))
         chunk += attrEx.addressExport('physical_address', result.physicalAddress);
-      if(result.mailingAddress)
+      if(util.testEmptyObject(result.mailingAddress))
         chunk += attrEx.addressExport('mailing_address', result.mailingAddress);
       if(result.electionsUrl)
         chunk += util.startEndElement('elections_url', _.escape(result.electionsUrl));

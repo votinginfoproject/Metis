@@ -38,7 +38,7 @@ function streetSegmentExport(feedId, callback) {
       chunk += util.startEndElement("odd_even_both", _.escape(result.oddEvenBoth));
     if(result.startApartmentNumber)
       chunk += util.startEndElement("start_apartment_number", _.escape(result.startApartmentNumber));
-    if(result.nonHouseAddress) {
+    if(util.testEmptyObject(result.nonHouseAddress)) {
       chunk += util.startElement("non_house_address", null, null, null, null);
       var address = result.nonHouseAddress;
       if(address.houseNumber)

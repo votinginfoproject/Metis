@@ -29,7 +29,7 @@ function candidateExport(feedId, callback) {
         chunk += util.startEndElement('phone', _.escape(result.phone));
       if(result.photoUrl)
         chunk += util.startEndElement('photo_url', _.escape(result.photoUrl));
-      if(result.filedMailingAddress)
+      if(util.testEmptyObject(result.filedMailingAddress))
         chunk += addrEx.addressExport('filed_mailing_address', result.filedMailingAddress);
       if(result.email)
         chunk += util.startEndElement('email', _.escape(result.email));

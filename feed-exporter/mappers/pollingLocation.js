@@ -17,7 +17,7 @@ function pollingLocationExport(feedId, callback) {
     results.forEach(function(result) {
       var chunk = util.startElement('polling_location', 'id', _.escape(result.elementId.toString()));
 
-      if(result.address)
+      if(util.testEmptyObject(result.address))
         chunk += addrEx.addressExport('address', result.address);
       if(result.directions)
         chunk += util.startEndElement('directions', _.escape(result.directions));
