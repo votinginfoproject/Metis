@@ -1442,6 +1442,11 @@ dl {
   dl dd {
     margin: 0; }
 
+.move {
+  color: transparent;
+  font: 0/0 a;
+  text-shadow: none; }
+
 a {
   -webkit-transition: color 0.1s linear;
   -moz-transition: color 0.1s linear;

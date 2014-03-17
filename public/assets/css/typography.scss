@@ -154,6 +154,9 @@ dl {
   }
 }
 
+.move {
+  @include hide-text;
+}
 
 // ============================================================================
 // Inline Elements (alphabetical order)
