@@ -190,14 +190,18 @@
   margin-bottom: 1em;
   width: 100%;
   background-color: $white;
-  /* IE9, iOS 3.2+ */
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 0%,color-stop(0, $blue-med),color-stop(0.3, $blue-med),color-stop(0.3, rgb(255, 255, 255)),color-stop(1, rgb(255, 255, 255)));
-  /* Android 2.3 */
-  background-image: -webkit-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
-  /* IE10+ */
-  background-image: repeating-linear-gradient(to right,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
-  background-image: -ms-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+
+  @include bp(c6) {
+    background-color: $white;
+    /* IE9, iOS 3.2+ */
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+    background-image: -webkit-gradient(linear, 0% 0%, 100% 0%,color-stop(0, $blue-med),color-stop(0.3, $blue-med),color-stop(0.3, rgb(255, 255, 255)),color-stop(1, rgb(255, 255, 255)));
+    /* Android 2.3 */
+    background-image: -webkit-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+    /* IE10+ */
+    background-image: repeating-linear-gradient(to right,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+    background-image: -ms-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+  }
 
   .errors {
     min-height: $base-line-height;
@@ -208,12 +212,12 @@
 .key {
   @include box-sizing(border-box);
   //background: $blue-med;
-  border-top: 1px solid #628eb7;
   clear: left;
-  color: $white;
-  font-weight: normal;
+  color: $blue;
+  font-weight: bold;
   margin: 0;
-  padding: $base-xs $base;
+  padding: $base-xs $base 0;
+  border-top: 1px solid #628eb7;
 
   &:first-child {
     border-top: none;
@@ -225,6 +229,9 @@
   }
 
   @include bp(c6) {
+    color: $white;
+    font-weight: normal;
+    padding-bottom: $base-xs;
     float: left;
     width: 30%;
   }
@@ -233,19 +240,21 @@
 .value {
   @include box-sizing(border-box);
   @include word-break;
-  border-top: 1px solid #628eb7;
   color: $blue;
   margin: 0;
-  padding: $base-xs $base;
+  padding: 0 $base $base-sm;
 
-  &:nth-child(2) {
-    border-top: none;
-  }
+  
 
   @include bp(c6) {
-    //border-top: 1px solid $blue;
+    padding-top: $base-xs;
     float: left;
     width: 70%;
+    border-top: 1px solid #628eb7;
+
+    &:nth-child(2) {
+      border-top: none;
+    }
   }
 }
 
@@ -562,6 +571,22 @@ form[role="search"] {
     }
   }
 }
+
+
+// ============================================================================
+// Error Count
+// ============================================================================
+
+.error-count {
+  margin-left: $base;
+  margin-right: $base;
+
+  @include bp(c6) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 
 
 // ============================================================================

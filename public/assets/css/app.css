@@ -1949,20 +1949,23 @@ th {
   *zoom: 1;
   margin-bottom: 1em;
   width: 100%;
-  background-color: white;
-  /* IE9, iOS 3.2+ */
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(0, #006cb1), color-stop(0.3, #006cb1), color-stop(0.3, white), color-stop(1, white));
-  /* Android 2.3 */
-  background-image: -webkit-repeating-linear-gradient(left, #006cb1 0%, #006cb1 30%, white 30%, white 100%);
-  /* IE10+ */
-  background-image: repeating-linear-gradient(to right, #006cb1 0%, #006cb1 30%, white 30%, white 100%);
-  background-image: -ms-repeating-linear-gradient(left, #006cb1 0%, #006cb1 30%, white 30%, white 100%); }
+  background-color: white; }
   .attributes:before, .attributes:after {
     content: " ";
     display: table; }
   .attributes:after {
     clear: both; }
+  @media (min-width: 600px) {
+    .attributes {
+      background-color: white;
+      /* IE9, iOS 3.2+ */
+      background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+      background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(0, #006cb1), color-stop(0.3, #006cb1), color-stop(0.3, white), color-stop(1, white));
+      /* Android 2.3 */
+      background-image: -webkit-repeating-linear-gradient(left, #006cb1 0%, #006cb1 30%, white 30%, white 100%);
+      /* IE10+ */
+      background-image: repeating-linear-gradient(to right, #006cb1 0%, #006cb1 30%, white 30%, white 100%);
+      background-image: -ms-repeating-linear-gradient(left, #006cb1 0%, #006cb1 30%, white 30%, white 100%); } }
   .attributes .errors {
     min-height: 1.5em;
     min-width: 1.5em; }
@@ -1971,16 +1974,19 @@ th {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border-top: 1px solid #628eb7;
   clear: left;
-  color: white;
-  font-weight: normal;
+  color: #33699c;
+  font-weight: bold;
   margin: 0;
-  padding: 0.25em 1em; }
+  padding: 0.25em 1em 0;
+  border-top: 1px solid #628eb7; }
   .key:first-child {
     border-top: none; }
   @media (min-width: 600px) {
     .key {
+      color: white;
+      font-weight: normal;
+      padding-bottom: 0.25em;
       float: left;
       width: 30%; } }
 
@@ -1994,16 +2000,17 @@ th {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
   hyphens: auto;
-  border-top: 1px solid #628eb7;
   color: #33699c;
   margin: 0;
-  padding: 0.25em 1em; }
-  .value:nth-child(2) {
-    border-top: none; }
+  padding: 0 1em 0.5em; }
   @media (min-width: 600px) {
     .value {
+      padding-top: 0.25em;
       float: left;
-      width: 70%; } }
+      width: 70%;
+      border-top: 1px solid #628eb7; }
+      .value:nth-child(2) {
+        border-top: none; } }
 
 .accordion {
   margin-top: 1em; }
@@ -2199,6 +2206,14 @@ form[role="search"] {
     font-weight: bold; }
     .pagination .is-active:hover, .pagination .is-active:focus {
       background: #3c5f87; }
+
+.error-count {
+  margin-left: 1em;
+  margin-right: 1em; }
+  @media (min-width: 600px) {
+    .error-count {
+      margin-left: 0;
+      margin-right: 0; } }
 
 .example {
   *zoom: 1;
