@@ -1,19 +1,22 @@
 <i id="feed-locality-content"></i>
 
-<a ng-if="feedLocality !== undefined" id="locality-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a>
+<p ng-if="feedLocality !== undefined"><a id="locality-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Name:</dt>
-  <dd id="locality-name" class="value">{{feedLocality.name}}</dd>
-  <dt class="key">Type:</dt>
-  <dd id="locality-type" class="value">{{feedLocality.type}}</dd>
-  <dt class="key">Election Machine Type:</dt>
-  <dd id="locality-electionmachintype" class="value">{{feedLocality.election_machine_type}}</dd>
-  <dt class="key">Pollbook Type:</dt>
-  <dd id="locality-pollbooktype" class="value">{{feedLocality.poll_book_type}}</dd>
-</dl>
 
-<section class="data-group started">
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="locality-name" class="value">{{feedLocality.name}}</dd>
+    <dt class="key">Type:</dt>
+    <dd id="locality-type" class="value">{{feedLocality.type}}</dd>
+    <dt class="key">Election Machine Type:</dt>
+    <dd id="locality-electionmachintype" class="value">{{feedLocality.election_machine_type}}</dd>
+    <dt class="key">Pollbook Type:</dt>
+    <dd id="locality-pollbooktype" class="value">{{feedLocality.poll_book_type}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module started">
   <h2>Overview</h2>
 
   <!-- element table directive -->
@@ -21,7 +24,7 @@
 
 </section><!-- /.data-group -->
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
 
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
@@ -34,7 +37,7 @@
   </table>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2><span ng-if="!feedLocality.administration">No</span> Election Administration</h2>
 
   <span ng-if="!feedLocality" class="is-loading"></span>
@@ -66,7 +69,7 @@
 
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPrecincts.length}} Precincts</h2>
 
   <span ng-if="!feedPrecincts" class="is-loading"></span>

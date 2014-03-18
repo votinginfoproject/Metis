@@ -1,23 +1,25 @@
 <i id="{{pageId}}"></i>
 
-<a ng-if="feedPollingLocation.error_count !== undefined" id="pollinglocation-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPollingLocation.error_count}} Errors in Polling Location ID: {{feedPollingLocation.id}}</a>
+<p ng-if="feedPollingLocation.error_count !== undefined"><a id="pollinglocation-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPollingLocation.error_count}} Errors in Polling Location ID: {{feedPollingLocation.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Address:</dt>
-  <dd id="address" class="value">
-    {{feedPollingLocation.address.line1}},
-    {{feedPollingLocation.address.city}},
-    {{feedPollingLocation.address.state}} {{feedPollingLocation.address.zip}}</dd>
-  </dd>
-  <dt class="key">Directions:</dt>
-  <dd id="directions" class="value">{{feedPollingLocation.directions}}</dd>
-  <dt class="key">Polling Hours:</dt>
-  <dd id="polling_hours" class="value">{{feedPollingLocation.polling_hours}}</dd>
-  <dt class="key">Photo Url:</dt>
-  <dd id="photo_url" class="value">{{feedPollingLocation.photo_url}}</dd>
-</dl>
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Address:</dt>
+    <dd id="address" class="value">
+      {{feedPollingLocation.address.line1}},
+      {{feedPollingLocation.address.city}},
+      {{feedPollingLocation.address.state}} {{feedPollingLocation.address.zip}}</dd>
+    </dd>
+    <dt class="key">Directions:</dt>
+    <dd id="directions" class="value">{{feedPollingLocation.directions}}</dd>
+    <dt class="key">Polling Hours:</dt>
+    <dd id="polling_hours" class="value">{{feedPollingLocation.polling_hours}}</dd>
+    <dt class="key">Photo Url:</dt>
+    <dd id="photo_url" class="value">{{feedPollingLocation.photo_url}}</dd>
+  </dl>
+</div>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPollingLocation.precincts.length}} Precincts</h2>
 
   <span ng-if="!feedPollingLocation" class="is-loading"></span>
@@ -41,7 +43,7 @@
 </section>
 
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPollingLocation.precinct_splits.length}} Precinct Splits</h2>
 
   <span ng-if="!feedPollingLocation" class="is-loading"></span>

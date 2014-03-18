@@ -1,8 +1,8 @@
 <header class="feed-title" ng-click="toggleAsideFunc()">
   <div class="wrapper">
 
-    <h2>{{feedData.title}}</h2>
-
+    <h2>{{feedData.title}} <i class="fi-plus"><span class="move">(open navigation)</span></i></h2>
+    
   </div>
 </header>
 
@@ -13,7 +13,7 @@
     <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
       {{feedData.error_count}} Total Feed Errors
       <br>
-      <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date">Final feed due {{getDueDateText(feedData.date)}}</time>
+      <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(feedData.date)}}</time>
     </a>
 
     <nav class="feed-nav">

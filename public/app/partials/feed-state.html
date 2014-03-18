@@ -1,13 +1,15 @@
 <i id="feed-state-content"></i>
 
-<a ng-if="feedState.error_count !== undefined" id="state-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a>
+<p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Name:</dt>
-  <dd class="value">{{feedState.name}}</dd>
-</dl>
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd class="value">{{feedState.name}}</dd>
+  </dl>
+</div>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
 
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
@@ -35,7 +37,7 @@
 
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2><span ng-if="!feedState.administration">No</span> Election Administration</h2>
 
   <span ng-if="!feedState" class="is-loading"></span>
@@ -59,15 +61,15 @@
 
 </section><!-- /.data-group -->
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedLocalities.length}} Localities
     <small>({{feedCounties.features.length}} Counties)</small>
   </h2>
   <span ng-if="!feedCounties" class="is-loading"></span>
-  <p>
   <div id="map" class="map" hidden></div>
-  </p>
+</section>
 
+<section class="data-group data-module">
   <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
   <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination"
          class="associations">
@@ -90,6 +92,5 @@
       </li>
     </ul>
   </script>
-
 </section>
 
