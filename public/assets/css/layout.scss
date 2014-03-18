@@ -25,8 +25,13 @@ aside {
 }
 
 footer[role="contentinfo"] {
-  margin: 2em 0;
+  margin: $base-lg $base;
   clear: both;
+  line-height: 1;
+
+  @include bp(c6) {
+    margin: $base-lg 0;
+  }
 }
 
 header[role="banner"] {
@@ -64,7 +69,7 @@ header[role="banner"] {
 .wrapper {
   @include clearfix;
   margin: 0 auto;
-  padding: 1em percentage(24/306);
+  padding: 1em $base;
 
   @include bp(c6) {
     padding: 1em percentage(60/600);
@@ -89,6 +94,11 @@ header[role="banner"] {
   @include bp(c12) {
     display: block;    
   }
+
+  @include max-bp(c6) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 aside .wrapper {
@@ -98,16 +108,18 @@ aside .wrapper {
 }
 
 .content {
-  padding-top: 1em;
+  padding-top: $base-xs;
+
+  @include bp(c12) {
+    padding-top: 1em;
+  }
 }
 
 .content.feed {
   margin-left: 0;
-  border-top: 1px solid $gray-medium;
-
+  
   @include bp(c12) {
     @include span-columns(8 of 12);
-    border-top: none;
   }
 
   @include bp(c16) {

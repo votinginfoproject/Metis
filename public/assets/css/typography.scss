@@ -47,12 +47,23 @@ h6 {
 
 h1 {
   @include word-break;
-  font-size: 2.25em; // 36px
-  font-size: 2.25rem;
-  margin-bottom: $base-sm;
+  font-size: 1.5em; // 24px
+  font-size: 1.5rem;
+  margin: 0 $base-sm $base;
+  padding-top: $base-sm;
+  border-top: 1px solid $gray-medium;
+
   @include bp(c6) {
-    margin-bottom: 0;
+    font-size: 2.25em; // 36px
+    font-size: 2.25rem;
+    margin: 0;
   }
+
+  @include bp(c12) {
+    padding-top: 0;
+    border-top: none;
+  }
+
 }
 
 h2 {
@@ -155,7 +166,8 @@ dl {
 }
 
 .move {
-  @include hide-text;
+  text-indent: -9999px;
+  display: block;
 }
 
 // ============================================================================

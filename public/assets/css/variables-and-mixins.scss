@@ -152,3 +152,21 @@ $base-padding: .5em 1em;
   }
 
 }
+
+@mixin max-bp($point) {
+
+  $c6: "(max-width: 599px)";
+  $c12: "(max-width: 1115px)";
+  $c16: "(max-width: 1451px)";
+
+  @if $point == c16 {
+    @media #{$c16} { @content; }
+  }
+  @else if $point == c12 {
+    @media #{$c12} { @content; }
+  }
+  @else if $point == c6 {
+    @media #{$c6}  { @content; }
+  }
+
+}
