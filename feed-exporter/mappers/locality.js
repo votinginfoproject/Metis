@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function localityExport(feedId, callback) {
 
@@ -35,7 +36,7 @@ function localityExport(feedId, callback) {
       }
 
       chunk += util.endElement('locality');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('locality finished');

@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function referendumExport(feedId, callback) {
   schemas.models.Referendum.find({_feed: feedId}, function(err, results) {
@@ -39,7 +40,7 @@ function referendumExport(feedId, callback) {
       }
 
       chunk += util.endElement('referendum');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('referendum finished');

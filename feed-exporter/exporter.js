@@ -5,6 +5,9 @@
 var db = require('../dao/db');
 var fs = require('fs');
 
+var states = require('./states');
+var config = require('../config');
+
 var ballot = require('./mappers/ballot');
 var ballotLineResult = require('./mappers/ballotLineResult');
 var ballotResponse = require('./mappers/ballotResponse');
@@ -29,91 +32,131 @@ var streetSegment = require('./mappers/streetSegment');
 var config = require('../config');
 var mongoose = require('mongoose');
 var schemas = require('../dao/schemas');
+var moment = require('moment');
+var AdmZip = require('adm-zip');
 
-schemas.initSchemas(mongoose);
-mongoose.connect(config.mongoose.connectionString);
-
-var once = false;
-var sent = 0;
-var written = 0;
-var finished = false;
-
-var functionCalls = [];
-
-// test_feed:
-// NC: 531dcf317ccecb5a23000004
-createXml(schemas.types.ObjectId('531dcf317ccecb5a23000004'));
-
-function createXml(feedId) {
-
-  functionCalls.push(ballot.ballotExport);
-  functionCalls.push(ballotLineResult.ballotLineResultExport);
-  functionCalls.push(ballotResponse.ballotResponseExport);
-  functionCalls.push(candidate.candidateExport);
-  functionCalls.push(contest.contestExport);
-  functionCalls.push(contestResult.contestResultExport);
-  functionCalls.push(customBallot.customBallotExport);
-  functionCalls.push(evs.earlyVoteSitesExport);
-  functionCalls.push(election.electionExport);
-  functionCalls.push(electionAdmin.electionAdminExport);
-  functionCalls.push(electionOfficial.electionOfficialExport);
-  functionCalls.push(district.electoralDistrictExport);
-  functionCalls.push(locality.localityExport);
-  functionCalls.push(pollingLocation.pollingLocationExport);
-  functionCalls.push(precinct.precinctExport);
-  functionCalls.push(precinctSplit.precinctSplitExport);
-  functionCalls.push(referendum.referendumExport);
-  functionCalls.push(source.sourceExport);
-  functionCalls.push(state.stateExport);
-  functionCalls.push(streetSegment.streetSegmentExport);
-
-  var stream = fs.createWriteStream('./NC_EXPORT_TEST.xml');
-  writeFeed(feedId, stream);
+function Instance() {
+  return {
+    once: false,
+    sent: 0,
+    written: 0,
+    finished: false,
+    streetSegmentCallback: null,
+    stream: null,
+    zip: null,
+    tempLoc: null,
+    zipLoc: null
+  }
 }
 
-function writeFeed(feedId, stream) {
+var functionCalls = [
+  ballot.ballotExport,
+  ballotLineResult.ballotLineResultExport,
+  ballotResponse.ballotResponseExport,
+  candidate.candidateExport,
+  contest.contestExport,
+  contestResult.contestResultExport,
+  customBallot.customBallotExport,
+  evs.earlyVoteSitesExport,
+  election.electionExport,
+  electionAdmin.electionAdminExport,
+  electionOfficial.electionOfficialExport,
+  district.electoralDistrictExport,
+  locality.localityExport,
+  pollingLocation.pollingLocationExport,
+  precinct.precinctExport,
+  precinctSplit.precinctSplitExport,
+  referendum.referendumExport,
+  source.sourceExport,
+  state.stateExport,
+  streetSegment.streetSegmentExport
+];
 
-  if(!once) {
-    stream.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+function createXml(feedId, feedName, feedFolder, instance, callback) {
 
-    stream.write("<vip_object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://election-info-standard.googlecode.com/files/election_spec_v3.0.xsd\" schemaVersion=\"3.0\">");
-    once = true;
+  if(instance.stream != null) {
+    callback(400);
+    return;
+  }
+
+  var folderName = states.findAbrev(feedFolder);
+  instance.tempLoc = './temp/' + feedName + '.xml';
+  instance.zipLoc = './feeds/' + folderName + '/' + feedName + '.zip';
+
+  if( !fs.existsSync(config.exporter.dirLocation) )
+    fs.mkdirSync(config.exporter.dirLocation);
+
+  if( !fs.existsSync(config.exporter.dirLocation + '/' + folderName) )
+    fs.mkdirSync(config.exporter.dirLocation + '/' + folderName);
+
+  if( !fs.existsSync(config.exporter.tempLocation) )
+    fs.mkdirSync(config.exporter.tempLocation);
+
+  instance.stream = fs.createWriteStream(instance.tempLoc);
+  instance.zip = new AdmZip();
+  callback(undefined, instance.zipLoc);
+  writeFeed(feedId, instance, function(err) {
+    callback(err);
+  });
+}
+
+function writeFeed(feedId, instance, callback) {
+
+  if(!instance.once) {
+    instance.stream.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+
+    instance.stream.write("<vip_object xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://election-info-standard.googlecode.com/files/election_spec_v3.0.xsd\" schemaVersion=\"3.0\">\n");
+    instance.once = true;
   }
 
   function finishedWrite(err) {
-    if (err)
-      console.log(err);
+    if (err) {
+      callback(err);
+    }
 
-    --written;
+    --instance.written;
 
-    if(written === 0) {
-      if(finished) {
-        stream.end();
+    if(instance.written === 0) {
+      if(instance.finished) {
+        instance.stream.end();
         console.log('Finished writing XML');
+        console.log('***Zip XML***');
+        instance.zip.addLocalFile(instance.tempLoc);
+        instance.zip.writeZip(instance.zipLoc);
+        fs.unlinkSync(instance.tempLoc);
+        fs.rmdirSync(config.exporter.tempLocation);
+        console.log('***Zip Finished***');
       }
+      else if(instance.streetSegmentCallback)
+        instance.streetSegmentCallback();
       else
-        writeFeed(feedId, stream);
+        writeFeed(feedId, instance, callback);
     }
   }
 
-  function sendToBuffer(chunk) {
+  function sendToBuffer(chunk, strSegCallback) {
     if(chunk === -1) {
-      writeFeed(feedId, stream);
-      return;
+      writeFeed(feedId, instance, callback);
+      return true;
     }
 
-    ++written;
-    stream.write(chunk, finishedWrite);
+    ++instance.written;
+    if( !instance.stream.write(chunk, finishedWrite) ) {
+      instance.streetSegmentCallback = strSegCallback;
+      return false;
+    }
+    return true;
   }
 
-  if(sent !== functionCalls.length)
-    functionCalls[sent++](feedId, sendToBuffer);
+  if(instance.sent !== functionCalls.length)
+    functionCalls[instance.sent++](feedId, sendToBuffer);
   else {
-    ++written;
-    stream.write("</vip_object>", finishedWrite);
-    finished = true;
+    ++instance.written;
+    instance.stream.write("</vip_object>", finishedWrite);
+    instance.finished = true;
     console.log('Finished adding to writing buffer');
   }
 }
 
+exports.Instance = Instance;
 exports.createXml = createXml;

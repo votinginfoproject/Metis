@@ -18,7 +18,8 @@
     "when": "~2.8.0",
     "shapefile": "~0.2.0",
     "geojson": "~0.1.5",
-    "genx": "~1.0.0"
+    "pretty-data": "~0.40.0",
+    "adm-zip": "~0.4.4"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

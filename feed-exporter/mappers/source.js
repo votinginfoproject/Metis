@@ -6,6 +6,7 @@ var db = require('../../dao/db');
 var moment = require('moment');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function sourceExport(feedId, callback) {
   db.getFeedSource(feedId, function(err, result) {
@@ -35,7 +36,7 @@ function sourceExport(feedId, callback) {
     chunk += util.endElement('source');
 
     console.log('source finished');
-    callback(chunk);
+    callback(pd.xml(chunk));
   });
 }
 

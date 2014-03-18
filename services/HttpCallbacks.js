@@ -5,6 +5,7 @@
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
 var _path = require('path');
+var exporter = require('../feed-exporter/exporter');
 
 /*
  * Error handling middleware
@@ -360,6 +361,15 @@ function feedBallotLineResultGET(req, res) {
   });
 }
 
+function feedExportPOST(req, res) {
+  exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err, location) {
+    if(err)
+      res.send(400)
+    else
+      res.send(location);
+  });
+}
+
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;
@@ -401,3 +411,5 @@ exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
+
+exports.feedExportPOST = feedExportPOST;

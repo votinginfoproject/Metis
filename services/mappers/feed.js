@@ -50,7 +50,9 @@ var mapOverview = function(path, feed) {
 
   return {
     id: feed.id,
-    title: feed.name, //TODO: replace this with a real title for the feed, i.e. 2011-11-03 North Carolina Primary
+    title: moment(feed._election.date).utc().format('YYYY-MM-DD') + ' ' + feed._state.name + ' ' + feed._election.electionType,
+    feed_name: feed.name,
+    state_name: feed._state.name,
     error_count: feed.errorCount,
     feed_contact: feedContact,
     date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
@@ -221,7 +223,7 @@ function mapElectoralDistricts (path, electoralDistrict) {
       name: ed.name,
       type: ed.type,
       number: ed.number,
-      contests: -1, //ed.contests.length, TODO fix
+      contests: ed.contests,
       self: _path.join(path, ed.elementId.toString())
     };
   });
@@ -380,95 +382,6 @@ function mapStreetSegments (path, streetSegments) {
   });
 };
 
-function mapStreetSegmentsErrors (path, streetSegments) {  //TODO: Replace with non-hardcoded data
-  return [
-    {
-      severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 752,
-      title: "Overlapping street segment in precinct",
-      details: "Street Segments are overlapping.",
-      textualReference:
-        "<street-segments><street-segment>1</street-segment><street-segment>2</street-segment></street-segments>",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 100,
-      title: "Duplicate elements",
-      details: "All values for an element are the exact same as another element in all instances except for their id.",
-      textualReference: "<elements><element id='x1'>one</element><element id='x2'>one</element></elements>",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 15,
-      title: "Failed Geocoding",
-      details: "Could not Geocode correctly.",
-      textualReference: "The GeoCode long1234.32123 could not be parsed.",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
-      severityText: "Error",
-      errorTypeId: 1,
-      error_count: 8,
-      title: "Missing required element",
-      details: "Did not find the id",
-      textualReference: "<state>Virginia</state>",
-      _feed: 0,
-      _source: 0
-    }
-  ];
-};
-
-function mapStreetSegmentsErrors2 (path, streetSegments) { //TODO: Replace with non-hardcoded data
-  return [
-    {
-      severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 111,
-      title: "A warning",
-      details: "Street Segments are overlapping.",
-      textualReference:
-        "<street-segments><street-segment>1</street-segment><street-segment>2</street-segment></street-segments>",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
-      severityText: "Warning",
-      errorTypeId: 1,
-      error_count: 222,
-      title: "Another warning",
-      details: "All values for an element are the exact same as another element in all instances except for their id.",
-      textualReference: "<elements><element id='x1'>one</element><element id='x2'>one</element></elements>",
-      _feed: 0,
-      _source: 0
-    },
-    {
-      severityCode: 1,
-      severityText: "Error",
-      errorTypeId: 1,
-      error_count: 444,
-      title: "New Error",
-      details: "Did not find the id",
-      textualReference: "<states><state>MD</state><state>VA</state></states>",
-      _feed: 0,
-      _source: 0
-    }
-  ];
-};
-
 function mapPrecinctSplit (path, precinctSplit) {
   return {
     id: precinctSplit.elementId,
@@ -509,8 +422,8 @@ function mapElectionAdministration (path, electionAdministration) {
     name: electionAdministration.name,
     physical_address: addressToJson(electionAdministration.physicalAddress),
     mailing_address: addressToJson(electionAdministration.mailingAddress),
-    phone: -1, // TODO: need field
-    email: -1, // TODO: need field
+    phone: electionAdministration.phone,  //TODO: v5.0 element
+    email: electionAdministration.email,  //TODO: v5.0 element
     elections_url: electionAdministration.electionsUrl,
     registration_url: electionAdministration.registrationUrl,
     am_i_registered_url: electionAdministration.amIRegisteredUrl,
@@ -673,8 +586,6 @@ exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
 exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
-exports.mapStreetSegmentsErrors = mapStreetSegmentsErrors;
-exports.mapStreetSegmentsErrors2 = mapStreetSegmentsErrors2;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;

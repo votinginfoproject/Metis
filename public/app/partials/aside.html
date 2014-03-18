@@ -26,7 +26,8 @@
       </ul>
     </nav>
 
-    <a class="button-approve disabled" href="javascript: void(0);">Approve Feed</a>
+    <a ng-if="!feedData.is_exporting" ng-click="exportFeedPost(feedData)" class="button-approve">Approve Feed</a>
+    <a ng-if="feedData.is_exporting" class="button-approve disabled">Feed Location: {{feedData.export_status}}</a>
 
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
   </div>

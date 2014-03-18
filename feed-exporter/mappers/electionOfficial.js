@@ -5,6 +5,7 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function electionOfficialExport(feedId, callback) {
   schemas.models.ElectionOfficial.find({_feed: feedId}, function(err, results) {
@@ -27,7 +28,7 @@ function electionOfficialExport(feedId, callback) {
         chunk += util.startEndElement('email', _.escape(result.email));
 
       chunk += util.endElement('election_official');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('election official finished');

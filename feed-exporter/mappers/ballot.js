@@ -5,6 +5,8 @@
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
+var zlib = require('zlib');
 
 function ballotExport(feedId, callback) {
   schemas.models.Ballot.find({_feed: feedId}, function(err, results) {
@@ -35,7 +37,7 @@ function ballotExport(feedId, callback) {
         chunk += util.startEndElement("image_url", _.escape(result.imageUrl));
 
       chunk += util.endElement("ballot");
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
 
     console.log('ballot finished');

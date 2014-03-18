@@ -22,6 +22,8 @@ var theseConstraints = {
   /* Unique Street Segments */
   streetSegmentOverlap : [
     {
+      // leaving fields blank as we will need to query against several fields within street segments
+      // and this will also change the behavior of dataFetcher.js formatSearchResultFields()
       entity: [models.streetSegment], fields: []
     }
   ],
@@ -55,6 +57,8 @@ var theseConstraints = {
       entity: [models.source], fields: ['organizationUrl', 'touUrl']
     }
   ],
+  /* house or street direction */
+  // implementation will work with one entity currently
   direction : [
     {
       entity: [models.streetSegment], fields: ['nonHouseAddress.addressDirection','nonHouseAddress.streetDirection']
@@ -99,6 +103,14 @@ var theseConstraints = {
     },
     {
       entity: [models.streetSegment], fields: ['nonHouseAddress.zip']
+    }
+  ],
+
+  /* house and apt number  */
+  // implementation will work with one entity currently
+  houseAptNumber : [
+    {
+      entity: [models.streetSegment], fields: ['startHouseNumber', 'endHouseNumber', 'startApartmentNumber', 'endApartmentNumber']
     }
   ]
 

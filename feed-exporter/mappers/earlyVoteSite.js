@@ -7,6 +7,7 @@ var addrEx = require('./address');
 var moment = require('moment');
 var util = require('./util');
 var _ = require('underscore');
+var pd = require('pretty-data').pd;
 
 function earlyVoteSitesExport(feedId, callback) {
 
@@ -20,7 +21,7 @@ function earlyVoteSitesExport(feedId, callback) {
 
       if(result.name)
         chunk += util.startEndElement('name', _.escape(result.name));
-      if(result.address)
+      if(util.testEmptyObject(result.address))
         chunk += addrEx.addressExport('address', result.address);
       if(result.directions)
         chunk += util.startEndElement('directions', _.escape(result.directions));
@@ -34,7 +35,7 @@ function earlyVoteSitesExport(feedId, callback) {
         chunk += util.startEndElement('days_times_open', _.escape(result.daysTimesOpen));
 
       chunk += util.endElement('early_vote_site');
-      callback(chunk);
+      callback(pd.xml(chunk));
     });
   });
 

@@ -157,14 +157,14 @@ Note that the ID attributes are unique throughout the file.
     <election_official id="3457">
         <name>Robert Smith</name>
         <title>A title</title>
-        <phone>(101) 555-1212</phone>
+        <phone>(201) 555-1212</phone>
         <fax>(101) 555-1213</fax>
         <email>rsmith@ohio.gov</email>
     </election_official>
     <election_official id="3458">
         <name>Roberta Smith</name>
         <title>Head of Elections</title>
-        <phone>(101) 555-1212</phone>
+        <phone>(201) 555-1212</phone>
         <fax>(101) 555-1213</fax>
         <email>rsmith@ohio.gov</email>
     </election_official>
@@ -201,14 +201,14 @@ Note that the ID attributes are unique throughout the file.
     <election_official id="1555122">
         <name>Alissa P. Hacker</name>
         <title>Information Technology Specialist</title>
-        <phone>(101) 555-1235</phone>
+        <phone>(201) 555-1235</phone>
         <fax>(101) 555-1236</fax>
         <email>ahacker@ohio.gov</email>
     </election_official>
     <election_official id="3459">
         <name>Robert Miller</name>
         <title>Overseas Voter Contact</title>
-        <phone>(101) 555-1215</phone>
+        <phone>(201) 555-1215</phone>
         <fax>(101) 555-1216</fax>
         <email>rmiller@ohio.gov</email>
     </election_official>
@@ -406,7 +406,7 @@ Note that the ID attributes are unique throughout the file.
 		<party>Democrat</party>
 		<candidate_url>http://www.dberlin.org</candidate_url>
 		<biography>Daniel Berlin grew up somewhere</biography>
-		<phone>123-456-7890</phone>
+		<phone>223-456-7890</phone>
 		<photo_url>http://www.dberlin.org/dannyb.jpg</photo_url>
 		<filed_mailing_address><line1>123 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
 		<email>dberlin@example.com</email>
@@ -418,7 +418,7 @@ Note that the ID attributes are unique throughout the file.
 		<sort_order>2</sort_order>
     <candidate_url>http://www.berlinOpp.org</candidate_url>
     <biography>Daniel Berlin's opponent grew up somewhere else</biography>
-    <phone>123-456-7890</phone>
+    <phone>223-456-7890</phone>
     <filed_mailing_address><line1>1234 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
     <email>dberlinop@example.com</email>
 	</candidate>
@@ -556,15 +556,17 @@ Note that the ID attributes are unique throughout the file.
         <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210002">
-        <start_house_number>1</start_house_number>
-        <end_house_number>9</end_house_number>
+        <start_house_number>8</start_house_number>
+        <end_house_number>130000000</end_house_number>
         <odd_even_both>odd</odd_even_both>
         <non_house_address>
+          <street_direction>E</street_direction>
+          <address_direction>N</address_direction>
           <street_name>Main</street_name>
           <street_suffix>Dr</street_suffix>
           <state>VA</state>
           <city>Annandale</city>
-          <zip>2200</zip>
+          <zip>43321</zip>
         </non_house_address>
         <precinct_id>10101</precinct_id>
         <precinct_split_id>30102</precinct_split_id>
@@ -580,21 +582,52 @@ Note that the ID attributes are unique throughout the file.
           <street_suffix>Dr</street_suffix>
           <state>VA</state>
           <city>Annandale</city>
-          <zip>223</zip>
+          <zip>22302</zip>
         </non_house_address>
         <precinct_id>10102</precinct_id>
         <precinct_split_id>30101</precinct_split_id>
     </street_segment>
     <street_segment id="1210004">
-        <start_house_number>0</start_house_number>
+        <start_house_number>10</start_house_number>
         <end_house_number>9999999</end_house_number>
-        <odd_even_both>both</odd_even_both>
+        <odd_even_both>even</odd_even_both>
         <non_house_address>
-          <street_name>*</street_name>
-          <city>Rural</city>
+            <street_suffix>Dr</street_suffix>
+          <street_direction>E</street_direction>
+          <address_direction>N</address_direction>
+          <street_name>Main</street_name>
+          <city>Annandale</city>
           <state>OH</state>
           <zip>43321</zip>
         </non_house_address>
         <precinct_id>10203</precinct_id>
     </street_segment>
+    <street_segment id="1210005">
+        <start_house_number>10</start_house_number>
+        <end_house_number>9999999</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_id>10203</precinct_id>
+    </street_segment>
+    <street_segment id="1210006">
+        <start_house_number>10</start_house_number>
+        <end_house_number>9999999</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_suffix>Dr</street_suffix>
+            <street_direction>E</street_direction>
+            <address_direction>N</address_direction>
+            <street_name>Main</street_name>
+            <city>Annandale</city>
+            <state>OH</state>
+            <zip>43321</zip>
+        </non_house_address>
+        <precinct_id>10203</precinct_id>
+    </street_segment>
+    
 </vip_object>
