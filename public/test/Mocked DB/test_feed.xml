@@ -557,8 +557,8 @@ Note that the ID attributes are unique throughout the file.
     </street_segment>
     <street_segment id="1210002">
         <start_house_number>8</start_house_number>
-        <end_house_number>130000000</end_house_number>
-        <odd_even_both>odd</odd_even_both>
+        <end_house_number>9</end_house_number>
+        <odd_even_both>even</odd_even_both>
         <non_house_address>
           <street_direction>E</street_direction>
           <address_direction>N</address_direction>
@@ -589,7 +589,7 @@ Note that the ID attributes are unique throughout the file.
     </street_segment>
     <street_segment id="1210004">
         <start_house_number>10</start_house_number>
-        <end_house_number>9999999</end_house_number>
+        <end_house_number>9999998</end_house_number>
         <odd_even_both>even</odd_even_both>
         <non_house_address>
             <street_suffix>Dr</street_suffix>
@@ -605,7 +605,7 @@ Note that the ID attributes are unique throughout the file.
     <street_segment id="1210005">
         <start_house_number>10</start_house_number>
         <end_house_number>9999999</end_house_number>
-        <odd_even_both>both</odd_even_both>
+        <odd_even_both>even</odd_even_both>
         <non_house_address>
             <street_name>Main</street_name>
             <city>Rural</city>
@@ -615,19 +615,27 @@ Note that the ID attributes are unique throughout the file.
         <precinct_id>10203</precinct_id>
     </street_segment>
     <street_segment id="1210006">
-        <start_house_number>10</start_house_number>
+        <start_house_number>4</start_house_number>
         <end_house_number>9999999</end_house_number>
-        <odd_even_both>even</odd_even_both>
+        <odd_even_both>both</odd_even_both>
         <non_house_address>
-            <street_suffix>Dr</street_suffix>
-            <street_direction>E</street_direction>
-            <address_direction>N</address_direction>
             <street_name>Main</street_name>
-            <city>Annandale</city>
+            <city>Rural</city>
             <state>OH</state>
-            <zip>43321</zip>
+            <zip>43320</zip>
         </non_house_address>
         <precinct_id>10203</precinct_id>
     </street_segment>
-    
+    <street_segment id="1210007">
+        <start_house_number>1</start_house_number>
+        <end_house_number>2</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_id>10203</precinct_id>
+    </street_segment>
 </vip_object>

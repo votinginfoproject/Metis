@@ -1,7 +1,143 @@
-/**
- * Created by nboseman on 1/29/14.
+var mongoose = require('mongoose');
+var when = require('when');
+var deferred = when.defer();
+var ruleViolation = require('../ruleviolation');
+var daoSchemas = require('../../../dao/schemas');
+
+var interval = require('interval-query');
+
+var errorCount = 0;
+var constraints;
+var feedId;
+var rule;
+
+var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinition){
+
+  rule = ruleDefinition;
+  constraints = constraintSet;
+  feedId = _feedId;
+
+  Model = mongoose.model(constraintSet.entity[0]);
+
+  var promise = Model.aggregate(
+    {
+      // group by street segments where the following attributes are the same
+      $group: {
+        _id: {
+          streetDirection: "$nonHouseAddress.streetDirection",
+          streetSuffix: "$nonHouseAddress.streetSuffix",
+          addressDirection: "$nonHouseAddress.addressDirection",
+          streetName: "$nonHouseAddress.streetName",
+          city: "$nonHouseAddress.city",
+          zip: "$nonHouseAddress.zip"
+        },
+        // and get a count for each group
+        count: { $sum: 1 },
+        // and the rest of the attributes that we will need to operate on later
+        elementId: { $push: "$elementId" },
+        id: { $push: "$_id" },
+        startHouseNumber: { $push: "$startHouseNumber" },
+        endHouseNumber: { $push: "$endHouseNumber" },
+        oddEvenBoth: { $push: "$oddEvenBoth" }
+      }
+    },
+    {
+      // match only street segments that have the possibility of overlapping
+      // these are the streetsegments where the address components match but
+      // we have not yet checked the actual streetnumbers for overlapp
+      // and there is more than 1 of these street segments
+      $match : {count : { $gt : 1 } }
+    }
+  ).exec();
+
+  promise.then(function(results){
+
+    //console.dir(results);
+
+    // loop through the results from the aggregate
+    for(var i=0; i<results.length; i++){
+
+
+      //console.log("===start of loop ===")
+
+      // tree interval creation and check
+      var tree = new interval.SegmentTree;
+      tree.clearIntervalStack();
+
+      var startHouseNumbers = results[i].startHouseNumber;
+      var endHouseNumbers = results[i].endHouseNumber;
+      var elementIds = results[i].elementId;
+      var oebs = results[i].oddEvenBoth;
+      var ids = results[i].id;
+      var errorTexts = [];
+
+      // build up the tree and store up the potential error text we can have for each interval
+      for(var j=0; j< startHouseNumbers.length; j++){
+        errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
+        //console.log( "{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
+        tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
+      }
+
+      // build the tree
+      tree.buildTree();
+      //query to see if there are any overlaps returned
+      var treeResults = tree.queryOverlap();
+
+      //console.log("treeResults");
+      //console.log(treeResults);
+
+      // go through the tree overlap results
+      for(var j=0; j< treeResults.length; j++){
+        if(treeResults[j].overlap.length>0){
+
+          var errors = "";
+          // if we have overlaps
+          for(var k=0; k<treeResults[j].overlap.length; k++){
+            var treeOverlap = treeResults[j];
+            var index = treeOverlap.overlap[k];
+            index = parseInt(index);
+
+            // turn the 1 based index of the treeInterval into a 0 based index of a js array
+            index--;
+
+            // now check BothOddEven attribute for the segments
+            if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
+              errors+= errorTexts[index];
+            }
+          }
+
+          if(errors.length>0){
+            createError(results[i], elementIds[j], ids[j], errors);
+          }
+
+        }
+      }
+
+    }
+
+    deferred.resolve({ promisedErrorCount: errorCount });
+  });
+  promise.onerror = function(){
+    deferred.reject(new Error("Issues During Fetch"));
+  };
+
+  return deferred.promise;
+
+}
+function createError(streetsegment, elementId, mongoId, error) {
+  errorCount++;
+  ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
+  return ruleErrors.model().save();
+}
+
+exports.evaluate = evaluateStreetSegmentsOverlap;
+
+
+/*
+PREVIOUS IMPLEMENTATION - CAN USE TO CONFIRM NEW IMPLEMENTATION IS CORRECT
  */
 
+/*
 var mongoose = require('mongoose');
 var async = require('async');
 var when = require('when');
@@ -76,3 +212,4 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
 }
 
 exports.evaluate = evaluateStreetSegmentsOverlap;
+*/
