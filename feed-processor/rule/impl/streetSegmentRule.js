@@ -52,18 +52,15 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
   promise.then(function(results){
 
-    //console.dir(results);
-
     // loop through the results from the aggregate
     for(var i=0; i<results.length; i++){
 
-
-      //console.log("===start of loop ===")
-
-      // tree interval creation and check
+      // tree interval creation
       var tree = new interval.SegmentTree;
       tree.clearIntervalStack();
 
+      // due to the way the tree interval provides feedback, we will need to keep track of our data based
+      // on which index in the array we are operating on
       var startHouseNumbers = results[i].startHouseNumber;
       var endHouseNumbers = results[i].endHouseNumber;
       var elementIds = results[i].elementId;
@@ -74,7 +71,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       // build up the tree and store up the potential error text we can have for each interval
       for(var j=0; j< startHouseNumbers.length; j++){
         errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
-        //console.log( "{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
+
         tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
       }
 
@@ -82,9 +79,6 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       tree.buildTree();
       //query to see if there are any overlaps returned
       var treeResults = tree.queryOverlap();
-
-      //console.log("treeResults");
-      //console.log(treeResults);
 
       // go through the tree overlap results
       for(var j=0; j< treeResults.length; j++){
@@ -100,12 +94,14 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
             // turn the 1 based index of the treeInterval into a 0 based index of a js array
             index--;
 
-            // now check BothOddEven attribute for the segments
+            // now check OddEvenBoth attribute for the segments
+            // if the oeb are the same or either one is 'both'
             if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
               errors+= errorTexts[index];
             }
           }
 
+          // now create the overlap error
           if(errors.length>0){
             createError(results[i], elementIds[j], ids[j], errors);
           }

@@ -540,12 +540,12 @@ Note that the ID attributes are unique throughout the file.
       <votes>100</votes>
     </ballot_line_result>
     <street_segment id="1210001">
-        <start_house_number>1</start_house_number>
-        <end_house_number>10</end_house_number>
+        <start_house_number>11</start_house_number>
+        <end_house_number>12</end_house_number>
         <odd_even_both>both</odd_even_both>
         <non_house_address>
           <street_direction>E</street_direction>
-          <street_name>Guinevere</street_name>
+          <street_name>Guineveres</street_name>
           <street_suffix>Dr</street_suffix>
           <address_direction>SE</address_direction>
           <apartment>616S</apartment>
@@ -556,36 +556,36 @@ Note that the ID attributes are unique throughout the file.
         <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210002">
-        <start_house_number>8</start_house_number>
-        <end_house_number>9</end_house_number>
+        <start_house_number>1</start_house_number>
+        <end_house_number>10</end_house_number>
         <odd_even_both>even</odd_even_both>
         <non_house_address>
-          <street_direction>E</street_direction>
-          <address_direction>N</address_direction>
-          <street_name>Main</street_name>
-          <street_suffix>Dr</street_suffix>
-          <state>VA</state>
-          <city>Annandale</city>
-          <zip>43321</zip>
+            <street_direction>E</street_direction>
+            <street_name>Guineveres</street_name>
+            <street_suffix>Dr</street_suffix>
+            <address_direction>SE</address_direction>
+            <apartment>616S</apartment>
+            <state>VA</state>
+            <city>Annandale</city>
+            <zip>22003</zip>
         </non_house_address>
         <precinct_id>10101</precinct_id>
-        <precinct_split_id>30102</precinct_split_id>
     </street_segment>
     <street_segment id="1210003">
-        <start_house_number>2</start_house_number>
-        <end_house_number>2</end_house_number>
+        <start_house_number>1</start_house_number>
+        <end_house_number>10</end_house_number>
         <odd_even_both>both</odd_even_both>
         <non_house_address>
-          <house_number_prefix>NW</house_number_prefix>
-          <house_number_suffix>A</house_number_suffix>
-          <street_name>Main</street_name>
-          <street_suffix>Dr</street_suffix>
-          <state>VA</state>
-          <city>Annandale</city>
-          <zip>22302</zip>
+            <street_direction>E</street_direction>
+            <street_name>Guinevere</street_name>
+            <street_suffix>Dr</street_suffix>
+            <address_direction>SE</address_direction>
+            <apartment>616S</apartment>
+            <state>VA</state>
+            <city>Annandale</city>
+            <zip>22003</zip>
         </non_house_address>
-        <precinct_id>10102</precinct_id>
-        <precinct_split_id>30101</precinct_split_id>
+        <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210004">
         <start_house_number>10</start_house_number>
@@ -605,7 +605,7 @@ Note that the ID attributes are unique throughout the file.
     <street_segment id="1210005">
         <start_house_number>10</start_house_number>
         <end_house_number>9999999</end_house_number>
-        <odd_even_both>even</odd_even_both>
+        <odd_even_both>odd</odd_even_both>
         <non_house_address>
             <street_name>Main</street_name>
             <city>Rural</city>
@@ -617,7 +617,7 @@ Note that the ID attributes are unique throughout the file.
     <street_segment id="1210006">
         <start_house_number>4</start_house_number>
         <end_house_number>9999999</end_house_number>
-        <odd_even_both>both</odd_even_both>
+        <odd_even_both>even</odd_even_both>
         <non_house_address>
             <street_name>Main</street_name>
             <city>Rural</city>
