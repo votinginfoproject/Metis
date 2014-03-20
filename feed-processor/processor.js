@@ -7,7 +7,7 @@ const
   schemas = require('../dao/schemas'),
   xmlProc = require('./xmlProcessor'),
   vaveProc = require('./vaveProcessor')
-  path = require('path'),
+path = require('path'),
   fs = require('fs'),
   unzip = require('unzip');
 
@@ -15,6 +15,8 @@ function processFeed(filePath) {
   var db;
   var x = xmlProc();
   var vave = vaveProc();
+
+  var consolidationRequired = false;
 
   schemas.initSchemas(mongoose);
 
@@ -32,11 +34,22 @@ function processFeed(filePath) {
 
   function startProcessing(file) {
     var filePath = path.join(__dirname, file);
-    fs.createReadStream(filePath)
-      .pipe(unzip.Parse())
-      .on('entry', processZipEntry)
-      .on('close', vave.consolidateFeedData);
+    var ext = path.extname(file);
 
+    switch (ext.toLowerCase()) {
+      case '.zip':
+        fs.createReadStream(filePath)
+          .pipe(unzip.Parse())
+          .on('entry', processZipEntry)
+          .on('close', finishZipProcessing);
+        break;
+      case '.xml':
+        x.processXml(schemas, filePath, path.basename(file, ext), fs.createReadStream(filePath));
+        break;
+      default:
+        console.error('Filetype %s is not currently supported.', ext)
+        break;
+    }
   }
 
   function processZipEntry(entry) {
@@ -46,6 +59,7 @@ function processFeed(filePath) {
         break;
       case '.txt':
       case '.csv':
+        consolidationRequired = true;  //if we see any flat files then we need to consolidate the data
         vave.processCSV(schemas, filePath, entry);
         break;
       case '':
@@ -54,6 +68,13 @@ function processFeed(filePath) {
       default:
         entry.autodrain();
         break;
+    }
+  }
+
+  function finishZipProcessing() {
+    //This is only required if we processed flat files.  XML data is already consolidated.
+    if (consolidationRequired) {
+      vave.consolidateFeedData();
     }
   }
 }

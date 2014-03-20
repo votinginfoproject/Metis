@@ -54,7 +54,7 @@ module.exports = function () {
           console.log('record count = %d and queue length = %d', recordCount, writeQue.length);
         }
 
-        if (!unfolding && writeQue.length > 20000) {
+        if (!unfolding && writeQue.length > config.mongoose.maxWriteQueueLength) {
           startUnfold();
         }
     }).on('end', function () {
@@ -76,7 +76,6 @@ module.exports = function () {
         console.error (err);
       })
       .then(function() {
-        console.log('read %d records', recordCount);
         console.log('unfold completed!!!!');
       });
   }

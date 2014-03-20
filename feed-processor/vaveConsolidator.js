@@ -218,7 +218,7 @@ module.exports = function () {
   }
 
   function log(data) {
-    console.log(data);
+//    console.log(data);
   }
 
   return {

@@ -92,7 +92,8 @@ config.mongoose = {
     stateEarlyVoteSite: 'stateEarlyVoteSites'
 
   },
-  connectionString: 'mongodb://localhost/metis'
+  connectionString: 'mongodb://localhost/metis',
+  maxWriteQueueLength: 20000
 }
 
 module.exports = config;

@@ -3,7 +3,9 @@
  */
 const
   path = require('path'),
-  xstream = require('xml-stream');
+  unfold = require('when/unfold'),
+  xstream = require('xml-stream'),
+  config = require('../config');
 
 
 //(schemas, filePath, fileName, filePath)
@@ -34,33 +36,59 @@ module.exports = function() {
   var State = require('./mappers/State');
   var StreetSegment = require('./mappers/StreetSegment');
 
-  var saveCounter = 0;
+  var writeQue = [];
+  var unfolding = false;
+
   var parsingComplete = false;
 
   /*
    * functions to move into base class
    */
-  function onError(err) {
-    console.error(err);
-  };
+  function startUnfold() {
+    if (unfolding) {
+      return;
+    }
 
-  function addRef() {
-    saveCounter++;
-  };
+    console.log('Starting unfold');
 
-  function decRef() {
-    saveCounter--;
-    completeCheck();
-  };
+    unfolding = true;
+    unfold(unspool, condition, log, 0)
+      .catch(function(err) {
+        console.error (err);
+      })
+      .then(function() {
+        console.log('unfold completed!!!!');
+        completeCheck();
+      });
+  }
+
+  function unspool(count) {
+    var currentWrite = writeQue.shift();
+    return [currentWrite, count++];
+  }
+
+  function condition(writes) {
+    if (writeQue.length == 0) {
+      console.log('condition = true');
+      unfolding = false;
+    }
+
+    return writeQue.length == 0;
+  }
+
+  function log(data) {
+    if (data) {
+    } else { console.log('data null'); }
+  }
 
   function completeCheck() {
     if (parsingComplete) {
-      if (saveCounter <= 0) {
+      if (writeQue.length == 0) {
         console.log('Creating database relationships...');
         require('./matchMaker').createDBRelationships(feedId, models);
       }
       else {
-        console.log(saveCounter);
+        console.log(writeQue.length);
       }
     }
   }
@@ -68,7 +96,7 @@ module.exports = function() {
   function onParsingEnd() {
     parsingComplete = true;
     console.log('Parsing Complete!');
-    completeCheck();
+    startUnfold();
   }
 
   function readXMLFromStream(xml) {
@@ -108,204 +136,113 @@ module.exports = function() {
     schemaVersion = vipObject.$.schemaVersion;
   };
 
+  function mapAndSave(model, element) {
+    model.mapXml3_0(element);
+    writeQue.push(model.save());
+
+    if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
+      startUnfold();
+    }
+  }
+
   function processBallotElement(ballot) {
     var model = new Ballot(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(ballot);
-    model.save(onError, function () {
-      console.log('Stored ballot element to database.');
-    })
+    mapAndSave(model, ballot);
   };
 
   function processBallotLineResultElement(ballotLineResult) {
     var model = new BallotLineResult(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(ballotLineResult);
-    model.save(onError, function () {
-      console.log('Stored ballot line result element to database.');
-    })
+    mapAndSave(model, ballotLineResult);
   };
 
   function processBallotResponseElement(ballotResponse) {
     var model = new BallotResponse(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(ballotResponse);
-    model.save(onError, function () {
-      console.log('Stored ballot response element to database.');
-    })
+    mapAndSave(model, ballotResponse);
   };
 
   function processCandidateElement(candidate) {
     var model = new Candidate(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(candidate);
-    model.save(onError, function () {
-      console.log('Stored candidate element to database.');
-    })
+    mapAndSave(model, candidate);
   };
 
   function processContestElement(contest) {
     var model = new Contest(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(contest);
-    model.save(onError, function () {
-      console.log('Stored contest element to database');
-    });
+    mapAndSave(model, contest);
   };
 
   function processContestResultElement(contestResult) {
     var model = new ContestResult(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(contestResult);
-    model.save(onError, function () {
-      console.log('Stored contest result element to database');
-    });
+    mapAndSave(model, contestResult);
   };
 
   function processCustomBallotElement(customBallot) {
     var model = new CustomBallot(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(customBallot);
-    model.save(onError, function () {
-      console.log('Stored custom ballot element to database');
-    });
+    mapAndSave(model, customBallot);
   };
 
   function processEarlyVoteSiteElement(earlyVoteSite) {
     var model = new EarlyVoteSite(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(earlyVoteSite);
-    model.save(onError, function () {
-      console.log('Stored early vote site element to database');
-    });
+    mapAndSave(model, earlyVoteSite);
   };
 
   function processElectionElement(election) {
     var model = new Election(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(election);
-    model.save(onError, function () {
-      console.log('Stored election element to database');
-    });
+    mapAndSave(model, election);
   };
 
   function processElectionAdministrationElement(electionAdmin) {
     var model = new ElectionAdministration(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(electionAdmin);
-    model.save(onError, function () {
-      console.log('Stored election administration element to database');
-    });
+    mapAndSave(model, electionAdmin);
   };
 
   function processElectionOfficialElement(official) {
     var model = new ElectionOfficial(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(official);
-    model.save(onError, function () {
-      console.log('Stored election official element to database');
-    });
+    mapAndSave(model, official);
   };
 
   function processElectoralDistrictElement(electoralDistrict) {
     var model = new ElectoralDistrict(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(electoralDistrict);
-    model.save(onError, function () {
-      console.log('Stored electoral district element to database');
-    });
+    mapAndSave(model, electoralDistrict);
   };
 
   function processLocalityElement(locality) {
     var model = new Locality(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(locality);
-    model.save(onError, function () {
-      console.log('Stored locality to database');
-    });
+    mapAndSave(model, locality);
   };
 
   function processPollingLocationElement(pollingLocation) {
     var model = new PollingLocation(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(pollingLocation);
-    model.save(onError, function () {
-      console.log('Stored polling location to database');
-    });
+    mapAndSave(model, pollingLocation);
   };
 
   function processPrecinctElement(precinct) {
     var model = new Precinct(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(precinct);
-    model.save(onError, function () {
-      console.log('Stored precinct to database');
-    });
+    mapAndSave(model, precinct);
   }
 
   function processPrecinctSplitElement(precinctSplit) {
     var model = new PrecinctSplit(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(precinctSplit);
-    model.save(onError, function () {
-      console.log('Stored precinct split to database');
-    });
+    mapAndSave(model, precinctSplit);
   }
 
   function processReferendumElement(referendum) {
     var model = new Referendum(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(referendum);
-    model.save(onError, function () {
-      console.log('Stored referendum to database');
-    });
+    mapAndSave(model, referendum);
   }
 
   function processSourceElement(source) {
     var model = new Source(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(source);
-    model.save(onError, function () {
-      console.log('Stored source element to database.');
-    })
+    mapAndSave(model, source);
   };
 
   function processStateElement(state) {
     var model = new State(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(state);
-    model.save(onError, function () {
-      console.log('Stored state element to database.');
-    })
+    mapAndSave(model, state);
   };
 
   function processStreetSegmentElement(streetSegment) {
     var model = new StreetSegment(models, feedId);
-    model.on('saving', addRef);
-    model.on('saved', decRef);
-    model.mapXml3_0(streetSegment);
-    model.save(onError, function () {
-      console.log('Stored street segment element to database.');
-    })
+    mapAndSave(model, streetSegment);
   };
 
   return {
@@ -327,7 +264,6 @@ module.exports = function() {
 
       var xml = new xstream(fileStream);
       readXMLFromStream(xml);
-
     }
   };
 };
