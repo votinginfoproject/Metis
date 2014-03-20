@@ -15,6 +15,10 @@ function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, 
   this.textualReference = item;
 }
 
+RuleViolation.prototype.getCollection = function() {
+  return mongoose.model(thisModelName);
+}
+
 RuleViolation.prototype.model = function(modelName){
   var Violation = null;
   if(modelName == null || modelName.trim() == ""){
@@ -29,7 +33,7 @@ RuleViolation.prototype.model = function(modelName){
     thisModelName = modelName;
   }
   //console.log(thisModelName);
-  Model = new Violation({
+  var Model = new Violation({
     severityCode: this.ruleDef.severityCode,
     severityText: this.ruleDef.severityText,
     errorCode: this.ruleDef.errorCode,

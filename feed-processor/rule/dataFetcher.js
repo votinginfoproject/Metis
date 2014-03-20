@@ -1,42 +1,34 @@
 
 var mongoose = require('mongoose');
-var when = require('when');
 
 
-function fetchEntityData(entity, resultFields, feedId){
+function fetchEntityData(entity, resultFields, feedId, returnData, done){
 
   var Model = mongoose.model(entity);
-  var deferred = when.defer();
 
-  promise = Model.find(formatQueryArgs(feedId), formatSearchResultFields(resultFields)).exec();
-  promise.then(function(results){
-    deferred.resolve(results);
+  var stream = Model.find(formatQueryArgs(feedId), formatSearchResultFields(resultFields)).stream();
+
+  stream.on('data', function(result){
+    returnData(result);
   });
-  promise.onerror = function(){
-    deferred.reject(new Error("Issues During Fetch"));
-  };
-  return deferred.promise;
+
+  stream.on('error', function(err){
+    done(err);
+  });
+
+  stream.on('close', function() {
+    done(null);
+  });
+
+  return { stream: stream, saveStackCount: 0, isPaused: false };
 }
 
-function resolveRuleWithConstraints(entity, resultFields, feedId, rule){
+function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnData, done){
+  return fetchEntityData(entity, resultFields, feedId, function(results){
 
-  var deferredResults = when.defer();
-  fetchEntityData(entity, resultFields, feedId).then(
-    function(results){
-      //TODO: add debug level -->      console.log('results found for ' + rule.title, results.length);
+    returnData( { dataResults: results, retrieveRule: rule, entity: entity } );
 
-      deferredResults.resolve(
-        {
-          dataResults: results,
-          retrieveRule: rule,
-          entity: entity
-        }
-      );
-    },
-    function(error){
-      deferredResults.reject(new Error("Issues During Fetch"));
-    });
-  return deferredResults.promise;
+  }, function() { done() });
 }
 
 /**
@@ -46,8 +38,8 @@ function resolveRuleWithConstraints(entity, resultFields, feedId, rule){
  */
 var formatQueryArgs = function(vipFeedId){
   var queryArgs = {};
-  if(vipFeedId != null && vipFeedId != "") {
-    queryArgs = {'_feed':vipFeedId};
+  if(vipFeedId !== null && vipFeedId !== "") {
+    queryArgs = { '_feed':vipFeedId };
   }
   return queryArgs;
 };
@@ -61,7 +53,7 @@ var formatSearchResultFields = function(resultFields){
   var queryFields = {};
 
   if(resultFields != null && resultFields.length > 0){
-    for(i = 0; i < resultFields.length; i++)
+    for(var i = 0; i < resultFields.length; i++)
       queryFields[resultFields[i]] = 1;
   }
   queryFields['elementId'] = 1;

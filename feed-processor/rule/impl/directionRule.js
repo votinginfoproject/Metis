@@ -4,30 +4,28 @@
 
 var mongoose = require('mongoose');
 var ruleViolation = require('../ruleviolation');
-var when = require('when');
+var async = require('async');
 
-var deferred = when.defer();
 var errorCount = 0;
 var constraints = null;
 var rule = null;
 
 var directionTypesList = ['n','s','e','w','nw','ne','sw','se','north','south','east','west','northeast','northwest','southeast','southwest'];
 
-var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinition){
+var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinition, callback){
   rule = ruleDefinition;
   constraints = constraintSet;
-  var savePromises = [];
   var fieldStrings = [];
 
-  for(var i=0; i< constraints.fields.length; i++){
+  var i = 0;
+  async.eachSeries(constraints.fields, function(constrant, done) {
 
-    var field = constraints.fields[i];
+    var field = constrant;
     fieldStrings[i] = field.toString();
 
-    errorList = null;
-    Model = mongoose.model(constraintSet.entity[0]);
-    upperCaseMap = directionTypesList.map(function(item, index){ return item.toUpperCase(); });
-    mixedCaseDirections = upperCaseMap.concat(directionTypesList);
+    var Model = mongoose.model( constraintSet.entity[0] );
+    var upperCaseMap = directionTypesList.map( function(item, index) { return item.toUpperCase(); });
+    var mixedCaseDirections = upperCaseMap.concat( directionTypesList );
 
     var conditions = {};
     conditions['_feed'] = feedId;
@@ -38,52 +36,48 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     fields['elementId'] = 1;
     fields[fieldStrings[i]] = 1;
 
-    savePromises.push(Model.find(conditions, fields).exec());
+    var stream = Model.find(conditions, fields).stream();
 
-    //formatReturnFields(constraintSet[1])
-    //savePromises.push(Model.find({ 'nonHouseAddress.addressDirection': { $exists: true, $nin: mixedCaseDirections }}, {'_feed':1, 'elementId':1, 'nonHouseAddress.addressDirection':1}).exec());
-  }
+    var paused = false;
+    var saveStack = 0;
+    stream.on('data', function(addressSegmentResultSet) {
+      ++saveStack;
 
-  var errorPromises = [];
+      if(saveStack >= 10000) {
+        paused = true;
+        stream.pause();
+      }
 
-  when.all(savePromises).then(
-    function(addressSegmentResult){
-
-      addressSegmentResult.forEach(function(addressSegmentResultSetArray, index){
-
-        addressSegmentResultSetArray.forEach(function(addressSegmentResultSet){
-
-          var fieldPath = fieldStrings[index].split(".");
-          var resultSet= addressSegmentResultSet;
-          for(var i=0; i< fieldPath.length; i++){
-            var path = (fieldPath[i]).toString();
-            resultSet = resultSet[path];
+      var fieldPath = fieldStrings[i].split(".");
+      var resultSet= addressSegmentResultSet;
+      for(var x = 0; x < fieldPath.length; x++){
+        var path = (fieldPath[x]).toString();
+        resultSet = resultSet[path];
+      }
+      createError(addressSegmentResultSet, fieldStrings[i] + " = " + resultSet)
+        .then(function() {
+          --saveStack;
+          if(paused && saveStack === 0) {
+            paused = false;
+            stream.resume();
           }
-
-          errorPromises.push(createError(addressSegmentResultSet, fieldStrings[index] + " = " + resultSet));
         });
+    });
 
-      });
-      when.all(errorPromises).then( function(emptyPromises){  deferred.resolve({ promisedErrorCount: errorCount }) });
-    }
-  );
-  return deferred.promise;
+    stream.on('close', function(err) {
+      ++i;
+      done();
+    });
+  }, function() {
+//    console.log(errorCount + ' errors added');
+    callback( { promisedErrorCount: errorCount } )
+  });
 }
 
 function createError(addressSegment, directionalError) {
   errorCount++;
-  ruleErrors = new ruleViolation(constraints.entity[0], addressSegment.elementId, addressSegment._id, addressSegment._feed, directionalError, directionalError, rule);
-  return ruleErrors.model().save();
+  var ruleErrors = new ruleViolation(constraints.entity[0], addressSegment.elementId, addressSegment._id, addressSegment._feed, directionalError, directionalError, rule);
+  return ruleErrors.getCollection().create(ruleErrors.model());
 }
 
-var formatReturnFields = function (fields) {
-  var queryFields = {};
-  if(resultFields != null && resultFields.length > 0){
-    for(i = 0; i < resultFields.length; i++)
-      queryFields[resultFields[i]] = 1;
-  }
-  queryFields['elementId'] = 1;
-  queryFields['_feed'] = 1;
-  return queryFields;
-}
 exports.evaluate = evaluateAddressDirectionType;
