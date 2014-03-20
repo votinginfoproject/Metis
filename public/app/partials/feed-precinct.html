@@ -1,21 +1,23 @@
 <i id="feed-precinct-content"></i>
 
-<a ng-if="feedPrecinct.error_count !== undefined" id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a>
+<p ng-if="feedPrecinct.error_count !== undefined"><a id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a></p>
 
-<dl class="attributes">
-  <dt class="key">Name:</dt>
-  <dd id="precinct-name" class="value">{{feedPrecinct.name}}</dd>
-  <dt class="key">Number:</dt>
-  <dd id="precinct-number" class="value">{{feedPrecinct.number}}</dd>
-  <dt class="key">Ward:</dt>
-  <dd id="precinct-ward" class="value">{{feedPrecinct.ward}}</dd>
-  <dt class="key">Mail Only:</dt>
-  <dd id="precinct-mailonly" class="value">{{feedPrecinct.mailonly}}</dd>
-  <dt class="key">Ballot Style Image URL:</dt>
-  <dd id="precinct-ballotimage" class="value"><a target="_blank" href="{{feedPrecinct.ballotimage}}">{{feedPrecinct.ballotimage}}</a></dd>
-</dl>
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="precinct-name" class="value">{{feedPrecinct.name}}</dd>
+    <dt class="key">Number:</dt>
+    <dd id="precinct-number" class="value">{{feedPrecinct.number}}</dd>
+    <dt class="key">Ward:</dt>
+    <dd id="precinct-ward" class="value">{{feedPrecinct.ward}}</dd>
+    <dt class="key">Mail Only:</dt>
+    <dd id="precinct-mailonly" class="value">{{feedPrecinct.mailonly}}</dd>
+    <dt class="key">Ballot Style Image URL:</dt>
+    <dd id="precinct-ballotimage" class="value"><a target="_blank" href="{{feedPrecinct.ballotimage}}">{{feedPrecinct.ballotimage}}</a></dd>
+  </dl>
+</div>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
 
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
@@ -37,7 +39,7 @@
   </ul>
 </script>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedElectoralDistricts.length}} Electoral Districts</h2>
 
   <span ng-if="!feedElectoralDistricts" class="is-loading"></span>
@@ -61,7 +63,7 @@
 </section>
 
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPollingLocations.length}} Polling Locations</h2>
 
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
@@ -83,7 +85,7 @@
   </ul>
 </script>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPrecinctSplits.length}} Precinct Splits</h2>
 
   <span ng-if="!feedPrecinctSplits" class="is-loading"></span>
@@ -105,7 +107,7 @@
   </ul>
 </script>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedPrecinct.streetsegments.total}} Street Segments</h2>
   <a ng-if="feedPrecinct.streetsegments.error_count !== undefined" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinct.streetsegments.error_count}} Errors in Street Segments</a>
 

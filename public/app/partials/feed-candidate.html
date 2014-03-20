@@ -1,23 +1,26 @@
 <i id="feed-candidate-content"></i>
 
-<a ng-if="feedCandidate.error_count !== undefined" id="candidate-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
-  Errors in Candidate ID: {{feedCandidate.id}}</a>
+<p ng-if="feedCandidate.error_count !== undefined"><a id="candidate-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
+  Errors in Candidate ID: {{feedCandidate.id}}</a></p>
 
 <span ng-if="!feedCandidate" class="is-loading"></span>
-<dl class="attributes" ng-if="feedCandidate">
-  <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
-  <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
-  <dt class="key">Party:</dt> <dd id="candidate-party" class="value">{{feedCandidate.party}}</dd>
-  <dt class="key">Candidate Url:</dt> <dd id="candidate-url" class="value">{{feedCandidate.candidate_url}}</dd>
-  <dt class="key">Biography:</dt> <dd id="candidate-biography" class="value">{{feedCandidate.biography}}</dd>
-  <dt class="key">Phone:</dt> <dd id="candidate-phone" class="value">{{feedCandidate.phone}}</dd>
-  <dt class="key">Photo Url:</dt> <dd id="candidate-photourl" class="value">{{feedCandidate.photo_url}}</dd>
-  <dt class="key">Filed Mailing Address:</dt>
-  <dd id="physical_address" class="value">
-  {{feedCandidate.filed_mailing_address.line1}}<span ng-if="feedCandidate.filed_mailing_address.line1">,</span>
-  {{feedCandidate.filed_mailing_address.city}}<span ng-if="feedCandidate.filed_mailing_address.city">,</span>
-  {{feedCandidate.filed_mailing_address.state}} {{feedCandidate.filed_mailing_address.zip}}</dd>
 
-  <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>
-  <dt class="key">Sort Order:</dt> <dd id="candidate-sortorder" class="value">{{feedCandidate.sort_order}}</dd>
-</dl>
+<div class="data-module-full">
+  <dl class="attributes" ng-if="feedCandidate">
+    <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
+    <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
+    <dt class="key">Party:</dt> <dd id="candidate-party" class="value">{{feedCandidate.party}}</dd>
+    <dt class="key">Candidate Url:</dt> <dd id="candidate-url" class="value">{{feedCandidate.candidate_url}}</dd>
+    <dt class="key">Biography:</dt> <dd id="candidate-biography" class="value">{{feedCandidate.biography}}</dd>
+    <dt class="key">Phone:</dt> <dd id="candidate-phone" class="value">{{feedCandidate.phone}}</dd>
+    <dt class="key">Photo Url:</dt> <dd id="candidate-photourl" class="value">{{feedCandidate.photo_url}}</dd>
+    <dt class="key">Filed Mailing Address:</dt>
+    <dd id="physical_address" class="value">
+    {{feedCandidate.filed_mailing_address.line1}}<span ng-if="feedCandidate.filed_mailing_address.line1">,</span>
+    {{feedCandidate.filed_mailing_address.city}}<span ng-if="feedCandidate.filed_mailing_address.city">,</span>
+    {{feedCandidate.filed_mailing_address.state}} {{feedCandidate.filed_mailing_address.zip}}</dd>
+
+    <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>
+    <dt class="key">Sort Order:</dt> <dd id="candidate-sortorder" class="value">{{feedCandidate.sort_order}}</dd>
+  </dl>
+</div>

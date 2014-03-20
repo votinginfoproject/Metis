@@ -17,7 +17,11 @@
     "async": "~0.2.9",
     "when": "~2.8.0",
     "shapefile": "~0.2.0",
-    "geojson": "~0.1.5"
+    "geojson": "~0.1.5",
+    "unzip": "~0.1.9",
+    "pretty-data": "~0.40.0",
+    "adm-zip": "~0.4.4",
+    "interval-query": "~0.3.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

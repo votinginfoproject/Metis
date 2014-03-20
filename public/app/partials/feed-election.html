@@ -5,7 +5,7 @@
 
 <span ng-if="!feedElection" class="is-loading"></span>
 
-<section class="data-module">
+<div class="data-module-full">
 <dl class="attributes" ng-if="feedElection">
   <dt class="key">Date:</dt>
   <dd id="election-date" class="value">{{feedElection.date}}</dd>
@@ -31,7 +31,7 @@
   <dt class="key">Absentee Request Deadline:</dt>
   <dd id="election-absentee_deadline" class="value">{{feedElection.absentee_deadline}}</dd>
 </dl>
-</section>
+</div>
 
 <section class="data-group data-module">
   <h2>State</h2>

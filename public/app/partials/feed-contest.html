@@ -1,31 +1,34 @@
 <i id="feed-contest-content"></i>
 
-<a ng-if="feedContest.error_count !== undefined" id="contest-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedContest.error_count}}
-  Errors in Contest ID: {{feedContest.id}}</a>
+<p ng-if="feedContest.error_count !== undefined"><a id="contest-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedContest.error_count}}
+  Errors in Contest ID: {{feedContest.id}}</a></p>
 
 <span ng-if="!feedContest" class="is-loading"></span>
-<dl class="attributes" ng-if="feedContest">
-  <dt class="key">Type:</dt> <dd id="contest-type" class="value">{{feedContest.type}}</dd>
-  <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
-  <dt class="key">Primary Party:</dt> <dd id="contest-party" class="value">{{feedContest.primary_party}}</dd>
-  <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
-  <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
-  <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
-  <dt class="key">Filing Closed Date:</dt> <dd id="contest-closed" class="value">{{feedContest.filing_closed_date}}</dd>
-  <dt class="key">Number Elected:</dt> <dd id="contest-elected" class="value">{{feedContest.number_elected}}</dd>
-  <dt class="key">Number Voting For:</dt> <dd id="contest-votingFor" class="value">{{feedContest.number_voting_for}}</dd>
-  <dt class="key">Ballot Placement:</dt> <dd id="contest-ballot" class="value">{{feedContest.ballot_placement}}</dd>
-</dl>
 
-<section class="data-group overview">
-  <h1>Overview</h1>
+<div class="data-module-full">
+  <dl class="attributes" ng-if="feedContest">
+    <dt class="key">Type:</dt> <dd id="contest-type" class="value">{{feedContest.type}}</dd>
+    <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
+    <dt class="key">Primary Party:</dt> <dd id="contest-party" class="value">{{feedContest.primary_party}}</dd>
+    <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
+    <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
+    <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
+    <dt class="key">Filing Closed Date:</dt> <dd id="contest-closed" class="value">{{feedContest.filing_closed_date}}</dd>
+    <dt class="key">Number Elected:</dt> <dd id="contest-elected" class="value">{{feedContest.number_elected}}</dd>
+    <dt class="key">Number Voting For:</dt> <dd id="contest-votingFor" class="value">{{feedContest.number_voting_for}}</dd>
+    <dt class="key">Ballot Placement:</dt> <dd id="contest-ballot" class="value">{{feedContest.ballot_placement}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module overview">
+  <h2>Overview</h2>
 
   <!-- element table directive -->
   <div ng-show="feedContest.overview.length" ng-elementtable ng-model="feedContestOverview" loading="feedContestOverview" label="contestOverview"></div>
 
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
 
   <h2>Ballot</h2>
   <table ng-show="feedContest.ballot" id="ballotTable" class="associations">
@@ -46,7 +49,7 @@
   </table>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2><span ng-if="!feedContest.electoral_district">No </span>Electoral District</h2>
 
   <div ng-if="!feedContest.electoral_district"></br><span class="is-loading"></span></div>
@@ -70,7 +73,7 @@
   </table>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2><span ng-if="!feedContest.contest_result">No</span> Contest Result</h2>
 
   <div ng-if="!feedContest.contest_result && feedContest.contest_result !== null"></br><span class="is-loading"></span></div>
@@ -98,7 +101,7 @@
   </table>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedContest.ballot_line_results.length}} Ballot Line Results</h2>
 
   <div ng-if="!feedContest.ballot_line_results"></br><span class="is-loading"></span></div>

@@ -1,15 +1,18 @@
 <i id="feed-ballot-content"></i>
 
-<a ng-if="feedBallot.error_count !== undefined" id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
-  Errors in Ballot ID: {{feedBallot.id}}</a>
+<p ng-if="feedBallot.error_count !== undefined"><a id="ballot-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
+  Errors in Ballot ID: {{feedBallot.id}}</a></p>
 
 <span ng-if="!feedBallot" class="is-loading"></span>
-<dl class="attributes" ng-if="feedBallot">
-  <dt class="key">Image URL:</dt> <dd id="ballot-imageurl" class="value">{{feedBallot.image_url}}</dd>
-  <dt class="key">Write In:</dt> <dd id="ballot-writein" class="value">{{feedBallot.write_in}}</dd>
-</dl>
 
-<section class="data-group">
+<div class="data-module-full">
+  <dl class="attributes" ng-if="feedBallot">
+    <dt class="key">Image URL:</dt> <dd id="ballot-imageurl" class="value">{{feedBallot.image_url}}</dd>
+    <dt class="key">Write In:</dt> <dd id="ballot-writein" class="value">{{feedBallot.write_in}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
   <h2>{{feedBallot.candidates.length}} Candidates</h2>
   <div ng-if="!feedBallot.candidates"></br><span class="is-loading"></span></div>
   <table ng-show="feedBallot.candidates.length" id="ballotCandidatesTable" ng-table="ballotCandidatesTableParams" template-pagination="ballotCandidatesPagination"  class="associations">
@@ -32,7 +35,7 @@
 </section>
 
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>{{feedBallot.referenda.length}} Referenda</h2>
   <div ng-if="!feedBallot.referenda"></br><span class="is-loading"></span></div>
   <table ng-show="feedBallot.referenda.length" id="referendaTable" ng-table="referendaTableParams" template-pagination="referendaPagination" class="associations">
@@ -53,7 +56,7 @@
   </script>
 </section>
 
-<section class="data-group">
+<section class="data-group data-module">
   <h2>Custom Ballot ID: {{feedBallot.custom_ballot.id}}</h2>
   <a ng-if="feedBallot.custom_ballot" id="response-errors" class="error-count" href="{{$location.absUrl()}}/customballot/errors">{{feedBallot.custom_ballot.error_count}}
     Errors in Contest Result</a>

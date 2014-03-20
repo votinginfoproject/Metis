@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<section class="data-group">
+<section class="data-group data-module">
   <span ng-if="!feedElectoralDistricts" class="is-loading"></span>
   <table ng-show="feedElectoralDistricts.length" id="electoralDistrictsTable" ng-table="electoralDistrictsTableParams" template-pagination="electoralDistrictsPagination" class="associations">
     <tr id="electoralDistrict{{$index}}" ng-repeat="electoralDistrict in $data">

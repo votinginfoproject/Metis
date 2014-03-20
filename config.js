@@ -78,10 +78,22 @@ config.mongoose = {
     streetSegmentError: 'streetSegmentErrors',
 
     overview: 'overviews',
-    county: 'counties'
+    county: 'counties',
+
+    ballotCandidate: 'ballotCandidates',
+    customBallotBallotResponse: 'customBallotBallotResponses',
+    localityEarlyVoteSite: 'localityEarlyVoteSites',
+    precinctEarlyVoteSite: 'precinctEarlyVoteSites',
+    precinctElectoralDistrict: 'precinctElectoralDistricts',
+    precinctPollingLocation: 'precinctPollingLocations',
+    precinctSplitElectoralDistrict: 'precinctSplitElectoralDistricts',
+    precinctSplitPollingLocation: 'precinctSplitPollingLocations',
+    referendumBallotResponse: 'referendumBallotResponses',
+    stateEarlyVoteSite: 'stateEarlyVoteSites'
 
   },
-  connectionString: 'mongodb://localhost/metis'
+  connectionString: 'mongodb://localhost/metis',
+  maxWriteQueueLength: 20000
 }
 
 module.exports = config;

@@ -2,8 +2,22 @@
 // Data Group
 // ============================================================================
 
+.data-module-full {
+  clear: both;
+  margin-bottom: $base-med;
+
+  @include bp(c6) {
+    margin-bottom: $base-lg;
+  }
+
+}
+
 section.data-module {
-  margin-bottom: $base-lg;
+  margin-bottom: $base-med;
+
+  @include bp(c6) {
+    margin-bottom: $base-lg;
+  }
 
   @include bp(c16) {
     @include span-columns(6 of 12);
@@ -13,28 +27,56 @@ section.data-module {
       margin-left: 0;
       clear: left;
     }
+
+    &:only-of-type {
+      width: 100%;
+      float: none;
+      margin-left: 0;
+    }
   }
   
+}
+
+.data-module > h2 {
+  background: $blue-med;
+  color: $white;
+  padding: $base-sm;
+  border-radius: 8px 8px 0 0;
+  font-size: 1.5em;
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 0;
 }
 
 .data-group-header {
   @include clearfix;
   background: $blue-med;
   color: $white;
-  padding: $base-sm $base $base-sm;
-  margin-bottom: -$base;
+  padding: $base;
+
+  @include bp(c6) {
+    padding: $base-sm $base $base-sm;
+  }
   
   .started & {
-    padding-bottom: $base;
-    border-radius: 8px 8px 0 0;
+
+    @include bp(c6) {
+      padding-bottom: $base;
+      border-radius: 8px 8px 0 0;
+    }
   }
 
   h2 {
     float: left;
-    font-size: 1.5em;
-    font-size: 1.5rem;
+    font-size: 1.125em;
+    font-size: 1.125rem;
     font-weight: normal;
     margin-bottom: 0;
+
+    @include bp(c6) {
+      font-size: 1.5em;
+      font-size: 1.5rem;
+    }
   }
 
   a {
@@ -45,9 +87,15 @@ section.data-module {
 .more-detail {
   display: block;
   float: right;
-  font-size: 0.875em;
-  font-size: 0.875rem;
+  font-size: 0.75em;
+  font-size: 0.75rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-top: $base-sm;
+
+  @include bp(c6) {
+    font-size: 0.875em;
+    font-size: 0.875rem;
+    margin-top: $base-sm;
+  }
+
 }
