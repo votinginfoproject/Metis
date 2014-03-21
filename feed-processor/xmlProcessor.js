@@ -116,7 +116,7 @@ module.exports = function() {
     xml.collect('referendum_id');
 
     xml.on('end', onParsingEnd);
-    xml.on('startElement: vip_object', processFeedAttributes)
+    xml.on('startElement: vip_object', processFeedAttributes);
     xml.on('endElement: ballot', processBallotElement);
     xml.on('endElement: ballot_line_result', processBallotLineResultElement);
     xml.on('endElement: ballot_response', processBallotResponseElement);
@@ -137,11 +137,11 @@ module.exports = function() {
     xml.on('endElement: source', processSourceElement);
     xml.on('endElement: state', processStateElement);
     xml.on('endElement: street_segment', processStreetSegmentElement);
-  };
+  }
 
   function processFeedAttributes(vipObject) {
     schemaVersion = vipObject.$.schemaVersion;
-  };
+  }
 
   function mapAndSave(model, element) {
     recordCount++;
@@ -160,72 +160,72 @@ module.exports = function() {
   function processBallotElement(ballot) {
     var model = new Ballot(models, feedId);
     mapAndSave(model, ballot);
-  };
+  }
 
   function processBallotLineResultElement(ballotLineResult) {
     var model = new BallotLineResult(models, feedId);
     mapAndSave(model, ballotLineResult);
-  };
+  }
 
   function processBallotResponseElement(ballotResponse) {
     var model = new BallotResponse(models, feedId);
     mapAndSave(model, ballotResponse);
-  };
+  }
 
   function processCandidateElement(candidate) {
     var model = new Candidate(models, feedId);
     mapAndSave(model, candidate);
-  };
+  }
 
   function processContestElement(contest) {
     var model = new Contest(models, feedId);
     mapAndSave(model, contest);
-  };
+  }
 
   function processContestResultElement(contestResult) {
     var model = new ContestResult(models, feedId);
     mapAndSave(model, contestResult);
-  };
+  }
 
   function processCustomBallotElement(customBallot) {
     var model = new CustomBallot(models, feedId);
     mapAndSave(model, customBallot);
-  };
+  }
 
   function processEarlyVoteSiteElement(earlyVoteSite) {
     var model = new EarlyVoteSite(models, feedId);
     mapAndSave(model, earlyVoteSite);
-  };
+  }
 
   function processElectionElement(election) {
     var model = new Election(models, feedId);
     mapAndSave(model, election);
-  };
+  }
 
   function processElectionAdministrationElement(electionAdmin) {
     var model = new ElectionAdministration(models, feedId);
     mapAndSave(model, electionAdmin);
-  };
+  }
 
   function processElectionOfficialElement(official) {
     var model = new ElectionOfficial(models, feedId);
     mapAndSave(model, official);
-  };
+  }
 
   function processElectoralDistrictElement(electoralDistrict) {
     var model = new ElectoralDistrict(models, feedId);
     mapAndSave(model, electoralDistrict);
-  };
+  }
 
   function processLocalityElement(locality) {
     var model = new Locality(models, feedId);
     mapAndSave(model, locality);
-  };
+  }
 
   function processPollingLocationElement(pollingLocation) {
     var model = new PollingLocation(models, feedId);
     mapAndSave(model, pollingLocation);
-  };
+  }
 
   function processPrecinctElement(precinct) {
     var model = new Precinct(models, feedId);
@@ -245,17 +245,17 @@ module.exports = function() {
   function processSourceElement(source) {
     var model = new Source(models, feedId);
     mapAndSave(model, source);
-  };
+  }
 
   function processStateElement(state) {
     var model = new State(models, feedId);
     mapAndSave(model, state);
-  };
+  }
 
   function processStreetSegmentElement(streetSegment) {
     var model = new StreetSegment(models, feedId);
     mapAndSave(model, streetSegment);
-  };
+  }
 
   return {
     processXml: function (schemas, filePath, fileName, fileStream) {
