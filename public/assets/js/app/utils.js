@@ -134,3 +134,11 @@ vipApp_ns.generateMap = function(data, properties) {
   map.attributionControl.addAttribution('County data &copy; <a target="_blank" href="http://census.gov/">US Census Bureau</a>');
 
 }
+
+/*
+ * Uses the current time to add at the end of a request URL to avoid caching
+ *
+ */
+vipApp_ns.cacheBuster = function() {
+  return "?t=" + Math.random();
+}

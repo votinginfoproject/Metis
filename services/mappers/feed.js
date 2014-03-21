@@ -29,7 +29,7 @@ var mapFeed = function(path, feed) {
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
-    complete: true, // TODO: add in the boolean to say if the feed is finished completing or not
+    complete: (feed.feedStatus === "Complete" ? true : false),
     name: feed.name,
     self: _path.join(path, feed.id)
   };
@@ -66,8 +66,9 @@ var mapOverview = function(path, feed) {
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
     contest_results: _path.join(path, '/election/results/contestresults'),
-    ballot_line_results: _path.join(path, '/election/results/ballotlineresults'),
-    history: _path.join(path, '/history')
+    ballot_line_results: _path.join(path, '/election/results/ballotlineresults')
+    // TODO: History
+    //history: _path.join(path, '/history')
   };
 };
 
@@ -340,8 +341,10 @@ var mapOverviewTables = function(data) {
   return overview;
 };
 
+// TODO: History
+/*
 var mapHistory = function(path, data) {
-  return [ //TODO: All of these are hardcoded currently
+  return [
     {
       date: moment(new Date()).format('YYYY-MM-DD'),
       events: [
@@ -357,6 +360,7 @@ var mapHistory = function(path, data) {
     }
   ];
 };
+*/
 
 function mapStreetSegments (path, streetSegments) {
   return streetSegments.map(function (st) {
@@ -584,11 +588,12 @@ exports.mapElectoralDistrict = mapElectoralDistrict;
 exports.mapPollingLocations = mapPollingLocations;
 exports.mapPrecinctPrecinctSplits = mapPrecinctPrecinctSplits;
 exports.mapElectionContest = mapElectionContest;
-exports.mapHistory = mapHistory;
 exports.mapStreetSegments = mapStreetSegments;
 exports.mapPrecinctSplit = mapPrecinctSplit;
 exports.mapEarlyVoteSite = mapEarlyVoteSite;
 exports.mapElectionAdministration = mapElectionAdministration;
+// TODO: History
+// exports.mapHistory = mapHistory;
 exports.mapContest = mapContest;
 exports.mapBallot = mapBallot;
 exports.mapBallotCandidates = mapBallotCandidates;
