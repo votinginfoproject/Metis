@@ -45,7 +45,12 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       // and there is more than 1 of these street segments
       $match : {count : { $gt : 1 } }
     }
-  ).exec(function(results) {
+  ).exec(function(err, results) {
+
+    if(err) {
+      console.log(err);
+      return;
+    }
 
     // loop through the results from the aggregate
     for(var i = 0; i < results.length; i++) {

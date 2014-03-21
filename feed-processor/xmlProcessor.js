@@ -11,6 +11,9 @@ const
 //(schemas, filePath, fileName, filePath)
 module.exports = function() {
 
+  var recordCount = 0;
+  var xml;
+
   var feedId;
   var schemaVersion;
   var models;
@@ -49,6 +52,8 @@ module.exports = function() {
       return;
     }
 
+    xml.pause();
+
     console.log('Starting unfold');
 
     unfolding = true;
@@ -58,6 +63,7 @@ module.exports = function() {
       })
       .then(function() {
         console.log('unfold completed!!!!');
+        xml.resume();
         completeCheck();
       });
   }
@@ -99,7 +105,8 @@ module.exports = function() {
     startUnfold();
   }
 
-  function readXMLFromStream(xml) {
+  function readXMLFromStream(xmlStream) {
+    xml = xmlStream;
 
     xml.collect('early_vote_site_id');
     xml.collect('candidate_id');
@@ -137,8 +144,13 @@ module.exports = function() {
   };
 
   function mapAndSave(model, element) {
+    recordCount++;
     model.mapXml3_0(element);
     writeQue.push(model.save());
+
+    if (recordCount % 10000 == 0) {
+      console.log('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
+    }
 
     if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
       startUnfold();
