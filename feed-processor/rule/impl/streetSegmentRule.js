@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
-var when = require('when');
-var deferred = when.defer();
 var ruleViolation = require('../ruleviolation');
-var daoSchemas = require('../../../dao/schemas');
 
 var interval = require('interval-query');
 
@@ -11,15 +8,15 @@ var constraints;
 var feedId;
 var rule;
 
-var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinition){
+var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinition, callback){
 
   rule = ruleDefinition;
   constraints = constraintSet;
   feedId = _feedId;
 
-  Model = mongoose.model(constraintSet.entity[0]);
+  var Model = mongoose.model(constraintSet.entity[0]);
 
-  var promise = Model.aggregate(
+  Model.aggregate(
     {
       // group by street segments where the following attributes are the same
       $group: {
@@ -48,12 +45,10 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       // and there is more than 1 of these street segments
       $match : {count : { $gt : 1 } }
     }
-  ).exec();
-
-  promise.then(function(results){
+  ).exec(function(results) {
 
     // loop through the results from the aggregate
-    for(var i=0; i<results.length; i++){
+    for(var i = 0; i < results.length; i++) {
 
       // tree interval creation
       var tree = new interval.SegmentTree;
@@ -69,7 +64,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       var errorTexts = [];
 
       // build up the tree and store up the potential error text we can have for each interval
-      for(var j=0; j< startHouseNumbers.length; j++){
+      for(var j = 0; j < startHouseNumbers.length; j++){
         errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
 
         tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
@@ -81,12 +76,12 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       var treeResults = tree.queryOverlap();
 
       // go through the tree overlap results
-      for(var j=0; j< treeResults.length; j++){
-        if(treeResults[j].overlap.length>0){
+      for(var j = 0; j < treeResults.length; j++){
+        if(treeResults[j].overlap.length > 0){
 
           var errors = "";
           // if we have overlaps
-          for(var k=0; k<treeResults[j].overlap.length; k++){
+          for(var k = 0; k < treeResults[j].overlap.length; k++){
             var treeOverlap = treeResults[j];
             var index = treeOverlap.overlap[k];
             index = parseInt(index);
@@ -102,7 +97,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
           }
 
           // now create the overlap error
-          if(errors.length>0){
+          if(errors.length > 0){
             createError(results[i], elementIds[j], ids[j], errors);
           }
 
@@ -111,18 +106,13 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
     }
 
-    deferred.resolve({ promisedErrorCount: errorCount });
+    callback({ promisedErrorCount: errorCount });
   });
-  promise.onerror = function(){
-    deferred.reject(new Error("Issues During Fetch"));
-  };
-
-  return deferred.promise;
 
 }
 function createError(streetsegment, elementId, mongoId, error) {
   errorCount++;
-  ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
+  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
   return ruleErrors.model().save();
 }
 

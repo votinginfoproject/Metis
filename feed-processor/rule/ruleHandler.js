@@ -54,7 +54,7 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 
         var promise = RuleHandler.prototype.processDataResults( fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet);
 
-        if(promise !== null ) {
+        if(promise) {
           promise.then(function() {
             if(--streamObj.saveStackCount === 0 && streamObj.isPaused) {
               streamObj.isPaused = false;
@@ -68,8 +68,6 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
             streamObj.stream.resume();
           }
         }
-
-
       }, function() { done(); });
 
     }, function(err) { cb(); });
@@ -80,19 +78,21 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 }
 
 
-RuleHandler.prototype.processDataResults = function(ruleDef, entity, result, constraintSet, callback){
+RuleHandler.prototype.processDataResults = function(ruleDef, entity, result, constraintSet){
   if(constraintSet.fields.length > 0) {
     for(var j = 0; j < constraintSet.fields.length; j++){
       var resultItem = formatNestedResult( constraintSet.fields[j], result );
       if(resultItem != null) {
         return RuleHandler.prototype.processRule( ruleDef, resultItem, result, entity, constraintSet );
       }
+      return null;
     }
   }
   else {
     if(result != null) {
       return RuleHandler.prototype.processRule( ruleDef, result, result, entity, constraintSet );
     }
+    return null;
   }
 }
 

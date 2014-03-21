@@ -16,7 +16,7 @@ function RuleViolation(entity, elementId, mongoObjectId, feedId, details, item, 
 }
 
 RuleViolation.prototype.getCollection = function() {
-  return mongoose.model(thisModelName);
+  return mongoose.model(deriveErrorSchema(this.entity));
 }
 
 RuleViolation.prototype.model = function(modelName){
