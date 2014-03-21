@@ -19,11 +19,15 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
           data[i].self = $location.absUrl() + "/" + data[i].id;
         } else {
           data[i].self = "javascript: void(0);";
-          $rootScope.pageHeader.alert = "One or more Feeds are processing. Please refresh this page to get an update.";
+          $rootScope.pageHeader.alert = "One or more Feeds are processing. Please Refresh this page to get an update.";
         }
 
         // set the due date in days
-        data[i].due_in = $rootScope.getDueDateTextDays(data[i].date, data[i].now);
+        if(data[i].date && moment(data[i].date).isValid()){
+          data[i].due_in = $rootScope.getDueDateTextDays(data[i].date, data[i].now);
+        } else {
+          data[i].due_in = "N/A";
+        }
 
       }
 

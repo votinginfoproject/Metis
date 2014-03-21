@@ -35,8 +35,18 @@ function errorHandler(err) {
 
 function onSaveComplete(results) {
   console.log("Shutting down overview processor");
-  mongoose.disconnect();
-  process.exit();
+
+  // just grab the feedid from any overview object
+  // and set the feed to complete
+  schemas.models.Feed.update({_id: results[0]._feed}, { feedStatus: 'Complete' },
+    function(err, feed) {
+
+      // now close out the mongoose connection and exit the process
+      mongoose.disconnect();
+      process.exit();
+    }
+  );
+
 }
 
 function calculateFields(feedId, saveCalc) {
