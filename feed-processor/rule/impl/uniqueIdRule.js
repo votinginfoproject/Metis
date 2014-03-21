@@ -6,6 +6,7 @@ var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
 var ruleViolation = require('../ruleviolation');
 var async = require('async');
+var _ = require('underscore');
 
 var rule = null;
 
@@ -39,7 +40,7 @@ function processQueryResults(foundDocs, callback) {
     return;
   }
 
-  var docs = Array.prototype.concat.apply([], foundDocs);
+  var docs = _.flatten([], foundDocs);
   docs.forEach(function (doc) {
     var id = doc.elementId;
     if (idCounts[id] === undefined) {
