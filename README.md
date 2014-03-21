@@ -17,7 +17,8 @@ Voting Information Project web app.
 
 1. Download node.js modules using `npm install`
 2. Download libraries using `bower install`
-3. Run the app with `node app.js`
+3. Import reference data into Mongo
+4. Run the app with `node app.js`
 
 ## Available Grunt Commands
 
@@ -34,6 +35,11 @@ Voting Information Project web app.
 5. Add the user to `vip-user` group and click `Update`
 
 For more information see the [Crowd Admin Guide](https://confluence.atlassian.com/display/CROWD/Crowd+Administration+Guide).
+
+## Importing Data into Mongo
+
+1. Run `mongoimport -d metis -c counties < data/counties.json`
+2. Run `mongoimport -d metis -c stateFIPS < data/stateFIPS.json`
 
 ## Running Karma Unit Tests
 
