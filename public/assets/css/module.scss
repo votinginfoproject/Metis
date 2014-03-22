@@ -591,12 +591,17 @@ form[role="search"] {
 // ============================================================================
 
 .error-count {
+  color: $white;
   margin-left: $base;
   margin-right: $base;
 
   @include bp(c6) {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  &:hover {
+    color: $gray-medium;
   }
 }
 

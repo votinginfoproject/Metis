@@ -38,7 +38,7 @@ function onSaveComplete(results) {
 
   // just grab the feedid from any overview object
   // and set the feed to complete
-  schemas.models.Feed.update({_id: results[0]._feed}, { feedStatus: 'Complete', complete: true },
+  schemas.models.Feed.update({_id: results[0]._feed}, { feedStatus: 'Complete', complete: true, completedOn: new Date() },
     function(err, feed) {
 
       // now close out the mongoose connection and exit the process

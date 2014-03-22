@@ -2224,12 +2224,15 @@ form[role="search"] {
       background: #3c5f87; }
 
 .error-count {
+  color: white;
   margin-left: 1em;
   margin-right: 1em; }
   @media (min-width: 600px) {
     .error-count {
       margin-left: 0;
       margin-right: 0; } }
+  .error-count:hover {
+    color: #b1b3b6; }
 
 .example {
   *zoom: 1;

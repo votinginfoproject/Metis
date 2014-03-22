@@ -354,6 +354,7 @@ var feedSchema = {
   complete: Boolean,
   failed: Boolean,
   loadedOn: Date,
+  completedOn: Date,
   validationStatus: Boolean,
   feedStatus: String,
   name: String,

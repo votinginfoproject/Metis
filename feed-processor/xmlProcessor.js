@@ -268,6 +268,7 @@ module.exports = function() {
         _id: feedId,
         complete: false,
         failed: false,
+        completedOn: null,
         loadedOn: new Date(),
         feedPath: filePath,
         feedStatus: 'Parsing',

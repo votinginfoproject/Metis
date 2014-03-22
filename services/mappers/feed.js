@@ -26,6 +26,7 @@ var mapFeed = function(path, feed) {
   return {
     id: feed.id,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
+    date_completed: feed.completedOn ? moment(feed.completedOn).utc() : null,
     date_loaded: moment(feed.loadedOn).utc(),
     date_now: moment().utc(),
     state: feed._state ? feed._state.name : 'State Missing',
