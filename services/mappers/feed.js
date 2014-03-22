@@ -22,14 +22,17 @@ function addressToJson (address) {
 };
 
 var mapFeed = function(path, feed) {
+
   return {
     id: feed.id,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
-    date_now: moment().utc().format('YYYY-MM-DD'),
+    date_loaded: moment(feed.loadedOn).utc(),
+    date_now: moment().utc(),
     state: feed._state ? feed._state.name : 'State Missing',
     type: feed._election ? feed._election.electionType : 'N/A',
     status: feed.feedStatus,
-    complete: (feed.feedStatus === "Complete" ? true : false),
+    complete: feed.complete,
+    failed: feed.failed,
     name: feed.name,
     self: _path.join(path, feed.id)
   };

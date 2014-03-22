@@ -292,6 +292,24 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       var dueIn = "N/A"
       if(date){
         var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+        var nowDate = moment(now).utc().format('YYYY-MM-DD');
+        dueIn = dueDate.diff(nowDate, 'days');
+
+        if(dueIn < 0){
+          dueIn = Math.abs(dueIn) + " days ago";
+        } else {
+          dueIn = dueIn + " days";
+        }
+      }
+
+      return dueIn;
+    }
+
+    $rootScope.getLoadingTime = function(date){
+
+      var dueIn = "N/A"
+      if(date){
+        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
         var nowDate = moment(now).utc();
         dueIn = dueDate.diff(nowDate, 'days');
 
@@ -303,6 +321,21 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       }
 
       return dueIn;
+    }
+
+    $rootScope.secondsToClockText = function(totalSec){
+
+      var hours = parseInt( totalSec / 3600 ) % 24;
+      var minutes = parseInt( totalSec / 60 ) % 60;
+      if(minutes<10){
+        minutes = "0" + minutes;
+      }
+      var seconds = totalSec % 60;
+      if(seconds<10){
+        seconds = "0" + seconds;
+      }
+
+      return hours + ":" + minutes + ":" + seconds;
     }
 
     $rootScope.forgotPasswordEmail = $rootScope.$appProperties.forgotPasswordEmail;

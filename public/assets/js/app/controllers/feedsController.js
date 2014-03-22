@@ -3,7 +3,7 @@
  * Feeds Controller
  *
  */
-function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams, $cacheFactory) {
+function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTableParams, $interval, $timeout, $route) {
 
   // initialize page header variables
   $rootScope.setPageHeader("Feeds", $rootScope.getBreadCrumbs(), "feeds", null);
@@ -19,7 +19,14 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
           data[i].self = $location.absUrl() + "/" + data[i].id;
         } else {
           data[i].self = "javascript: void(0);";
-          $rootScope.pageHeader.alert = "One or more Feeds are processing. Please Refresh this page to get an update.";
+
+          // if not failed
+          if(!data[i].failed){
+            $scope.isProcessing = true;
+
+            var processingTime = moment((data[i]).now).diff(moment(data[i].date_loaded).utc(), "seconds");
+            data[i].processingTime = "(" + $rootScope.secondsToClockText(processingTime) + ")";
+          }
         }
 
         // set the due date in days
@@ -33,6 +40,27 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
       // set the feeds data into the Angular model
       $scope.feeds = data;
+
+
+      // if any feed is processing
+      if($scope.isProcessing){
+
+        // get the processing times
+        var stop = $interval(function(){
+
+          // set the processing time clocks for the feeds
+          for(var i=0; i< $scope.feeds.length; i++){
+            // if feed is not complete
+            if(!$scope.feeds[i].complete){
+              var processingTime = moment((data[i]).now).diff(moment(data[i].date_loaded).utc(), "seconds");
+              $scope.feeds[i].processingTime = "(" + $rootScope.secondsToClockText(processingTime) + ")";
+            }
+          }
+        }, 1000);
+
+        // refresh the page after a min
+        $timeout(function(){ $route.reload(); }, 1000 * 60);
+      }
 
       // sets the defaults for the table sorting parameters
       $scope.feedTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, {date: 'asc'});
