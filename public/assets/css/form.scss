@@ -45,13 +45,24 @@ form > div, fieldset > div {
   }
 }
 
-.disabled_row {
+.disabled-row {
   background: $gray-lightest;
-  color: $gray-medium;
+  color: $gray-medium-dark;
   cursor: default;
 
   &:hover {
-    color: $gray-medium !important;
+    color: $gray-medium-dark !important;
+    cursor: default;
+  }
+}
+
+.disabled-row-failed {
+  background: $red-medium;
+  color: $gray-medium-dark;
+  cursor: default;
+
+  &:hover {
+    color: $gray-medium-dark !important;
     cursor: default;
   }
 }

@@ -266,6 +266,8 @@ module.exports = function() {
 
       models.Feed.create({
         _id: feedId,
+        complete: false,
+        failed: false,
         loadedOn: new Date(),
         feedPath: filePath,
         feedStatus: 'Parsing',

@@ -47,6 +47,19 @@
   }
 }
 
+.alert-box.processing {
+  background: $processing-color;
+  color: darken($processing-color, 60);
+
+  a {
+    color: $blue;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
 .close {
   color: $gray-dark;
   font-size: 1.375em;

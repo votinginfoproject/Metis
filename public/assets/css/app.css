@@ -1717,12 +1717,20 @@ input[type="submit"],
     color: #ebebeb;
     cursor: default; }
 
-.disabled_row {
+.disabled-row {
   background: #eeeeee;
-  color: #b1b3b6;
+  color: #949598;
   cursor: default; }
-  .disabled_row:hover {
-    color: #b1b3b6 !important;
+  .disabled-row:hover {
+    color: #949598 !important;
+    cursor: default; }
+
+.disabled-row-failed {
+  background: #fbd3d6;
+  color: #949598;
+  cursor: default; }
+  .disabled-row-failed:hover {
+    color: #949598 !important;
     cursor: default; }
 
 button,
@@ -1860,6 +1868,14 @@ th {
     color: #333c10; }
     .alert-box.success a:hover {
       color: black; }
+
+.alert-box.processing {
+  background: #e6efc2;
+  color: #56651a; }
+  .alert-box.processing a {
+    color: #33699c; }
+    .alert-box.processing a:hover {
+      color: #33699c; }
 
 .close {
   color: #333333;

@@ -351,6 +351,8 @@ var electoralDistrictErrorSchema = {
 };
 
 var feedSchema = {
+  complete: Boolean,
+  failed: Boolean,
   loadedOn: Date,
   validationStatus: Boolean,
   feedStatus: String,
