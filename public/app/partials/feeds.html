@@ -1,5 +1,5 @@
 <div class="alert-box processing" ng-if="isProcessing">
-  One or more Feeds are processing. Please <a href="{{$location.absUrl()}}/">Refresh</a> this page for an update. <small>(Page will automatically reload after a minute.)</small>
+  One or more Feeds are processing. Please <a href="/">Refresh</a> this page for an update. <small>(Page will automatically refresh after a minute.)</small>
 </div>
 
 <h2>Active Feeds</h2>
@@ -13,7 +13,7 @@
     </td>
     <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}">{{feed.type}}</a>
     </td>
-    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> {{feed.status}} {{feed.processingTime}}</a>
+    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> {{feed.status}} <small>{{feed.processingTime}}</small></a>
     </td>
     <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}">{{feed.due_in}}</a></td>
   </tr>

@@ -1415,7 +1415,7 @@ p {
 
 a.helper {
   padding: 0.5em 1em;
-  color: #eeeeee;
+  color: whitesmoke;
   vertical-align: middle; }
   input + a.helper {
     margin-left: 1em; }
@@ -1718,7 +1718,7 @@ input[type="submit"],
     cursor: default; }
 
 .disabled-row {
-  background: #eeeeee;
+  background: whitesmoke;
   color: #949598;
   cursor: default; }
   .disabled-row:hover {
@@ -2879,14 +2879,14 @@ section.data-module {
 
 .is-loading {
   background: url(/assets/images/spinner.gif) no-repeat;
-  min-width: 30px;
-  min-height: 30px;
+  width: 30px;
+  height: 30px;
   display: inline-block; }
 
 .is-loading-small {
   background: url(/assets/images/spinner-small.gif) no-repeat;
-  min-width: 16px;
-  min-height: 16px;
+  width: 16px;
+  height: 16px;
   display: inline-block; }
 
 /* print.scss */

@@ -7,7 +7,7 @@ const
   schemas = require('../dao/schemas'),
   xmlProc = require('./xmlProcessor'),
   vaveProc = require('./vaveProcessor')
-path = require('path'),
+  path = require('path'),
   fs = require('fs'),
   unzip = require('unzip');
 
@@ -36,20 +36,28 @@ function processFeed(filePath) {
     var filePath = path.join(__dirname, file);
     var ext = path.extname(file);
 
-    switch (ext.toLowerCase()) {
-      case '.zip':
-        fs.createReadStream(filePath)
-          .pipe(unzip.Parse())
-          .on('entry', processZipEntry)
-          .on('close', finishZipProcessing);
-        break;
-      case '.xml':
-        x.processXml(schemas, filePath, path.basename(file, ext), fs.createReadStream(filePath));
-        break;
-      default:
-        console.error('Filetype %s is not currently supported.', ext)
-        break;
+    if (fs.existsSync(filePath)) {
+      // if file exists
+      switch (ext.toLowerCase()) {
+        case '.zip':
+          fs.createReadStream(filePath)
+            .pipe(unzip.Parse())
+            .on('entry', processZipEntry)
+            .on('close', finishZipProcessing);
+          break;
+        case '.xml':
+          x.processXml(schemas, filePath, path.basename(file, ext), fs.createReadStream(filePath));
+          break;
+        default:
+          console.error('Filetype %s is not currently supported.', ext)
+          exitProcess();
+      }
+    } else {
+      // if file doesn't exist
+      console.error('File "' + filePath + '" not found.')
+      exitProcess();
     }
+
   }
 
   function processZipEntry(entry) {
@@ -83,9 +91,17 @@ if (process.argv.length > 2 && process.argv[2] != null) {
   processFeed(process.argv[2]);
 }
 else {
-  console.error("ERROR: insufficient arguments provided \n");
+  console.error("ERROR: insufficient arguments provided to processor.js\n");
 
   console.log("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
   console.log("");
+
+  exitProcess();
+}
+
+function exitProcess(){
+
+  // now close out the mongoose connection and exit the process
+  mongoose.disconnect();
   process.exit();
 }

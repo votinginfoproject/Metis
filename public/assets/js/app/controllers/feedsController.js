@@ -14,10 +14,20 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
       for(var i=0; i< data.length; i++){
 
-        // disable the feed link if it's processing
         if(data[i].complete){
+          // it's complete
           data[i].self = $location.absUrl() + "/" + data[i].id;
+
+          var processingTime = moment((data[i]).date_completed).diff(moment(data[i].date_loaded).utc(), "seconds");
+
+          // if it completed very quick
+          if(processingTime ===0){
+            processingTime = 1;
+          }
+          data[i].processingTime = "(" + $rootScope.secondsToClockText(processingTime) + ")";
+
         } else {
+          // disable the feed link if it's processing or failed
           data[i].self = "javascript: void(0);";
 
           // if not failed
@@ -59,7 +69,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
         }, 1000);
 
         // refresh the page after a min
-        $timeout(function(){ $route.reload(); }, 1000 * 60);
+        $timeout(function(){ window.location.href="/"; }, 1000 * 60);
       }
 
       // sets the defaults for the table sorting parameters
