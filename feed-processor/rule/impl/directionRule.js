@@ -3,7 +3,7 @@
  */
 
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleviolation');
+var ruleViolation = require('../ruleViolation');
 var async = require('async');
 
 var errorCount = 0;

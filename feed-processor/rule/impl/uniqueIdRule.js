@@ -4,7 +4,7 @@
 
 var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleviolation');
+var ruleViolation = require('../ruleViolation');
 var async = require('async');
 var _ = require('underscore');
 

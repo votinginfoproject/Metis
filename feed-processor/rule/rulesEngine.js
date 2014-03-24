@@ -2,7 +2,7 @@
 
 var async = require('async');
 var metisRuleHandler = require('./ruleHandler');
-var ruleList = require('./rulelist');
+var ruleList = require('./ruleList');
 
 var ruleHandler = new metisRuleHandler();
 var rules = [];

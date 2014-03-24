@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleviolation')
+var ruleViolation = require('../ruleViolation')
 
 var errorCount = 0;
 var constraints = null;

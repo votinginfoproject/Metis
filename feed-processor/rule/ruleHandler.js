@@ -1,6 +1,6 @@
 
-var fetcher = require('./datafetcher');
-var Violation = require('./ruleviolation');
+var fetcher = require('./dataFetcher');
+var Violation = require('./ruleViolation');
 var ActiveRuleStats =require('./ruleObserver');
 var violationCount = 0;
 var rules = {};

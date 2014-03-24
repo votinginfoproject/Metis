@@ -4,7 +4,7 @@
  { name : '<rule_name>', condition : <rule_evaluation_function>, description: <rule_description> }
  */
 
-var constraints = require('./dataconstraints');
+var constraints = require('./dataConstraints');
 
 var metisRuleList = [
 
@@ -33,7 +33,7 @@ var metisRuleList = [
     errorText: "Valid Locality types: 'county','city','town','township','borough','parish','village','region'",
     severityCode: 1,
     severityText: 'Error',
-    implementation: './impl/localitytyperule',
+    implementation: './impl/localityTypeRule',
     dataConstraints: constraints['localityType']
   },
   {

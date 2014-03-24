@@ -20,7 +20,7 @@ function onUpdate (err, numAffected) {
   if (updateCounter <= 0) {
     console.log('****Linking Complete!!!');
     console.log('****Initializing Rules Engine');
-    var promise = require('./rule/rulesengine').processRules(_feedId);
+    var promise = require('./rule/rulesEngine').processRules(_feedId);
 
 
     promise.then(function(emptyPromise){
