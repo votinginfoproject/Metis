@@ -11,6 +11,10 @@ function registerFeedsServices (app) {
   /*
    * REST endpoints associated with Feed data
    */
+
+  // post endpoint for starting the feed processing
+  app.post('/services/feeds', utils.ensureAuthentication, httpCallback.feedProcessingPost);
+
   app.get('/services/feeds', utils.ensureAuthentication, httpCallback.allFeedsGET);
   app.get('/services/feeds/:feedid', utils.ensureAuthentication, httpCallback.feedOverviewGET);
   app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, httpCallback.feedSourceGET);

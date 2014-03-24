@@ -29,6 +29,9 @@ module.exports = function () {
       name: path.basename(filePath)
     }, function (err, feed) {
       console.log('Wrote feed with id = ' + feed._id.toString());
+
+      // tell the parent about the feedid of the current feed being processed
+      process.send({"feedid": feedId});
     });
   }
 

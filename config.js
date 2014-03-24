@@ -3,6 +3,10 @@
  */
 var config = {};
 
+config.upload = {
+  uploadPath: "/upload" // must be a path relative to the root of the app
+};
+
 config.web = {
   port: process.env.PORT || 4000,
   favicon: 'public/assets/images/favicon.ico',
