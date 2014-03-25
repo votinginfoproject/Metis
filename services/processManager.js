@@ -115,6 +115,12 @@ function startFileProcessing(filename){
     }
 
   });
+  fileProcessing.on('close', function (code) {
+    console.log('Processing Closed: ' + code);
+  });
+  fileProcessing.on('error', function (code) {
+    console.log('Processing Errored: ' + code);
+  });
 }
 
 exports.handleFileProcessing = handleFileProcessing;
