@@ -11,7 +11,7 @@
 
   <div class="aside-nav">
     <a class="button-errors" href="/#/feeds/{{feedData.id}}/errors">
-      {{feedData.error_count}} Total Feed Errors
+      {{feedData.error_count | number}} Total Feed Errors
       <br>
       <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(feedData.date)}}</time>
     </a>

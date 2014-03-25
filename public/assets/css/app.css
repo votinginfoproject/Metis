@@ -2143,6 +2143,7 @@ aside {
 .button-approve {
   display: block;
   margin: 0 0 1em;
+  cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 10px; }
@@ -2157,7 +2158,8 @@ aside {
 .map {
   margin-bottom: 1em;
   max-width: 100%;
-  min-height: 480px; }
+  min-height: 480px;
+  color: black; }
 
 form[role="search"] {
   margin-bottom: 1em; }

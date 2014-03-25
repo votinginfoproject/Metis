@@ -441,6 +441,7 @@ aside {
   @extend %button;
   display: block;
   margin: 0 0 1em;
+  cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 10px;
@@ -470,6 +471,7 @@ aside {
   margin-bottom: 1em;
   max-width: 100%;
   min-height: 480px;
+  color: black;
 }
 
 
