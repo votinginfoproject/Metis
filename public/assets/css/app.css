@@ -1840,6 +1840,10 @@ td,
 th {
   vertical-align: middle; }
 
+@media (min-width: 600px) {
+  .numeric {
+    text-align: right; } }
+
 /* module.scss */
 .alert-box {
   background: #fff6bf;
@@ -2053,6 +2057,25 @@ th {
   .accordion h5 {
     margin-top: 0; }
 
+.table-errors h3 {
+  font-size: 1em;
+  color: #ce3d3d; }
+.table-errors td {
+  padding: 0;
+  position: relative; }
+.table-errors td > a {
+  display: block;
+  padding: 1em;
+  color: black; }
+.table-errors td.toggle-td {
+  padding-right: 3em; }
+
+.error-toggle {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  color: #33699c; }
+
 aside {
   color: #ebebeb; }
   aside h2 {
@@ -2085,6 +2108,15 @@ aside {
     float: none;
     width: 100%;
     margin-left: 0; } }
+
+.contact-wrap {
+  display: none; }
+  @media (min-width: 1116px) {
+    .contact-wrap {
+      display: block; } }
+  .contact-wrap a {
+    color: white;
+    text-decoration: underline; }
 
 .feed-title {
   cursor: pointer; }
@@ -2358,9 +2390,6 @@ form[role="search"] {
     .overview .element-type {
       float: none;
       margin-top: 0; } }
-@media (min-width: 600px) {
-  .overview .numeric {
-    text-align: right; } }
 .overview .amount {
   position: absolute;
   left: 0;

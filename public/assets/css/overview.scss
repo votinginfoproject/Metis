@@ -55,13 +55,6 @@
     
   }
 
-  .numeric {
-
-    @include bp(c6) {
-      text-align: right;
-    }
-  }
-
   .amount {
     position: absolute;
     left: 0;
