@@ -53,7 +53,12 @@ module.exports = function () {
       .fromStream(fileStream, { headers: true })
       .on('record', function (data) {
         mapper.mapCsv(data);
-        writeQue.push(mapper.save());
+
+        var savePromise = mapper.save();
+
+        if (savePromise) {
+          writeQue.push();
+        }
         recordCount++;
 
         if (recordCount % 10000 == 0) {

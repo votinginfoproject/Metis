@@ -146,7 +146,11 @@ module.exports = function() {
   function mapAndSave(model, element) {
     recordCount++;
     model.mapXml3_0(element);
-    addToWriteQueue(model.save());
+    var savePromise = model.save();
+
+    if (savePromise) {
+      writeQue.push(savePromise);
+    }
 
     if (recordCount % 10000 == 0) {
       console.log('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
@@ -154,12 +158,6 @@ module.exports = function() {
 
     if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
       startUnfold();
-    }
-  }
-
-  function addToWriteQueue(promise) {
-    if (promise) {
-      writeQue.push(promise);
     }
   }
 
