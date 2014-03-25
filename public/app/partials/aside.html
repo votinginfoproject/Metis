@@ -32,6 +32,7 @@
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
   </div>
 
+  <div class="contact-wrap">
     <h2>Feed Contact</h2>
     <div ng-show="feedData.feed_contact && feedData.feed_contact!=null" class="vcard">
       <span ng-show="feedData.feed_contact.name" id="feed_contact_name" class="fn">{{feedData.feed_contact.name}}</span>
@@ -40,9 +41,12 @@
       <span ng-show="feedData.feed_contact.fax" id="feed_contact_fax" class="fax">F: {{feedData.feed_contact.fax}}</span>
       <span ng-show="feedData.feed_contact.email" id="feed_contact_email" class="email"><a href="mailto:{{feedData.feed_contact.email}}">{{feedData.feed_contact.email}}</a></span>
     </div>
+
     <div ng-show="feedData.feed_contact ==null" class="vcard">
       N/A
     </div>
+
+  </div>
 
   </div>
 </div>

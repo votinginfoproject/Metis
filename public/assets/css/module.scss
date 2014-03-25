@@ -329,13 +329,42 @@
 // ============================================================================
 // Errors
 // ============================================================================
-// TODO: rename accordion
+// 
 
 .accordion {
   margin-top: 1em;
   h5 {
     margin-top: 0;
   }
+}
+
+.table-errors {
+
+  h3 {
+    font-size: 1em;
+    color: $red;
+  }
+
+  td {
+    padding: 0;
+    position: relative;
+  }
+
+  td > a {
+    display: block;
+    padding: $base;
+    color: $black;
+  }
+  td.toggle-td {
+    padding-right: $base-xl;
+  }
+}
+
+.error-toggle {
+  position: absolute;
+  right: $base;
+  top: $base;
+  color: $blue;
 }
 
 
@@ -379,6 +408,19 @@ aside {
       width: 100%;
       margin-left: 0; 
     }
+  }
+}
+
+.contact-wrap {
+  display: none;
+
+  @include bp(c12) {
+    display: block;
+  }
+
+  a {
+    color: $white;
+    text-decoration: underline;
   }
 }
 
