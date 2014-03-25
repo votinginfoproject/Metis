@@ -17,9 +17,9 @@
   <div ng-if="!feedBallot.candidates"></br><span class="is-loading"></span></div>
   <table ng-show="feedBallot.candidates.length" id="ballotCandidatesTable" ng-table="ballotCandidatesTableParams" template-pagination="ballotCandidatesPagination"  class="associations">
     <tr id="ballotcandidates{{$index}}" ng-repeat="candidate in $data">
-      <td id="ballotcandidates-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.id}}</a></td>
-      <td id="ballotcandidates-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.name}}</a></td>
-      <td id="ballotcandidates-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}">{{candidate.party}}</a></td>
+      <td id="ballotcandidates-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="ID"><span class="td-text">{{candidate.id}}</span></a></td>
+      <td id="ballotcandidates-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="Name"><span class="td-text">{{candidate.name}}</span></a></td>
+      <td id="ballotcandidates-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="Party"><span class="td-text">{{candidate.party}}</span></a></td>
     </tr>
   </table>
 
@@ -40,8 +40,8 @@
   <div ng-if="!feedBallot.referenda"></br><span class="is-loading"></span></div>
   <table ng-show="feedBallot.referenda.length" id="referendaTable" ng-table="referendaTableParams" template-pagination="referendaPagination" class="associations">
     <tr id="referendum{{$index}}" ng-repeat="referendum in $data">
-      <td id="referendum-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}">{{referendum.id}}</a></td>
-      <td id="referendum-title{{$index}}" data-title="'Title'" sortable="'title'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}">{{referendum.title}}</a></td>
+      <td id="referendum-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}" data-title-text="ID"><span class="td-text">{{referendum.id}}</span></a></td>
+      <td id="referendum-title{{$index}}" data-title="'Title'" sortable="'title'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}" data-title-text="Title"><span class="td-text">{{referendum.title}}</span></a></td>
     </tr>
   </table>
 
@@ -66,8 +66,10 @@
     <dt class="key">Heading:</dt> <dd id="customballot-heading" class="value">{{feedBallot.custom_ballot.heading}}</dd>
     <dt class="key">Sort Order:</dt> <dd id="customballot-sortorder" class="value">{{feedBallot.custom_ballot.sort_order}}</dd>
   </dl>
+</section>
 
-  <h5 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h5>
+<section class="data-group data-module">
+  <h2 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h2>
   <a ng-if="feedBallot.custom_ballot.ballot_responses_error_count" id="ballotResponse-errors" class="error-count" href="{{$location.absUrl()}}/ballotresponses/errors">{{feedBallot.custom_ballot.ballot_responses_error_count}}
     Errors in Ballot Responses</a>
   <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations">

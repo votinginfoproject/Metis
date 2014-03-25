@@ -1,29 +1,31 @@
-<h2>Active Feeds</h2>
+<div class="data-module data-module-full">
+  <h2>Active Feeds</h2>
 
-<span ng-if="!feeds" class="is-loading"></span>
-<table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
-  <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
-    <td id="date{{$index}}" data-title="'Date'" sortable="'date'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}">{{feed.date}}</a>
-    </td>
-    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}">{{feed.state}}</a>
-    </td>
-    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}">{{feed.type}}</a>
-    </td>
-    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}"><span class="is-loading-small" ng-show="!feed.complete"></span> {{feed.status}}</a>
-    </td>
-    <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}">{{feed.due_in}}</a></td>
-  </tr>
-  <tr ng-if="feeds.length === 0">
-    <td colspan="6">No Feeds Found</td>
-  </tr>
-</table>
+  <span ng-if="!feeds" class="is-loading"></span>
+  <table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
+    <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
+      <td id="date{{$index}}" data-title="'Date'" sortable="'date'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Date"><span class="td-text">{{feed.date}}</span></a>
+      </td>
+      <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
+      </td>
+      <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Type"><span class="td-text">{{feed.type}}</span></a>
+      </td>
+      <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete"></span><span class="td-text">{{feed.status}}</span></a>
+      </td>
+      <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
+    </tr>
+    <tr ng-if="feeds.length === 0">
+      <td colspan="6">No Feeds Found</td>
+    </tr>
+  </table>
 
-<script type="text/ng-template" id="feedsPagination">
-  <ul class="pagination ng-cloak">
-    <li ng-repeat="page in pages"
-        ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == tableParams.page()}"
-         ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
-    </li>
-  </ul>
-</script>
+  <script type="text/ng-template" id="feedsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == tableParams.page()}"
+           ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</div>

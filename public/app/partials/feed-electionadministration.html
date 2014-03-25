@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<a ng-if="feedElectionAdministration.error_count !== undefined" id="electionadmin-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a>
+<p ng-if="feedElectionAdministration.error_count !== undefined"><a id="electionadmin-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
 
 <span ng-if="!feedElectionAdministration" class="is-loading"></span>
 
@@ -67,7 +67,6 @@
 
   <span ng-if="!feedElectionAdministration" class="is-loading"></span>
   <dl ng-if="feedElectionAdministration.overseas_voter_contact" class="attributes">
-    <dl class="attributes">
       <dt class="key">Name:</dt>
       <dd id="ovc-name" class="value">{{feedElectionAdministration.overseas_voter_contact.name}}</dd>
       <dt class="key">Title:</dt>

@@ -2,7 +2,7 @@
 
 <p ng-if="feedEarlyVoteSite.error_count !== undefined"><a id="earlyvotesite-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedEarlyVoteSite.error_count}} Errors in Early Vote Site ID: {{feedEarlyVoteSite.id}}</a></p>
 
-<section class="data-module">
+<div class="data-module-full">
   <dl class="attributes">
     <dt class="key">Name:</dt>
     <dd id="name" class="value">{{feedEarlyVoteSite.name}}</dd>
@@ -23,4 +23,4 @@
     <dt class="key">Days Times Open:</dt>
     <dd id="days_times_open" class="value">{{feedEarlyVoteSite.days_times_open}}</dd>
   </dl>
-</section>
+</div>
