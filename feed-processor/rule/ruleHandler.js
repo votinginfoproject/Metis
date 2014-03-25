@@ -34,7 +34,7 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
   RuleHandler.prototype.ruleInstance = rule;
   RuleHandler.prototype.vipFeedId = feedId;
   console.log('applying rule',rule.ruleDef.ruleId);
-
+  violationCount = 0;
   async.eachSeries(rule.dataConstraints, this.applyDataConstraints, function(err){
     console.log(rule.ruleDef.ruleId + ' complete');
     ruleEngineCompletionCallback(violationCount);

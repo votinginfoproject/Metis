@@ -86,6 +86,7 @@ config.mongoose = {
 
     overview: 'overviews',
     county: 'counties',
+    fips: 'fipscodes',
 
     ballotCandidate: 'ballotCandidates',
     customBallotBallotResponse: 'customBallotBallotResponses',
@@ -101,6 +102,12 @@ config.mongoose = {
   },
   connectionString: 'mongodb://localhost/metis',
   maxWriteQueueLength: 20000
+}
+
+
+// Add more states if required.
+config.checkSingleHouseStates = function(fipsCode) {
+  return fipsCode === 39 || fipsCode === 32;
 }
 
 module.exports = config;
