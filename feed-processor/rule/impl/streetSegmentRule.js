@@ -16,23 +16,39 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
   rule = ruleDefinition;
   constraints = constraintSet;
-  feedId = _feedId;
+
+  if(typeof _feedId === "string")
+    feedId = mongoose.Types.ObjectId(_feedId);
+  else
+    feedId = _feedId;
 
   schemas.models.State.findOne( { _feed: feedId }, function(err, state) {
+
+    if(!state) {
+      evaluate(constraintSet, callback);
+      return;
+    }
+
     schemas.models.Fips.findOne( { name: state.name.toLowerCase() }, function(err, fips) {
+
+      if(err) {
+        console.log(err);
+        return;
+      }
+
       if(config.checkSingleHouseStates(fips.stateFIPS))
-        singleState.evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinition, callback);
+        singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
       else
-        evaluate(constraintSet);
+        evaluate(constraintSet, callback);
 
     });
   });
 }
 
-function evaluate(constraintSet) {
+function evaluate(constraintSet, callback) {
   var Model = mongoose.model(constraintSet.entity[0]);
 
-  Model.aggregate({ $match: { _feed: mongoose.Types.ObjectId(feedId)} },
+  Model.aggregate({ $match: { _feed: feedId } },
     {
       // group by street segments where the following attributes are the same
       $group: {

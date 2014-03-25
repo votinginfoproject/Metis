@@ -9,7 +9,7 @@ function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinit
 
   var Model = mongoose.model(constraintSet.entity[0]);
 
-  Model.aggregate({ $match: { _feed: mongoose.Types.ObjectId(_feedId )} }, {
+  Model.aggregate({ $match: { _feed: _feedId} }, {
       $group: {
         _id: {
           _feed: "$_feed",

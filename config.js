@@ -86,7 +86,7 @@ config.mongoose = {
 
     overview: 'overviews',
     county: 'counties',
-    fips: 'fipscodes',
+    fips: 'statefips',
 
     ballotCandidate: 'ballotCandidates',
     customBallotBallotResponse: 'customBallotBallotResponses',
