@@ -69,7 +69,8 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
         }, 1000);
 
         // refresh the page after a min
-        $timeout(function(){ window.location.href="/"; }, 1000 * 60);
+        $rootScope.refreshTimer = $timeout(function(){ window.location.href="/"; }, 1000 * 60);
+
       }
 
       // sets the defaults for the table sorting parameters

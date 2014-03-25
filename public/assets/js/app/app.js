@@ -269,7 +269,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Runs after the vipApp.config block above.
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http, $timeout) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
@@ -360,6 +360,9 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    */
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $anchorScroll();
+
+    // cancel any refresh timers used on the feed page when processing feeds
+    $timeout.cancel($rootScope.refreshTimer);
   });
 
   /*
