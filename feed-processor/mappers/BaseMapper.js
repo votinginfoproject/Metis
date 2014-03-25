@@ -9,6 +9,10 @@ const
   };
 
 BaseModel.prototype.save = function () {
+  if (this.model === undefined) {
+    return;
+  }
+
   return this.collection.create(this.model);
 };
 
