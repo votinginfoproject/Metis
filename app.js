@@ -5,9 +5,11 @@
 var config = require('./config');
 var express = require('express');
 var http = require('http');
+var https = require('https');
 var path = require('path');
 var passport = require('passport');
 var auth = require('./auth');
+var fs = require('fs');
 
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
@@ -49,6 +51,17 @@ errorServices.registerErrorServices(app);
 overviewServices.registerOverviewServices(app);
 geoServices.registerGeoServices(app);
 
-http.createServer(app).listen(config.web.port, function() {
-  console.log('Express server listening on port ' + config.web.port);
-});
+if (config.web.enableSSL) {
+  var opts = {
+    key: fs.readFileSync(config.web.SSLKey),
+    cert: fs.readFileSync(config.web.SSLCert)
+  };
+
+  https.createServer(opts, app).listen(config.web.port, function() {
+    console.log('Express server listening on port ' + config.web.port);
+  });
+} else {
+  http.createServer(app).listen(config.web.port, function () {
+    console.log('Express server listening on port ' + config.web.port);
+  });
+}
