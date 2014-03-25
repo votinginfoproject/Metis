@@ -2,12 +2,12 @@
 
 <div ng-if="!feedCandidates"></br><span class="is-loading"></span></div>
 
-<section class="data-module">
+<div class="data-module-full">
   <table ng-show="feedCandidates.length" id="candidatesTable" ng-table="candidatesTableParams" template-pagination="candidatesPagination" class="associations">
     <tr id="candidate{{$index}}" ng-repeat="candidate in $data">
-      <td id="candidate-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{candidate.id}}">{{candidate.id}}</a></td>
-      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{candidate.id}}">{{candidate.name}}</a></td>
-      <td id="candidate-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/{{candidate.id}}">{{candidate.party}}</a>
+      <td id="candidate-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="ID"><span class="td-text">{{candidate.id}}</span></a></td>
+      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="Name"><span class="td-text">{{candidate.name}}</span></a></td>
+      <td id="candidate-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="Party"><span class="td-text">{{candidate.party}}</span></a>
       </td>
     </tr>
   </table>
@@ -21,4 +21,4 @@
       </li>
     </ul>
   </script>
-</section>
+</div>

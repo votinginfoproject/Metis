@@ -16,11 +16,11 @@
   <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
          template-pagination="earlyVotePagination" class="associations">
     <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
-      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.id}}</a>
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a>
       </td>
-      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.name}}</a>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a>
       </td>
-      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}">{{earlyVoteSite.address}}</a>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a>
       </td>
     </tr>
   </table>
@@ -51,9 +51,9 @@
     </thead>
     <tbody>
     <tr>
-      <td id="state-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration">{{feedState.administration.id}}</a></td>
-      <td id="state-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration">{{feedState.administration.name}}</a></td>
-      <td id="state-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration">{{feedState.administration.address}}</a>
+      <td id="state-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="ID"><span class="td-text">{{feedState.administration.id}}</span></a></td>
+      <td id="state-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="Name"><span class="td-text">{{feedState.administration.name}}</span></a></td>
+      <td id="state-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="Address"><span class="td-text">{{feedState.administration.address}}</span></a>
       </td>
     </tr>
     </tbody>
@@ -75,11 +75,11 @@
          class="associations">
     <tr id="locality{{$index}}" ng-repeat="locality in $data">
       <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a
-        href="{{locality.self}}">{{locality.id}}</a></td>
+        href="{{locality.self}}" data-title-text="ID"><span class="td-text">{{locality.id}}</span></a></td>
       <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a
-        href="{{locality.self}}">{{locality.name}}</a></td>
+        href="{{locality.self}}" data-title-text="Name"><span class="td-text">{{locality.name}}</span></a></td>
       <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a
-        href="{{locality.self}}">{{locality.precincts}}</a></td>
+        href="{{locality.self}}" data-title-text="Precincts"><span class="td-text">{{locality.precincts}}</span></a></td>
     </tr>
   </table>
 

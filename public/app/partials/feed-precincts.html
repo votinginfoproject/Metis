@@ -1,12 +1,12 @@
 <i id="feed-precincts-content"></i>
 
-<section class="data-group data-module">
+<section class="data-group data-module-full">
   <span ng-if="!feedPrecincts" class="is-loading"></span>
   <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
-      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{precinct.id}}">{{precinct.id}}</a></td>
-      <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{precinct.id}}">{{precinct.name}}</a></td>
-      <td id="precinct-office{{$index}}" data-title="'Precinct Splits'" sortable="'precinct_splits'"><a href="{{$location.absUrl()}}/{{precinct.id}}">{{precinct.precinct_splits}}</a></td>
+      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{precinct.id}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
+      <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{precinct.id}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
+      <td id="precinct-office{{$index}}" data-title="'Precinct Splits'" sortable="'precinct_splits'"><a href="{{$location.absUrl()}}/{{precinct.id}}" data-title-text="Precinct Splits"><span class="td-text">{{precinct.precinct_splits}}</span></a></td>
     </tr>
   </table>
 

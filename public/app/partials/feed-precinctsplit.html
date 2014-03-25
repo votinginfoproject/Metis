@@ -18,10 +18,10 @@
   <span ng-if="!feedElectoralDistricts" class="is-loading"></span>
   <table ng-show="feedElectoralDistricts.length" id="electoralDistrictsTable" ng-table="electoralDistrictsTableParams" template-pagination="electoralDistrictsPagination" class="associations">
     <tr id="electoralDistrict{{$index}}" ng-repeat="electoralDistrict in $data">
-      <td id="electoralDistrict-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}">{{electoralDistrict.id}}</a></td>
-      <td id="electoralDistrict-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}">{{electoralDistrict.name}}</a></td>
-      <td id="electoralDistrict-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}">{{electoralDistrict.type}}</a></td>
-      <td id="electoralDistrict-contests{{$index}}" data-title="'Contests'" sortable="'contests'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}">{{electoralDistrict.contests}}</a></td>
+      <td id="electoralDistrict-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}" data-title-text="ID"><span class="td-text">{{electoralDistrict.id}}</span></a></td>
+      <td id="electoralDistrict-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}" data-title-text="Name"><span class="td-text">{{electoralDistrict.name}}</span></a></td>
+      <td id="electoralDistrict-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}" data-title-text="Type"><span class="td-text">{{electoralDistrict.type}}</span></a></td>
+      <td id="electoralDistrict-contests{{$index}}" data-title="'Contests'" sortable="'contests'"><a href="{{$location.absUrl()}}/electoraldistricts/{{electoralDistrict.id}}" data-title-text="Contests"><span class="td-text">{{electoralDistrict.contests}}</span></a></td>
     </tr>
   </table>
 </section>
@@ -41,9 +41,9 @@
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
   <table ng-show="feedPollingLocations.length" id="pollingLocationsTable" ng-table="pollingLocationsTableParams" template-pagination="pollingLocationsPagination" class="associations">
     <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
-      <td id="pollingLocation-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{pollingLocation.self}}">{{pollingLocation.id}}</a></td>
-      <td id="pollingLocation-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{pollingLocation.self}}">{{pollingLocation.name}}</a></td>
-      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{pollingLocation.self}}">{{pollingLocation.address}}</a></td>
+      <td id="pollingLocation-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{pollingLocation.self}}" data-title-text="ID"><span class="td-text">{{pollingLocation.id}}</span></a></td>
+      <td id="pollingLocation-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{pollingLocation.self}}" data-title-text="Name"><span class="td-text">{{pollingLocation.name}}</span></a></td>
+      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{pollingLocation.self}}" data-title-text="Address"><span class="td-text">{{pollingLocation.address}}</span></a></td>
     </tr>
   </table>
 </section>
@@ -59,7 +59,10 @@
 
 <section class="data-group data-module">
   <h2>{{feedPrecinctSplit.street_segments.total}} Street Segments</h2>
-  <a ng-if="feedPrecinctSplit.street_segments.error_count !== undefined" id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a>
+  
+  <div class="data-text">
+    <p ng-if="feedPrecinctSplit.street_segments.error_count !== undefined"><a id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a></p>
+  </div>
 
   <span ng-if="!feedPrecinctSplit" class="is-loading"></span>
 </section>
