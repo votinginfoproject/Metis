@@ -24,7 +24,7 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
 
       /*
        element('#pageHeader-breadcrumb0').query(function (elem, done) {
@@ -53,8 +53,8 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
 
     });
   });
@@ -78,9 +78,9 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Source");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Source");
 
     });
   });
@@ -104,9 +104,9 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
 
     });
   });
@@ -131,10 +131,10 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
 
     });
   });
@@ -160,11 +160,11 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
 
     });
   });
@@ -191,12 +191,12 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
 
     });
   });
@@ -224,13 +224,13 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
 
     });
   });
@@ -259,14 +259,14 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
 
     });
   });
@@ -297,16 +297,16 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb8').html()).toBe("Street Segments");
-      expect(element('#pageHeader-breadcrumb9').html()).toBe("Errors");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Street Segments");
+      expect(element('#pageHeader-breadcrumb9 a').html()).toBe("Errors");
 
     });
   });
@@ -337,15 +337,15 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Precinct Splits");
     });
   });
 
@@ -356,11 +356,11 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
     });
   });
 
@@ -373,10 +373,10 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb3').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
     });
   });
 
@@ -387,12 +387,12 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function() {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot");
     });
   });
 
@@ -403,14 +403,14 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Candidates");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1candidate");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Candidates");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1candidate");
     });
   });
 
@@ -423,13 +423,13 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb6').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Candidates");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Candidates");
     });
   });
 
@@ -440,14 +440,14 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Referenda");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1referendum");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Referenda");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1referendum");
     });
   });
 
@@ -460,13 +460,13 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb6').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Referenda");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Referenda");
     });
   });
 
@@ -477,12 +477,12 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/contestresult");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Contest Result");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Contest Result");
     });
   });
 
@@ -493,13 +493,13 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults/1ballotlineresult");
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot Line Results");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("1ballotlineresult");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot Line Results");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1ballotlineresult");
     });
   });
 
@@ -512,12 +512,12 @@ describe('Breadcrumbs Test', function () {
 
       element('#pageHeader-breadcrumb5').click();
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("1contest");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("Ballot Line Results");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Contests");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Ballot Line Results");
     });
   });
 
@@ -547,16 +547,16 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
-      expect(element('#pageHeader-breadcrumb9').html()).toBe("1precinctsplit");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Precinct Splits");
+      expect(element('#pageHeader-breadcrumb9 a').html()).toBe("1precinctsplit");
     });
   });
 
@@ -588,18 +588,18 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
-      expect(element('#pageHeader-breadcrumb9').html()).toBe("1precinctsplit");
-      expect(element('#pageHeader-breadcrumb10').html()).toBe("Street Segments");
-      expect(element('#pageHeader-breadcrumb11').html()).toBe("Errors");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Precinct Splits");
+      expect(element('#pageHeader-breadcrumb9 a').html()).toBe("1precinctsplit");
+      expect(element('#pageHeader-breadcrumb10 a').html()).toBe("Street Segments");
+      expect(element('#pageHeader-breadcrumb11 a').html()).toBe("Errors");
     });
   });
 
