@@ -2,7 +2,7 @@
 
 var async = require('async');
 var metisRuleHandler = require('./ruleHandler');
-var ruleList = require('./rulelist');
+var ruleList = require('./ruleList');
 
 var ruleHandler = new metisRuleHandler();
 var rules = [];
@@ -33,9 +33,17 @@ var loadRule = function(ruleDef, next){
 }
 
 var applyRules = function(vipFeedId){
+  var totalErrorCount = 0;
   console.log(rules.length, 'Rules to apply');
-  async.each(rules, function(rule){
-    ruleHandler.applyRule(rule, vipFeedId, endSession);
+  async.eachSeries(rules, function(rule, done){
+    ruleHandler.applyRule(rule, vipFeedId, function(count) {
+      totalErrorCount += count;
+      console.log(count + ' errors added');
+//      setTimeout(done, 1000);
+      done();
+    });
+  }, function(err) {
+    endSession(totalErrorCount);
   });
 }
 

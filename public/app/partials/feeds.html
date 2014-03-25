@@ -1,31 +1,45 @@
+
+<div class="alert-box processing" ng-if="isProcessing">
+  One or more Feeds are processing. Please <a href="/">Refresh</a> this page for an update. <small>(Page will automatically refresh after a minute.)</small>
+</div>
+
 <div class="data-module data-module-full">
-  <h2>Active Feeds</h2>
+<h2>Active Feeds</h2>
 
-  <span ng-if="!feeds" class="is-loading"></span>
-  <table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
-    <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
-      <td id="date{{$index}}" data-title="'Date'" sortable="'date'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Date"><span class="td-text">{{feed.date}}</span></a>
-      </td>
-      <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
-      </td>
-      <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Type"><span class="td-text">{{feed.type}}</span></a>
-      </td>
-      <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete"></span><span class="td-text">{{feed.status}}</span></a>
-      </td>
-      <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled_row': !feed.complete}" href="{{feed.self}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
-    </tr>
-    <tr ng-if="feeds.length === 0">
-      <td colspan="6">No Feeds Found</td>
-    </tr>
-  </table>
+<span ng-if="!feeds" class="is-loading"></span>
+<table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
+  <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
+    <td id="date{{$index}}" data-title="'Date'" sortable="'date'" ><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Date"><span class="td-text">{{feed.date}}</span></a>
+    </td>
+    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
+    </td>
+    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Type"><span class="td-text">{{feed.type}}</span></a>
+    </td>
+    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> <span class="td-text">{{feed.status}} <small>{{feed.processingTime}}</small></span></a>
+    </td>
+    <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
+  </tr>
+  <tr ng-if="feeds.length === 0">
+    <td colspan="6"><p style="padding: 1em;">No Feeds Found</p></td>
+  </tr>
+</table>
 
-  <script type="text/ng-template" id="feedsPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == tableParams.page()}"
-           ng-click="tableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
+<script type="text/ng-template" id="feedsPagination">
+  <ul class="pagination ng-cloak">
+    <li ng-repeat="page in pages"
+        ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == tableParams.page()}"
+         ng-click="feedTableParams.page(page.number)" href="">{{page.number}}</a>
+    </li>
+  </ul>
+</script>
+</div>
+
+<div>
+  <small>
+    1) Place file under /upload folder<br>
+    2) Enter file name below and hit enter<br>
+    3) Close the corresponding tab that opens<br>
+  </small>
+  <form target="_blank" action="/services/feeds" method="post"><input style="width: 350px;" type="text" name="filename"></form>
 </div>

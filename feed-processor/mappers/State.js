@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   State = function (models, feedId) {
-    basemapper.call(this, models, feedId);
+    basemapper.call(this, models, feedId, models.State);
   };
 util.inherits(State, basemapper);
 
@@ -28,7 +28,13 @@ State.prototype.mapXml5_0 = function (state) {
 };
 
 State.prototype.mapCsv = function (state) {
-
+  this.model = new this.models.State({
+    elementId: state.id,
+    name: state.name,
+    electionAdministrationId: state.election_administration_id,
+    earlyVoteSiteIds: state.early_vote_site_id,
+    _feed: this.feedId
+  });
 };
 
 

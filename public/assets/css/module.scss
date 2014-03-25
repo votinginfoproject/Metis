@@ -47,6 +47,19 @@
   }
 }
 
+.alert-box.processing {
+  background: $processing-color;
+  color: darken($processing-color, 60);
+
+  a {
+    color: $blue;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
 .close {
   color: $gray-dark;
   font-size: 1.375em;
@@ -482,6 +495,7 @@ aside {
   @extend %button;
   display: block;
   margin: 0 0 1em;
+  cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 10px;
@@ -511,6 +525,7 @@ aside {
   margin-bottom: 1em;
   max-width: 100%;
   min-height: 480px;
+  color: black;
 }
 
 
@@ -634,6 +649,7 @@ form[role="search"] {
 // ============================================================================
 
 .error-count {
+  color: $white;
   margin-left: $base;
   margin-right: $base;
   @extend .button-errors;
@@ -642,6 +658,10 @@ form[role="search"] {
   @include bp(c6) {
     margin-left: 0;
     margin-right: 0;
+  }
+
+  &:hover {
+    color: $gray-medium;
   }
 }
 

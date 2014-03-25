@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ElectionOfficial = function (models, feedId) {
-    basemapper.call(this, models, feedId);
+    basemapper.call(this, models, feedId, models.ElectionOfficial);
   };
 util.inherits(ElectionOfficial, basemapper);
 
@@ -26,7 +26,15 @@ ElectionOfficial.prototype.mapXml5_0 = function (official) {
 };
 
 ElectionOfficial.prototype.mapCsv = function (official) {
-
+  this.model = new this.models.ElectionOfficial({
+    elementId: official.id,
+    name: official.name,
+    title: official.title,
+    phone: official.phone,
+    fax: official.fax,
+    email: official.email,
+    _feed: this.feedId
+  });
 };
 
 

@@ -8,13 +8,6 @@
 vipApp.factory('$homeService', function ($http, $appProperties) {
 
     return {
-        getData: function () {
-            return $http.get($appProperties.mockServicesPath + "/homeMockService.html");
-        },
-        postService: function () {
-            var postData = {key: "One", value: "1"};
-
-            return $http.post("http://www.google.com", data);
-        }
+      // no services for the "home" page as it simply redirects to the "feeds" page
     };
 });

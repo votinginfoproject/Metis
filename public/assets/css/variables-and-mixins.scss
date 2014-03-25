@@ -41,6 +41,7 @@ $blue-light:    #b7dbff;
 
 //$red:           #cc3333;
 $red:           #ce3d3d;
+$red-medium: #fbd3d6;
 $red-light:     #fbe3e4;
 $red-dark:      #600;
 
@@ -52,9 +53,10 @@ $green-light:   #e6efc2;
 
 $black:         #000;
 $gray-dark:     #333;
+$gray-medium-dark: #949598;
 $gray-medium:   #b1b3b6;
 $gray-light:    #ebebeb;
-$gray-lightest: #eee;
+$gray-lightest: #f5f5f5;
 $white:         #fff;
 
 
@@ -77,6 +79,7 @@ $base-border-color: $gray-light;
 $error-color: $red-light;
 $notice-color: $yellow-light;
 $success-color: $green-light;
+$processing-color: $green-light;
 
 
 // ============================================================================

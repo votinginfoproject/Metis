@@ -3,11 +3,18 @@
  */
 var config = {};
 
+config.upload = {
+  uploadPath: "/upload" // must be a path relative to the root of the app
+};
+
 config.web = {
   port: process.env.PORT || 4000,
   favicon: 'public/assets/images/favicon.ico',
   loglevel: 'dev',
-  sessionsecret: 'ssshh!!'
+  sessionsecret: 'ssshh!!',
+  enableSSL: false,
+  SSLKey: '/vipdata/certs/*_votinginfoproject_org.key',
+  SSLCert: '/vipdata/certs/*_votinginfoproject_org_chained.crt'
 };
 
 config.crowd = {
@@ -78,10 +85,29 @@ config.mongoose = {
     streetSegmentError: 'streetSegmentErrors',
 
     overview: 'overviews',
-    county: 'counties'
+    county: 'counties',
+    fips: 'statefips',
+
+    ballotCandidate: 'ballotCandidates',
+    customBallotBallotResponse: 'customBallotBallotResponses',
+    localityEarlyVoteSite: 'localityEarlyVoteSites',
+    precinctEarlyVoteSite: 'precinctEarlyVoteSites',
+    precinctElectoralDistrict: 'precinctElectoralDistricts',
+    precinctPollingLocation: 'precinctPollingLocations',
+    precinctSplitElectoralDistrict: 'precinctSplitElectoralDistricts',
+    precinctSplitPollingLocation: 'precinctSplitPollingLocations',
+    referendumBallotResponse: 'referendumBallotResponses',
+    stateEarlyVoteSite: 'stateEarlyVoteSites'
 
   },
-  connectionString: 'mongodb://localhost/metis'
+  connectionString: 'mongodb://localhost/metis',
+  maxWriteQueueLength: 20000
+}
+
+
+// Add more states if required.
+config.checkSingleHouseStates = function(fipsCode) {
+  return fipsCode === 39 || fipsCode === 32;
 }
 
 module.exports = config;

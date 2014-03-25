@@ -6,6 +6,8 @@ var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
 var _path = require('path');
 var exporter = require('../feed-exporter/exporter');
+var schemas = require('../dao/schemas');
+var processManager = require('./processManager');
 
 /*
  * Error handling middleware
@@ -17,6 +19,13 @@ function notFoundHandler (res, err, data, next) {
   else {
     next();
   }
+};
+
+/*
+ * Post endpoint for starting the feed processing
+ */
+function feedProcessingPost (req, res) {
+  processManager.handleFileProcessing(req, res);
 };
 
 /*
@@ -370,6 +379,7 @@ function feedExportPOST(req, res) {
   });
 }
 
+exports.feedProcessingPost = feedProcessingPost;
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;

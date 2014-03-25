@@ -4,26 +4,26 @@
 
 var schemas = require('../../../dao/schemas');
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleviolation');
-var when = require('when');
-var deferred = when.defer();
+var ruleViolation = require('../ruleViolation');
+var async = require('async');
+var _ = require('underscore');
 
 var rule = null;
 
-var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition){
-  var when = require('when');
+var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition, callback){
   rule = ruleDefinition;
+  var totalErrorCount = 0;
 
-  var finds = [];
-    constraintSet.entity.forEach(function(model) {
-      Model = mongoose.model(model);
-      finds.push(Model.find({ '_feed': feedId },{'elementId':1,'_feed':1}).exec());
-    }, this);
-
-    when.all(finds)
-      .then(processQueryResults, errorHandler);
-
-  return deferred.promise;
+  async.eachSeries(constraintSet.entity, function(model, done) {
+    mongoose.model(model).find({ '_feed': feedId }, { 'elementId': 1, '_feed': 1 }, function(err, docs) {
+      processQueryResults(docs, function(errorCount) {
+        totalErrorCount += errorCount;
+        done();
+      });
+    });
+  }, function() {
+    callback( { isViolated: false, promisedErrorCount: totalErrorCount } );
+  });
 }
 
 function errorHandler(err) {
@@ -32,12 +32,15 @@ function errorHandler(err) {
   }
 }
 
-function processQueryResults(foundDocs) {
-  //console.log('All queries completed.');
-
+function processQueryResults(foundDocs, callback) {
   var idCounts = {};
 
-  var docs = Array.prototype.concat.apply([], foundDocs);
+  if(foundDocs.length === 0) {
+    callback(0);
+    return;
+  }
+
+  var docs = _.flatten([], foundDocs);
   docs.forEach(function (doc) {
     var id = doc.elementId;
     if (idCounts[id] === undefined) {
@@ -47,43 +50,43 @@ function processQueryResults(foundDocs) {
     idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, elementId: doc.elementId, _ref: doc._id, doc: doc });
   });
 
-  storeErrors(filterDuplicates(idCounts));
-  this.complete = true;
-  //console.log('processQueryResults complete');
+  filterDuplicates(idCounts, callback);
+//  this.complete = true;
+//  console.log('processQueryResults complete');
 }
 
-function filterDuplicates(idCounts) {
- // console.log('Filtering duplicates.');
+function filterDuplicates(idCounts, callback) {
   var duplicateIds = Object.keys(idCounts).filter(function(key) {
     return idCounts[key].count > 1;
   });
 
-  var duplicates = [];
-
+  var errorCount = 0;
   duplicateIds.forEach(function(id) {
     idCounts[id].id = id;
-    duplicates.push(idCounts[id]);
-  });
-
-  return duplicates;
-}
-
-function storeErrors(dupes, feedId) {
-  //console.log('Storing errors.');
-  var savePromises = [];
-  errorCount = 0;
-  dupes.forEach(function(dupe) {
-    dupe.errorModel.forEach(function(errModel) {
+    idCounts[id].errorModel.forEach(function(model) {
       errorCount++;
-      savePromises.push(createError(errModel, dupe.id));
+      createError(model, idCounts[id].id);
     });
   });
-  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
+
+  callback(errorCount);
 }
 
+//function storeErrors(dupes, feedId) {
+//  //console.log('Storing errors.');
+//  var savePromises = [];
+//  errorCount = 0;
+//  dupes.forEach(function(dupe) {
+//    dupe.errorModel.forEach(function(errModel) {
+//      errorCount++;
+//      savePromises.push(createError(errModel, dupe.id));
+//    });
+//  });
+//  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
+//}
 
 function createError(errorModel, id) {
-  ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
+  var ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
   return ruleErrors.model(errorModel.model.modelName).save();
 }
 
