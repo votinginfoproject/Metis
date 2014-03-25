@@ -24,7 +24,7 @@
         <div>
           <small>Sample from the Report:</small>
           <div ng-if="error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textual_references[0]}}</code></pre></div>
-          <div ng-if="!error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px">{{error.textual_references[0]}}</div>
+          <div ng-if="!error._code[0]" style="background-color: #fff; padding: 10px">{{error.textual_references[0]}}</div>
           <br>
           <a class="button" href="{{servicePath}}?error_report&error_code={{error.error_code}}" ng-show="errors.length">Download Error Report</a>
           <br><br>

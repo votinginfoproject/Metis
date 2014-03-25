@@ -1700,7 +1700,10 @@ input[type="submit"],
   font-weight: bold;
   padding: 0.5em 1em;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px; }
   .button:hover,
   .disabled:hover,
   button:hover,
