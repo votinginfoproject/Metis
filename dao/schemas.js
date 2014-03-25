@@ -611,6 +611,12 @@ var countySchema = {
   multipolygon: String
 };
 
+var fipsSchema = {
+  stateFIPS: Number,
+  name: String,
+  stateAbbr: String
+}
+
 /*
  * End of Schema Definitions
  */
@@ -666,6 +672,7 @@ exports.initSchemas = function (mongoose) {
 
 
   models.County = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
+  models.Fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 
 
   models.Ballot.fieldCount = utils.countProperties(ballotSchema);

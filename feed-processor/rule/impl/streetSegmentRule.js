@@ -1,7 +1,11 @@
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
+var ruleViolation = require('../ruleviolation');
+var schemas = require('../../../dao/schemas');
+var config = require('../../../config');
 
 var interval = require('interval-query');
+
+var singleState = require('./streetSegmentSingle');
 
 var errorCount = 0;
 var constraints;
@@ -12,11 +16,39 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
   rule = ruleDefinition;
   constraints = constraintSet;
-  feedId = _feedId;
 
+  if(typeof _feedId === "string")
+    feedId = mongoose.Types.ObjectId(_feedId);
+  else
+    feedId = _feedId;
+
+  schemas.models.State.findOne( { _feed: feedId }, function(err, state) {
+
+    if(!state) {
+      evaluate(constraintSet, callback);
+      return;
+    }
+
+    schemas.models.Fips.findOne( { name: state.name.toLowerCase() }, function(err, fips) {
+
+      if(err) {
+        console.log(err);
+        return;
+      }
+
+      if(config.checkSingleHouseStates(fips.stateFIPS))
+        singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
+      else
+        evaluate(constraintSet, callback);
+
+    });
+  });
+}
+
+function evaluate(constraintSet, callback) {
   var Model = mongoose.model(constraintSet.entity[0]);
 
-  Model.aggregate(
+  Model.aggregate({ $match: { _feed: feedId } },
     {
       // group by street segments where the following attributes are the same
       $group: {
@@ -47,74 +79,79 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
     }
   ).exec(function(err, results) {
 
-    if(err) {
-      console.log(err);
-      return;
-    }
+      if(err) {
+        console.log(err);
 
-    // loop through the results from the aggregate
-    for(var i = 0; i < results.length; i++) {
+        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
+          function(err, feed) { processs.exit(0); }
+        );
 
-      // tree interval creation
-      var tree = new interval.SegmentTree;
-      tree.clearIntervalStack();
-
-      // due to the way the tree interval provides feedback, we will need to keep track of our data based
-      // on which index in the array we are operating on
-      var startHouseNumbers = results[i].startHouseNumber;
-      var endHouseNumbers = results[i].endHouseNumber;
-      var elementIds = results[i].elementId;
-      var oebs = results[i].oddEvenBoth;
-      var ids = results[i].id;
-      var errorTexts = [];
-
-      // build up the tree and store up the potential error text we can have for each interval
-      for(var j = 0; j < startHouseNumbers.length; j++){
-        errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
-
-        tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
+        return;
       }
 
-      // build the tree
-      tree.buildTree();
-      //query to see if there are any overlaps returned
-      var treeResults = tree.queryOverlap();
+      // loop through the results from the aggregate
+      for(var i = 0; i < results.length; i++) {
 
-      // go through the tree overlap results
-      for(var j = 0; j < treeResults.length; j++){
-        if(treeResults[j].overlap.length > 0){
+        // tree interval creation
+        var tree = new interval.SegmentTree;
+        tree.clearIntervalStack();
 
-          var errors = "";
-          // if we have overlaps
-          for(var k = 0; k < treeResults[j].overlap.length; k++){
-            var treeOverlap = treeResults[j];
-            var index = treeOverlap.overlap[k];
-            index = parseInt(index);
+        // due to the way the tree interval provides feedback, we will need to keep track of our data based
+        // on which index in the array we are operating on
+        var startHouseNumbers = results[i].startHouseNumber;
+        var endHouseNumbers = results[i].endHouseNumber;
+        var elementIds = results[i].elementId;
+        var oebs = results[i].oddEvenBoth;
+        var ids = results[i].id;
+        var errorTexts = [];
 
-            // turn the 1 based index of the treeInterval into a 0 based index of a js array
-            index--;
+        // build up the tree and store up the potential error text we can have for each interval
+        for(var j = 0; j < startHouseNumbers.length; j++){
+          errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
 
-            // now check OddEvenBoth attribute for the segments
-            // if the oeb are the same or either one is 'both'
-            if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
-              errors+= errorTexts[index];
-            }
-          }
-
-          // now create the overlap error
-          if(errors.length > 0){
-            createError(results[i], elementIds[j], ids[j], errors);
-          }
-
+          tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
         }
+
+        // build the tree
+        tree.buildTree();
+        //query to see if there are any overlaps returned
+        var treeResults = tree.queryOverlap();
+
+        // go through the tree overlap results
+        for(var j = 0; j < treeResults.length; j++){
+          if(treeResults[j].overlap.length > 0){
+
+            var errors = "";
+            // if we have overlaps
+            for(var k = 0; k < treeResults[j].overlap.length; k++){
+              var treeOverlap = treeResults[j];
+              var index = treeOverlap.overlap[k];
+              index = parseInt(index);
+
+              // turn the 1 based index of the treeInterval into a 0 based index of a js array
+              index--;
+
+              // now check OddEvenBoth attribute for the segments
+              // if the oeb are the same or either one is 'both'
+              if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
+                errors+= errorTexts[index];
+              }
+            }
+
+            // now create the overlap error
+            if(errors.length > 0){
+              createError(results[i], elementIds[j], ids[j], errors);
+            }
+
+          }
+        }
+
       }
 
-    }
-
-    callback({ promisedErrorCount: errorCount });
-  });
-
+      callback({ promisedErrorCount: errorCount });
+    });
 }
+
 function createError(streetsegment, elementId, mongoId, error) {
   errorCount++;
   var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
