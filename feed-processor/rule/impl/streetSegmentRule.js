@@ -81,6 +81,11 @@ function evaluate(constraintSet, callback) {
 
       if(err) {
         console.log(err);
+
+        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
+          function(err, feed) { processs.exit(0); }
+        );
+
         return;
       }
 
