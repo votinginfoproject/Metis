@@ -96,6 +96,9 @@ function startFileProcessing(filename){
     var pid = fileProcessing.pid + "";
 
     // if there was an error in the child process mark the feed as such
+    // code 0 means everything was ok
+    // any code below 0 is our own code for things that go wrong, so we won't check those as if we are
+    // setting the codes for exit, we will also update the status of the feed at that point in time
     if(code>0 && pIdsAndFeedIds[pid] != undefined ){
 
       schemas.models.Feed.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: 'Errored', complete: false, failed: true },
