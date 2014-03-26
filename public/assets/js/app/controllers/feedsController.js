@@ -61,7 +61,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
           // set the processing time clocks for the feeds
           for(var i=0; i< $scope.feeds.length; i++){
             // if feed is not complete
-            if(!$scope.feeds[i].complete){
+            if(!$scope.feeds[i].complete && !$scope.feeds[i].failed){
               var processingTime = moment((data[i]).now).diff(moment(data[i].date_loaded).utc(), "seconds");
               $scope.feeds[i].processingTime = "(" + $rootScope.secondsToClockText(processingTime) + ")";
             }
