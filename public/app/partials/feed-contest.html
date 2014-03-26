@@ -41,9 +41,9 @@
     </thead>
     <tbod>
       <tr>
-        <td id="ballot-id"><a href="{{$location.absUrl()}}/ballot">{{feedContest.ballot.id}}</a></td>
-        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/ballot">{{feedContest.ballot.referendum_count}}</a></td>
-        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/ballot">{{feedContest.ballot.candidate_count}}</a></td>
+        <td id="ballot-id"><a href="{{$location.absUrl()}}/ballot" data-title-text="ID"><span class="td-text">{{feedContest.ballot.id}}</span></a></td>
+        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/ballot" data-title-text="Referendums"><span class="td-text">{{feedContest.ballot.referendum_count}}</span></a></td>
+        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/ballot" data-title-text="Candidates"><span class="td-text">{{feedContest.ballot.candidate_count}}</span></a></td>
       </tr>
     </tbod>
   </table>
@@ -64,10 +64,10 @@
     </thead>
     <tbody>
     <tr>
-      <td id="electoraldistrict-id"><a href="{{$location.absUrl()}}/electoraldistrict">{{feedContest.electoral_district.id}}</a></td>
-      <td id="electoraldistrict-name"><a href="{{$location.absUrl()}}/electoraldistrict">{{feedContest.electoral_district.name}}</a></td>
-      <td id="electoraldistrict-precincts"><a href="{{$location.absUrl()}}/electoraldistrict">{{feedContest.electoral_district.precincts}}</a></td>
-      <td id="electoraldistrict-precinctsplits"><a href="{{$location.absUrl()}}/electoraldistrict">{{feedContest.electoral_district.precinct_splits}}</a></td>
+      <td id="electoraldistrict-id"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="ID"><span class="td-text">{{feedContest.electoral_district.id}}</span></a></td>
+      <td id="electoraldistrict-name"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Name"><span class="td-text">{{feedContest.electoral_district.name}}</span></a></td>
+      <td id="electoraldistrict-precincts"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precincts"><span class="td-text">{{feedContest.electoral_district.precincts}}</span></a></td>
+      <td id="electoraldistrict-precinctsplits"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precinct Splits"><span class="td-text">{{feedContest.electoral_district.precinct_splits}}</span></a></td>
     </tr>
     </tbody>
   </table>
@@ -90,12 +90,12 @@
     </thead>
     <tbody>
       <tr>
-        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.id}}</a></td>
-        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.votes}}</a></td>
-        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.valid_votes}}</a></td>
-        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.overvotes}}</a></td>
-        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.blank_votes}}</a></td>
-        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult">{{feedContest.contest_result.certification}}</a></td>
+        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult" data-title-text="ID"><span class="td-text">{{feedContest.contest_result.id}}</a></td>
+        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Votes"><span class="td-text">{{feedContest.contest_result.votes}}</span></a></td>
+        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Valid Votes"><span class="td-text">{{feedContest.contest_result.valid_votes}}</span></a></td>
+        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Overvotes"><span class="td-text">{{feedContest.contest_result.overvotes}}</span></a></td>
+        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Blank Votes"><span class="td-text">{{feedContest.contest_result.blank_votes}}</span></a></td>
+        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Certification"><span class="td-text">{{feedContest.contest_result.certification}}</span></a></td>
       </tr>
     </tbody>
   </table>
@@ -107,9 +107,9 @@
   <div ng-if="!feedContest.ballot_line_results"></br><span class="is-loading"></span></div>
   <table ng-show="feedContest.ballot_line_results.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
     <tr id="ballotlineresult{{$index}}" ng-repeat="result in $data">
-      <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.id}}</a></td>
-      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.votes}}</a></td>
-      <td id="ballotlineresult-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}">{{result.certification}}</a></td>
+      <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="ID"><span class="td-text">{{result.id}}</span></a></td>
+      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Votes"><span class="td-text">{{result.votes}}</span></a></td>
+      <td id="ballotlineresult-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Certification"><span class="td-text">{{result.certification}}</span></a></td>
     </tr>
   </table>
 

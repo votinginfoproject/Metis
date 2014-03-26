@@ -20,6 +20,9 @@ form > div, fieldset > div {
   padding: $base-padding;
   text-align: center;
   text-shadow: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   &:hover {
     background: darken($base-accent-color, 10);

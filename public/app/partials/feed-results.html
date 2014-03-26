@@ -6,10 +6,10 @@
 
   <table ng-show="feedContestResults.length" id="ContestResultsTable" ng-table="contestResultsTableParams" template-pagination="contestResultsPagination" class="associations">
     <tr id="contestresults{{$index}}" ng-repeat="contestresult in $data">
-      <td id="contestresults-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{contestresult.self}}">{{contestresult.id}}</a></td>
-      <td id="contestresults-jurisdiction{{$index}}" data-title="'Jurisdiction'" sortable="'jurisdiction.name'"><a href="{{contestresult.self}}">{{contestresult.jurisdiction.name}}</a></td>
-      <td id="contestresults-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'office'"><a href="{{contestresult.self}}">{{contestresult.office}}</a>
-      <td id="contestresults-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{contestresult.self}}">{{contestresult.certification}}</a></td>
+      <td id="contestresults-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{contestresult.self}}"><span class="td-text">{{contestresult.id}}</span></a></td>
+      <td id="contestresults-jurisdiction{{$index}}" data-title="'Jurisdiction'" sortable="'jurisdiction.name'"><a href="{{contestresult.self}}" data-title-text="Jurisdiction"><span class="td-text">{{contestresult.jurisdiction.name}}</span></a></td>
+      <td id="contestresults-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'office'"><a href="{{contestresult.self}}" data-title-text="Office / Referendum / Custom"><span class="td-text">{{contestresult.office}}</span></a>
+      <td id="contestresults-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{contestresult.self}}" data-title-text="Certification"><span class="td-text">{{contestresult.certification}}</span></a></td>
     </tr>
   </table>
 
@@ -29,10 +29,10 @@
 
   <table ng-show="feedBallotLineResults.length" id="BallotLineResultsTable" ng-table="ballotLineResultsTableParams" template-pagination="ballotLineResultsPagination" class="associations">
     <tr id="ballotlineresults{{$index}}" ng-repeat="ballotlineresult in $data">
-      <td id="ballotlineresults-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{ballotlineresult.self}}">{{ballotlineresult.id}}</a></td>
-      <td id="ballotlineresults-jurisdiction{{$index}}" data-title="'Jurisdiction'" sortable="'jurisdiction.name'"><a href="{{ballotlineresult.self}}">{{ballotlineresult.jurisdiction.name}}</a></td>
-      <td id="ballotlineresults-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'office'"><a href="{{ballotlineresult.self}}">{{ballotlineresult.office}}</a>
-      <td id="ballotlineresults-candidate{{$index}}" data-title="'Candidate'" sortable="'candidate'"><a href="{{ballotlineresult.self}}">{{ballotlineresult.candidate}}</a></td>
+      <td id="ballotlineresults-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{ballotlineresult.self}}" data-title-text="ID"><span class="td-text">{{ballotlineresult.id}}</span></a></td>
+      <td id="ballotlineresults-jurisdiction{{$index}}" data-title="'Jurisdiction'" sortable="'jurisdiction.name'"><a href="{{ballotlineresult.self}}" data-title-text="Jurisdiction"><span class="td-text">{{ballotlineresult.jurisdiction.name}}</span></a></td>
+      <td id="ballotlineresults-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'office'"><a href="{{ballotlineresult.self}}" data-title-text="Office / Referendum / Custom"><span class="td-text">{{ballotlineresult.office}}</span></a>
+      <td id="ballotlineresults-candidate{{$index}}" data-title="'Candidate'" sortable="'candidate'"><a href="{{ballotlineresult.self}}" data-title-text="Candidate"><span class="td-text">{{ballotlineresult.candidate}}</span></a></td>
     </tr>
   </table>
 

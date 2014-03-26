@@ -114,8 +114,8 @@
 
       <nav class="main-nav" ng-if="user.isAuthenticated">
         <ul>
-          <li><a id="pageHeader-feedsLink" href="/" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
           <li><i class="fi-torso"></i> {{user.userName}}</li>
+          <li><a id="pageHeader-feedsLink" href="/" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
           <li><a id="pageHeader-sign-out" href="/logout"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
@@ -149,7 +149,7 @@
       <div ng-view></div>
 
         <footer role="contentinfo">
-          <small>&copy; Copyright 2013 Voting Information Project.</small>
+          <small>&copy; Copyright 2014 Voting Information Project.</small>
         </footer><!-- / contentinfo -->
       </div><!-- /.content -->
 

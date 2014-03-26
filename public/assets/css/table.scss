@@ -44,3 +44,10 @@ td,
 th {
   vertical-align: middle;
 }
+
+.numeric {
+
+  @include bp(c6) {
+    text-align: right;
+  }
+}

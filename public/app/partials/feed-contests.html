@@ -5,9 +5,9 @@
   <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
   <table ng-show="feedContests.length" id="ContestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
     <tr id="contests{{$index}}" ng-repeat="contest in $data">
-      <td id="contests-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{contest.id}}">{{contest.id}}</a></td>
-      <td id="contests-type{{$index}}" class="type" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/{{contest.id}}">{{contest.type}}</a></td>
-      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'title'"><a href="{{$location.absUrl()}}/{{contest.id}}">{{contest.title}}</a>
+      <td id="contests-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.id}}</span></a></td>
+      <td id="contests-type{{$index}}" class="type" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="Type"><span class="td-text">{{contest.type}}</span></a></td>
+      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'title'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="Office / Referendum / Custom"><span class="td-text">{{contest.title}}</span></a>
     </tr>
   </table>
 
