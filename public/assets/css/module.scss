@@ -164,7 +164,6 @@
 
   }
 
-
   tr {
     border-top: $base-border;
 
@@ -177,10 +176,8 @@
   td {
     border: none;
     clear: left;
-    //float: left;
     padding: 0;
     display: block;
-    //width: 100%;
 
     @include bp(c6) {
       border-top: $base-border;
@@ -194,37 +191,65 @@
     padding-left: 1em;
   }
 
-  // .address:before {
-  //   content: "Address ";
+}
 
-  //   @include bp(c6) {
-  //     content: none;
-  //   }
-  // }
+.associations-end {
+  color: $gray-dark;
 
-  // .id:before {
-  //   content: "ID ";
+  tbody tr {
 
-  //   @include bp(c6) {
-  //     content: none;
-  //   }
-  // }
+    &:hover {
+      background: $gray-light;
+    }
 
-  // .name:before {
-  //   content: "Name ";
+    &:nth-child(2n){
+      &:hover {
+        background: $white;
+      }
+    }
 
-  //   @include bp(c6) {
-  //     content: none;
-  //   }
-  // }
+    td {
+      padding: $base-sm $base;
+      @include clearfix;
 
-  // .precinct-splits:before {
-  //   content: "Precinct Splits ";
+      @include bp(c6) {
+        padding: $base;
+      }
 
-  //   @include bp(c6) {
-  //     content: none;
-  //   }
-  // }
+      div {
+
+        &:before {
+          content: attr(data-title-text);
+          width: 47%;
+          display: block;
+          float: left;
+          font-weight: bold;
+          font-size: 0.875em;
+          font-size: 0.875rem;
+          line-height: 1.9;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          padding-right: 3%;
+        
+          @include bp(c6) {
+            content: '';
+          }
+        }
+
+      }
+    }
+
+    .td-text {
+      width: 50%;
+      float: right;
+
+       @include bp(c6) {
+          width: auto;
+          float: none;
+       }
+    }
+
+  }
 
 }
 

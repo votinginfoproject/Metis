@@ -72,7 +72,7 @@
   <h2 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h2>
   <a ng-if="feedBallot.custom_ballot.ballot_responses_error_count" id="ballotResponse-errors" class="error-count" href="{{$location.absUrl()}}/ballotresponses/errors">{{feedBallot.custom_ballot.ballot_responses_error_count}}
     Errors in Ballot Responses</a>
-  <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations">
+  <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations associations-end">
     <thead>
       <tr>
         <th>ID</th>
@@ -81,8 +81,8 @@
     </thead>
     <tbody>
       <tr id="response{{$index}}" ng-repeat="response in feedBallot.custom_ballot.ballot_responses">
-        <td id="response-id{{$index}}">{{response.id}}</td>
-        <td id="response-text{{$index}}">{{response.text}}</td>
+        <td id="response-id{{$index}}"><div data-title-text="ID"><span class="td-text">{{response.id}}</span></div></td>
+        <td id="response-text{{$index}}"><div data-title-text="Text"><span class="td-text">{{response.text}}</span></div></td>
       </tr>
     </tbody>
   </table>

@@ -28,7 +28,7 @@
 
 <section class="data-group data-module">
   <span ng-if="!feedReferendum.ballot_responses && feedReferendum.ballot_responses !== null" class="is-loading"></span>
-  <table ng-show="feedReferendum.ballot_responses.length" id="referendumBallotResponsesTable" class="associations" >
+  <table ng-show="feedReferendum.ballot_responses.length" id="referendumBallotResponsesTable" class="associations associations-end" >
     <thead>
     <tr>
       <th>ID</th>
@@ -37,8 +37,8 @@
     </thead>
     <tbody>
     <tr id="response{{$index}}" ng-repeat="response in feedReferendum.ballot_responses">
-      <td id="response-id{{$index}}">{{response.id}}</td>
-      <td id="response-title{{$index}}">{{response.text}}</td>
+      <td id="response-id{{$index}}"><div data-title-text="ID"><span class="td-text">{{response.id}}</span></div></td>
+      <td id="response-title{{$index}}"><div data-title-text="Text"><span class="td-text">{{response.text}}</span></div></td>
         </tr>
     </tbody>
   </table>

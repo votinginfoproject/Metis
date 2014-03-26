@@ -1973,6 +1973,46 @@ th {
   border: none;
   padding-left: 1em; }
 
+.associations-end {
+  color: #333333; }
+  .associations-end tbody tr:hover {
+    background: #ebebeb; }
+  .associations-end tbody tr:nth-child(2n):hover {
+    background: white; }
+  .associations-end tbody tr td {
+    padding: 0.5em 1em;
+    *zoom: 1; }
+    .associations-end tbody tr td:before, .associations-end tbody tr td:after {
+      content: " ";
+      display: table; }
+    .associations-end tbody tr td:after {
+      clear: both; }
+    @media (min-width: 600px) {
+      .associations-end tbody tr td {
+        padding: 1em; } }
+    .associations-end tbody tr td div:before {
+      content: attr(data-title-text);
+      width: 47%;
+      display: block;
+      float: left;
+      font-weight: bold;
+      font-size: 0.875em;
+      font-size: 0.875rem;
+      line-height: 1.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-right: 3%; }
+      @media (min-width: 600px) {
+        .associations-end tbody tr td div:before {
+          content: ''; } }
+  .associations-end tbody tr .td-text {
+    width: 50%;
+    float: right; }
+    @media (min-width: 600px) {
+      .associations-end tbody tr .td-text {
+        width: auto;
+        float: none; } }
+
 .ng-table th {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
