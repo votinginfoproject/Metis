@@ -5,6 +5,14 @@ Voting Information Project web app.
 
 [Learn more](https://votinginfoproject.org/)
 
+## Running in Docker
+
+> The only prerequisite is for this is [Docker](http://docker.io/).
+
+1. `docker build -t vip/metis .`
+1. `docker run -d -p 4000:4000 vip/metis`
+1. Then hit [http://localhost:4000/](http://localhost:4000/) (or [http://localdocker:4000/](http://localdocker:4000/) with docker-osx)
+
 ## Prerequisites
 
 * [Node.js](http://nodejs.org)
