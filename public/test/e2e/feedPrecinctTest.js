@@ -100,7 +100,7 @@ describe('Feed Precinct Test', function () {
     it('Error link works', function() {
       element('#precinct-errors').click();
       expect(element('#feeds-election-state-localities-precincts-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb7').click();
+      element('#pageHeader-breadcrumb7 a').click();
       expect(element('#feed-precinct-content').count()).toBe(1);
     });
   });
@@ -152,7 +152,7 @@ describe('Feed Precinct Test', function () {
     it('Error page link works', function() {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-state-localities-precincts-electoraldistricts-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb9').click();
+      element('#pageHeader-breadcrumb9 a').click();
       expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content-single').count()).toBe(1);
     });
   });
@@ -168,7 +168,7 @@ describe('Feed Precinct Test', function () {
       expect(element('#pageHeader-breadcrumb8').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb8').click();
+      element('#pageHeader-breadcrumb8 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -203,7 +203,7 @@ describe('Feed Precinct Test', function () {
       expect(element('#pageHeader-breadcrumb7').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb7').click();
+      element('#pageHeader-breadcrumb7 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -242,7 +242,7 @@ describe('Feed Precinct Test', function () {
     it('Error page works', function() {
       element('#earlyvotesite-errors').click();
       expect(element('#feeds-election-state-localities-precincts-earlyvotesites-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb9').click();
+      element('#pageHeader-breadcrumb9 a').click();
       expect(element('#feeds-election-state-localities-precincts-earlyvotesites-content-single').count()).toBe(1);
     });
   });
@@ -254,7 +254,7 @@ describe('Feed Precinct Test', function () {
     // if there is data
     it('Should be able to go into a Precinct Early Vote Sites page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb8').click();
+      element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state early vote sites page
@@ -282,7 +282,7 @@ describe('Feed Precinct Test', function () {
     // click to an earlyvote site
     it('Should be able to click on the breadcrumb and be taken back to the Precinct page', function () {
 
-      element('#pageHeader-breadcrumb7').click();
+      element('#pageHeader-breadcrumb7 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precinct page
@@ -330,7 +330,7 @@ describe('Feed Precinct Test', function () {
     // if there is data
     it('Should be able to go into a Precinct Polling Locations page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb8').click();
+      element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed polling locations page
@@ -359,7 +359,7 @@ describe('Feed Precinct Test', function () {
     // click to the precinct page
     it('Should be able to click on the breadcrumb and be taken back to the Precinct page', function () {
 
-      element('#pageHeader-breadcrumb7').click();
+      element('#pageHeader-breadcrumb7 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precinct page

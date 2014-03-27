@@ -70,8 +70,12 @@ describe('Feed State Test', function () {
 
     it('Error page link works', function() {
       element('#state-errors').click();
+
       expect(element('#feeds-election-state-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb3').click();
+
+      element('#pageHeader-breadcrumb3 a').click();
+      sleep(testGlobals.sleepTime);
+
       expect(element('#feed-state-content').count()).toBe(1);
     })
   });
@@ -112,8 +116,10 @@ describe('Feed State Test', function () {
 
     it('Error page link works', function() {
       element('#electionadmin-errors').click();
+      sleep(testGlobals.sleepTime);
       expect(element('#feeds-election-state-electionadministration-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
+      sleep(testGlobals.sleepTime);
       expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
     });
 
@@ -122,7 +128,7 @@ describe('Feed State Test', function () {
 
       // now go back to the state page
       // click the state breadcrumb
-      element('#pageHeader-breadcrumb3').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state page
@@ -157,8 +163,9 @@ describe('Feed State Test', function () {
   describe('Check error page link', function() {
     it('Error page link works', function() {
       element('#earlyvotesite-errors').click();
+      sleep(testGlobals.sleepTime);
       expect(element('#feeds-election-state-earlyvotesites-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb5').click();
+      element('#pageHeader-breadcrumb5 a').click();
       expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
     });
   });
@@ -170,7 +177,7 @@ describe('Feed State Test', function () {
     // if there is data
     it('Should be able to go into a State Early Vote Sites page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state early vote sites page
