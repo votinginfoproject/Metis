@@ -40,7 +40,7 @@ For more information see the [Crowd Admin Guide](https://confluence.atlassian.co
 ## Importing Data into Mongo
 
 1. Run `mongoimport -d metis -c counties < data/counties.json`
-2. Run `mongoimport -d metis -c stateFIPS < data/stateFIPS.json`
+2. Run `mongoimport -d metis -c stateFIPS < data/statefips.json`
 
 ## Running Karma Unit Tests
 
