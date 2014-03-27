@@ -60,7 +60,7 @@ describe('Testing Feed Ballot Line Result Page', function() {
     });
 
     it('Candidate Link works', function() {
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
       element('#ballotlineresult-id0 a').click();
       expect(element('#feed-ballotlineresult-content').count()).toBe(1);

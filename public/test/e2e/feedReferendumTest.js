@@ -108,7 +108,7 @@ describe('Testing Feed Referenda Page', function() {
       element('#referendum-id0 a').click();
       expect(element('#feed-referendum-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb6').click();
+      element('#pageHeader-breadcrumb6 a').click();
 
       // Make sure there is no error on the page
       expect(element('#pageHeader-alert')).not().toBeDefined();

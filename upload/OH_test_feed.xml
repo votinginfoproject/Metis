@@ -540,7 +540,7 @@ Note that the ID attributes are unique throughout the file.
       <votes>100</votes>
     </ballot_line_result>
     <street_segment id="1210001">
-        <start_house_number>11</start_house_number>
+        <start_house_number>1</start_house_number>
         <end_house_number>12</end_house_number>
         <odd_even_both>both</odd_even_both>
         <non_house_address>
@@ -588,7 +588,7 @@ Note that the ID attributes are unique throughout the file.
         <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210004">
-        <start_house_number>10</start_house_number>
+        <start_house_number>1</start_house_number>
         <end_house_number>9999998</end_house_number>
         <odd_even_both>even</odd_even_both>
         <non_house_address>
@@ -603,19 +603,7 @@ Note that the ID attributes are unique throughout the file.
         <precinct_id>10203</precinct_id>
     </street_segment>
     <street_segment id="1210005">
-        <start_house_number>10</start_house_number>
-        <end_house_number>9999999</end_house_number>
-        <odd_even_both>odd</odd_even_both>
-        <non_house_address>
-            <street_name>Main</street_name>
-            <city>Rural</city>
-            <state>OH</state>
-            <zip>43320</zip>
-        </non_house_address>
-        <precinct_id>10203</precinct_id>
-    </street_segment>
-    <street_segment id="1210006">
-        <start_house_number>4</start_house_number>
+        <start_house_number>1</start_house_number>
         <end_house_number>9999999</end_house_number>
         <odd_even_both>even</odd_even_both>
         <non_house_address>
@@ -624,9 +612,33 @@ Note that the ID attributes are unique throughout the file.
             <state>OH</state>
             <zip>43320</zip>
         </non_house_address>
-        <precinct_id>10203</precinct_id>
+        <precinct_id>10101</precinct_id>
+    </street_segment>
+    <street_segment id="1210006">
+        <start_house_number>1</start_house_number>
+        <end_house_number>9999999</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210007">
+        <start_house_number>1</start_house_number>
+        <end_house_number>20</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_id>10101</precinct_id>
+    </street_segment>
+    <street_segment id="1210008">
         <start_house_number>1</start_house_number>
         <end_house_number>2</end_house_number>
         <odd_even_both>both</odd_even_both>
@@ -636,6 +648,19 @@ Note that the ID attributes are unique throughout the file.
             <state>OH</state>
             <zip>43320</zip>
         </non_house_address>
-        <precinct_id>10203</precinct_id>
+        <precinct_split_id>30101</precinct_split_id>
     </street_segment>
+    <street_segment id="1210009">
+        <start_house_number>1</start_house_number>
+        <end_house_number>2</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>30101</precinct_split_id>
+    </street_segment>
+    
 </vip_object>

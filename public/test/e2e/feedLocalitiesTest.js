@@ -52,8 +52,8 @@ describe('Feed Localities Test', function () {
       expect(element('#feed-locality-content').count()).toBe(1);
 
       // click the localities link
-      expect(element('#pageHeader-breadcrumb4').html()).toBe("Localities");
-      element('#pageHeader-breadcrumb4').click();
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality page

@@ -72,8 +72,8 @@ describe('Feed Precinct Splits Test', function () {
       expect(element('#feed-precinctsplit-content').count()).toBe(1);
 
       // click the precinct splits link
-      expect(element('#pageHeader-breadcrumb8').html()).toBe("Precinct Splits");
-      element('#pageHeader-breadcrumb8').click();
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Precinct Splits");
+      element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precinct splits page
