@@ -97,6 +97,15 @@ function findOverviewObject(feedId, ids, model, returnTotal) {
   }
 }
 
+function streamOverviewObject(params) {
+  if(params.ids === 0) {
+    return params.model.find({ _feed: params.feedId }).stream();
+  }
+  else {
+    return params.model.find({ _feed: params.feedId, _id: { $in: params.ids } }).stream();
+  }
+}
+
 function convertObjArrToIdArr(arr) {
   return arr.map(function(cur) {
     if(cur._response)
@@ -106,9 +115,15 @@ function convertObjArrToIdArr(arr) {
   });
 }
 
+function createParamList(feedId, ids, model, returnTotal) {
+  return { feedId: feedId, ids: ids, model: model, returnTotal: returnTotal };
+}
+
 exports.countProperties = countProperties;
 exports.createOverviewObject = createOverviewObject;
 exports.addOverviewObjects = addOverviewObjects;
 exports.reduceOverviewObject = reduceOverviewObject;
 exports.findOverviewObject = findOverviewObject;
 exports.convertObjArrToIdArr = convertObjArrToIdArr;
+exports.createParamList = createParamList;
+exports.streamOverviewObject = streamOverviewObject;
