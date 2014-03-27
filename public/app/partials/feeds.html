@@ -18,7 +18,7 @@
     <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> <span class="td-text">{{feed.status}} <small>{{feed.processingTime}}</small></span></a>
     </td>
     <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
-    <td data-title="'Loaded On'" sortable="'date_loaded'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Loaded On"><span class="td-text">{{feed.date_loaded_formatted}}</span></a></td>
+    <td data-title="'Loaded On (UTC Time)'" sortable="'date_loaded'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Loaded On"><span class="td-text">{{feed.date_loaded_formatted}}</span></a></td>
   </tr>
   <tr ng-if="feeds.length === 0">
     <td colspan="6"><p style="padding: 1em;">No Feeds Found</p></td>

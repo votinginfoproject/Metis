@@ -2,6 +2,7 @@
  * Created by rcartier13 on 2/5/14.
  */
 
+var moment = require('moment');
 var config = require('../../config');
 var mongoose = require('mongoose');
 var schemas = require('../../dao/schemas');
@@ -39,7 +40,7 @@ function onSaveComplete(results) {
 
   // just grab the feedid from any overview object
   // and set the feed to complete
-  schemas.models.Feed.update({_id: results[0]._feed}, { feedStatus: 'Complete', complete: true, completedOn: new Date() },
+  schemas.models.Feed.update({_id: results[0]._feed}, { feedStatus: 'Complete', complete: true, completedOn: moment().utc() },
     function(err, feed) {
 
       // now close out the mongoose connection and exit the process

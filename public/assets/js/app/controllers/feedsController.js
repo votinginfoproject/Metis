@@ -47,7 +47,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
         }
 
         // format the loaded_on date
-        data[i].date_loaded_formatted = moment(data[i].date_loaded).format("MMM DD, YYYY - h:mm a");
+        data[i].date_loaded_formatted = moment(data[i].date_loaded).utc().format("MMM DD, YYYY - h:mm a");
       }
 
       // set the feeds data into the Angular model
