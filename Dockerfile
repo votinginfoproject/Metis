@@ -38,7 +38,8 @@ RUN ln -s /metis/docker/supervisord-metis.conf /etc/supervisor/conf.d/
 # install bower deps (TODO: move this to cached step)
 RUN cd /metis && bower --allow-root install
 
-# link tests script to a convenient place
+# setup test environment
+RUN apt-get install -y libfreetype6 libfontconfig # needed by phantomjs
 RUN ln -s /metis/docker/run-tests.sh /run-tests.sh
 
 # run the app

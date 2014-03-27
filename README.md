@@ -13,6 +13,12 @@ Voting Information Project web app.
 1. `docker run -d -p 4000:4000 vip/metis`
 1. Then hit [http://localhost:4000/](http://localhost:4000/) (or [http://localdocker:4000/](http://localdocker:4000/) with docker-osx)
 
+### Running tests in Docker
+
+> Just the karma tests for now. TODO: Run the other tests in /run-tests.sh too.
+
+1. `docker run vip/metis /run-tests.sh`
+
 ## Prerequisites
 
 * [Node.js](http://nodejs.org)
