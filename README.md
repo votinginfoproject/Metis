@@ -12,6 +12,7 @@ Voting Information Project web app.
     * Install Grunt CLI `npm install -g grunt-cli`
 * [Bower](http://bower.io)
     * Intall Bower `npm install -g bower`
+* [MongoDB](http://http://www.mongodb.org/)
 
 ## Getting Started
 
