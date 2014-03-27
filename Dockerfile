@@ -20,6 +20,12 @@ RUN npm install -g bower
 # install build-essential for dependencies that need that stuff
 RUN apt-get install -y build-essential
 
+# install app dependencies
+RUN mkdir /metis
+WORKDIR /metis
+ADD package.json /metis/
+RUN npm install
+
 # add app code to container
 ADD . /metis
 
@@ -29,8 +35,7 @@ RUN ln -s /metis/docker/supervisord-mongodb.conf /etc/supervisor/conf.d/
 RUN ln -s /metis/docker/supervisord-import-seed-data.conf /etc/supervisor/conf.d/
 RUN ln -s /metis/docker/supervisord-metis.conf /etc/supervisor/conf.d/
 
-# install app dependencies
-RUN cd /metis && npm install
+# install bower deps (TODO: move this to cached step)
 RUN cd /metis && bower --allow-root install
 
 # link tests script to a convenient place
