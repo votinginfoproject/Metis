@@ -17,6 +17,9 @@ RUN apt-get install -y nodejs
 RUN npm install -g grunt-cli
 RUN npm install -g bower
 
+# install build-essential for dependencies that need that stuff
+RUN apt-get install -y build-essential
+
 # add app code to container
 ADD . /metis
 
