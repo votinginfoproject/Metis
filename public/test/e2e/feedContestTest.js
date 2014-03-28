@@ -46,7 +46,7 @@ describe('Testing Feed Contest Page', function() {
     it('Contest error page link works', function() {
       element('#contest-errors').click();
       expect(element('#feeds-election-contests-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
     })
   });
 
@@ -98,7 +98,7 @@ describe('Testing Feed Contest Page', function() {
     it('Error page link works', function() {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-contests-electoraldistrict-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb5').click();
+      element('#pageHeader-breadcrumb5 a').click();
       expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
     });
   });
@@ -114,7 +114,7 @@ describe('Testing Feed Contest Page', function() {
       expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -171,7 +171,7 @@ describe('Testing Feed Contests Page', function() {
 
       expect(element('#feed-contest-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb3').click();
+      element('#pageHeader-breadcrumb3 a').click();
 
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contests-content').count()).toBe(1);

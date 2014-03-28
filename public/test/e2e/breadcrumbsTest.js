@@ -370,7 +370,7 @@ describe('Breadcrumbs Test', function () {
   describe('Check Feed Contests page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb3').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
@@ -420,7 +420,7 @@ describe('Breadcrumbs Test', function () {
   describe('Check Feed Candidates page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb6').click();
+      element('#pageHeader-breadcrumb6 a').click();
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
@@ -457,7 +457,7 @@ describe('Breadcrumbs Test', function () {
   describe('Check Feed Referenda page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb6').click();
+      element('#pageHeader-breadcrumb6 a').click();
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
@@ -510,7 +510,7 @@ describe('Breadcrumbs Test', function () {
     it('Should have the correct breadcrumbs', function () {
       browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults");
 
-      element('#pageHeader-breadcrumb5').click();
+      element('#pageHeader-breadcrumb5 a').click();
 
       expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
@@ -625,7 +625,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Precinct Splits page', function () {
 
       // click 9th breadcrumb
-      element('#pageHeader-breadcrumb8').click();
+      element('#pageHeader-breadcrumb8 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -643,7 +643,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Precinct page', function () {
 
       // click 8th breadcrumb
-      element('#pageHeader-breadcrumb7').click();
+      element('#pageHeader-breadcrumb7 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -661,7 +661,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Precincts page', function () {
 
       // click 7th breadcrumb
-      element('#pageHeader-breadcrumb6').click();
+      element('#pageHeader-breadcrumb6 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -679,7 +679,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Locality page', function () {
 
       // click 6th breadcrumb
-      element('#pageHeader-breadcrumb5').click();
+      element('#pageHeader-breadcrumb5 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -697,7 +697,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Localities page', function () {
 
       // click 5th breadcrumb
-      element('#pageHeader-breadcrumb4').click();
+      element('#pageHeader-breadcrumb4 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -715,7 +715,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed State page', function () {
 
       // click 4th breadcrumb
-      element('#pageHeader-breadcrumb3').click();
+      element('#pageHeader-breadcrumb3 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -733,7 +733,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Election page', function () {
 
       // click 3rd breadcrumb
-      element('#pageHeader-breadcrumb2').click();
+      element('#pageHeader-breadcrumb2 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -751,7 +751,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Overview page', function () {
 
       // click 2nd breadcrumb
-      element('#pageHeader-breadcrumb1').click();
+      element('#pageHeader-breadcrumb1 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -769,7 +769,7 @@ describe('Breadcrumbs Test', function () {
     it('Clicking breadcrumb should go to Feed Index page', function () {
 
       // click 1st breadcrumb
-      element('#pageHeader-breadcrumb0').click();
+      element('#pageHeader-breadcrumb0 a').click();
 
       sleep(testGlobals.sleepTime);
 

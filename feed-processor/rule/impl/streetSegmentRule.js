@@ -85,6 +85,7 @@ function evaluate(constraintSet, callback) {
         schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
           function(err, feed) {
             // setting the exit code to -1, which we won't check for in the parent process
+            console.log("Exiting processing due to Aggregation error.")
             process.exit(-1);
           }
         );

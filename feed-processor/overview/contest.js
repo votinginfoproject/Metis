@@ -6,6 +6,20 @@ var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 
+function kickoffContest(feedId, createOverviewModel, wait) {
+  console.log('Starting Single Contest Calc...');
+  contestCalc(feedId, function(contestOverview) {
+    console.log('Finished Single Contest');
+    contestOverview.forEach(function(overview) {
+      createOverviewModel('Ballot', overview.ballot, overview.ballot.errorCount, overview.section, feedId);
+      createOverviewModel('Candidates', overview.candidate, overview.candidate.errorCount, overview.section, feedId);
+      createOverviewModel('Electoral District', overview.electoralDistrict, overview.electoralDistrict.errorCount, overview.section, feedId);
+      createOverviewModel('Referenda', overview.referenda, overview.referenda.errorCount, overview.section, feedId);
+    });
+    wait();
+  });
+}
+
 function contestCalc(feedId, saveCalc) {
   var contestOverview = [];
   schemas.models.Contest.find({ _feed: feedId })
@@ -79,4 +93,5 @@ function contestReferendumCalc(feedId, ballot, returnTotal) {
   });
 }
 
+exports.kickoffContest = kickoffContest;
 exports.contestCalc = contestCalc;

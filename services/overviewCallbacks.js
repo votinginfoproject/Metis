@@ -31,7 +31,7 @@ function localityOverviewGET(req, res) {
 }
 
 function localitiesOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, 0, function(err, overviews) {
+  dao.getOverviewTable(req.params.feedid, -1, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -39,7 +39,7 @@ function localitiesOverviewGET (req, res) {
 };
 
 function contestsOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, 1, function(err, overviews) {
+  dao.getOverviewTable(req.params.feedid, -2, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -47,7 +47,7 @@ function contestsOverviewGET (req, res) {
 };
 
 function resultsOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, 2, function(err, overviews) {
+  dao.getOverviewTable(req.params.feedid, -3, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });

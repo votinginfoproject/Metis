@@ -62,8 +62,8 @@ describe('Feed Precincts Test', function () {
       expect(element('#feed-precinct-content').count()).toBe(1);
 
       // click the precincts link
-      expect(element('#pageHeader-breadcrumb6').html()).toBe("Precincts");
-      element('#pageHeader-breadcrumb6').click();
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
+      element('#pageHeader-breadcrumb6 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precincts page
