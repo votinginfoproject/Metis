@@ -56,6 +56,10 @@ section.data-module {
     font-size: 1.5em;
     font-size: 1.5rem;
   }
+
+  & + dl.attributes {
+    border-top: 1px solid #628eb7;
+  }
 }
 
 .data-group-header {

@@ -111,7 +111,7 @@ aside .wrapper {
   padding-top: $base-xs;
 
   @include bp(c12) {
-    padding-top: 1em;
+    padding-top: $base;
   }
 }
 
