@@ -39,7 +39,7 @@ function contestCalc(feedId, saveCalc) {
         var overviewPos = contestOverview.length - 1;
 
         contestOverview[overviewPos].ballot = util.createOverviewObject(1, util.countProperties(contest._ballot), schemas.models.Ballot.fieldCount, 0);
-        schemas.models.Ballot.Error.count({_ref: contest._ballot}, function(err, count) {
+        schemas.models.Ballot.Error.count({_ref: contest._ballot}, function (err, count) {
           contestOverview[overviewPos].ballot.errorCount = count;
           wait();
         });
@@ -50,15 +50,32 @@ function contestCalc(feedId, saveCalc) {
           wait();
         });
 
-        var candidates = util.convertObjArrToIdArr(contest._ballot.candidates);
-        util.findOverviewObject(feedId, candidates, schemas.models.Candidate, function(res) {
-          contestOverview[overviewPos].candidate = res;
-          schemas.models.Candidate.Error.count({_ref: {$in: candidates}}, function(err, count) {
-            contestOverview[overviewPos].candidate.errorCount = count;
+        if(contest._ballot) {
+          var candidates = util.convertObjArrToIdArr(contest._ballot.candidates);
+          util.findOverviewObject(feedId, candidates, schemas.models.Candidate, function (res) {
+            contestOverview[overviewPos].candidate = res;
+            schemas.models.Candidate.Error.count({_ref: {$in: candidates}}, function (err, count) {
+              contestOverview[overviewPos].candidate.errorCount = count;
+              wait();
+            });
+          });
+        }
+        else {
+          contestOverview[overviewPos].candidate = util.createOverviewObject();
+          wait();
+        }
+
+        if(contest._ballot) {
+          contestReferendumCalc(feedId, contest._ballot, function (res) {
+            contestOverview[overviewPos].referenda = res;
             wait();
           });
-        });
-        contestReferendumCalc(feedId, contest._ballot, function(res) { contestOverview[overviewPos].referenda = res; wait(); });
+        }
+        else {
+          contestOverview[overviewPos].referenda = util.createOverviewObject();
+          wait();
+        }
+
 
       }, function(err) { saveCalc(contestOverview); });
 
