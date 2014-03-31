@@ -2314,6 +2314,8 @@ form[role="search"] {
     text-decoration: none;
     border-bottom: 1px solid #3c5f87;
     display: inline-block; }
+    .breadcrumbs a:hover, .breadcrumbs a:focus {
+      color: white; }
   .breadcrumbs .is-active a {
     color: white;
     border: none;
