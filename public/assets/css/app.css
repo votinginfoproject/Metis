@@ -1902,20 +1902,26 @@ th {
     .associations thead {
       display: table-header-group; } }
 .associations tbody tr {
-  background: #ebebeb; }
+  background: white; }
   .associations tbody tr a {
-    border-top: 1px solid white; }
+    border-top: 1px solid #ebebeb; }
     @media (min-width: 600px) {
       .associations tbody tr a {
         border: none; } }
   .associations tbody tr:nth-child(2n) {
-    background: white; }
+    background: #ebebeb; }
     .associations tbody tr:nth-child(2n) a {
-      border-top: 1px solid #ebebeb; }
+      border-top: 1px solid white; }
+      @media (min-width: 600px) {
+        .associations tbody tr:nth-child(2n) a {
+          border: none; } }
   .associations tbody tr td:first-child a {
     border: none; }
   .associations tbody tr:hover {
-    background: #eaf5ff; }
+    background: #01244c;
+    color: white; }
+    .associations tbody tr:hover a {
+      color: white; }
 .associations a {
   display: block;
   line-height: 1.125;

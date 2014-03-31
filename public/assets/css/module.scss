@@ -93,9 +93,9 @@
 
   tbody {
     tr {
-      background: $gray-light;
+      background: $white;
       a {
-        border-top: 1px solid $white;
+        border-top: 1px solid $gray-light;
 
          @include bp(c6) {
           border: none;
@@ -103,10 +103,13 @@
       }
 
       &:nth-child(2n){
-        background: $white;
+        background: $gray-light;
 
         a {
-          border-top: 1px solid $gray-light;
+          border-top: 1px solid $white;
+          @include bp(c6) {
+            border: none;
+           }
         }
       }
 
@@ -115,7 +118,11 @@
       }
 
       &:hover {
-        background: lighten($blue-light, 10);
+        background: $blue-darkest;
+        color: $white;
+        a {
+          color: $white;
+        }
       }
     }
   }
