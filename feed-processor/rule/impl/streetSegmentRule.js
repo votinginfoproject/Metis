@@ -37,141 +37,144 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
   });
 }
 
-function evaluate(constraintSet, callback) {
-  var Model = mongoose.model(constraintSet.entity[0]);
+var evaluate = function(constraintSet, callback) {
+  var totalErrorCount = 0;
+  async.eachSeries(constraintSet.entity, function(model, done) {
+    var stream = mongoose.model(model).find({ _feed: feedId }).stream();
 
-  Model.aggregate({ $match: { _feed: feedId } },
-    {
-      // group by street segments where the following attributes are the same
-      $group: {
-        _id: {
-          streetDirection: "$nonHouseAddress.streetDirection",
-          streetSuffix: "$nonHouseAddress.streetSuffix",
-          addressDirection: "$nonHouseAddress.addressDirection",
-          streetName: "$nonHouseAddress.streetName",
-          city: "$nonHouseAddress.city",
-          zip: "$nonHouseAddress.zip"
-        },
-        // and get a count for each group
-        count: { $sum: 1 },
-        // and the rest of the attributes that we will need to operate on later
-        elementId: { $push: "$elementId" },
-        id: { $push: "$_id" },
-        startHouseNumber: { $push: "$startHouseNumber" },
-        endHouseNumber: { $push: "$endHouseNumber" },
-        oddEvenBoth: { $push: "$oddEvenBoth" }
-      }
-    },
-    {
-      // match only street segments that have the possibility of overlapping
-      // these are the streetsegments where the address components match but
-      // we have not yet checked the actual streetnumbers for overlapp
-      // and there is more than 1 of these street segments
-      $match : {count : { $gt : 1 } }
-    }
-  ).exec(function(err, results) {
+    stream.on('data', function(err, doc) {
+      stream.pause();
+      getStreamed(doc, model, function(errorCount) {
+        totalErrorCount += errorCount;
+        stream.resume();
+      });
+    });
 
+    stream.on('close', function(err) {
       if(err) {
         console.log(err);
 
-        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
+        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Street Segment Rule', complete: false, failed: true },
           function(err, feed) {
-            // setting the exit code to -1, which we won't check for in the parent process
-            console.log("Exiting processing due to Aggregation error.")
             process.exit(-1);
           }
         );
-
-        return;
       }
 
-      // loop through the results from the aggregate
-      for(var i = 0; i < results.length; i++) {
-
-        // tree interval creation
-        var tree = new interval.SegmentTree;
-        tree.clearIntervalStack();
-
-        // due to the way the tree interval provides feedback, we will need to keep track of our data based
-        // on which index in the array we are operating on
-        var startHouseNumbers = results[i].startHouseNumber;
-        var endHouseNumbers = results[i].endHouseNumber;
-        var elementIds = results[i].elementId;
-        var oebs = results[i].oddEvenBoth;
-        var ids = results[i].id;
-        var errorTexts = [];
-
-        // build up the tree and store up the potential error text we can have for each interval
-        for(var j = 0; j < startHouseNumbers.length; j++){
-          errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
-
-          tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
-        }
-
-        // build the tree
-        tree.buildTree();
-        //query to see if there are any overlaps returned
-        var treeResults = tree.queryOverlap();
-
-        // go through the tree overlap results
-        for(var j = 0; j < treeResults.length; j++){
-          if(treeResults[j].overlap.length > 0){
-
-            var errors = "";
-            // if we have overlaps
-            for(var k = 0; k < treeResults[j].overlap.length; k++){
-              var treeOverlap = treeResults[j];
-              var index = treeOverlap.overlap[k];
-              index = parseInt(index);
-
-              // turn the 1 based index of the treeInterval into a 0 based index of a js array
-              index--;
-
-              // now check OddEvenBoth attribute for the segments
-              // if the oeb are the same or either one is 'both'
-              if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
-                errors+= errorTexts[index];
-              }
-            }
-
-            // now create the overlap error
-            if(errors.length > 0){
-              createError(results[i], elementIds[j], ids[j], errors);
-            }
-
-          }
-        }
-
-      }
-
-      callback({ promisedErrorCount: errorCount });
+      done();
     });
+
+  }, function() { callback({promisedErrorCount: totalErrorCount}); })
 }
 
-function createError(streetsegment, elementId, mongoId, error) {
-  errorCount++;
-  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
-  return ruleErrors.model().save();
-}
-
-exports.evaluate = evaluateStreetSegmentsOverlap;
-
-
-/*
-PREVIOUS IMPLEMENTATION - CAN USE TO CONFIRM NEW IMPLEMENTATION IS CORRECT
- */
-
-/*
-var mongoose = require('mongoose');
-var async = require('async');
-var when = require('when');
+//function evaluate(constraintSet, callback) {
+//  var Model = mongoose.model(constraintSet.entity[0]);
+//
+//  Model.aggregate()
+//    .match( { _feed: feedId } )
+//    .group({
+//      _id: {
+//        streetDirection: "$nonHouseAddress.streetDirection",
+//        streetSuffix: "$nonHouseAddress.streetSuffix",
+//        addressDirection: "$nonHouseAddress.addressDirection",
+//        streetName: "$nonHouseAddress.streetName",
+//        city: "$nonHouseAddress.city",
+//        zip: "$nonHouseAddress.zip",
+//        oddEvenBoth: "$oddEvenBoth"
+//      },
+//      // and get a count for each group
+//      count: { $sum: 1 },
+//      // and the rest of the attributes that we will need to operate on later
+//      elementId: { $push: "$elementId" },
+//      id: { $push: "$_id" },
+//      startHouseNumber: { $push: "$startHouseNumber" },
+//      endHouseNumber: { $push: "$endHouseNumber" }
+//    })
+//    .match({ count : { $gt : 1 } })
+//    .exec(function(err, results) {
+//
+//      if(err) {
+//        console.log(err);
+//
+//        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
+//          function(err, feed) {
+//            // setting the exit code to -1, which we won't check for in the parent process
+//            console.log("Exiting processing due to Aggregation error.")
+//            process.exit(-1);
+//          }
+//        );
+//
+//        return;
+//      }
+//
+//      // loop through the results from the aggregate
+//      for(var i = 0; i < results.length; i++) {
+//
+//        // tree interval creation
+//        var tree = new interval.SegmentTree;
+//        tree.clearIntervalStack();
+//
+//        // due to the way the tree interval provides feedback, we will need to keep track of our data based
+//        // on which index in the array we are operating on
+//        var startHouseNumbers = results[i].startHouseNumber;
+//        var endHouseNumbers = results[i].endHouseNumber;
+//        var elementIds = results[i].elementId;
+////        var oebs = results[i].oddEvenBoth;
+//        var ids = results[i].id;
+//        var errorTexts = [];
+//
+//        // build up the tree and store up the potential error text we can have for each interval
+//        for(var j = 0; j < startHouseNumbers.length; j++){
+//          errorTexts.push("{" + "id: " + elementIds[j] + ", startHouseNumber: " + startHouseNumbers[j] + ", endHouseNumber: " + endHouseNumbers[j] + "}");
+//
+//          tree.pushInterval(startHouseNumbers[j], endHouseNumbers[j]);
+//        }
+//
+//        // build the tree
+//        tree.buildTree();
+//        //query to see if there are any overlaps returned
+//        var treeResults = tree.queryOverlap();
+//
+//        // go through the tree overlap results
+//        for(var j = 0; j < treeResults.length; j++){
+//          if(treeResults[j].overlap.length > 0){
+//
+//            var errors = "";
+//            // if we have overlaps
+//            for(var k = 0; k < treeResults[j].overlap.length; k++){
+//              var treeOverlap = treeResults[j];
+//              var index = treeOverlap.overlap[k];
+//              index = parseInt(index);
+//
+//              // turn the 1 based index of the treeInterval into a 0 based index of a js array
+//              index--;
+//
+//              // now check OddEvenBoth attribute for the segments
+//              // if the oeb are the same or either one is 'both'
+////              if(oebs[j] === oebs[index] || oebs[j]==="both" || oebs[index]==="both"){
+//                errors+= errorTexts[index];
+////              }
+//            }
+//
+//            // now create the overlap error
+//            if(errors.length > 0){
+//              createError(results[i], elementIds[j], ids[j], errors);
+//            }
+//
+//          }
+//        }
+//
+//      }
+//
+//      callback({ promisedErrorCount: errorCount });
+//    });
+//}
 
 var Violation = require('../ruleviolation');
 
-var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, constraintSet, ruleDef){
+var getStreamed = function(streetSegment, model, callback){
   var Model = mongoose.model(entity);
   var isViolated = false;
-  var deferred = when.defer();
 
   // create the oddEvenBoth query outside based on a conditional
 
@@ -184,8 +187,7 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
     oddEvenBothQuery = [{}];
   }
 
-  promise = Model
-    .find(
+  Model.find(
     {
       // find all street segments in this feed
       _feed:streetSegment._feed,
@@ -200,7 +202,7 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
         // where oddEvenBoth is the same or either one is 'both'
         { $or: oddEvenBothQuery }
       ]
-    })
+    }, {})
     .where('elementId').ne(streetSegment.elementId) // that is not the current street segment segment
     .where('nonHouseAddress.streetDirection').equals(streetSegment.nonHouseAddress.streetDirection) // where streetDirection is the same
     .where('nonHouseAddress.streetSuffix').equals(streetSegment.nonHouseAddress.streetSuffix) // where streetSuffix is the same
@@ -229,11 +231,12 @@ var evaluateStreetSegmentsOverlap = function(streetSegment, dataSet, entity, con
     deferred.resolve({isViolated: isViolated, dataItem: resultObject, dataSet: dataSet, entity: entity, ruleDef: ruleDef});
 
   });
-  promise.onerror = function(){
-    deferred.reject(new Error("Issues During Fetch"));
-  };
-  return deferred.promise;
+}
+
+function createError(streetsegment, elementId, mongoId, error) {
+  errorCount++;
+  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
+  return ruleErrors.model().save();
 }
 
 exports.evaluate = evaluateStreetSegmentsOverlap;
-*/
