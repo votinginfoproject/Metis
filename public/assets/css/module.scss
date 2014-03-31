@@ -448,6 +448,11 @@ aside {
     text-decoration: none;
     border-bottom: 1px solid $blue-dark;
     line-height: 1.25;
+
+    &:hover, &:focus {
+      color: $white;
+      border-color: $white;
+    }
   }
 }
 
@@ -502,6 +507,10 @@ aside {
   border-radius: 15px;  
   width: 100%;
 
+  &:hover, &:focus {
+    background: #f33;
+    color: $white;
+  }
 
   time {
     display: block;
@@ -528,27 +537,33 @@ aside {
   margin-bottom: $base;
 
   li {
-    // margin-bottom: .125em;
     color: $gray-light;
     border-top: 2px solid $gray-medium;
+
     > * {
       display: block;
       opacity: 0.4;
       padding: $base-sm;      
     }
+
     &:first-child {
       border-top: none;
       > * {
         border-radius: 15px 15px 0 0;
       }
     }
+
     &:last-child > * {
       border-radius: 0 0 15px 15px;
     }
+
     a {
       color: $gray-medium;
       background: $blue-darkest;
       opacity: 1;
+      &:hover, &:focus {
+        color: $white;
+      }
     }
   }
 
@@ -577,6 +592,11 @@ aside {
   border-radius: 15px;
   border: 2px solid $white;
   background: $green-dark;
+
+  &:hover, &:focus {
+    color: $white;
+    background: #0c6;
+  }
 }
 
 .vcard {
