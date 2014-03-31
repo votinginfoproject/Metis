@@ -53,22 +53,14 @@ function handleFileProcessing(req, res){
  */
 function startFileProcessing(filename){
 
-  var uploadFolderPath = config.upload.uploadPath;
+  var fullFilePath = _path.join(_path.resolve(config.upload.uploadPath), filename);
 
-  // need to make sure the path is surrounded by slashes as the path will be relative to the current folder
-  if(uploadFolderPath.charAt(0)!="/"){
-    uploadFolderPath = "/" + uploadFolderPath;
-  }
-  if(uploadFolderPath.charAt(uploadFolderPath.length-1)!="/"){
-    uploadFolderPath = uploadFolderPath + "/";
-  }
-  // now make the path relative to the root folder
-  uploadFolderPath = ".." + uploadFolderPath;
+  console.log('Starting to process: ' + fullFilePath);
 
   // Forking a whole new instance of v8
   // .fork() is similar to .spawn() however it also gives the child the ability to send messages to the parent
   // 30ms startup time and minimum 10MB for each new child process
-  fileProcessing = childProcess.fork("feed-processor/processor.js", [uploadFolderPath + filename]);
+  fileProcessing = childProcess.fork("feed-processor/processor.js", [fullFilePath]);
 
   // when child sends messages
   fileProcessing.on('message', function(msg){
