@@ -4,18 +4,10 @@
 
 var util = {
   mapperTest: function(saveFunc, model, xml, done) {
-    var isPassing = false;
     model.mapXml3_0(xml);
-    model.model.save = saveFunc;
-    model.save(function() {}, function() { isPassing = true; });
-
-    waitsFor(function() {
-      return isPassing == true;
-    }, 5000);
-
-    runs(function() {
-      done();
-    });
+    model.collection.create = saveFunc;
+    model.save();
+    done();
   },
 
   testXmlAddress: function(first, second) {

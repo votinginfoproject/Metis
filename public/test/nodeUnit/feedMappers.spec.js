@@ -27,7 +27,7 @@ describe('Feed Mappers Tests', function() {
       var feed = data.feed;
       var res = mappers.mapFeedOverview('path', feed);
       expect(res.id).toBe(feed.id);
-      expect(res.title).toBe(feed.name);
+      expect(res.feed_name).toBe(feed.name);
     });
   });
 
@@ -226,7 +226,7 @@ describe('Feed Mappers Tests', function() {
   describe('mapEarlyVoteSites Test', function() {
     it('returns the data', function() {
       var earlyVote = data.earlyVote;
-      var res = mappers.mapEarlyVoteSite(earlyVote);
+      var res = mappers.mapEarlyVoteSite('', earlyVote);
       expect(res.id).toBe(earlyVote.elementId);
       expect(res.name).toBe(earlyVote.name);
       expect(res.address.location_name).toBe(earlyVote.address.location_name);
@@ -247,7 +247,7 @@ describe('Feed Mappers Tests', function() {
   describe('mapElectionAdministration Test', function() {
     it('returns the data', function() {
       var admin = data.electionAdmin;
-      var res = mappers.mapElectionAdministration(admin);
+      var res = mappers.mapElectionAdministration('', admin);
       expect(res.id).toBe(admin.elementId);
       expect(res.name).toBe(admin.name);
       nodeUtil.testMapperAddress(res.physical_address, admin.physicalAddress);
@@ -334,7 +334,7 @@ describe('Feed Mappers Tests', function() {
   describe('mapReferendum Test', function() {
     it('returns the data', function() {
       var referendum = data.referendum;
-      var res = mappers.mapReferendum(referendum);
+      var res = mappers.mapReferendum('', referendum);
 
       expect(res.id).toBe(referendum.elementId);
       expect(res.title).toBe(referendum.title);

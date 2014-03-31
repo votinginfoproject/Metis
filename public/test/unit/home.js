@@ -51,21 +51,21 @@ describe('Home Unit Tests', function() {
     });
   });
 
-  describe('Home Service Test', function() {
-    var homeService, httpBackend;
-    beforeEach(angular.mock.module('vipApp'));
-
-    beforeEach(inject(function($homeService, $httpBackend) {
-      homeService = $homeService;
-      httpBackend = $httpBackend;
-    }));
-
-    it('should send valid data', function() {
-      expect(homeService).toBeDefined();
-      expect(homeService.getData).toBeDefined();
-      spyOn(homeService, 'getData');
-      homeService.getData();
-      expect(homeService.getData).toHaveBeenCalled();
-    });
-  });
+//  describe('Home Service Test', function() {
+//    var homeService, httpBackend;
+//    beforeEach(angular.mock.module('vipApp'));
+//
+//    beforeEach(inject(function($homeService, $httpBackend) {
+//      homeService = $homeService;
+//      httpBackend = $httpBackend;
+//    }));
+//
+//    it('should send valid data', function() {
+//      expect(homeService).toBeDefined();
+//      expect(homeService.getData).toBeDefined();
+//      spyOn(homeService, 'getData');
+//      homeService.getData();
+//      expect(homeService.getData).toHaveBeenCalled();
+//    });
+//  });
 });
