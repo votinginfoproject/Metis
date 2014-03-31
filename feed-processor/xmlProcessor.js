@@ -6,6 +6,7 @@ const
   unfold = require('when/unfold'),
   xstream = require('xml-stream'),
   config = require('../config');
+  moment = require('moment');
 
 
 //(schemas, filePath, fileName, filePath)
@@ -273,7 +274,7 @@ module.exports = function() {
         complete: false,
         failed: false,
         completedOn: null,
-        loadedOn: new Date(),
+        loadedOn: moment.utc(),
         feedPath: filePath,
         feedStatus: 'Parsing',
         name: fileName

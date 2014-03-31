@@ -9,7 +9,7 @@
   <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="table-errors">
     <tr id="error{{$index}}" ng-repeat-start="error in $data">
       <td width="10%" class="numeric" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
-        <a href="javascript:void(0)" ng-click="toggleError($index)">{{error.textual_references.length}}</a>
+        <a href="javascript:void(0)" ng-click="toggleError($index)">{{error.textual_references.length | number}}</a>
       </td>
       <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severity_text'" class="toggle-td">
         <a href="javascript:void(0)" ng-click="toggleError($index)">

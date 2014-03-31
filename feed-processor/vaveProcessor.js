@@ -6,6 +6,7 @@ const
   unfold = require('when/unfold'),
   csv = require('fast-csv'),
   config = require('./vaveConfig');
+  moment = require('moment');
 
 module.exports = function () {
   var initialized = false;
@@ -23,7 +24,7 @@ module.exports = function () {
       complete: false,
       failed: false,
       completedOn: null,
-      loadedOn: new Date(),
+      loadedOn: moment().utc(),
       feedPath: filePath,
       feedStatus: 'Parsing',
       name: path.basename(filePath)

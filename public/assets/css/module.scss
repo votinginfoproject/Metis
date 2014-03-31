@@ -313,11 +313,9 @@
 
   &:first-child {
     border-top: none;
-    //border-radius: 10px 0 0 0;
   }
 
   &:last-child {
-    //border-radius: 0 0 0 10px;
   }
 
   @include bp(c6) {
@@ -371,6 +369,7 @@
   }
 
   td {
+    vertical-align: top;
     padding: 0;
     position: relative;
   }
@@ -397,13 +396,14 @@
 // Aside
 // ============================================================================
 aside {
-  color: $gray-light; 
+  color: $gray-medium; 
 
   h2 {
-    color: $gray-light;
+    color: $gray-medium;
     font-size: 0.875em;
     font-size: 0.875rem;
     font-weight: normal;
+    margin-bottom: $base-sm;
 
     @include bp(c6) {
       font-size: 1.5em;
@@ -444,8 +444,10 @@ aside {
   }
 
   a {
-    color: $white;
-    text-decoration: underline;
+    color: $gray-medium;
+    text-decoration: none;
+    border-bottom: 1px solid $blue-dark;
+    line-height: 1.25;
   }
 }
 
@@ -459,11 +461,13 @@ aside {
 
   @include bp(c12) {
     cursor: default;
+    padding-top: $base-sm;
   }
 
   h2 {
     color: $white;
     font-weight: bold;
+    margin-bottom: 0;
     @include word-break;
     position: relative;
   }
@@ -559,13 +563,20 @@ aside {
 }
 
 .button-approve {
-  @extend %button;
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: $white;
   display: block;
   margin: 0 0 1em;
+  padding: $base-sm;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-radius: 10px;
+  border-radius: 15px;
+  border: 2px solid $white;
+  background: $green-dark;
 }
 
 .vcard {
@@ -618,8 +629,6 @@ form[role="search"] {
 .breadcrumbs {
   display: none;
   margin: 0 0 $base-med;
-  //overflow: hidden;
-  //@include word-break;
 
   @include bp(c6) {
     display: block;
@@ -639,8 +648,6 @@ form[role="search"] {
       color: $gray-medium;
       content: "/";
       margin: 0 $base-xs;
-      //position: relative;
-      //top: .1em;
     }
 
     &:first-child:before {
@@ -650,8 +657,10 @@ form[role="search"] {
   }
 
   a {
-    color: $gray-light;
-    text-decoration: underline;
+    line-height: 1.25;
+    color: $gray-medium;
+    text-decoration: none;
+    border-bottom: 1px solid $blue-dark;
     display: inline-block;
 
     &:hover, &:focus {
@@ -661,7 +670,7 @@ form[role="search"] {
 
   .is-active a {
     color: $white;
-    text-decoration: none;
+    border: none;
     cursor: default;
 
     &:hover,
@@ -717,10 +726,11 @@ form[role="search"] {
 
 .error-count {
   color: $white;
-  margin-left: $base;
-  margin-right: $base;
-  @extend .button-errors;
-  margin: 0 0 $base;
+  font-weight: bold;
+  padding: $base-xs $base-sm;
+  margin: 0 0 $base-med;
+  background: $red;
+  border-radius: 10px;
 
   @include bp(c6) {
     margin-left: 0;

@@ -1365,6 +1365,7 @@ h1 {
     h1 {
       font-size: 2.25em;
       font-size: 2.25rem;
+      line-height: 1.1;
       margin: 0; } }
   @media (min-width: 1116px) {
     h1 {
@@ -1689,8 +1690,7 @@ form > div, fieldset > div {
 .button,
 .disabled,
 button,
-input[type="submit"],
-.button-approve {
+input[type="submit"] {
   background: #33699c;
   border: none;
   color: #ebebeb;
@@ -1707,8 +1707,7 @@ input[type="submit"],
   .button:hover,
   .disabled:hover,
   button:hover,
-  input[type="submit"]:hover,
-  .button-approve:hover {
+  input[type="submit"]:hover {
     background: #2c4664;
     color: white; }
 
@@ -2104,6 +2103,7 @@ th {
   font-size: 1em;
   color: #ce3d3d; }
 .table-errors td {
+  vertical-align: top;
   padding: 0;
   position: relative; }
 .table-errors td > a {
@@ -2120,12 +2120,13 @@ th {
   color: #33699c; }
 
 aside {
-  color: #ebebeb; }
+  color: #b1b3b6; }
   aside h2 {
-    color: #ebebeb;
+    color: #b1b3b6;
     font-size: 0.875em;
     font-size: 0.875rem;
-    font-weight: normal; }
+    font-weight: normal;
+    margin-bottom: 0.5em; }
     @media (min-width: 600px) {
       aside h2 {
         font-size: 1.5em;
@@ -2139,7 +2140,7 @@ aside {
       display: table; }
     .aside-nav:after {
       clear: both; }
-    .aside-nav .button-errors, .aside-nav .error-count, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
+    .aside-nav .button-errors, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
       float: right;
       margin-left: 5%;
       width: 47.5%; }
@@ -2147,7 +2148,7 @@ aside {
       float: left;
       margin-left: 0; } }
 @media (min-width: 1116px) {
-  .aside-nav .button-errors, .aside-nav .error-count, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
+  .aside-nav .button-errors, .aside-nav .feed-nav, .aside-nav .button-approve, .aside-nav p.helper {
     float: none;
     width: 100%;
     margin-left: 0; } }
@@ -2158,17 +2159,21 @@ aside {
     .contact-wrap {
       display: block; } }
   .contact-wrap a {
-    color: white;
-    text-decoration: underline; }
+    color: #b1b3b6;
+    text-decoration: none;
+    border-bottom: 1px solid #3c5f87;
+    line-height: 1.25; }
 
 .feed-title {
   cursor: pointer; }
   @media (min-width: 1116px) {
     .feed-title {
-      cursor: default; } }
+      cursor: default;
+      padding-top: 0.5em; } }
   .feed-title h2 {
     color: white;
     font-weight: bold;
+    margin-bottom: 0;
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
@@ -2184,7 +2189,7 @@ aside {
       .feed-title i {
         display: none; } }
 
-.button-errors, .error-count {
+.button-errors {
   display: block;
   background: #ce3d3d;
   color: white;
@@ -2198,7 +2203,7 @@ aside {
   border: 2px solid white;
   border-radius: 15px;
   width: 100%; }
-  .button-errors time, .error-count time {
+  .button-errors time {
     display: block;
     color: #660000;
     font-style: italic;
@@ -2236,12 +2241,20 @@ aside {
       opacity: 1; }
 
 .button-approve {
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: white;
   display: block;
   margin: 0 0 1em;
+  padding: 0.5em;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-radius: 10px; }
+  border-radius: 15px;
+  border: 2px solid white;
+  background: #009933; }
 
 .vcard span {
   display: block; }
@@ -2286,12 +2299,14 @@ form[role="search"] {
       content: " ";
       margin: 0; }
   .breadcrumbs a {
-    color: #ebebeb;
-    text-decoration: underline;
+    line-height: 1.25;
+    color: #b1b3b6;
+    text-decoration: none;
+    border-bottom: 1px solid #3c5f87;
     display: inline-block; }
   .breadcrumbs .is-active a {
     color: white;
-    text-decoration: none;
+    border: none;
     cursor: default; }
 
 .pagination {
@@ -2322,9 +2337,11 @@ form[role="search"] {
 
 .error-count {
   color: white;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin: 0 0 1em; }
+  font-weight: bold;
+  padding: 0.25em 0.5em;
+  margin: 0 0 1.5em;
+  background: #ce3d3d;
+  border-radius: 10px; }
   @media (min-width: 600px) {
     .error-count {
       margin-left: 0;
@@ -2871,6 +2888,8 @@ section.data-module {
       border-radius: 8px 8px 0 0;
       font-size: 1.5em;
       font-size: 1.5rem; } }
+  .data-module > h2 + dl.attributes {
+    border-top: 1px solid #628eb7; }
 
 .data-group-header {
   *zoom: 1;

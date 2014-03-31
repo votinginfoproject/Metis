@@ -46,6 +46,8 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
           data[i].due_in = "N/A";
         }
 
+        // format the loaded_on date
+        data[i].date_loaded_formatted = moment(data[i].date_loaded).utc().format("MMM DD, YYYY - h:mm a");
       }
 
       // set the feeds data into the Angular model
@@ -74,7 +76,8 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       }
 
       // sets the defaults for the table sorting parameters
-      $scope.feedTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, {date: 'asc'});
+      // sort by date_loaded, descending order
+      $scope.feedTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, {date_loaded: 'des'});
 
     }).error(function (data) {
 
