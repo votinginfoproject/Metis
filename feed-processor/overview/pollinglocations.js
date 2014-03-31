@@ -90,6 +90,9 @@ function pollingLocationsCalc(feedId, saveCalc) {
     var stream = utils.streamOverviewObject(params);
     var overview = utils.createOverviewObject();
     stream.on('data', function(doc) {
+      if(!doc)
+        console.log('document is null');
+
       overview.amount++;
       overview.fieldCount += utils.countProperties(doc);
       overview.schemaFieldCount += params.model.fieldCount;
