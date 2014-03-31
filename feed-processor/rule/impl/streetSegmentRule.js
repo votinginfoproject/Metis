@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleviolation');
+var ruleViolation = require('../ruleViolation');
 var schemas = require('../../../dao/schemas');
 var config = require('../../../config');
 

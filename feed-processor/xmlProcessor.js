@@ -281,8 +281,10 @@ module.exports = function() {
       }, function(err, feed) {
         console.log('Wrote feed with id = ' + feed._id.toString());
 
-        // tell the parent about the feedid of the current feed being processed
-        process.send({"feedid": feedId});
+        if (process.send) {
+          // tell the parent about the feedid of the current feed being processed
+          process.send({"feedid": feedId});
+        }
       });
 
 
