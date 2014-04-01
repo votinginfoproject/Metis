@@ -2,6 +2,8 @@
  * Created by Akelaus on 12/4/13.
  */
 
+var feedIdMapper = require('../feedIdMapper');
+
 //app configuration
 var config = require('../config');
 
@@ -16,9 +18,13 @@ function dbConnect() {
 
   db.on('error', console.error.bind(console, 'MongoDB connection error: '));
   db.once('open', function callback(){
-    console.log("Initializing Mongoose...")
+    console.log("Initializing Mongoose...");
     daoSchemas.initSchemas(mongoose);
     console.log("Initialized Mongoose for VIP database.");
+
+    // load the friendly id map into memory
+    feedIdMapper.loadUserFriendlyIdMap();
+
   });
 };
 

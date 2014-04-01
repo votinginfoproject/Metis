@@ -27,7 +27,8 @@ module.exports = function () {
       loadedOn: moment().utc(),
       feedPath: filePath,
       feedStatus: 'Parsing',
-      name: path.basename(filePath)
+      name: path.basename(filePath),
+      friendlyId: null
     }, function (err, feed) {
       console.log('Wrote feed with id = ' + feed._id.toString());
 

@@ -25,6 +25,7 @@ var mapFeed = function(path, feed) {
 
   return {
     id: feed.id,
+    friendlyId: feed.friendlyId,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
     date_completed: feed.completedOn ? moment(feed.completedOn).utc() : null,
     date_loaded: moment(feed.loadedOn).utc(),
@@ -35,7 +36,7 @@ var mapFeed = function(path, feed) {
     complete: feed.complete,
     failed: feed.failed,
     name: feed.name,
-    self: _path.join(path, feed.id)
+    self: _path.join(path, feed.friendlyId)
   };
 };
 

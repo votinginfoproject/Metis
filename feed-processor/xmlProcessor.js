@@ -277,7 +277,8 @@ module.exports = function() {
         loadedOn: moment.utc(),
         feedPath: filePath,
         feedStatus: 'Parsing',
-        name: fileName
+        name: fileName,
+        friendlyId: null
       }, function(err, feed) {
         console.log('Wrote feed with id = ' + feed._id.toString());
 

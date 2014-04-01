@@ -8,6 +8,8 @@ var _path = require('path');
 var exporter = require('../feed-exporter/exporter');
 var schemas = require('../dao/schemas');
 var processManager = require('./processManager');
+var feedIdMapper = require('../feedIdMapper');
+
 
 /*
  * Error handling middleware
@@ -40,7 +42,10 @@ function allFeedsGET (req, res) {
 };
 
 function feedOverviewGET (req, res) {
-  dao.getFeedOverview(req.params.feedid, function (err, feed) {
+
+  var id = feedIdMapper.getId(req.params.feedid);
+
+  dao.getFeedOverview(id, function (err, feed) {
     notFoundHandler(res, err, feed, function () {
       res.json(mapper.mapFeedOverview(req.path, feed))
     });
