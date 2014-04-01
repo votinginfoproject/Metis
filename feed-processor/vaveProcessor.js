@@ -34,7 +34,7 @@ module.exports = function () {
 
       if (process.send) {
         // tell the parent about the feedid of the current feed being processed
-        process.send({"feedid": feedId});
+        process.send({"messageid": 1, "feedId": feedId});
       }
     });
   }

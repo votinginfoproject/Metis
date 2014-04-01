@@ -36,7 +36,7 @@ var mapFeed = function(path, feed) {
     complete: feed.complete,
     failed: feed.failed,
     name: feed.name,
-    self: _path.join(path, feed.friendlyId)
+    self: _path.join(path, feed.friendlyId + "")
   };
 };
 
@@ -68,6 +68,8 @@ var mapOverview = function(path, feed) {
     county_map: _path.join('/services/geo/', feed._state.elementId.toString(), 'counties'),
     localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
+    election_contests: _path.join(path, '/election/contests'),
+    election_results: _path.join(path, '/election/results'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
     contest_results: _path.join(path, '/election/results/contestresults'),

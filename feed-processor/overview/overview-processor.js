@@ -48,18 +48,26 @@ function onSaveComplete(results) {
       .populate('_election')
       .exec(function(err, feed) {
 
-        //var title = moment(feed._election.date).utc().format('YYYY-MM-DD') + '-' + feed._state.name + '-' + feed._election.electionType;
-        var shortTitle = feed._state.name + '-' + feed._election.electionType;
+        var title = "";
+
+        // add feed date
+        title += ( moment(feed._election.date).utc().format('YYYY-MM-DD') ? moment(feed._election.date).utc().format('YYYY-MM-DD') + "-" : "");
+        // add feed state
+        title += ( feed._state.name ? feed._state.name + "-" : "");
+        // add feed electiontype
+        title += ( feed._election.electionType ? feed._election.electionType : "");
 
         var completedOnDate = moment().utc();
 
         // pass in the date completed as time
-        var friendlyId = feedIdMapper.makeFriendlyId(completedOnDate.valueOf(), shortTitle);
+        var friendlyId = feedIdMapper.makeFriendlyId(completedOnDate.valueOf(), title);
 
-        // add the friendly id to the list of ids loaded into memory
-
-        // move this to a message since this is a new process alltogeher
-        feedIdMapper.addToUserFriendlyIdMap(friendlyId, feed._id);
+        // note: send is synchronous
+        if (process.send) {
+          // add the friendly id to the list of ids loaded into memory
+          // tell the parent about the friendlyid of the current feed being processed to do this
+          process.send({"messageId": 2, "friendlyId": friendlyId, "feedId": feed._id});
+        }
 
         // now also save the friendly feed id
         schemas.models.Feed.update({_id: feed._id},

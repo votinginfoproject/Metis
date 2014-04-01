@@ -15,10 +15,10 @@ feedIdMapper.loadUserFriendlyIdMap = function() {
       feedIdMapper.addToUserFriendlyIdMap(data[i].friendlyId, data[i]._id);
     }
   });
-
 }
 
 /*
+ * Converting to Base 36
  * Requires a unique datetime to guarantee Hash will be unique
  *
  */
@@ -40,13 +40,7 @@ feedIdMapper.makeFriendlyId = function(datetime, name) {
 feedIdMapper.addToUserFriendlyIdMap = function(friendlyId, id) {
 
   var stringifyId = friendlyId + "";
-
-  console.log(stringifyId + " " + id)
-
   feedIdMapper.userFriendlyIdMap[stringifyId] = id;
-
-  console.dir(feedIdMapper.userFriendlyIdMap)
-
 }
 
 /*
@@ -54,11 +48,8 @@ feedIdMapper.addToUserFriendlyIdMap = function(friendlyId, id) {
  */
 feedIdMapper.getId = function(friendlyId, id) {
 
-  console.log("get.....")
-  console.dir(feedIdMapper.userFriendlyIdMap)
-
   var stringifyId = friendlyId + "";
-  return feedIdMapper.userFriendlyIdMap[stringifyId];
+  return feedIdMapper.userFriendlyIdMap[stringifyId] + "";
 }
 
 module.exports = feedIdMapper;
