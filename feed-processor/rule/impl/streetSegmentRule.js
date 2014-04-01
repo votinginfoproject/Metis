@@ -29,19 +29,11 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       return;
     }
 
-    schemas.models.Fips.findOne( { name: state.name.toLowerCase() }, function(err, fips) {
+    if(config.checkSingleHouseStates(state.elementId))
+      singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
+    else
+      evaluate(constraintSet, callback);
 
-      if(err) {
-        console.log(err);
-        return;
-      }
-
-      if(config.checkSingleHouseStates(fips.stateFIPS))
-        singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
-      else
-        evaluate(constraintSet, callback);
-
-    });
   });
 }
 
