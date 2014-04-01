@@ -27,13 +27,14 @@ module.exports = function () {
       loadedOn: moment().utc(),
       feedPath: filePath,
       feedStatus: 'Parsing',
-      name: path.basename(filePath)
+      name: path.basename(filePath),
+      friendlyId: null
     }, function (err, feed) {
       console.log('Wrote feed with id = ' + feed._id.toString());
 
       if (process.send) {
         // tell the parent about the feedid of the current feed being processed
-        process.send({"feedid": feedId});
+        process.send({"messageid": 1, "feedId": feedId});
       }
     });
   }

@@ -12,11 +12,12 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
   $feedsService.getFeeds()
     .success(function (data) {
 
+      $rootScope.changeSelfToAngularPath(data);
+
       for(var i=0; i< data.length; i++){
 
         if(data[i].complete){
           // it's complete
-          data[i].self = $location.absUrl() + "/" + data[i].id;
 
           var processingTime = moment((data[i]).date_completed).diff(moment(data[i].date_loaded).utc(), "seconds");
 
@@ -47,7 +48,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
         }
 
         // format the loaded_on date
-        data[i].date_loaded_formatted = moment(data[i].date_loaded).utc().format("MMM DD, YYYY - h:mm a");
+        data[i].date_loaded_formatted = moment(data[i].date_loaded).format("MMM DD, YYYY - h:mm a");
       }
 
       // set the feeds data into the Angular model

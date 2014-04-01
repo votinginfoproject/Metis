@@ -8,6 +8,8 @@ var _path = require('path');
 var exporter = require('../feed-exporter/exporter');
 var schemas = require('../dao/schemas');
 var processManager = require('./processManager');
+var feedIdMapper = require('../feedIdMapper');
+
 
 /*
  * Error handling middleware
@@ -40,7 +42,8 @@ function allFeedsGET (req, res) {
 };
 
 function feedOverviewGET (req, res) {
-  dao.getFeedOverview(req.params.feedid, function (err, feed) {
+
+  dao.getFeedOverview(feedIdMapper.getId(req.params.feedid), function (err, feed) {
     notFoundHandler(res, err, feed, function () {
       res.json(mapper.mapFeedOverview(req.path, feed))
     });
@@ -48,7 +51,8 @@ function feedOverviewGET (req, res) {
 };
 
 function feedSourceGET (req, res) {
-  dao.getFeedSource(req.params.feedid, function (err, source) {
+
+  dao.getFeedSource(feedIdMapper.getId(req.params.feedid), function (err, source) {
     notFoundHandler(res, err, source, function () {
       res.json(mapper.mapSource(req.path, source));
     });
@@ -56,7 +60,8 @@ function feedSourceGET (req, res) {
 };
 
 function feedElectionGET (req, res) {
-  dao.getFeedElection(req.params.feedid, function (err, election) {
+
+  dao.getFeedElection(feedIdMapper.getId(req.params.feedid), function (err, election) {
     notFoundHandler(res, err, election, function () {
       res.json(mapper.mapElection(req.path, election));
     });
@@ -64,7 +69,8 @@ function feedElectionGET (req, res) {
 };
 
 function feedElectionContestResultsGET (req, res) {
-  dao.getFeedContestResults(req.params.feedid, function (err, contestresults) {
+
+  dao.getFeedContestResults(feedIdMapper.getId(req.params.feedid), function (err, contestresults) {
     notFoundHandler(res, err, contestresults, function () {
       res.json(contestresults.map(function (data) {
         return mapper.mapResultsContestResults(req.path, data);
@@ -74,7 +80,8 @@ function feedElectionContestResultsGET (req, res) {
 };
 
 function feedElectionBallotLineResultsGET (req, res) {
-  dao.getFeedBallotLineResults(req.params.feedid, function (err, ballotlineresults) {
+
+  dao.getFeedBallotLineResults(feedIdMapper.getId(req.params.feedid), function (err, ballotlineresults) {
     notFoundHandler(res, err, ballotlineresults, function () {
       res.json(ballotlineresults.map(function (data) {
         return mapper.mapResultsBallotLineResults(req.path, data);
@@ -84,7 +91,8 @@ function feedElectionBallotLineResultsGET (req, res) {
 };
 
 function feedStateGET (req, res) {
-  dao.getState(req.params.feedid, function (err, state) {
+
+  dao.getState(feedIdMapper.getId(req.params.feedid), function (err, state) {
     notFoundHandler(res, err, state, function () {
       res.json(mapper.mapState(req.path, state));
     });
@@ -92,7 +100,8 @@ function feedStateGET (req, res) {
 };
 
 function feedStateEarlyVoteSitesGET (req, res) {
-  dao.getStateEarlyVoteSites(req.params.feedid, function (err, earlyVoteSites) {
+
+  dao.getStateEarlyVoteSites(feedIdMapper.getId(req.params.feedid), function (err, earlyVoteSites) {
     notFoundHandler(res, err, earlyVoteSites, function () {
       res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
     });
@@ -100,7 +109,8 @@ function feedStateEarlyVoteSitesGET (req, res) {
 };
 
 function feedLocalityGET (req, res) {
-  dao.getLocality(req.params.feedid, req.params.localityid, function (err, locality) {
+
+  dao.getLocality(feedIdMapper.getId(req.params.feedid), req.params.localityid, function (err, locality) {
     notFoundHandler(res, err, locality, function () {
       res.json(mapper.mapLocality(req.path, locality));
     });
@@ -108,7 +118,8 @@ function feedLocalityGET (req, res) {
 };
 
 function feedLocalitiesGET (req, res) {
-  dao.getLocalities(req.params.feedid, function (err, localities) {
+
+  dao.getLocalities(feedIdMapper.getId(req.params.feedid), function (err, localities) {
     notFoundHandler(res, err, localities, function () {
       res.json(mapper.mapLocalities(req.path, localities));
     });
@@ -116,7 +127,7 @@ function feedLocalitiesGET (req, res) {
 };
 
 function feedLocalityEarlyVoteSitesGET (req, res) {
-  dao.getLocalityEarlyVoteSite(req.params.feedid, req.params.localityid, function (err, earlyVoteSites) {
+  dao.getLocalityEarlyVoteSite(feedIdMapper.getId(req.params.feedid), req.params.localityid, function (err, earlyVoteSites) {
     notFoundHandler(res, err, earlyVoteSites, function () {
       res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
     });
@@ -124,7 +135,7 @@ function feedLocalityEarlyVoteSitesGET (req, res) {
 };
 
 function feedLocalityPrecinctsGET (req, res) {
-  dao.getLocalityPrecincts(req.params.feedid, req.params.localityid, function (err, precincts) {
+  dao.getLocalityPrecincts(feedIdMapper.getId(req.params.feedid), req.params.localityid, function (err, precincts) {
     notFoundHandler(res, err, precincts, function () {
       res.json(mapper.mapLocalityPrecincts(req.path, precincts));
     });
@@ -132,7 +143,7 @@ function feedLocalityPrecinctsGET (req, res) {
 };
 
 function feedPrecinctGET (req, res) {
-  dao.getLocalityPrecinct(req.params.feedid, req.params.precinctid, function (err, precinct) {
+  dao.getLocalityPrecinct(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, precinct) {
     notFoundHandler(res, err, precinct, function() {
       res.json(mapper.mapPrecinct(req.path, precinct));
     });
@@ -140,7 +151,7 @@ function feedPrecinctGET (req, res) {
 };
 
 function feedPrecinctEarlyVoteSitesGET (req, res) {
-  dao.getLocalityPrecinctEarlyVoteSites(req.params.feedid, req.params.precinctid, function (err, earlyVoteSites) {
+  dao.getLocalityPrecinctEarlyVoteSites(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, earlyVoteSites) {
     notFoundHandler(res, err, earlyVoteSites, function() {
       res.json(mapper.mapEarlyVoteSites(req.path, earlyVoteSites));
     });
@@ -148,7 +159,7 @@ function feedPrecinctEarlyVoteSitesGET (req, res) {
 };
 
 function feedPrecinctElectoralDistrictsGET (req, res) {
-  dao.getPrecinctElectoralDistricts(req.params.feedid, req.params.precinctid, function (err, electoralDistricts) {
+  dao.getPrecinctElectoralDistricts(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, electoralDistricts) {
     notFoundHandler(res, err, electoralDistricts, function() {
       res.json(mapper.mapElectoralDistricts(req.path, electoralDistricts));
     });
@@ -156,7 +167,7 @@ function feedPrecinctElectoralDistrictsGET (req, res) {
 };
 
 function feedPrecinctPollingLocationsGET (req, res) {
-  dao.getPrecinctPollingLocations(req.params.feedid, req.params.precinctid, function (err, pollingLocations) {
+  dao.getPrecinctPollingLocations(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, pollingLocations) {
     notFoundHandler(res, err, pollingLocations, function() {
       res.json(mapper.mapPollingLocations(req.path, pollingLocations));
     });
@@ -164,7 +175,7 @@ function feedPrecinctPollingLocationsGET (req, res) {
 };
 
 function feedPrecinctPollingLocationGET(req, res) {
-  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+  dao.getPollingLocation(feedIdMapper.getId(req.params.feedid), req.params.pollinglocationid, function (err, pollingLocation) {
     notFoundHandler(res, err, pollingLocation, function() {
       res.json(mapper.mapPollingLocation(req.path, pollingLocation));
     });
@@ -172,7 +183,7 @@ function feedPrecinctPollingLocationGET(req, res) {
 };
 
 function feedPrecinctPrecinctSplitsGET (req, res) {
-  dao.getPrecinctPrecinctSplits(req.params.feedid, req.params.precinctid, function (err, precinctSplits) {
+  dao.getPrecinctPrecinctSplits(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, precinctSplits) {
     notFoundHandler(res, err, precinctSplits, function() {
       res.json(mapper.mapPrecinctPrecinctSplits(req.path, precinctSplits));
     });
@@ -180,7 +191,7 @@ function feedPrecinctPrecinctSplitsGET (req, res) {
 };
 
 function feedPrecinctStreetSegmentsGET (req, res) {
-  dao.getPrecinctStreetSegments(req.params.feedid, req.params.precinctid, function (err, streetSegments) {
+  dao.getPrecinctStreetSegments(feedIdMapper.getId(req.params.feedid), req.params.precinctid, function (err, streetSegments) {
     notFoundHandler(res, err, streetSegments, function() {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
@@ -188,7 +199,7 @@ function feedPrecinctStreetSegmentsGET (req, res) {
 };
 
 function feedElectionContestsGET (req, res) {
-  dao.getFeedContests(req.params.feedid, function (err, contests) {
+  dao.getFeedContests(feedIdMapper.getId(req.params.feedid), function (err, contests) {
     notFoundHandler(res, err, contests, function () {
       res.json(contests.map(function (data) {
         return mapper.mapElectionContest(req.path, data);
@@ -198,7 +209,7 @@ function feedElectionContestsGET (req, res) {
 };
 
 function feedPrecinctSplitGET (req, res) {
-  dao.feedPrecinctSplit(req.params.feedid, req.params.splitid, function (err, split) {
+  dao.feedPrecinctSplit(feedIdMapper.getId(req.params.feedid), req.params.splitid, function (err, split) {
     notFoundHandler(res, err, split, function () {
       res.json(mapper.mapPrecinctSplit(req.path, split));
     });
@@ -206,7 +217,7 @@ function feedPrecinctSplitGET (req, res) {
 };
 
 function feedPrecinctSplitElectoralDistrictsGET (req, res) {
-  dao.feedPrecinctSplitElectoralDistricts(req.params.feedid, req.params.splitid, function (err, electoralDistricts) {
+  dao.feedPrecinctSplitElectoralDistricts(feedIdMapper.getId(req.params.feedid), req.params.splitid, function (err, electoralDistricts) {
     notFoundHandler(res, err, electoralDistricts, function () {
       res.json(mapper.mapElectoralDistricts(req.path, electoralDistricts));
     });
@@ -214,7 +225,7 @@ function feedPrecinctSplitElectoralDistrictsGET (req, res) {
 };
 
 function feedPrecinctSplitPollingLocationsGET (req, res) {
-  dao.feedPrecinctSplitPollingLocations(req.params.feedid, req.params.splitid, function (err, pollingLocations) {
+  dao.feedPrecinctSplitPollingLocations(feedIdMapper.getId(req.params.feedid), req.params.splitid, function (err, pollingLocations) {
     notFoundHandler(res, err, pollingLocations, function () {
       res.json(mapper.mapPollingLocations(req.path, pollingLocations));
     });
@@ -222,7 +233,7 @@ function feedPrecinctSplitPollingLocationsGET (req, res) {
 };
 
 function feedPrecinctSplitPollingLocationGET(req, res) {
-  dao.getPollingLocation(req.params.feedid, req.params.pollinglocationid, function (err, pollingLocation) {
+  dao.getPollingLocation(feedIdMapper.getId(req.params.feedid), req.params.pollinglocationid, function (err, pollingLocation) {
     notFoundHandler(res, err, pollingLocation, function() {
       //Use ../.. to normalize the path so the same code can be used for Precinct Polling Locations
       // and Precinct Split Polling Locations
@@ -232,7 +243,7 @@ function feedPrecinctSplitPollingLocationGET(req, res) {
 };
 
 function feedPrecinctSplitStreetSegmentsGET (req, res) {
-  dao.feedPrecinctSplitStreetSegments(req.params.feedid, req.params.splitid, function (err, streetSegments) {
+  dao.feedPrecinctSplitStreetSegments(feedIdMapper.getId(req.params.feedid), req.params.splitid, function (err, streetSegments) {
     notFoundHandler(res, err, streetSegments, function () {
       res.json(mapper.mapStreetSegments(req.path, streetSegments));
     });
@@ -240,7 +251,7 @@ function feedPrecinctSplitStreetSegmentsGET (req, res) {
 };
 
 function feedEarlyVoteSiteGET (req, res) {
-  dao.feedEarlyVoteSite (req.params.feedid, req.params.evsid, function (err, earlyVoteSite) {
+  dao.feedEarlyVoteSite (feedIdMapper.getId(req.params.feedid), req.params.evsid, function (err, earlyVoteSite) {
     notFoundHandler(res, err, earlyVoteSite, function () {
       res.json(mapper.mapEarlyVoteSite(req.path, earlyVoteSite));
     });
@@ -248,7 +259,7 @@ function feedEarlyVoteSiteGET (req, res) {
 };
 
 function feedStateElectionAdministrationGET (req, res) {
-  dao.feedStateElectionAdministration(req.params.feedid, function (err, electionAdmin) {
+  dao.feedStateElectionAdministration(feedIdMapper.getId(req.params.feedid), function (err, electionAdmin) {
     notFoundHandler(res, err, electionAdmin, function () {
       res.json(mapper.mapElectionAdministration(req.path, electionAdmin));
     });
@@ -256,7 +267,7 @@ function feedStateElectionAdministrationGET (req, res) {
 };
 
 function feedLocalityElectionAdministrationGET (req, res) {
-  dao.feedLocalityElectionAdministration(req.params.feedid, req.params.localityid, function (err, electionAdmin) {
+  dao.feedLocalityElectionAdministration(feedIdMapper.getId(req.params.feedid), req.params.localityid, function (err, electionAdmin) {
     notFoundHandler(res, err, electionAdmin, function () {
       res.json(mapper.mapElectionAdministration(req.path, electionAdmin));
     });
@@ -264,7 +275,7 @@ function feedLocalityElectionAdministrationGET (req, res) {
 };
 
 function feedContestGET (req, res) {
-  dao.feedContest(req.params.feedid, req.params.contestid, function (err, contest) {
+  dao.feedContest(feedIdMapper.getId(req.params.feedid), req.params.contestid, function (err, contest) {
     notFoundHandler(res, err, contest, function () {
       res.json(mapper.mapContest(req.path, contest));
     });
@@ -272,7 +283,7 @@ function feedContestGET (req, res) {
 };
 
 function feedContestElectoralDistrictGET (req, res) {
-  dao.feedContestElectoralDistrict(req.params.feedid, req.params.contestid, function(err, electoralDistrict) {
+  dao.feedContestElectoralDistrict(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, electoralDistrict) {
     notFoundHandler(res, err, electoralDistrict, function () {
       res.json(mapper.mapElectoralDistrict(_path.join(req.path, '../..'), electoralDistrict));
     });
@@ -280,7 +291,7 @@ function feedContestElectoralDistrictGET (req, res) {
 };
 
 function feedPrecinctElectoralDistrictGET(req, res) {
-  dao.feedElectoralDistrict(req.params.feedid, req.params.districtid, function(err, electoralDistrict) {
+  dao.feedElectoralDistrict(feedIdMapper.getId(req.params.feedid), req.params.districtid, function(err, electoralDistrict) {
     notFoundHandler(res, err, electoralDistrict, function () {
       res.json(
         mapper.mapElectoralDistrict(
@@ -291,7 +302,7 @@ function feedPrecinctElectoralDistrictGET(req, res) {
 };
 
 function feedPrecinctSplitElectoralDistrictGET(req, res) {
-  dao.feedElectoralDistrict(req.params.feedid, req.params.districtid, function(err, electoralDistrict) {
+  dao.feedElectoralDistrict(feedIdMapper.getId(req.params.feedid), req.params.districtid, function(err, electoralDistrict) {
     notFoundHandler(res, err, electoralDistrict, function () {
       res.json(
         mapper.mapElectoralDistrict(
@@ -302,7 +313,7 @@ function feedPrecinctSplitElectoralDistrictGET(req, res) {
 };
 
 function feedContestBallotGET (req, res) {
-  dao.feedContestBallot(req.params.feedid, req.params.contestid, function (err, ballot) {
+  dao.feedContestBallot(feedIdMapper.getId(req.params.feedid), req.params.contestid, function (err, ballot) {
     notFoundHandler(res, err, ballot, function () {
       res.json(mapper.mapBallot(req.path, ballot));
     });
@@ -310,7 +321,7 @@ function feedContestBallotGET (req, res) {
 };
 
 function feedBallotCandidatesGET(req, res) {
-  dao.feedBallotCandidates(req.params.feedid, req.params.contestid, function (err, candidates) {
+  dao.feedBallotCandidates(feedIdMapper.getId(req.params.feedid), req.params.contestid, function (err, candidates) {
     notFoundHandler(res, err, candidates, function () {
       res.json(mapper.mapBallotCandidates(req.path, candidates));
     });
@@ -318,7 +329,7 @@ function feedBallotCandidatesGET(req, res) {
 };
 
 function feedCandidateGET (req, res) {
-  dao.feedCandidate(req.params.feedid, req.params.candidateid, function(err, candidate) {
+  dao.feedCandidate(feedIdMapper.getId(req.params.feedid), req.params.candidateid, function(err, candidate) {
     notFoundHandler(res, err, candidate, function () {
       res.json(mapper.mapCandidate(req.path, candidate));
     });
@@ -326,7 +337,7 @@ function feedCandidateGET (req, res) {
 };
 
 function feedBallotReferendaGET(req, res) {
-  dao.feedBallotReferenda(req.params.feedid, req.params.contestid, function (err, referenda) {
+  dao.feedBallotReferenda(feedIdMapper.getId(req.params.feedid), req.params.contestid, function (err, referenda) {
     notFoundHandler(res, err, referenda, function () {
       res.json(mapper.mapReferenda(req.path, referenda));
     });
@@ -334,7 +345,7 @@ function feedBallotReferendaGET(req, res) {
 };
 
 function feedBallotReferendumGET(req, res) {
-  dao.feedBallotReferendum(req.params.feedid, req.params.referendumid, function (err, referendum) {
+  dao.feedBallotReferendum(feedIdMapper.getId(req.params.feedid), req.params.referendumid, function (err, referendum) {
     notFoundHandler(res, err, referendum, function () {
       res.json(mapper.mapReferendum(req.path, referendum));
     });
@@ -347,7 +358,7 @@ function feedHistoryGET (req, res) {
 };
 
 function feedContestResultGET (req, res) {
-  dao.getContestResult(req.params.feedid, req.params.contestid, function(err, contestResult) {
+  dao.getContestResult(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, contestResult) {
     notFoundHandler(res, err, contestResult, function () {
       res.json(mapper.mapContestResult(req.path, contestResult));
     });
@@ -355,7 +366,7 @@ function feedContestResultGET (req, res) {
 }
 
 function feedContestBallotLineResultsGET (req, res) {
-  dao.getContestBallotLineResults(req.params.feedid, req.params.contestid, function(err, results) {
+  dao.getContestBallotLineResults(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, results) {
     notFoundHandler(res, err, results, function() {
       res.json(mapper.mapBallotLineResults(req.path, results));
     });
@@ -363,7 +374,7 @@ function feedContestBallotLineResultsGET (req, res) {
 }
 
 function feedBallotLineResultGET(req, res) {
-  dao.getBallotLineResult(req.params.feedid, req.params.blrid, function(err, blr) {
+  dao.getBallotLineResult(feedIdMapper.getId(req.params.feedid), req.params.blrid, function(err, blr) {
     notFoundHandler(res, err, blr, function() {
       res.json(mapper.mapBallotLineResult(req.path, blr));
     });
@@ -371,6 +382,7 @@ function feedBallotLineResultGET(req, res) {
 }
 
 function feedExportPOST(req, res) {
+  // not converting the feedid, as we are passing in the mongo feedid
   exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err, location) {
     if(err)
       res.send(400)

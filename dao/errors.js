@@ -117,6 +117,8 @@ function referendumErrors(feedId, referendumId, callback) {
 }
 
 function sourceErrors(feedId, callback) {
+
+  console.log(feedId)
   aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, daoSchemas.models.Source.Error)
     .exec(callback);
 }
