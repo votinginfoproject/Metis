@@ -38,6 +38,9 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctStreetSegmentsErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/precinctsplits/:splitid(\\d+)/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctSplitStreetSegmentsErrorsGET);
 
+  // error indexes
+  app.get('/services/feeds/:feedid/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexGET);
+
 }
 
 exports.registerErrorServices = registerErrorServices;

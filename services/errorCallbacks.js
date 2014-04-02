@@ -4,6 +4,7 @@
 
 var dao = require('../dao/db');
 var daoErrors = require('../dao/errors');
+var daoSchemas = require('../dao/schemas');
 var errorMapper = require('./mappers/errors');
 var endOfLine = require('os').EOL;
 var feedIdMapper = require('../feedIdMapper');
@@ -136,6 +137,26 @@ function referendumBallotResponsesErrorsGET(req, res) {
   });
 }
 
+function errorIndexGET(req, res) {
+
+  var map = {
+    "streetsegments": daoSchemas.models.StreetSegment.Error
+  };
+
+  // check the type
+  if(map[req.params.type]!=undefined){
+
+    daoErrors.errorIndex(feedIdMapper.getId(req.params.feedid), map[req.params.type],
+      mapAndReturnErrors.bind(undefined, res, req));
+
+  } else {
+    console.error("Invalid error index");
+    res.send(500);
+  }
+
+}
+
+
 function mapAndReturnErrors(res, req, err, errors) {
 
   if (err) {
@@ -244,3 +265,5 @@ exports.pollingLocErrorsGET = pollingLocErrorsGET;
 exports.ballotCustomBallotErrorsGET = ballotCustomBallotErrorsGET;
 exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
 exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
+
+exports.errorIndexGET = errorIndexGET;

@@ -86,8 +86,11 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
       // count total errors
       var total_errors = vipApp_ns.countAllErrors(data);
 
+      // navid
+      var title = $rootScope.generateErrorPageTitle();
+
       // update the title
-      $rootScope.pageHeader.title = $filter('number')(total_errors) + " Total " + $rootScope.pageHeader.title;
+      $rootScope.pageHeader.title = $filter('number')(total_errors) + " " + $rootScope.pageHeader.title + (title!==null? " " + title : "");
 
     }).error(function (data) {
 

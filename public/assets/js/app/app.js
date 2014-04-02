@@ -222,7 +222,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/customballot/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
-      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
+
+      // error indexes
+      .when('/feeds/:vipfeed/overview/:type/errors', error);
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
@@ -506,10 +509,17 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     var url = "/#";
     var name = null;
+
+    var makeUrlNull = false;
     for(var index=0; index<pathTokens.length; index++){
 
       name = pathTokens[index];
       url += "/" + pathTokens[index];
+
+      // nothing to link to when showing the overview error pages
+      if(name==="overview"){
+        makeUrlNull = true;
+      }
 
       // some items we need to consider for the name of the breadcrumb
       if(name === "precinctsplits"){
@@ -549,9 +559,17 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         name = "ballot line results";
       }
 
+      if(name === "errorindex"){
+        name = "error index";
+      }
+
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
       if(index !==1){
         name = vipApp_ns.camelCase(name);
+      }
+
+      if(makeUrlNull){
+        url = null;
       }
 
       breadcrumbs.push(
@@ -605,5 +623,42 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     id += 'content';
 
     return id;
+  }
+
+  /*
+   * Generates the appropriate Error Page title
+   *
+   */
+  $rootScope.generateErrorPageTitle = function(){
+
+    var title = "";
+    var breadcrumbs = $rootScope.pageHeader.breadcrumbs
+
+    var feedId = breadcrumbs[1].name;
+
+    if(breadcrumbs[breadcrumbs.length-1].name !== "Errors"){
+      return null;
+    }
+
+    // not an id
+    if( isNaN(breadcrumbs[breadcrumbs.length-2].name )){
+      var item = breadcrumbs[breadcrumbs.length-2].name;
+
+      if(item === feedId){
+        item = "Feed";
+      }
+
+      title = "in " + item;
+    } else {
+      var item = breadcrumbs[breadcrumbs.length-3].name;
+      if(item.charAt(item.length-1).toLocaleLowerCase()==='s'){
+        item = item.substring(0,item.length-1);
+      }
+
+      title = "in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
+    }
+
+    return title;
+
   }
 });

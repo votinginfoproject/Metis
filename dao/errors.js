@@ -159,6 +159,13 @@ function precinctSplitStreetSegmentErrors(feedId, precinctSplitId, callback) {
   });
 }
 
+
+function errorIndex(feedId, model, callback) {
+  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, model).exec(callback);
+}
+
+
+
 function aggregateErrors(match, errorModel) {
   return errorModel.aggregate(
     match,
@@ -218,3 +225,5 @@ exports.stateErrors = stateErrors;
 exports.precinctStreetSegmentErrors = precinctStreetSegmentErrors;
 exports.precinctSplitStreetSegmentErrors = precinctSplitStreetSegmentErrors;
 exports.ballotResponseErrors = ballotResponseErrors;
+
+exports.errorIndex = errorIndex;
