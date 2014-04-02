@@ -55,7 +55,7 @@ function onSaveComplete(results) {
         // add feed state
         title += ( feed._state.name ? feed._state.name + "-" : "");
         // add feed electiontype
-        title += ( feed._election.electionType ? feed._election.electionType : "");
+        title += ( feed._election.electionType ? feed._election.electionType + "-" : "");
 
         var completedOnDate = moment().utc();
 

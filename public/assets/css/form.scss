@@ -50,7 +50,7 @@ form > div, fieldset > div {
 
 .disabled-row {
   background: $gray-lightest;
-  color: $gray-medium-dark;
+  color: $gray-medium-dark !important;
   cursor: default;
 
   &:hover {

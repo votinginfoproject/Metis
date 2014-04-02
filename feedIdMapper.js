@@ -29,7 +29,7 @@ feedIdMapper.getBase36Hash = function(datetime) {
 
 feedIdMapper.makeFriendlyId = function(datetime, name) {
   // replace underscores and spaces with dashes (-)
-  var friendlyId = name.replace(/ /g, '-').replace(/_/g, '-') + "-" + feedIdMapper.getBase36Hash(datetime);
+  var friendlyId = name.replace(/ /g, '-').replace(/_/g, '-') + feedIdMapper.getBase36Hash(datetime);
 
   return friendlyId;
 }
