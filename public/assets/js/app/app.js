@@ -225,7 +225,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
 
       // error indexes
-      .when('/feeds/:vipfeed/overview/:type/errors', error);
+      .when('/feeds/:vipfeed/overview/:type/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error);
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
@@ -664,8 +665,16 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     } else {
       var item = breadcrumbs[breadcrumbs.length-3].name;
+
+      // remove the plural "s" from the name
       if(item.charAt(item.length-1).toLocaleLowerCase()==='s'){
         item = item.substring(0,item.length-1);
+
+        // if we are now left with "ie" at the end, change to "y"
+        // example is "Localities" -> remove plural "s" -> "localitie" -> chnage "ie" to "y" -> "locality"
+        if(item.lastIndexOf("ie")=== item.length-2){
+          item = item.substring(0,item.length-2) + "y";
+        }
       }
 
       title = "Errors in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;

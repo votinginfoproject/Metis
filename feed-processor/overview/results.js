@@ -10,8 +10,8 @@ function kickoffResults(feedId, createOverviewModel, wait) {
   console.log('Starting Results Calc...');
   resultsCalc(feedId, function(resultsOverview) {
     console.log('Finished Results');
-    createOverviewModel('Contest Results', resultsOverview.contestResults, resultsOverview.contestResults.errorCount, -3, feedId);
     createOverviewModel('Ballot Line Results', resultsOverview.ballotLineResults, resultsOverview.ballotLineResults.errorCount, -3, feedId);
+    createOverviewModel('Contest Results', resultsOverview.contestResults, resultsOverview.contestResults.errorCount, -3, feedId);
     wait();
   });
 }

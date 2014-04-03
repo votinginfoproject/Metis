@@ -5,6 +5,7 @@ var moment = require('moment');
 var _path = require('path');
 var resultsMapper = require('./results');
 var feedIdMapper = require('../../feedIdMapper');
+var _ = require("underscore");
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -336,17 +337,28 @@ function mapContest (path, contest) {
 };
 
 
-var mapOverviewTables = function(data) {
+var mapOverviewTables = function(data, selfpath) {
   var overview = [];
 
+  // sort the data by the element type name
+  data = _.sortBy(data, function(element){ return element.elementType; });
+
   data.forEach(function(element) {
+
+    var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
+
+    // TODO temp
+    if(selfpath == null){
+      self = null;
+    }
+
     overview.push({
       element_type: element.elementType,
       amount: element.amount,
       complete_pct: element.completePct,
       error_count: element.errorCount,
       // get the ui feed id and create the error links
-      self: "/#/feeds/" + feedIdMapper.getFriendlyId(element._feed) + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors"
+      self: self
     });
   });
   return overview;

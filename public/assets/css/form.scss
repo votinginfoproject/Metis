@@ -70,6 +70,10 @@ form > div, fieldset > div {
   }
 }
 
+.default_pointer {
+  cursor: default !important;
+}
+
 button,
 input[type="submit"] {
   @extend %button;

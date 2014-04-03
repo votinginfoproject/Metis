@@ -117,8 +117,6 @@ function referendumErrors(feedId, referendumId, callback) {
 }
 
 function sourceErrors(feedId, callback) {
-
-  console.log(feedId)
   aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, daoSchemas.models.Source.Error)
     .exec(callback);
 }
@@ -164,9 +162,27 @@ function errorIndex(feedId, model, callback) {
   aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, model).exec(callback);
 }
 
+function errorIndexLocality(feedId, model, localityId, callback) {
+  console.log("*****")
+  /*
+  console.dir(model);
 
+  var promise = daoSchemas.models.Locality
+    .findOne({ _feed: feedId, elementId: localityId })
+    .select('_streetSegments')
+    .exec();
+
+  promise.then(function (results) {
+
+    console.dir(results);
+  });
+//  console.log(localityId)
+//  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: [localityId] }  } }, model).exec(callback);
+*/
+}
 
 function aggregateErrors(match, errorModel) {
+
   return errorModel.aggregate(
     match,
     {
@@ -227,3 +243,4 @@ exports.precinctSplitStreetSegmentErrors = precinctSplitStreetSegmentErrors;
 exports.ballotResponseErrors = ballotResponseErrors;
 
 exports.errorIndex = errorIndex;
+exports.errorIndexLocality = errorIndexLocality;

@@ -86,7 +86,6 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
       // count total errors
       var total_errors = vipApp_ns.countAllErrors(data);
 
-      // navid
       var title = $rootScope.generateErrorPageTitle();
 
       // update the title

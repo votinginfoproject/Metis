@@ -40,6 +40,7 @@ function registerErrorServices (app) {
 
   // error indexes
   app.get('/services/feeds/:feedid/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityGET);
 
 }
 

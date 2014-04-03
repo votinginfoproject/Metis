@@ -175,6 +175,30 @@ function errorIndexGET(req, res) {
 
 }
 
+function errorIndexLocalityGET(req, res) {
+
+  var map = {
+    // overview errors on a Locality page
+    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
+    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
+    "pollinglocations": daoSchemas.models.PollingLocation.Error,
+    "precincts": daoSchemas.models.Precinct.Error,
+    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
+    "streetsegments": daoSchemas.models.StreetSegment.Error
+  };
+
+  // check the type
+  if(map[req.params.type]!=undefined){
+
+    daoErrors.errorIndexLocality(feedIdMapper.getId(req.params.feedid), map[req.params.type], req.params.localityid,
+      mapAndReturnErrors.bind(undefined, res, req));
+
+  } else {
+    console.error("Invalid error index");
+    res.send(500);
+  }
+
+}
 
 function mapAndReturnErrors(res, req, err, errors) {
 
@@ -286,3 +310,4 @@ exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
 exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
 
 exports.errorIndexGET = errorIndexGET;
+exports.errorIndexLocalityGET = errorIndexLocalityGET;
