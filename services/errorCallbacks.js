@@ -4,6 +4,7 @@
 
 var dao = require('../dao/db');
 var daoErrors = require('../dao/errors');
+var daoSchemas = require('../dao/schemas');
 var errorMapper = require('./mappers/errors');
 var endOfLine = require('os').EOL;
 var feedIdMapper = require('../feedIdMapper');
@@ -136,6 +137,69 @@ function referendumBallotResponsesErrorsGET(req, res) {
   });
 }
 
+function errorIndexGET(req, res) {
+
+  var map = {
+    // overview errors on the Feed Overview - under Polling Locations
+    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
+    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
+    "electionofficials": daoSchemas.models.ElectionOfficial.Error,
+    "localities": daoSchemas.models.Locality.Error,
+    "pollinglocations": daoSchemas.models.PollingLocation.Error,
+    "precincts": daoSchemas.models.Precinct.Error,
+    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
+    "streetsegments": daoSchemas.models.StreetSegment.Error,
+
+    // overview errors on the Feed Overview - under Contests
+    "ballots": daoSchemas.models.Ballot.Error,
+    "candidates": daoSchemas.models.Candidate.Error,
+    "contests": daoSchemas.models.Contest.Error,
+    "electoraldistricts": daoSchemas.models.ElectoralDistrict.Error,
+    "referenda": daoSchemas.models.Referendum.Error,
+
+    // overview errors on the Feed Overview - under Results
+    "contestresults": daoSchemas.models.ContestResult.Error,
+    "ballotlineresults": daoSchemas.models.BallotLineResult.Error
+  };
+
+  // check the type
+  if(map[req.params.type]!=undefined){
+
+    daoErrors.errorIndex(feedIdMapper.getId(req.params.feedid), map[req.params.type],
+      mapAndReturnErrors.bind(undefined, res, req));
+
+  } else {
+    console.error("Invalid error index");
+    res.send(500);
+  }
+
+}
+
+function errorIndexLocalityGET(req, res) {
+
+  var map = {
+    // overview errors on a Locality page
+    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
+    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
+    "pollinglocations": daoSchemas.models.PollingLocation.Error,
+    "precincts": daoSchemas.models.Precinct.Error,
+    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
+    "streetsegments": daoSchemas.models.StreetSegment.Error
+  };
+
+  // check the type
+  if(map[req.params.type]!=undefined){
+
+    daoErrors.errorIndexLocality(feedIdMapper.getId(req.params.feedid), map[req.params.type], req.params.localityid,
+      mapAndReturnErrors.bind(undefined, res, req));
+
+  } else {
+    console.error("Invalid error index");
+    res.send(500);
+  }
+
+}
+
 function mapAndReturnErrors(res, req, err, errors) {
 
   if (err) {
@@ -244,3 +308,6 @@ exports.pollingLocErrorsGET = pollingLocErrorsGET;
 exports.ballotCustomBallotErrorsGET = ballotCustomBallotErrorsGET;
 exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
 exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
+
+exports.errorIndexGET = errorIndexGET;
+exports.errorIndexLocalityGET = errorIndexLocalityGET;

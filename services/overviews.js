@@ -9,7 +9,7 @@ function registerOverviewServices (app) {
 
   app.get('/services/feeds/:feedid/election/state/localities/:localityid/localityoverview', utils.ensureAuthentication, callbacks.localityOverviewGET);
   app.get('/services/feeds/:feedid/election/contests/:contestid/contestoverview', utils.ensureAuthentication, callbacks.contestOverviewGET);
-  app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, callbacks.localitiesOverviewGET);
+  app.get('/services/feeds/:feedid/polling', utils.ensureAuthentication, callbacks.pollinglocationsOverviewGET);
   app.get('/services/feeds/:feedid/contests', utils.ensureAuthentication, callbacks.contestsOverviewGET);
   app.get('/services/feeds/:feedid/results', utils.ensureAuthentication, callbacks.resultsOverviewGET);
 }

@@ -1735,6 +1735,9 @@ input[type="submit"] {
     color: #949598 !important;
     cursor: default; }
 
+.default_pointer {
+  cursor: default !important; }
+
 button,
 input[type="submit"] {
   -webkit-appearance: none;

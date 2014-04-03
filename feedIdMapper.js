@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var dao = require('./dao/db');
 var schemas = require('./dao/schemas');
+var _ = require("underscore");
 
 var feedIdMapper = {};
 
@@ -44,12 +45,21 @@ feedIdMapper.addToUserFriendlyIdMap = function(friendlyId, id) {
 }
 
 /*
- * Get the mongo id given a  friendly id from the map
+ * Get the mongo id given a friendly id from the map
  */
-feedIdMapper.getId = function(friendlyId, id) {
+feedIdMapper.getId = function(friendlyId) {
 
   var stringifyId = friendlyId + "";
   return feedIdMapper.userFriendlyIdMap[stringifyId] + "";
+}
+
+/*
+ * Get the friendly id given a mongo id from the map
+ */
+feedIdMapper.getFriendlyId = function(id) {
+
+  var stringifyId =id + "";
+  return (_.invert(feedIdMapper.userFriendlyIdMap))[stringifyId] + "";
 }
 
 module.exports = feedIdMapper;
