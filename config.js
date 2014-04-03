@@ -4,7 +4,7 @@
 var config = {};
 
 config.upload = {
-  uploadPath: "/upload" // must be a path relative to the root of the app
+  uploadPath: 'upload/'
 };
 
 config.web = {

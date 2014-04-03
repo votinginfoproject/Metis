@@ -25,7 +25,13 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
 
     var Model = mongoose.model( constraintSet.entity[0] );
     var upperCaseMap = directionTypesList.map( function(item, index) { return item.toUpperCase(); });
-    var mixedCaseDirections = upperCaseMap.concat( directionTypesList );
+    var lowerCaseMap = directionTypesList.map( function(item, index) { return item.toLowerCase(); });
+
+    //  also adding in empty string and null as ok values
+    var mixedCaseDirections = [];
+    mixedCaseDirections = mixedCaseDirections.concat(upperCaseMap);
+    mixedCaseDirections = mixedCaseDirections.concat(lowerCaseMap);
+    mixedCaseDirections = mixedCaseDirections.concat(['', null]);
 
     var conditions = {};
     conditions['_feed'] = feedId;

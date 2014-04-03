@@ -4,6 +4,7 @@
 
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed.js');
+var feedIdMapper = require('../feedIdMapper');
 
 function notFoundHandler (res, err, data, next) {
   if (data == null) {
@@ -15,7 +16,7 @@ function notFoundHandler (res, err, data, next) {
 };
 
 function contestOverviewGET(req, res) {
-  dao.getOverviewTable(req.params.feedid, req.params.contestid, function(err, overviews) {
+  dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -23,7 +24,7 @@ function contestOverviewGET(req, res) {
 }
 
 function localityOverviewGET(req, res) {
-  dao.getOverviewTable(req.params.feedid, req.params.localityid, function(err, overviews) {
+  dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), req.params.localityid, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -31,7 +32,7 @@ function localityOverviewGET(req, res) {
 }
 
 function localitiesOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, -1, function(err, overviews) {
+  dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), -1, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -39,7 +40,7 @@ function localitiesOverviewGET (req, res) {
 };
 
 function contestsOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, -2, function(err, overviews) {
+  dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), -2, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });
@@ -47,7 +48,7 @@ function contestsOverviewGET (req, res) {
 };
 
 function resultsOverviewGET (req, res) {
-  dao.getOverviewTable(req.params.feedid, -3, function(err, overviews) {
+  dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), -3, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
       res.json(mapper.mapOverviewTables(overviews));
     });

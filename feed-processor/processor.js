@@ -33,7 +33,7 @@ function processFeed(filePath) {
   };
 
   function startProcessing(file) {
-    var filePath = path.join(__dirname, file);
+    var filePath = file;
     var ext = path.extname(file);
 
     if (fs.existsSync(filePath)) {
