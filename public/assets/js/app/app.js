@@ -535,6 +535,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         name = "election administration";
       }
 
+      if(name === "electionadministrations"){
+        name = "election administrations";
+      }
+
+      if(name === "electionofficials"){
+        name = "election officials";
+      }
+
       if(name === "electoraldistricts"){
         name = "electoral districts";
       }
@@ -553,6 +561,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "contestresult"){
         name = "contest result";
+      }
+
+      if(name === "contestresults"){
+        name = "contest results";
       }
 
       if(name === "ballotlineresults"){
@@ -645,17 +657,18 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       var item = breadcrumbs[breadcrumbs.length-2].name;
 
       if(item === feedId){
-        item = "Feed";
+        title = "Total Errors in Feed";
+      } else {
+        title = "Errors in " + item;
       }
 
-      title = "in " + item;
     } else {
       var item = breadcrumbs[breadcrumbs.length-3].name;
       if(item.charAt(item.length-1).toLocaleLowerCase()==='s'){
         item = item.substring(0,item.length-1);
       }
 
-      title = "in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
+      title = "Errors in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
     }
 
     return title;

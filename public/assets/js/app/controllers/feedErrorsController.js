@@ -90,7 +90,7 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
       var title = $rootScope.generateErrorPageTitle();
 
       // update the title
-      $rootScope.pageHeader.title = $filter('number')(total_errors) + " " + $rootScope.pageHeader.title + (title!==null? " " + title : "");
+      $rootScope.pageHeader.title = $filter('number')(total_errors) + " " + (title!==null? " " + title : "Errors");
 
     }).error(function (data) {
 

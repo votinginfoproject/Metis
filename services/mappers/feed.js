@@ -4,6 +4,7 @@
 var moment = require('moment');
 var _path = require('path');
 var resultsMapper = require('./results');
+var feedIdMapper = require('../../feedIdMapper');
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -337,12 +338,15 @@ function mapContest (path, contest) {
 
 var mapOverviewTables = function(data) {
   var overview = [];
+
   data.forEach(function(element) {
     overview.push({
       element_type: element.elementType,
       amount: element.amount,
       complete_pct: element.completePct,
-      error_count: element.errorCount
+      error_count: element.errorCount,
+      // get the ui feed id and create the error links
+      self: "/#/feeds/" + feedIdMapper.getFriendlyId(element._feed) + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors"
     });
   });
   return overview;

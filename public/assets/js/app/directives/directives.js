@@ -1,11 +1,11 @@
 /*
- * A directive that renders out an Element Table that consists of:
+ * A directive that renders out an Overview Table that consists of:
  *  - Element Type
  *  - Amount
  *  - Completion (with custom styling)
  *  - Errors (with custom styling)
  */
-vipApp.directive('ngElementtable', function() {
+vipApp.directive('ngOverviewtable', function() {
   return {
     restrict: 'A',
     require: '^ngModel',
@@ -14,6 +14,6 @@ vipApp.directive('ngElementtable', function() {
       loading: '=',  // our angular model that used to determine when to show and hide the loading indicator (in most cases will be the same as our ngModel)
       label: '@'     // a label used when adding in ids to the table cells
     },
-    templateUrl: 'assets/js/app/directives/elementTableTemplate.html'
+    templateUrl: 'assets/js/app/directives/overviewTableTemplate.html'
   }
 });

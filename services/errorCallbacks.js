@@ -140,7 +140,26 @@ function referendumBallotResponsesErrorsGET(req, res) {
 function errorIndexGET(req, res) {
 
   var map = {
-    "streetsegments": daoSchemas.models.StreetSegment.Error
+    // overview errors on the Feed Overview - under Polling Locations
+    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
+    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
+    "electionofficials": daoSchemas.models.ElectionOfficial.Error,
+    "localities": daoSchemas.models.Locality.Error,
+    "pollinglocations": daoSchemas.models.PollingLocation.Error,
+    "precincts": daoSchemas.models.Precinct.Error,
+    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
+    "streetsegments": daoSchemas.models.StreetSegment.Error,
+
+    // overview errors on the Feed Overview - under Contests
+    "ballots": daoSchemas.models.Ballot.Error,
+    "candidates": daoSchemas.models.Candidate.Error,
+    "contests": daoSchemas.models.Contest.Error,
+    "electoraldistricts": daoSchemas.models.ElectoralDistrict.Error,
+    "referenda": daoSchemas.models.Referendum.Error,
+
+    // overview errors on the Feed Overview - under Results
+    "contestresults": daoSchemas.models.ContestResult.Error,
+    "ballotlineresults": daoSchemas.models.BallotLineResult.Error
   };
 
   // check the type
