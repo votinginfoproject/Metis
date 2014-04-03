@@ -55,9 +55,15 @@ var mapOverview = function(path, feed) {
     };
   }
 
+  var title = "";
+  title += moment(feed._election.date) ? moment(feed._election.date).utc().format('YYYY-MM-DD') + " " : "";
+  title += feed._state.name ? feed._state.name + " " : "" ;
+  title += feed._election.electionType ? feed._election.electionType : "" ;
+  title = title.trim();
+
   return {
     id: feed.id,
-    title: moment(feed._election.date).utc().format('YYYY-MM-DD') + ' ' + feed._state.name + ' ' + feed._election.electionType,
+    title: title,
     feed_name: feed.name,
     state_name: feed._state.name,
     error_count: feed.errorCount,
