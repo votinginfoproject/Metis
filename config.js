@@ -29,6 +29,14 @@ config.ruleEngine = {
   isPersistent: true  //true if you want to save rule violations to mongo dB
 }
 
+config.importer = {
+  useS3: true,
+  s3AccessKeyId: 'FillInAccessKeyHere',
+  s3SecretAccessKey: 'FillInSecretAccessKeyHere',
+  s3Region: 'us-east-1',
+  uploadFolder: 'upload/' //used if useS3 is false
+}
+
 config.exporter = {
   tempLocation: './temp/',
   dirLocation: './feeds/'
