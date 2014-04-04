@@ -30,7 +30,7 @@ config.ruleEngine = {
 }
 
 config.importer = {
-  useS3: true,
+  useS3: false,
   s3AccessKeyId: 'FillInAccessKeyHere',
   s3SecretAccessKey: 'FillInSecretAccessKeyHere',
   s3Region: 'us-east-1',
