@@ -41,7 +41,11 @@
   <small>
     1) Place the feed file under the app's <b>/upload</b> folder<br>
     2) Enter the file name below and hit enter<br>
-    <form target="_blank" action="/services/feeds" method="post"><input style="width: 350px;" type="text" name="filename"></form>
+    <form target="_blank" action="/services/feeds" method="post">
+      Filename: <input style="width: 350px;" type="text" name="filename">
+      S3 Bucket Name: <input style="width: 350px;" type="text" name="s3bucket">
+      <input type="submit" value="Submit">
+    </form>
     3) Close the corresponding tab that opens<br>
     4) Refresh this page to see the feed process<br>
   </small>
