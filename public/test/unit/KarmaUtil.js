@@ -21,12 +21,15 @@ var karmaUtil = {
     var routeParams = { vipfeed: 'something' };
     $rootScope.pageHeader = {};
 
+    vipApp_ns.generateMap = function() {};
+
     $rootScope.setPageHeader = function() {}
     $rootScope.createTableParams = function() {};
     $rootScope.getBreadCrumbs = function() {};
     $rootScope.getServiceUrl = function() {};
     $rootScope.changeSelfToAngularPath = function() {};
     $rootScope.generatePageId = function() {};
+    $rootScope.getAngularUrl = function() {};
 
     $controller(controller, {
       '$scope': $rootScope,

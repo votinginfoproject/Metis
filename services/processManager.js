@@ -3,6 +3,7 @@ var dao = require('../dao/db');
 var config = require('../config');
 var mapper = require('./mappers/feed');
 var schemas = require('../dao/schemas');
+var feedIdMapper = require('../feedIdMapper');
 
 // The child process module
 var childProcess = require("child_process");
@@ -53,37 +54,39 @@ function handleFileProcessing(req, res){
  */
 function startFileProcessing(filename){
 
-  var uploadFolderPath = config.upload.uploadPath;
+  var fullFilePath = _path.join(_path.resolve(config.upload.uploadPath), filename);
 
-  // need to make sure the path is surrounded by slashes as the path will be relative to the current folder
-  if(uploadFolderPath.charAt(0)!="/"){
-    uploadFolderPath = "/" + uploadFolderPath;
-  }
-  if(uploadFolderPath.charAt(uploadFolderPath.length-1)!="/"){
-    uploadFolderPath = uploadFolderPath + "/";
-  }
-  // now make the path relative to the root folder
-  uploadFolderPath = ".." + uploadFolderPath;
+  console.log('Starting to process: ' + fullFilePath);
 
   // Forking a whole new instance of v8
   // .fork() is similar to .spawn() however it also gives the child the ability to send messages to the parent
   // 30ms startup time and minimum 10MB for each new child process
-  fileProcessing = childProcess.fork("feed-processor/processor.js", [uploadFolderPath + filename]);
+  fileProcessing = childProcess.fork("feed-processor/processor.js", [fullFilePath]);
 
   // when child sends messages
   fileProcessing.on('message', function(msg){
 
-    // if the message contains a feedid
-    // store this feedid with the pid of the child process so if later
-    // the child process errors, we can set the failed flag for the feed in mongo
-    if(msg.feedid){
+    // following a simple pattern of sending messages from the child using a specific messageId
+    if(msg.messageId){
 
-      // stringify the pid
-      var pid = fileProcessing.pid + "";
+      // if the message contains a feedid
+      // store this feedid with the pid of the child process so if later
+      // the child process errors, we can set the failed flag for the feed in mongo
+      if(msg.messageId==1){
+        // stringify the pid
+        var pid = fileProcessing.pid + "";
 
-      console.log("Setting the pid: " + pid + " to match with feed " + msg.feedid);
+        console.log("Setting the pid: " + pid + " to match with feed " + msg.feedId);
 
-      pIdsAndFeedIds[pid] = msg.feedid;
+        pIdsAndFeedIds[pid] = msg.feedId;
+      }
+
+      // message with feedid and friendlyfeedid of the feed the child is processing
+      if(msg.messageId==2){
+
+        // add the friendly id to the list of ids loaded into memory
+        feedIdMapper.addToUserFriendlyIdMap(msg.friendlyId, msg.feedId);
+      }
     }
 
   }.bind(this))

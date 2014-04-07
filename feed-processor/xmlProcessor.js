@@ -277,12 +277,15 @@ module.exports = function() {
         loadedOn: moment.utc(),
         feedPath: filePath,
         feedStatus: 'Parsing',
-        name: fileName
+        name: fileName,
+        friendlyId: null
       }, function(err, feed) {
         console.log('Wrote feed with id = ' + feed._id.toString());
 
-        // tell the parent about the feedid of the current feed being processed
-        process.send({"feedid": feedId});
+        if (process.send) {
+          // tell the parent about the feedid of the current feed being processed
+          process.send({"messageid": 1, "feedId": feedId});
+        }
       });
 
 

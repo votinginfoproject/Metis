@@ -4,6 +4,8 @@
 var moment = require('moment');
 var _path = require('path');
 var resultsMapper = require('./results');
+var feedIdMapper = require('../../feedIdMapper');
+var _ = require("underscore");
 
 function addressToShortString (address) {
   return address ? address.city +', ' + address.state + ' ' + address.zip : '';
@@ -25,6 +27,7 @@ var mapFeed = function(path, feed) {
 
   return {
     id: feed.id,
+    friendlyId: feed.friendlyId,
     date: feed._election ? moment(feed._election.date).utc().format('YYYY-MM-DD') : 'N/A',
     date_completed: feed.completedOn ? moment(feed.completedOn).utc() : null,
     date_loaded: moment(feed.loadedOn).utc(),
@@ -35,7 +38,7 @@ var mapFeed = function(path, feed) {
     complete: feed.complete,
     failed: feed.failed,
     name: feed.name,
-    self: _path.join(path, feed.id)
+    self: _path.join(path, feed.friendlyId + "")
   };
 };
 
@@ -52,9 +55,15 @@ var mapOverview = function(path, feed) {
     };
   }
 
+  var title = "";
+  title += moment(feed._election.date) ? moment(feed._election.date).utc().format('YYYY-MM-DD') + " " : "";
+  title += feed._state.name ? feed._state.name + " " : "" ;
+  title += feed._election.electionType ? feed._election.electionType : "" ;
+  title = title.trim();
+
   return {
     id: feed.id,
-    title: moment(feed._election.date).utc().format('YYYY-MM-DD') + ' ' + feed._state.name + ' ' + feed._election.electionType,
+    title: title,
     feed_name: feed.name,
     state_name: feed._state.name,
     error_count: feed.errorCount,
@@ -67,6 +76,8 @@ var mapOverview = function(path, feed) {
     county_map: _path.join('/services/geo/', feed._state.elementId.toString(), 'counties'),
     localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
+    election_contests: _path.join(path, '/election/contests'),
+    election_results: _path.join(path, '/election/results'),
     contests: _path.join(path, '/contests'),
     results: _path.join(path, '/results'),
     contest_results: _path.join(path, '/election/results/contestresults'),
@@ -332,14 +343,28 @@ function mapContest (path, contest) {
 };
 
 
-var mapOverviewTables = function(data) {
+var mapOverviewTables = function(data, selfpath) {
   var overview = [];
+
+  // sort the data by the element type name
+  data = _.sortBy(data, function(element){ return element.elementType; });
+
   data.forEach(function(element) {
+
+    var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
+
+    // TODO temp
+    if(selfpath == null){
+      self = null;
+    }
+
     overview.push({
       element_type: element.elementType,
       amount: element.amount,
       complete_pct: element.completePct,
-      error_count: element.errorCount
+      error_count: element.errorCount,
+      // get the ui feed id and create the error links
+      self: self
     });
   });
   return overview;

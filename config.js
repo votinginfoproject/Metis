@@ -4,7 +4,7 @@
 var config = {};
 
 config.upload = {
-  uploadPath: "/upload" // must be a path relative to the root of the app
+  uploadPath: 'upload/'
 };
 
 config.web = {
@@ -27,6 +27,14 @@ config.crowd = {
 
 config.ruleEngine = {
   isPersistent: true  //true if you want to save rule violations to mongo dB
+}
+
+config.importer = {
+  useS3: false,
+  s3AccessKeyId: 'FillInAccessKeyHere',
+  s3SecretAccessKey: 'FillInSecretAccessKeyHere',
+  s3Region: 'us-east-1',
+  uploadFolder: 'upload/' //used if useS3 is false
 }
 
 config.exporter = {

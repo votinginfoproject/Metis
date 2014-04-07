@@ -108,7 +108,11 @@ vipApp_ns.parseAndAddProperties = function(data, $appProperties) {
 vipApp_ns.generateMap = function(data, properties) {
 
   jQuery("#map").show();
-  var map = L.map('map').setView([37.8, -96], 4);
+  var map = L.map('map',
+    {
+      scrollWheelZoom: false
+    }
+  ).setView([37.8, -96], 4);
 
   var cloudmade = L.tileLayer(
     properties.mapTileLayer, {

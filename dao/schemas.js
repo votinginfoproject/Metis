@@ -358,6 +358,8 @@ var feedSchema = {
   validationStatus: Boolean,
   feedStatus: String,
   name: String,
+  fipsCode: Number,
+  friendlyId: String,
   feedPath: String,
   _election: { type: Types.ObjectId, ref: config.mongoose.model.election },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state },

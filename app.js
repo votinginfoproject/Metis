@@ -35,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.directory(path.join(__dirname, 'feeds')));
 app.use(express.static(path.join(__dirname, 'feeds')));
 
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());

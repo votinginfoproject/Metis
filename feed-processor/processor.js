@@ -9,9 +9,10 @@ const
   vaveProc = require('./vaveProcessor')
   path = require('path'),
   fs = require('fs'),
-  unzip = require('unzip');
+  unzip = require('unzip'),
+  AWS = require('aws-sdk');
 
-function processFeed(filePath) {
+function processFeed(filePath, s3Bucket) {
   var db;
   var x = xmlProc();
   var vave = vaveProc();
@@ -20,7 +21,7 @@ function processFeed(filePath) {
 
   schemas.initSchemas(mongoose);
 
-  connectMongo(config.mongoose.connectionString, startProcessing.bind(undefined, filePath));
+  connectMongo(config.mongoose.connectionString, startProcessing.bind(undefined, filePath, s3Bucket));
 
   function connectMongo(connectionString, next) {
     mongoose.connect(connectionString);
@@ -32,32 +33,41 @@ function processFeed(filePath) {
     });
   };
 
-  function startProcessing(file) {
-    var filePath = path.join(__dirname, file);
+  function startProcessing(file, s3Bucket) {
     var ext = path.extname(file);
+    var feedStream;
 
-    if (fs.existsSync(filePath)) {
+    if (config.importer.useS3) {
+      AWS.config.accessKeyId = config.importer.s3AccessKeyId;
+      AWS.config.secretAccessKey = config.importer.s3SecretAccessKey;
+      AWS.config.region = config.importer.s3Region;
+
+      var s3 = new AWS.S3();
+      var params = {Bucket: s3Bucket, Key: file};
+      feedStream = s3.getObject(params).createReadStream();
+    } else {
+      if (!fs.existsSync(file)) {
+        console.error('File "' + file + '" not found.');
+        exitProcess();
+      }
+      feedStream = fs.createReadStream(file);
+    }
+
       // if file exists
       switch (ext.toLowerCase()) {
         case '.zip':
-          fs.createReadStream(filePath)
+          feedStream
             .pipe(unzip.Parse())
             .on('entry', processZipEntry)
             .on('close', finishZipProcessing);
           break;
         case '.xml':
-          x.processXml(schemas, filePath, path.basename(file, ext), fs.createReadStream(filePath));
+          x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
           break;
         default:
           console.error('Filetype %s is not currently supported.', ext)
           exitProcess();
       }
-    } else {
-      // if file doesn't exist
-      console.error('File "' + filePath + '" not found.')
-      exitProcess();
-    }
-
   }
 
   function processZipEntry(entry) {
@@ -88,7 +98,7 @@ function processFeed(filePath) {
 }
 
 if (process.argv.length > 2 && process.argv[2] != null) {
-  processFeed(process.argv[2]);
+  processFeed(process.argv[2], process.argv[3]);
 }
 else {
   console.error("ERROR: insufficient arguments provided to processor.js\n");

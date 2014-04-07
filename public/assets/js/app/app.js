@@ -222,7 +222,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/earlyvotesites/:earlyvotesite/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/customballot/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
-      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error);
+      .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
+
+      // error indexes
+      .when('/feeds/:vipfeed/overview/:type/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error);
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
@@ -506,10 +510,17 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     var url = "/#";
     var name = null;
+
+    var makeUrlNull = false;
     for(var index=0; index<pathTokens.length; index++){
 
       name = pathTokens[index];
       url += "/" + pathTokens[index];
+
+      // nothing to link to when showing the overview error pages
+      if(name==="overview"){
+        makeUrlNull = true;
+      }
 
       // some items we need to consider for the name of the breadcrumb
       if(name === "precinctsplits"){
@@ -523,6 +534,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "electionadministration"){
         name = "election administration";
+      }
+
+      if(name === "electionadministrations"){
+        name = "election administrations";
+      }
+
+      if(name === "electionofficials"){
+        name = "election officials";
       }
 
       if(name === "electoraldistricts"){
@@ -545,13 +564,25 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         name = "contest result";
       }
 
+      if(name === "contestresults"){
+        name = "contest results";
+      }
+
       if(name === "ballotlineresults"){
         name = "ballot line results";
+      }
+
+      if(name === "errorindex"){
+        name = "error index";
       }
 
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
       if(index !==1){
         name = vipApp_ns.camelCase(name);
+      }
+
+      if(makeUrlNull){
+        url = null;
       }
 
       breadcrumbs.push(
@@ -566,6 +597,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   }
 
   $rootScope.exportFeedPost = function(feedData) {
+
     $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.state_name.toLowerCase()})
       .success(function(data, status) {
         feedData.is_exporting = true;
@@ -604,5 +636,51 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     id += 'content';
 
     return id;
+  }
+
+  /*
+   * Generates the appropriate Error Page title
+   *
+   */
+  $rootScope.generateErrorPageTitle = function(){
+
+    var title = "";
+    var breadcrumbs = $rootScope.pageHeader.breadcrumbs
+
+    var feedId = breadcrumbs[1].name;
+
+    if(breadcrumbs[breadcrumbs.length-1].name !== "Errors"){
+      return null;
+    }
+
+    // not an id
+    if( isNaN(breadcrumbs[breadcrumbs.length-2].name )){
+      var item = breadcrumbs[breadcrumbs.length-2].name;
+
+      if(item === feedId){
+        title = "Total Errors in Feed";
+      } else {
+        title = "Errors in " + item;
+      }
+
+    } else {
+      var item = breadcrumbs[breadcrumbs.length-3].name;
+
+      // remove the plural "s" from the name
+      if(item.charAt(item.length-1).toLocaleLowerCase()==='s'){
+        item = item.substring(0,item.length-1);
+
+        // if we are now left with "ie" at the end, change to "y"
+        // example is "Localities" -> remove plural "s" -> "localitie" -> chnage "ie" to "y" -> "locality"
+        if(item.lastIndexOf("ie")=== item.length-2){
+          item = item.substring(0,item.length-2) + "y";
+        }
+      }
+
+      title = "Errors in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
+    }
+
+    return title;
+
   }
 });

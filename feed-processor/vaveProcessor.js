@@ -27,12 +27,15 @@ module.exports = function () {
       loadedOn: moment().utc(),
       feedPath: filePath,
       feedStatus: 'Parsing',
-      name: path.basename(filePath)
+      name: path.basename(filePath),
+      friendlyId: null
     }, function (err, feed) {
       console.log('Wrote feed with id = ' + feed._id.toString());
 
-      // tell the parent about the feedid of the current feed being processed
-      process.send({"feedid": feedId});
+      if (process.send) {
+        // tell the parent about the feedid of the current feed being processed
+        process.send({"messageid": 1, "feedId": feedId});
+      }
     });
   }
 
@@ -58,7 +61,7 @@ module.exports = function () {
         var savePromise = mapper.save();
 
         if (savePromise) {
-          writeQue.push();
+          writeQue.push(savePromise);
         }
         recordCount++;
 

@@ -15,14 +15,16 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'public/assets/js/lib/angular/angular.js',
+      "public/assets/js/lib/angular-route/angular-route.js",
       'public/assets/js/lib/angular-resource/angular-resource.js',
       'public/assets/js/lib/angular-mocks/angular-mocks.js',
-      'public/assets/js/lib/angular-route/angular-route.min.js',
       'public/assets/js/lib/angular-cookies/angular-cookies.min.js',
       'public/assets/js/lib/jquery/jquery.min.js',
       'public/assets/js/lib/javascript-debug/ba-debug.min.js',
       'public/assets/js/lib/ng-table/ng-table.js',
+      'public/assets/js/lib/leaflet/0.7.2/leaflet.js',
       'public/test/Mocking.js',
+      'public/assets/js/app/utils.js',
       'public/assets/js/app/app.js',
       'public/assets/js/app/services/*.js',
       'public/assets/js/app/controllers/*.js',

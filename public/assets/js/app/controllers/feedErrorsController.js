@@ -86,8 +86,10 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
       // count total errors
       var total_errors = vipApp_ns.countAllErrors(data);
 
+      var title = $rootScope.generateErrorPageTitle();
+
       // update the title
-      $rootScope.pageHeader.title = total_errors + " Total " + $rootScope.pageHeader.title;
+      $rootScope.pageHeader.title = $filter('number')(total_errors) + " " + (title!==null? " " + title : "Errors");
 
     }).error(function (data) {
 

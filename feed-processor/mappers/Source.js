@@ -4,6 +4,7 @@
 const
   basemapper = require('./BaseMapper'),
   util = require('util'),
+  when = require('when'),
   Source = function (models, feedId) {
     basemapper.call(this, models, feedId, models.Source);
   };
@@ -42,6 +43,15 @@ Source.prototype.mapCsv = function (source) {
 
 };
 
+Source.prototype.save = function () {
+  if (this.model === undefined) {
+    return;
+  }
+
+  return when.join(
+    this.collection.create(this.model),
+    this.models.Feed.findByIdAndUpdate(this.feedId, { $set: { fipsCode: this.model.vipId } }).exec());
+}
 
 module.exports = Source;
 
