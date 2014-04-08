@@ -463,6 +463,25 @@ aside {
   }
 }
 
+  .animate-hide {
+    -webkit-transition:all linear 0.6s;
+    transition:all linear 0.6s;
+    opacity:1;
+    max-height: 1200px;
+
+  }
+
+  .animate-hide.ng-hide,
+  .animate-hide.ng-hide {
+    display:block!important;
+  }
+
+  .animate-hide.ng-hide {
+    opacity:0;
+    max-height: 0;
+  }
+
+
 
 // ============================================================================
 // Feed Meta

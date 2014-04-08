@@ -177,7 +177,6 @@ table {
   src: url("/assets/fonts/foundation-icons.eot?#iefix") format("embedded-opentype"), url("/assets/fonts/foundation-icons.woff") format("woff"), url("/assets/fonts/foundation-icons.ttf") format("truetype"), url("/assets/fonts/foundation-icons.svg#fontcustom") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 .fi-address-book:before,
 .fi-alert:before,
 .fi-align-center:before,
@@ -1456,9 +1455,9 @@ dl {
   display: block; }
 
 a {
-  -webkit-transition: color 0.1s linear;
-  -moz-transition: color 0.1s linear;
-  transition: color 0.1s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  transition: all 0.15s linear;
   color: #3c5f87;
   text-decoration: none; }
   a:hover {
@@ -2175,6 +2174,20 @@ aside {
     .contact-wrap a:hover, .contact-wrap a:focus {
       color: white;
       border-color: white; }
+
+.animate-hide {
+  -webkit-transition: all linear 0.6s;
+  transition: all linear 0.6s;
+  opacity: 1;
+  max-height: 1200px; }
+
+.animate-hide.ng-hide,
+.animate-hide.ng-hide {
+  display: block !important; }
+
+.animate-hide.ng-hide {
+  opacity: 0;
+  max-height: 0; }
 
 .feed-title {
   cursor: pointer; }
@@ -2949,7 +2962,13 @@ section.data-module {
   font-size: 0.75em;
   font-size: 0.75rem;
   letter-spacing: 1px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  position: relative;
+  top: -1px; }
+  .more-detail:after {
+    content: ' \2192';
+    font-size: 1em;
+    font-size: 1rem; }
   @media (min-width: 600px) {
     .more-detail {
       font-size: 0.875em;
@@ -3071,7 +3090,6 @@ section.data-module {
 
   @page {
     margin: 0.5cm; }
-
   p,
   h2,
   h3 {

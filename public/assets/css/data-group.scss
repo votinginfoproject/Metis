@@ -105,6 +105,14 @@ section.data-module {
   font-size: 0.75rem;
   letter-spacing: 1px;
   text-transform: uppercase;
+  position: relative;
+  top: -1px;
+
+  &:after {
+    content: ' \2192';
+    font-size: 1em;
+    font-size: 1rem;
+  }
 
   @include bp(c6) {
     font-size: 0.875em;
