@@ -34,18 +34,6 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
       singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
     else
       evaluate(constraintSet, callback);
-
-      if(err) {
-        console.log(err);
-        return;
-      }
-
-      if(config.checkSingleHouseStates(fips.stateFIPS))
-        singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
-      else
-        evaluate(constraintSet, callback);
-
-    });
   });
 }
 
