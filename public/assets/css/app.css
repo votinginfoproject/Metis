@@ -2897,15 +2897,15 @@ section.data-module {
     section.data-module {
       margin-bottom: 2em; } }
   @media (min-width: 1452px) {
-    section.data-module {
+    .overview-wrap section.data-module {
       float: right;
       margin-left: 3.7037%;
       width: 48.14815%;
       float: left; }
-      section.data-module:nth-of-type(2n+1) {
+      .overview-wrap section.data-module:nth-of-type(2n+1) {
         margin-left: 0;
         clear: left; }
-      section.data-module:only-of-type {
+      .overview-wrap section.data-module:only-of-type {
         width: 100%;
         float: none;
         margin-left: 0; } }

@@ -24,21 +24,24 @@ section.data-module {
     margin-bottom: $base-lg;
   }
 
-  @include bp(c16) {
-    @include span-columns(6 of 12);
-    float: left;
-        
-    &:nth-of-type(2n+1) {
-      margin-left: 0;
-      clear: left;
-    }
+  .overview-wrap & {
+    @include bp(c16) {
+      @include span-columns(6 of 12);
+      float: left;
+          
+      &:nth-of-type(2n+1) {
+        margin-left: 0;
+        clear: left;
+      }
 
-    &:only-of-type {
-      width: 100%;
-      float: none;
-      margin-left: 0;
+      &:only-of-type {
+        width: 100%;
+        float: none;
+        margin-left: 0;
+      }
     }
   }
+  
   
 }
 
