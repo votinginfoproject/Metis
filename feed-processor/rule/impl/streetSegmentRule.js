@@ -23,14 +23,19 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
   else
     feedId = _feedId;
 
-  schemas.models.State.findOne( { _feed: feedId }, function(err, state) {
+  schemas.models.Feed.findOne( { _id: feedId }, function(err, feed) {
 
-    if(!state) {
-      evaluate(constraintSet, callback);
-      return;
+    if(err) {
+      console.log(err);
+      process.exit(-1);
     }
 
-    if(config.checkSingleHouseStates(state.elementId))
+    if(!feed) {
+      console.log("could not find feed");
+      process.exit(-1);
+    }
+
+    if(config.checkSingleHouseStates(feed.fipsCode))
       singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
     else
       evaluate(constraintSet, callback);
