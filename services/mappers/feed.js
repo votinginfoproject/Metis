@@ -65,7 +65,7 @@ var mapOverview = function(path, feed) {
     id: feed.id,
     title: title,
     feed_name: feed.name,
-    state_name: feed._state.name,
+    fips_code: feed.fipsCode,
     error_count: feed.errorCount,
     feed_contact: feedContact,
     date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
