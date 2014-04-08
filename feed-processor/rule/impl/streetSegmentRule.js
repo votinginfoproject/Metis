@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var ruleViolation = require('../ruleViolation');
 var schemas = require('../../../dao/schemas');
+var async = require('async');
 var config = require('../../../config');
 
 var interval = require('interval-query');
@@ -24,20 +25,20 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
   schemas.models.State.findOne( { _feed: feedId }, function(err, state) {
 
-    //if(!state) {
+    if(!state) {
       evaluate(constraintSet, callback);
       return;
-    //}
+    }
 
     if(config.checkSingleHouseStates(state.elementId))
       singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
     else
       evaluate(constraintSet, callback);
 
-      //if(err) {
+      if(err) {
         console.log(err);
         return;
-      //}
+      }
 
       if(config.checkSingleHouseStates(fips.stateFIPS))
         singleState.evaluateStreetSegmentsOverlapSingle(feedId, constraintSet, ruleDefinition, callback);
@@ -237,132 +238,132 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //  });
 //}
 
-function evaluate(constraintSet, callback) {
-  var options = {};
-
-  options.query = { _feed: feedId };
-
-  var mapper = function() {
-
-    var key = {
-      streetName: this.nonHouseAddress.streetName,
-      city: this.nonHouseAddress.city,
-      zip: this.nonHouseAddress.zip,
-      streetDirection: this.nonHouseAddress.streetDirection,
-      streetSuffix: this.nonHouseAddress.streetSuffix,
-      addressDirection: this.nonHouseAddress.addressDirection
-    };
-
-    var value = {
-      startHouseNumber: this.startHouseNumber,
-      endHouseNumber: this.endHouseNumber,
-      elementId: this.elementId
-    };
-
-    if(this.oddEvenBoth === "both") {
-      key.oddEvenBoth = "even";
-      emit(key, value);
-      key.oddEvenBoth = "odd";
-      emit(key, value);
-    }
-    else {
-      key.oddEvenBoth = this.oddEvenBoth;
-      emit(key, value);
-    }
-  };
-
-  options.map = mapper;
-
-  options.reduce = function(key, values) {
-    var overlap = [];
-
-    for(var x = 0; x < values.length; x++) {
-
-      for(var y = 0; y < values.length; y++) {
-        if(x === y)
-          continue;
-
-        var isOverlapping = false;
-
-        if( values[x].startHouseNumber <= values[y].endHouseNumber || values[x].startHouseNumber >= values[y].startHouseNumber )
-          isOverlapping = true;
-        if( values[x].endHouseNumber >= values[y].startHouseNumber || values[x].endHouseNumber <= values[y].endHouseNumber)
-          isOverlapping = true;
-
-
-        if(isOverlapping) {
-
-          var isContained = false;
-
-          for(var iter = 0; iter < overlap.length; ++iter) {
-            if(overlap[iter].leftElementId === values[x].elementId && overlap[iter].rightElementId === values[y].elementId)
-              isContained = true;
-            if(overlap[iter].leftElementId === values[y].elementId && overlap[iter].rightElementId === values[x].elementId)
-              isContained = true;
-          }
-
-          if(!isContained) {
-            overlap.push({
-              leftElementId: values[x].elementId,
-              rightElementId: values[y].elementId,
-              id: values[x].id
-            });
-          }
-        }
-      }
-    }
-
-    return { overlap: overlap };
-  };
-
-  options.finalize = function(key, reduced) {
-    if( reduced.overlap )
-      return reduced
-  };
-
-  var Model = mongoose.model(constraintSet.entity[0]);
-
-  Model.mapReduce(options, function(err, results) {
-
-    if(err) {
-      console.log(err);
-      process.exit(-1);
-    }
-
-    // loop through the results from the aggregate
-    for (var resIter = 0; resIter < results.length; resIter++) {
-//      if(results[resIter].value.elementId)
+//function evaluate(constraintSet, callback) {
+//  var options = {};
+//
+//  options.query = { _feed: feedId };
+//
+//  var mapper = function() {
+//
+//    var key = {
+//      streetName: this.nonHouseAddress.streetName,
+//      city: this.nonHouseAddress.city,
+//      zip: this.nonHouseAddress.zip,
+//      streetDirection: this.nonHouseAddress.streetDirection,
+//      streetSuffix: this.nonHouseAddress.streetSuffix,
+//      addressDirection: this.nonHouseAddress.addressDirection
+//    };
+//
+//    var value = {
+//      startHouseNumber: this.startHouseNumber,
+//      endHouseNumber: this.endHouseNumber,
+//      elementId: this.elementId
+//    };
+//
+//    if(this.oddEvenBoth === "both") {
+//      key.oddEvenBoth = "even";
+//      emit(key, value);
+//      key.oddEvenBoth = "odd";
+//      emit(key, value);
+//    }
+//    else {
+//      key.oddEvenBoth = this.oddEvenBoth;
+//      emit(key, value);
+//    }
+//  };
+//
+//  options.map = mapper;
+//
+//  options.reduce = function(key, values) {
+//    var overlap = [];
+//
+//    for(var x = 0; x < values.length; x++) {
+//
+//      for(var y = 0; y < values.length; y++) {
+//        if(x === y)
+//          continue;
+//
+//        var isOverlapping = false;
+//
+//        if( values[x].startHouseNumber <= values[y].endHouseNumber || values[x].startHouseNumber >= values[y].startHouseNumber )
+//          isOverlapping = true;
+//        if( values[x].endHouseNumber >= values[y].startHouseNumber || values[x].endHouseNumber <= values[y].endHouseNumber)
+//          isOverlapping = true;
+//
+//
+//        if(isOverlapping) {
+//
+//          var isContained = false;
+//
+//          for(var iter = 0; iter < overlap.length; ++iter) {
+//            if(overlap[iter].leftElementId === values[x].elementId && overlap[iter].rightElementId === values[y].elementId)
+//              isContained = true;
+//            if(overlap[iter].leftElementId === values[y].elementId && overlap[iter].rightElementId === values[x].elementId)
+//              isContained = true;
+//          }
+//
+//          if(!isContained) {
+//            overlap.push({
+//              leftElementId: values[x].elementId,
+//              rightElementId: values[y].elementId,
+//              id: values[x].id
+//            });
+//          }
+//        }
+//      }
+//    }
+//
+//    return { overlap: overlap };
+//  };
+//
+//  options.finalize = function(key, reduced) {
+//    if( reduced.overlap )
+//      return reduced
+//  };
+//
+//  var Model = mongoose.model(constraintSet.entity[0]);
+//
+//  Model.mapReduce(options, function(err, results) {
+//
+//    if(err) {
+//      console.log(err);
+//      process.exit(-1);
+//    }
+//
+//    // loop through the results from the aggregate
+//    for (var resIter = 0; resIter < results.length; resIter++) {
+////      if(results[resIter].value.elementId)
+////        continue;
+//      if(!results[resIter].value)
 //        continue;
-      if(!results[resIter].value)
-        continue;
-
-      saveValues(results[resIter].value.overlap);
-    }
-    callback({promisedErrorCount: errorCount})
-  });
-
-}
-
-var both = [];
-function saveValues(overlap) {
-  overlap.forEach(function(doc) {
-
-    var isContained = false;
-    for(var iter = 0; iter < both.length; ++iter) {
-      if(both[iter].leftElementId === doc.leftElementId && both[iter].rightElementId === doc.rightElementId)
-        isContained = true;
-      if(both[iter].leftElementId === doc.rightElementId && both[iter].rightElementId === doc.leftElementId)
-        isContained = true;
-    }
-
-    if(!isContained) {
-      var error = "overlaps with elementId: " + doc.rightElementId;
-      createError(0, doc.leftElementId, doc.id, error);
-      both.push(doc);
-    }
-
-  });
-}
+//
+//      saveValues(results[resIter].value.overlap);
+//    }
+//    callback({promisedErrorCount: errorCount})
+//  });
+//
+//}
+//
+//var both = [];
+//function saveValues(overlap) {
+//  overlap.forEach(function(doc) {
+//
+//    var isContained = false;
+//    for(var iter = 0; iter < both.length; ++iter) {
+//      if(both[iter].leftElementId === doc.leftElementId && both[iter].rightElementId === doc.rightElementId)
+//        isContained = true;
+//      if(both[iter].leftElementId === doc.rightElementId && both[iter].rightElementId === doc.leftElementId)
+//        isContained = true;
+//    }
+//
+//    if(!isContained) {
+//      var error = "overlaps with elementId: " + doc.rightElementId;
+//      createError(0, doc.leftElementId, doc.id, error);
+//      both.push(doc);
+//    }
+//
+//  });
+//}
 
 //function intervalTree(values) {
 //
@@ -403,6 +404,75 @@ function saveValues(overlap) {
 //    }
 //  }
 //}
+
+
+function evaluate(constraintSet, callback) {
+  var Model = mongoose.model(constraintSet.entity[0]);
+
+  Model.aggregate()
+    .match( { _feed: feedId } )
+    .group({
+      _id: {
+        /*streetName: "$nonHouseAddress.streetName",*/
+        zip: "$nonHouseAddress.zip"
+      },
+      count: { $sum: 1 }
+    })
+    .match({ count : { $gt : 1 }})
+    /*.sort({ count: 1 })*/
+    .exec(function(err, results) {
+      if(err) {
+        console.log(err);
+        process.exit(-1);
+      }
+
+      async.forEachSeries(results, function (result, done) {
+
+        if(!result._id.zip) {
+          done();
+          return;
+        }
+
+        Model.find({ _feed: feedId, "nonHouseAddress.zip": result._id.zip }, { "nonHouseAddress.streetName": 1, startHouseNumber: 1, endHouseNumber: 1, oddEvenBoth: 1, elementId: 1, _id: 1 })
+          .exec(function (err, docs) {
+
+            if(!docs.length || !docs[0].nonHouseAddress.streetName) {
+              done();
+              return;
+            }
+
+            var tree = new interval.SegmentTree;
+            tree.clearIntervalStack();
+
+            for (var resIter = 0; resIter < docs.length; ++resIter) {
+              tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
+            }
+
+            tree.buildTree();
+            var treeResults = tree.queryOverlap();
+
+            for (var j = 0; j < treeResults.length; j++) {
+              if (treeResults[j].overlap.length > 0) {
+                for (var k = 0; k < treeResults[j].overlap.length; k++) {
+                  var treeOverlap = treeResults[j];
+                  var index = treeOverlap.overlap[k];
+                  index = parseInt(index) - 1;
+
+                  if(docs[j].oddEvenBoth === docs[index].oddEvenBoth || docs[j].oddEvenBoth === 'both' || docs[index].oddEvenBoth === 'both') {
+                    if(docs[j].nonHouseAddress.streetName === docs[index].nonHouseAddress.streetName) {
+                      var errors = "overlaps with elementId: " + docs[index].elementId;
+                      createError(0, docs[j].elementId, docs[j].id, errors)
+                    }
+                  }
+                }
+              }
+            }
+
+            done();
+          });
+      }, function() { callback({promisedErrorCount: errorCount}); });
+    });
+}
 
 function createError(streetsegment, elementId, mongoId, error) {
   errorCount++;
