@@ -80,13 +80,14 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 
 RuleHandler.prototype.processDataResults = function(ruleDef, entity, result, constraintSet){
   if(constraintSet.fields.length > 0) {
+    var promises = [];
     for(var j = 0; j < constraintSet.fields.length; j++){
       var resultItem = formatNestedResult( constraintSet.fields[j], result );
       if(resultItem != null) {
-        return RuleHandler.prototype.processRule( ruleDef, resultItem, result, entity, constraintSet );
+        promises.push(RuleHandler.prototype.processRule( ruleDef, resultItem, result, entity, constraintSet ));
       }
-      return null;
     }
+   return when.join(promises);
   }
   else {
     if(result != null) {
