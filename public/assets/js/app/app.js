@@ -225,8 +225,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
 
       // error indexes
+      // this takes care of all the error indexes for the overview sections on the Feed Overview page
       .when('/feeds/:vipfeed/overview/:type/errors', error)
-      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error);
+
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error)
+
+      // overview modules under a specific Contest
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/ballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/candidates/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/referenda/errors', error);
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});

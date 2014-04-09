@@ -353,11 +353,6 @@ var mapOverviewTables = function(data, selfpath) {
 
     var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
 
-    // TODO temp
-    if(selfpath == null){
-      self = null;
-    }
-
     overview.push({
       element_type: element.elementType,
       amount: element.amount,

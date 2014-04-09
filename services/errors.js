@@ -42,6 +42,11 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityGET);
 
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/ballot/errors', utils.ensureAuthentication, callbacks.errorIndexContestBallotGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/candidates/errors', utils.ensureAuthentication, callbacks.errorIndexContestCandidatesGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/electoraldistrict/errors', utils.ensureAuthentication, callbacks.errorIndexContestElectoralDistrictGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/referenda/errors', utils.ensureAuthentication, callbacks.errorIndexContestReferendaGET);
+
 }
 
 exports.registerErrorServices = registerErrorServices;
