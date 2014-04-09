@@ -137,6 +137,7 @@ function referendumBallotResponsesErrorsGET(req, res) {
   });
 }
 
+// This takes care of all the error indexes for the overview modules on the Feed Overview page
 function errorIndexGET(req, res) {
 
   var map = {
@@ -177,6 +178,8 @@ function errorIndexGET(req, res) {
 
 function errorIndexLocalityGET(req, res) {
 
+  console.log("locality....")
+
   var map = {
     // overview errors on a Locality page
     "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
@@ -189,7 +192,6 @@ function errorIndexLocalityGET(req, res) {
 
   // check the type
   if(map[req.params.type]!=undefined){
-
     daoErrors.errorIndexLocality(feedIdMapper.getId(req.params.feedid), map[req.params.type], req.params.localityid,
       mapAndReturnErrors.bind(undefined, res, req));
 
@@ -199,6 +201,28 @@ function errorIndexLocalityGET(req, res) {
   }
 
 }
+
+function errorIndexContestBallotGET(req, res) {
+  daoErrors.errorIndexContestBallot(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestCandidatesGET(req, res) {
+    daoErrors.errorIndexContestCandidates(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+      mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestElectoralDistrictGET(req, res) {
+  daoErrors.errorIndexContestElectoralDistrict(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestReferendaGET(req, res) {
+  daoErrors.errorIndexContestReferenda(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+
 
 function mapAndReturnErrors(res, req, err, errors) {
 
@@ -309,5 +333,14 @@ exports.ballotCustomBallotErrorsGET = ballotCustomBallotErrorsGET;
 exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
 exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
 
+// Feed Overview page overview modules
 exports.errorIndexGET = errorIndexGET;
+
+// A given Locality page overview modules
 exports.errorIndexLocalityGET = errorIndexLocalityGET;
+
+// A given Contest page overview modules
+exports.errorIndexContestBallotGET = errorIndexContestBallotGET;
+exports.errorIndexContestCandidatesGET = errorIndexContestCandidatesGET;
+exports.errorIndexContestElectoralDistrictGET = errorIndexContestElectoralDistrictGET;
+exports.errorIndexContestReferendaGET = errorIndexContestReferendaGET;

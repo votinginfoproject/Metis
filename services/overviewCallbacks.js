@@ -17,8 +17,7 @@ function notFoundHandler (res, err, data, next) {
 
 function contestOverviewGET(req, res) {
 
-  var selfpath; // = "/#/feeds/" + req.params.feedid + "/election/state/localities/" + req.params.localityid;
-  selfpath = null;
+  var selfpath = "/#/feeds/" + req.params.feedid + "/election/contests/" + req.params.contestid;
 
   dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {
@@ -30,7 +29,6 @@ function contestOverviewGET(req, res) {
 function localityOverviewGET(req, res) {
 
   var selfpath = "/#/feeds/" + req.params.feedid + "/election/state/localities/" + req.params.localityid;
-  selfpath = null;
 
   dao.getOverviewTable(feedIdMapper.getId(req.params.feedid), req.params.localityid, function(err, overviews) {
     notFoundHandler(res, err, overviews, function() {

@@ -164,25 +164,78 @@ function errorIndex(feedId, model, callback) {
 
 function errorIndexLocality(feedId, model, localityId, callback) {
   console.log("*****")
-  /*
-  console.dir(model);
-
-  var promise = daoSchemas.models.Locality
-    .findOne({ _feed: feedId, elementId: localityId })
-    .select('_streetSegments')
-    .exec();
-
-  promise.then(function (results) {
-
-    console.dir(results);
-  });
-//  console.log(localityId)
-//  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: [localityId] }  } }, model).exec(callback);
-*/
 }
 
-function aggregateErrors(match, errorModel) {
+// All Ballot errors under a specific Contest
+function errorIndexContestBallot(feedId, contestId, callback) {
 
+  var contestPromise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId }, {_ballot: 1}).exec();
+
+  contestPromise.then(function (contest) {
+
+    var ballotPromise = daoSchemas.models.Ballot.findOne({ _id: contest._ballot }, {_id: 1}).exec();
+
+    ballotPromise.then(function (ballot) {
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: ballot._id } }, daoSchemas.models.Ballot.Error)
+        .exec(callback);
+    });
+  });
+}
+
+// All Candidates errors under a specific Contest
+function errorIndexContestCandidates(feedId, contestId, callback) {
+
+    var contestPromise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId }, {_ballot: 1}).exec();
+
+    contestPromise.then(function (contest) {
+
+      var ballotPromise = daoSchemas.models.Ballot.findOne({ _id: contest._ballot }, {candidates: 1}).exec();
+
+      ballotPromise.then(function (ballot) {
+        var candidates = [];
+        ballot.candidates.forEach( function(candidate){
+          candidates.push(candidate._candidate);
+        });
+
+        aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: candidates } } }, daoSchemas.models.Candidate.Error)
+          .exec(callback);
+      });
+    });
+}
+
+
+// All Electoral District errors under a specific Contest
+function errorIndexContestElectoralDistrict(feedId, contestId, callback) {
+
+  var contestPromise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId }, {_electoralDistrict: 1}).exec();
+
+  contestPromise.then(function (contest) {
+    var electoraldistrictPromise = daoSchemas.models.ElectoralDistrict.findOne({ _id: contest._electoralDistrict }, {_id: 1}).exec();
+
+    electoraldistrictPromise.then(function (electoraldistrict) {
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: electoraldistrict._id } }, daoSchemas.models.ElectoralDistrict.Error)
+        .exec(callback);
+    });
+  });
+}
+
+// All Referenda errors under a specific Contest
+function errorIndexContestReferenda(feedId, contestId, callback) {
+
+  var contestPromise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId }, {_ballot: 1}).exec();
+
+  contestPromise.then(function (contest) {
+    var ballotPromise = daoSchemas.models.Ballot.findOne({ _id: contest._ballot }, {_referenda: 1}).exec();
+
+    ballotPromise.then(function (ballot) {
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: ballot._referenda } } }, daoSchemas.models.Referendum.Error)
+        .exec(callback);
+    });
+  });
+}
+
+
+function aggregateErrors(match, errorModel) {
   return errorModel.aggregate(
     match,
     {
@@ -242,5 +295,13 @@ exports.precinctStreetSegmentErrors = precinctStreetSegmentErrors;
 exports.precinctSplitStreetSegmentErrors = precinctSplitStreetSegmentErrors;
 exports.ballotResponseErrors = ballotResponseErrors;
 
+// error indexes
+// feed overview
 exports.errorIndex = errorIndex;
+// under a specific locality
 exports.errorIndexLocality = errorIndexLocality;
+// under a specific contest
+exports.errorIndexContestBallot = errorIndexContestBallot;
+exports.errorIndexContestCandidates = errorIndexContestCandidates;
+exports.errorIndexContestElectoralDistrict = errorIndexContestElectoralDistrict;
+exports.errorIndexContestReferenda = errorIndexContestReferenda;
