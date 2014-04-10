@@ -176,30 +176,34 @@ function errorIndexGET(req, res) {
 
 }
 
-function errorIndexLocalityGET(req, res) {
+function errorIndexLocalityEarlyVoteSiteGET(req, res) {
+  daoErrors.errorIndexLocalityEarlyVoteSite(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
 
-  console.log("locality....")
+function errorIndexLocalityElectionAdministrationGET(req, res) {
+  daoErrors.errorIndexLocalityElectionAdministration(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
 
-  var map = {
-    // overview errors on a Locality page
-    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
-    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
-    "pollinglocations": daoSchemas.models.PollingLocation.Error,
-    "precincts": daoSchemas.models.Precinct.Error,
-    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
-    "streetsegments": daoSchemas.models.StreetSegment.Error
-  };
+function errorIndexLocalityPollingLocationsGET(req, res) {
+  daoErrors.errorIndexLocalityPollingLocations(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
 
-  // check the type
-  if(map[req.params.type]!=undefined){
-    daoErrors.errorIndexLocality(feedIdMapper.getId(req.params.feedid), map[req.params.type], req.params.localityid,
-      mapAndReturnErrors.bind(undefined, res, req));
+function errorIndexLocalityPrecinctSplitsGET(req, res) {
+  daoErrors.errorIndexLocalityPrecinctSplits(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
 
-  } else {
-    console.error("Invalid error index");
-    res.send(500);
-  }
+function errorIndexLocalityPrecinctsGET(req, res) {
+  daoErrors.errorIndexLocalityPrecincts(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
 
+function errorIndexLocalityStreetSegmentsGET(req, res) {
+  daoErrors.errorIndexLocalityStreetSegments(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
 }
 
 function errorIndexContestBallotGET(req, res) {
@@ -337,7 +341,12 @@ exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
 exports.errorIndexGET = errorIndexGET;
 
 // A given Locality page overview modules
-exports.errorIndexLocalityGET = errorIndexLocalityGET;
+exports.errorIndexLocalityEarlyVoteSiteGET = errorIndexLocalityEarlyVoteSiteGET;
+exports.errorIndexLocalityElectionAdministrationGET = errorIndexLocalityElectionAdministrationGET;
+exports.errorIndexLocalityPollingLocationsGET = errorIndexLocalityPollingLocationsGET;
+exports.errorIndexLocalityPrecinctSplitsGET = errorIndexLocalityPrecinctSplitsGET;
+exports.errorIndexLocalityPrecinctsGET = errorIndexLocalityPrecinctsGET;
+exports.errorIndexLocalityStreetSegmentsGET = errorIndexLocalityStreetSegmentsGET;
 
 // A given Contest page overview modules
 exports.errorIndexContestBallotGET = errorIndexContestBallotGET;
