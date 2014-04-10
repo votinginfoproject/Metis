@@ -162,8 +162,129 @@ function errorIndex(feedId, model, callback) {
   aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, model).exec(callback);
 }
 
-function errorIndexLocality(feedId, model, localityId, callback) {
-  console.log("*****")
+// All Early Vote Site errors under a specific Locality
+function errorIndexLocalityEarlyVoteSite(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_earlyVoteSites: 1}).exec();
+
+  localityPromise.then(function (locality) {
+
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._earlyVoteSites} } }, daoSchemas.models.EarlyVoteSite.Error)
+        .exec(callback);
+  });
+}
+
+// All Election Administration errors under a specific Locality
+function errorIndexLocalityElectionAdministration(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_electionAdministration: 1}).exec();
+
+  localityPromise.then(function (locality) {
+
+    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: locality._electionAdministration } }, daoSchemas.models.ElectionAdmin.Error)
+      .exec(callback);
+  });
+}
+
+// All Polling Locations errors under a specific Locality
+function errorIndexLocalityPollingLocations(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_precincts: 1}).exec();
+
+  localityPromise.then(function (locality) {
+
+    var precinctsPromise = daoSchemas.models.Precinct.find({ _feed: feedId, _id: {$in: locality._precincts} }, {_pollingLocations: 1}).exec();
+
+    precinctsPromise.then(function (precincts) {
+
+      var pollinglocations = [];
+      precincts.forEach( function(precinct){
+        precinct._pollingLocations.forEach( function(pollinglocation){
+          pollinglocations.push(pollinglocation);
+        });
+      });
+
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: pollinglocations} } }, daoSchemas.models.PollingLocation.Error)
+          .exec(callback);
+    });
+  });
+}
+
+// All Precinct Split errors under a specific Locality
+function errorIndexLocalityPrecinctSplits(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_precincts: 1}).exec();
+
+  localityPromise.then(function (locality) {
+
+    var precinctsPromise = daoSchemas.models.Precinct.find({ _feed: feedId, _id: {$in: locality._precincts} }, {_precinctSplits: 1}).exec();
+
+    precinctsPromise.then(function (precincts) {
+
+      var precinctsplits = [];
+      precincts.forEach( function(precinct){
+        precinct._precinctSplits.forEach( function(precinctsplit){
+          precinctsplits.push(precinctsplit);
+        });
+      });
+
+      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: precinctsplits} } }, daoSchemas.models.PrecinctSplit.Error)
+        .exec(callback);
+    });
+  });
+}
+
+// All Precinct errors under a specific Locality
+function errorIndexLocalityPrecincts(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_precincts: 1}).exec();
+
+  localityPromise.then(function (locality) {
+
+    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._precincts} } }, daoSchemas.models.Precinct.Error)
+      .exec(callback);
+  });
+}
+
+// All Street Segment errors under a specific Locality
+function errorIndexLocalityStreetSegments(feedId, localityId, callback) {
+  var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_precincts: 1}).exec();
+  var streetsegments = [];
+
+  localityPromise.then(function (locality) {
+
+    var precinctsPromise = daoSchemas.models.Precinct.find({ _feed: feedId, _id: {$in: locality._precincts} }, {_precinctSplits: 1, _streetSegments: 1}).exec();
+
+    precinctsPromise.then(function (precincts) {
+
+      var precinctsplits = [];
+      precincts.forEach( function(precinct){
+        // capture the precinct splits
+        precinct._precinctSplits.forEach( function(precinctsplit){
+          precinctsplits.push(precinctsplit);
+        });
+
+        // capture the street segments on the Precincts level
+        precinct._streetSegments.forEach( function(streetsegment){
+          streetsegments.push(streetsegment);
+        });
+
+      });
+
+      var precinctsplitsPromise = daoSchemas.models.PrecinctSplit.find({ _feed: feedId, _id: {$in: precinctsplits} }, {_streetSegments: 1}).exec();
+
+      precinctsplitsPromise.then(function (precinctsplits) {
+
+        precinctsplits.forEach( function(precinctsplit){
+          // capture the street segments on the Precinct Splits level
+          precinctsplit._streetSegments.forEach( function(streetsegment){
+            streetsegments.push(streetsegment);
+          });
+
+        });
+
+        aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: streetsegments} } }, daoSchemas.models.StreetSegment.Error)
+          .exec(callback);
+
+      });
+
+    });
+  });
 }
 
 // All Ballot errors under a specific Contest
@@ -202,7 +323,6 @@ function errorIndexContestCandidates(feedId, contestId, callback) {
       });
     });
 }
-
 
 // All Electoral District errors under a specific Contest
 function errorIndexContestElectoralDistrict(feedId, contestId, callback) {
@@ -298,8 +418,15 @@ exports.ballotResponseErrors = ballotResponseErrors;
 // error indexes
 // feed overview
 exports.errorIndex = errorIndex;
+
 // under a specific locality
-exports.errorIndexLocality = errorIndexLocality;
+exports.errorIndexLocalityEarlyVoteSite = errorIndexLocalityEarlyVoteSite;
+exports.errorIndexLocalityElectionAdministration = errorIndexLocalityElectionAdministration;
+exports.errorIndexLocalityPollingLocations = errorIndexLocalityPollingLocations;
+exports.errorIndexLocalityPrecinctSplits = errorIndexLocalityPrecinctSplits;
+exports.errorIndexLocalityPrecincts = errorIndexLocalityPrecincts;
+exports.errorIndexLocalityStreetSegments = errorIndexLocalityStreetSegments;
+
 // under a specific contest
 exports.errorIndexContestBallot = errorIndexContestBallot;
 exports.errorIndexContestCandidates = errorIndexContestCandidates;

@@ -225,10 +225,17 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
 
       // error indexes
-      // this takes care of all the error indexes for the overview sections on the Feed Overview page
+
+      // for all overview modules under the Feed Overview page
       .when('/feeds/:vipfeed/overview/:type/errors', error)
 
-      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error)
+      // overview modules under a specific Locality
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/earlyvotesites/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/pollinglocations/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precinctsplits/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precincts/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/streetsegments/errors', error)
 
       // overview modules under a specific Contest
       .when('/feeds/:vipfeed/election/contests/:contest/overview/ballot/errors', error)
@@ -650,10 +657,15 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * Generates the appropriate Error Page title
    *
    */
-  $rootScope.generateErrorPageTitle = function(){
+  $rootScope.generateErrorPageTitle = function(total_errors){
 
     var title = "";
     var breadcrumbs = $rootScope.pageHeader.breadcrumbs
+
+    var errorText = "Error";
+    if(total_errors!==1){
+      errorText = "Errors";
+    }
 
     var feedId = breadcrumbs[1].name;
 
@@ -666,9 +678,9 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       var item = breadcrumbs[breadcrumbs.length-2].name;
 
       if(item === feedId){
-        title = "Total Errors in Feed";
+        title = "Total " + errorText + " in Feed";
       } else {
-        title = "Errors in " + item;
+        title = errorText + " in " + item;
       }
 
     } else {
@@ -685,7 +697,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         }
       }
 
-      title = "Errors in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
+      title = errorText + " in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
     }
 
     return title;
