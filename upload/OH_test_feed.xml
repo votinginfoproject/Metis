@@ -667,6 +667,7 @@ Note that the ID attributes are unique throughout the file.
             <zip>43320</zip>
         </non_house_address>
         <precinct_split_id>30101</precinct_split_id>
+        <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210009">
         <start_house_number>1</start_house_number>
@@ -679,6 +680,7 @@ Note that the ID attributes are unique throughout the file.
             <zip>43320</zip>
         </non_house_address>
         <precinct_split_id>30101</precinct_split_id>
+        <precinct_id>10101</precinct_id>
     </street_segment>
 
 
@@ -693,6 +695,7 @@ Note that the ID attributes are unique throughout the file.
         <zip>43320</zip>
     </non_house_address>
     <precinct_split_id>111</precinct_split_id>
+    <precinct_id>10302</precinct_id>
 </street_segment>
 <street_segment id="223">
     <start_house_number>1</start_house_number>
@@ -705,6 +708,7 @@ Note that the ID attributes are unique throughout the file.
         <zip>43320</zip>
     </non_house_address>
     <precinct_split_id>111</precinct_split_id>
+    <precinct_id>10302</precinct_id>
 </street_segment>
 <street_segment id="224">
     <start_house_number>15</start_house_number>
@@ -717,6 +721,7 @@ Note that the ID attributes are unique throughout the file.
         <zip>43320</zip>
     </non_house_address>
     <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
 </street_segment>
 <street_segment id="225">
     <start_house_number>15</start_house_number>
@@ -729,6 +734,7 @@ Note that the ID attributes are unique throughout the file.
         <zip>43320</zip>
     </non_house_address>
     <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
 </street_segment>
 
 
