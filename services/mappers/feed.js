@@ -8,7 +8,21 @@ var feedIdMapper = require('../../feedIdMapper');
 var _ = require("underscore");
 
 function addressToShortString (address) {
-  return address ? address.city +', ' + address.state + ' ' + address.zip : '';
+  var addressText = "";
+
+  if(address.city){
+    addressText += address.city +', ';
+  }
+
+  if(address.state){
+    addressText += address.state  +', ';
+  }
+
+  if(address.zip){
+    addressText += address.zip ;
+  }
+
+  return addressText;
 };
 
 function addressToJson (address) {
