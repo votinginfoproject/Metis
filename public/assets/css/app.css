@@ -2365,9 +2365,9 @@ form[role="search"] {
   font-weight: bold;
   padding: 0.1875em 0.625em 0.25em;
   display: inline-block;
-  margin: 0 0 1em;
+  margin: 0 0.5em 1em;
   background: #ce3d3d;
-  border-radius: 10px; }
+  border-radius: 15px; }
   @media (min-width: 600px) {
     .error-count {
       margin-left: 0;
@@ -2866,6 +2866,7 @@ form[role="search"] {
       width: auto;
       height: auto; } }
   .errors:hover {
+    background: #f33;
     color: white; }
   .errors .error-text {
     font-weight: normal; }
@@ -2882,6 +2883,9 @@ form[role="search"] {
 
 .errors.none {
   background-color: #00cc66; }
+  .errors.none:hover, .errors.none:focus {
+    background-color: #00cc66;
+    cursor: default; }
 
 .data-module-full {
   clear: both;

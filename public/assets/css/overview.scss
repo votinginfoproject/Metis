@@ -176,6 +176,7 @@
   }
 
   &:hover {
+    background: #f33;
     color: $white;
   }
 
@@ -203,4 +204,8 @@
 
 .errors.none {
   background-color: $green;
+  &:hover, &:focus {
+    background-color: $green;
+    cursor: default;
+  }
 }

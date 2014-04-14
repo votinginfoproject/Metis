@@ -783,9 +783,9 @@ form[role="search"] {
   font-weight: bold;
   padding: 0.1875em 0.625em 0.25em;
   display: inline-block;
-  margin: 0 0 $base;
+  margin: 0 $base-sm $base;
   background: $red;
-  border-radius: 10px;
+  border-radius: 15px;
 
   @include bp(c6) {
     margin-left: 0;
