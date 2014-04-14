@@ -11,7 +11,7 @@ var evaluatePhoneNumber = function(phoneNumber, dataSet, entity, constraintSet, 
   if(phoneNumber !== null && phoneNumber !== ""){
     isViolated = !matcher.test(phoneNumber.trim().toLowerCase());
   }
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + phoneNumber, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + phoneNumber, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
 };
 
 exports.evaluate = evaluatePhoneNumber;
