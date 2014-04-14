@@ -4,6 +4,7 @@
 var daoSchemas = require('./schemas');
 var when = require('when');
 var _ = require('underscore');
+var async = require('async');
 
 function allErrors(feedId, callback) {
   var allErrorModels = [daoSchemas.models.Ballot.Error,
@@ -32,103 +33,170 @@ function allErrors(feedId, callback) {
   });
 
   when.all(errorQueries).then(function (errors) {
-    callback(null, groupErrors(errors));
+    var index = 0;
+    async.forEach(errors, function(error, done) {
+      findTextualReference(allErrorModels[index++], feedId, error, null, function() {
+        done();
+      });
+    }, function(err) { callback(null, groupErrors(errors)) })
+
   }, callback);
 }
 
 function ballotErrors(feedId, contestId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId } }
-    , daoSchemas.models.Ballot.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
+  var model = daoSchemas.models.Ballot.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function ballotLineResultErrors(feedId, ballotLineResultId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: ballotLineResultId } }
-    , daoSchemas.models.BallotLineResult.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: ballotLineResultId };
+  var model = daoSchemas.models.BallotLineResult.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function candidateErrors(feedId, candidateId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: candidateId } }
-    , daoSchemas.models.Candidate.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: candidateId };
+  var model = daoSchemas.models.Candidate.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function contestErrors(feedId, contestId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId } }
-    , daoSchemas.models.Contest.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
+  var model = daoSchemas.models.Contest.Error
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function contestResultErrors(feedId, contestId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId } }
-    , daoSchemas.models.ContestResult.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
+  var model = daoSchemas.models.ContestResult.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function customBallotErrors(feedId, customBallotId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: customBallotId } }
-    , daoSchemas.models.CustomBallot.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: customBallotId };
+  var model = daoSchemas.models.CustomBallot.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function earlyVoteSiteErrors(feedId, earlyVoteSiteId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: earlyVoteSiteId } }
-    , daoSchemas.models.EarlyVoteSite.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: earlyVoteSiteId };
+  var model = daoSchemas.models.EarlyVoteSite.Error;
+  aggregateErrors({ $match:  matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function electionErrors(feedId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, daoSchemas.models.Election.Error)
-    .exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId) }
+  var model = daoSchemas.models.Election.Error;
+  aggregateErrors({ $match: matcher }, model)
+    .exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function electionAdminErrors(feedId, electionAdminId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionAdminId } }
-    , daoSchemas.models.ElectionAdmin.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionAdminId };
+  var model = daoSchemas.models.ElectionAdmin.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function electionOfficialErrors(feedId, electionOfficialId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionOfficialId } }
-    , daoSchemas.models.ElectionOfficial.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionOfficialId };
+  var model = daoSchemas.models.ElectionOfficial.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function electoralDistrictErrors(feedId, electoralDistrictId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electoralDistrictId } }
-    , daoSchemas.models.ElectoralDistrict.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electoralDistrictId };
+  var model = daoSchemas.models.ElectoralDistrict.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function localityErrors(feedId, localityId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: localityId } }
-    , daoSchemas.models.Locality.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: localityId };
+  var model = daoSchemas.models.Locality.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function pollingLocationErrors(feedId, pollingLocationId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: pollingLocationId } }
-    , daoSchemas.models.PollingLocation.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: pollingLocationId };
+  var model = daoSchemas.models.PollingLocation.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function precinctErrors(feedId, precinctId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctId } }
-    , daoSchemas.models.Precinct.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctId };
+  var model = daoSchemas.models.Precinct.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function precinctSplitErrors(feedId, precinctSplitId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctSplitId } }
-    , daoSchemas.models.PrecinctSplit.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctSplitId };
+  var model = daoSchemas.models.PrecinctSplit.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function referendumErrors(feedId, referendumId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: referendumId } }
-    , daoSchemas.models.Referendum.Error).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: referendumId };
+  var model = daoSchemas.models.Referendum.Error;
+  aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function sourceErrors(feedId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, daoSchemas.models.Source.Error)
-    .exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId) };
+  var model = daoSchemas.models.Source.Error;
+  aggregateErrors({ $match: matcher }, model)
+    .exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function stateErrors(feedId, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, daoSchemas.models.State.Error)
-    .exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId) };
+  var model = daoSchemas.models.State.Error;
+  aggregateErrors({ $match: matcher }, model)
+    .exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function ballotResponseErrors(feedId, responseIds, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: responseIds } } }, daoSchemas.models.BallotResponse.Error)
-    .exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: responseIds } };
+  var model = daoSchemas.models.BallotResponse.Error;
+  aggregateErrors({ $match: matcher }, model)
+    .exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 function precinctStreetSegmentErrors(feedId, precinctId, callback) {
@@ -138,9 +206,12 @@ function precinctStreetSegmentErrors(feedId, precinctId, callback) {
     .exec();
 
   promise.then(function (precinct) {
-    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinct._streetSegments } } },
-      daoSchemas.models.StreetSegment.Error)
-      .exec(callback);
+    var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinct._streetSegments } };
+    var model = daoSchemas.models.StreetSegment.Error;
+    aggregateErrors({ $match: matcher }, model)
+      .exec(function(err, aggregate) {
+        findTextualReference(model, feedId, aggregate, null, callback);
+      });
   });
 }
 
@@ -151,15 +222,22 @@ function precinctSplitStreetSegmentErrors(feedId, precinctSplitId, callback) {
     .exec();
 
   promise.then(function (precinctSplit) {
-    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinctSplit._streetSegments } } },
-      daoSchemas.models.StreetSegment.Error)
-      .exec(callback);
+    var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinctSplit._streetSegments } };
+    var model = daoSchemas.models.StreetSegment.Error;
+    aggregateErrors({ $match: matcher }, model)
+      .exec(function(err, aggregate) {
+        findTextualReference(model, feedId, aggregate, null, callback);
+      });
   });
 }
 
 
 function errorIndex(feedId, model, callback) {
-  aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, model).exec(callback);
+  var matcher = { _feed: daoSchemas.types.ObjectId(feedId) };
+  aggregateErrors({ $match: matcher }, model)
+    .exec(function(err, aggregate) {
+      findTextualReference(model, feedId, aggregate, null, callback);
+    });
 }
 
 // All Early Vote Site errors under a specific Locality
@@ -167,9 +245,12 @@ function errorIndexLocalityEarlyVoteSite(feedId, localityId, callback) {
   var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_earlyVoteSites: 1}).exec();
 
   localityPromise.then(function (locality) {
-
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._earlyVoteSites} } }, daoSchemas.models.EarlyVoteSite.Error)
-        .exec(callback);
+    var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._earlyVoteSites} };
+    var model = daoSchemas.models.EarlyVoteSite.Error;
+    aggregateErrors({ $match: matcher }, model)
+      .exec(function(err, aggregate) {
+        findTextualReference(model, feedId, aggregate, locality._earlyVoteSites, callback);
+      });
   });
 }
 
@@ -178,9 +259,12 @@ function errorIndexLocalityElectionAdministration(feedId, localityId, callback) 
   var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_electionAdministration: 1}).exec();
 
   localityPromise.then(function (locality) {
-
-    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: locality._electionAdministration } }, daoSchemas.models.ElectionAdmin.Error)
-      .exec(callback);
+    var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: locality._electionAdministration };
+    var model = daoSchemas.models.ElectionAdmin.Error;
+    aggregateErrors({ $match: matcher }, model)
+      .exec(function(err, aggregate) {
+        findTextualReference(model, feedId, aggregate, locality._electionAdministration, callback);
+      });
   });
 }
 
@@ -201,8 +285,12 @@ function errorIndexLocalityPollingLocations(feedId, localityId, callback) {
         });
       });
 
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: pollinglocations} } }, daoSchemas.models.PollingLocation.Error)
-          .exec(callback);
+      var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: pollinglocations} };
+      var model = daoSchemas.models.PollingLocation.Error;
+      aggregateErrors({ $match: matcher }, model)
+        .exec(function(err, aggregate) {
+          findTextualReference(model, feedId, aggregate, pollinglocations, callback);
+        });
     });
   });
 }
@@ -224,8 +312,12 @@ function errorIndexLocalityPrecinctSplits(feedId, localityId, callback) {
         });
       });
 
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: precinctsplits} } }, daoSchemas.models.PrecinctSplit.Error)
-        .exec(callback);
+      var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: precinctsplits} };
+      var model = daoSchemas.models.PrecinctSplit.Error;
+      aggregateErrors({ $match: matcher }, model)
+        .exec(function(err, aggregate) {
+          findTextualReference(model, feedId, aggregate, precinctsplits, callback);
+        });
     });
   });
 }
@@ -235,9 +327,12 @@ function errorIndexLocalityPrecincts(feedId, localityId, callback) {
   var localityPromise = daoSchemas.models.Locality.findOne({ _feed: feedId, elementId: localityId }, {_precincts: 1}).exec();
 
   localityPromise.then(function (locality) {
-
-    aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._precincts} } }, daoSchemas.models.Precinct.Error)
-      .exec(callback);
+    var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._precincts} };
+    var model = daoSchemas.models.Precinct.Error;
+    aggregateErrors({ $match: matcher }, model)
+      .exec(function(err, aggregate) {
+        findTextualReference(model, feedId, aggregate, locality._precincts, callback);
+      });
   });
 }
 
@@ -278,8 +373,12 @@ function errorIndexLocalityStreetSegments(feedId, localityId, callback) {
 
         });
 
-        aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: streetsegments} } }, daoSchemas.models.StreetSegment.Error)
-          .exec(callback);
+        var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: streetsegments} };
+        var model = daoSchemas.models.StreetSegment.Error;
+        aggregateErrors({ $match: matcher }, model)
+          .exec(function(err, aggregate) {
+            findTextualReference(model, feedId, aggregate, streetsegments, callback);
+          });
 
       });
 
@@ -297,8 +396,12 @@ function errorIndexContestBallot(feedId, contestId, callback) {
     var ballotPromise = daoSchemas.models.Ballot.findOne({ _id: contest._ballot }, {_id: 1}).exec();
 
     ballotPromise.then(function (ballot) {
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: ballot._id } }, daoSchemas.models.Ballot.Error)
-        .exec(callback);
+      var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: ballot._id };
+      var model = daoSchemas.models.Ballot.Error;
+      aggregateErrors({ $match: matcher }, model)
+        .exec(function(err, aggregate) {
+          findTextualReference(model, feedId, aggregate, ballot._id, callback);
+        });
     });
   });
 }
@@ -318,8 +421,12 @@ function errorIndexContestCandidates(feedId, contestId, callback) {
           candidates.push(candidate._candidate);
         });
 
-        aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: candidates } } }, daoSchemas.models.Candidate.Error)
-          .exec(callback);
+        var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: candidates } };
+        var model = daoSchemas.models.Candidate.Error;
+        aggregateErrors({ $match: matcher }, model)
+          .exec(function(err, aggregate) {
+             findTextualReference(model, feedId, aggregate, candidates, callback);
+          });
       });
     });
 }
@@ -333,8 +440,12 @@ function errorIndexContestElectoralDistrict(feedId, contestId, callback) {
     var electoraldistrictPromise = daoSchemas.models.ElectoralDistrict.findOne({ _id: contest._electoralDistrict }, {_id: 1}).exec();
 
     electoraldistrictPromise.then(function (electoraldistrict) {
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: electoraldistrict._id } }, daoSchemas.models.ElectoralDistrict.Error)
-        .exec(callback);
+      var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: electoraldistrict._id };
+      var model = daoSchemas.models.ElectoralDistrict.Error;
+      aggregateErrors({ $match: matcher }, model)
+        .exec(function(err, aggregate) {
+          findTextualReference(model, feedId, aggregate, electoraldistrict._id, callback);
+        });
     });
   });
 }
@@ -348,8 +459,12 @@ function errorIndexContestReferenda(feedId, contestId, callback) {
     var ballotPromise = daoSchemas.models.Ballot.findOne({ _id: contest._ballot }, {_referenda: 1}).exec();
 
     ballotPromise.then(function (ballot) {
-      aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: ballot._referenda } } }, daoSchemas.models.Referendum.Error)
-        .exec(callback);
+      var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: ballot._referenda } };
+      var model = daoSchemas.models.Referendum.Error;
+      aggregateErrors({ $match: matcher }, model)
+        .exec(function(err, aggregate) {
+          findTextualReference(model, feedId, aggregate, ballot._referenda, callback);
+        });
     });
   });
 }
@@ -367,10 +482,28 @@ function aggregateErrors(match, errorModel) {
           title: "$title",
           details: "$details"
         },
-        count: { $sum: 1 },
-        textualReferences: { $push: "$textualReference" }
+        count: { $sum: 1 }
       }
     });
+}
+
+function findTextualReference(model, feedId, aggregates, ids, callback) {
+  async.forEach(aggregates, function(agg, done) {
+    var search = null;
+
+    if(ids) {
+      search = { _feed: feedId, errorCode: agg._id.errorCode, _ref: { $in: ids }};
+    }
+    else {
+      search = { _feed: feedId, errorCode: agg._id.errorCode };
+    }
+
+    model.findOne(search, { textualReference: 1 })
+      .exec(function (err, references) {
+        agg.textualReferences = [references.textualReference];
+        done();
+      });
+  }, function(err) { callback(null, aggregates) })
 }
 
 function groupErrors(errors) {

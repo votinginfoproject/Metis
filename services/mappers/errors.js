@@ -11,6 +11,7 @@ function mapError(error) {
     textual_references: error.textualReferences,
     error_count: error.count
   };
+
 }
 
 exports.mapError = mapError;
