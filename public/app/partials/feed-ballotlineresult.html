@@ -1,6 +1,6 @@
 <i id="feed-ballotlineresult-content"></i>
 
-<p ng-if="feedBallotLineResult.error_count !== undefined"><a class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallotLineResult.error_count}}
+<p ng-if="feedBallotLineResult.error_count !== undefined"><a class="error-count error-count-{{feedBallotLineResult.error_count}}" href="{{$location.absUrl()}}/errors">{{feedBallotLineResult.error_count}}
   Errors In Ballot Line Result ID: {{feedBallotLineResult.id}}</a></p>
 
 <span ng-if="!feedBallotLineResult" class="is-loading"></span>

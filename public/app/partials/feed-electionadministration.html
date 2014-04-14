@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<p ng-if="feedElectionAdministration.error_count !== undefined"><a id="electionadmin-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
+<p ng-if="feedElectionAdministration.error_count !== undefined"><a id="electionadmin-errors" class="error-count error-count-{{feedElectionAdministration.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
 
 <span ng-if="!feedElectionAdministration" class="is-loading"></span>
 
