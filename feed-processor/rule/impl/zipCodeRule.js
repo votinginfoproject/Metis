@@ -11,7 +11,7 @@ var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, rul
     isViolated = !matcher.test(zipCode);
   }
 
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
 }
 exports.evaluate = evaluateValidZipCode;
 

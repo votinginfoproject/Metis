@@ -11,6 +11,6 @@ var evaluateValidEmail = function(emailAddress, dataSet, entity, constraintSet, 
     isViolated = !matcher.test(emailAddress.trim().toLowerCase());
   }
 
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + emailAddress, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
 }
 exports.evaluate = evaluateValidEmail;
