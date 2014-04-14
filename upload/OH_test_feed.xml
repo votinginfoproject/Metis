@@ -46,7 +46,7 @@ Note that the ID attributes are unique throughout the file.
 	<locality id="101">
 		<name>Adams</name>
 		<state_id>39</state_id>
-		<type>county</type>
+		<type>countys</type>
 		<early_vote_site_id>30203</early_vote_site_id>
 		<election_administration_id>3460</election_administration_id>
 	</locality>
@@ -58,7 +58,7 @@ Note that the ID attributes are unique throughout the file.
 	<locality id="103">
 		<name>Ashland</name>
 		<state_id>39</state_id>
-		<type>county</type>
+		<type>wcounty</type>
 	</locality>
 	<precinct id="10101">
 		<name>Fake Twp</name>
@@ -181,7 +181,7 @@ Note that the ID attributes are unique throughout the file.
     <election_official id="3458">
         <name>Roberta Smith</name>
         <title>Head of Elections</title>
-        <phone>(201) 555-1212</phone>
+        <phone>(201) 1555-1212</phone>
         <fax>(101) 555-1213</fax>
         <email>rsmith@ohio.gov</email>
     </election_official>
@@ -562,7 +562,7 @@ Note that the ID attributes are unique throughout the file.
         <end_house_number>12</end_house_number>
         <odd_even_both>both</odd_even_both>
         <non_house_address>
-          <street_direction>E</street_direction>
+          <street_direction>eE</street_direction>
           <street_name>Guineveres</street_name>
           <street_suffix>Dr</street_suffix>
           <address_direction>SE</address_direction>
@@ -578,11 +578,11 @@ Note that the ID attributes are unique throughout the file.
         <end_house_number>10</end_house_number>
         <odd_even_both>even</odd_even_both>
         <non_house_address>
-            <street_direction>E</street_direction>
+            <street_direction>Es</street_direction>
             <street_name>Guineveres</street_name>
             <street_suffix>Dr</street_suffix>
             <address_direction>SE</address_direction>
-            <apartment>616S</apartment>
+            <apartment>0</apartment>
             <state>VA</state>
             <city>Annandale</city>
             <zip>22003</zip>
@@ -597,7 +597,7 @@ Note that the ID attributes are unique throughout the file.
             <street_direction>E</street_direction>
             <street_name>Guinevere</street_name>
             <street_suffix>Dr</street_suffix>
-            <address_direction>SE</address_direction>
+            <address_direction>wSE</address_direction>
             <apartment>616S</apartment>
             <state>VA</state>
             <city>Annandale</city>
@@ -685,7 +685,7 @@ Note that the ID attributes are unique throughout the file.
 
 
 <street_segment id="222">
-    <start_house_number>1</start_house_number>
+    <start_house_number>0</start_house_number>
     <end_house_number>20</end_house_number>
     <odd_even_both>both</odd_even_both>
     <non_house_address>
@@ -723,13 +723,92 @@ Note that the ID attributes are unique throughout the file.
     <precinct_split_id>44</precinct_split_id>
     <precinct_id>10103</precinct_id>
 </street_segment>
-<street_segment id="225">
+<street_segment id="101">
     <start_house_number>15</start_house_number>
     <end_house_number>21</end_house_number>
     <odd_even_both>odd</odd_even_both>
     <non_house_address>
         <street_name>Main</street_name>
         <city>Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+
+<street_segment id="44">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>odd</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>2Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="45">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>even</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>2Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="46">
+    <start_house_number>1</start_house_number>
+    <end_house_number>10</end_house_number>
+    <odd_even_both>even</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>1Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="47">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>even</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>1Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="48">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>even</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>3Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="49">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>both</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>3Rurala</city>
         <state>OH</state>
         <zip>43320</zip>
     </non_house_address>

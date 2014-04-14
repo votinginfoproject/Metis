@@ -244,12 +244,22 @@ function mapAndReturnErrors(res, req, err, errors) {
         error_code = parseInt(error_code);
       }
 
-      var filename = "FullErrorReport";
 
       var delim = ",";
       var response = "";
-      var feed = req.originalUrl.split("/")[3];
+      var feed = req.originalUrl.split("/")[3] + "";
+
+      // making the feed name more friendly for a file name
+      // ex: "2014-04-10-Ohio-Federal-xhskeishw" => "20140410OhioFederal"
+      var fileNameFeed = feed.replace(/ /g, '');
+      fileNameFeed = fileNameFeed.split("-");
+      fileNameFeed.pop();
+      fileNameFeed = fileNameFeed.join("-");
+      fileNameFeed = fileNameFeed.replace(/-/g, '');
+
       var feederrors = errors.map(errorMapper.mapError);
+
+      var filename = fileNameFeed + "-" + "FullErrorReport";
 
       // csv header
       response +=
@@ -265,12 +275,11 @@ function mapAndReturnErrors(res, req, err, errors) {
       async.forEach(feederrors, function(feederror, errorComplete){
         // if our error_code is undefined then bring back all the errors, otherwise only the
         // errors for that specific error_code
-        if(error_code!==undefined){
-          filename = feederror.title.replace(/ /g, '') + "ErrorReport";
+        if(error_code!==undefined && error_code === feederror.error_code){
+          filename = fileNameFeed + "-" +  feederror.title.replace(/ /g, '') + "ErrorReport";
         }
 
         if (error_code && feederror.error_code !== error_code) {
-          console.log('kicked');
           errorComplete();
           return;
         }
@@ -295,6 +304,7 @@ function mapAndReturnErrors(res, req, err, errors) {
         });
 
       }, function(err) {
+
         // send back errors in text/csv format for an error report
         res.header("Content-Disposition", "attachment; filename=" + filename + ".csv");
         res.setHeader('Content-type', 'text/csv');
