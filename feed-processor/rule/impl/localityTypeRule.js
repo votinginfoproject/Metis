@@ -11,6 +11,6 @@ var evaluateLocalityType = function(localityType, dataSet, entity, constraintSet
   if(localityType !== null && localityType !== ""){
     isViolated = (localityTypesList.indexOf(localityType.trim().toLowerCase()) < 0);
   }
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + localityType, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + localityType, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
 }
 exports.evaluate = evaluateLocalityType;
