@@ -1,9 +1,9 @@
 var _path = require('path');
 var dao = require('../dao/db');
 var config = require('../config');
-var mapper = require('./mappers/feed');
 var schemas = require('../dao/schemas');
 var feedIdMapper = require('../feedIdMapper');
+var util = require('util');
 
 // The child process module
 var childProcess = require("child_process");
@@ -29,10 +29,10 @@ function handleFileProcessing(req, res){
   } else {
 
     // have a filename to process
-    res.send("Received POST, filename: " + req.body.filename);
+    res.send(util.format("Received POST, filename: %s, s3 bucket: %s", req.body.filename, req.body.s3bucket));
 
     // put the file at the end of the file queue
-    fileQueue.push(req.body.filename);
+    fileQueue.push({ filename: req.body.filename, s3Bucket: req.body.s3bucket });
 
     // if a file is processing, then do nothing since when that process ends or fails,
     // the file queue is checked for the next file to process, otherwise start to process the next file
@@ -52,16 +52,23 @@ function handleFileProcessing(req, res){
  * @param filename - the file to process
  *
  */
-function startFileProcessing(filename){
+function startFileProcessing(fileInfo){
 
-  var fullFilePath = _path.join(_path.resolve(config.upload.uploadPath), filename);
+  var processArgs = [];
 
-  console.log('Starting to process: ' + fullFilePath);
+  if (config.importer.useS3) {
+    processArgs.push(fileInfo.filename);
+    processArgs.push(fileInfo.s3Bucket);
+    console.log('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
+  } else {
+  processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
+  console.log('Starting to process: ' + processArgs[0]);
+  }
 
   // Forking a whole new instance of v8
   // .fork() is similar to .spawn() however it also gives the child the ability to send messages to the parent
   // 30ms startup time and minimum 10MB for each new child process
-  fileProcessing = childProcess.fork("feed-processor/processor.js", [fullFilePath]);
+  fileProcessing = childProcess.fork("feed-processor/processor.js", processArgs);
 
   // when child sends messages
   fileProcessing.on('message', function(msg){

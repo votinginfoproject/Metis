@@ -137,6 +137,7 @@ function referendumBallotResponsesErrorsGET(req, res) {
   });
 }
 
+// This takes care of all the error indexes for the overview modules on the Feed Overview page
 function errorIndexGET(req, res) {
 
   var map = {
@@ -175,30 +176,57 @@ function errorIndexGET(req, res) {
 
 }
 
-function errorIndexLocalityGET(req, res) {
-
-  var map = {
-    // overview errors on a Locality page
-    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
-    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
-    "pollinglocations": daoSchemas.models.PollingLocation.Error,
-    "precincts": daoSchemas.models.Precinct.Error,
-    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
-    "streetsegments": daoSchemas.models.StreetSegment.Error
-  };
-
-  // check the type
-  if(map[req.params.type]!=undefined){
-
-    daoErrors.errorIndexLocality(feedIdMapper.getId(req.params.feedid), map[req.params.type], req.params.localityid,
-      mapAndReturnErrors.bind(undefined, res, req));
-
-  } else {
-    console.error("Invalid error index");
-    res.send(500);
-  }
-
+function errorIndexLocalityEarlyVoteSiteGET(req, res) {
+  daoErrors.errorIndexLocalityEarlyVoteSite(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
 }
+
+function errorIndexLocalityElectionAdministrationGET(req, res) {
+  daoErrors.errorIndexLocalityElectionAdministration(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexLocalityPollingLocationsGET(req, res) {
+  daoErrors.errorIndexLocalityPollingLocations(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexLocalityPrecinctSplitsGET(req, res) {
+  daoErrors.errorIndexLocalityPrecinctSplits(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexLocalityPrecinctsGET(req, res) {
+  daoErrors.errorIndexLocalityPrecincts(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexLocalityStreetSegmentsGET(req, res) {
+  daoErrors.errorIndexLocalityStreetSegments(feedIdMapper.getId(req.params.feedid), req.params.localityid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestBallotGET(req, res) {
+  daoErrors.errorIndexContestBallot(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestCandidatesGET(req, res) {
+    daoErrors.errorIndexContestCandidates(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+      mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestElectoralDistrictGET(req, res) {
+  daoErrors.errorIndexContestElectoralDistrict(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+function errorIndexContestReferendaGET(req, res) {
+  daoErrors.errorIndexContestReferenda(feedIdMapper.getId(req.params.feedid), req.params.contestid,
+    mapAndReturnErrors.bind(undefined, res, req));
+}
+
+
 
 function mapAndReturnErrors(res, req, err, errors) {
 
@@ -309,5 +337,19 @@ exports.ballotCustomBallotErrorsGET = ballotCustomBallotErrorsGET;
 exports.ballotBallotResponsesErrorsGET = ballotBallotResponsesErrorsGET;
 exports.referendumBallotResponsesErrorsGET = referendumBallotResponsesErrorsGET;
 
+// Feed Overview page overview modules
 exports.errorIndexGET = errorIndexGET;
-exports.errorIndexLocalityGET = errorIndexLocalityGET;
+
+// A given Locality page overview modules
+exports.errorIndexLocalityEarlyVoteSiteGET = errorIndexLocalityEarlyVoteSiteGET;
+exports.errorIndexLocalityElectionAdministrationGET = errorIndexLocalityElectionAdministrationGET;
+exports.errorIndexLocalityPollingLocationsGET = errorIndexLocalityPollingLocationsGET;
+exports.errorIndexLocalityPrecinctSplitsGET = errorIndexLocalityPrecinctSplitsGET;
+exports.errorIndexLocalityPrecinctsGET = errorIndexLocalityPrecinctsGET;
+exports.errorIndexLocalityStreetSegmentsGET = errorIndexLocalityStreetSegmentsGET;
+
+// A given Contest page overview modules
+exports.errorIndexContestBallotGET = errorIndexContestBallotGET;
+exports.errorIndexContestCandidatesGET = errorIndexContestCandidatesGET;
+exports.errorIndexContestElectoralDistrictGET = errorIndexContestElectoralDistrictGET;
+exports.errorIndexContestReferendaGET = errorIndexContestReferendaGET;

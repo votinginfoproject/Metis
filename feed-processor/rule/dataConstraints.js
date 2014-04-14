@@ -37,7 +37,7 @@ var theseConstraints = {
       entity: [models.candidate], fields: ['candidateUrl', 'photoUrl']
     },
     {
-      entity: [models.election], fields: ['resultsUrl']
+      entity: [models.election], fields: ['resultsUrl', 'registrationInfo', 'absenteeBallotInfo']
     },
     {
       entity: [models.electionAdministration], fields: [ 'electionsUrl','registrationUrl', 'amIRegisteredUrl',

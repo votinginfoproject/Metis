@@ -225,8 +225,23 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
 
       // error indexes
+
+      // for all overview modules under the Feed Overview page
       .when('/feeds/:vipfeed/overview/:type/errors', error)
-      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/:type/errors', error);
+
+      // overview modules under a specific Locality
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/earlyvotesites/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/pollinglocations/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precinctsplits/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precincts/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/streetsegments/errors', error)
+
+      // overview modules under a specific Contest
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/ballot/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/candidates/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/electoraldistrict/errors', error)
+      .when('/feeds/:vipfeed/election/contests/:contest/overview/referenda/errors', error);
 
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
@@ -598,7 +613,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   $rootScope.exportFeedPost = function(feedData) {
 
-    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.state_name.toLowerCase()})
+    $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.fips_code })
       .success(function(data, status) {
         feedData.is_exporting = true;
         feedData.export_status = data;
@@ -642,10 +657,15 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * Generates the appropriate Error Page title
    *
    */
-  $rootScope.generateErrorPageTitle = function(){
+  $rootScope.generateErrorPageTitle = function(total_errors){
 
     var title = "";
     var breadcrumbs = $rootScope.pageHeader.breadcrumbs
+
+    var errorText = "Error";
+    if(total_errors!==1){
+      errorText = "Errors";
+    }
 
     var feedId = breadcrumbs[1].name;
 
@@ -658,9 +678,9 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       var item = breadcrumbs[breadcrumbs.length-2].name;
 
       if(item === feedId){
-        title = "Total Errors in Feed";
+        title = "Total " + errorText + " in Feed";
       } else {
-        title = "Errors in " + item;
+        title = errorText + " in " + item;
       }
 
     } else {
@@ -677,7 +697,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         }
       }
 
-      title = "Errors in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
+      title = errorText + " in " + item + " ID: " + breadcrumbs[breadcrumbs.length-2].name;
     }
 
     return title;

@@ -14,9 +14,9 @@ function kickoffLocality(feedId, createOverviewModel, wait) {
     localityOverview.forEach(function(overview) {
       createOverviewModel('Early Vote Sites', overview.earlyVoteSites, overview.earlyVoteSites.errorCount, overview.section, feedId);
       createOverviewModel('Election Administration', overview.electionAdmin, overview.electionAdmin.errorCount, overview.section, feedId);
-      createOverviewModel('Polling Locations', overview.pollingLocations, overview.pollingLocations.errorCount, overview.section, feedId);
       createOverviewModel('Precincts', overview.precincts, overview.precincts.errorCount, overview.section, feedId);
       createOverviewModel('Precinct Splits', overview.precinctSplits, overview.precinctSplits.errorCount, overview.section, feedId);
+      createOverviewModel('Polling Locations', overview.pollingLocations, overview.pollingLocations.errorCount, overview.section, feedId);
       createOverviewModel('Street Segments', overview.streetSegments, overview.streetSegments.errorCount, overview.section, feedId);
     });
     wait();
@@ -55,8 +55,8 @@ function localityCalc(feedId, saveCalc) {
          wait();
        });
 
-
        precinctsCalc(feedId, locality._precincts, function(precinct, split, pollingLoc, streetSeg) {
+
          localityOverview[overviewPos].precincts = precinct;
          localityOverview[overviewPos].precinctSplits = split;
          localityOverview[overviewPos].pollingLocations = pollingLoc;
@@ -79,8 +79,12 @@ function precinctsCalc(feedId, precincts, returnTotal) {
   var pollingLocOverview = util.createOverviewObject();
   var streetSegOverview = util.createOverviewObject();
 
+  // will be keeping track of all the Polling Locations we process
+  var countedPollingLocations = [];
+
   async.eachSeries(precincts, function(data, done) {
     var precinct = data._doc;
+
     ++precinctOverview.amount;
     precinctOverview.fieldCount += util.countProperties(precinct);
     precinctOverview.schemaFieldCount += schemas.models.Precinct.fieldCount;
@@ -96,8 +100,23 @@ function precinctsCalc(feedId, precincts, returnTotal) {
     }));
 
     paramList.push(util.createParamList(feedId, precinct._pollingLocations, schemas.models.PollingLocation, function(res, cb) {
+
       pollingLocOverview = util.addOverviewObjects(pollingLocOverview, res);
-      schemas.models.PollingLocation.Error.count({ _ref: {$in: precinct._pollingLocations} }, function(err, count) {
+
+      // for the error counts, since the same Polling Location can be in different Precincts, don't count the
+      // the same Polling Location in regards to the error count
+      var pollingLocationsToQuery = [];
+      for(var i=0; i < precinct._pollingLocations.length; i++){
+        if(countedPollingLocations[precinct._pollingLocations[i]]===undefined){
+          // flagging the fact that we are processing this polling location
+          countedPollingLocations[precinct._pollingLocations[i]] = true;
+
+          // this is what we will query against
+          pollingLocationsToQuery.push(precinct._pollingLocations[i]);
+        }
+      }
+
+      schemas.models.PollingLocation.Error.count({ _ref: {$in: pollingLocationsToQuery} }, function(err, count) {
         pollingLocOverview.errorCount += count;
         cb();
       });
@@ -105,10 +124,39 @@ function precinctsCalc(feedId, precincts, returnTotal) {
 
     paramList.push(util.createParamList(feedId, precinct._streetSegments, schemas.models.StreetSegment, function(res, cb) {
       streetSegOverview = util.addOverviewObjects(streetSegOverview, res);
+
+      // we only have to count the street segments under the precinct, as the street segments under
+      // a precinct are the aggregate of street segments under its precinct splits (if any)
       schemas.models.StreetSegment.Error.count({ _ref: {$in: precinct._streetSegments} }, function(err, count) {
         streetSegOverview.errorCount += count;
         cb();
       });
+
+      // capture the street segments that are under the precinct, and all of its precinct splits
+      /*
+      var streetsegments = [];
+      streetsegments = streetsegments.concat(precinct._streetSegments);
+
+      var precinctsplitsPromise = schemas.models.PrecinctSplit.find({ _feed: feedId, _id: {$in: precinct._precinctSplits} }, {_streetSegments: 1}).exec();
+      precinctsplitsPromise.then(function (precinctsplits) {
+
+        precinctsplits.forEach( function(precinctsplit){
+          // capture the street segments on the Precinct Splits level
+          precinctsplit._streetSegments.forEach( function(streetsegment){
+            streetsegments.push(streetsegment);
+          });
+
+        });
+
+        // now count errors from all street segments under precincts and precinct splits
+       schemas.models.StreetSegment.Error.count({ _ref: {$in: streetsegments} }, function(err, count) {
+       streetSegOverview.errorCount += count;
+       cb();
+       });
+
+      });
+      */
+
     }));
 
     async.eachSeries(paramList, function(params, complete) {

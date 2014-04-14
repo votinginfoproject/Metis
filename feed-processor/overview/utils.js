@@ -12,17 +12,17 @@
 function countProperties(obj){
 
   if(!obj)
-    return;
+    return 0;
 
   var count = 0;
 
   // use the correct property to represent the object
   var objToUse = obj;
-//  if(obj._doc !== undefined){
-//    objToUse = obj._doc;
-//  } else {
-//    objToUse = obj;
-//  }
+  if(obj._doc !== undefined){
+    objToUse = obj._doc;
+  } else {
+    objToUse = obj;
+  }
 
   var properties = Object.keys(objToUse);
 

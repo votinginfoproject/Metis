@@ -8,19 +8,35 @@ var feedIdMapper = require('../../feedIdMapper');
 var _ = require("underscore");
 
 function addressToShortString (address) {
-  return address ? address.city +', ' + address.state + ' ' + address.zip : '';
+  var addressText = "";
+
+  if(address.city){
+    addressText += address.city +', ';
+  }
+
+  if(address.state){
+    addressText += address.state  +', ';
+  }
+
+  if(address.zip){
+    addressText += address.zip ;
+  }
+
+  return addressText;
 };
 
 function addressToJson (address) {
-  return address ? {
-    location_name: address.location_name,
-    line1: address.line1,
-    line2: address.line2,
-    line3: address.line3,
-    city: address.city,
-    state: address.state,
-    zip: address.zip
-  } : undefined;
+  var add = {
+    location_name: (address.location_name ? address.location_name :""),
+    line1: (address.line1 ? address.line1 :""),
+    line2: (address.line2 ? address.line2 :""),
+    line3: (address.line3 ? address.line3 :""),
+    city: (address.city ? address.city :""),
+    state: (address.state ? address.state :""),
+    zip: (address.zip ? address.zip :"")
+  }
+
+  return add;
 };
 
 var mapFeed = function(path, feed) {
@@ -65,7 +81,7 @@ var mapOverview = function(path, feed) {
     id: feed.id,
     title: title,
     feed_name: feed.name,
-    state_name: feed._state.name,
+    fips_code: feed.fipsCode,
     error_count: feed.errorCount,
     feed_contact: feedContact,
     date: moment(feed._election.date).utc().format('YYYY-MM-DD'),
@@ -73,7 +89,7 @@ var mapOverview = function(path, feed) {
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
     state: _path.join(path, '/election/state'),
-    county_map: _path.join('/services/geo/', feed._state.elementId.toString(), 'counties'),
+    county_map: _path.join('/services/geo/', feed.fipsCode.toString(), 'counties'),
     localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
     election_contests: _path.join(path, '/election/contests'),
@@ -352,11 +368,6 @@ var mapOverviewTables = function(data, selfpath) {
   data.forEach(function(element) {
 
     var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
-
-    // TODO temp
-    if(selfpath == null){
-      self = null;
-    }
 
     overview.push({
       element_type: element.elementType,

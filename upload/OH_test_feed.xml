@@ -122,6 +122,19 @@ Note that the ID attributes are unique throughout the file.
 		<ward>1</ward>
 		<polling_location_id>20301</polling_location_id>
 	</precinct>
+    
+	<precinct_split id="44">
+		<name>Fake Twp-A</name>
+		<precinct_id>10103</precinct_id>
+		<electoral_district_id>70001</electoral_district_id>
+		<electoral_district_id>70002</electoral_district_id>
+		<ballot_style_image_url>http://www.example.com/precinct_split_101_ballot.pdf</ballot_style_image_url>
+		<polling_location_id>20141</polling_location_id>
+		<polling_location_id>20142</polling_location_id>
+		<polling_location_id>20121</polling_location_id>
+	</precinct_split>
+    
+    
 	<precinct_split id="30101">
 		<name>Fake Twp-A</name>
 		<precinct_id>10101</precinct_id>
@@ -131,6 +144,10 @@ Note that the ID attributes are unique throughout the file.
 		<polling_location_id>20141</polling_location_id>
 		<polling_location_id>20142</polling_location_id>
 		<polling_location_id>20121</polling_location_id>
+	</precinct_split>
+	<precinct_split id="111">
+		<name>Fake 111</name>
+		<precinct_id>10302</precinct_id>
 	</precinct_split>
 	<precinct_split id="30102">
 		<name>Fake Twp-B</name>
@@ -143,7 +160,7 @@ Note that the ID attributes are unique throughout the file.
         <ovc_id>3458</ovc_id>
         <name>Name1</name>
         <physical_address><location_name>Government Center</location_name><line1>12 Chad Ct.</line1><city>Columbus</city><state>OH</state><zip>33333</zip></physical_address>
-        <mailing_address><line1>P.O. Box 1776</line1><city>Columbus</city><state>OH</state><zip>33333</zip></mailing_address>
+        <mailing_address><line1>P.O. Box 1776</line1><city>Columbus</city><state>OH</state><zip>3abcdd-3333</zip></mailing_address>
         <elections_url>http://www.sos.state.oh.us/sos/ElectionsVoter/ohioElections.aspx</elections_url>
         <registration_url>http://www.elections.oh.us/register.html</registration_url>
         <am_i_registered_url>http://www.elections.oh.us/check_reg.html</am_i_registered_url>
@@ -173,7 +190,7 @@ Note that the ID attributes are unique throughout the file.
         <ovc_id>3462</ovc_id>
         <name>Name2</name>
         <physical_address><location_name>2Government Center</location_name><line1>12 Chad Ct.</line1><city>Columbus</city><state>OH</state><zip>33333</zip></physical_address>
-        <mailing_address><line1>2P.O. Box 1776</line1><city>Columbus</city><state>OH</state><zip>33333</zip></mailing_address>
+        <mailing_address><line1>2P.O. Box 1776</line1><city>Columbus</city><state>OH</state><zip>33333xxx</zip></mailing_address>
         <elections_url>http://www.2sos.state.oh.us/sos/ElectionsVoter/ohioElections.aspx</elections_url>
         <registration_url>http://www.2elections.oh.us/register.html</registration_url>
         <am_i_registered_url>http://www.2elections.oh.us/check_reg.html</am_i_registered_url>
@@ -214,7 +231,7 @@ Note that the ID attributes are unique throughout the file.
     </election_official>
 
 	<polling_location id="20121">
-		<address><location_name>Springfield Elementary</location_name><line1>123 Main St.</line1><city>Fake Twp</city><state>OH</state><zip>33333</zip></address>
+		<address><location_name>Springfield Elementary</location_name><line1>123 Main St.</line1><city>Fake Twp</city><state>OH</state><zip>33333_error</zip></address>
 		<directions>Enter through gym door.</directions>
         	<polling_hours>7:30am-8:30pm</polling_hours>
 	</polling_location>
@@ -224,7 +241,7 @@ Note that the ID attributes are unique throughout the file.
         	<photo_url>http://www.seo.gov/photo20122.jpg</photo_url>
 	</polling_location>
 	<polling_location id="20201">
-		<address><location_name>Bath Firehouse Church</location_name><line1>123 State St.</line1><city>Bath</city><state>OH</state><zip>33333</zip></address>
+		<address><location_name>Bath Firehouse Church</location_name><line1>123 State St.</line1><city>Bath</city><state>OH</state><zip>33333_second</zip></address>
 		<directions>Enter through big red door.</directions>
 	</polling_location>
 	<polling_location id="20301">
@@ -249,7 +266,7 @@ Note that the ID attributes are unique throughout the file.
 	    <line2>Suite 200</line2>
           <city>Adams</city>
           <state>OH</state>
-          <zip>42224</zip>
+          <zip>42224-1</zip>
         </address>
         <directions>Follow signs to early vote</directions>
         <voter_services>Early voting is available.</voter_services>
@@ -263,7 +280,7 @@ Note that the ID attributes are unique throughout the file.
           <line1>321 Main St.</line1>
           <city>Springfield</city>
           <state>OH</state>
-          <zip>44444</zip>
+          <zip>44444-1</zip>
         </address>
         <directions>Next to Post Office.</directions>
         <voter_services>Ballot drop only</voter_services>
@@ -377,6 +394,7 @@ Note that the ID attributes are unique throughout the file.
 	<ballot id="80002">
 		<candidate_id>90004</candidate_id>
 		<candidate_id>90005</candidate_id>
+        <image_url>xxxx</image_url>
 	</ballot>
 	<ballot id="80003">
 		<candidate_id>90006</candidate_id>
@@ -386,7 +404,7 @@ Note that the ID attributes are unique throughout the file.
 		<candidate_id>90001</candidate_id>
 		<candidate_id>90002</candidate_id>
     <write_in>yes</write_in>
-    <image_url>http://www.FakeUrl.com</image_url>
+    <image_url>FakeUrlcom</image_url>
     <referendum_id>90011</referendum_id>
     <referendum_id>90012</referendum_id>
     <custom_ballot_id>90013</custom_ballot_id>
@@ -409,7 +427,7 @@ Note that the ID attributes are unique throughout the file.
 		<phone>223-456-7890</phone>
 		<photo_url>http://www.dberlin.org/dannyb.jpg</photo_url>
 		<filed_mailing_address><line1>123 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
-		<email>dberlin@example.com</email>
+		<email>dberlin@example----com</email>
 		<sort_order>1</sort_order>
 	</candidate>
 	<candidate id="90002">
@@ -649,6 +667,7 @@ Note that the ID attributes are unique throughout the file.
             <zip>43320</zip>
         </non_house_address>
         <precinct_split_id>30101</precinct_split_id>
+        <precinct_id>10101</precinct_id>
     </street_segment>
     <street_segment id="1210009">
         <start_house_number>1</start_house_number>
@@ -661,6 +680,62 @@ Note that the ID attributes are unique throughout the file.
             <zip>43320</zip>
         </non_house_address>
         <precinct_split_id>30101</precinct_split_id>
+        <precinct_id>10101</precinct_id>
     </street_segment>
-    
+
+
+<street_segment id="222">
+    <start_house_number>1</start_house_number>
+    <end_house_number>20</end_house_number>
+    <odd_even_both>both</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>111</precinct_split_id>
+    <precinct_id>10302</precinct_id>
+</street_segment>
+<street_segment id="223">
+    <start_house_number>1</start_house_number>
+    <end_house_number>20</end_house_number>
+    <odd_even_both>both</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>111</precinct_split_id>
+    <precinct_id>10302</precinct_id>
+</street_segment>
+<street_segment id="224">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>odd</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+<street_segment id="225">
+    <start_house_number>15</start_house_number>
+    <end_house_number>21</end_house_number>
+    <odd_even_both>odd</odd_even_both>
+    <non_house_address>
+        <street_name>Main</street_name>
+        <city>Rural</city>
+        <state>OH</state>
+        <zip>43320</zip>
+    </non_house_address>
+    <precinct_split_id>44</precinct_split_id>
+    <precinct_id>10103</precinct_id>
+</street_segment>
+
+
 </vip_object>

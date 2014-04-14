@@ -79,7 +79,7 @@ function createXml(feedId, feedName, feedFolder, instance, callback) {
     return;
   }
 
-  var folderName = states.findAbrev(feedFolder);
+  var folderName = feedFolder;
   instance.tempLoc = './temp/' + feedName + '.xml';
   instance.zipLoc = './feeds/' + folderName + '/' + feedName + '.zip';
 

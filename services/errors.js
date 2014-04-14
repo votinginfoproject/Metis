@@ -38,9 +38,22 @@ function registerErrorServices (app) {
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctStreetSegmentsErrorsGET);
   app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/precincts/:precinctid(\\d+)/precinctsplits/:splitid(\\d+)/streetsegments/errors', utils.ensureAuthentication, callbacks.precinctSplitStreetSegmentsErrorsGET);
 
-  // error indexes
+  // error indexes for overview modules under the Feed Overview page
   app.get('/services/feeds/:feedid/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexGET);
-  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/:type/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityGET);
+
+  // error indexes for overview modules under a specific Locality
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/earlyvotesites/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityEarlyVoteSiteGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/electionadministration/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityElectionAdministrationGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/pollinglocations/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityPollingLocationsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/precinctsplits/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityPrecinctSplitsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/precincts/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityPrecinctsGET);
+  app.get('/services/feeds/:feedid/election/state/localities/:localityid(\\d+)/overview/streetsegments/errors', utils.ensureAuthentication, callbacks.errorIndexLocalityStreetSegmentsGET);
+
+  // error indexes for overview modules under a specific Contest
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/ballot/errors', utils.ensureAuthentication, callbacks.errorIndexContestBallotGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/candidates/errors', utils.ensureAuthentication, callbacks.errorIndexContestCandidatesGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/electoraldistrict/errors', utils.ensureAuthentication, callbacks.errorIndexContestElectoralDistrictGET);
+  app.get('/services/feeds/:feedid/election/contests/:contestid(\\d+)/overview/referenda/errors', utils.ensureAuthentication, callbacks.errorIndexContestReferendaGET);
 
 }
 
