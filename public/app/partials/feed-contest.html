@@ -1,6 +1,6 @@
 <i id="feed-contest-content"></i>
 
-<p ng-if="feedContest.error_count !== undefined"><a id="contest-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedContest.error_count}}
+<p ng-if="feedContest.error_count !== undefined"><a id="contest-errors" class="error-count error-count-{{feedContest.error_count}}" href="{{$location.absUrl()}}/errors">{{feedContest.error_count}}
   Errors in Contest ID: {{feedContest.id}}</a></p>
 
 <span ng-if="!feedContest" class="is-loading"></span>
