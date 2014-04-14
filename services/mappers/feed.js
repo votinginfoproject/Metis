@@ -8,19 +8,35 @@ var feedIdMapper = require('../../feedIdMapper');
 var _ = require("underscore");
 
 function addressToShortString (address) {
-  return address ? address.city +', ' + address.state + ' ' + address.zip : '';
+  var addressText = "";
+
+  if(address.city){
+    addressText += address.city +', ';
+  }
+
+  if(address.state){
+    addressText += address.state  +', ';
+  }
+
+  if(address.zip){
+    addressText += address.zip ;
+  }
+
+  return addressText;
 };
 
 function addressToJson (address) {
-  return address ? {
-    location_name: address.location_name,
-    line1: address.line1,
-    line2: address.line2,
-    line3: address.line3,
-    city: address.city,
-    state: address.state,
-    zip: address.zip
-  } : undefined;
+  var add = {
+    location_name: (address.location_name ? address.location_name :""),
+    line1: (address.line1 ? address.line1 :""),
+    line2: (address.line2 ? address.line2 :""),
+    line3: (address.line3 ? address.line3 :""),
+    city: (address.city ? address.city :""),
+    state: (address.state ? address.state :""),
+    zip: (address.zip ? address.zip :"")
+  }
+
+  return add;
 };
 
 var mapFeed = function(path, feed) {

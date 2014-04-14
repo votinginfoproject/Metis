@@ -1,6 +1,6 @@
 <i id="feed-referendum-content"></i>
 
-<p ng-if="feedReferendum.error_count !== undefined"><a id="referendum-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
+<p ng-if="feedReferendum.error_count !== undefined"><a id="referendum-errors" class="error-count error-count-{{feedReferendum.error_count}}" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
   Errors in Referendum ID: {{feedReferendum.id}}</a></p>
 
 <span ng-if="!feedReferendum" class="is-loading"></span>

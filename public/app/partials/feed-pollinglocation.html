@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<p ng-if="feedPollingLocation.error_count !== undefined"><a id="pollinglocation-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPollingLocation.error_count}} Errors in Polling Location ID: {{feedPollingLocation.id}}</a></p>
+<p ng-if="feedPollingLocation.error_count !== undefined"><a id="pollinglocation-errors" class="error-count error-count-{{feedPollingLocation.error_count}}" href="{{$location.absUrl()}}/errors">{{feedPollingLocation.error_count}} Errors in Polling Location ID: {{feedPollingLocation.id}}</a></p>
 
 <div class="data-module-full">
   <dl class="attributes">
