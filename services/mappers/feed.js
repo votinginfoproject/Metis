@@ -26,15 +26,17 @@ function addressToShortString (address) {
 };
 
 function addressToJson (address) {
-  return address ? {
-    location_name: address.location_name,
-    line1: address.line1,
-    line2: address.line2,
-    line3: address.line3,
-    city: address.city,
-    state: address.state,
-    zip: address.zip
-  } : undefined;
+  var add = {
+    location_name: (address.location_name ? address.location_name :""),
+    line1: (address.line1 ? address.line1 :""),
+    line2: (address.line2 ? address.line2 :""),
+    line3: (address.line3 ? address.line3 :""),
+    city: (address.city ? address.city :""),
+    state: (address.state ? address.state :""),
+    zip: (address.zip ? address.zip :"")
+  }
+
+  return add;
 };
 
 var mapFeed = function(path, feed) {
