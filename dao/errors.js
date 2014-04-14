@@ -47,7 +47,7 @@ function ballotErrors(feedId, contestId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
   var model = daoSchemas.models.Ballot.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, contestId, callback);
     });
 }
 
@@ -55,7 +55,7 @@ function ballotLineResultErrors(feedId, ballotLineResultId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: ballotLineResultId };
   var model = daoSchemas.models.BallotLineResult.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, ballotLineResultId, callback);
     });
 }
 
@@ -63,7 +63,7 @@ function candidateErrors(feedId, candidateId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: candidateId };
   var model = daoSchemas.models.Candidate.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, candidateId, callback);
     });
 }
 
@@ -71,7 +71,7 @@ function contestErrors(feedId, contestId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
   var model = daoSchemas.models.Contest.Error
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, contestId, callback);
     });
 }
 
@@ -79,7 +79,7 @@ function contestResultErrors(feedId, contestId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
   var model = daoSchemas.models.ContestResult.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, contestId, callback);
     });
 }
 
@@ -87,7 +87,7 @@ function customBallotErrors(feedId, customBallotId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: customBallotId };
   var model = daoSchemas.models.CustomBallot.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, customBallotId, callback);
     });
 }
 
@@ -95,7 +95,7 @@ function earlyVoteSiteErrors(feedId, earlyVoteSiteId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: earlyVoteSiteId };
   var model = daoSchemas.models.EarlyVoteSite.Error;
   aggregateErrors({ $match:  matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, earlyVoteSiteId, callback);
     });
 }
 
@@ -112,7 +112,7 @@ function electionAdminErrors(feedId, electionAdminId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionAdminId };
   var model = daoSchemas.models.ElectionAdmin.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, electionAdminId, callback);
     });
 }
 
@@ -120,7 +120,7 @@ function electionOfficialErrors(feedId, electionOfficialId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionOfficialId };
   var model = daoSchemas.models.ElectionOfficial.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, electionOfficialId, callback);
     });
 }
 
@@ -128,7 +128,7 @@ function electoralDistrictErrors(feedId, electoralDistrictId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electoralDistrictId };
   var model = daoSchemas.models.ElectoralDistrict.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, electoralDistrictId, callback);
     });
 }
 
@@ -136,7 +136,7 @@ function localityErrors(feedId, localityId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: localityId };
   var model = daoSchemas.models.Locality.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, localityId, callback);
     });
 }
 
@@ -144,7 +144,7 @@ function pollingLocationErrors(feedId, pollingLocationId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: pollingLocationId };
   var model = daoSchemas.models.PollingLocation.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, pollingLocationId, callback);
     });
 }
 
@@ -152,7 +152,7 @@ function precinctErrors(feedId, precinctId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctId };
   var model = daoSchemas.models.Precinct.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, precinctId, callback);
     });
 }
 
@@ -160,7 +160,7 @@ function precinctSplitErrors(feedId, precinctSplitId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctSplitId };
   var model = daoSchemas.models.PrecinctSplit.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, precinctSplitId, callback);
     });
 }
 
@@ -168,7 +168,7 @@ function referendumErrors(feedId, referendumId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: referendumId };
   var model = daoSchemas.models.Referendum.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, referendumId, callback);
     });
 }
 
@@ -195,7 +195,7 @@ function ballotResponseErrors(feedId, responseIds, callback) {
   var model = daoSchemas.models.BallotResponse.Error;
   aggregateErrors({ $match: matcher }, model)
     .exec(function(err, aggregate) {
-      findTextualReference(model, feedId, aggregate, null, callback);
+      findTextualReference(model, feedId, aggregate, responseIds, callback);
     });
 }
 
@@ -210,7 +210,7 @@ function precinctStreetSegmentErrors(feedId, precinctId, callback) {
     var model = daoSchemas.models.StreetSegment.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
-        findTextualReference(model, feedId, aggregate, null, callback);
+        findTextualReference(model, feedId, aggregate, precinct._streetSegments, callback);
       });
   });
 }
@@ -226,7 +226,7 @@ function precinctSplitStreetSegmentErrors(feedId, precinctSplitId, callback) {
     var model = daoSchemas.models.StreetSegment.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
-        findTextualReference(model, feedId, aggregate, null, callback);
+        findTextualReference(model, feedId, aggregate, precinctSplit._streetSegments, callback);
       });
   });
 }
@@ -492,7 +492,10 @@ function findTextualReference(model, feedId, aggregates, ids, callback) {
     var search = null;
 
     if(ids) {
-      search = { _feed: feedId, errorCode: agg._id.errorCode, _ref: { $in: ids }};
+      if(ids.length)
+        search = { _feed: feedId, errorCode: agg._id.errorCode, _ref: { $in: ids }};
+      else
+        search = { _feed: feedId, errorCode: agg._id.errorCode, refElementId: ids };
     }
     else {
       search = { _feed: feedId, errorCode: agg._id.errorCode };
@@ -501,9 +504,13 @@ function findTextualReference(model, feedId, aggregates, ids, callback) {
     model.findOne(search, { textualReference: 1 })
       .exec(function (err, references) {
         agg.textualReferences = [references.textualReference];
+        agg.models = [model.modelName];
+        agg.searches = [search];
         done();
       });
-  }, function(err) { callback(null, aggregates) })
+  }, function(err) {
+    callback(null, aggregates)
+  })
 }
 
 function groupErrors(errors) {
@@ -513,11 +520,15 @@ function groupErrors(errors) {
     var initialState = {
       _id: _.first(errs)._id,
       count: 0,
-      textualReferences: []
+      textualReferences: [],
+      models: [],
+      searches: []
     };
     return _.reduce(errs, function(memo, err) {
       memo.count += err.count;
       memo.textualReferences = memo.textualReferences.concat(err.textualReferences);
+      memo.models = memo.models.concat(err.models);
+      memo.searches = memo.searches.concat(err.searches);
       return memo;
     }, initialState)
   });

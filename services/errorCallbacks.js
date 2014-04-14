@@ -260,36 +260,48 @@ function mapAndReturnErrors(res, req, err, errors) {
         "Details" + delim +
         "Reference" + endOfLine;
 
+      var async = require('async');
       var count = 1;
-      for(var i=0; i< feederrors.length; i++){
-        var feederror = feederrors[i];
-
+      async.forEach(feederrors, function(feederror, errorComplete){
         // if our error_code is undefined then bring back all the errors, otherwise only the
         // errors for that specific error_code
-        if(error_code === undefined || (error_code!==undefined && error_code === feederror.error_code)) {
-
-          if(error_code!==undefined){
-            filename = feederror.title.replace(/ /g, '') + "ErrorReport";
-          }
-
-          for(var j=0; j< feederror.textual_references.length; j++){
-            response +=
-              makeCSVSafe((count++).toString(), delim) + delim +
-              makeCSVSafe(feed, delim) + delim +
-              makeCSVSafe(feederror.severity_text, delim) + delim +
-              makeCSVSafe(feederror.title, delim) + delim +
-              makeCSVSafe(feederror.details, delim) + delim +
-              makeCSVSafe(feederror.textual_references[j], delim) + endOfLine;
-          }
+        if(error_code!==undefined){
+          filename = feederror.title.replace(/ /g, '') + "ErrorReport";
         }
-      }
 
-      // send back errors in text/csv format for an error report
-      res.header("Content-Disposition", "attachment; filename=" + filename + ".csv");
-      res.setHeader('Content-type', 'text/csv');
-      res.charset = 'UTF-8';
-      res.write(response);
-      res.end();
+        if (error_code && feederror.error_code !== error_code) {
+          console.log('kicked');
+          errorComplete();
+          return;
+        }
+
+        var index = 0;
+        async.forEach(feederror.models, function(model, modelComplete) {
+          var completeModel = require('mongoose').model(model);
+          completeModel.find(feederror.searches[index++], {textualReference: 1}, function(err, refs) {
+            for(var j=0; j< refs.length; j++){
+              response +=
+                makeCSVSafe((count++).toString(), delim) + delim +
+                makeCSVSafe(feed, delim) + delim +
+                makeCSVSafe(feederror.severity_text, delim) + delim +
+                makeCSVSafe(feederror.title, delim) + delim +
+                makeCSVSafe(feederror.details, delim) + delim +
+                makeCSVSafe(refs[j].textualReference, delim) + endOfLine;
+            }
+            modelComplete();
+          })
+        }, function(err) {
+          errorComplete();
+        });
+
+      }, function(err) {
+        // send back errors in text/csv format for an error report
+        res.header("Content-Disposition", "attachment; filename=" + filename + ".csv");
+        res.setHeader('Content-type', 'text/csv');
+        res.charset = 'UTF-8';
+        res.write(response);
+        res.end();
+      });
 
     } else {
       // send back errors in json format for the page
