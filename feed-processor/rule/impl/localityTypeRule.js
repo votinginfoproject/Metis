@@ -8,7 +8,7 @@ var evaluateLocalityType = function(localityType, dataSet, entity, constraintSet
 
   var isViolated = false;
 
-  if(localityType !== null && localityType !== ""){
+  if(localityType){
     isViolated = (localityTypesList.indexOf(localityType.trim().toLowerCase()) < 0);
   }
   callback( { isViolated: isViolated, dataItem: constraintSet + " = " + localityType, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
