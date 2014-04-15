@@ -54,6 +54,10 @@ var util = {
     expect(first.phone).toBe(second.phone);
     expect(first.fax).toBe(second.fax);
     expect(first.email).toBe(second.email);
+  },
+
+  testObjectLevelRules: function(rule, data, cb) {
+    rule.evaluate(data, null, null, null, null, cb);
   }
 };
 

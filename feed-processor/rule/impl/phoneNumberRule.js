@@ -8,7 +8,7 @@ var evaluatePhoneNumber = function(phoneNumber, dataSet, entity, constraintSet, 
   var isViolated = false;
 
   //TODO: parseInt check for value passed in
-  if(phoneNumber !== null && phoneNumber !== ""){
+  if(phoneNumber){
     isViolated = !matcher.test(phoneNumber.trim().toLowerCase());
   }
   callback( { isViolated: isViolated, dataItem: constraintSet + " = " + phoneNumber, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
