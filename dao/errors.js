@@ -400,7 +400,7 @@ function errorIndexContestBallot(feedId, contestId, callback) {
       var model = daoSchemas.models.Ballot.Error;
       aggregateErrors({ $match: matcher }, model)
         .exec(function(err, aggregate) {
-          findTextualReference(model, feedId, aggregate, ballot._id, callback);
+          findTextualReference(model, feedId, aggregate, [ballot._id], callback);
         });
     });
   });
@@ -444,7 +444,7 @@ function errorIndexContestElectoralDistrict(feedId, contestId, callback) {
       var model = daoSchemas.models.ElectoralDistrict.Error;
       aggregateErrors({ $match: matcher }, model)
         .exec(function(err, aggregate) {
-          findTextualReference(model, feedId, aggregate, electoraldistrict._id, callback);
+          findTextualReference(model, feedId, aggregate, [electoraldistrict._id], callback);
         });
     });
   });
