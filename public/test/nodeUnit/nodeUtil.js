@@ -34,7 +34,7 @@ var util = {
   testElectionAdmin: function(first, second) {
     expect(first.id).toBe(second.elementId);
     expect(first.name).toBe(second.name);
-    expect(first.address).toBe(second.physicalAddress.city +', ' + second.physicalAddress.state + ' ' + second.physicalAddress.zip);
+    expect(first.address).toBe(second.physicalAddress.city +', ' + second.physicalAddress.state + ', ' + second.physicalAddress.zip);
   },
 
   testMapperAddress: function(first, second) {

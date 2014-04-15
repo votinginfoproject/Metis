@@ -351,7 +351,7 @@ describe('Feeds Unit Tests', function() {
     it('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
-      overviewCallback.localitiesOverviewGET(req, res);
+      overviewCallback.pollinglocationsOverviewGET(req, res);
     });
   });
 

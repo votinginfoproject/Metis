@@ -367,7 +367,10 @@ var mapOverviewTables = function(data, selfpath) {
 
   data.forEach(function(element) {
 
-    var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
+    var self = null;
+
+    if(element.elementType)
+      self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
 
     overview.push({
       element_type: element.elementType,
