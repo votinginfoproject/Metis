@@ -47,8 +47,8 @@ describe('Feed Overview Test', function () {
       expect(element('#pollingLocation-element-type2').html()).toBe("Election Officials");
       expect(element('#pollingLocation-element-type3').html()).toBe("Localities");
       expect(element('#pollingLocation-element-type4').html()).toBe("Polling Locations");
-      expect(element('#pollingLocation-element-type5').html()).toBe("Precincts");
-      expect(element('#pollingLocation-element-type6').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type5').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type6').html()).toBe("Precincts");
       expect(element('#pollingLocation-element-type7').html()).toBe("Street Segments");
     });
 
