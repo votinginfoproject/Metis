@@ -21,12 +21,21 @@ describe('Feed State Test', function () {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should have an election link
-      expect(element('#election-link').count()).toBe(1);
+      /*
+       expect(element('#election-link').count()).toBe(1);
+
+       // click the election link
+       element('#election-link').click();
+       sleep(testGlobals.sleepTime);
+       */
+
+      expect(element('#sidebar-election').count()).toBe(1);
 
       // click the election link
-      element('#election-link').click();
+      element('#sidebar-election').click();
       sleep(testGlobals.sleepTime);
+
+
 
       // should be on the feed election page
       expect(element('#feed-election-content').count()).toBe(1);

@@ -19,7 +19,7 @@
       </div>
     </td>
     <td id="{{label}}-errors{{$index}}" class="numeric element-errors">
-      <a title="View the Errors" Xng-class="{default_pointer: row.error_count===0}" Xhref="{{row.error_count===-1 ? 'javascript: void(0);' : row.self}}" href="{{row.self}}">
+      <a title="View the Errors" href="{{row.self}}">
         <div  ng-class="{none: row.error_count===0}"
               class="errors">{{row.error_count | number}} <span class="error-text" ng-if="row.error_count===1">error</span><span class="error-text" ng-if="row.error_count!=1">errors</span> <span ng-if="row.error_count===0"><i class="fi-check"></i></span><span ng-if="row.error_count!=0"><i class="fi-alert"></i></span>
         </div>
