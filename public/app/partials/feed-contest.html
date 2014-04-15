@@ -52,7 +52,7 @@
 <section class="data-group data-module">
   <h2><span ng-if="!feedContest.electoral_district">No </span>Electoral District</h2>
 
-  <div ng-if="!feedContest.electoral_district"></br><span class="is-loading"></span></div>
+  <div ng-if="!feedContest.electoral_district && feedContest.electoral_district !== null"></br><span class="is-loading"></span></div>
   <table ng-show="feedContest.electoral_district" id="districtTable" class="associations">
     <thead>
       <tr>
