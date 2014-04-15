@@ -263,7 +263,7 @@ function errorIndexLocalityElectionAdministration(feedId, localityId, callback) 
     var model = daoSchemas.models.ElectionAdmin.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
-        findTextualReference(model, feedId, aggregate, locality._electionAdministration, callback);
+        findTextualReference(model, feedId, aggregate, [locality._electionAdministration], callback);
       });
   });
 }
@@ -468,7 +468,6 @@ function errorIndexContestReferenda(feedId, contestId, callback) {
     });
   });
 }
-
 
 function aggregateErrors(match, errorModel) {
   return errorModel.aggregate(
