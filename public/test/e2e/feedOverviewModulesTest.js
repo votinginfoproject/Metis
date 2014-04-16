@@ -38,6 +38,12 @@ describe('Feed Overview Test', function () {
     var errorcount = null;
     var errorcount2 = null;
 
+    // Polling Locations Overview Module on the Feed Overview page
+    // ===================================================
+    // ===================================================
+    // ===================================================
+
+
     it('Get error numbers - Early Vote Sites', function () {
 
       errorcount = null;
@@ -236,6 +242,194 @@ describe('Feed Overview Test', function () {
       sleep(testGlobals.sleepTime);
     });
 
+    // Contests Overview Module on the Feed Overview page
+    // ===================================================
+    // ===================================================
+    // ===================================================
+
+    // ===================================================
+
+    it('Get error numbers - Ballots', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedContests-errors0 a div').attr('errorvalue');
+
+      element('#feedContests-errors0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-ballots-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Ballots', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Candidates', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedContests-errors1 a div').attr('errorvalue');
+
+      element('#feedContests-errors1 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-candidates-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Candidates', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Contests', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedContests-errors2 a div').attr('errorvalue');
+
+      element('#feedContests-errors2 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-contests-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Contests', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Electoral Districts', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedContests-errors3 a div').attr('errorvalue');
+
+      element('#feedContests-errors3 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-electoraldistricts-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Electoral Districts', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Referenda', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedContests-errors4 a div').attr('errorvalue');
+
+      element('#feedContests-errors4 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-referenda-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Referenda', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    // Results Overview Module on the Feed Overview page
+    // ===================================================
+    // ===================================================
+    // ===================================================
+
+    // ===================================================
+
+    it('Get error numbers - Ballot Line Results', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedResults-errors0 a div').attr('errorvalue');
+
+      element('#feedResults-errors0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-ballotlineresults-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Ballot Line Results', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Contest Results', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#feedResults-errors1 a div').attr('errorvalue');
+
+      element('#feedResults-errors1 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-overview-contestresults-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Contest Results', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the overview page
+      element('#pageHeader-breadcrumb1 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
 
   });
 
