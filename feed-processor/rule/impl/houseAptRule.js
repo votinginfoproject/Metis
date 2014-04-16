@@ -38,33 +38,10 @@ var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition, cal
 
   var stream = Model.find( { _feed: feedId, $or: conditions }, fields ).stream();
 
-  stream.on('data', function(houseAptNumSegmentResult){
-    if(houseAptNumSegmentResult.length > 0) {
-
-      houseAptNumSegmentResult.forEach(function(houseAptNumSegmentResultSet, index){
-
-        var resultSet= "";
-        for(var i = 0; i < constraints.fields.length; i++){
-          var prop = constraints.fields[i];
-
-          if(houseAptNumSegmentResultSet[prop]!== undefined){
-            resultSet+= prop + "=" + (houseAptNumSegmentResultSet[prop]).toString() + ", ";
-          }
-        }
-
-        // remove trailing comma
-        if(resultSet.lastIndexOf(", ") === resultSet.length-2){
-          resultSet = resultSet.substr(0, resultSet.length-2);
-        }
-
-        // creating the error details
-        resultSet = "{" + resultSet + "}";
-
-        createError(houseAptNumSegmentResultSet, resultSet);
-      });
-
-    }
-  });
+  stream.on('data', streamTo);
+//  function(houseAptNumSegmentResult){
+//
+//  });
 
   stream.on('end', function() {
     callback({ promisedErrorCount: errorCount });
@@ -79,6 +56,27 @@ function createError(houseAptNumSegment, directionalError) {
   errorCount++;
   var ruleErrors = new ruleViolation(constraints.entity[0], houseAptNumSegment.elementId, houseAptNumSegment._id, houseAptNumSegment._feed, directionalError, directionalError, rule);
   return ruleErrors.model().save();
+}
+
+function streamTo(houseAptNumSegmentResult) {
+  var resultSet= "";
+  for(var i = 0; i < constraints.fields.length; i++){
+    var prop = constraints.fields[i];
+
+    if(houseAptNumSegmentResult[prop]!== undefined){
+      resultSet+= prop + "=" + (houseAptNumSegmentResult[prop]).toString() + ", ";
+    }
+  }
+
+  // remove trailing comma
+  if(resultSet.lastIndexOf(", ") === resultSet.length-2){
+    resultSet = resultSet.substr(0, resultSet.length-2);
+  }
+
+  // creating the error details
+  resultSet = "{" + resultSet + "}";
+
+  createError(houseAptNumSegmentResult, resultSet);
 }
 
 exports.evaluate = evaluateHouseAptNumber;

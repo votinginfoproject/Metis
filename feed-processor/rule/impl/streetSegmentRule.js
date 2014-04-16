@@ -426,7 +426,18 @@ function evaluate(constraintSet, callback) {
           return;
         }
 
-        Model.find({ _feed: feedId, "nonHouseAddress.zip": result._id.zip }, { "nonHouseAddress.streetName": 1, startHouseNumber: 1, endHouseNumber: 1, oddEvenBoth: 1, elementId: 1, _id: 1 })
+        Model.find({ _feed: feedId, "nonHouseAddress.zip": result._id.zip },
+          {
+            "nonHouseAddress.streetName": 1,
+            "nonHouseAddress.streetDirection": 1,
+            "nonHouseAddress.streetSuffix": 1,
+            "nonHouseAddress.addressDirection": 1,
+            startHouseNumber: 1,
+            endHouseNumber: 1,
+            oddEvenBoth: 1,
+            elementId: 1,
+            _id: 1
+          })
           .exec(function (err, docs) {
 
             if(!docs.length || !docs[0].nonHouseAddress.streetName) {
@@ -452,7 +463,10 @@ function evaluate(constraintSet, callback) {
                   index = parseInt(index) - 1;
 
                   if(docs[j].oddEvenBoth === docs[index].oddEvenBoth || docs[j].oddEvenBoth === 'both' || docs[index].oddEvenBoth === 'both') {
-                    if(docs[j].nonHouseAddress.streetName === docs[index].nonHouseAddress.streetName) {
+                    if(docs[j].nonHouseAddress.streetName === docs[index].nonHouseAddress.streetName &&
+                      docs[j].nonHouseAddress.streetDirection === docs[index].nonHouseAddress.streetDirection &&
+                      docs[j].nonHouseAddress.streetSuffix === docs[index].nonHouseAddress.streetSuffix &&
+                      docs[j].nonHouseAddress.addressDirection === docs[index].nonHouseAddress.addressDirection) {
                       var errors = "overlaps with elementId: " + docs[index].elementId;
                       createError(0, docs[j].elementId, docs[j].id, errors)
                     }
