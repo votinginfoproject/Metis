@@ -91,6 +91,9 @@ function FeedErrorsCtrl_getFeedErrors($scope, $rootScope, $feedsService, service
       // update the title
       $rootScope.pageHeader.title = $filter('number')(total_errors) + " " + (title!==null? " " + title : "Errors");
 
+      // wil be used with the funcitonal tests
+      $rootScope.total_errors = total_errors;
+
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Errors data. ";
