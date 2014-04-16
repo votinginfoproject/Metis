@@ -31,7 +31,9 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var mixedCaseDirections = [];
     mixedCaseDirections = mixedCaseDirections.concat(upperCaseMap);
     mixedCaseDirections = mixedCaseDirections.concat(lowerCaseMap);
-    //mixedCaseDirections = mixedCaseDirections.concat(['', null]);
+
+    // still need the below, to not pull back null or empty strings
+    mixedCaseDirections = mixedCaseDirections.concat(['', null]);
 
     var conditions = {};
     conditions['_feed'] = feedId;
@@ -48,8 +50,9 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var saveStack = 0;
     stream.on('data', function(addressSegmentResultSet) {
 
-      if(!addressSegmentResultSet.addressDirection || addressSegmentResultSet.addressDirection.trim() === '')
+      if(!addressSegmentResultSet.addressDirection || addressSegmentResultSet.addressDirection.trim() === ''){
         return;
+      }
 
       ++saveStack;
 
@@ -79,7 +82,7 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
       done();
     });
   }, function() {
-//    console.log(errorCount + ' errors added');
+
     callback( { promisedErrorCount: errorCount } )
   });
 }
