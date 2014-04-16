@@ -32,7 +32,7 @@ describe('Feed Overview Test', function () {
   /* ----------------------------------------
    Feed Overview polling locations overview modules
    ------------------------------------------*/
-  describe('Check Feed Overview polling locations overview modules', function () {
+  describe('Check Feed Overview polling locations overview module error links', function () {
     // check to make sure each error count matches with the error count when going into the error page for that row
 
     var errorcount = null;
@@ -242,12 +242,16 @@ describe('Feed Overview Test', function () {
       sleep(testGlobals.sleepTime);
     });
 
-    // Contests Overview Module on the Feed Overview page
-    // ===================================================
-    // ===================================================
-    // ===================================================
+  });
 
-    // ===================================================
+  /* ----------------------------------------
+   Feed Overview contests overview modules
+   ------------------------------------------*/
+  describe('Check Feed Overview contests overview module error links', function () {
+    // check to make sure each error count matches with the error count when going into the error page for that row
+
+    var errorcount = null;
+    var errorcount2 = null;
 
     it('Get error numbers - Ballots', function () {
 
@@ -372,14 +376,13 @@ describe('Feed Overview Test', function () {
       sleep(testGlobals.sleepTime);
     });
 
-    // ===================================================
+  });
 
-    // Results Overview Module on the Feed Overview page
-    // ===================================================
-    // ===================================================
-    // ===================================================
-
-    // ===================================================
+  /* ----------------------------------------
+   Feed Overview results overview modules
+   ------------------------------------------*/
+  describe('Check Feed Overview results overview module error links', function () {
+    // check to make sure each error count matches with the error count when going into the error page for that row
 
     it('Get error numbers - Ballot Line Results', function () {
 
@@ -429,11 +432,303 @@ describe('Feed Overview Test', function () {
       sleep(testGlobals.sleepTime);
     });
 
+  });
+
+  /* ----------------------------------------
+   Contest overview modules
+   ------------------------------------------*/
+  describe('Check Contest overview module error links', function () {
+    // check to make sure each error count matches with the error count when going into the error page for that row
+
+    it('Go to the first Contest', function () {
+
+      // go to the contests page
+      element('#sidebar-contests').click();
+      sleep(testGlobals.sleepTime);
+
+      // go to the first contest
+      element('#contests-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed contest page
+      expect(element('#feed-contest-content').count()).toBe(1);
+    });
+
     // ===================================================
+
+    it('Get error numbers - Ballot under a Contest', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#contestOverview-errors0 a div').attr('errorvalue');
+
+      element('#contestOverview-errors0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-contests-overview-ballot-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Ballot under a Contest', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the contest page
+      element('#pageHeader-breadcrumb4 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+    it('Get error numbers - Candidates under a Contest', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#contestOverview-errors1 a div').attr('errorvalue');
+
+      element('#contestOverview-errors1 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-contests-overview-candidates-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Candidates under a Contest', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the contest page
+      element('#pageHeader-breadcrumb4 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Electoral District under a Contest', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#contestOverview-errors2 a div').attr('errorvalue');
+
+      element('#contestOverview-errors2 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-contests-overview-electoraldistrict-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Electoral District under a Contest', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the contest page
+      element('#pageHeader-breadcrumb4 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Referenda under a Contest', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#contestOverview-errors3 a div').attr('errorvalue');
+
+      element('#contestOverview-errors3 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-contests-overview-referenda-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Referenda under a Contest', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the contest page
+      element('#pageHeader-breadcrumb4 a').click();
+      sleep(testGlobals.sleepTime);
+    });
 
   });
 
+  /* ----------------------------------------
+   Locality overview modules
+   ------------------------------------------*/
+  describe('Check Locality overview module error links', function () {
+    // check to make sure each error count matches with the error count when going into the error page for that row
 
+    it('Go to the first Locality', function () {
+
+      // go to the contests page
+      element('#sidebar-pollinglocations').click();
+      sleep(testGlobals.sleepTime);
+
+      // go to the first locality
+      element('#locality-id0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      // should be on the feed contest page
+      expect(element('#feed-locality-content').count()).toBe(1);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Early Vote Sites under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors0 a div').attr('errorvalue');
+
+      element('#locality-errors0 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-earlyvotesites-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Early Vote Sites under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Election Admin under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors1 a div').attr('errorvalue');
+
+      element('#locality-errors1 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-electionadministration-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Election Admin under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Polling Locations under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors2 a div').attr('errorvalue');
+
+      element('#locality-errors2 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-pollinglocations-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Polling Locations under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Precinct Splits under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors3 a div').attr('errorvalue');
+
+      element('#locality-errors3 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-precinctsplits-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Precinct Splits under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Precincts under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors4 a div').attr('errorvalue');
+
+      element('#locality-errors4 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-precincts-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Precincts under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+    it('Get error numbers - Street Segments under a Locality', function () {
+
+      errorcount = null;
+      errorcount2 = null;
+
+      // Ballots - click link
+      errorcount = element('#locality-errors5 a div').attr('errorvalue');
+
+      element('#locality-errors5 a').click();
+      sleep(testGlobals.sleepTime);
+
+      expect(element("#feeds-election-state-localities-overview-streetsegments-errors-content").count()).toBe(1);
+
+      errorcount2 = element('#total_errors').attr('errorvalue');
+    });
+    it('Should have matching error numbers - Street Segments under a Locality', function () {
+      expect(errorcount).toBe(errorcount2.value);
+
+      // go back to the locality page
+      element('#pageHeader-breadcrumb5 a').click();
+      sleep(testGlobals.sleepTime);
+    });
+
+    // ===================================================
+
+
+  });
 
   /* ----------------------------------------
    Log Out
