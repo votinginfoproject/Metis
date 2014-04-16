@@ -22,6 +22,7 @@ describe('Rule Implementation Tests', function() {
       util.testObjectLevelRules(zipCode, '512', function(res) {
         expect(res.isViolated).toBeTruthy();
       });
+
     });
 
     it('Should not send an error', function() {
@@ -29,6 +30,9 @@ describe('Rule Implementation Tests', function() {
         expect(res.isViolated).toBeFalsy();
       });
       util.testObjectLevelRules(zipCode, '51123-1234', function(res) {
+        expect(res.isViolated).toBeFalsy();
+      });
+      util.testObjectLevelRules(zipCode, '   ', function(res) {
         expect(res.isViolated).toBeFalsy();
       });
     });
@@ -49,6 +53,9 @@ describe('Rule Implementation Tests', function() {
 
     it('Should send an error', function() {
       util.testObjectLevelRules(validUrl, 'htttp://blah', function(res) {
+        expect(res.isViolated).toBeTruthy();
+      });
+      util.testObjectLevelRules(validUrl, '    ', function(res) {
         expect(res.isViolated).toBeTruthy();
       });
     });
@@ -79,6 +86,9 @@ describe('Rule Implementation Tests', function() {
       util.testObjectLevelRules(phoneNumber, '555', function(res) {
         expect(res.isViolated).toBeTruthy();
       });
+      util.testObjectLevelRules(phoneNumber, '    ', function(res) {
+        expect(res.isViolated).toBeTruthy();
+      });
     });
 
     it('Should not send an error', function() {
@@ -103,6 +113,9 @@ describe('Rule Implementation Tests', function() {
 
     it('Should send an error', function() {
       util.testObjectLevelRules(localityType, 'blarg', function(res) {
+        expect(res.isViolated).toBeTruthy();
+      });
+      util.testObjectLevelRules(localityType, '   ', function(res) {
         expect(res.isViolated).toBeTruthy();
       });
     });
@@ -130,6 +143,9 @@ describe('Rule Implementation Tests', function() {
 
     it('Should send an error', function() {
       util.testObjectLevelRules(emailFormat, 'something@slssdf', function(res) {
+        expect(res.isViolated).toBeTruthy();
+      });
+      util.testObjectLevelRules(emailFormat, '    ', function(res) {
         expect(res.isViolated).toBeTruthy();
       });
     });
