@@ -50,7 +50,14 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var saveStack = 0;
     stream.on('data', function(addressSegmentResultSet) {
 
-      if(!addressSegmentResultSet.addressDirection || addressSegmentResultSet.addressDirection.trim() === ''){
+      var fieldPath = fieldStrings[i].split(".");
+      var resultSet = addressSegmentResultSet;
+      for(var x = 0; x < fieldPath.length; x++) {
+        var path = (fieldPath[x]).toString();
+        resultSet = resultSet[path];
+      }
+
+      if(!resultSet || resultSet.trim() === '') {
         return;
       }
 
@@ -61,12 +68,6 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
         stream.pause();
       }
 
-      var fieldPath = fieldStrings[i].split(".");
-      var resultSet= addressSegmentResultSet;
-      for(var x = 0; x < fieldPath.length; x++) {
-        var path = (fieldPath[x]).toString();
-        resultSet = resultSet[path];
-      }
       createError(addressSegmentResultSet, fieldStrings[i] + " = " + resultSet)
         .then(function() {
           --saveStack;
