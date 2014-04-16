@@ -287,18 +287,22 @@ function mapAndReturnErrors(res, req, err, errors) {
         var index = 0;
         async.forEach(feederror.models, function(model, modelComplete) {
           var completeModel = require('mongoose').model(model);
-          completeModel.find(feederror.searches[index++], {textualReference: 1}, function(err, refs) {
-            for(var j=0; j< refs.length; j++){
-              response +=
-                makeCSVSafe((count++).toString(), delim) + delim +
-                makeCSVSafe(feed, delim) + delim +
-                makeCSVSafe(feederror.severity_text, delim) + delim +
-                makeCSVSafe(feederror.title, delim) + delim +
-                makeCSVSafe(feederror.details, delim) + delim +
-                makeCSVSafe(refs[j].textualReference, delim) + endOfLine;
-            }
+          var stream = completeModel.find(feederror.searches[index++], {textualReference: 1}).stream();
+
+          stream.on('data', function(ref) {
+            response +=
+              makeCSVSafe((count++).toString(), delim) + delim +
+              makeCSVSafe(feed, delim) + delim +
+              makeCSVSafe(feederror.severity_text, delim) + delim +
+              makeCSVSafe(feederror.title, delim) + delim +
+              makeCSVSafe(feederror.details, delim) + delim +
+              makeCSVSafe(ref.textualReference, delim) + endOfLine;
+          });
+
+          stream.on('close', function(err) {
             modelComplete();
-          })
+          });
+
         }, function(err) {
           errorComplete();
         });
