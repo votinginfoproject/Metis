@@ -16,6 +16,8 @@ var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition, cal
 
   var Model = mongoose.model(constraintSet.entity[0]);
 
+  var conditions = createConstraints(fieldStrings, fields, constraintSet);
+
   // get the constraint fields
   var conditions = [];
   for(var i=0; i< constraints.fields.length; i++){
@@ -39,10 +41,6 @@ var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition, cal
   var stream = Model.find( { _feed: feedId, $or: conditions }, fields ).stream();
 
   stream.on('data', streamTo);
-//  function(houseAptNumSegmentResult){
-//
-//  });
-
   stream.on('end', function() {
     callback({ promisedErrorCount: errorCount });
   });
@@ -55,7 +53,7 @@ var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition, cal
 function createError(houseAptNumSegment, directionalError) {
   errorCount++;
   var ruleErrors = new ruleViolation(constraints.entity[0], houseAptNumSegment.elementId, houseAptNumSegment._id, houseAptNumSegment._feed, directionalError, directionalError, rule);
-  return ruleErrors.model().save();
+  ruleErrors.model().save();
 }
 
 function streamTo(houseAptNumSegmentResult) {
@@ -79,7 +77,31 @@ function streamTo(houseAptNumSegmentResult) {
   createError(houseAptNumSegmentResult, resultSet);
 }
 
+function createConstraints(fieldStrings, fields, constraints) {
+  // get the constraint fields
+  var conditions = [];
+  for(var i=0; i< constraints.fields.length; i++){
+    var field = constraints.fields[i];
+    fieldStrings[i] = field.toString();
+
+    fields[fieldStrings[i]] = 1;
+
+    var fieldProp = fieldStrings[i];
+
+    var cond1 = {};
+    cond1[fieldProp] = { $exists: true };
+    var cond2 = {};
+    cond2[fieldProp] = { $lte: 0 };
+
+    conditions.push(
+      { $and: [cond1, cond2] }
+    );
+  }
+  return conditions;
+}
+
 exports.evaluate = evaluateHouseAptNumber;
+exports.houseAptEval = createConstraints;
 
 /*
  var mongoose = require('mongoose');

@@ -157,4 +157,46 @@ describe('Rule Implementation Tests', function() {
     });
   });
 
+  describe('House Apartment Number Rules Test', function() {
+    var houseApt = require('../../../feed-processor/rule/impl/houseAptRule');
+
+    it('Should not crash', function() {
+      var constraints = {
+        fields: [
+          'houseAddress.start',
+          'houseAddress.end'
+        ]
+      }
+
+      var conditions = houseApt.houseAptEval([], [], constraints);
+
+      expect(conditions[0].$and[0][constraints.fields[0]].$exists).toBeTruthy();
+      expect(conditions[0].$and[1][constraints.fields[0]].$lte).toBe(0);
+      expect(conditions[1].$and[0][constraints.fields[1]].$exists).toBeTruthy();
+      expect(conditions[1].$and[1][constraints.fields[1]].$lte).toBe(0);
+    });
+  });
+
+  describe('Street Segment Rule Test', function() {
+    var streetSegment = require('../../../feed-processor/rule/impl/streetSegmentRule');
+
+    it('Returns the proper amount of errors', function() {
+      var docs = [
+        { elementId: 1, id: 'a', startHouseNumber: 10, endHouseNumber: 15, oddEvenBoth: 'even', nonHouseAddress: {} },
+        { elementId: 2, id: 'b', startHouseNumber: 13, endHouseNumber: 20, oddEvenBoth: 'both', nonHouseAddress: {} },
+        { elementId: 3, id: 'c', startHouseNumber: 21, endHouseNumber: 25, oddEvenBoth: 'odd', nonHouseAddress: {} }
+      ];
+
+      var overlaps = [];
+
+      streetSegment.streetSegmentEval(docs, function (elementID, id, errors) {
+        overlaps.push(elementID);
+      });
+
+      expect(overlaps.length).toBe(2);
+      expect(overlaps[0]).toBe(docs[0].elementId);
+      expect(overlaps[1]).toBe(docs[1].elementId);
+    });
+  });
+
 });
