@@ -1,0 +1,24 @@
+<i id="feed-candidates-content"></i>
+
+<div ng-if="!feedCandidates"></br><span class="is-loading"></span></div>
+
+<div class="data-module-full">
+  <table ng-show="feedCandidates.length" id="candidatesTable" ng-table="candidatesTableParams" template-pagination="candidatesPagination" class="associations">
+    <tr id="candidate{{$index}}" ng-repeat="candidate in $data">
+      <td id="candidate-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="ID"><span class="td-text">{{candidate.id}}</span></a></td>
+      <td id="candidate-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="Name"><span class="td-text">{{candidate.name}}</span></a></td>
+      <td id="candidate-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/{{candidate.id}}" data-title-text="Party"><span class="td-text">{{candidate.party}}</span></a>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="candidatesPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="candidatesPage{{$index}}" ng-class="{'is-active': page.number == candidatesTableParams.page()}"
+           ng-click="candidatesTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</div>

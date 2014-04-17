@@ -1,0 +1,46 @@
+<i id="feed-source-content"></i>
+
+<p ng-if="feedSource.error_count !== undefined"><a id="source-errors" class="error-count error-count-{{feedSource.error_count}}" href="{{$location.absUrl()}}/errors">{{feedSource.error_count}} Errors in Source ID: {{feedSource.id}}</a></p>
+
+<span ng-if="!feedSource" class="is-loading"></span>
+
+<section class="data-module" ng-if="feedSource.source_info">
+<dl class="attributes">
+  <dt class="key">Name:</dt>
+  <dd id="source-name" class="value">{{feedSource.source_info.name}}</dd>
+  <dt class="key">Datetime:</dt>
+  <dd id="source-date" class="value">{{feedSource.source_info.date}}</dd>
+  <dt class="key">Description:</dt>
+  <dd id="source-description" class="value">{{feedSource.source_info.description}}</dd>
+  <dt class="key">Organization URL:</dt>
+  <dd id="source-org_url" class="value"><a title="Visit this URL" target="_blank"
+                                           href="{{feedSource.source_info.org_url}}">{{feedSource.source_info.org_url}}</a>
+  </dd>
+  <dt class="key">Terms of Use:</dt>
+  <dd id="source-tou_url" class="value"><a title="Visit this URL" target="_blank"
+                                           href="{{feedSource.source_info.tou_url}}">{{feedSource.source_info.tou_url}}</a>
+  </dd>
+</dl>
+</section>
+
+
+<section class="data-group data-module">
+  <h2>Feed Contact</h2>
+
+  <span ng-if="!feedSource" class="is-loading"></span>
+  <dl class="attributes" ng-if="feedSource.feed_contact">
+    <dt class="key">Name:</dt>
+    <dd id="feed-contact-name" class="value">{{feedSource.feed_contact.name}}</dd>
+    <dt class="key">Title:</dt>
+    <dd id="feed-contact-title" class="value">{{feedSource.feed_contact.title}}</dd>
+    <dt class="key">Phone:</dt>
+    <dd id="feed-contact-phone" class="value">{{feedSource.feed_contact.phone}}
+    <dd>
+    <dt class="key">Fax:</dt>
+    <dd id="feed-contact-fax" class="value">{{feedSource.feed_contact.fax}}
+    <dd>
+    <dt class="key">Email:</dt>
+    <dd id="feed-contact-email" class="value"><a href="mailto:{{feedSource.feed_contact.email}}">{{feedSource.feed_contact.email}}</a>
+    </dd>
+  </dl>
+</section>

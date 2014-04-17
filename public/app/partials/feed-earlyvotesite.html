@@ -1,0 +1,26 @@
+<i id="{{pageId}}"></i>
+
+<p ng-if="feedEarlyVoteSite.error_count !== undefined"><a id="earlyvotesite-errors" class="error-count error-count-{{feedEarlyVoteSite.error_count}}" href="{{$location.absUrl()}}/errors">{{feedEarlyVoteSite.error_count}} Errors in Early Vote Site ID: {{feedEarlyVoteSite.id}}</a></p>
+
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="name" class="value">{{feedEarlyVoteSite.name}}</dd>
+    <dt class="key">Address:</dt>
+    <dd id="address" class="value">
+      {{feedEarlyVoteSite.address.line1}},
+      {{feedEarlyVoteSite.address.city}},
+      {{feedEarlyVoteSite.address.state}} {{feedEarlyVoteSite.address.zip}}</dd>
+    </dd>
+    <dt class="key">Directions:</dt>
+    <dd id="directions" class="value">{{feedEarlyVoteSite.directions}}</dd>
+    <dt class="key">Voter Services:</dt>
+    <dd id="voter_services" class="value">{{feedEarlyVoteSite.voter_services}}</dd>
+    <dt class="key">Start Date:</dt>
+    <dd id="start_date" class="value">{{feedEarlyVoteSite.start_date}}</dd>
+    <dt class="key">End Date:</dt>
+    <dd id="end_date" class="value">{{feedEarlyVoteSite.end_date}}</dd>
+    <dt class="key">Days Times Open:</dt>
+    <dd id="days_times_open" class="value">{{feedEarlyVoteSite.days_times_open}}</dd>
+  </dl>
+</div>

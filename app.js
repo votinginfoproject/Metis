@@ -5,12 +5,17 @@
 var config = require('./config');
 var express = require('express');
 var http = require('http');
+var https = require('https');
 var path = require('path');
 var passport = require('passport');
 var auth = require('./auth');
+var fs = require('fs');
 
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
+var errorServices = require('./services/errors');
+var overviewServices = require('./services/overviews');
+var geoServices = require('./services/geo');
 
 var app = express();
 
@@ -27,6 +32,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/feeds', express.directory(path.join(__dirname, 'feeds')));
+app.use('/feeds', express.static(path.join(__dirname, 'feeds')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -39,7 +46,21 @@ auth.authSetup(config, passport, config.crowd.uselocalauth);
 //register REST services
 authServices.registerAuthServices(config, app, passport);
 feedServices.registerFeedsServices(app);
+errorServices.registerErrorServices(app);
+overviewServices.registerOverviewServices(app);
+geoServices.registerGeoServices(app);
 
-http.createServer(app).listen(config.web.port, function() {
-  console.log('Express server listening on port ' + config.web.port);
-});
+if (config.web.enableSSL) {
+  var opts = {
+    key: fs.readFileSync(config.web.SSLKey),
+    cert: fs.readFileSync(config.web.SSLCert)
+  };
+
+  https.createServer(opts, app).listen(config.web.port, function() {
+    console.log('Express server listening on port ' + config.web.port);
+  });
+} else {
+  http.createServer(app).listen(config.web.port, function () {
+    console.log('Express server listening on port ' + config.web.port);
+  });
+}

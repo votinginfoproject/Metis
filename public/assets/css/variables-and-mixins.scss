@@ -4,15 +4,26 @@
 // Typography
 // ============================================================================
 
-$base-font-family: $georgia;
-$header-font-family: $helvetica;
+// $base-font-family: $georgia;
+// $header-font-family: $helvetica;
 
+$base-font-family: 'Source Sans Pro', sans-serif;
+$header-font-family: 'Source Sans Pro', sans-serif;
 
 // ============================================================================
 // Sizes
 // ============================================================================
 
+$base: 1em;
+$base-xs: $base/4;
+$base-sm: $base/2;
+$base-med: $base * 1.5;
+$base-lg: $base * 2;
+$base-xl: $base * 3;
+$base-xxl: $base * 4;
+
 $base-font-size: 1em;
+$base-font-rem: 1rem;
 $base-line-height: $base-font-size * 1.5;
 $base-border-radius: em(3);
 
@@ -21,23 +32,37 @@ $base-border-radius: em(3);
 // Colors
 // ============================================================================
 
-$blue-dark:     #386097;
+// $blue is used for text
+$blue:          #33699c;
+$blue-dark:     #3c5f87;
+$blue-darkest:  #01244c;
+$blue-med:      #006cb1;
+$blue-medium:   #006cb1;
 $blue-light:    #b7dbff;
-$red:           #cc3333;
-$red-light:     #FBE3E4;
-$yellow-light:  #FFF6BF;
-$green:         #849b29;
-$green-light:   #E6EFC2;
+
+$red:           #ce3d3d;
+$red-medium: #fbd3d6;
+$red-light:     #fbe3e4;
+$red-dark:      #600;
+
+$yellow-light:  #fff6bf;
+
+$green:         #0c6;
+$green-light:   #e6efc2;
+$green-dark:    #093;
 
 $black:         #000;
 $gray-dark:     #333;
-$gray-medium:   #999;
-$gray-light:    #DDD;
-$white:         #FFF;
+$gray-medium-dark: #949598;
+$gray-medium:   #b1b3b6;
+$gray-light:    #ebebeb;
+$gray-lightest: #f5f5f5;
+$white:         #fff;
+
 
 // Font Colors
 // ----------------------------------------------------------------------------
-$base-font-color: $gray-dark;
+$base-font-color: $white;
 $base-accent-color: $blue-dark;
 
 // Text Link Colors
@@ -54,6 +79,7 @@ $base-border-color: $gray-light;
 $error-color: $red-light;
 $notice-color: $yellow-light;
 $success-color: $green-light;
+$processing-color: $green-light;
 
 
 // ============================================================================
@@ -76,6 +102,15 @@ $base-padding: .5em 1em;
 // ============================================================================
 // Mixins
 // ============================================================================
+@mixin word-break {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  // Non standard for webkit
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
 
 @mixin span-columns($span: $columns of $container-columns) {
   $columns: nth($span, 1);
@@ -84,18 +119,22 @@ $base-padding: .5em 1em;
 
   @if $container-columns == 6 {
     $gutter: percentage(24/480);
+  } @else if $container-columns == 12 {
+    $gutter: percentage(36/972);
+  } @else if $container-columns == 16 {
+    $gutter: percentage(36/1308);
   } @else {
     $gutter: percentage(18/258);
   }
 
   $width: (((100% - (($container-columns - 1) * $gutter)) / $container-columns) * $columns)+ (($columns - 1) * $gutter);
 
-  float: left;
-  margin-right: $gutter;
+  float: right;
+  margin-left: $gutter;
   width: $width;
 
   &:last-child {
-    margin-right: 0;
+    //margin-left: 0;
   }
 }
 
@@ -104,6 +143,24 @@ $base-padding: .5em 1em;
   $c6: "(min-width: 600px)";
   $c12: "(min-width: 1116px)";
   $c16: "(min-width: 1452px)";
+
+  @if $point == c16 {
+    @media #{$c16} { @content; }
+  }
+  @else if $point == c12 {
+    @media #{$c12} { @content; }
+  }
+  @else if $point == c6 {
+    @media #{$c6}  { @content; }
+  }
+
+}
+
+@mixin max-bp($point) {
+
+  $c6: "(max-width: 599px)";
+  $c12: "(max-width: 1115px)";
+  $c16: "(max-width: 1451px)";
 
   @if $point == c16 {
     @media #{$c16} { @content; }

@@ -1,0 +1,28 @@
+<i id="{{pageId}}"></i>
+
+<div class="data-group data-module data-module-full">
+
+  <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
+  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
+         template-pagination="earlyVotePagination" class="associations">
+    <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a>
+      </td>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a>
+      </td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}"
+           ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</div>

@@ -1,0 +1,67 @@
+<i id="{{pageId}}"></i>
+
+<p ng-if="feedPollingLocation.error_count !== undefined"><a id="pollinglocation-errors" class="error-count error-count-{{feedPollingLocation.error_count}}" href="{{$location.absUrl()}}/errors">{{feedPollingLocation.error_count}} Errors in Polling Location ID: {{feedPollingLocation.id}}</a></p>
+
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Address:</dt>
+    <dd id="address" class="value">
+      {{feedPollingLocation.address.line1}},
+      {{feedPollingLocation.address.city}},
+      {{feedPollingLocation.address.state}} {{feedPollingLocation.address.zip}}</dd>
+    </dd>
+    <dt class="key">Directions:</dt>
+    <dd id="directions" class="value">{{feedPollingLocation.directions}}</dd>
+    <dt class="key">Polling Hours:</dt>
+    <dd id="polling_hours" class="value">{{feedPollingLocation.polling_hours}}</dd>
+    <dt class="key">Photo Url:</dt>
+    <dd id="photo_url" class="value">{{feedPollingLocation.photo_url}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
+  <h2>{{feedPollingLocation.precincts.length}} Precincts</h2>
+
+  <span ng-if="!feedPollingLocation" class="is-loading"></span>
+  <table ng-show="feedPollingLocation.precincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+    <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
+      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinct.self}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
+      <td id="precinct-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinct.self}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
+      <td id="precinct-electoraldistricts{{$index}}" data-title="'Electoral Districts'" sortable="'electoral_districts'"><a href="{{precinct.self}}" data-title-text="Electoral Districts"><span class="td-text">{{precinct.electoral_districts}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="precinctsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsTableParams.page()}" ng-click="precinctsTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>
+
+
+<section class="data-group data-module">
+  <h2>{{feedPollingLocation.precinct_splits.length}} Precinct Splits</h2>
+
+  <span ng-if="!feedPollingLocation" class="is-loading"></span>
+  <table ng-show="feedPollingLocation.precinct_splits.length" id="precinctsplitsTable" ng-table="precinctsplitsTableParams" template-pagination="precinctsplitsPagination" class="associations">
+    <tr id="precinctsplit{{$index}}" ng-repeat="precinctsplit in $data">
+      <td id="precinctsplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinctsplit.self}}" data-title-text="ID"><span class="td-text">{{precinctsplit.id}}</span></a></td>
+      <td id="precinctsplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinctsplit.self}}" data-title-text="Name"><span class="td-text">{{precinctsplit.name}}</span></a></td>
+      <td id="precinctsplit-electoraldistricts{{$index}}" data-title="'Electoral Districts'" sortable="'electoral_districts'"><a href="{{precinctsplit.self}}" data-title-text="Electoral Districts"><span class="td-text">{{precinctsplit.electoral_districts}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="precinctsplitsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsplitsTableParams.page()}" ng-click="precinctsplitsTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>

@@ -3,6 +3,9 @@
  */
 module.exports = function(grunt) {
 
+  // Load grunt tasks automatically
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     /**
      * We read in our `package.json` file so we can access the package name and
@@ -29,7 +32,12 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
+      },
+      js: {
+        files: 'public/**/*.js',
+        tasks: ['gjslint']
       }
+
     },
     gjslint: {
       options: {
@@ -46,12 +54,41 @@ module.exports = function(grunt) {
         src: ['*.js',
           'public/assets/js/app/**/*.js']
       }
+    },
+    // start the app, instead of typing `node app.js`
+    nodemon: {
+      dev: {
+        options: {
+          file: 'app.js',
+          ignoredFiles: ['public/**', '.sass-cache/**', '.git/**']
+        }
+      }
+    },
+    shell: {
+      mongod: {
+        options: {
+        stdout: true
+      },
+        command: 'mongod'
+      }
+    },
+    bower: {
+      install: {
+        // copy dependent packages from bower.json
+      }
+    },
+    // Run blocking grunt tasks concurrently
+    concurrent: {
+      dev: {
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ['bower:install', 'shell:mongod', 'watch', 'nodemon:dev']
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-gjslint');
+  grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['concurrent:dev']);
 };

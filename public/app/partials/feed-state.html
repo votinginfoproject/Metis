@@ -1,0 +1,96 @@
+<i id="feed-state-content"></i>
+
+<p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
+
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd class="value">{{feedState.name}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
+  <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
+
+  <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
+  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
+         template-pagination="earlyVotePagination" class="associations">
+    <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a>
+      </td>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a>
+      </td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}"
+           ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>
+
+<section class="data-group data-module">
+  <h2><span ng-if="!feedState.administration">No</span> Election Administration</h2>
+
+  <span ng-if="!feedState" class="is-loading"></span>
+  <table class="associations" ng-if="feedState.administration">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="state-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="ID"><span class="td-text">{{feedState.administration.id}}</span></a></td>
+      <td id="state-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="Name"><span class="td-text">{{feedState.administration.name}}</span></a></td>
+      <td id="state-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="Address"><span class="td-text">{{feedState.administration.address}}</span></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</section><!-- /.data-group -->
+
+<section class="data-group data-module">
+  <h2>{{feedLocalities.length}} Localities
+    <small>({{feedCounties.features.length}} Counties)</small>
+  </h2>
+  <span ng-if="!feedCounties" class="is-loading"></span>
+  <div id="map" class="map" hidden></div>
+</section>
+
+<section class="data-group data-module">
+  <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
+  <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination"
+         class="associations">
+    <tr id="locality{{$index}}" ng-repeat="locality in $data">
+      <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a
+        href="{{locality.self}}" data-title-text="ID"><span class="td-text">{{locality.id}}</span></a></td>
+      <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a
+        href="{{locality.self}}" data-title-text="Name"><span class="td-text">{{locality.name}}</span></a></td>
+      <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a
+        href="{{locality.self}}" data-title-text="Precincts"><span class="td-text">{{locality.precincts}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="localPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localTableParams.page()}"
+           ng-click="localTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>
+

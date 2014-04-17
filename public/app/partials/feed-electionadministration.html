@@ -1,0 +1,81 @@
+<i id="{{pageId}}"></i>
+
+<p ng-if="feedElectionAdministration.error_count !== undefined"><a id="electionadmin-errors" class="error-count error-count-{{feedElectionAdministration.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
+
+<span ng-if="!feedElectionAdministration" class="is-loading"></span>
+
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="name" class="value">{{feedElectionAdministration.name}}</dd>
+    <dt class="key">Physical Address:</dt>
+    <dd id="physical_address" class="value">
+      {{feedElectionAdministration.physical_address.line1}},
+      {{feedElectionAdministration.physical_address.city}},
+      {{feedElectionAdministration.physical_address.state}} {{feedElectionAdministration.physical_address.zip}}</dd>
+    <dt class="key">Mailing Address:</dt>
+    <dd id="mailing_address" class="value">
+      {{feedElectionAdministration.mailing_address.line1}},
+      {{feedElectionAdministration.mailing_address.city}},
+      {{feedElectionAdministration.mailing_address.state}} {{feedElectionAdministration.mailing_address.zip}}</dd>
+    </dd>
+    <dt class="key">Phone:</dt>
+    <dd id="phone" class="value">{{feedElectionAdministration.phone}}</dd>
+    <dt class="key">Email:</dt>
+    <dd id="email" class="value">{{feedElectionAdministration.email}}</dd>
+    <dt class="key">Elections URL:</dt>
+    <dd id="elections_url" class="value"><a target="_blank" href="h{{feedElectionAdministration.elections_url}}">{{feedElectionAdministration.elections_url}}</a></dd>
+    <dt class="key">Registration URL:</dt>
+    <dd id="registration_url" class="value"><a target="_blank" href="{{feedElectionAdministration.registration_url}}">{{feedElectionAdministration.registration_url}}</a></dd>
+    <dt class="key">Am I Registered URL:</dt>
+    <dd id="am_i_registered_url" class="value"><a target="_blank" href="{{feedElectionAdministration.am_i_registered_url}}">{{feedElectionAdministration.am_i_registered_url}}</a></dd>
+    <dt class="key">Absentee URL:</dt>
+    <dd id="absentee_url" class="value"><a target="_blank" href="{{feedElectionAdministration.absentee_url}}">{{feedElectionAdministration.absentee_url}}</a></dd>
+    <dt class="key">Where Do I Vote URL:</dt>
+    <dd id="where_do_i_vote_url" class="value"><a target="_blank" href="{{feedElectionAdministration.where_do_i_vote_url}}">{{feedElectionAdministration.where_do_i_vote_url}}</a></dd>
+    <dt class="key">What Is On My Ballot URL:</dt>
+    <dd id="what_is_on_my_ballot_url" class="value"><a target="_blank" href="{{feedElectionAdministration.what_is_on_my_ballot_url}}">{{feedElectionAdministration.what_is_on_my_ballot_url}}</a></dd>
+    <dt class="key">Rules URL:</dt>
+    <dd id="rules_url" class="value"><a target="_blank" href="{{feedElectionAdministration.rules_url}}">{{feedElectionAdministration.rules_url}}</a></dd>
+    <dt class="key">Voter Services:</dt>
+    <dd id="voter_services" class="value">{{feedElectionAdministration.voter_services}}</dd>
+    <dt class="key">Hours:</dt>
+    <dd id="hours" class="value">{{feedElectionAdministration.hours}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
+  <h2>Election Official</h2>
+
+  <span ng-if="!feedElectionAdministration" class="is-loading"></span>
+  <dl ng-if="feedElectionAdministration.election_official" class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="eo-name" class="value">{{feedElectionAdministration.election_official.name}}</dd>
+    <dt class="key">Title:</dt>
+    <dd id="eo-title" class="value">{{feedElectionAdministration.election_official.title}}</dd>
+    <dt class="key">Phone:</dt>
+    <dd id="eo-phone" class="value">{{feedElectionAdministration.election_official.phone}}<dd>
+    <dt class="key">Fax:</dt>
+    <dd id="eo-fax" class="value">{{feedElectionAdministration.election_official.fax}}<dd>
+    <dt class="key">Email:</dt>
+    <dd id="eo-email" class="value"><a href="mailto:{{feedElectionAdministration.election_official.email}}">{{feedElectionAdministration.election_official.email}}</a></dd>
+  </dl>
+</section>
+
+<section class="data-group data-module">
+  <h2>Overseas Voter Contact</h2>
+
+  <span ng-if="!feedElectionAdministration" class="is-loading"></span>
+  <dl ng-if="feedElectionAdministration.overseas_voter_contact" class="attributes">
+      <dt class="key">Name:</dt>
+      <dd id="ovc-name" class="value">{{feedElectionAdministration.overseas_voter_contact.name}}</dd>
+      <dt class="key">Title:</dt>
+      <dd id="ovc-title" class="value">{{feedElectionAdministration.overseas_voter_contact.title}}</dd>
+      <dt class="key">Phone:</dt>
+      <dd id="ovc-phone" class="value">{{feedElectionAdministration.overseas_voter_contact.phone}}<dd>
+      <dt class="key">Fax:</dt>
+      <dd id="ovc-fax" class="value">{{feedElectionAdministration.overseas_voter_contact.fax}}<dd>
+      <dt class="key">Email:</dt>
+      <dd id="ovc-email" class="value"><a href="mailto:{{feedElectionAdministration.overseas_voter_contact.email}}">{{feedElectionAdministration.overseas_voter_contact.email}}</a></dd>
+    </dl>
+</section>

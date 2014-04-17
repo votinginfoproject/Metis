@@ -2,15 +2,16 @@
  * Created by rcartier13 on 12/3/13.
  */
 
+// http://localhost:4000/#/feeds/52d8619246fa32820c000004/election/contests/60001
 describe('VIP test', function () {
 
   describe('Smoke test', function () {
     // Checks the number of IDs for both username and password
     it('Page loaded properly', function () {
-      browser().navigateTo('http://localhost:4000');
+      e2eLoadPage(testGlobals.appRootUrl);
       expect(element('#username').count()).toBe(1);
-      //pause();
       expect(element('#password').count()).toBe(1);
+
     });
   });
 
@@ -20,20 +21,19 @@ describe('VIP test', function () {
   describe('Logging in', function () {
     // Failed attempt
     it('Does not accept an invalid username + password', function () {
-      input('username').enter('fakeuser');
-      input('password').enter('fakepassword');
+      e2eLoadPage(testGlobals.appRootUrl);
+      input('username').enter('FakeUser');
+      input('password').enter('FakePassword');
       element('#sign-in').click();
-      sleep(0.2);
+      sleep(testGlobals.sleepTime);
       expect(element('#pageHeader-error').count()).toBe(1);
     });
 
     // Successful attempt
     //    currently only with local client, need to modify later for crowd
     it('Accepts a proper username + password', function () {
-      input('username').enter('testuser');
-      input('password').enter('test');
-      element('#sign-in').click();
-      sleep(0.1);
+      e2eLogIn('testuser', 'test');
+      sleep(0.2);
       expect(element('#username').count()).toBe(0);
     });
 
@@ -50,9 +50,7 @@ describe('VIP test', function () {
   describe('Logging out', function () {
     // Signs out of the application
     it('Sign out of the app', function () {
-      element('#pageHeader-sign-out').click();
-      sleep(0.1);
-      expect(element('#username').count()).toBe(1);
+      e2eLogOut();
     });
   });
 });

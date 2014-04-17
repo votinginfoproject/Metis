@@ -1,58 +1,175 @@
 /* layout.scss */
 
-// article
+* {
+  @include box-sizing(border-box);
+}
+
+body {
+  background: #003b6f
+}
 
 aside {
+  display: table-caption;
+  width: 100%;
+  margin-left: 0 !important;
+
   @include bp(c12) {
     @include span-columns(4 of 12);
-    float: right;
+    display: block;
+    float: left;
   }
 
   @include bp(c16) {
     @include span-columns(4 of 16);
-    float: right;
   }
 }
 
-// details
-// footer
+footer[role="contentinfo"] {
+  margin: $base-lg $base;
+  clear: both;
+  line-height: 1;
 
-header[role="banner"] {
-  background-color: $black;
-  color: $white;
+  @include bp(c6) {
+    margin: $base-lg 0;
+  }
 }
 
-// nav
-// section
+header[role="banner"] {
+  background-color: #01244c;
+  text-align: center;
+  .wrapper {
+    padding: $base-sm $base-sm $base;
+
+    @include bp(c6) {
+      padding: $base percentage(60/600) $base;
+    }
+
+    @include bp(c12) {
+      padding: $base-lg percentage(72/1116) $base-sm;
+    }
+
+    @include bp(c16) {
+      max-width: 1308px;
+      padding: $base-lg 0 $base-sm;
+    }
+  }
+}
+
+.main {
+  overflow-x: auto;
+  background: #013a6f; /* Old browsers */
+  background: -moz-linear-gradient(top,  #013a6f 0%, #003b6f 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#013a6f), color-stop(100%,#003b6f)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #013a6f 0%,#003b6f 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #013a6f 0%,#003b6f 100%);
+}
 
 .wrapper {
   @include clearfix;
-  @include transition (all 0.5s ease-in-out);
   margin: 0 auto;
-  padding: 1em 0;
-  width: percentage(258/306);
+  padding: 1em $base;
 
   @include bp(c6) {
-    width: percentage(480/600);
+    padding: 1em percentage(60/600);
   }
 
   @include bp(c12) {
-    width: percentage(972/1116);
+    padding: 1em percentage(72/1116);
   }
 
   @include bp(c16) {
-    width: percentage(1308/1452);
+    max-width: 1308px;
+    padding: 1em 0;
+  }
+}
+
+.main > .wrapper {
+  caption-side: top;
+  display: table;
+  width: 100%;
+  padding-top: 0;
+
+  @include bp(c12) {
+    display: block;    
+  }
+
+  @include max-bp(c6) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+aside .wrapper {
+  @include bp(c12) {
+    padding: 1em percentage(24/300);
   }
 }
 
 .content {
+  padding-top: $base-xs;
+
+  @include bp(c12) {
+    padding-top: $base;
+  }
+}
+
+.content.feed {
+  margin-left: 0;
+  
   @include bp(c12) {
     @include span-columns(8 of 12);
-    float: left;
   }
 
   @include bp(c16) {
     @include span-columns(12 of 16);
-    float: left;
   }
 }
+
+
+// ============================================================================
+// Grid testing
+// ============================================================================
+
+.row {
+  @include clearfix;
+
+  background: $green;
+  background-image: url('/assets/images/col-2.png');
+  background-repeat: repeat-y;
+  background-size: 100%;
+  margin-bottom: 1em;
+  padding: 1em 0;
+
+  @include bp(c6) {
+    background-image: url('/assets/images/col-6.png');
+  }
+
+  @include bp(c12) {
+    background-image: url('/assets/images/col-12.png');
+  }
+
+  @include bp(c16) {
+    background-image: url('/assets/images/col-16.png');
+  }
+
+  div {
+    background: $red;
+    color: $white;
+    font-family: $helvetica;
+    font-weight: bold;
+  }
+}
+
+.col-1of16 { @include span-columns(1 of 16); }
+.col-4of16 { @include span-columns(4 of 16); }
+.col-6of16 { @include span-columns(6 of 16); }
+
+.col-1of12 { @include span-columns(1 of 12); }
+.col-4of12 { @include span-columns(4 of 12); }
+.col-8of12 { @include span-columns(8 of 12); }
+
+.col-1of6 { @include span-columns(1 of 6); }
+
+.col-1of2 { @include span-columns(1 of 2); }

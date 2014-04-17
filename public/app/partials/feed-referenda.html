@@ -1,0 +1,23 @@
+<i id="feed-referenda-content"></i>
+
+<div ng-if="!feedReferenda"></br><span class="is-loading"></span></div>
+
+<div class="data-module-full">
+  <table ng-show="feedReferenda.length" id="referendaTable" ng-table="referendaTableParams" template-pagination="referendaPagination" class="associations">
+    <tr id="referenda{{$index}}" ng-repeat="referendum in $data">
+      <td id="referenda-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{referendum.id}}" data-title-text="ID"><span class="td-text">{{referendum.id}}</span></a></td>
+      <td id="referenda-title{{$index}}" data-title="'Title'" sortable="'type'"><a href="{{$location.absUrl()}}/{{referendum.id}}" data-title-text="Title"><span class="td-text">{{referendum.title}}</span></a></td>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="referendaPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="candidatesPage{{$index}}" ng-class="{'is-active': page.number == referendaTableParams.page()}"
+           ng-click="referendaTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</div>

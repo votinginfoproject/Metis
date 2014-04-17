@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="vipApp">
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="vipApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,87 +9,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="assets/images/favicon.ico"/>
 
+  <!-- Libs -->
+  <!-- ======================================= -->
+
+  <!-- json3 lib for IE compatibility -->
+  <!--[if lte IE 8]>
+  <script src="assets/js/lib/json3/lib/json3.min.js"></script>
+  <![endif]-->
+
+  <!-- Modernizr lib -->
+  <script src="assets/js/lib/modernizr/modernizr.js"></script>
+
+  <!-- Moment lib -->
+  <script src="assets/js/lib/moment/min/moment.min.js"></script>
+
   <!-- jQuery lib -->
-  <script src="assets/js/lib/jquery-1.10.2/jquery-1.10.2.min.js"></script>
+  <script src="assets/js/lib/jquery/jquery.min.js"></script>
 
   <!-- javaScript debug lib -->
-  <script src="assets/js/lib/debug-0.4/ba-debug.min.js"></script>
+  <script src="assets/js/lib/javascript-debug/ba-debug.min.js"></script>
 
   <!-- Angular lib -->
-  <script src="assets/js/lib/angular-1.2.1/angular.min.js"></script>
-  <script src="assets/js/lib/angular-1.2.1/angular-route.min.js"></script>
-  <script src="assets/js/lib/angular-1.2.1/angular-cookies.min.js"></script>
+  <script src="assets/js/lib/angular/angular.min.js"></script>
+  <script src="assets/js/lib/angular-route/angular-route.min.js"></script>
+  <script src="assets/js/lib/angular-cookies/angular-cookies.min.js"></script>
+  <script src="assets/js/lib/angular-mocks/angular-mocks.js"></script>
+
+  <!-- NgTable -->
+  <script src="assets/js/lib/ng-table/ng-table.js"></script>
+
+  <!-- Vk Beautify -->
+  <script src="assets/js/lib/vkBeautify/vkbeautify.js"></script>
+
+  <!-- Leaflet -->
+  <link href="assets/js/lib/leaflet/0.7.2/leaflet.css" rel="stylesheet">
+  <script src="assets/js/lib/leaflet/0.7.2/leaflet.js"></script>
+
+  <!-- ======================================= -->
 
   <!-- VIP App -->
+  <script src="assets/js/app/utils.js"></script>
+
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
   <link href="assets/css/app.css" rel="stylesheet">
   <script src="assets/js/app/app.js"></script>
   <script src="assets/js/app/services/appService.js"></script>
+
+  <!-- Directives -->
+  <script src="assets/js/app/directives/directives.js"></script>
 
   <!-- Home -->
   <script src="assets/js/app/controllers/homeController.js"></script>
   <script src="assets/js/app/services/homeService.js"></script>
 
-  <!-- Admin -->
-  <script src="assets/js/app/controllers/adminController.js"></script>
-  <script src="assets/js/app/services/adminService.js"></script>
-
   <!-- Feeds -->
   <script src="assets/js/app/controllers/feedsController.js"></script>
+
+  <!-- reusable leafs -->
+  <script src="assets/js/app/controllers/feedErrorsController.js"></script>
+  <script src="assets/js/app/controllers/feedElectionAdministrationController.js"></script>
+  <script src="assets/js/app/controllers/feedElectoralDistrictController.js"></script>
+  <script src="assets/js/app/controllers/feedElectoralDistrictsController.js"></script>
+
+  <script src="assets/js/app/controllers/feedEarlyVoteSiteController.js"></script>
+  <script src="assets/js/app/controllers/feedEarlyVoteSitesController.js"></script>
+
+  <script src="assets/js/app/controllers/feedPollingLocationController.js"></script>
+  <script src="assets/js/app/controllers/feedPollingLocationsController.js"></script>
+
+  <script src="assets/js/app/controllers/feedOverviewController.js"></script>
+  <script src="assets/js/app/controllers/feedSourceController.js"></script>
+  <script src="assets/js/app/controllers/feedElectionController.js"></script>
+  <script src="assets/js/app/controllers/feedStateController.js"></script>
+  <script src="assets/js/app/controllers/feedResultsController.js"></script>
+
+  <script src="assets/js/app/controllers/feedLocalitiesController.js"></script>
+  <script src="assets/js/app/controllers/feedLocalityController.js"></script>
+
+  <script src="assets/js/app/controllers/feedPrecinctsController.js"></script>
+  <script src="assets/js/app/controllers/feedPrecinctController.js"></script>
+
+  <script src="assets/js/app/controllers/feedPrecinctSplitsController.js"></script>
+  <script src="assets/js/app/controllers/feedPrecinctSplitController.js"></script>
+
+  <script src="assets/js/app/controllers/feedContestsController.js"></script>
+  <script src="assets/js/app/controllers/feedContestController.js"></script>
+  <script src="assets/js/app/controllers/feedCandidateController.js"></script>
+  <script src="assets/js/app/controllers/feedCandidatesController.js"></script>
+  <script src="assets/js/app/controllers/feedBallotController.js"></script>
+  <script src="assets/js/app/controllers/feedReferendumController.js"></script>
+  <script src="assets/js/app/controllers/feedReferendaController.js"></script>
+  <script src="assets/js/app/controllers/feedContestResultController.js"></script>
+  <script src="assets/js/app/controllers/feedBallotLineResultController.js"></script>
+  <script src="assets/js/app/controllers/feedBallotLineResultsController.js"></script>
+
   <script src="assets/js/app/services/feedsService.js"></script>
-
-  <!-- Profile -->
-  <script src="assets/js/app/controllers/profileController.js"></script>
-  <script src="assets/js/app/services/profileService.js"></script>
-
-  <!-- Styleguide -->
-  <script src="assets/js/app/controllers/styleguideController.js"></script>
 
 </head>
 <body role="application">
 
   <header role="banner">
     <div class="wrapper">
-      <a href="/" class="branding">VIP Dashboard</a>
-      <div ng-if="user.isAuthenticated">
-        <div class="auth">
-          <a id="pageHeader-userName" ng-class="{navLinkDisabled: pageHeader.section!='profile'}" href="#/profile" class="user">{{user.userName}}</a> |
-          <a id="pageHeader-sign-out" class="sign-out" href="/logout">Sign Out</a>
-        </div><!-- / .auth -->
-        <nav class="main-nav">
-          <ul>
-            <li><a id="pageHeader-adminLink" ng-class="{active: pageHeader.section=='admin'}" href="#/admin">Admin</a></li>
-            <li><a id="pageHeader-feedsLink" alert-box errorng-class="{active: pageHeader.section=='feeds'}" href="#/feeds">Feeds</a></li>
-            <li><a id="pageHeader-profilelink"  ng-class="{active: pageHeader.section=='profile'}" href="#/profile">Profile</a></li>
-          </ul>
-        </nav>
-      </div>
+        <a href="/" class="branding"><span>VIP Dashboard</span></a>
+
+      <nav class="main-nav" ng-if="user.isAuthenticated">
+        <ul>
+          <li><i class="fi-torso"></i> {{user.userName}}</li>
+          <li><a id="pageHeader-feedsLink" href="/" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
+          <li><a id="pageHeader-sign-out" href="/logout"><i class="fi-x"></i> Sign Out</a></li>
+        </ul>
+      </nav>
+
     </div><!-- / .wrapper -->
   </header>
 
-  <div role="main">
+  <div class="main" role="main">
     <div class="wrapper">
 
-      <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-hide="pageHeader.breadcrumbs == ''">
-        {{pageHeader.breadcrumbs}}
-      </nav>
+      <div class="content" ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
-      <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error">
-        ERROR: {{pageHeader.error}}
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+
+        <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
+          <ul>
+            <li id="pageHeader-breadcrumb{{$index}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs"><a href="{{crumb.url}}">{{crumb.name}}</a></li>
+          </ul>          
+        </nav>
+
+        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
+          ERROR: {{pageHeader.error}}
+        </div>
+
+      <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0">
+        NOTE: {{pageHeader.alert}}
       </div>
 
-      <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
-      <br/>
+
       <!-- Current Page -->
       <div ng-view></div>
 
-    </div><!-- / .wrapper -->
-  </div><!-- / main -->
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2014 Voting Information Project.</small>
+        </footer><!-- / contentinfo -->
+      </div><!-- /.content -->
 
-  <footer role="contentinfo" >
-    <div class="wrapper">
-      <small>&copy; Copyright 2013 Voting Information Project. <a href='#/styleguide'>Styleguide</a></small>
+      <aside class="feed-meta" ng-if="pageHeader.section==='feeds'&&pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
+
     </div><!-- / .wrapper -->
-  </footer><!-- / contentinfo -->
+
+  </div><!-- / main -->
 
 </body>
 </html>

@@ -1,0 +1,211 @@
+// ============================================================================
+// Overview
+// ============================================================================
+
+.overview {
+  thead {
+    display: none;
+
+    @include bp(c6) {
+      display: table-header-group;
+    }
+    
+  }
+
+  tr {
+    @include clearfix;
+    border-bottom: 1px solid $blue;
+    display: block;
+    padding: $base-xs 0;
+    position: relative;
+
+    @include bp(c6) {
+      display: table-row;
+      padding: $base 0;
+      position: static;
+    }
+
+  }
+
+  td {
+    border-top: none;
+    width: 50%;
+    min-width: 20px;
+    float: right;
+    display: block;
+    padding: $base-xs $base;
+
+    @include bp(c6) {
+      display: table-cell;
+      float: none;
+      margin: 0;
+      width: inherit;
+    }
+  }
+
+  .element-type {
+    float: left;
+    margin-top: 1.8em;
+    line-height: 1.125;
+
+    @include bp(c6) {
+      float: none;
+      margin-top: 0;
+    }
+    
+  }
+
+  .amount {
+    position: absolute;
+    left: 0;
+    top: -($base-xs);
+    font-weight: bold;
+    font-size: 1.875em;
+    font-size: 1.875rem;
+    padding: .533333em;
+	
+    @include bp(c6) {
+      position: static;
+      font-weight: normal;
+      padding: $base;
+      font-size: 1em;
+      font-size: 1rem;
+    }
+  }
+
+  .completion,
+  .element-errors {
+    clear: right;
+    margin-right: 0;
+
+    @include bp(c6) {
+      clear: none;
+      width: default;
+    }
+    
+  }
+
+  .completion {
+    padding-bottom: 0;
+  }
+
+}
+
+.completeness {
+  background: $blue-light;
+  color: $gray-light;
+  height: $base-med;
+  position: relative;
+  border-radius: 20px;
+
+  @include bp(c6) {
+    height: $base;
+  }
+}
+
+.complete {
+  background: $blue-dark;
+  display: block;
+  height: 100%;
+  border-radius: 20px 0 0 20px;
+}
+
+@for $i from 1 through 3 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage(3/100);
+  }
+}
+
+@for $i from 4 through 95 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage($i/100);
+  }
+}
+
+@for $i from 96 through 99 {
+  .complete-#{$i} {
+    @extend .complete;
+    width: percentage(95/100);
+  }
+}
+
+.complete-100 {
+  @extend .complete;
+  width: 100%;
+  border-radius: 20px;
+}
+.counter {
+  font-weight: bold;
+  line-height: 1;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: 2px;
+  width: 100%;
+  
+  .counter-text {
+    font-weight: normal;
+  }
+
+  @include bp(c6) {
+    visibility: hidden;
+  }
+}
+
+.errors {
+  background-color: $red;
+  border-radius: 71em;
+  color: $white;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.1875em 0.625em 0.25em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 100%;
+  height: $base-med;
+  vertical-align: middle;
+
+  @include bp(c6) {
+    width: auto;
+    height: auto;
+  }
+
+  &:hover {
+    background: #f33;
+    color: $white;
+  }
+
+  .error-text {
+    font-weight: normal; 
+    @include bp(c6) {
+      display: none;
+    }
+  }
+
+  i {
+    font-weight: normal;
+    margin-left: 4px;
+
+  }
+
+  .fi-check {
+    color: #063;
+  }
+
+  .fi-alert {
+    color: #600;
+  }
+}
+
+.errors.none {
+  background-color: $green;
+  &:hover, &:focus {
+    background-color: $green;
+    cursor: default;
+  }
+}

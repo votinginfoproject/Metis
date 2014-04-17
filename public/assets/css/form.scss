@@ -1,16 +1,28 @@
 /* form.scss */
 
-.button {
-  background: $base-accent-color;
+form {
+  margin-bottom: $base;
+}
+
+form > div, fieldset > div {
+  margin-bottom: $base;
+}
+
+.button,
+%button {
+  background: $blue;
   border: none;
-  border-radius: $base-border-radius;
-  color: $white;
+  color: $gray-light;
   display: inline-block;
-  font-family: $base-font-family;
+  font-family: $header-font-family;
   font-size: $base-font-size;
   font-weight: bold;
   padding: $base-padding;
+  text-align: center;
   text-shadow: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   &:hover {
     background: darken($base-accent-color, 10);
@@ -18,21 +30,53 @@
   }
 }
 
+%button-primary {
+  @extend %button;
+  background: red;
+
+}
+
 .disabled {
-  @extend .button;
-  background: $gray-light;
-  color: lighten($gray-light, 10);
+  @extend %button;
+  background: $gray-medium;
+  color: $gray-light;
 
   &:hover {
-    background: $gray-light;
-    color: lighten($gray-light, 10);
+    background: $gray-medium;
+    color: $gray-light;
     cursor: default;
   }
 }
 
+.disabled-row {
+  background: $gray-lightest;
+  color: $gray-medium-dark !important;
+  cursor: default;
+
+  &:hover {
+    color: $gray-medium-dark !important;
+    cursor: default;
+  }
+}
+
+.disabled-row-failed {
+  background: $red-medium;
+  color: $gray-medium-dark;
+  cursor: default;
+
+  &:hover {
+    color: $gray-medium-dark !important;
+    cursor: default;
+  }
+}
+
+.default_pointer {
+  cursor: default !important;
+}
+
 button,
 input[type="submit"] {
-  @extend .button;
+  @extend %button;
   @include appearance(none);
   cursor: pointer;
   vertical-align: middle;
@@ -44,7 +88,6 @@ input[type="submit"] {
 // colgroup
 
 fieldset {
-  background: lighten($base-border-color, 10);
   border: 1px solid $base-border-color;
   margin: 0 0 ($base-line-height / 2) 0;
   padding: $base-line-height;
@@ -67,6 +110,10 @@ input[type="search"] {
 input[type="checkbox"], input[type="radio"] {
   display: inline;
   margin-right: $base-line-height / 4;
+}
+
+input[type="checkbox"] + label , input[type="radio"] + label {
+  display: inline;
 }
 
 label {

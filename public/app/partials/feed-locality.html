@@ -1,0 +1,93 @@
+<i id="feed-locality-content"></i>
+
+<p ng-if="feedLocality !== undefined"><a id="locality-errors" class="error-count error-count-{{feedLocality.error_count}}" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a></p>
+
+
+<div class="data-module-full">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="locality-name" class="value">{{feedLocality.name}}</dd>
+    <dt class="key">Type:</dt>
+    <dd id="locality-type" class="value">{{feedLocality.type}}</dd>
+    <dt class="key">Election Machine Type:</dt>
+    <dd id="locality-electionmachintype" class="value">{{feedLocality.election_machine_type}}</dd>
+    <dt class="key">Pollbook Type:</dt>
+    <dd id="locality-pollbooktype" class="value">{{feedLocality.poll_book_type}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module started">
+  <h2>Overview</h2>
+
+  <!-- element table directive -->
+  <div ng-if="feedLocalityOverview" ng-overviewtable ng-model="feedLocalityOverview" loading="feedLocality" label="locality"></div>
+
+</section><!-- /.data-group -->
+
+<section class="data-group data-module">
+  <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
+
+  <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
+  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams" template-pagination="earlyVotePagination" class="associations">
+    <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
+      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a></td>
+      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a></td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a></td>
+    </tr>
+  </table>
+</section>
+
+<section class="data-group data-module">
+  <h2><span ng-if="!feedLocality.administration">No</span> Election Administration</h2>
+
+  <span ng-if="!feedLocality" class="is-loading"></span>
+  <table class="associations" ng-if="feedLocality.administration">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="locality-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="ID"><span class="td-text">{{feedLocality.administration.id}}</span></a></td>
+      <td id="locality-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="name"><span class="td-text">{{feedLocality.administration.name}}</span></a></td>
+      <td id="locality-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="address"><span class="td-text">{{feedLocality.administration.address}}</span></a></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}" ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>
+
+<section class="data-group data-module">
+  <h2>{{feedPrecincts.length}} Precincts</h2>
+
+  <span ng-if="!feedPrecincts" class="is-loading"></span>
+  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+    <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
+      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/precincts/{{precinct.id}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
+      <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/precincts/{{precinct.id}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
+      <td id="precinct-office{{$index}}" data-title="'Precinct Splits'" sortable="'precinct_splits'"><a href="{{$location.absUrl()}}/precincts/{{precinct.id}}" data-title-text="Precinct Splits"><span class="td-text">{{precinct.precinct_splits}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="precinctsPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsTableParams.page()}" ng-click="precinctsTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>

@@ -1,0 +1,90 @@
+<i id="feed-ballot-content"></i>
+
+<p ng-if="feedBallot.error_count !== undefined"><a id="ballot-errors" class="error-count error-count-{{feedBallot.error_count}}" href="{{$location.absUrl()}}/errors">{{feedBallot.error_count}}
+  Errors in Ballot ID: {{feedBallot.id}}</a></p>
+
+
+<span ng-if="!feedBallot" class="is-loading"></span>
+
+<div class="data-module-full">
+  <dl class="attributes" ng-if="feedBallot">
+    <dt class="key">Image URL:</dt> <dd id="ballot-imageurl" class="value">{{feedBallot.image_url}}</dd>
+    <dt class="key">Write In:</dt> <dd id="ballot-writein" class="value">{{feedBallot.write_in}}</dd>
+  </dl>
+</div>
+
+<section class="data-group data-module">
+  <h2>{{feedBallot.candidates.length}} Candidates</h2>
+  <div ng-if="!feedBallot.candidates"></br><span class="is-loading"></span></div>
+  <table ng-show="feedBallot.candidates.length" id="ballotCandidatesTable" ng-table="ballotCandidatesTableParams" template-pagination="ballotCandidatesPagination"  class="associations">
+    <tr id="ballotcandidates{{$index}}" ng-repeat="candidate in $data">
+      <td id="ballotcandidates-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="ID"><span class="td-text">{{candidate.id}}</span></a></td>
+      <td id="ballotcandidates-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="Name"><span class="td-text">{{candidate.name}}</span></a></td>
+      <td id="ballotcandidates-party{{$index}}" data-title="'Party'" sortable="'party'"><a href="{{$location.absUrl()}}/candidates/{{candidate.id}}" data-title-text="Party"><span class="td-text">{{candidate.party}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="ballotCandidatesPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotCandidatePage{{$index}}" ng-class="{'is-active': page.number == ballotCandidatesTableParams.page()}"
+           ng-click="ballotCandidatesTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>
+
+
+<section class="data-group data-module">
+  <h2>{{feedBallot.referenda.length}} Referenda</h2>
+  <div ng-if="!feedBallot.referenda"></br><span class="is-loading"></span></div>
+  <table ng-show="feedBallot.referenda.length" id="referendaTable" ng-table="referendaTableParams" template-pagination="referendaPagination" class="associations">
+    <tr id="referendum{{$index}}" ng-repeat="referendum in $data">
+      <td id="referendum-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}" data-title-text="ID"><span class="td-text">{{referendum.id}}</span></a></td>
+      <td id="referendum-title{{$index}}" data-title="'Title'" sortable="'title'"><a href="{{$location.absUrl()}}/referenda/{{referendum.id}}" data-title-text="Title"><span class="td-text">{{referendum.title}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="referendaPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="referendaPage{{$index}}" ng-class="{'is-active': page.number == referendaTableParams.page()}"
+           ng-click="referendaTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>
+
+<section class="data-group data-module">
+  <h2>Custom Ballot ID: {{feedBallot.custom_ballot.id}}</h2>
+  <a ng-if="feedBallot.custom_ballot" id="response-errors" class="error-count" href="{{$location.absUrl()}}/customballot/errors">{{feedBallot.custom_ballot.error_count}}
+    Errors in Contest Result</a>
+
+  <div ng-if="!feedBallot.custom_ballot && feedBallot.custom_ballot !== null"></br><span class="is-loading"></span></div>
+  <dl class="attributes" ng-if="feedBallot.custom_ballot">
+    <dt class="key">Heading:</dt> <dd id="customballot-heading" class="value">{{feedBallot.custom_ballot.heading}}</dd>
+    <dt class="key">Sort Order:</dt> <dd id="customballot-sortorder" class="value">{{feedBallot.custom_ballot.sort_order}}</dd>
+  </dl>
+</section>
+
+<section class="data-group data-module">
+  <h2 ng-if="feedBallot.custom_ballot !== null">{{feedBallot.custom_ballot.ballot_responses.length}} Ballot Responses</h2>
+  <a ng-if="feedBallot.custom_ballot.ballot_responses_error_count" id="ballotResponse-errors" class="error-count" href="{{$location.absUrl()}}/ballotresponses/errors">{{feedBallot.custom_ballot.ballot_responses_error_count}}
+    Errors in Ballot Responses</a>
+  <table ng-show="feedBallot.custom_ballot.ballot_responses.length" id="customBallotResponsesTable" class="associations associations-end">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="response{{$index}}" ng-repeat="response in feedBallot.custom_ballot.ballot_responses">
+        <td id="response-id{{$index}}"><div data-title-text="ID"><span class="td-text">{{response.id}}</span></div></td>
+        <td id="response-text{{$index}}"><div data-title-text="Text"><span class="td-text">{{response.text}}</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>

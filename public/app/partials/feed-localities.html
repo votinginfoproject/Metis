@@ -1,0 +1,23 @@
+<i id="feed-localities-content"></i>
+
+<section class="data-group data-module-full">
+
+  <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
+  <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localitiesTableParams" template-pagination="localitiesPagination" class="associations">
+    <tr id="locality{{$index}}" ng-repeat="locality in $data">
+      <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{locality.id}}" data-title-text="ID"><span class="td-text">{{locality.id}}</span></a></td>
+      <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{locality.id}}" data-title-text="Name"><span class="td-text">{{locality.name}}</span></a></td>
+      <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'"><a href="{{$location.absUrl()}}/{{locality.id}}" data-title-text="Precincts"><span class="td-text">{{locality.precincts}}</span></a></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="localitiesPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localitiesTableParams.page()}" ng-click="localitiesTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+
+</section>

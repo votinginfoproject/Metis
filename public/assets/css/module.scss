@@ -47,6 +47,19 @@
   }
 }
 
+.alert-box.processing {
+  background: $processing-color;
+  color: darken($processing-color, 60);
+
+  a {
+    color: $blue;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
 .close {
   color: $gray-dark;
   font-size: 1.375em;
@@ -80,23 +93,82 @@
 
   tbody {
     tr {
-      &:hover {
-        background: lighten($blue-light, 10);
+      background: $white;
+      a {
+        border-top: 1px solid $gray-light;
+
+         @include bp(c6) {
+          border: none;
+         }
       }
 
-      > * {
-        padding:0;
+      &:nth-child(2n){
+        background: $gray-light;
+
+        a {
+          border-top: 1px solid $white;
+          @include bp(c6) {
+            border: none;
+           }
+        }
+      }
+
+      td:first-child a {
+        border: none;
+      }
+
+      &:hover {
+        background: $blue-darkest;
+        color: $white;
+        a {
+          color: $white;
+        }
       }
     }
   }
 
   a {
-    display: block;
-    padding: ($base-line-height / 2) 0;
+    display: block; 
+    line-height: 1.125;
+    padding: $base-sm $base;
+    @include clearfix;
 
-    &:hover {
+    @include bp(c6) {
+      padding: $base;
+    }
+
+    &:hover, &:focus {
       color: $base-link-color;
     }
+
+    .td-text {
+      width: 50%;
+      float: right;
+
+       @include bp(c6) {
+          width: auto;
+          float: none;
+       }
+    }
+    
+    &:before {
+      content: attr(data-title-text);
+      width: 47%;
+      display: block;
+      float: left;
+      font-weight: bold;
+      font-size: 0.875em;
+      font-size: 0.875rem;
+      line-height: 1.3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-right: 3%;
+    
+      @include bp(c6) {
+        content: '';
+      }
+    }
+
   }
 
   tr {
@@ -105,18 +177,20 @@
     @include bp(c6) {
       border: none;
     }
+    
   }
 
   td {
-    clear: left;
-    float: left;
     border: none;
+    clear: left;
+    padding: 0;
+    display: block;
 
     @include bp(c6) {
-      float: none;
-      clear: none;
       border-top: $base-border;
+      display: table-cell;
     }
+    
   }
 
   .admin {
@@ -124,38 +198,85 @@
     padding-left: 1em;
   }
 
-  .address:before {
-    content: "Address ";
+}
 
-    @include bp(c6) {
-      content: none;
+.associations-end {
+  color: $gray-dark;
+
+  tbody tr {
+
+    &:hover {
+      background: $gray-light;
     }
+
+    &:nth-child(2n){
+      &:hover {
+        background: $white;
+      }
+    }
+
+    td {
+      padding: $base-sm $base;
+      @include clearfix;
+
+      @include bp(c6) {
+        padding: $base;
+      }
+
+      div {
+
+        &:before {
+          content: attr(data-title-text);
+          width: 47%;
+          display: block;
+          float: left;
+          font-weight: bold;
+          font-size: 0.875em;
+          font-size: 0.875rem;
+          line-height: 1.9;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          padding-right: 3%;
+        
+          @include bp(c6) {
+            content: '';
+          }
+        }
+
+      }
+    }
+
+    .td-text {
+      width: 50%;
+      float: right;
+
+       @include bp(c6) {
+          width: auto;
+          float: none;
+       }
+    }
+
   }
 
-  .id:before {
-    content: "ID ";
+}
 
-    @include bp(c6) {
-      content: none;
-    }
-  }
+// TODO: remove if possible
+.ng-table th {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-  .name:before {
-    content: "Name ";
+.sortable {
+  cursor: pointer;
+}
 
-    @include bp(c6) {
-      content: none;
-    }
-  }
-
-  .precinct-splits:before {
-    content: "Precinct Splits ";
-
-    @include bp(c6) {
-      content: none;
-    }
-  }
-
+.sort-desc,
+.sort-asc {
+  background-color: $blue-light;
 }
 
 
@@ -167,6 +288,19 @@
   @include clearfix;
   margin-bottom: 1em;
   width: 100%;
+  background-color: $white;
+
+  @include bp(c6) {
+    background-color: $white;
+    /* IE9, iOS 3.2+ */
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBzdG9wLWNvbG9yPSIjMDAwMDAwIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwLjMiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiIG9mZnNldD0iMC4zIi8+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+    background-image: -webkit-gradient(linear, 0% 0%, 100% 0%,color-stop(0, $blue-med),color-stop(0.3, $blue-med),color-stop(0.3, rgb(255, 255, 255)),color-stop(1, rgb(255, 255, 255)));
+    /* Android 2.3 */
+    background-image: -webkit-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+    /* IE10+ */
+    background-image: repeating-linear-gradient(to right,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+    background-image: -ms-repeating-linear-gradient(left,$blue-med 0%,$blue-med 30%,rgb(255, 255, 255) 30%,rgb(255, 255, 255) 100%);
+  }
 
   .errors {
     min-height: $base-line-height;
@@ -176,160 +310,61 @@
 
 .key {
   @include box-sizing(border-box);
-  border-top: $base-border;
+  //background: $blue-med;
   clear: left;
-  color: $gray-medium;
-  font-weight: normal;
+  color: $blue;
+  font-weight: bold;
   margin: 0;
-  padding-top: .25em;
+  padding: $base-xs $base 0;
+  border-top: 1px solid #628eb7;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &:last-child {
+  }
 
   @include bp(c6) {
+    color: $white;
+    font-weight: normal;
+    padding-bottom: $base-xs;
     float: left;
-    padding: .25em;
-    text-align: right;
     width: 30%;
   }
 }
 
 .value {
   @include box-sizing(border-box);
+  @include word-break;
+  color: $blue;
   margin: 0;
-  padding-bottom: .25em;
+  padding: 0 $base $base-sm;
 
   @include bp(c6) {
-    border-top: $base-border;
+    padding-top: $base-xs;
     float: left;
-    padding: .25em;
     width: 70%;
-  }
-}
+    border-top: 1px solid #628eb7;
 
-
-// ============================================================================
-// Nav
-// ============================================================================
-
-.branding {
-  color: $white;
-  float: left;
-}
-
-.auth {
-  float: right;
-}
-
-.main-nav {
-  clear: right;
-  float: right;
-  margin: 1em 0 -1em 0;
-
-  ul {
-    @extend .no-bullet;
-  }
-
-  li {
-    float: left;
+    &:nth-child(2) {
+      border-top: none;
+    }
   }
 
   a {
-    background: $gray-light;
-    display: block;
-    padding: $base-padding;
-
-    &.active {
-      background: $white;
+    border-bottom: 1px solid $blue-dark;
+    &:hover, &:focus {
+      border-color: $hover-link-color;
     }
   }
-}
-
-.breadcrumbs {
-  border: $base-border;
-  border-radius: $base-border-radius;
-  display: block;
-  list-style: none;
-  margin: 0 0 1em 0;
-  overflow: hidden;
-  padding: $base-padding;
-}
-
-.breadcrumbs > * {
-  float: left;
-  font-size: 0.6875em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.breadcrumbs > *:hover a,
-.breadcrumbs > *:focus a {
-  text-decoration: underline;
-}
-
-.breadcrumbs > * a,
-.breadcrumbs > * span {
-  color: $base-link-color;
-}
-
-.breadcrumbs > *:before {
-  color: $gray-medium;
-  content: "/";
-  margin: 0 0.75em;
-  position: relative;
-  top: .1em;
-}
-
-.breadcrumbs > *:first-child:before {
-  content: " ";
-  margin: 0;
-}
-
-.current,
-.current a {
-  color: $base-font-color;
-  cursor: default;
-}
-
-.current:hover,
-.current:hover a,
-.current:focus,
-.current:focus a {
-  text-decoration: none;
-}
-
-
-// ============================================================================
-// Data Group
-// ============================================================================
-// TODO: rename data-group
-
-.data-group {
-  margin-bottom: 2em;
-}
-
-.data-group-header {
-  @include clearfix;
-  border-bottom: 4px solid $black;
-  padding-bottom: .5em;
-
-  h2 {
-    font-size: 1.5em;
-    float: left;
-    margin-bottom: 0;
-  }
-}
-
-.more-detail {
-  display: block;
-  float: right;
-  font-size: 1.125em;
-  line-height: 1.666666667;
-  margin-top: .125em;
 }
 
 
 // ============================================================================
 // Errors
 // ============================================================================
-// TODO: rename accordion
+// 
 
 .accordion {
   margin-top: 1em;
@@ -338,15 +373,279 @@
   }
 }
 
+.table-errors {
 
-// ============================================================================
-// Forms
-// ============================================================================
+  h3 {
+    font-size: 1em;
+    color: $red;
+  }
 
-.new_user {
+  td {
+    vertical-align: top;
+    padding: 0;
+    position: relative;
+  }
+
+  td > a {
+    display: block;
+    padding: $base;
+    color: $black;
+  }
+  td.toggle-td {
+    padding-right: $base-xl;
+  }
 }
 
-.new_feed {
+.error-toggle {
+  position: absolute;
+  right: $base;
+  top: $base;
+  color: $blue;
+}
+
+
+// ============================================================================
+// Aside
+// ============================================================================
+aside {
+  color: $gray-medium; 
+
+  h2 {
+    color: $gray-medium;
+    font-size: 0.875em;
+    font-size: 0.875rem;
+    font-weight: normal;
+    margin-bottom: $base-sm;
+
+    @include bp(c6) {
+      font-size: 1.5em;
+      font-size: 1.5rem;
+
+    }
+  }
+}
+
+.aside-nav {
+  @include bp(c6) {
+    @include clearfix;
+
+    .button-errors, .feed-nav, .button-approve, p.helper, {
+      @include span-columns(3 of 6);
+    }
+
+    .feed-nav {
+      float: left;
+      margin-left: 0;
+    }
+  }
+
+  @include bp(c12) {
+    .button-errors, .feed-nav, .button-approve, p.helper, {
+      float: none;
+      width: 100%;
+      margin-left: 0; 
+    }
+  }
+}
+
+.contact-wrap {
+  display: none;
+
+  @include bp(c12) {
+    display: block;
+  }
+
+  a {
+    color: $gray-medium;
+    text-decoration: none;
+    border-bottom: 1px solid $blue-dark;
+    line-height: 1.25;
+
+    &:hover, &:focus {
+      color: $white;
+      border-color: $white;
+    }
+  }
+}
+
+  // .animate-hide {
+  //   -webkit-transition:all linear 0.6s;
+  //   transition:all linear 0.6s;
+  //   opacity:1;
+  //   max-height: 1200px;
+  //   position: relative;
+  //   z-index: 1;
+
+  // }
+
+  // .animate-hide.ng-hide,
+  // .animate-hide.ng-hide {
+  //   display:block!important;
+  // }
+
+  // .animate-hide.ng-hide {
+  //   opacity:0;
+  //   max-height: 0;
+  //   z-index: -1;
+  // }
+
+
+
+// ============================================================================
+// Feed Meta
+// ============================================================================
+
+.feed-title {
+  cursor: pointer;
+
+  @include bp(c12) {
+    cursor: default;
+    padding-top: $base-sm;
+  }
+
+  h2 {
+    color: $white;
+    font-weight: bold;
+    margin-bottom: 0;
+    @include word-break;
+    position: relative;
+  }
+
+  i {
+    position: absolute;
+    right: 0;
+    top: 0;
+    @include bp(c12) {
+      display: none;
+    }
+  }
+}
+
+.details {
+  //background: $gray-light;
+  //color: $black;
+}
+
+.button-errors {
+  display: block;
+  background: $red;
+  color: $white;
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  padding: $base-sm;
+  margin-bottom: $base;
+  border: 2px solid $white;
+  border-radius: 15px;  
+  width: 100%;
+
+  &:hover, &:focus {
+    background: #f33;
+    color: $white;
+  }
+
+  time {
+    display: block;
+    color: $red-dark;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: none;
+  }
+}
+
+.feed-status {
+  font-size: .875em;
+  margin-top: 1em;
+}
+
+.feed-nav ul {
+  @extend .no-bullet;
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid $gray-medium;
+  border-radius: 15px;
+  margin-bottom: $base;
+
+  li {
+    color: $gray-light;
+    border-top: 2px solid $gray-medium;
+
+    > * {
+      display: block;
+      opacity: 0.4;
+      padding: $base-sm;      
+    }
+
+    &:first-child {
+      border-top: none;
+      > * {
+        border-radius: 15px 15px 0 0;
+      }
+    }
+
+    &:last-child > * {
+      border-radius: 0 0 15px 15px;
+    }
+
+    a {
+      color: $gray-medium;
+      background: $blue-darkest;
+      opacity: 1;
+      &:hover, &:focus {
+        color: $white;
+      }
+    }
+  }
+
+  .is-finished {
+  }
+
+  .is-started {
+  }
+
+  .is-unstarted {
+  }
+}
+
+.button-approve {
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: $white;
+  display: block;
+  margin: 0 0 1em;
+  padding: $base-sm;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  border: 2px solid $white;
+  background: $green-dark;
+
+  &:hover, &:focus {
+    color: $white;
+    background: #0c6;
+  }
+}
+
+.vcard {
+
+  span {
+    display: block;
+  }
+
+  .fn {
+    font-weight: bold;
+  }
+
+  .title {
+    font-style: italic;
+  }
 }
 
 
@@ -356,227 +655,165 @@
 
 .map {
   margin-bottom: 1em;
+  max-width: 100%;
+  min-height: 480px;
+  color: black;
 }
 
 
 // ============================================================================
-// Overview
+// Search
 // ============================================================================
+form[role="search"] {
+  margin-bottom: $base;
 
-.overview {
-  font-family: $header-font-family;
-
-  thead {
-    display: none;
-
-    @include bp(c6) {
-      display: table-header-group;
-    }
+  input[type="search"]{
+    background: transparent;
+    font-style: italic;
+    padding: $base-sm $base;
+    border-radius: 30px;
+    border-width: 2px;
   }
+}
 
-  tr {
-    @include clearfix;
-    border-bottom: $base-border;
+
+// ============================================================================
+// Breadcrumbs
+// ============================================================================
+.breadcrumbs {
+  display: none;
+  margin: 0 0 $base-med;
+
+  @include bp(c6) {
     display: block;
-    padding: 1em 0;
-    position: relative;
-
-    @include bp(c6) {
-      border-bottom: none;
-      display: table-row;;
-      padding: 1em 0;
-      position: static;
-    }
   }
 
-  td {
-    @include span-columns(1 of 2);
-    border: none;
-    font-size: .875em;
+  ul {
     padding: 0;
+    margin: 0;
+  }
 
-    @include bp(c6) {
-      display: table-cell;
-      float: none;
-      width: inherit;
-      border-bottom: $base-border;
+  li {
+    list-style: none;
+    display: inline;
+    margin: 0;
+
+    &:before {
+      color: $gray-medium;
+      content: "/";
+      margin: 0 $base-xs;
+    }
+
+    &:first-child:before {
+      content: " ";
       margin: 0;
-      padding: .5em 1em .5em 0;
     }
   }
 
-  .element-type {
-    float: left;
-    margin-top: 2em;
+  a {
+    line-height: 1.25;
+    color: $gray-medium;
+    text-decoration: none;
+    border-bottom: 1px solid $blue-dark;
+    display: inline-block;
 
-    @include bp(c6) {
-      float: none;
-      margin-top: 0;
+    &:hover, &:focus {
+      color: $white;
     }
   }
 
-  .amount {
-    font-size: 1.5em;
-    left: 0;
-    position: absolute;
-    top: .6666em;
-
-    @include bp(c6) {
-      position: static;
-      font-size: .875em;
-    }
-  }
-
-  .completion,
-  .element-errors {
-    clear: right;
-    margin-right: 0;
-
-    @include bp(c6) {
-      clear: none;
-      width: default;
-    }
-  }
-}
-
-.completeness {
-  background-color: transparent;
-  border: $base-border;
-  height: $base-line-height;
-  padding: 0.125em;
-  position: relative;
-}
-
-.complete {
-  background: $green;
-  display: block;
-  height: 100%;
-}
-
-@for $i from 0 through 100 {
-  .complete-#{$i} {
-    @extend .complete;
-    width: percentage($i/100);
-  }
-}
-
-.counter {
-  font-size: .875em;
-  left: 0;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 100%;
-}
-
-.errors {
-  background-color: $red;
-  border-radius: 71em;
-  color: $white;
-  display: inline-block;
-  font-size: 0.875em;
-  font-weight: bold;
-  line-height: 1;
-  padding: 0.1875em 0.625em 0.25em;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-
-  &:hover {
+  .is-active a {
     color: $white;
+    border: none;
+    cursor: default;
+
+    &:hover,
+    &:focus {
+    }
   }
-}
 
-.errors.none {
-  background-color: $green;
 }
-
 
 // ============================================================================
 // Pagination
 // ============================================================================
 
-
 .pagination {
-  display: block;
-  height: 1.5em;
-  margin-left: -0.3125em;
-}
-
-.pagination li {
-  color: $gray-dark;
-  font-size: 0.875em;
-  height: 1.5em;
-  margin-left: 0.3125em;
-}
-
-.pagination li a {
-  color: $gray-medium;
-  display: block;
-  padding: 0.0625em 0.4375em 0.0625em;
-}
-
-.pagination li:hover a,
-.pagination li a:focus {
-  background: $gray-light;
-}
-
-.pagination li.unavailable a {
-  color: $gray-medium;
-  cursor: default;
-}
-
-.pagination li.unavailable:hover a, ul.pagination li.unavailable a:focus {
-  background: transparent;
-}
-
-.pagination li.current a {
-  background: $base-accent-color;
-  color: $white;
-  cursor: default;
-  font-weight: bold;
-}
-
-.pagination li.current a:hover,
-.pagination li.current a:focus {
-  background: $base-accent-color;
-}
-
-.pagination li {
-  display: block;
-  float: left;
-}
-
-
-// ============================================================================
-// Status
-// ============================================================================
-
-.button-errors {
-  @extend .button;
-}
-
-.checklist {
+  @include clearfix;
   @extend .no-bullet;
-  font-weight: bold;
+  margin-bottom: 1em;
 
-  .finished {
-    color: $green;
+  li {
+    float: left;
+    margin-right: 0.3125em;
   }
 
-  .started {
-    color: $red;
-  }
-
-  .unstarted {
+  a {
+    font-size: 0.875em;
     color: $gray-medium;
+    display: block;
+    padding: .25em .75em;
+
+    &:hover,
+    &:focus {
+      background: $gray-light;
+    }
+  }
+
+  .is-active {
+    background: $base-accent-color;
+    color: $white;
+    cursor: default;
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+      background: $base-accent-color;
+    }
   }
 }
 
-.button-approve {
-  @extend .button;
+
+// ============================================================================
+// Error Count
+// ============================================================================
+
+.error-count {
+  color: $white;
+  font-weight: bold;
+  padding: 0.1875em 0.625em 0.25em;
+  display: inline-block;
+  margin: 0 $base-sm $base;
+  background: $red;
+  border-radius: 15px;
+
+  @include bp(c6) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  &:before {
+    margin-right: 5px;
+    font-family: "foundation-icons";
+    content: "\f101";
+  }
+
+  &:hover, &:focus {
+    background: #f33;
+    color: $white;
+  }
 }
+
+.error-count-0 {
+  background-color: $green-dark;
+  &:before {
+    content: "\f126"; 
+  }
+  &:hover, &:focus {
+    background-color: $green;
+  }
+}
+
 
 
 // ============================================================================
@@ -596,25 +833,35 @@
 .swatches {
   @include clearfix;
   @extend .no-bullet;
-  float: left;
-  margin-bottom: 1em;
+  //float: left;
+  //margin-bottom: 1em;
 }
 
 .swatch {
   @include size(7em);
   background: $gray-light;
   float: left;
-
+  color: $black;
+  
+  &.blue {
+    background: $blue;
+  }
   &.blue-dark {
     background: $blue-dark;
   }
   &.blue-light {
     background: $blue-light;
   }
+  &.blue-med {
+    background: $blue-med;
+  }
+
   &.red {
     background: $red;
   }
-
+  &.red-dark {
+    background: $red-dark;
+  }
   &.red-light {
     background: $red-light;
   }

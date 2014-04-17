@@ -1,7 +1,7 @@
 /* normalize.css v2.1.2 | MIT License | git.io/normalize */
 
 // ==========================================================================
-// HTML5 display definitions
+// HTML5 display impl
 // ==========================================================================
 
 // Correct `block` display not defined in IE 8/9.
@@ -119,8 +119,10 @@ hr {
 // Address styling not present in IE 8/9.
 
 mark {
-    background: #ff0;
-    color: #000;
+    // background: #ff0;
+    // color: #000;
+    background: transparent;
+    color: inherit;
 }
 
 // Correct font family set oddly in Safari 5 and Chrome.
