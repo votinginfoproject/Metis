@@ -21,12 +21,14 @@ function ballotExport(feedId, callback) {
 
       if(result.referendumIds.length) {
         result.referendumIds.forEach(function(refId) {
-          chunk += util.startEndElement("referendum_id", _.escape(refId.toString()));
+          if(refId)
+            chunk += util.startEndElement("referendum_id", _.escape(refId.toString()));
         });
       }
       if(result.candidates.length) {
         result.candidates.forEach(function(candidate) {
-          chunk += util.startEndElement("candidate_id", _.escape(candidate.elementId.toString()));
+          if(candidate)
+            chunk += util.startEndElement("candidate_id", _.escape(candidate.elementId.toString()));
         });
       }
       if(result.customBallotId)
