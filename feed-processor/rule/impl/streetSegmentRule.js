@@ -27,12 +27,12 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
     if(err) {
       console.log(err);
-      process.exit(-1);
+      process.exit(1);
     }
 
     if(!feed) {
       console.log("could not find feed");
-      process.exit(-1);
+      process.exit(1);
     }
 
     if(config.checkSingleHouseStates(feed.fipsCode))
@@ -61,7 +61,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Street Segment Rule', complete: false, failed: true },
 //          function(err, feed) {
-//            process.exit(-1);
+//            process.exit(1);
 //          }
 //        );
 //      }
@@ -103,9 +103,9 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
 //          function(err, feed) {
-//            // setting the exit code to -1, which we won't check for in the parent process
+//            // setting the exit code to 1
 //            console.log("Exiting processing due to Aggregation error.")
-//            process.exit(-1);
+//            process.exit(1);
 //          }
 //        );
 //
@@ -320,7 +320,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //    if(err) {
 //      console.log(err);
-//      process.exit(-1);
+//      process.exit(1);
 //    }
 //
 //    // loop through the results from the aggregate
@@ -416,7 +416,7 @@ function evaluate(constraintSet, callback) {
     .exec(function(err, results) {
       if(err) {
         console.log(err);
-        process.exit(-1);
+        process.exit(1);
       }
 
       async.forEachSeries(results, function (result, done) {
