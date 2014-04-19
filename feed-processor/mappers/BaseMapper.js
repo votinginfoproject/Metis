@@ -38,5 +38,19 @@ BaseModel.prototype.mapSimpleAddress = function (address) {
   };
 };
 
+BaseModel.prototype.convertId = function (id) {
+
+  if(!id)
+    return id;
+
+  var elementId = id;
+
+  if(typeof id !== 'string')
+    elementId = id.toString();
+
+  return elementId;
+
+}
+
 
 module.exports = BaseModel;
