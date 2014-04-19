@@ -70,6 +70,11 @@ config.mongoose = {
     state: 'states',
     streetSegment: 'streetSegments',
 
+    ballotStyle: 'ballotStyles',
+    party: 'parties',
+    multiGeometry: 'multiGeometries',
+    polygonType: 'polygonTypes',
+
     ballotError: 'ballotErrors',
     ballotLineResultError: 'ballotLineResultErrors',
     ballotResponseError: 'ballotResponseErrors',
@@ -92,6 +97,11 @@ config.mongoose = {
     stateError: 'stateErrors',
     streetSegmentError: 'streetSegmentErrors',
 
+    ballotStyleError: 'ballotStyleErrors',
+    partyError: 'partyErrors',
+    multiGeometryError: 'multiGeometryErrors',
+    polygonTypeError: 'polygonTypeErrors',
+
     overview: 'overviews',
     county: 'counties',
     fips: 'statefips',
@@ -105,7 +115,7 @@ config.mongoose = {
     precinctSplitElectoralDistrict: 'precinctSplitElectoralDistricts',
     precinctSplitPollingLocation: 'precinctSplitPollingLocations',
     referendumBallotResponse: 'referendumBallotResponses',
-    stateEarlyVoteSite: 'stateEarlyVoteSites'
+    stateEarlyVoteSite: 'stateEarlyVoteSites',
 
   },
   connectionString: 'mongodb://localhost/metis',
