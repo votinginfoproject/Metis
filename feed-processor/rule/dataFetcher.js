@@ -28,7 +28,7 @@ function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnDa
 
     returnData( { dataResults: results, retrieveRule: rule, entity: entity } );
 
-  }, function() { done() });
+  }, done);
 }
 
 /**

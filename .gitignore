@@ -12,6 +12,7 @@ logs
 results
 
 node_modules
+feeds
 
 .idea
 .DS_Store
