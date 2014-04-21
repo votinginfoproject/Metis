@@ -11,7 +11,7 @@ util.inherits(EarlyVoteSite, basemapper);
 
 EarlyVoteSite.prototype.mapXml3_0 = function (earlyVoteSite) {
   this.model = new this.models.EarlyVoteSite({
-    elementId: earlyVoteSite.$.id,     //required
+    elementId: this.convertId(earlyVoteSite.$.id),     //required
     name: earlyVoteSite.name,
     address: this.mapSimpleAddress(earlyVoteSite.address),
     directions: earlyVoteSite.directions,
@@ -24,7 +24,7 @@ EarlyVoteSite.prototype.mapXml3_0 = function (earlyVoteSite) {
 };
 
 EarlyVoteSite.prototype.mapXml5_0 = function (earlyVoteSite) {
-
+  this.mapXml3_0(earlyVoteSite);
 };
 
 EarlyVoteSite.prototype.mapCsv = function (earlyVoteSite) {

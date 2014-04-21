@@ -11,10 +11,10 @@ util.inherits(Election, basemapper);
 
 Election.prototype.mapXml3_0 = function (election) {
   this.model = new this.models.Election({
-    elementId: election.$.id,
+    elementId: this.convertId(election.$.id),
     date: election.date,
     electionType: election.election_type,
-    stateId: election.state_id,
+    stateId: this.convertId(election.state_id),
     statewide: this.convertYesNo(election.statewide),
     registrationInfo: election.registration_info,
     absenteeBallotInfo: election.absentee_ballot_info,
@@ -28,7 +28,24 @@ Election.prototype.mapXml3_0 = function (election) {
 };
 
 Election.prototype.mapXml5_0 = function (election) {
-
+  this.model = new this.models.Election({
+    elementId: this.convertId(election.$.id),
+    date: election.date,
+    electionType: election.election_type,
+    stateId: this.convertId(election.state_id),
+    statewide: this.convertYesNo(election.statewide),
+    registrationInfo: election.registration_info,
+    absenteeBallotInfo: election.absentee_ballot_info,
+    resultsUrl: election.results_url,
+    pollingHours: election.polling_hours,
+    electionDayRegistration: this.convertYesNo(election.election_day_registration),
+    registrationDeadline: election.registration_deadline,
+    absenteeRequestDeadline: election.absentee_request_deadline,
+    name: election.name,
+    divisionId: election.division_id,
+    uocavaMailDeadline: election.uocava_mail_deadline,
+    _feed: this.feedId
+  });
 };
 
 Election.prototype.mapCsv = function (election) {

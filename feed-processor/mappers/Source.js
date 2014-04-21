@@ -12,20 +12,20 @@ util.inherits(Source, basemapper);
 
 Source.prototype.mapXml3_0 = function (source) {
   this.model = new this.models.Source({
-    elementId: source.$.id,
-    vipId: source.vip_id,
+    elementId: this.convertId(source.$.id),
+    vipId: this.convertId(source.vip_id),
     datetime: source.datetime,
     description: source.description,
     name: source.name,
     organizationUrl: source.organization_url,
-    feedContactId: source.feed_contact_id,
+    feedContactId: this.convertId(source.feed_contact_id),
     touUrl: source.tou_url,
     _feed: this.feedId
   });
 };
 
 Source.prototype.mapXml5_0 = function (source) {
-
+  this.mapXml3_0(source);
 };
 
 Source.prototype.mapCsv = function (source) {

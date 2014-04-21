@@ -11,7 +11,7 @@ util.inherits(PollingLocation, basemapper);
 
 PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
   this.model = new this.models.PollingLocation({
-    elementId: pollingLocation.$.id,     //required
+    elementId: this.convertId(pollingLocation.$.id),     //required
     address: this.mapSimpleAddress(pollingLocation.address),
     directions: pollingLocation.directions,
     pollingHours: pollingLocation.polling_hours,
@@ -21,7 +21,7 @@ PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
 };
 
 PollingLocation.prototype.mapXml5_0 = function (pollingLocation) {
-
+  this.mapXml3_0(pollingLocation);
 };
 
 PollingLocation.prototype.mapCsv = function (pollingLocation) {

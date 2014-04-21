@@ -65,7 +65,7 @@ var ballotLineResultSchema = {
   votes: Number,
   victorious: Boolean,
   certification: String,
-  vote_type: String,
+  voteType: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate },
