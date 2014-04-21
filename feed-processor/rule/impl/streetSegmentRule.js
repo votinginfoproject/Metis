@@ -27,12 +27,12 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 
     if(err) {
       console.log(err);
-      process.exit(-1);
+      process.exit(1);
     }
 
     if(!feed) {
       console.log("could not find feed");
-      process.exit(-1);
+      process.exit(1);
     }
 
     if(config.checkSingleHouseStates(feed.fipsCode))
@@ -61,7 +61,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Street Segment Rule', complete: false, failed: true },
 //          function(err, feed) {
-//            process.exit(-1);
+//            process.exit(1);
 //          }
 //        );
 //      }
@@ -103,9 +103,9 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //        schemas.models.Feed.update({_id: feedId}, { feedStatus: 'Error In Aggregation', complete: false, failed: true },
 //          function(err, feed) {
-//            // setting the exit code to -1, which we won't check for in the parent process
+//            // setting the exit code to 1
 //            console.log("Exiting processing due to Aggregation error.")
-//            process.exit(-1);
+//            process.exit(1);
 //          }
 //        );
 //
@@ -320,7 +320,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
 //
 //    if(err) {
 //      console.log(err);
-//      process.exit(-1);
+//      process.exit(1);
 //    }
 //
 //    // loop through the results from the aggregate
@@ -416,7 +416,7 @@ function evaluate(constraintSet, callback) {
     .exec(function(err, results) {
       if(err) {
         console.log(err);
-        process.exit(-1);
+        process.exit(1);
       }
 
       async.forEachSeries(results, function (result, done) {
@@ -426,51 +426,68 @@ function evaluate(constraintSet, callback) {
           return;
         }
 
-        Model.find({ _feed: feedId, "nonHouseAddress.zip": result._id.zip }, { "nonHouseAddress.streetName": 1, startHouseNumber: 1, endHouseNumber: 1, oddEvenBoth: 1, elementId: 1, _id: 1 })
+        Model.find({ _feed: feedId, "nonHouseAddress.zip": result._id.zip },
+          {
+            "nonHouseAddress.streetName": 1,
+            "nonHouseAddress.streetDirection": 1,
+            "nonHouseAddress.streetSuffix": 1,
+            "nonHouseAddress.addressDirection": 1,
+            startHouseNumber: 1,
+            endHouseNumber: 1,
+            oddEvenBoth: 1,
+            elementId: 1,
+            _id: 1
+          })
           .exec(function (err, docs) {
-
             if(!docs.length || !docs[0].nonHouseAddress.streetName) {
               done();
               return;
             }
 
-            var tree = new interval.SegmentTree;
-            tree.clearIntervalStack();
-
-            for (var resIter = 0; resIter < docs.length; ++resIter) {
-              tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
-            }
-
-            tree.buildTree();
-            var treeResults = tree.queryOverlap();
-
-            for (var j = 0; j < treeResults.length; j++) {
-              if (treeResults[j].overlap.length > 0) {
-                for (var k = 0; k < treeResults[j].overlap.length; k++) {
-                  var treeOverlap = treeResults[j];
-                  var index = treeOverlap.overlap[k];
-                  index = parseInt(index) - 1;
-
-                  if(docs[j].oddEvenBoth === docs[index].oddEvenBoth || docs[j].oddEvenBoth === 'both' || docs[index].oddEvenBoth === 'both') {
-                    if(docs[j].nonHouseAddress.streetName === docs[index].nonHouseAddress.streetName) {
-                      var errors = "overlaps with elementId: " + docs[index].elementId;
-                      createError(0, docs[j].elementId, docs[j].id, errors)
-                    }
-                  }
-                }
-              }
-            }
-
+            checkOverlap(docs, createError);
             done();
           });
       }, function() { callback({promisedErrorCount: errorCount}); });
     });
 }
 
-function createError(streetsegment, elementId, mongoId, error) {
+function createError(elementId, mongoId, error) {
   errorCount++;
   var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
   return ruleErrors.model().save();
 }
 
+function checkOverlap(docs, createError) {
+  var tree = new interval.SegmentTree;
+  tree.clearIntervalStack();
+
+  for (var resIter = 0; resIter < docs.length; ++resIter) {
+    tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
+  }
+
+  tree.buildTree();
+  var treeResults = tree.queryOverlap();
+
+  for (var j = 0; j < treeResults.length; j++) {
+    if (treeResults[j].overlap.length > 0) {
+      for (var k = 0; k < treeResults[j].overlap.length; k++) {
+        var treeOverlap = treeResults[j];
+        var index = treeOverlap.overlap[k];
+        index = parseInt(index) - 1;
+
+        if(docs[j].oddEvenBoth === docs[index].oddEvenBoth || docs[j].oddEvenBoth === 'both' || docs[index].oddEvenBoth === 'both') {
+          if(docs[j].nonHouseAddress.streetName === docs[index].nonHouseAddress.streetName &&
+            docs[j].nonHouseAddress.streetDirection === docs[index].nonHouseAddress.streetDirection &&
+            docs[j].nonHouseAddress.streetSuffix === docs[index].nonHouseAddress.streetSuffix &&
+            docs[j].nonHouseAddress.addressDirection === docs[index].nonHouseAddress.addressDirection) {
+            var errors = "overlaps with elementId: " + docs[index].elementId;
+            createError(docs[j].elementId, docs[j].id, errors)
+          }
+        }
+      }
+    }
+  }
+}
+
 exports.evaluate = evaluateStreetSegmentsOverlap;
+exports.streetSegmentEval = checkOverlap;

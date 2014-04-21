@@ -6,12 +6,12 @@ var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, rul
 
 
   var isViolated = false;
-  if(zipCode !== null && zipCode.trim() !== ""){
+  if(zipCode && zipCode.trim() !== ""){
     var matcher = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
-    isViolated = !matcher.test(zipCode);
+    isViolated = !matcher.test(zipCode.trim());
   }
 
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
 }
 exports.evaluate = evaluateValidZipCode;
 

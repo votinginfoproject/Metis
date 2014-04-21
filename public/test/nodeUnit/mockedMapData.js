@@ -55,6 +55,7 @@ var data = {
     id: '1',
     name: 'name',
     feedStatus: 'status',
+    fipsCode: 1,
     _election: {
       date: Date('2012-09-06'),
       electionType: 'type'

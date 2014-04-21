@@ -22,10 +22,18 @@ describe('Feed Source Test', function () {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
+      /*
       expect(element('#source-link').count()).toBe(1);
 
       // click the source link
       element('#source-link').click();
+      sleep(testGlobals.sleepTime);
+      */
+
+      expect(element('#sidebar-source').count()).toBe(1);
+
+      // click the source link
+      element('#sidebar-source').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed Source page

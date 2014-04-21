@@ -616,9 +616,23 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.fips_code })
       .success(function(data, status) {
         feedData.is_exporting = true;
-        feedData.export_status = data;
+
+        // change the path that data represents to a absolute path
+        // path returned as: ./FEEDS/39/OH_TEST_FEED.ZIP
+
+        // get the host path before the angular hash in the url
+        var hostpath = (($location.absUrl()).split("#"))[0];
+
+        data = data.substr("./".length);
+
+        var fullPath = hostpath + data;
+        var parentPath = hostpath + "feeds/";
+
+        feedData.export_success = true;
+        feedData.export_status = fullPath;
       })
       .error(function(data, status) {
+        feedData.export_success = false;
         feedData.export_status = "Error in export";
         feedData.is_exporting = true;
       });

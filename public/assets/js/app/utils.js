@@ -63,7 +63,7 @@ vipApp_ns.countAllErrors = function(data) {
 
     // loop over each error group
     for (var i = 0; i < data.length; i++) {
-      count += data[i].textual_references.length;
+      count += data[i].error_count;
     }
   }
 

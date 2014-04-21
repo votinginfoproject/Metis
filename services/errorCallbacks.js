@@ -244,12 +244,22 @@ function mapAndReturnErrors(res, req, err, errors) {
         error_code = parseInt(error_code);
       }
 
-      var filename = "FullErrorReport";
 
       var delim = ",";
       var response = "";
-      var feed = req.originalUrl.split("/")[3];
+      var feed = req.originalUrl.split("/")[3] + "";
+
+      // making the feed name more friendly for a file name
+      // ex: "2014-04-10-Ohio-Federal-xhskeishw" => "20140410OhioFederal"
+      var fileNameFeed = feed.replace(/ /g, '');
+      fileNameFeed = fileNameFeed.split("-");
+      fileNameFeed.pop();
+      fileNameFeed = fileNameFeed.join("-");
+      fileNameFeed = fileNameFeed.replace(/-/g, '');
+
       var feederrors = errors.map(errorMapper.mapError);
+
+      var filename = fileNameFeed + "-" + "FullErrorReport";
 
       // csv header
       response +=
@@ -260,36 +270,52 @@ function mapAndReturnErrors(res, req, err, errors) {
         "Details" + delim +
         "Reference" + endOfLine;
 
+      var async = require('async');
       var count = 1;
-      for(var i=0; i< feederrors.length; i++){
-        var feederror = feederrors[i];
-
+      async.forEach(feederrors, function(feederror, errorComplete){
         // if our error_code is undefined then bring back all the errors, otherwise only the
         // errors for that specific error_code
-        if(error_code === undefined || (error_code!==undefined && error_code === feederror.error_code)) {
+        if(error_code!==undefined && error_code === feederror.error_code){
+          filename = fileNameFeed + "-" +  feederror.title.replace(/ /g, '') + "ErrorReport";
+        }
 
-          if(error_code!==undefined){
-            filename = feederror.title.replace(/ /g, '') + "ErrorReport";
-          }
+        if (error_code && feederror.error_code !== error_code) {
+          errorComplete();
+          return;
+        }
 
-          for(var j=0; j< feederror.textual_references.length; j++){
+        var index = 0;
+        async.forEach(feederror.models, function(model, modelComplete) {
+          var completeModel = require('mongoose').model(model);
+          var stream = completeModel.find(feederror.searches[index++], {textualReference: 1}).stream();
+
+          stream.on('data', function(ref) {
             response +=
               makeCSVSafe((count++).toString(), delim) + delim +
               makeCSVSafe(feed, delim) + delim +
               makeCSVSafe(feederror.severity_text, delim) + delim +
               makeCSVSafe(feederror.title, delim) + delim +
               makeCSVSafe(feederror.details, delim) + delim +
-              makeCSVSafe(feederror.textual_references[j], delim) + endOfLine;
-          }
-        }
-      }
+              makeCSVSafe(ref.textualReference, delim) + endOfLine;
+          });
 
-      // send back errors in text/csv format for an error report
-      res.header("Content-Disposition", "attachment; filename=" + filename + ".csv");
-      res.setHeader('Content-type', 'text/csv');
-      res.charset = 'UTF-8';
-      res.write(response);
-      res.end();
+          stream.on('close', function(err) {
+            modelComplete();
+          });
+
+        }, function(err) {
+          errorComplete();
+        });
+
+      }, function(err) {
+
+        // send back errors in text/csv format for an error report
+        res.header("Content-Disposition", "attachment; filename=" + filename + ".csv");
+        res.setHeader('Content-type', 'text/csv');
+        res.charset = 'UTF-8';
+        res.write(response);
+        res.end();
+      });
 
     } else {
       // send back errors in json format for the page
