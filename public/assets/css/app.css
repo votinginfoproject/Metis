@@ -3088,6 +3088,11 @@ section.data-module {
   width: 16px;
   height: 16px;
   display: inline-block; }
+  table .is-loading-small {
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    top: 1px; }
 
 /* print.scss */
 @media print {
