@@ -28,11 +28,11 @@
 
     <a ng-if="!feedData.is_exporting" ng-click="exportFeedPost(feedData)" class="button-approve">Approve Feed</a>
     <div ng-if="feedData.is_exporting" class="button-approve disabled">
-      Feed Location:<br>
-      <small ng-if="feedData.export_success">
-        <a style="text-transform: lowercase; font-family: arial; font-size: 9px; color: blue" href="{{feedData.export_status}}" target="_blank">{{feedData.export_status}}</a><br>
-        (Please allow time for the Feed to be prepared for export)
-      </small>
+      <h3>Feed Location:</h3>
+      <div ng-if="feedData.export_success" class="dl-feed">
+        <p><a href="{{feedData.export_status}}" target="_blank">{{feedData.export_status}}</a></p>
+        <p>(Please allow time for the Feed to be prepared for export)</p>
+      </div>
       <small ng-if="!feedData.export_success">{{feedData.export_status}}</small>
     </div>
 
