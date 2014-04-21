@@ -85,9 +85,13 @@ RuleHandler.prototype.processDataResults = function(ruleDef, entity, result, con
       var resultItem = formatNestedResult( constraintSet.fields[j], result );
       if(resultItem != null) {
         promises.push(RuleHandler.prototype.processRule( ruleDef, resultItem, result, entity, constraintSet.fields[j] ));
+
+        if(j > 0) {
+          promises[0] = when.join(promises[0], promises[j]);
+        }
       }
     }
-   return when.join(promises);
+   return promises[0];
   }
   else {
     if(result != null) {
