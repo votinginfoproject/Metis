@@ -11,7 +11,7 @@ util.inherits(StreetSegment, basemapper);
 
 StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
   this.model = new this.models.StreetSegment({
-    elementId: streetSegment.$.id,     //required
+    elementId: this.convertId(streetSegment.$.id),     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,
     oddEvenBoth: streetSegment.odd_even_both,
@@ -30,14 +30,40 @@ StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
       state: streetSegment.non_house_address.state,
       zip: streetSegment.non_house_address.zip
     },
-    precinctId: streetSegment.precinct_id,
-    precinctSplitId: streetSegment.precinct_split_id,
+    precinctId: this.convertId(streetSegment.precinct_id),
+    precinctSplitId: this.convertId(streetSegment.precinct_split_id),
     _feed: this.feedId
   });
 };
 
 StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
-
+  this.model = new this.models.StreetSegment({
+    elementId: this.convertId(streetSegment.$.id),     //required
+    startHouseNumber: streetSegment.start_house_number,
+    endHouseNumber: streetSegment.end_house_number,
+    oddEvenBoth: streetSegment.odd_even_both,
+    startApartmentNumber: streetSegment.start_apartment_number,
+    endApartmentNumber: streetSegment.end_apartment_number,
+    nonHouseAddress: {
+      houseNumber: streetSegment.non_house_address.house_number,
+      houseNumberPrefix: streetSegment.non_house_address.house_number_prefix,
+      houseNumberSuffix: streetSegment.non_house_address.house_number_suffix,
+      streetDirection: streetSegment.non_house_address.street_direction,
+      streetName: streetSegment.non_house_address.street_name,
+      streetSuffix: streetSegment.non_house_address.street_suffix,
+      addressDirection: streetSegment.non_house_address.address_direction,
+      apartment: streetSegment.non_house_address.apartment,
+      city: streetSegment.non_house_address.city,
+      state: streetSegment.non_house_address.state,
+      zip: streetSegment.non_house_address.zip
+    },
+    city: streetSegment.city,
+    zip: streetSegment.zip,
+    stateId: this.convertId(streetSegment.state_id),
+    precinctId: this.convertId(streetSegment.precinct_id),
+    precinctSplitId: this.convertId(streetSegment.precinct_split_id),
+    _feed: this.feedId
+  });
 };
 
 StreetSegment.prototype.mapCsv = function (streetSegment) {

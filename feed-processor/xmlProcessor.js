@@ -146,7 +146,13 @@ module.exports = function() {
 
   function mapAndSave(model, element) {
     recordCount++;
-    model.mapXml3_0(element);
+
+    if(schemaVersion == '3.0')
+      model.mapXml3_0(element);
+    else
+      model.mapXml5_0(element);
+
+    model.trimStrings();
     var savePromise = model.save();
 
     if (savePromise) {

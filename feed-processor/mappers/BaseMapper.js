@@ -48,7 +48,27 @@ BaseModel.prototype.convertId = function (id) {
   if(typeof id !== 'string')
     elementId = id.toString();
 
+  if(id.length && typeof id[0] !== 'string') {
+    elementId = require('underscore').map(id, function(ref) {
+      return ref.toString();
+    });
+  }
+
   return elementId;
+
+};
+
+BaseModel.prototype.trimStrings = function () {
+
+  if(this.model === undefined)
+    return;
+
+  var keys = Object.keys(this.model._doc);
+
+  for(var i = 0; i < keys.length; ++i) {
+    if(typeof this.model[keys[i]] == "string")
+      this.model[keys[i]].trim();
+  }
 
 }
 

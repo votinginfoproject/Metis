@@ -11,7 +11,7 @@ util.inherits(ElectoralDistrict, basemapper);
 
 ElectoralDistrict.prototype.mapXml3_0 = function (electoralDistrict) {
   this.model = new this.models.ElectoralDistrict({
-    elementId: electoralDistrict.$.id,     //required
+    elementId: this.convertId(electoralDistrict.$.id),     //required
     name: electoralDistrict.name,
     type: electoralDistrict.type,
     number: electoralDistrict.number,
@@ -20,7 +20,14 @@ ElectoralDistrict.prototype.mapXml3_0 = function (electoralDistrict) {
 };
 
 ElectoralDistrict.prototype.mapXml5_0 = function (electoralDistrict) {
-
+  this.model = new this.models.ElectoralDistrict({
+    elementId: this.convertId(electoralDistrict.$.id),     //required
+    name: electoralDistrict.name,
+    type: electoralDistrict.type,
+    number: electoralDistrict.number,
+    description: electoralDistrict.description,
+    _feed: this.feedId
+  });
 };
 
 ElectoralDistrict.prototype.mapCsv = function (electoralDistrict) {
