@@ -491,7 +491,7 @@ function findTextualReference(model, feedId, aggregates, ids, callback) {
     var search = null;
 
     if(ids) {
-      if(ids.length)
+      if(typeof ids !== 'string')
         search = { _feed: feedId, errorCode: agg._id.errorCode, _ref: { $in: ids }};
       else
         search = { _feed: feedId, errorCode: agg._id.errorCode, refElementId: ids };

@@ -5,7 +5,7 @@ var dao = require('../dao/db');
 var mapper = require('./mappers/geo');
 
 function stateCountiesGET(req, res) {
-  dao.getCounties(req.params.stateId, mapAndReturnCounties.bind(undefined, res));
+  dao.getCounties(req.params.feedId, mapAndReturnCounties.bind(undefined, res));
 }
 
 function countyGET(req, res) {
