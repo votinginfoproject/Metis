@@ -45,13 +45,15 @@ BaseModel.prototype.convertId = function (id) {
 
   var elementId = id;
 
-  if(typeof id !== 'string')
+  if(typeof id !== 'string' && !id.length)
     elementId = id.toString();
 
-  if(id.length && typeof id[0] !== 'string') {
-    elementId = require('underscore').map(id, function(ref) {
-      return ref.toString();
-    });
+  if(id.length) {
+    if(typeof id[0] !== 'string') {
+      elementId = require('underscore').map(id, function (ref) {
+        return ref.toString();
+      });
+    }
   }
 
   return elementId;
