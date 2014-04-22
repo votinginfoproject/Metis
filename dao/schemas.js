@@ -49,7 +49,7 @@ var ballotErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -84,7 +84,7 @@ var ballotLineResultErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -103,7 +103,7 @@ var ballotResponseErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -133,7 +133,7 @@ var candidateErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.candidate },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -169,7 +169,7 @@ var contestErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -204,7 +204,7 @@ var contestResultErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.contestResult },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -227,7 +227,7 @@ var customBallotErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.customBallot },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -252,7 +252,7 @@ var earlyVoteSiteErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -284,7 +284,7 @@ var electionErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.election },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -319,7 +319,7 @@ var electionAdminErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -342,7 +342,7 @@ var electionOfficialErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -366,7 +366,7 @@ var electoralDistrictErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -420,7 +420,7 @@ var localityErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.locality },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -444,7 +444,7 @@ var pollingLocationErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.pollingLocation },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -476,7 +476,7 @@ var precinctErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -503,7 +503,7 @@ var precinctSplitErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.precinctSplit },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -535,7 +535,7 @@ var referendumErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.referendum },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -560,7 +560,7 @@ var sourceErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.source },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -584,7 +584,7 @@ var stateErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.state },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -624,7 +624,7 @@ var streetSegmentErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.streetSegment },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -649,7 +649,7 @@ var ballotStyleErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotStyle },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -670,7 +670,7 @@ var partyErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.party },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -680,7 +680,7 @@ var overviewSchema = {
   amount: Number,
   completePct: Number,
   errorCount: Number,
-  section: Number,
+  section: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
