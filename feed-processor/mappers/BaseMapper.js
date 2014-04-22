@@ -9,7 +9,7 @@ const
   };
 
 BaseModel.prototype.save = function () {
-  if (this.model === undefined || this.model.elementId == null) {
+  if (this.model === undefined || this.model.elementId === null) {
     return;
   }
 

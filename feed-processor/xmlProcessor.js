@@ -22,6 +22,7 @@ module.exports = function() {
   var Ballot = require('./mappers/Ballot');
   var BallotLineResult = require('./mappers/BallotLineResult');
   var BallotResponse = require('./mappers/BallotResponse');
+  var BallotStyle = require('./mappers/BallotStyle');
   var Candidate = require('./mappers/Candidate');
   var Contest = require('./mappers/Contest');
   var ContestResult = require('./mappers/ContestResult');
@@ -32,9 +33,12 @@ module.exports = function() {
   var ElectionOfficial = require('./mappers/ElectionOfficial');
   var ElectoralDistrict = require('./mappers/ElectoralDistrict');
   var Locality = require('./mappers/Locality');
+  var Party = require('./mappers/Party');
   var PollingLocation = require('./mappers/PollingLocation');
   var Precinct = require('./mappers/Precinct');
   var PrecinctSplit = require('./mappers/PrecinctSplit');
+  var PrecinctSplitElectoralDistrict = require('./mappers/PrecinctSplitElectoralDistrict');
+  var PrecinctSplitBallotStyle = require('./mappers/PrecinctSplitBallotStyle');
   var Referendum = require('./mappers/Referendum');
   var Source = require('./mappers/Source');
   var State = require('./mappers/State');
@@ -122,6 +126,7 @@ module.exports = function() {
     xml.on('endElement: ballot', processBallotElement);
     xml.on('endElement: ballot_line_result', processBallotLineResultElement);
     xml.on('endElement: ballot_response', processBallotResponseElement);
+    xml.on('endElement: ballot_style', processBallotStyleElement);
     xml.on('endElement: candidate', processCandidateElement);
     xml.on('endElement: contest', processContestElement);
     xml.on('endElement: contest_result', processContestResultElement);
@@ -132,9 +137,12 @@ module.exports = function() {
     xml.on('endElement: election_official', processElectionOfficialElement);
     xml.on('endElement: electoral_district', processElectoralDistrictElement);
     xml.on('endElement: locality', processLocalityElement);
+    xml.on('endElement: party', processPartyElement);
     xml.on('endElement: polling_location', processPollingLocationElement);
     xml.on('endElement: precinct', processPrecinctElement);
     xml.on('endElement: precinct_split', processPrecinctSplitElement);
+    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
+    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
     xml.on('endElement: referendum', processReferendumElement);
     xml.on('endElement: source', processSourceElement);
     xml.on('endElement: state', processStateElement);
@@ -148,8 +156,10 @@ module.exports = function() {
   function mapAndSave(model, element) {
     recordCount++;
 
-    if(schemaVersion == '3.0')
-      model.mapXml3_0(element);
+    if(schemaVersion == '3.0') {
+      if(model.mapXml3_0)
+        model.mapXml3_0(element);
+    }
     else
       model.mapXml5_0(element);
 
@@ -182,6 +192,11 @@ module.exports = function() {
   function processBallotResponseElement(ballotResponse) {
     var model = new BallotResponse(models, feedId);
     mapAndSave(model, ballotResponse);
+  }
+
+  function processBallotStyleElement(ballotStyle) {
+    var model = new BallotStyle(models, feedId);
+    mapAndSave(model, ballotStyle);
   }
 
   function processCandidateElement(candidate) {
@@ -234,6 +249,11 @@ module.exports = function() {
     mapAndSave(model, locality);
   }
 
+  function processPartyElement(party) {
+    var model = new Party(models, feedId);
+    mapAndSave(model, party);
+  }
+
   function processPollingLocationElement(pollingLocation) {
     var model = new PollingLocation(models, feedId);
     mapAndSave(model, pollingLocation);
@@ -247,6 +267,16 @@ module.exports = function() {
   function processPrecinctSplitElement(precinctSplit) {
     var model = new PrecinctSplit(models, feedId);
     mapAndSave(model, precinctSplit);
+  }
+
+  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
+    var model = new PrecinctSplitElectoralDistrict(models, feedId);
+    mapAndSave(model, psElectoralDistrict);
+  }
+
+  function processPrecinctBallotStyleElement(psBallotStyle) {
+    var model = new PrecinctSplitBallotStyle(models, feedId);
+    mapAndSave(model, psBallotStyle);
   }
 
   function processReferendumElement(referendum) {
@@ -304,7 +334,6 @@ module.exports = function() {
       // no blocking I/O or asynchronous operations, which would break this pattern and require us
       // to wait for the send() calls execution to finish before starting the processing below.
 
-      // start the processing
       var xml = new xstream(fileStream);
       readXMLFromStream(xml);
 

@@ -11,6 +11,14 @@ const
   };
 util.inherits(PrecinctSplitElectoralDistrict, basemapper);
 
+PrecinctSplitElectoralDistrict.prototype.mapXml5_0 = function (precinctSplitElectoralDistrict) {
+  this.model = new this.models.PrecinctSplitElectoralDistrict({
+    precinctSplitId: precinctSplitElectoralDistrict.precinct_split_id,
+    precinctId: precinctSplitElectoralDistrict.precinct_id,
+    electoralDistrictId: precinctSplitElectoralDistrict.electoral_district_id
+  });
+};
+
 PrecinctSplitElectoralDistrict.prototype.mapCsv = function (precinctSplitElectoralDistrict) {
   this.model = {
     precinctSplitId: precinctSplitElectoralDistrict.precinct_split_id,
