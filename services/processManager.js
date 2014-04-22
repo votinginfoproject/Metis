@@ -80,12 +80,21 @@ function startFileProcessing(fileInfo){
       // store this feedid with the pid of the child process so if later
       // the child process errors, we can set the failed flag for the feed in mongo
       if(msg.messageId==1){
+
+        // **** *** ***
+        // NOTE - Do not do any I/O / Asynchronous calls in this block
+        // as the setting of the feedId into the pIdsAndFeedIds object needs
+        // to occur before this node process ever executes the on('exit') function,
+        // which is the case since node is single threaded, but this pattern would
+        // break if there is a I/O blocking call in this code block
+
         // stringify the pid
         var pid = fileProcessing.pid + "";
-
         console.log("Setting the pid: " + pid + " to match with feed " + msg.feedId);
-
         pIdsAndFeedIds[pid] = msg.feedId;
+
+        // **** *** ***
+
       }
 
       // message with feedid and friendlyfeedid of the feed the child is processing
@@ -108,10 +117,22 @@ function startFileProcessing(fileInfo){
     // if there was an error in the child process mark the feed as such
     // code 0 means everything was ok
     // any code other than 0 is an error
-    if(code!=0 && pIdsAndFeedIds[pid] != undefined ){
+    if( (code!==0) && pIdsAndFeedIds[pid] != undefined ){
 
-      schemas.models.Feed.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: 'Errored', complete: false, failed: true },
-        function(err, feed) {}
+      var status = 'Errored';
+      var statusReason = "";
+
+      // bad feed file
+      if(code===8){
+        statusReason = " (Invalid Feed File)";
+      } else if(code===5){
+        statusReason = " (Out of Memory)";
+      }
+
+
+        schemas.models.Feed.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
+        function(err, feed) {
+        }
       );
     }
 
