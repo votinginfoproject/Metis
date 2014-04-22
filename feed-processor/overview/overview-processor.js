@@ -51,11 +51,11 @@ function onSaveComplete(results) {
         var title = "";
 
         // add feed date
-        title += ( moment(feed._election.date).utc().format('YYYY-MM-DD') ? moment(feed._election.date).utc().format('YYYY-MM-DD') + "-" : "");
+        title += ( feed._election && feed._election.date ? moment(feed._election.date).utc().format('YYYY-MM-DD') + "-" : "");
         // add feed state
-        title += ( feed._state.name ? feed._state.name + "-" : "");
+        title += ( feed._state && feed._state.name ? feed._state.name + "-" : "");
         // add feed electiontype
-        title += ( feed._election.electionType ? feed._election.electionType + "-" : "");
+        title += ( feed._election && feed._election.electionType ? feed._election.electionType + "-" : "");
 
         var completedOnDate = moment().utc();
 
@@ -81,7 +81,7 @@ function onSaveComplete(results) {
 
             // now close out the mongoose connection and exit the process
             mongoose.disconnect();
-            process.exit();
+            process.exit(0);
           }
         );
       })

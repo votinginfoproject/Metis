@@ -48,7 +48,7 @@ function processFeed(filePath, s3Bucket) {
     } else {
       if (!fs.existsSync(file)) {
         console.error('File "' + file + '" not found.');
-        exitProcess();
+        exitProcess(1);
       }
       feedStream = fs.createReadStream(file);
     }
@@ -66,7 +66,7 @@ function processFeed(filePath, s3Bucket) {
           break;
         default:
           console.error('Filetype %s is not currently supported.', ext)
-          exitProcess();
+          exitProcess(1);
       }
   }
 
@@ -106,12 +106,12 @@ else {
   console.log("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
   console.log("");
 
-  exitProcess();
+  exitProcess(1);
 }
 
-function exitProcess(){
+function exitProcess(code){
 
   // now close out the mongoose connection and exit the process
   mongoose.disconnect();
-  process.exit();
+  process.exit(code);
 }

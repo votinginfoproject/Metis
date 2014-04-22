@@ -107,6 +107,7 @@ module.exports = function() {
   }
 
   function readXMLFromStream(xmlStream) {
+
     xml = xmlStream;
 
     xml.collect('early_vote_site_id');
@@ -264,6 +265,7 @@ module.exports = function() {
 
   return {
     processXml: function (schemas, filePath, fileName, fileStream) {
+
       models = schemas.models;
 
       feedId = schemas.types.ObjectId();
@@ -281,16 +283,25 @@ module.exports = function() {
         friendlyId: null
       }, function(err, feed) {
         console.log('Wrote feed with id = ' + feed._id.toString());
-
-        if (process.send) {
-          // tell the parent about the feedid of the current feed being processed
-          process.send({"messageid": 1, "feedId": feedId});
-        }
       });
 
+      // if we are a child process
+      if (process.send) {
+        // tell the parent about the feedid of the current feed being processed
+        process.send({"messageId": 1, "feedId": feedId});
+      }
 
+      // (NOTE if child process) *** *** ***
+      // If the processing fails it will get caught by the parent, but only
+      // after the message in the send() statement above finishes as node is single threaded
+      // Make sure the end target of the send() call above only does in memory operations and
+      // no blocking I/O or asynchronous operations, which would break this pattern and require us
+      // to wait for the send() calls execution to finish before starting the processing below.
+
+      // start the processing
       var xml = new xstream(fileStream);
       readXMLFromStream(xml);
+
     }
   };
 };
