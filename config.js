@@ -117,6 +117,8 @@ config.mongoose = {
     referendumBallotResponse: 'referendumBallotResponses',
     stateEarlyVoteSite: 'stateEarlyVoteSites',
 
+    precinctSplitElectoralDistrict: 'precinctSplitElectoralDistricts',
+    precinctSplitBallotStyle: 'precinctSplitBallotStyles'
   },
   connectionString: 'mongodb://localhost/metis',
   maxWriteQueueLength: 20000
