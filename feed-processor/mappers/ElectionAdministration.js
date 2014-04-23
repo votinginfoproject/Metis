@@ -11,10 +11,10 @@ util.inherits(ElectionAdministration, basemapper);
 
 ElectionAdministration.prototype.mapXml3_0 = function (electionAdmin) {
   this.model = new this.models.ElectionAdmin({
-    elementId: this.convertId(electionAdmin.$.id),     //required
+    elementId: electionAdmin.$.id,     //required
     name: electionAdmin.name,
-    eoId: this.convertId(electionAdmin.eo_id),
-    ovcId: this.convertId(electionAdmin.ovc_id),
+    eoId: electionAdmin.eo_id,
+    ovcId: electionAdmin.ovc_id,
     physicalAddress: this.mapSimpleAddress(electionAdmin.physical_address),
     mailingAddress: this.mapSimpleAddress(electionAdmin.mailing_address),
     electionsUrl: electionAdmin.elections_url,
@@ -32,10 +32,10 @@ ElectionAdministration.prototype.mapXml3_0 = function (electionAdmin) {
 
 ElectionAdministration.prototype.mapXml5_0 = function (electionAdmin) {
   this.model = new this.models.ElectionAdmin({
-    elementId: this.convertId(electionAdmin.$.id),     //required
+    elementId: electionAdmin.$.id,     //required
     name: electionAdmin.name,
-    eoId: this.convertId(electionAdmin.eo_id),
-    ovcId: this.convertId(electionAdmin.ovc_id),
+    eoId: electionAdmin.eo_id,
+    ovcId: electionAdmin.ovc_id,
     physicalAddress: this.mapSimpleAddress(electionAdmin.physical_address),
     mailingAddress: this.mapSimpleAddress(electionAdmin.mailing_address),
     electionsUrl: electionAdmin.elections_url,

@@ -11,18 +11,18 @@ util.inherits(PrecinctSplit, basemapper);
 
 PrecinctSplit.prototype.mapXml3_0 = function (precinctSplit) {
   this.model = new this.models.PrecinctSplit({
-    elementId: this.convertId(precinctSplit.$.id),     //required
+    elementId: precinctSplit.$.id,     //required
     name: precinctSplit.name,
-    precinctId: this.convertId(precinctSplit.precinct_id),
-    electoralDistrictIds: this.convertId(precinctSplit.electoral_district_id),
-    pollingLocationIds: this.convertId(precinctSplit.polling_location_id),
+    precinctId: precinctSplit.precinct_id,
+    electoralDistrictIds: precinctSplit.electoral_district_id,
+    pollingLocationIds: precinctSplit.polling_location_id,
     ballotStyleImageUrl: precinctSplit.ballot_style_image_url,
     _feed: this.feedId
   });
 };
 
 PrecinctSplit.prototype.mapXml5_0 = function (precinctSplit) {
-
+  this.mapXml3_0(precinctSplit);
 };
 
 PrecinctSplit.prototype.mapCsv = function (precinctSplit) {

@@ -11,7 +11,7 @@ util.inherits(StreetSegment, basemapper);
 
 StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
   this.model = new this.models.StreetSegment({
-    elementId: this.convertId(streetSegment.$.id),     //required
+    elementId: streetSegment.$.id,     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,
     oddEvenBoth: streetSegment.odd_even_both,
@@ -30,15 +30,15 @@ StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
       state: streetSegment.non_house_address.state,
       zip: streetSegment.non_house_address.zip
     },
-    precinctId: this.convertId(streetSegment.precinct_id),
-    precinctSplitId: this.convertId(streetSegment.precinct_split_id),
+    precinctId: streetSegment.precinct_id,
+    precinctSplitId: streetSegment.precinct_split_id,
     _feed: this.feedId
   });
 };
 
 StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
   this.model = new this.models.StreetSegment({
-    elementId: this.convertId(streetSegment.$.id),     //required
+    elementId: streetSegment.$.id,     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,
     oddEvenBoth: streetSegment.odd_even_both,
@@ -59,9 +59,9 @@ StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
     },
     city: streetSegment.city,
     zip: streetSegment.zip,
-    stateId: this.convertId(streetSegment.state_id),
-    precinctId: this.convertId(streetSegment.precinct_id),
-    precinctSplitId: this.convertId(streetSegment.precinct_split_id),
+    stateId: streetSegment.state_id,
+    precinctId: streetSegment.precinct_id,
+    precinctSplitId: streetSegment.precinct_split_id,
     _feed: this.feedId
   });
 };

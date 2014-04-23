@@ -11,7 +11,7 @@ util.inherits(ElectionOfficial, basemapper);
 
 ElectionOfficial.prototype.mapXml3_0 = function (official) {
   this.model = new this.models.ElectionOfficial({
-    elementId: this.convertId(official.$.id),
+    elementId: official.$.id,
     name: official.name,
     title: official.title,
     phone: official.phone,
@@ -23,7 +23,7 @@ ElectionOfficial.prototype.mapXml3_0 = function (official) {
 
 ElectionOfficial.prototype.mapXml5_0 = function (official) {
   this.model = new this.models.ElectionOfficial({
-    elementId: this.convertId(official.$.id),
+    elementId: official.$.id,
     name: official.name,
     title: official.title,
     phone: official.phone,

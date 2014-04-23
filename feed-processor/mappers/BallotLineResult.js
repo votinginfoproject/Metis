@@ -12,12 +12,12 @@ util.inherits(BallotLineResult, basemapper);
 
 BallotLineResult.prototype.mapXml3_0 = function (ballotLineResult) {
   this.model = new this.models.BallotLineResult({
-    elementId: this.convertId(ballotLineResult.$.id),     //required
-    contestId: this.convertId(ballotLineResult.contest_id),
-    jurisdictionId: this.convertId(ballotLineResult.jurisdiction_id),
+    elementId: ballotLineResult.$.id,     //required
+    contestId: ballotLineResult.contest_id,
+    jurisdictionId: ballotLineResult.jurisdiction_id,
     entireDistrict: this.convertYesNo(ballotLineResult.entire_district),
-    candidateId: (!_.isEmpty(ballotLineResult.candidate_id)) ? this.convertId(_.first(ballotLineResult.candidate_id)) : undefined,
-    ballotResponseId: (!_.isEmpty(ballotLineResult.ballot_response_id)) ? this.convertId(_.first(ballotLineResult.ballot_response_id)) : undefined,
+    candidateId: (!_.isEmpty(ballotLineResult.candidate_id)) ? _.first(ballotLineResult.candidate_id) : undefined,
+    ballotResponseId: (!_.isEmpty(ballotLineResult.ballot_response_id)) ? _.first(ballotLineResult.ballot_response_id) : undefined,
     votes: ballotLineResult.votes,
     victorious: this.convertYesNo(ballotLineResult.victorious),
     certification: ballotLineResult.$.certification,
@@ -27,13 +27,13 @@ BallotLineResult.prototype.mapXml3_0 = function (ballotLineResult) {
 
 BallotLineResult.prototype.mapXml5_0 = function (ballotLineResult) {
   this.model = new this.models.BallotLineResult({
-    elementId: this.convertId(ballotLineResult.$.id),     //required
-    contestId: this.convertId(ballotLineResult.contest_id),
-    referendumId: this.convertId(ballotLineResult.referendumId),
-    jurisdictionId: this.convertId(ballotLineResult.jurisdiction_id),
+    elementId: ballotLineResult.$.id,     //required
+    contestId: ballotLineResult.contest_id,
+    referendumId: ballotLineResult.referendumId,
+    jurisdictionId: ballotLineResult.jurisdiction_id,
     entireDistrict: this.convertYesNo(ballotLineResult.entire_district),
-    candidateId: (!_.isEmpty(ballotLineResult.candidate_id)) ? this.convertId(_.first(ballotLineResult.candidate_id)) : undefined,
-    ballotResponseId: (!_.isEmpty(ballotLineResult.ballot_response_id)) ? this.convertId(_.first(ballotLineResult.ballot_response_id)) : undefined,
+    candidateId: (!_.isEmpty(ballotLineResult.candidate_id)) ? _.first(ballotLineResult.candidate_id) : undefined,
+    ballotResponseId: (!_.isEmpty(ballotLineResult.ballot_response_id)) ? _.first(ballotLineResult.ballot_response_id) : undefined,
     votes: ballotLineResult.votes,
     victorious: this.convertYesNo(ballotLineResult.victorious),
     voteType: ballotLineResult.vote_type,

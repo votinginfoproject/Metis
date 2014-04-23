@@ -34,34 +34,12 @@ BaseModel.prototype.mapSimpleAddress = function (address) {
     line3: address.line3,
     city: address.city,
     state: address.state,
-    zip: address.zip
+    zip: address.zip,
+    gisXY: address.gis_xy
   };
 };
 
-BaseModel.prototype.convertId = function (id) {
-
-  if(!id)
-    return id;
-
-  var elementId = id;
-
-  if(typeof id !== 'string' && !id.length)
-    elementId = id.toString();
-
-  if(id.length) {
-    if(typeof id[0] !== 'string') {
-      elementId = require('underscore').map(id, function (ref) {
-        return ref.toString();
-      });
-    }
-  }
-
-  return elementId;
-
-};
-
 BaseModel.prototype.trimStrings = function () {
-
   if(this.model === undefined)
     return;
 
@@ -71,8 +49,7 @@ BaseModel.prototype.trimStrings = function () {
     if(typeof this.model[keys[i]] == "string")
       this.model[keys[i]].trim();
   }
-
-}
+};
 
 
 module.exports = BaseModel;

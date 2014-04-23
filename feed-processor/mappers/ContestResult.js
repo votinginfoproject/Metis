@@ -11,9 +11,9 @@ util.inherits(ContestResult, basemapper);
 
 ContestResult.prototype.mapXml3_0 = function (contestResult) {
   this.model = new this.models.ContestResult({
-    elementId: this.convertId(contestResult.$.id),     //required
-    contestId: this.convertId(contestResult.contest_id),
-    jurisdictionId: this.convertId(contestResult.jurisdiction_id),
+    elementId: contestResult.$.id,     //required
+    contestId: contestResult.contest_id,
+    jurisdictionId: contestResult.jurisdiction_id,
     entireDistrict: this.convertYesNo(contestResult.entire_district),
     totalVotes: contestResult.total_votes,
     totalValidVotes: contestResult.total_valid_votes,
@@ -28,10 +28,10 @@ ContestResult.prototype.mapXml3_0 = function (contestResult) {
 
 ContestResult.prototype.mapXml5_0 = function (contestResult) {
   this.model = new this.models.ContestResult({
-    elementId: this.convertId(contestResult.$.id),     //required
-    contestId: this.convertId(contestResult.contest_id),
-    referendumId: this.convertId(contestResult.referendum_id),
-    jurisdictionId: this.convertId(contestResult.jurisdiction_id),
+    elementId: contestResult.$.id,     //required
+    contestId: contestResult.contest_id,
+    referendumId: contestResult.referendum_id,
+    jurisdictionId: contestResult.jurisdiction_id,
     entireDistrict: this.convertYesNo(contestResult.entire_district),
     totalVotes: contestResult.total_votes,
     totalValidVotes: contestResult.total_valid_votes,

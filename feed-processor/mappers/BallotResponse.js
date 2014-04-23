@@ -11,7 +11,7 @@ util.inherits(BallotResponse, basemapper);
 
 BallotResponse.prototype.mapXml3_0 = function (ballotResponse) {
   this.model = new this.models.BallotResponse({
-    elementId: this.convertId(ballotResponse.$.id),     //required
+    elementId: ballotResponse.$.id,     //required
     text: ballotResponse.text,
     sortOrder: ballotResponse.sort_order,
     _feed: this.feedId
