@@ -76,6 +76,9 @@ var theseConstraints = {
     },
     {
       entity: [models.electionOfficial], fields: ['email']
+    },
+    {
+      entity: [models.electionAdministration], fields: ['email']
     }],
 
   /* phone number format */
@@ -102,7 +105,7 @@ var theseConstraints = {
       entity: [models.pollingLocation], fields: ['address.zip']
     },
     {
-      entity: [models.streetSegment], fields: ['nonHouseAddress.zip']
+      entity: [models.streetSegment], fields: ['nonHouseAddress.zip', 'zip']
     }
   ],
 
