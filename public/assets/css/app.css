@@ -1719,11 +1719,9 @@ input[type="submit"] {
     cursor: default; }
 
 .disabled-row {
-  background: whitesmoke;
   color: #949598 !important;
   cursor: default; }
   .disabled-row:hover {
-    color: #949598 !important;
     cursor: default; }
 
 .disabled-row-failed {
