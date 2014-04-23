@@ -141,8 +141,8 @@ module.exports = function() {
     xml.on('endElement: polling_location', processPollingLocationElement);
     xml.on('endElement: precinct', processPrecinctElement);
     xml.on('endElement: precinct_split', processPrecinctSplitElement);
-    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
-    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
+//    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
+//    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
     xml.on('endElement: referendum', processReferendumElement);
     xml.on('endElement: source', processSourceElement);
     xml.on('endElement: state', processStateElement);

@@ -279,6 +279,16 @@ function createRelationshipsPollingLocation(feedId, models) {
   });
 }
 
+function createRelationshipsCandidate(feedId, models) {
+  var promise = models.Candidate.find({_feed: feedId}).exec();
+
+  promise.then(function(candidates) {
+    candidates.forEach(function(candidate) {
+      joinCandidateParty(models, candidate);
+    })
+  });
+}
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -791,6 +801,18 @@ function joinPollingLocationPrecinctSplit(models, pollingLocation) {
   });
 }
 
+function joinCandidateParty(models, candidate) {
+  var promise = models.Party.findOne({_feed: candidate._feed, elementId: candidate.partyId})
+    .select('_id')
+    .exec();
+
+  promise.then(function(party) {
+    updateRelationship(models.Candidate,
+      { _id: candidate._id },
+      { _party: party._id }, onUpdate);
+  });
+}
+
 function createDBRelationships(feedId, models) {
   createRelationshipsFeed(feedId, models);
   createRelationshipsSource(feedId, models);
@@ -808,6 +830,7 @@ function createDBRelationships(feedId, models) {
   createRelationshipsContestResult(feedId, models);
   createRelationshipsBallotLineResult(feedId, models);
   createRelationshipsPollingLocation(feedId, models);
+  createRelationshipsCandidate(feedId, models);
   _feedId = feedId;
   _models = models;
 };
