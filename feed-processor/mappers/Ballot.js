@@ -11,9 +11,15 @@ const
 util.inherits(Ballot, basemapper);
 
 Ballot.prototype.mapXml3_0 = function (ballot) {
+
   this.model = new this.models.Ballot({
     elementId: this.convertId(ballot.$.id),     //required
-    referendumIds: ballot.referendum_id,
+    referendumIds: _.map(ballot.referendum_id, function(ref) {
+      return {
+        elementId: (ref.$text === undefined) ? ref : this.convertId(ref.$text),
+        sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
+      }
+    }),
     candidates: _.map(ballot.candidate_id, function(candidate) {
       return {
         elementId: (candidate.$text === undefined) ? candidate : this.convertId(candidate.$text),
@@ -25,9 +31,11 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
     imageUrl: ballot.image_url,
     _feed: this.feedId
   });
+
 };
 
 Ballot.prototype.mapXml5_0 = function (ballot) {
+
   this.model = new this.models.Ballot({
     elementId: this.convertId(ballot.$.id),     //required
     referendumIds: _.map(ballot.referendum_id, function(ref) {
