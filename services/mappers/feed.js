@@ -511,6 +511,7 @@ function mapElectionOfficial (electionOfficial) {
 };
 
 function mapBallot(path, ballot) {
+
   return {
     id: ballot.elementId,
     error_count: ballot.errorCount,

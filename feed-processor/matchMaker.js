@@ -541,17 +541,33 @@ function joinBallotCandidates(models, ballot) {
 };
 
 function joinBallotReferenda(models, ballot) {
-  var promise = models.Referendum.find({ _feed: ballot._feed, elementId: { $in: ballot.referendumIds } })
-    .select('_id')
+
+  var referendumIds = ballot.referendumIds.map(function(referenda) { return referenda.elementId });
+  var promise = models.Referendum.find({ _feed: ballot._feed, elementId: { $in: referendumIds } })
+    .select('_id elementId')
     .exec();
 
   promise.then(function(referenda) {
+
+    // TODO - needs fix
     if (referenda.length > 0) {
       updateRelationship(models.Ballot,
         { _id: ballot._id },
         { $addToSet: { _referenda: { $each: referenda } } },
         onUpdate);
     }
+
+    /*
+    if (referenda.length > 0) {
+      referenda.forEach(function(referendum) {
+        updateRelationship(models.Ballot,
+          { _id: ballot._id },
+          { $set: { '_referenda.$._id': referendum._id } },
+          onUpdate);
+      });
+    }
+    */
+
   });
 };
 
