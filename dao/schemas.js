@@ -16,7 +16,8 @@ var simpleAddressSchema = {
   line3: String,
   city: String,
   state: String,
-  zip: String
+  zip: String,
+  gisXY: String
 };
 
 /*
