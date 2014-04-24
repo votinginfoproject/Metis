@@ -75,7 +75,7 @@ function addTemporaryCollectionModels(models) {
   models.PrecinctEarlyVoteSite = mongoose.model(config.mongoose.model.precinctEarlyVoteSite, mongoose.Schema(precinctEarlyVoteSiteSchema));
   models.PrecinctElectoralDistrict = mongoose.model(config.mongoose.model.precinctElectoralDistrict, mongoose.Schema(precinctElectoralDistrictSchema));
   models.PrecinctPollingLocation = mongoose.model(config.mongoose.model.precinctPollingLocation, mongoose.Schema(precinctPollingLocationsSchema));
-  models.PrecinctSplitElectoralDistrict = mongoose.model(config.mongoose.model.precinctSplitElectoralDistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
+  //models.PrecinctSplitElectoralDistrict = mongoose.model(config.mongoose.model.precinctSplitElectoralDistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
   models.PrecinctSplitPollingLocation = mongoose.model(config.mongoose.model.precinctSplitPollingLocation, mongoose.Schema(precinctSplitPollingLocationsSchema));
   models.ReferendumBallotResponse = mongoose.model(config.mongoose.model.referendumBallotResponse, mongoose.Schema(referendumBallotResponseSchema));
   models.StateEarlyVoteSite = mongoose.model(config.mongoose.model.stateEarlyVoteSite, mongoose.Schema(stateEarlyVoteSiteSchema));
