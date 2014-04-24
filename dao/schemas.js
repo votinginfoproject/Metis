@@ -641,7 +641,8 @@ var ballotStyleSchema = {
   candidateId: {
     elementId: String,
     sortOrder: String
-  }
+  },
+  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var ballotStyleErrorSchema = {
@@ -662,7 +663,8 @@ var partySchema = {
   majorParty: Boolean,
   abbreviation: String,
   initial: String,
-  sortOrder: Number
+  sortOrder: Number,
+  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var partyErrorSchema = {
@@ -680,13 +682,15 @@ var partyErrorSchema = {
 var precinctSplitElectoralDistrictSchema = {
   precinctId: String,
   precinctSplitId: String,
-  electoralDistrictId: String
+  electoralDistrictId: String,
+  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var precinctSplitBallotStyleSchema = {
   precinctId: String,
   precinctSplitId: String,
-  ballotStyleId: String
+  ballotStyleId: String,
+  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var overviewSchema = {
