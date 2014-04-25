@@ -36,7 +36,7 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
 
 Ballot.prototype.mapXml5_0 = function (ballot) {
   this.model = new this.models.Ballot({
-    elementId: this.convertId(ballot.$.id),     //required
+    elementId: ballot.$.id,     //required
     referendumIds: _.map(ballot.referendum_id, function(ref) {
       return {
         elementId: (ref.$text === undefined) ? ref : ref.$text,
@@ -49,7 +49,7 @@ Ballot.prototype.mapXml5_0 = function (ballot) {
         sortOrder: (candidate.$ === undefined) ? undefined : candidate.$.sort_order
       };
     }),
-    customBallotId: this.convertId(ballot.custom_ballot_id),
+    customBallotId: ballot.custom_ballot_id,
     writeIn: this.convertYesNo(ballot.write_in),
     imageUrl: ballot.image_url,
     _feed: this.feedId

@@ -181,7 +181,7 @@ var mapLocality = function(path, locality) {
     name: locality.name,
     type: locality.type,
     parent_id: locality.parentId,
-    poll_book_type: locality.pollbookType,
+    poll_book_type: locality.pollbookTypes,
     overview: _path.join(path, '/localityoverview'),
     administration: locality['_electionAdministration'] ? {
       id: locality._electionAdministration.elementId,
