@@ -4,6 +4,7 @@
 var updateCounter = 0;
 var _feedId;
 var _models;
+var _schemaVersion;
 
 /**
  * Creates relationships between documents in the database
@@ -309,6 +310,10 @@ function joinLocalityEarlyVoteSite (models, locality, evsIds) {
 };
 
 function joinLocalityPrecincts (models, locality) {
+
+  if(_schemaVersion == '5.0')
+    return;
+
   var promise = models.Precinct.find({ _feed: locality._feed, localityId: locality.elementId }).select('_id').exec();
 
   promise.then(function (precinctOids) {
@@ -345,6 +350,10 @@ function joinPrecinctEarlyVoteSites (models, precinct) {
 };
 
 function joinPrecinctPollingLocations (models, precinct) {
+
+  if(_schemaVersion == '5.0')
+    return;
+
   var promise = models.PollingLocation
     .find({ _feed: precinct._feed, elementId: { $in: precinct.pollingLocationIds } })
     .select('_id')
@@ -365,7 +374,9 @@ function joinPrecinctPrecinctSplits (models, precinct) {
 
   promise.then(function (psOids) {
     if (psOids.length > 0) {
-      updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _precinctSplits: { $each: psOids } } }, onUpdate);
+      if(_schemaVersion == '3.0') {
+        updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _precinctSplits: { $each: psOids } } }, onUpdate);
+      }
 
       var psIds = psOids.map(function(ps) { return ps._id; });
       updateRelationship(models.PrecinctSplit, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
@@ -813,7 +824,7 @@ function joinCandidateParty(models, candidate) {
   });
 }
 
-function createDBRelationships(feedId, models) {
+function createDBRelationships(feedId, models, schemaVersion) {
   createRelationshipsFeed(feedId, models);
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
@@ -831,8 +842,10 @@ function createDBRelationships(feedId, models) {
   createRelationshipsBallotLineResult(feedId, models);
   createRelationshipsPollingLocation(feedId, models);
   createRelationshipsCandidate(feedId, models);
+
   _feedId = feedId;
   _models = models;
+  _schemaVersion = schemaVersion;
 };
 
 exports.createDBRelationships = createDBRelationships;

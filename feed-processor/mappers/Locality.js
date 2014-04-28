@@ -31,7 +31,8 @@ Locality.prototype.mapXml5_0 = function (locality) {
     earlyVoteSiteIds: locality.early_vote_site_id,
     parentId: locality.parent_id,
     pollbookType: locality.pollbook_type,
-    _feed: this.feedId
+    _feed: this.feedId,
+    _precincts: locality._precincts
   });
 };
 

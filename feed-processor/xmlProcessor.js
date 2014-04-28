@@ -18,6 +18,7 @@ module.exports = function() {
   var feedId;
   var schemaVersion;
   var models;
+  var schemas;
 
   var Ballot = require('./mappers/Ballot');
   var BallotLineResult = require('./mappers/BallotLineResult');
@@ -96,7 +97,7 @@ module.exports = function() {
     if (parsingComplete) {
       if (writeQue.length == 0) {
         console.log('Creating database relationships...');
-        require('./matchMaker').createDBRelationships(feedId, models);
+        require('./matchMaker').createDBRelationships(feedId, models, schemaVersion);
       }
       else {
         console.log(writeQue.length);
@@ -150,6 +151,13 @@ module.exports = function() {
 
   function processFeedAttributes(vipObject) {
     schemaVersion = vipObject.$.schemaVersion;
+
+    if(schemaVersion == '5.0') {
+      xml.collect('precinct');
+      xml.collect('precinct_split');
+      xml.collect('polling_location');
+      xml.collect('candidate');
+    }
   }
 
   function mapAndSave(model, element) {
@@ -163,6 +171,11 @@ module.exports = function() {
       model.mapXml5_0(element);
 
     model.trimStrings();
+
+//    if(objectId) {
+//      model._id = objectId;
+//    }
+
     var savePromise = model.save();
 
     if (savePromise) {
@@ -176,6 +189,9 @@ module.exports = function() {
     if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
       startUnfold();
     }
+
+    if(model.model)
+      return model.model._id;
   }
 
   function processBallotElement(ballot) {
@@ -199,11 +215,24 @@ module.exports = function() {
   }
 
   function processCandidateElement(candidate) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new Candidate(models, feedId);
     mapAndSave(model, candidate);
   }
 
   function processContestElement(contest) {
+
+    if(schemaVersion == '5.0') {
+      contest.candidate.forEach(function(candidate) {
+        var candidateModel = new Candidate(models, feedId);
+        var candidateId = new schemas.types.ObjectId();
+        mapAndSave(candidateModel, candidate, candidateId);
+      });
+    }
+
     var model = new Contest(models, feedId);
     mapAndSave(model, contest);
   }
@@ -244,6 +273,30 @@ module.exports = function() {
   }
 
   function processLocalityElement(locality) {
+
+    if(schemaVersion == '5.0') {
+      locality.precinct.forEach(function (precinct) {
+
+        precinct._precinctSplits = [];
+        precinct.precinct_split.forEach(function (split) {
+          var splitModel = new PrecinctSplit(models, feedId);
+          precinct._precinctSplits.push(mapAndSave(splitModel, split));
+        });
+
+        precinct._pollingLocations = [];
+        precinct.polling_location.forEach(function (location) {
+          var locationModel = new PollingLocation(models, feedId);
+          var locationId = new schemas.types.ObjectId();
+          precinct._pollingLocations.push(mapAndSave(locationModel, location, locationId));
+        });
+
+        locality._precincts = [];
+        var precinctModel = new Precinct(models, feedId);
+        var precinctId = new schemas.types.ObjectId();
+        locality._precincts.push(mapAndSave(precinctModel, precinct, precinctId));
+      });
+    }
+
     var model = new Locality(models, feedId);
     mapAndSave(model, locality);
   }
@@ -254,29 +307,41 @@ module.exports = function() {
   }
 
   function processPollingLocationElement(pollingLocation) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new PollingLocation(models, feedId);
     mapAndSave(model, pollingLocation);
   }
 
   function processPrecinctElement(precinct) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new Precinct(models, feedId);
     mapAndSave(model, precinct);
   }
 
   function processPrecinctSplitElement(precinctSplit) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new PrecinctSplit(models, feedId);
     mapAndSave(model, precinctSplit);
   }
 
-  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
-    var model = new PrecinctSplitElectoralDistrict(models, feedId);
-    mapAndSave(model, psElectoralDistrict);
-  }
-
-  function processPrecinctBallotStyleElement(psBallotStyle) {
-    var model = new PrecinctSplitBallotStyle(models, feedId);
-    mapAndSave(model, psBallotStyle);
-  }
+//  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
+//    var model = new PrecinctSplitElectoralDistrict(models, feedId);
+//    mapAndSave(model, psElectoralDistrict);
+//  }
+//
+//  function processPrecinctBallotStyleElement(psBallotStyle) {
+//    var model = new PrecinctSplitBallotStyle(models, feedId);
+//    mapAndSave(model, psBallotStyle);
+//  }
 
   function processReferendumElement(referendum) {
     var model = new Referendum(models, feedId);
@@ -299,7 +364,8 @@ module.exports = function() {
   }
 
   return {
-    processXml: function (schemas, filePath, fileName, fileStream) {
+    processXml: function (_schemas, filePath, fileName, fileStream) {
+      schemas = _schemas;
       models = schemas.models;
 
       feedId = schemas.types.ObjectId();
