@@ -110,7 +110,7 @@ var ballotResponseErrorSchema = {
 };
 
 var candidateSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
   party: String, // v3.0 Only
   candidateUrl: String,
@@ -154,7 +154,7 @@ var contestSchema = {
   filingClosedDate: Date,
   numberElected:  Number,
   numberVotingFor: Number,
-  ballotId: Number,
+  ballotId: String,
   ballotPlacement: Number,
   writeIn: Boolean,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
@@ -215,7 +215,7 @@ var customBallotSchema = {
   elementId: String, //required
   heading: String,
   ballotResponses: [{
-    elementId: Number,
+    elementId: String,
     sortOrder: Number,
     _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
@@ -235,7 +235,7 @@ var customBallotErrorSchema = {
 };
 
 var earlyVoteSiteSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
   address: simpleAddressSchema,
   directions: String,
