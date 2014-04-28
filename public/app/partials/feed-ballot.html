@@ -59,7 +59,7 @@
 
 <section class="data-group data-module">
   <h2>Custom Ballot ID: {{feedBallot.custom_ballot.id}}</h2>
-  <a ng-if="feedBallot.custom_ballot" id="response-errors" class="error-count" href="{{$location.absUrl()}}/customballot/errors">{{feedBallot.custom_ballot.error_count}}
+  <a ng-if="feedBallot.custom_ballot" id="response-errors" class="error-count error-count-{{feedBallot.custom_ballot.error_count}}" href="{{$location.absUrl()}}/customballot/errors">{{feedBallot.custom_ballot.error_count}}
     Errors in Contest Result</a>
 
   <div ng-if="!feedBallot.custom_ballot && feedBallot.custom_ballot !== null"></br><span class="is-loading"></span></div>
