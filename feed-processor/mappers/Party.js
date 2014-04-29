@@ -6,7 +6,7 @@ const
   util = require('util'),
   _ = require('underscore'),
   Party = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.Ballot);
+    basemapper.call(this, models, feedId, models.Party);
   };
 util.inherits(Party, basemapper);
 
@@ -17,7 +17,8 @@ Party.prototype.mapXml5_0 = function (party) {
     majorParty: party.major_party,
     abbreviation: party.abbreviation,
     initial: party.initial,
-    sortOrder: party.$.sort_order
+    sortOrder: party.$.sort_order,
+    _feed: this.feedId
   });
 };
 

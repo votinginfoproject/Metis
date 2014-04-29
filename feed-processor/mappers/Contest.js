@@ -36,7 +36,7 @@ Contest.prototype.mapXml5_0 = function (contest) {
     electoralDistrictId: contest.electoral_district_id[0],
     type: contest.type,
     partisan: this.convertYesNo(contest.partisan),
-    partyId: contest.party_id,
+    primaryPartyId: contest.primary_party_id,
     electorateSpecifications: contest.electorate_specifications,
     special: this.convertYesNo(contest.special),
     office: contest.office,

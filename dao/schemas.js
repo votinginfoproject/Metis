@@ -206,7 +206,8 @@ var contestSchema = {
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict },
   _ballot: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
   _contestResult: { type: Types.ObjectId, ref: config.mongoose.model.contestResult },
-  _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }]
+  _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }],
+  _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
 };
 
 var contestRequiredFields = {
