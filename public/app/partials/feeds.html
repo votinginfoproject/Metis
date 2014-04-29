@@ -37,13 +37,13 @@
 </div>
 
 <small>Please Note: This is a temporary form to facilitate starting the feed processing.</small>
-<div style="border: 1px solid #cecece; padding: 5px; width: 500px">
+<div style="border: 1px solid #cecece; padding: 5px; max-width: 500px">
   <small>
     1) Place the feed file under the app's <b>/upload</b> folder<br>
     2) Enter the file name below and hit enter<br>
     <form target="_blank" action="/services/feeds" method="post">
-      Filename: <input style="width: 350px;" type="text" name="filename">
-      S3 Bucket Name: <input style="width: 350px;" type="text" name="s3bucket">
+      Filename: <input style="max-width: 350px;" type="text" name="filename">
+      S3 Bucket Name: <input style="max-width: 350px;" type="text" name="s3bucket">
       <input type="submit" value="Submit">
     </form>
     3) Close the corresponding tab that opens<br>
