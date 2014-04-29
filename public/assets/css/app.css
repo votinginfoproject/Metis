@@ -2305,8 +2305,23 @@ aside {
 .map {
   margin-bottom: 1em;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 200px;
   color: black; }
+  @media screen and (min-height: 340px) {
+    .map {
+      min-height: 300px; } }
+  @media screen and (min-height: 400px) {
+    .map {
+      min-height: 360px; } }
+  @media screen and (min-height: 450px) {
+    .map {
+      min-height: 410px; } }
+  @media screen and (min-height: 480px) {
+    .map {
+      min-height: 440px; } }
+  @media screen and (min-height: 520px) {
+    .map {
+      min-height: 480px; } }
 
 form[role="search"] {
   margin-bottom: 1em; }
