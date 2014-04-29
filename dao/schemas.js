@@ -43,6 +43,11 @@ var ballotSchema = {
   _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot }
 };
 
+var ballotRequiredFields =  {
+  v3: [],
+  v5: []
+};
+
 var ballotErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -78,6 +83,23 @@ var ballotLineResultSchema = {
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }
 };
 
+var ballotLineResultRequiredFields = {
+  v3: [
+    'contestId',
+    'jurisdictionId',
+    'entireDistrict',
+    'votes'
+  ],
+  v5: [
+    'contestId',
+    'jurisdictionId',
+    'entireDistrict',
+    'votes',
+    'referendumId',
+    'voteType'
+  ]
+};
+
 var ballotLineResultErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -95,6 +117,15 @@ var ballotResponseSchema = {
   text: String,
   sortOrder: Number,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var ballotResponseRequiredFields = {
+  v3: [
+    'text'
+  ],
+  v5: [
+    'text'
+  ]
 };
 
 var ballotResponseErrorSchema = {
@@ -126,6 +157,16 @@ var candidateSchema = {
   candidateStatus: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
+};
+
+var candidateRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name',
+    'lastName'
+  ]
 };
 
 var candidateErrorSchema = {
@@ -164,6 +205,18 @@ var contestSchema = {
   _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }]
 };
 
+var contestRequiredFields = {
+  v3: [
+    'electionId',
+    'electoralDistrictId',
+    'type'
+  ],
+  v5: [
+    'electionId',
+    'electoralDistrictId',
+  ]
+};
+
 var contestErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -199,6 +252,21 @@ var contestResultSchema = {
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }
 };
 
+var contestResultRequiredFields = {
+  v3: [
+    'contest_id',
+    'jurisdiction_id',
+    'entireDistrict'
+  ],
+  v5: [
+    'contest_id',
+    'jurisdiction_id',
+    'entireDistrict',
+    'referendumId',
+    'voteType'
+  ]
+};
+
 var contestResultErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -220,6 +288,17 @@ var customBallotSchema = {
     _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var customBallotRequiredFields = {
+  v3: [
+    'heading',
+    'ballotResponses'
+  ],
+  v5: [
+    'heading',
+    'ballotResponses'
+  ]
 };
 
 var customBallotErrorSchema = {
@@ -245,6 +324,21 @@ var earlyVoteSiteSchema = {
   daysTimesOpen: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _locality: { type: Types.ObjectId, ref: config.mongoose.model.locality }
+};
+
+var earlyVoteSiteRequiredFields = {
+  v3: [
+    'address.line1',
+    'address.city',
+    'address.state',
+    'address.zip'
+  ],
+  v5: [
+    'address.line1',
+    'address.city',
+    'address.state',
+    'address.zip'
+  ]
 };
 
 var earlyVoteSiteErrorSchema = {
@@ -277,6 +371,17 @@ var electionSchema = {
   uocavaMailDeadline: Date,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state }
+};
+
+var electionRequiredFields = {
+  v3: [
+    'date',
+    'stateId'
+  ],
+  v5: [
+    'date',
+    'stateId'
+  ]
 };
 
 var electionErrorSchema = {
@@ -314,6 +419,11 @@ var electionAdminSchema = {
   _overseasVoterContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
+var electionAdminRequiredFields = {
+  v3: [],
+  v5: []
+};
+
 var electionAdminErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -335,6 +445,15 @@ var electionOfficialSchema = {
   email: String,
   electionAdminId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var electionOfficailRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name'
+  ]
 };
 
 var electionOfficialErrorSchema = {
@@ -359,6 +478,15 @@ var electoralDistrictSchema = {
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
+};
+
+var electoralDistrictRequriedFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name'
+  ]
 };
 
 var electoralDistrictErrorSchema = {
@@ -902,6 +1030,16 @@ exports.initSchemas = function (mongoose) {
   models.Fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 
   // Set Up required fields
+  models.Ballot.RequiredFields = ballotRequiredFields;
+  models.Candidate.RequiredFields = candidateRequiredFields;
+  models.Contest.RequiredFields = contestRequiredFields;
+  models.ContestResult.RequiredFields = contestResultRequiredFields;
+  models.CustomBallot.RequiredFields = customBallotRequiredFields;
+  models.EarlyVoteSite.RequiredFields = earlyVoteSiteRequiredFields;
+  models.Election.RequiredFields = electionRequiredFields;
+  models.ElectionAdmin.RequiredFields = electionAdminRequiredFields;
+  models.ElectionOfficial.RequiredFields = electionOfficailRequiredFields;
+  models.ElectoralDistrict.RequiredFields = electoralDistrictRequriedFields;
   models.Locality.RequiredFields = localityRequiredFields;
   models.PollingLocation.RequiredFields = pollingLocationRequiredFields;
   models.Precinct.RequiredFields = precinctRequiredFields;
