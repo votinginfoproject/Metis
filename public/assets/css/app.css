@@ -1707,7 +1707,7 @@ input[type="submit"] {
   .disabled:hover,
   button:hover,
   input[type="submit"]:hover {
-    background: #2c4664;
+    background: #628eb7;
     color: white; }
 
 .disabled {
@@ -1854,6 +1854,13 @@ th {
   margin-bottom: 0.75em;
   padding: 0.75em;
   position: relative; }
+  .alert-box:before {
+    font-family: "foundation-icons";
+    content: "\f15e";
+    font-size: 24px;
+    font-weight: normal;
+    position: relative;
+    top: 3px; }
   .alert-box a {
     color: #594c00; }
     .alert-box a:hover {
@@ -1919,7 +1926,7 @@ th {
   .associations tbody tr td:first-child a {
     border: none; }
   .associations tbody tr:hover {
-    background: #01244c;
+    background: #628eb7;
     color: white; }
     .associations tbody tr:hover a {
       color: white; }
@@ -2100,7 +2107,7 @@ th {
       .value:nth-child(2) {
         border-top: none; } }
   .value a {
-    border-bottom: 1px solid #3c5f87; }
+    border-bottom: 1px solid #9eafc3; }
     .value a:hover, .value a:focus {
       border-color: #243a52; }
 
