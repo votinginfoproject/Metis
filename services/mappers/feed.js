@@ -520,6 +520,7 @@ function mapBallot(path, ballot) {
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
     referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
+    contests: mapBallotContests(_path.join(path, '/candidates'), ballot._contests),
     contest_id: ballot.contestId ? {
       id: ballot.contestId.elementId,
       sort_order: ballot.contestId.sortOrder
@@ -544,6 +545,17 @@ function mapReferenda(path, referenda) {
     };
   });
 };
+
+function mapBallotContests(path, contests) {
+  return contests.map(function(contest) {
+    return {
+      id: contest.elementId,
+      type: contest.type,
+      office: contest.office,
+      self: _path.join(path, '../../..', contest.elementId)
+    }
+  });
+}
 
 function mapReferendum(path, referendum) {
   return {

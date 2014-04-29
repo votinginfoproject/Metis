@@ -426,7 +426,8 @@ function feedContestBallot(feedId, contestId, callback) {
       [
         { path: '_referenda', model: daoSchemas.models.Referendum.modelName },
         { path: 'candidates._candidate', model: daoSchemas.models.Candidate.modelName },
-        { path: '_customBallot', model: daoSchemas.models.CustomBallot.modelName }
+        { path: '_customBallot', model: daoSchemas.models.CustomBallot.modelName },
+        { path: '_contests', model: daoSchemas.models.Contest.modelName }
       ]);
     }
     else {

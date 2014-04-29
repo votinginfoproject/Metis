@@ -34,13 +34,17 @@ var ballotSchema = {
     sortOrder: Number,
     _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate }
   }],
-  contestId: String,
+  contestIds: [{
+    elementId: String,
+    sortOrder: Number
+  }],
   customBallotId: String,
   writeIn: Boolean,
   imageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _referenda: [{ type: Types.ObjectId, ref: config.mongoose.model.referendum }],
-  _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot }
+  _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot },
+  _contests: [{ type: Types.ObjectId, ref: config.mongoose.model.contest }]
 };
 
 var ballotRequiredFields =  {

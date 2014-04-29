@@ -22,23 +22,24 @@
 
 </section><!-- /.data-group -->
 
-<!--<section class="data-group data-module">-->
-  <!--<h2><span ng-if="!feedLocality.poll_book_type">No</span> Poll Book</h2>-->
+  <!-- TODO Figure out how to actually make this look good -->
+<section class="data-group data-module">
+  <h2>{{feedLocality.poll_book_type.length}} Poll Book Types</h2>
 
-  <!--<span ng-if="!feedLocality" class="is-loading"></span>-->
-  <!--<table class="associations" ng-if="feedLocality.poll_book_type">-->
+  <span ng-if="!feedLocality" class="is-loading"></span>
+  <table class="associations" ng-if="feedLocality.poll_book_type">
     <!--<thead>-->
     <!--<tr>-->
       <!--<th>Type</th>-->
     <!--</tr>-->
     <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr id="pollbook{{$index}}" ng-repeat="pollbook in feedLocality.poll_book_type">-->
-      <!--<td id="locality-pollbook-type{{$index}}">{{pollbook}}</td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-  <!--</table>-->
-<!--</section>-->
+    <tbody>
+    <tr id="pollbook{{$index}}" ng-repeat="pollbook in feedLocality.poll_book_type">
+      <td id="locality-pollbook-type{{$index}}" class="id"><a href="" class="disabled">{{pollbook}}</a></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
 
 <section class="data-group data-module">
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>

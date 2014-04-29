@@ -121,6 +121,8 @@ module.exports = function() {
     xml.collect('polling_location_id');
     xml.collect('ballot_response_id');
     xml.collect('referendum_id');
+    xml.collect('pollbook_type');
+    xml.collect('contest_id');
 
     xml.on('end', onParsingEnd);
     xml.on('startElement: vip_object', processFeedAttributes);
