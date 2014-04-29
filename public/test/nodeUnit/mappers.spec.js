@@ -36,7 +36,8 @@ describe('Mapper Unit Tests', function() {
       var model = new Ballot(schemas.models, mongoose.Schema.Types.ObjectId('1'));
       var save = function(doc) {
         expect(doc.elementId).toBe(xml.$.id);
-        expect(doc.referendumIds[0]).toBe(xml.referendum_id[0]);
+        expect(doc.referendumIds[0].elementId).toBe(xml.referendum_id[0].$text);
+        expect(doc.referendumIds[1].sortOrder).toBe(xml.referendum_id[1].$.sort_order);
         expect(doc.candidates[0].elementId).toBe(xml.candidate_id[0].$text);
         expect(doc.candidates[1].sortOrder).toBe(xml.candidate_id[1].$.sort_order);
         expect(doc.customBallotId).toBe(xml.custom_ballot_id);

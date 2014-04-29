@@ -15,34 +15,34 @@ var address = {
 var mockedData = {
   ballotXML: {
     $: {
-      id: 1
+      id: '1'
     },
 
-    referendum_id: [2],
-    candidate_id: [{$text: 3, $: {sort_order: 4}}, {$text: 5, $: {sort_order: 6}}],
-    custom_ballot_id: 7,
+    referendum_id: [{$text: '3', $: {sort_order: 4}}, {$text: '5', $: {sort_order: 6}}],
+    candidate_id: [{$text: '3', $: {sort_order: 4}}, {$text: '5', $: {sort_order: 6}}],
+    custom_ballot_id: '7',
     write_in: 'yes',
     image_url: 'http://fakeUrl.com'
   },
 
   ballotLineResultXml: {
     $: {
-      id: 1,
+      id: '1',
       certification: 'word'
     },
 
-    contest_id: 3,
-    jurisdiction_id: 4,
+    contest_id: '3',
+    jurisdiction_id: '4',
     entire_district: 'no',
-    candidate_id: [5],
-    ballot_response_id: [6],
+    candidate_id: ['5'],
+    ballot_response_id: ['6'],
     votes: 7,
     victorious: 'yes'
   },
 
   ballotResponseXml: {
     $: {
-      id: 1
+      id: '1'
     },
 
     text: 'word',
@@ -51,7 +51,7 @@ var mockedData = {
 
   candidateXml: {
     $: {
-      id: 1
+      id: '1'
     },
 
     name: 'ryan',
@@ -67,10 +67,10 @@ var mockedData = {
 
   contestXml: {
     $: {
-      id: 1
+      id: '1'
     },
-    election_id: 2,
-    electoral_district_id: [3],
+    election_id: '2',
+    electoral_district_id: ['3'],
     type: 'type',
     partisan: 'yes',
     primary_party: 'primary',
@@ -80,17 +80,17 @@ var mockedData = {
     filing_closed_date: Date('2013-09-09'),
     number_elected: 4,
     number_voting_for: 5,
-    ballot_id: 6,
+    ballot_id: '6',
     ballot_placement: 7
   },
 
   contestResultXml: {
     $: {
-      id: 1,
+      id: '1',
       certification: 'cert'
     },
-    contest_id: 2,
-    jurisdiction_id: 3,
+    contest_id: '2',
+    jurisdiction_id: '3',
     entire_district: 'yes',
     total_votes: 5,
     total_valid_votes: 6,
@@ -102,15 +102,15 @@ var mockedData = {
 
   customBallotXml: {
     $: {
-      id: 1
+      id: '1'
     },
     heading: 'heading',
-    ballot_response_id: [ { $text: 3, $: {sort_order: 2} } ]
+    ballot_response_id: [ { $text: '3', $: {sort_order: 2} } ]
   },
 
   earlyVoteSiteXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
     address: address,
@@ -122,7 +122,7 @@ var mockedData = {
 
   electionXml: {
     $: {
-      id: 1
+      id: '1'
     },
     date: Date('2013-09-09'),
     election_type: 'type',
@@ -139,11 +139,11 @@ var mockedData = {
 
   electionAdministrationXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
-    eo_id: 2,
-    ovc_id: 3,
+    eo_id: '2',
+    ovc_id: '3',
     physical_address: address,
     mailing_address: address,
     elections_url: 'electionUrl.com',
@@ -156,7 +156,7 @@ var mockedData = {
 
   electionOfficialXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
     title: 'title',
@@ -167,7 +167,7 @@ var mockedData = {
 
   electoralDistrictXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
     type: 'type',
@@ -176,18 +176,18 @@ var mockedData = {
 
   localityXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
-    state_id: 2,
+    state_id: '2',
     type: 'type',
-    election_administration_id: 3,
-    early_vote_site_id: [ 4 ]
+    election_administration_id: '3',
+    early_vote_site_id: [ '4' ]
   },
 
   pollingLocationXml: {
     $: {
-      id: 1
+      id: '1'
     },
 
     address: address,
@@ -198,33 +198,33 @@ var mockedData = {
 
   precinctXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
     number: '555-555-5555',
-    locality_id: 2,
-    electoral_district_id: [3],
+    locality_id: '2',
+    electoral_district_id: ['3'],
     ward: 'ward',
     mail_only: 'yes',
-    polling_location_id: [4],
-    early_vote_site_id: [5],
+    polling_location_id: ['4'],
+    early_vote_site_id: ['5'],
     ballot_style_image_url: 'imgUrl.com'
   },
 
   precinctSplitXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
-    precinct_id: 2,
-    electoral_district_id: [3],
-    polling_location_id: [4],
+    precinct_id: '2',
+    electoral_district_id: ['3'],
+    polling_location_id: ['4'],
     ballot_style_image_url: 'imgUrl.com'
   },
 
   referendumXml: {
     $: {
-      id: 1
+      id: '1'
     },
     title: 'title',
     subtitle: 'subtitle',
@@ -234,12 +234,12 @@ var mockedData = {
     con_statement: 'con',
     passage_threshold: 'threshold',
     effect_of_abstain: 'abstain',
-    ballot_response_id: [{ $text: 2, $: {sort_order:2} }]
+    ballot_response_id: [{ $text: '2', $: {sort_order:2} }]
   },
 
   sourceXml: {
     $: {
-      id: 1
+      id: '1'
     },
     vip_id: 2,
     datetime: Date('2013-10-05'),
@@ -252,16 +252,16 @@ var mockedData = {
 
   stateXml: {
     $: {
-      id: 1
+      id: '1'
     },
     name: 'name',
-    election_administration_id: 2,
-    early_vote_site_id: [3]
+    election_administration_id: '2',
+    early_vote_site_id: ['3']
   },
 
   streetSegmentXml: {
     $: {
-      id: 1
+      id: '1'
     },
     start_house_number: 2,
     end_house_number: 3,
@@ -281,8 +281,8 @@ var mockedData = {
       state: 'state',
       zip: '12345'
     },
-    precinct_id: 8,
-    precinct_split_id: 9
+    precinct_id: '8',
+    precinct_split_id: '9'
   }
 };
 
