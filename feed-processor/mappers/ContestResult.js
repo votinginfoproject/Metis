@@ -27,6 +27,8 @@ ContestResult.prototype.mapXml3_0 = function (contestResult) {
 };
 
 ContestResult.prototype.mapXml5_0 = function (contestResult) {
+  this.version = "v5";
+
   this.model = new this.models.ContestResult({
     elementId: contestResult.$.id,     //required
     contestId: contestResult.contest_id,

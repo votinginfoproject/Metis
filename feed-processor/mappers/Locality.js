@@ -22,6 +22,8 @@ Locality.prototype.mapXml3_0 = function (locality) {
 };
 
 Locality.prototype.mapXml5_0 = function (locality) {
+  this.version = "v5";
+
   this.model = new this.models.Locality({
     elementId: locality.$.id,     //required
     name: locality.name,

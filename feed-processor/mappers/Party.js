@@ -11,6 +11,8 @@ const
 util.inherits(Party, basemapper);
 
 Party.prototype.mapXml5_0 = function (party) {
+  this.version = "v5";
+
   this.model = new this.models.Party({
     elementId: party.$.id,
     name: party.name,

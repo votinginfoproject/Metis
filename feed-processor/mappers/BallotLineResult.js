@@ -26,6 +26,8 @@ BallotLineResult.prototype.mapXml3_0 = function (ballotLineResult) {
 };
 
 BallotLineResult.prototype.mapXml5_0 = function (ballotLineResult) {
+  this.version = "v5";
+
   this.model = new this.models.BallotLineResult({
     elementId: ballotLineResult.$.id,     //required
     contestId: ballotLineResult.contest_id,

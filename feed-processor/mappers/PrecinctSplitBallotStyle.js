@@ -12,6 +12,8 @@ const
 util.inherits(PrecinctSplitBallotStyle, basemapper);
 
 PrecinctSplitBallotStyle.prototype.mapXml5_0 = function (precinctSplitBallotStyle) {
+  this.version = "v5";
+
   this.model = new this.models.PrecinctSplitBallotStyle({
     precinctSplitId: precinctSplitBallotStyle.precinct_split_id,
     precinctId: precinctSplitBallotStyle.precinct_id,
