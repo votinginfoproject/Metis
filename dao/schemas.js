@@ -415,6 +415,20 @@ var localitySchema = {
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }]
 };
 
+var localityRequiredFields = {
+  v3: [
+    'name',
+    'stateId',
+    'type'
+  ],
+  v5: [
+    'name',
+    'stateId',
+    'type',
+    'parentId'
+  ]
+};
+
 var localityErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -437,6 +451,15 @@ var pollingLocationSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
+};
+
+var pollingLocationRequiredFields = {
+  v3: [
+    'address'
+  ],
+  v5: [
+    'address'
+  ]
 };
 
 var pollingLocationErrorSchema = {
@@ -471,6 +494,17 @@ var precinctSchema = {
   _geometries: [{ type: Types.ObjectId, ref: config.mongoose.model.multiGeometry }]
 };
 
+var precinctRequiredFields = {
+  v3: [
+    'name',
+    'localityId'
+  ],
+  v5: [
+    'name',
+    'localityId'
+  ]
+};
+
 var precinctErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -496,6 +530,17 @@ var precinctSplitSchema = {
   _precinct: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
   _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }],
   _geometries: [{ type: Types.ObjectId, ref: config.mongoose.model.multiGeometry }]
+};
+
+var precinctSplitRequiredFields = {
+  v3: [
+    'name',
+    'precinctId'
+  ],
+  v5: [
+    'name',
+    'precinctId'
+  ]
 };
 
 var precinctSplitErrorSchema = {
@@ -530,6 +575,20 @@ var referendumSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var referendumRequiredFields = {
+  v3: [
+    'title',
+    'text',
+    'ballotResponseId'
+  ],
+  v5: [
+    'title',
+    'text',
+    'ballotResponseId',
+    'electoralDistrictId'
+  ]
+};
+
 var referendumErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -555,6 +614,19 @@ var sourceSchema = {
   _feedContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
+var sourceRequiredFields = {
+  v3: [
+    'name',
+    'vipId',
+    'datetime'
+  ],
+  v5: [
+    'name',
+    'vipId',
+    'datetime'
+  ]
+};
+
 var sourceErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -577,6 +649,16 @@ var stateSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
   _localities: [{ type: Types.ObjectId, ref: config.mongoose.model.locality }]
+};
+
+var stateRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name',
+    'abbreviation'
+  ]
 };
 
 var stateErrorSchema = {
@@ -619,6 +701,29 @@ var streetSegmentSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var streetSegmentRequiredFields = {
+  v3: [
+    'startHouseNumber',
+    'endHouseNumber',
+    'oddEvenBoth',
+    'nonHouseAddress.streetName',
+    'nonHouseAddress.city',
+    'nonHouseAddress.state',
+    'nonHouseAddress.zip',
+    'precinctId'
+  ],
+  v5: [
+    'startHouseNumber',
+    'endHouseNumber',
+    'oddEvenBoth',
+    'nonHouseAddress.streetName',
+    'nonHouseAddress.city',
+    'nonHouseAddress.state',
+    'nonHouseAddress.zip',
+    'precinctId'
+  ]
+};
+
 var streetSegmentErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -645,6 +750,13 @@ var ballotStyleSchema = {
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
+var ballotStyleRequiredFields = {
+  v3: [],
+  v5: [
+    'electionId'
+  ]
+};
+
 var ballotStyleErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -665,7 +777,14 @@ var partySchema = {
   initial: String,
   sortOrder: Number,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
-}
+};
+
+var partyRequiredFields = {
+  v3: [],
+  v5: [
+    'name'
+  ]
+};
 
 var partyErrorSchema = {
   severityCode: Number,
@@ -782,7 +901,18 @@ exports.initSchemas = function (mongoose) {
   models.County = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
   models.Fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 
+  // Set Up required fields
+  models.Locality.RequiredFields = localityRequiredFields;
+  models.PollingLocation.RequiredFields = pollingLocationRequiredFields;
+  models.Precinct.RequiredFields = precinctRequiredFields;
+  models.PrecinctSplit.RequiredFields = precinctSplitRequiredFields;
+  models.Referendum.RequiredFields = referendumRequiredFields;
+  models.Source.RequiredFields = sourceRequiredFields;
+  models.State.RequiredFields = stateRequiredFields;
+  models.BallotStyle.RequiredFields = ballotStyleRequiredFields;
+  models.Party.RequiredFields = partyRequiredFields;
 
+  // Set up field counts
   models.Ballot.fieldCount = utils.countProperties(ballotSchema);
   models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);
   models.BallotResponse.fieldCount = utils.countProperties(ballotResponseSchema);
