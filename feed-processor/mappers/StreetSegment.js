@@ -37,6 +37,8 @@ StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
 };
 
 StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
+  this.version = "v5";
+
   this.model = new this.models.StreetSegment({
     elementId: streetSegment.$.id,     //required
     startHouseNumber: streetSegment.start_house_number,

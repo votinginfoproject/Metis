@@ -24,6 +24,8 @@ EarlyVoteSite.prototype.mapXml3_0 = function (earlyVoteSite) {
 };
 
 EarlyVoteSite.prototype.mapXml5_0 = function (earlyVoteSite) {
+  this.version = "v5";
+
   this.model = new this.models.EarlyVoteSite({
     elementId: earlyVoteSite.$.id,     //required
     name: earlyVoteSite.name,

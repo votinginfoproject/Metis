@@ -4,6 +4,7 @@
 const
   basemapper = require('./BaseMapper'),
   util = require('util'),
+  _s = require('underscore.string'),
   Contest = function (models, feedId) {
     basemapper.call(this, models, feedId, models.Contest);
   };
@@ -27,9 +28,12 @@ Contest.prototype.mapXml3_0 = function (contest) {
     ballotPlacement: contest.ballot_placement,
     _feed: this.feedId
   });
+  this.checkRequiredFields();
 };
 
 Contest.prototype.mapXml5_0 = function (contest) {
+  this.version = "v5";
+
   this.model = new this.models.Contest({
     elementId: contest.$.id,     //required
     electionId: contest.election_id,
@@ -48,6 +52,7 @@ Contest.prototype.mapXml5_0 = function (contest) {
     writeIn: this.convertYesNo(contest.write_in),
     _feed: this.feedId
   });
+  this.checkRequiredFields();
 };
 
 Contest.prototype.mapCsv = function (contest) {
@@ -68,7 +73,7 @@ Contest.prototype.mapCsv = function (contest) {
     ballotPlacement: contest.ballot_placement,
     _feed: this.feedId
   });
+  this.checkRequiredFields();
 };
-
 
 module.exports = Contest;

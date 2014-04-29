@@ -28,6 +28,8 @@ State.prototype.mapXml5_0 = function (state) {
     return;
   }
 
+  this.version = "v5";
+
   this.model = new this.models.State({
     elementId: state.$.id,
     name: state.name,

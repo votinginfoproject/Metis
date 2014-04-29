@@ -28,6 +28,8 @@ Election.prototype.mapXml3_0 = function (election) {
 };
 
 Election.prototype.mapXml5_0 = function (election) {
+  this.version = "v5";
+
   this.model = new this.models.Election({
     elementId: election.$.id,
     date: election.date,

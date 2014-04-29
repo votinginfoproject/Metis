@@ -12,6 +12,8 @@ const
 util.inherits(BallotStyle, basemapper);
 
 BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
+  this.version = "v5";
+
   this.model = new this.models.BallotStyle({
     elementId: ballotStyle.$.id,
     name: ballotStyle.name,

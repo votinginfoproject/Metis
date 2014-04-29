@@ -26,6 +26,8 @@ Candidate.prototype.mapXml3_0 = function (candidate) {
 };
 
 Candidate.prototype.mapXml5_0 = function (candidate) {
+  this.version = "v5";
+
   this.model = new this.models.Candidate({
     elementId: candidate.$.id,     //required
     name: candidate.name,

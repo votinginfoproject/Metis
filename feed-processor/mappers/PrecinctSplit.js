@@ -24,6 +24,8 @@ PrecinctSplit.prototype.mapXml3_0 = function (precinctSplit) {
 };
 
 PrecinctSplit.prototype.mapXml5_0 = function (precinctSplit) {
+  this.version = "v5";
+
   this.mapXml3_0(precinctSplit);
 };
 

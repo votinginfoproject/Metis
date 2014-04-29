@@ -25,6 +25,8 @@ CustomBallot.prototype.mapXml3_0 = function (customBallot) {
 };
 
 CustomBallot.prototype.mapXml5_0 = function (customBallot) {
+  this.version = "v5";
+
   this.mapXml3_0(customBallot);
 };
 
