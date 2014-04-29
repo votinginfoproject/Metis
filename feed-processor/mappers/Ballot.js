@@ -20,7 +20,7 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
         sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
       }
     }),
-    candidates: _.map(ballot.candidate_id, function(candidate) {d
+    candidates: _.map(ballot.candidate_id, function(candidate) {
       return {
         elementId: (candidate.$text === undefined) ? candidate : candidate.$text,
         sortOrder: (candidate.$ === undefined) ? undefined : candidate.$.sort_order
