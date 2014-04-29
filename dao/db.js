@@ -359,7 +359,7 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
 
 function feedContest (feedId, contestId, callback) {
   var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults')
+    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults _party')
     .exec();
 
   promise.then(function(contest) {

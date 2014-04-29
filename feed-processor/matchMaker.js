@@ -182,7 +182,12 @@ function createRelationshipsContest (feedId, models) {
         joinContestBallot(models, contest);
       }
 
+      if (contest.primaryPartyId) {
+        joinContestParty(models, contest);
+      }
+
       joinContestResults(models, contest);
+
     });
   });
 };
@@ -823,6 +828,18 @@ function joinCandidateParty(models, candidate) {
   promise.then(function(party) {
     updateRelationship(models.Candidate,
       { _id: candidate._id },
+      { _party: party._id }, onUpdate);
+  });
+}
+
+function joinContestParty(models, contest) {
+  var promise = models.Party.findOne({_feed: contest._feed, elementId: contest.primaryPartyId})
+    .select('_id')
+    .exec();
+
+  promise.then(function(party) {
+    updateRelationship(models.Contest,
+      { _id: contest._id },
       { _party: party._id }, onUpdate);
   });
 }
