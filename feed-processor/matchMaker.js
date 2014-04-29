@@ -211,6 +211,9 @@ function createRelationshipsBallot(feedId, models) {
       if (ballot.customBallotId) {
         joinBallotCustomBallot(models, ballot);
       }
+      if (ballot.contestIds && ballot.contestIds.length > 0) {
+        joinBallotContest(models, ballot);
+      }
     });
   });
 };
@@ -823,6 +826,21 @@ function joinCandidateParty(models, candidate) {
       { _party: party._id }, onUpdate);
   });
 }
+
+function joinBallotContest(models, ballot) {
+
+  var contestIds = ballot.contestIds.map(function(contest) { return contest.elementId });
+  var promise = models.Contest.find({_feed: ballot._feed, elementId: { $in: contestIds }})
+    .select('_id')
+    .exec();
+
+  promise.then(function(contests) {
+    updateRelationship(models.Ballot,
+      { _id: ballot._id },
+      { $addToSet: { _contests: { $each: contests } }},
+      onUpdate);
+  });
+};
 
 function createDBRelationships(feedId, models, schemaVersion) {
   createRelationshipsFeed(feedId, models);
