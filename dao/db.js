@@ -475,7 +475,9 @@ function feedBallotCandidates(feedId, contestId, callback) {
 };
 
 function feedCandidate(feedId, candidateId, callback) {
-  var promise = daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId }).exec();
+  var promise = daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId })
+    .populate('_party')
+    .exec();
 
   promise.then(function(candidate) {
     daoSchemas.models.Candidate.Error.count({_feed: feedId, _ref: candidate._id}, function(err, count) {

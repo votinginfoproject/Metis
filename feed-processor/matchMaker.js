@@ -831,7 +831,7 @@ function joinPollingLocationPrecinctSplit(models, pollingLocation) {
 }
 
 function joinCandidateParty(models, candidate) {
-  var promise = models.Party.findOne({_feed: candidate._feed, elementId: candidate.partyId})
+  var promise = models.Party.findOne({ _feed: candidate._feed, elementId: candidate.partyId })
     .select('_id')
     .exec();
 

@@ -603,13 +603,21 @@ var mapBallotCandidates = function(path, candidates) {
 };
 
 var mapCandidate = function (path, candidate) {
+
+  var party = candidate.party;
+  if(!candidate.party) {
+    if(candidate._party) {
+      party = candidate._party.name;
+    }
+  }
+
   return {
     id: candidate.elementId,
     error_count: candidate.errorCount,
     errors: _path.join(path, '/errors'),
     name: candidate.name,
     incumbent: candidate.incumbent, //TODO: v5.0 element
-    party: candidate.party,
+    party: party,
     candidate_url: candidate.candidateUrl,
     biography: candidate.biography,
     phone: candidate.phone,
