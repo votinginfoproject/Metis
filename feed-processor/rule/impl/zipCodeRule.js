@@ -7,7 +7,7 @@ var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, rul
 
   var isViolated = false;
   if(zipCode && zipCode.trim() !== ""){
-    var matcher = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
+    var matcher = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
     isViolated = !matcher.test(zipCode.trim());
   }
 
