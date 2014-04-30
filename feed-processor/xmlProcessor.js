@@ -232,6 +232,7 @@ module.exports = function() {
       contest.candidate.forEach(function(candidate) {
         var candidateModel = new Candidate(models, feedId);
         var candidateId = new schemas.types.ObjectId();
+        candidate.ballot_id = contest.ballot_id;
         mapAndSave(candidateModel, candidate, candidateId);
       });
     }

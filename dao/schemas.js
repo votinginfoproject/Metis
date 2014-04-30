@@ -159,6 +159,7 @@ var candidateSchema = {
   lastName: String,
   partyId: String,
   candidateStatus: String,
+  ballotId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
 };

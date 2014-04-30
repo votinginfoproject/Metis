@@ -323,13 +323,19 @@ var mapElectionContest = function(path, contest) {
 };
 
 function mapContest (path, contest) {
+  var primParty = contest.primaryParty;
+  if(!contest.primaryParty) {
+    if(contest._party)
+      primParty = contest._party.name;
+  }
+
   return {
     id: contest.elementId,
     error_count: contest.errorCount,
     errors: _path.join(path, '/errors'),
     type: contest.type,
     partisan: contest.partisan,
-    primary_party: contest.primaryParty ? contest.primaryParty : contest._party.name,
+    primary_party: primParty,
     write_in: contest.writeIn,
     electorate_specifications: contest.electorateSpecifications,
     special: contest.special,
