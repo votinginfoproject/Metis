@@ -35,6 +35,8 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
 };
 
 Ballot.prototype.mapXml5_0 = function (ballot) {
+  this.version = "v5";
+
   this.model = new this.models.Ballot({
     elementId: ballot.$.id,     //required
     contestIds: _.map(ballot.contest_id, function(contest) {

@@ -31,6 +31,8 @@ ElectionAdministration.prototype.mapXml3_0 = function (electionAdmin) {
 };
 
 ElectionAdministration.prototype.mapXml5_0 = function (electionAdmin) {
+  this.version = "v5";
+
   this.model = new this.models.ElectionAdmin({
     elementId: electionAdmin.$.id,     //required
     name: electionAdmin.name,

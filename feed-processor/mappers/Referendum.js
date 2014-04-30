@@ -32,6 +32,8 @@ Referendum.prototype.mapXml3_0 = function (referendum) {
 };
 
 Referendum.prototype.mapXml5_0 = function (referendum) {
+  this.version = "v5";
+
   this.model = new this.models.Referendum({
     elementId: referendum.$.id,     //required
     title: referendum.title,

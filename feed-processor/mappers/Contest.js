@@ -4,6 +4,7 @@
 const
   basemapper = require('./BaseMapper'),
   util = require('util'),
+  _s = require('underscore.string'),
   Contest = function (models, feedId) {
     basemapper.call(this, models, feedId, models.Contest);
   };
@@ -30,6 +31,8 @@ Contest.prototype.mapXml3_0 = function (contest) {
 };
 
 Contest.prototype.mapXml5_0 = function (contest) {
+  this.version = "v5";
+
   this.model = new this.models.Contest({
     elementId: contest.$.id,     //required
     electionId: contest.election_id,
@@ -69,6 +72,5 @@ Contest.prototype.mapCsv = function (contest) {
     _feed: this.feedId
   });
 };
-
 
 module.exports = Contest;

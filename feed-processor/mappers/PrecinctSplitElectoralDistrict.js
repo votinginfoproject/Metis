@@ -12,6 +12,8 @@ const
 util.inherits(PrecinctSplitElectoralDistrict, basemapper);
 
 PrecinctSplitElectoralDistrict.prototype.mapXml5_0 = function (precinctSplitElectoralDistrict) {
+  this.version = "v5";
+
   this.model = new this.models.PrecinctSplitElectoralDistrict({
     precinctSplitId: precinctSplitElectoralDistrict.precinct_split_id,
     precinctId: precinctSplitElectoralDistrict.precinct_id,

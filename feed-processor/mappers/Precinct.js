@@ -29,6 +29,8 @@ Precinct.prototype.mapXml3_0 = function (precinct) {
 };
 
 Precinct.prototype.mapXml5_0 = function (precinct) {
+  this.version = "v5";
+
   this.model = new this.models.Precinct({
     _id: types.ObjectId(),
     elementId: precinct.$.id,     //required

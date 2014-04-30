@@ -5,6 +5,7 @@
 var mongoose = require('mongoose');
 var ruleViolation = require('../ruleViolation');
 var async = require('async');
+var utils = require('../../utils');
 
 var errorCount = 0;
 var constraints = null;
@@ -50,12 +51,7 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var saveStack = 0;
     stream.on('data', function(addressSegmentResultSet) {
 
-      var fieldPath = fieldStrings[i].split(".");
-      var resultSet = addressSegmentResultSet;
-      for(var x = 0; x < fieldPath.length; x++) {
-        var path = (fieldPath[x]).toString();
-        resultSet = resultSet[path];
-      }
+      var resultSet = utils.getProperty(addressSegmentResultSet, fieldStrings[i]);
 
       if(!resultSet || resultSet.trim() === '') {
         return;

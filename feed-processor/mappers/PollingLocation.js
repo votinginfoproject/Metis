@@ -23,6 +23,8 @@ PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
 };
 
 PollingLocation.prototype.mapXml5_0 = function (pollingLocation) {
+  this.version = "v5";
+
   this.mapXml3_0(pollingLocation);
 };
 
