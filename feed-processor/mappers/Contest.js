@@ -28,7 +28,6 @@ Contest.prototype.mapXml3_0 = function (contest) {
     ballotPlacement: contest.ballot_placement,
     _feed: this.feedId
   });
-  this.checkRequiredFields();
 };
 
 Contest.prototype.mapXml5_0 = function (contest) {
@@ -52,7 +51,6 @@ Contest.prototype.mapXml5_0 = function (contest) {
     writeIn: this.convertYesNo(contest.write_in),
     _feed: this.feedId
   });
-  this.checkRequiredFields();
 };
 
 Contest.prototype.mapCsv = function (contest) {
@@ -73,7 +71,6 @@ Contest.prototype.mapCsv = function (contest) {
     ballotPlacement: contest.ballot_placement,
     _feed: this.feedId
   });
-  this.checkRequiredFields();
 };
 
 module.exports = Contest;
