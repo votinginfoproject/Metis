@@ -19,7 +19,9 @@ BallotResponse.prototype.mapXml3_0 = function (ballotResponse) {
 };
 
 BallotResponse.prototype.mapXml5_0 = function (ballotResponse) {
+  this.version = "v5";
 
+  this.mapXml3_0(ballotResponse);
 };
 
 BallotResponse.prototype.mapCsv = function (ballotResponse) {

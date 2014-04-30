@@ -27,7 +27,25 @@ ContestResult.prototype.mapXml3_0 = function (contestResult) {
 };
 
 ContestResult.prototype.mapXml5_0 = function (contestResult) {
+  this.version = "v5";
 
+  this.model = new this.models.ContestResult({
+    elementId: contestResult.$.id,     //required
+    contestId: contestResult.contest_id,
+    referendumId: contestResult.referendum_id,
+    jurisdictionId: contestResult.jurisdiction_id,
+    entireDistrict: this.convertYesNo(contestResult.entire_district),
+    totalVotes: contestResult.total_votes,
+    totalValidVotes: contestResult.total_valid_votes,
+    overvotes: contestResult.overvotes,
+    blankVotes: contestResult.blank_votes,
+    acceptedProvisionalVotes: contestResult.accepted_provisional_votes,
+    rejectedVotes: contestResult.rejected_votes,
+    voteType: contestResult.vote_type,
+    machineId: contestResult.machine_id,
+    certification: contestResult.$.certification,
+    _feed: this.feedId
+  });
 };
 
 ContestResult.prototype.mapCsv = function (contestResult) {

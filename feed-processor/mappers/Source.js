@@ -25,7 +25,9 @@ Source.prototype.mapXml3_0 = function (source) {
 };
 
 Source.prototype.mapXml5_0 = function (source) {
+  this.version = "v5";
 
+  this.mapXml3_0(source);
 };
 
 Source.prototype.mapCsv = function (source) {

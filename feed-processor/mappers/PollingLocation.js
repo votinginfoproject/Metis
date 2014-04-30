@@ -4,6 +4,7 @@
 const
   basemapper = require('./BaseMapper'),
   util = require('util'),
+  types = require('mongoose').Types,
   PollingLocation = function (models, feedId) {
     basemapper.call(this, models, feedId, models.PollingLocation);
   };
@@ -11,6 +12,7 @@ util.inherits(PollingLocation, basemapper);
 
 PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
   this.model = new this.models.PollingLocation({
+    _id: types.ObjectId(),
     elementId: pollingLocation.$.id,     //required
     address: this.mapSimpleAddress(pollingLocation.address),
     directions: pollingLocation.directions,
@@ -21,7 +23,9 @@ PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
 };
 
 PollingLocation.prototype.mapXml5_0 = function (pollingLocation) {
+  this.version = "v5";
 
+  this.mapXml3_0(pollingLocation);
 };
 
 PollingLocation.prototype.mapCsv = function (pollingLocation) {

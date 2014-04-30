@@ -22,7 +22,18 @@ ElectionOfficial.prototype.mapXml3_0 = function (official) {
 };
 
 ElectionOfficial.prototype.mapXml5_0 = function (official) {
+  this.version = "v5";
 
+  this.model = new this.models.ElectionOfficial({
+    elementId: official.$.id,
+    name: official.name,
+    title: official.title,
+    phone: official.phone,
+    fax: official.fax,
+    email: official.email,
+    electionAdminId: official.election_administration_id,
+    _feed: this.feedId
+  });
 };
 
 ElectionOfficial.prototype.mapCsv = function (official) {

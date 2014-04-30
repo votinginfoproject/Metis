@@ -16,26 +16,40 @@ var simpleAddressSchema = {
   line3: String,
   city: String,
   state: String,
-  zip: String
+  zip: String,
+  gisXY: String
 };
 
 /*
  * Mongoose Schema Definitions
  */
 var ballotSchema = {
-  elementId: Number, //required
-  referendumIds: [Number],
+  elementId: String, //required
+  referendumIds: [{
+    elementId: String,
+    sortOrder: Number
+  }],
   candidates: [{
-    elementId: Number,
+    elementId: String,
     sortOrder: Number,
     _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate }
   }],
-  customBallotId: Number,
+  contestIds: [{
+    elementId: String,
+    sortOrder: Number
+  }],
+  customBallotId: String,
   writeIn: Boolean,
   imageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _referenda: [{ type: Types.ObjectId, ref: config.mongoose.model.referendum }],
-  _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot }
+  _customBallot: { type: Types.ObjectId, ref: config.mongoose.model.customBallot },
+  _contests: [{ type: Types.ObjectId, ref: config.mongoose.model.contest }]
+};
+
+var ballotRequiredFields =  {
+  v3: [],
+  v5: []
 };
 
 var ballotErrorSchema = {
@@ -45,21 +59,23 @@ var ballotErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var ballotLineResultSchema = {
-  elementId: Number, //required
-  contestId: Number,
-  jurisdictionId: Number,
+  elementId: String, //required
+  contestId: String,
+  referendum_id: String,
+  jurisdictionId: String,
   entireDistrict: Boolean,
-  candidateId: Number,
-  ballotResponseId: Number,
+  candidateId: String,
+  ballotResponseId: String,
   votes: Number,
   victorious: Boolean,
   certification: String,
+  voteType: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _candidate: { type: Types.ObjectId, ref: config.mongoose.model.candidate },
@@ -71,6 +87,23 @@ var ballotLineResultSchema = {
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }
 };
 
+var ballotLineResultRequiredFields = {
+  v3: [
+    'contestId',
+    'jurisdictionId',
+    'entireDistrict',
+    'votes'
+  ],
+  v5: [
+    'contestId',
+    'jurisdictionId',
+    'entireDistrict',
+    'votes',
+    'referendumId',
+    'voteType'
+  ]
+};
+
 var ballotLineResultErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -78,16 +111,25 @@ var ballotLineResultErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var ballotResponseSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   text: String,
   sortOrder: Number,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var ballotResponseRequiredFields = {
+  v3: [
+    'text'
+  ],
+  v5: [
+    'text'
+  ]
 };
 
 var ballotResponseErrorSchema = {
@@ -97,15 +139,15 @@ var ballotResponseErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var candidateSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
-  party: String,
+  party: String, // v3.0 Only
   candidateUrl: String,
   biography: String,
   phone: String,
@@ -113,7 +155,23 @@ var candidateSchema = {
   filedMailingAddress: simpleAddressSchema,
   email: String,
   sortOrder: Number,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+  incumbent: Boolean,
+  lastName: String,
+  partyId: String,
+  candidateStatus: String,
+  ballotId: String,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
+  _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
+};
+
+var candidateRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name',
+    'lastName'
+  ]
 };
 
 var candidateErrorSchema = {
@@ -123,31 +181,46 @@ var candidateErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.candidate },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var contestSchema = {
-  elementId: Number,     //required
-  electionId:  Number,
-  electoralDistrictId:  Number,
+  elementId: String,     //required
+  electionId:  String,
+  electoralDistrictId:  String,
   type: String,
   partisan: Boolean,
-  primaryParty: String,
+  primaryParty: String, // v3.0 Only
+  primaryPartyId: String,
   electorateSpecifications: String,
   special: Boolean,
   office: String,
   filingClosedDate: Date,
   numberElected:  Number,
   numberVotingFor: Number,
-  ballotId: Number,
+  ballotId: String,
   ballotPlacement: Number,
+  writeIn: Boolean,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict },
   _ballot: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
   _contestResult: { type: Types.ObjectId, ref: config.mongoose.model.contestResult },
-  _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }]
+  _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotLineResult }],
+  _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
+};
+
+var contestRequiredFields = {
+  v3: [
+    'electionId',
+    'electoralDistrictId',
+    'type'
+  ],
+  v5: [
+    'electionId',
+    'electoralDistrictId'
+  ]
 };
 
 var contestErrorSchema = {
@@ -157,15 +230,16 @@ var contestErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var contestResultSchema = {
-  elementId: Number, //required
-  contestId: Number,
-  jurisdictionId: Number,
+  elementId: String, //required
+  contestId: String,
+  referendumId: String,
+  jurisdictionId: String,
   entireDistrict: Boolean,
   totalVotes: Number,
   totalValidVotes: Number,
@@ -174,6 +248,7 @@ var contestResultSchema = {
   acceptedProvisionalVotes: Number,
   rejectedVotes: Number,
   certification: String,
+  voteType: Boolean,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state },
@@ -183,6 +258,21 @@ var contestResultSchema = {
   _electoralDistrict: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }
 };
 
+var contestResultRequiredFields = {
+  v3: [
+    'contest_id',
+    'jurisdiction_id',
+    'entireDistrict'
+  ],
+  v5: [
+    'contest_id',
+    'jurisdiction_id',
+    'entireDistrict',
+    'referendumId',
+    'voteType'
+  ]
+};
+
 var contestResultErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -190,20 +280,31 @@ var contestResultErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.contestResult },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var customBallotSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   heading: String,
   ballotResponses: [{
-    elementId: Number,
+    elementId: String,
     sortOrder: Number,
     _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var customBallotRequiredFields = {
+  v3: [
+    'heading',
+    'ballotResponses'
+  ],
+  v5: [
+    'heading',
+    'ballotResponses'
+  ]
 };
 
 var customBallotErrorSchema = {
@@ -213,13 +314,13 @@ var customBallotErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.customBallot },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var earlyVoteSiteSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
   address: simpleAddressSchema,
   directions: String,
@@ -231,20 +332,35 @@ var earlyVoteSiteSchema = {
   _locality: { type: Types.ObjectId, ref: config.mongoose.model.locality }
 };
 
+var earlyVoteSiteRequiredFields = {
+  v3: [
+    'address.line1',
+    'address.city',
+    'address.state',
+    'address.zip'
+  ],
+  v5: [
+    'address.line1',
+    'address.city',
+    'address.state',
+    'address.zip'
+  ]
+};
+
 var earlyVoteSiteErrorSchema = {
-  severityCode: Number,
+  severityCode: String,
   severityText: String,
   errorCode: Number,
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var electionSchema = {
-  elementId: Number,  //required
+  elementId: String,  //required
   date: Date,
   electionType: String,
   stateId: String,
@@ -256,8 +372,22 @@ var electionSchema = {
   electionDayRegistration: Boolean,
   registrationDeadline: Date,
   absenteeRequestDeadline: Date,
+  name: String,
+  divisionId: [String],
+  uocavaMailDeadline: Date,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state }
+};
+
+var electionRequiredFields = {
+  v3: [
+    'date',
+    'stateId'
+  ],
+  v5: [
+    'date',
+    'stateId'
+  ]
 };
 
 var electionErrorSchema = {
@@ -267,16 +397,16 @@ var electionErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.election },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var electionAdminSchema = {
-  elementId: Number,     //required
+  elementId: String,     //required
   name: String,
-  eoId: Number,
-  ovcId: Number,
+  eoId: String,
+  ovcId: String,
   physicalAddress: simpleAddressSchema,
   mailingAddress: simpleAddressSchema,
   electionsUrl: String,
@@ -288,9 +418,16 @@ var electionAdminSchema = {
   rulesUrl: String,
   voterServices: String,
   hours: String,
+  phone: String,
+  email: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electionOfficial: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial },
   _overseasVoterContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
+};
+
+var electionAdminRequiredFields = {
+  v3: [],
+  v5: []
 };
 
 var electionAdminErrorSchema = {
@@ -300,19 +437,29 @@ var electionAdminErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var electionOfficialSchema = {
-  elementId: Number,   //required
+  elementId: String,   //required
   name: String,
   title: String,
   phone: String,
   fax: String,
   email: String,
+  electionAdminId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var electionOfficalRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name'
+  ]
 };
 
 var electionOfficialErrorSchema = {
@@ -322,20 +469,30 @@ var electionOfficialErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var electoralDistrictSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
   type: String,
   number: Number,
+  description: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
+};
+
+var electoralDistrictRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name'
+  ]
 };
 
 var electoralDistrictErrorSchema = {
@@ -345,7 +502,7 @@ var electoralDistrictErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
@@ -361,6 +518,7 @@ var feedSchema = {
   fipsCode: Number,
   friendlyId: String,
   feedPath: String,
+  specVersion: Number,
   _election: { type: Types.ObjectId, ref: config.mongoose.model.election },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state },
   _feedContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
@@ -377,16 +535,32 @@ var feedErrorSchema = {
 };
 
 var localitySchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
-  stateId: Number,
+  stateId: String,
   type: String,
-  electionAdminId: Number,
-  earlyVoteSiteIds: [Number],
+  electionAdminId: String,
+  earlyVoteSiteIds: [String],
+  parentIds: [String],
+  pollbookTypes: [String],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
   _earlyVoteSites: [{ type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite }],
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }]
+};
+
+var localityRequiredFields = {
+  v3: [
+    'name',
+    'stateId',
+    'type'
+  ],
+  v5: [
+    'name',
+    'stateId',
+    'type',
+    'parentId'
+  ]
 };
 
 var localityErrorSchema = {
@@ -396,20 +570,32 @@ var localityErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.locality },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var pollingLocationSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   address: simpleAddressSchema,
   directions: String,
   pollingHours: String,
   photoUrl: String,
+  name: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _precincts: [{ type: Types.ObjectId, ref: config.mongoose.model.precinct }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }]
+};
+
+var pollingLocationRequiredFields = {
+  v3: [
+    'address.zip',
+    'address.city'
+  ],
+  v5: [
+    'address.zip',
+    'address.city'
+  ]
 };
 
 var pollingLocationErrorSchema = {
@@ -419,28 +605,40 @@ var pollingLocationErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.pollingLocation },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var precinctSchema = {
-  elementId: Number,       //required
+  elementId: String,       //required
   name: String,
   number: String,
-  localityId: Number,
-  electoralDistrictIds: [Number],
+  localityId: String,
+  electoralDistrictIds: [String],
   ward: String,
   mailOnly: Boolean,
-  pollingLocationIds: [Number],
-  earlyVoteSiteIds: [Number],
+  pollingLocationIds: [String],
+  earlyVoteSiteIds: [String],
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
   _pollingLocations: [{ type: Types.ObjectId, ref: config.mongoose.model.pollingLocation }],
   _earlyVoteSites: [{ type: Types.ObjectId, ref: config.mongoose.model.earlyVoteSite }],
   _precinctSplits: [{ type: Types.ObjectId, ref: config.mongoose.model.precinctSplit }],
-  _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }]
+  _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }],
+  _geometries: [{ type: Types.ObjectId, ref: config.mongoose.model.multiGeometry }]
+};
+
+var precinctRequiredFields = {
+  v3: [
+    'name',
+    'localityId'
+  ],
+  v5: [
+    'name',
+    'localityId'
+  ]
 };
 
 var precinctErrorSchema = {
@@ -450,23 +648,35 @@ var precinctErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var precinctSplitSchema = {
-  elementId: Number,       //required
+  elementId: String,       //required
   name: String,
-  precinctId: Number,
-  electoralDistrictIds: [Number],
-  pollingLocationIds: [Number],
+  precinctId: String,
+  electoralDistrictIds: [String],
+  pollingLocationIds: [String],
   ballotStyleImageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electoralDistricts: [{ type: Types.ObjectId, ref: config.mongoose.model.electoralDistrict }],
   _pollingLocations: [{ type: Types.ObjectId, ref: config.mongoose.model.pollingLocation }],
   _precinct: { type: Types.ObjectId, ref: config.mongoose.model.precinct },
-  _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }]
+  _streetSegments: [{ type: Types.ObjectId, ref: config.mongoose.model.streetSegment }],
+  _geometries: [{ type: Types.ObjectId, ref: config.mongoose.model.multiGeometry }]
+};
+
+var precinctSplitRequiredFields = {
+  v3: [
+    'name',
+    'precinctId'
+  ],
+  v5: [
+    'name',
+    'precinctId'
+  ]
 };
 
 var precinctSplitErrorSchema = {
@@ -476,13 +686,13 @@ var precinctSplitErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.precinctSplit },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var referendumSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   title: String,
   subtitle: String,
   brief: String,
@@ -491,12 +701,28 @@ var referendumSchema = {
   conStatement: String,
   passageThreshold: String,
   effectOfAbstain: String,
+  electoralDistrictId: String,
+  ballotPlacement: Number,
   ballotResponses: [{
-    elementId: Number,
+    elementId: String,
     sortOrder: Number,
     _response: { type: Types.ObjectId, ref: config.mongoose.model.ballotResponse }
   }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var referendumRequiredFields = {
+  v3: [
+    'title',
+    'text',
+    'ballotResponses'
+  ],
+  v5: [
+    'title',
+    'text',
+    'ballotResponses',
+    'electoralDistrictId'
+  ]
 };
 
 var referendumErrorSchema = {
@@ -506,13 +732,13 @@ var referendumErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.referendum },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var sourceSchema = {
-  elementId: Number,
+  elementId: String,
   vipId: Number,  //required
   datetime: Date,
   description: String,
@@ -524,6 +750,19 @@ var sourceSchema = {
   _feedContact: { type: Types.ObjectId, ref: config.mongoose.model.electionOfficial }
 };
 
+var sourceRequiredFields = {
+  v3: [
+    'name',
+    'vipId',
+    'datetime'
+  ],
+  v5: [
+    'name',
+    'vipId',
+    'datetime'
+  ]
+};
+
 var sourceErrorSchema = {
   severityCode: Number,
   severityText: String,
@@ -531,19 +770,31 @@ var sourceErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.source },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var stateSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   name: String,
-  electionAdministrationId: Number,
-  earlyVoteSiteIds: [Number],
+  electionAdministrationId: String,
+  earlyVoteSiteIds: [String],
+  abbreviation: String,
+  region: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _electionAdministration: { type: Types.ObjectId, ref: config.mongoose.model.electionAdministration },
   _localities: [{ type: Types.ObjectId, ref: config.mongoose.model.locality }]
+};
+
+var stateRequiredFields = {
+  v3: [
+    'name'
+  ],
+  v5: [
+    'name',
+    'abbreviation'
+  ]
 };
 
 var stateErrorSchema = {
@@ -553,18 +804,21 @@ var stateErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.state },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var streetSegmentSchema = {
-  elementId: Number, //required
+  elementId: String, //required
   startHouseNumber: Number,
   endHouseNumber: Number,
   oddEvenBoth: String,
   startApartmentNumber: Number,
   endApartmentNumber: Number,
+  city: String,
+  zip: String,
+  stateId: String,
   nonHouseAddress: {
     houseNumber: Number,
     houseNumberPrefix: String,
@@ -578,9 +832,32 @@ var streetSegmentSchema = {
     state: String,
     zip: String
   },
-  precinctId: Number,
-  precinctSplitId: Number,
+  precinctId: String,
+  precinctSplitId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var streetSegmentRequiredFields = {
+  v3: [
+    'startHouseNumber',
+    'endHouseNumber',
+    'oddEvenBoth',
+    'nonHouseAddress.streetName',
+    'nonHouseAddress.city',
+    'nonHouseAddress.state',
+    'nonHouseAddress.zip',
+    'precinctId'
+  ],
+  v5: [
+    'startHouseNumber',
+    'endHouseNumber',
+    'oddEvenBoth',
+    'nonHouseAddress.streetName',
+    'nonHouseAddress.city',
+    'nonHouseAddress.state',
+    'nonHouseAddress.zip',
+    'precinctId'
+  ]
 };
 
 var streetSegmentErrorSchema = {
@@ -590,17 +867,93 @@ var streetSegmentErrorSchema = {
   title: String,
   details: String,
   textualReference: String,
-  refElementId: Number,
+  refElementId: String,
   _ref: { type: Types.ObjectId, ref: config.mongoose.model.streetSegment },
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
+
+var ballotStyleSchema = {
+  elementId: String,
+  name: String,
+  electionId: String,
+  contestId: String,
+  referendumId: String,
+  sortOrder: String,
+  candidateId: {
+    elementId: String,
+    sortOrder: String
+  },
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var ballotStyleRequiredFields = {
+  v3: [],
+  v5: [
+    'electionId'
+  ]
+};
+
+var ballotStyleErrorSchema = {
+  severityCode: Number,
+  severityText: String,
+  errorCode: Number,
+  title: String,
+  details: String,
+  textualReference: String,
+  refElementId: String,
+  _ref: { type: Types.ObjectId, ref: config.mongoose.model.ballotStyle },
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var partySchema = {
+  elementId: String,
+  name: String,
+  majorParty: Boolean,
+  abbreviation: String,
+  initial: String,
+  sortOrder: Number,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var partyRequiredFields = {
+  v3: [],
+  v5: [
+    'name'
+  ]
+};
+
+var partyErrorSchema = {
+  severityCode: Number,
+  severityText: String,
+  errorCode: Number,
+  title: String,
+  details: String,
+  textualReference: String,
+  refElementId: String,
+  _ref: { type: Types.ObjectId, ref: config.mongoose.model.party },
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+};
+
+var precinctSplitElectoralDistrictSchema = {
+  precinctId: String,
+  precinctSplitId: String,
+  electoralDistrictId: String,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+}
+
+var precinctSplitBallotStyleSchema = {
+  precinctId: String,
+  precinctSplitId: String,
+  ballotStyleId: String,
+  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
+}
 
 var overviewSchema = {
   elementType: String,
   amount: Number,
   completePct: Number,
   errorCount: Number,
-  section: Number,
+  section: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
@@ -648,6 +1001,11 @@ exports.initSchemas = function (mongoose) {
   models.State = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
   models.StreetSegment = mongoose.model(config.mongoose.model.streetSegment, mongoose.Schema(streetSegmentSchema));
 
+  models.BallotStyle = mongoose.model(config.mongoose.model.ballotStyle, mongoose.Schema(ballotStyleSchema));
+  models.Party = mongoose.model(config.mongoose.model.party, mongoose.Schema(partySchema));
+  models.PrecinctSplitElectoralDistrict = mongoose.model(config.mongoose.model.precinctSplitElectoralDistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
+  models.PrecinctSplitBallotStyle = mongoose.model(config.mongoose.model.precinctSplitBallotStyle, mongoose.Schema(precinctSplitBallotStyleSchema));
+
   models.Ballot.Error = mongoose.model(config.mongoose.model.ballotError, mongoose.Schema(ballotErrorSchema));
   models.BallotResponse.Error = mongoose.model(config.mongoose.model.ballotResponseError, mongoose.Schema(ballotResponseErrorSchema));
   models.BallotLineResult.Error = mongoose.model(config.mongoose.model.ballotLineResultError, mongoose.Schema(ballotLineResultErrorSchema));
@@ -670,13 +1028,40 @@ exports.initSchemas = function (mongoose) {
   models.State.Error = mongoose.model(config.mongoose.model.stateError, mongoose.Schema(stateErrorSchema));
   models.StreetSegment.Error = mongoose.model(config.mongoose.model.streetSegmentError, mongoose.Schema(streetSegmentErrorSchema));
 
+  models.BallotStyle.Error = mongoose.model(config.mongoose.model.ballotStyleError, mongoose.Schema(ballotStyleErrorSchema));
+  models.Party.Error = mongoose.model(config.mongoose.model.partyError, mongoose.Schema(partyErrorSchema));
+
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
 
   models.County = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
   models.Fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 
+  // Set Up required fields
+  models.Ballot.RequiredFields = ballotRequiredFields;
+  models.BallotLineResult.RequiredFields = ballotLineResultRequiredFields;
+  models.BallotResponse.RequiredFields = ballotResponseRequiredFields;
+  models.Candidate.RequiredFields = candidateRequiredFields;
+  models.Contest.RequiredFields = contestRequiredFields;
+  models.ContestResult.RequiredFields = contestResultRequiredFields;
+  models.CustomBallot.RequiredFields = customBallotRequiredFields;
+  models.EarlyVoteSite.RequiredFields = earlyVoteSiteRequiredFields;
+  models.Election.RequiredFields = electionRequiredFields;
+  models.ElectionAdmin.RequiredFields = electionAdminRequiredFields;
+  models.ElectionOfficial.RequiredFields = electionOfficalRequiredFields;
+  models.ElectoralDistrict.RequiredFields = electoralDistrictRequiredFields;
+  models.Locality.RequiredFields = localityRequiredFields;
+  models.PollingLocation.RequiredFields = pollingLocationRequiredFields;
+  models.Precinct.RequiredFields = precinctRequiredFields;
+  models.PrecinctSplit.RequiredFields = precinctSplitRequiredFields;
+  models.Referendum.RequiredFields = referendumRequiredFields;
+  models.Source.RequiredFields = sourceRequiredFields;
+  models.State.RequiredFields = stateRequiredFields;
+  models.StreetSegment.RequiredFields = streetSegmentRequiredFields;
+  models.BallotStyle.RequiredFields = ballotStyleRequiredFields;
+  models.Party.RequiredFields = partyRequiredFields;
 
+  // Set up field counts
   models.Ballot.fieldCount = utils.countProperties(ballotSchema);
   models.BallotLineResult.fieldCount = utils.countProperties(ballotLineResultSchema);
   models.BallotResponse.fieldCount = utils.countProperties(ballotResponseSchema);

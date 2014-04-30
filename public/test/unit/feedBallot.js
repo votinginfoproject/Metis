@@ -16,7 +16,7 @@ describe('Feed Ballot Unit Tests', function() {
       }
       $httpBackend = $injector.get('$httpBackend');
       $rootScope = $injector.get('$rootScope');
-      feedData = {custom_ballot: {}};
+      feedData = {custom_ballot: {}, contests: []};
       karmaUtil.setupControllerTest($injector, feedData, $httpBackend, $rootScope, 'FeedBallotCtrl', mockService);
     }));
 

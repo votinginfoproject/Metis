@@ -4,6 +4,7 @@
 var updateCounter = 0;
 var _feedId;
 var _models;
+var _schemaVersion;
 
 /**
  * Creates relationships between documents in the database
@@ -181,7 +182,12 @@ function createRelationshipsContest (feedId, models) {
         joinContestBallot(models, contest);
       }
 
+      if (contest.primaryPartyId) {
+        joinContestParty(models, contest);
+      }
+
       joinContestResults(models, contest);
+
     });
   });
 };
@@ -209,6 +215,9 @@ function createRelationshipsBallot(feedId, models) {
       }
       if (ballot.customBallotId) {
         joinBallotCustomBallot(models, ballot);
+      }
+      if (ballot.contestIds && ballot.contestIds.length > 0) {
+        joinBallotContest(models, ballot);
       }
     });
   });
@@ -279,6 +288,26 @@ function createRelationshipsPollingLocation(feedId, models) {
   });
 }
 
+function createRelationshipsCandidate(feedId, models) {
+  var promise = models.Candidate.find({_feed: feedId}).exec();
+
+  promise.then(function(candidates) {
+    require('async').eachSeries(candidates, function(candidate, done) {
+      if(candidate.partyId) {
+        joinCandidateParty(models, candidate);
+      }
+
+      if(candidate.ballotId) {
+        joinCandidateBallot(models, candidate, done);
+      }
+      else {
+        done();
+      }
+
+    });
+  });
+}
+
 function joinLocalityElectionAdmin (models, locality, eaId) {
   var promise = models.ElectionAdmin.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
@@ -299,6 +328,10 @@ function joinLocalityEarlyVoteSite (models, locality, evsIds) {
 };
 
 function joinLocalityPrecincts (models, locality) {
+
+  if(_schemaVersion == '5.0')
+    return;
+
   var promise = models.Precinct.find({ _feed: locality._feed, localityId: locality.elementId }).select('_id').exec();
 
   promise.then(function (precinctOids) {
@@ -335,6 +368,10 @@ function joinPrecinctEarlyVoteSites (models, precinct) {
 };
 
 function joinPrecinctPollingLocations (models, precinct) {
+
+  if(_schemaVersion == '5.0')
+    return;
+
   var promise = models.PollingLocation
     .find({ _feed: precinct._feed, elementId: { $in: precinct.pollingLocationIds } })
     .select('_id')
@@ -355,7 +392,9 @@ function joinPrecinctPrecinctSplits (models, precinct) {
 
   promise.then(function (psOids) {
     if (psOids.length > 0) {
-      updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _precinctSplits: { $each: psOids } } }, onUpdate);
+      if(_schemaVersion == '3.0') {
+        updateRelationship(models.Precinct, { _id: precinct._id }, { $addToSet: { _precinctSplits: { $each: psOids } } }, onUpdate);
+      }
 
       var psIds = psOids.map(function(ps) { return ps._id; });
       updateRelationship(models.PrecinctSplit, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
@@ -541,17 +580,33 @@ function joinBallotCandidates(models, ballot) {
 };
 
 function joinBallotReferenda(models, ballot) {
-  var promise = models.Referendum.find({ _feed: ballot._feed, elementId: { $in: ballot.referendumIds } })
-    .select('_id')
+
+  var referendumIds = ballot.referendumIds.map(function(referenda) { return referenda.elementId });
+  var promise = models.Referendum.find({ _feed: ballot._feed, elementId: { $in: referendumIds } })
+    .select('_id elementId')
     .exec();
 
   promise.then(function(referenda) {
+
+    // TODO - needs fix
     if (referenda.length > 0) {
       updateRelationship(models.Ballot,
         { _id: ballot._id },
         { $addToSet: { _referenda: { $each: referenda } } },
         onUpdate);
     }
+
+    /*
+    if (referenda.length > 0) {
+      referenda.forEach(function(referendum) {
+        updateRelationship(models.Ballot,
+          { _id: ballot._id },
+          { $set: { '_referenda.$._id': referendum._id } },
+          onUpdate);
+      });
+    }
+    */
+
   });
 };
 
@@ -775,7 +830,97 @@ function joinPollingLocationPrecinctSplit(models, pollingLocation) {
   });
 }
 
-function createDBRelationships(feedId, models) {
+function joinCandidateParty(models, candidate) {
+  var promise = models.Party.findOne({ _feed: candidate._feed, elementId: candidate.partyId })
+    .select('_id')
+    .exec();
+
+  promise.then(function(party) {
+    updateRelationship(models.Candidate,
+      { _id: candidate._id },
+      { _party: party._id }, onUpdate);
+  });
+}
+
+function joinContestParty(models, contest) {
+  var promise = models.Party.findOne({_feed: contest._feed, elementId: contest.primaryPartyId})
+    .select('_id')
+    .exec();
+
+  promise.then(function(party) {
+    updateRelationship(models.Contest,
+      { _id: contest._id },
+      { _party: party._id }, onUpdate);
+  });
+}
+
+function joinBallotContest(models, ballot) {
+
+  var contestIds = ballot.contestIds.map(function(contest) { return contest.elementId });
+  var promise = models.Contest.find({_feed: ballot._feed, elementId: { $in: contestIds }})
+    .select('_id')
+    .exec();
+
+  promise.then(function(contests) {
+    updateRelationship(models.Ballot,
+      { _id: ballot._id },
+      { $addToSet: { _contests: { $each: contests } }},
+      onUpdate);
+  });
+};
+
+function joinCandidateBallot(models, candidate, done) {
+  var promise = models.Ballot.findOne({ _feed: candidate._feed, elementId: candidate.ballotId })
+    .exec();
+
+  promise.then(function(ballot) {
+    if(!ballot) {
+      createMissingBallot(models, candidate, done);
+    }
+    else {
+      done();
+      updateRelationship(models.Ballot,
+        { _id: ballot._id },
+        { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
+    }
+  });
+}
+
+
+function createMissingBallot(models, candidate, done) {
+  updateCounter++;
+  var ballotId = require('mongoose').Types.ObjectId();
+  var createPromise = models.Ballot.create({
+    elementId: candidate.ballotId,
+    candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id },
+    _feed: candidate._feed,
+    _id: ballotId
+  });
+
+  createPromise.then(function(err) {
+
+    done();
+
+    var contestPromise = models.Contest.find({ _feed: candidate._feed, ballotId: candidate.ballotId })
+      .exec();
+
+    contestPromise.then(function(contests) {
+      updateCounter--;
+      updateRelationship(models.Ballot,
+        { _id: ballotId },
+        { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
+
+      contests.forEach(function(contest) {
+
+        if(!contest._ballot) {
+          joinContestBallot(models, contest);
+        }
+      });
+    });
+  });
+}
+
+function createDBRelationships(feedId, models, schemaVersion) {
   createRelationshipsFeed(feedId, models);
   createRelationshipsSource(feedId, models);
   createRelationshipsState(feedId, models);
@@ -792,8 +937,11 @@ function createDBRelationships(feedId, models) {
   createRelationshipsContestResult(feedId, models);
   createRelationshipsBallotLineResult(feedId, models);
   createRelationshipsPollingLocation(feedId, models);
+  createRelationshipsCandidate(feedId, models);
+
   _feedId = feedId;
   _models = models;
+  _schemaVersion = schemaVersion;
 };
 
 exports.createDBRelationships = createDBRelationships;

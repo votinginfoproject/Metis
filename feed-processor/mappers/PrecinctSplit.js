@@ -4,6 +4,7 @@
 const
   basemapper = require('./BaseMapper'),
   util = require('util'),
+  types = require('mongoose').Types,
   PrecinctSplit = function (models, feedId) {
     basemapper.call(this, models, feedId, models.PrecinctSplit);
   };
@@ -11,6 +12,7 @@ util.inherits(PrecinctSplit, basemapper);
 
 PrecinctSplit.prototype.mapXml3_0 = function (precinctSplit) {
   this.model = new this.models.PrecinctSplit({
+    _id: types.ObjectId(),
     elementId: precinctSplit.$.id,     //required
     name: precinctSplit.name,
     precinctId: precinctSplit.precinct_id,
@@ -22,7 +24,9 @@ PrecinctSplit.prototype.mapXml3_0 = function (precinctSplit) {
 };
 
 PrecinctSplit.prototype.mapXml5_0 = function (precinctSplit) {
+  this.version = "v5";
 
+  this.mapXml3_0(precinctSplit);
 };
 
 PrecinctSplit.prototype.mapCsv = function (precinctSplit) {

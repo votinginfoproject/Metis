@@ -359,7 +359,7 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
 
 function feedContest (feedId, contestId, callback) {
   var promise = daoSchemas.models.Contest.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults')
+    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults _party')
     .exec();
 
   promise.then(function(contest) {
@@ -426,7 +426,8 @@ function feedContestBallot(feedId, contestId, callback) {
       [
         { path: '_referenda', model: daoSchemas.models.Referendum.modelName },
         { path: 'candidates._candidate', model: daoSchemas.models.Candidate.modelName },
-        { path: '_customBallot', model: daoSchemas.models.CustomBallot.modelName }
+        { path: '_customBallot', model: daoSchemas.models.CustomBallot.modelName },
+        { path: '_contests', model: daoSchemas.models.Contest.modelName }
       ]);
     }
     else {
@@ -474,7 +475,9 @@ function feedBallotCandidates(feedId, contestId, callback) {
 };
 
 function feedCandidate(feedId, candidateId, callback) {
-  var promise = daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId }).exec();
+  var promise = daoSchemas.models.Candidate.findOne({ _feed: feedId, elementId: candidateId })
+    .populate('_party')
+    .exec();
 
   promise.then(function(candidate) {
     daoSchemas.models.Candidate.Error.count({_feed: feedId, _ref: candidate._id}, function(err, count) {
@@ -584,8 +587,10 @@ function getOverviewTable(feedId, section, callback) {
     .exec(callback);
 }
 
-function getCounties(stateId, callback) {
-  daoSchemas.models.County.find({ stateFIPS: stateId }, callback);
+function getCounties(feedId, callback) {
+  daoSchemas.models.Feed.find({_id: feedId}, function(err, feed) {
+    daoSchemas.models.County.find({ stateFIPS: feed.fipsCode }, callback);
+  });
 }
 
 function getCounty(countyId, callback) {

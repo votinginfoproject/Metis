@@ -38,13 +38,21 @@ function contestCalc(feedId, saveCalc) {
         contestOverview.push({ section: contest.elementId });
         var overviewPos = contestOverview.length - 1;
 
-        contestOverview[overviewPos].ballot = util.createOverviewObject(1, util.countProperties(contest._ballot), schemas.models.Ballot.fieldCount, 0);
+        var count = 1;
+        if (!contest._ballot)
+          count = 0;
+
+        contestOverview[overviewPos].ballot = util.createOverviewObject(count, util.countProperties(contest._ballot), schemas.models.Ballot.fieldCount, 0);
         schemas.models.Ballot.Error.count({_ref: contest._ballot}, function (err, count) {
           contestOverview[overviewPos].ballot.errorCount = count;
           wait();
         });
 
-        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(1, util.countProperties(contest._electoralDistrict), schemas.models.ElectoralDistrict.fieldCount, 0);
+        count = 1;
+        if(!contest._electoralDistrict)
+          count = 0;
+
+        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(count, util.countProperties(contest._electoralDistrict), schemas.models.ElectoralDistrict.fieldCount, 0);
         schemas.models.ElectoralDistrict.Error.count({_ref: contest._electoralDistrict}, function(err, count) {
           contestOverview[overviewPos].electoralDistrict.errorCount = count;
           wait();

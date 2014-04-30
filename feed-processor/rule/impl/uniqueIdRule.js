@@ -10,18 +10,24 @@ var async = require('async');
 
 var rule = null;
 
-var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition, callback){
+var evaluateUniqueId = function(_feedId, constraintSet, ruleDefinition, callback){
   rule = ruleDefinition;
   var totalErrorCount = 0;
 
+  var feedId;
+  if(typeof _feedId === "string")
+    feedId = mongoose.Types.ObjectId(_feedId);
+  else
+    feedId = _feedId;
+
   async.eachSeries(constraintSet.entity, function(model, done) {
-    mongoose.model(model).aggregate()
-      .match({_feed: feedId})
+    mongoose.models[model].aggregate()
+      .match({ _feed: feedId })
       .group({ _id: { elementId: '$elementId' }, count: { $sum: 1 }})
       .match({ count : { $gt : 1 }})
       .exec(function(err, results) {
         results.forEach(function(result) {
-          createError(model, result.elementId);
+          createError(model, result);
         });
 
         done();
@@ -91,9 +97,9 @@ var evaluateUniqueId = function(feedId, constraintSet, ruleDefinition, callback)
 //  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
 //}
 
-function createError(errorModel, id) {
-  var ruleErrors = new ruleViolation(null, errorModel.elementId, errorModel._id, errorModel._feed, "elementId = " + id, "elementId = " + id, rule);
-  return ruleErrors.model(errorModel.model.modelName).save();
+function createError(errorModel, doc) {
+  var ruleErrors = new ruleViolation(errorModel, doc.elementId, doc._id, doc._feed, "elementId = " + doc.elementId, "elementId = " + doc.elementId, rule);
+  return ruleErrors.model(mongoose.models[errorModel].model.modelName).save();
 }
 
 
