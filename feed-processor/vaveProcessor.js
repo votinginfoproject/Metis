@@ -37,6 +37,8 @@ module.exports = function () {
       .on('record', function (data) {
         mapper.mapCsv(data);
 
+        mapper.trimStrings();
+
         var savePromise = mapper.save();
 
         if (savePromise) {
