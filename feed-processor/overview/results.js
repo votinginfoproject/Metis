@@ -22,7 +22,7 @@ function resultsCalc(feedId, saveCalc) {
 
   paramsList.push(util.createParamList(feedId, 0, schemas.models.ContestResult, function(res, cb) {
     resultsOverview.contestResults = res;
-    schemas.models.ContestResult.Error.count({}, function(err, count) {
+    schemas.models.ContestResult.Error.count({_feed: feedId}, function(err, count) {
       resultsOverview.contestResults.errorCount = count;
       cb();
     });
@@ -30,7 +30,7 @@ function resultsCalc(feedId, saveCalc) {
 
   paramsList.push(util.createParamList(feedId, 0, schemas.models.BallotLineResult, function(res, cb) {
     resultsOverview.ballotLineResults = res;
-    schemas.models.BallotLineResult.Error.count({}, function(err, count) {
+    schemas.models.BallotLineResult.Error.count({_feed: feedId}, function(err, count) {
       resultsOverview.ballotLineResults.errorCount = count;
       cb();
     });

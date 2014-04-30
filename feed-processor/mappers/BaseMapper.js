@@ -53,6 +53,9 @@ BaseModel.prototype.trimStrings = function () {
   if(this.model === undefined)
     return;
 
+  if(this.model._doc === undefined)
+    return;
+
   _.values(this.model._doc).forEach(function (value) {
     if(_.isString(value)) {
       _s.trim(value);
