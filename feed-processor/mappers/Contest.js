@@ -57,7 +57,7 @@ Contest.prototype.mapCsv = function (contest) {
   this.model = new this.models.Contest({
     elementId: contest.id,     //required
     electionId:  contest.election_id,
-    electoralDistrictId:  contest.electoral_district_id[0],
+    electoralDistrictId:  contest.electoral_district_id,
     type: contest.type,
     partisan: this.convertYesNo(contest.partisan),
     primaryParty: contest.primary_party,
