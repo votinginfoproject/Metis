@@ -251,6 +251,10 @@ var data = {
       },
       data: referendaData
     },
+    _contests: [{
+      elementId: '1',
+      type: 'type'
+    }],
     _customBallot: {
       elementId: '1',
       heading: 'heading',
@@ -262,6 +266,8 @@ var data = {
       }
     }
   },
+
+
 
   candidates: {
     elementId: '1',
