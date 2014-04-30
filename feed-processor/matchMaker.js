@@ -292,9 +292,19 @@ function createRelationshipsCandidate(feedId, models) {
   var promise = models.Candidate.find({_feed: feedId}).exec();
 
   promise.then(function(candidates) {
-    candidates.forEach(function(candidate) {
-      joinCandidateParty(models, candidate);
-    })
+    require('async').eachSeries(candidates, function(candidate, done) {
+      if(candidate.partyId) {
+        joinCandidateParty(models, candidate);
+      }
+
+      if(candidate.ballotId) {
+        joinCandidateBallot(models, candidate, done);
+      }
+      else {
+        done();
+      }
+
+    });
   });
 }
 
@@ -858,6 +868,57 @@ function joinBallotContest(models, ballot) {
       onUpdate);
   });
 };
+
+function joinCandidateBallot(models, candidate, done) {
+  var promise = models.Ballot.findOne({ _feed: candidate._feed, elementId: candidate.ballotId })
+    .exec();
+
+  promise.then(function(ballot) {
+    if(!ballot) {
+      createMissingBallot(models, candidate, done);
+    }
+    else {
+      done();
+      updateRelationship(models.Ballot,
+        { _id: ballot._id },
+        { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
+    }
+  });
+}
+
+
+function createMissingBallot(models, candidate, done) {
+  updateCounter++;
+  var ballotId = require('mongoose').Types.ObjectId();
+  var createPromise = models.Ballot.create({
+    elementId: candidate.ballotId,
+    candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id },
+    _feed: candidate._feed,
+    _id: ballotId
+  });
+
+  createPromise.then(function(err) {
+
+    done();
+
+    var contestPromise = models.Contest.find({ _feed: candidate._feed, ballotId: candidate.ballotId })
+      .exec();
+
+    contestPromise.then(function(contests) {
+      updateCounter--;
+      updateRelationship(models.Ballot,
+        { _id: ballotId },
+        { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
+
+      contests.forEach(function(contest) {
+
+        if(!contest._ballot) {
+          joinContestBallot(models, contest);
+        }
+      });
+    });
+  });
+}
 
 function createDBRelationships(feedId, models, schemaVersion) {
   createRelationshipsFeed(feedId, models);

@@ -42,6 +42,7 @@ Candidate.prototype.mapXml5_0 = function (candidate) {
     lastName: candidate.lastName,
     candidateStatus: candidate.candidate_status,
     sortOrder: candidate.sort_order,
+    ballotId: candidate.ballot_id,
     _feed: this.feedId
   });
 };
