@@ -46,6 +46,8 @@ describe('Mapper Unit Tests', function() {
       };
 
       nodeUtil.mapperTest(save, model, xml, done);
+      model.trimStrings();
+      expect(model.model.imageUrl).toBe(xml.image_url.trim());
     });
   });
 

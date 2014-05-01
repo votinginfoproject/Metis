@@ -22,7 +22,7 @@ var mockedData = {
     candidate_id: [{$text: '3', $: {sort_order: 4}}, {$text: '5', $: {sort_order: 6}}],
     custom_ballot_id: '7',
     write_in: 'yes',
-    image_url: 'http://fakeUrl.com'
+    image_url: 'http://fakeUrl.com   '
   },
 
   ballotLineResultXml: {

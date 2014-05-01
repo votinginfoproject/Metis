@@ -50,15 +50,18 @@ BaseModel.prototype.mapSimpleAddress = function (address) {
 };
 
 BaseModel.prototype.trimStrings = function () {
-  if(this.model === undefined)
+  var self = this;
+
+  if(self.model === undefined)
     return;
 
-  if(this.model._doc === undefined)
+  if(self.model._doc === undefined)
     return;
 
-  _.values(this.model._doc).forEach(function (value) {
+  _.keys(self.model._doc).forEach(function (key) {
+    var value = self.model._doc[key];
     if(_.isString(value)) {
-      _s.trim(value);
+      self.model._doc[key] = _s.trim(value);
     }
   })
 };
