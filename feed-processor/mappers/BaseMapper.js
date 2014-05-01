@@ -7,10 +7,16 @@ const
   utils = require('../utils'),
   Types = require('mongoose').Types,
   BaseModel = function (models, feedId, collection) {
+
+    if(!collection) {
+      throw new Error('collection Is Undefined');
+    }
+
     this.models = models;
     this.feedId = feedId;
-    this.collection = collection;
+    this.collection = models[collection];
     this.version = "v3";
+    this.modelType = collection;
   };
 
 BaseModel.prototype.save = function () {
@@ -22,6 +28,7 @@ BaseModel.prototype.save = function () {
   this.model._id = Types.ObjectId();
 
   this.checkRequiredFields();
+  this.saveUniqueId();
 
   return this.collection.create(this.model);
 };
@@ -63,6 +70,17 @@ BaseModel.prototype.trimStrings = function () {
     if(_.isString(value)) {
       self.model._doc[key] = _s.trim(value);
     }
+
+    if(_.isObject(value)) {
+      _.keys(value).forEach(function (embeddedKey) {
+        var embeddedValue = value[embeddedKey];
+        if(_.isString(embeddedValue)) {
+          value[embeddedKey] = _s.trim(embeddedValue);
+        }
+      });
+
+      self.model._doc[key] = value;
+    }
   })
 };
 
@@ -89,7 +107,19 @@ BaseModel.prototype.checkRequiredFields = function () {
       }).then(function () { });
     }
   });
-}
+};
+
+BaseModel.prototype.saveUniqueId = function () {
+  if (!this.model || !this.model.elementId || !this.modelType) {
+    return;
+  }
+
+  this.models.UniqueId.create({
+    elementId: this.model.elementId,
+    model: this.modelType,
+    ref: this.model._id.toString()
+  }).then(function() { });
+};
 
 
 module.exports = BaseModel;

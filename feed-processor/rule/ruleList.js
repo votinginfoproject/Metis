@@ -41,7 +41,7 @@ var metisRuleList = [
     title: 'Duplicate IDs',
     type: 'feedLevelRule',
     isFeedLevelRule: false,
-    isActive: false, // TODO fix & reactivate
+    isActive: true,
     errorCode: 3,
     errorText: 'Top-level Metis element IDs must be unique',
     severityCode: 1,

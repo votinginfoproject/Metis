@@ -5,8 +5,9 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   when = require('when'),
+  Types = require('mongoose').Types,
   Source = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.Source);
+    basemapper.call(this, models, feedId, 'Source');
   };
 util.inherits(Source, basemapper);
 
@@ -49,6 +50,12 @@ Source.prototype.save = function () {
   if (this.model === undefined) {
     return;
   }
+
+  //Set the _id on the document before saving
+  this.model._id = Types.ObjectId();
+
+  this.trimStrings();
+  this.saveUniqueId();
 
   return when.join(
     this.collection.create(this.model),

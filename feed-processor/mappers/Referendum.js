@@ -6,7 +6,7 @@ const
   util = require('util'),
   _ = require('underscore'),
   Referendum = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.Referendum);
+    basemapper.call(this, models, feedId, 'Referendum');
   };
 util.inherits(Referendum, basemapper);
 

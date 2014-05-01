@@ -3,104 +3,70 @@
  */
 
 var schemas = require('../../../dao/schemas');
-var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
-var async = require('async');
-//var _ = require('underscore');
+var _s = require('underscore.string');
+var when = require('when');
 
-var rule = null;
 
-var evaluateUniqueId = function(_feedId, constraintSet, ruleDefinition, callback){
-  rule = ruleDefinition;
+var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callback) {
   var totalErrorCount = 0;
 
-  var feedId;
-  if(typeof _feedId === "string")
-    feedId = mongoose.Types.ObjectId(_feedId);
-  else
-    feedId = _feedId;
+  schemas.models.UniqueId.aggregate()
+    .group({
+      _id: {
+        elementId: '$elementId'
+      },
 
-  async.eachSeries(constraintSet.entity, function(model, done) {
-    mongoose.models[model].aggregate()
-      .match({ _feed: feedId })
-      .group({ _id: { elementId: '$elementId' }, count: { $sum: 1 }})
-      .match({ count : { $gt : 1 }})
-      .exec(function(err, results) {
-        results.forEach(function(result) {
-          createError(model, result);
+      models: { $push: '$model' },
+      refs: { $push: '$ref' },
+      count: { $sum: 1 }
+    })
+    .match({ count: { $gt: 1 } })
+    .exec(function (err, results) {
+
+      if (results.length == 0) {
+        callback({ isViolated: false, promisedErrorCount: 0 });
+        return;
+      }
+
+      var promises;
+      promises = results.map(function (result) {
+        var promise = null;
+        result.models.forEach(function (model, index) {
+
+          if(!schemas.models[model])
+            console.log(model);
+
+          totalErrorCount++;
+          var createProm = schemas.models[model].Error.create({
+            severityCode: ruleDefinition.severityCode,
+            severityText: ruleDefinition.severityText,
+            errorCode: ruleDefinition.errorCode,
+            title: ruleDefinition.title,
+            details: _s.sprintf('%s.elementId: "%s" is used multiple times.', model, result._id.elementId),
+            textualReference: _s.sprintf('id = %s', result._id.elementId),
+            refElementId: result._id.elementId,
+            _ref: result.refs[index],
+            _feed: _feedId
+          });
+
+          if (promise) {
+            when.join(promise, createProm);
+          }
+          else {
+            promise = createProm;
+          }
         });
 
-        done();
+        return promise;
       });
 
-  }, function() {
-    callback( { isViolated: false, promisedErrorCount: totalErrorCount } );
-  });
-}
+      when.all(promises).then(function (err) {
+        callback({ isViolated: true, promisedErrorCount: totalErrorCount });
+      });
 
-//function errorHandler(err) {
-//  if (err) {
-//    console.error(err);
-//  }
-//}
-//
-//function processQueryResults(foundDocs, callback) {
-//  var idCounts = {};
-//
-//  if(foundDocs.length === 0) {
-//    callback(0);
-//    return;
-//  }
-//
-//  var docs = _.flatten([], foundDocs);
-//  docs.forEach(function (doc) {
-//    var id = doc.elementId;
-//    if (idCounts[id] === undefined) {
-//      idCounts[id] = { count: 0, errorModel: [] };
-//    }
-//    idCounts[id].count++;
-//    idCounts[id].errorModel.push( { model: doc.constructor.Error, _feed: doc._feed, elementId: doc.elementId, _ref: doc._id, doc: doc });
-//  });
-//
-//  filterDuplicates(idCounts, callback);
-////  this.complete = true;
-////  console.log('processQueryResults complete');
-//}
-//
-//function filterDuplicates(idCounts, callback) {
-//  var duplicateIds = Object.keys(idCounts).filter(function(key) {
-//    return idCounts[key].count > 1;
-//  });
-//
-//  var errorCount = 0;
-//  duplicateIds.forEach(function(id) {
-//    idCounts[id].id = id;
-//    idCounts[id].errorModel.forEach(function(model) {
-//      errorCount++;
-//      createError(model, idCounts[id].id);
-//    });
-//  });
-//
-//  callback(errorCount);
-//}
-
-//function storeErrors(dupes, feedId) {
-//  //console.log('Storing errors.');
-//  var savePromises = [];
-//  errorCount = 0;
-//  dupes.forEach(function(dupe) {
-//    dupe.errorModel.forEach(function(errModel) {
-//      errorCount++;
-//      savePromises.push(createError(errModel, dupe.id));
-//    });
-//  });
-//  when.all(savePromises).then(function(promisedErrors){ deferred.resolve({ isViolated: false, promisedErrorCount: errorCount });});
-//}
-
-function createError(errorModel, doc) {
-  var ruleErrors = new ruleViolation(errorModel, doc.elementId, doc._id, doc._feed, "elementId = " + doc.elementId, "elementId = " + doc.elementId, rule);
-  return ruleErrors.model(mongoose.models[errorModel].model.modelName).save();
-}
+      schemas.models.UniqueId.remove({}, function(err) { console.log('uniqueIds removed'); });
+    });
+};
 
 
 exports.evaluate = evaluateUniqueId;

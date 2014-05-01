@@ -970,7 +970,13 @@ var fipsSchema = {
   stateFIPS: Number,
   name: String,
   stateAbbr: String
-}
+};
+
+var uniqueIdSchema = {
+  elementId: String,
+  model: String,
+  ref: String
+};
 
 /*
  * End of Schema Definitions
@@ -1033,7 +1039,7 @@ exports.initSchemas = function (mongoose) {
 
   models.Overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
 
-
+  models.UniqueId = mongoose.model(config.mongoose.model.uniqueId, mongoose.Schema(uniqueIdSchema));
   models.County = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
   models.Fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 

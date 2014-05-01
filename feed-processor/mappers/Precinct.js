@@ -7,7 +7,7 @@ const
   types = require('mongoose').Types,
   _ = require('underscore'),
   Precinct = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.Precinct);
+    basemapper.call(this, models, feedId, 'Precinct');
   };
 util.inherits(Precinct, basemapper);
 

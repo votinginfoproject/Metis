@@ -291,6 +291,7 @@ function createRelationshipsPollingLocation(feedId, models) {
 function createRelationshipsCandidate(feedId, models) {
   var promise = models.Candidate.find({_feed: feedId}).exec();
 
+  ++updateCounter;
   promise.then(function(candidates) {
     require('async').eachSeries(candidates, function(candidate, done) {
       if(candidate.partyId) {
@@ -303,8 +304,7 @@ function createRelationshipsCandidate(feedId, models) {
       else {
         done();
       }
-
-    });
+    }, function(err) { onUpdate(null, 0); });
   });
 }
 
@@ -496,7 +496,7 @@ function joinContestElectoralDistrict (models, contest) {
   });
 };
 
-function joinContestBallot (models, contest) {
+function joinContestBallot (models, contest, done) {
   var promise = models.Ballot.findOne({ _feed: contest._feed, elementId: contest.ballotId })
     .select('_id')
     .exec();
@@ -505,6 +505,10 @@ function joinContestBallot (models, contest) {
     if (ballot) {
       updateRelationship(models.Contest, { _id: contest._id }, { _ballot: ballot._id }, onUpdate);
     }
+
+    if(done)
+      done();
+
   });
 };
 
@@ -888,7 +892,6 @@ function joinCandidateBallot(models, candidate, done) {
 
 
 function createMissingBallot(models, candidate, done) {
-  updateCounter++;
   var ballotId = require('mongoose').Types.ObjectId();
   var createPromise = models.Ballot.create({
     elementId: candidate.ballotId,
@@ -899,21 +902,17 @@ function createMissingBallot(models, candidate, done) {
 
   createPromise.then(function(err) {
 
-    done();
-
     var contestPromise = models.Contest.find({ _feed: candidate._feed, ballotId: candidate.ballotId })
       .exec();
 
     contestPromise.then(function(contests) {
-      updateCounter--;
       updateRelationship(models.Ballot,
         { _id: ballotId },
         { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
 
       contests.forEach(function(contest) {
-
         if(!contest._ballot) {
-          joinContestBallot(models, contest);
+          joinContestBallot(models, contest, done);
         }
       });
     });

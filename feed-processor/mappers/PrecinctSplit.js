@@ -6,7 +6,7 @@ const
   util = require('util'),
   types = require('mongoose').Types,
   PrecinctSplit = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.PrecinctSplit);
+    basemapper.call(this, models, feedId, 'PrecinctSplit');
   };
 util.inherits(PrecinctSplit, basemapper);
 

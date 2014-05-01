@@ -175,10 +175,6 @@ module.exports = function() {
 
     model.trimStrings();
 
-//    if(objectId) {
-//      model._id = objectId;
-//    }
-
     var savePromise = model.save();
 
     if (savePromise) {

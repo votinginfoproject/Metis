@@ -8,6 +8,7 @@ var daoSchemas = require('../dao/schemas');
 var errorMapper = require('./mappers/errors');
 var endOfLine = require('os').EOL;
 var feedIdMapper = require('../feedIdMapper');
+var _ = require('underscore');
 
 function allErrorsGET(req, res) {
   daoErrors.allErrors(feedIdMapper.getId(req.params.feedid), mapAndReturnErrors.bind(undefined, res, req));
@@ -285,17 +286,17 @@ function mapAndReturnErrors(res, req, err, errors) {
         }
 
         var index = 0;
-        async.forEach(feederror.models, function(model, modelComplete) {
+        async.forEach(_.uniq(feederror.models), function(model, modelComplete) {
           var completeModel = require('mongoose').model(model);
-          var stream = completeModel.find(feederror.searches[index++], {textualReference: 1}).stream();
+          var stream = completeModel.find(feederror.searches[index++]).stream();
 
           stream.on('data', function(ref) {
             response +=
               makeCSVSafe((count++).toString(), delim) + delim +
               makeCSVSafe(feed, delim) + delim +
-              makeCSVSafe(feederror.severity_text, delim) + delim +
-              makeCSVSafe(feederror.title, delim) + delim +
-              makeCSVSafe(feederror.details, delim) + delim +
+              makeCSVSafe(ref.severityText, delim) + delim +
+              makeCSVSafe(ref.title, delim) + delim +
+              makeCSVSafe(ref.details, delim) + delim +
               makeCSVSafe(ref.textualReference, delim) + endOfLine;
           });
 

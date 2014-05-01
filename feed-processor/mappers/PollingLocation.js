@@ -6,7 +6,7 @@ const
   util = require('util'),
   types = require('mongoose').Types,
   PollingLocation = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.PollingLocation);
+    basemapper.call(this, models, feedId, 'PollingLocation');
   };
 util.inherits(PollingLocation, basemapper);
 

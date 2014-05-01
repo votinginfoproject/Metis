@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   StreetSegment = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.StreetSegment);
+    basemapper.call(this, models, feedId, 'StreetSegment');
   };
 util.inherits(StreetSegment, basemapper);
 
