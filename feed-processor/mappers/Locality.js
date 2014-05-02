@@ -31,7 +31,7 @@ Locality.prototype.mapXml5_0 = function (locality) {
     type: locality.type,
     electionAdminId: locality.election_administration_id,
     earlyVoteSiteIds: locality.early_vote_site_id,
-    parentId: locality.parent_id,
+    parentIds: locality.parent_id,
     pollbookTypes: locality.pollbook_type,
     _feed: this.feedId,
     _precincts: locality._precincts

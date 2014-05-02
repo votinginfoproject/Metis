@@ -67,7 +67,7 @@ var ballotErrorSchema = {
 var ballotLineResultSchema = {
   elementId: String, //required
   contestId: String,
-  referendum_id: String,
+  referendumId: String,
   jurisdictionId: String,
   entireDistrict: Boolean,
   candidateId: String,
