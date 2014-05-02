@@ -7,11 +7,6 @@ const
   utils = require('../utils'),
   Types = require('mongoose').Types,
   BaseModel = function (models, feedId, collection) {
-
-    if(!collection) {
-      throw new Error('collection Is Undefined');
-    }
-
     this.models = models;
     this.feedId = feedId;
     this.collection = collection;
