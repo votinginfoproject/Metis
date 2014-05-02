@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   Locality = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Locality');
+    basemapper.call(this, models, feedId, models.localitys);
   };
 util.inherits(Locality, basemapper);
 
 Locality.prototype.mapXml3_0 = function (locality) {
-  this.model = new this.models.Locality({
+  this.model = new this.models.localitys({
     elementId: locality.$.id,     //required
     name: locality.name,
     stateId: locality.state_id,
@@ -24,7 +24,7 @@ Locality.prototype.mapXml3_0 = function (locality) {
 Locality.prototype.mapXml5_0 = function (locality) {
   this.version = "v5";
 
-  this.model = new this.models.Locality({
+  this.model = new this.models.localitys({
     elementId: locality.$.id,     //required
     name: locality.name,
     stateId: locality.state_id,
@@ -39,7 +39,7 @@ Locality.prototype.mapXml5_0 = function (locality) {
 };
 
 Locality.prototype.mapCsv = function (locality) {
-  this.model = new this.models.Locality({
+  this.model = new this.models.localitys({
     elementId: locality.id,     //required
     name: locality.name,
     stateId: locality.state_id,

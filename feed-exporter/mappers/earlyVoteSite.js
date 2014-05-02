@@ -11,7 +11,7 @@ var pd = require('pretty-data').pd;
 
 function earlyVoteSitesExport(feedId, callback) {
 
-  schemas.models.EarlyVoteSite.find({_feed: feedId}, function(err, results) {
+  schemas.models.earlyVoteSites.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

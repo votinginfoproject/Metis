@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   State = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'State');
+    basemapper.call(this, models, feedId, models.states);
   };
 util.inherits(State, basemapper);
 
@@ -14,7 +14,7 @@ State.prototype.mapXml3_0 = function (state) {
     return;
   }
 
-  this.model = new this.models.State({
+  this.model = new this.models.states({
     elementId: state.$.id,
     name: state.name,
     electionAdministrationId: state.election_administration_id,
@@ -30,7 +30,7 @@ State.prototype.mapXml5_0 = function (state) {
 
   this.version = "v5";
 
-  this.model = new this.models.State({
+  this.model = new this.models.states({
     elementId: state.$.id,
     name: state.name,
     electionAdministrationId: state.election_administration_id,
@@ -42,7 +42,7 @@ State.prototype.mapXml5_0 = function (state) {
 };
 
 State.prototype.mapCsv = function (state) {
-  this.model = new this.models.State({
+  this.model = new this.models.states({
     elementId: state.id,
     name: state.name,
     electionAdministrationId: state.election_administration_id,

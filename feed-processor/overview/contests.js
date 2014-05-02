@@ -23,41 +23,41 @@ function contestCalc(feedId, saveCalc) {
   var contestsOverview = { };
   var paramsList = [];
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Contest, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.contests, function(res, cb) {
     contestsOverview.contests = res;
-    schemas.models.Contest.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.contests.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.contests.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Ballot, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.ballots, function(res, cb) {
     contestsOverview.ballots = res;
-    schemas.models.Ballot.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.ballots.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.ballots.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Candidate, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.candidates, function(res, cb) {
     contestsOverview.candidates = res;
-    schemas.models.Candidate.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.candidates.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.candidates.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Referendum, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.referendums, function(res, cb) {
     contestsOverview.referenda = res;
-    schemas.models.Referendum.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.referendums.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.referenda.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.ElectoralDistrict, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.electoralDistricts, function(res, cb) {
     contestsOverview.electoralDistricts = res;
-    schemas.models.ElectoralDistrict.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.electoralDistricts.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.electoralDistricts.errorCount = count;
       cb();
     });

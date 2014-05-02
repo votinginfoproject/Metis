@@ -9,7 +9,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function candidateExport(feedId, callback) {
-  schemas.models.Candidate.find({_feed: feedId}, function(err, results) {
+  schemas.models.candidates.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

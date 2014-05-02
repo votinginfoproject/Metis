@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ElectionOfficial = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'ElectionOfficial');
+    basemapper.call(this, models, feedId, models.electionOfficials);
   };
 util.inherits(ElectionOfficial, basemapper);
 
 ElectionOfficial.prototype.mapXml3_0 = function (official) {
-  this.model = new this.models.ElectionOfficial({
+  this.model = new this.models.electionOfficials({
     elementId: official.$.id,
     name: official.name,
     title: official.title,
@@ -24,7 +24,7 @@ ElectionOfficial.prototype.mapXml3_0 = function (official) {
 ElectionOfficial.prototype.mapXml5_0 = function (official) {
   this.version = "v5";
 
-  this.model = new this.models.ElectionOfficial({
+  this.model = new this.models.electionOfficials({
     elementId: official.$.id,
     name: official.name,
     title: official.title,
@@ -37,7 +37,7 @@ ElectionOfficial.prototype.mapXml5_0 = function (official) {
 };
 
 ElectionOfficial.prototype.mapCsv = function (official) {
-  this.model = new this.models.ElectionOfficial({
+  this.model = new this.models.electionOfficials({
     elementId: official.id,
     name: official.name,
     title: official.title,

@@ -5,13 +5,13 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ElectionAdministration = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'ElectionAdmin');
+    basemapper.call(this, models, feedId, models.electionAdmins);
     this.modelType = 'ElectionAdmin';
   };
 util.inherits(ElectionAdministration, basemapper);
 
 ElectionAdministration.prototype.mapXml3_0 = function (electionAdmin) {
-  this.model = new this.models.ElectionAdmin({
+  this.model = new this.models.electionAdmins({
     elementId: electionAdmin.$.id,     //required
     name: electionAdmin.name,
     eoId: electionAdmin.eo_id,
@@ -34,7 +34,7 @@ ElectionAdministration.prototype.mapXml3_0 = function (electionAdmin) {
 ElectionAdministration.prototype.mapXml5_0 = function (electionAdmin) {
   this.version = "v5";
 
-  this.model = new this.models.ElectionAdmin({
+  this.model = new this.models.electionAdmins({
     elementId: electionAdmin.$.id,     //required
     name: electionAdmin.name,
     eoId: electionAdmin.eo_id,
@@ -57,7 +57,7 @@ ElectionAdministration.prototype.mapXml5_0 = function (electionAdmin) {
 };
 
 ElectionAdministration.prototype.mapCsv = function (electionAdmin) {
-  this.model = new this.models.ElectionAdmin({
+  this.model = new this.models.electionAdmins({
     elementId: electionAdmin.id,     //required
     name: electionAdmin.name,
     eoId: electionAdmin.eo_id,

@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   Contest = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Contest');
+    basemapper.call(this, models, feedId, models.contests);
   };
 util.inherits(Contest, basemapper);
 
 Contest.prototype.mapXml3_0 = function (contest) {
-  this.model = new this.models.Contest({
+  this.model = new this.models.contests({
     elementId: contest.$.id,     //required
     electionId:  contest.election_id,
     electoralDistrictId: contest.electoral_district_id[0],
@@ -32,7 +32,7 @@ Contest.prototype.mapXml3_0 = function (contest) {
 Contest.prototype.mapXml5_0 = function (contest) {
   this.version = "v5";
 
-  this.model = new this.models.Contest({
+  this.model = new this.models.contests({
     elementId: contest.$.id,     //required
     electionId: contest.election_id,
     electoralDistrictId: contest.electoral_district_id[0],
@@ -53,7 +53,7 @@ Contest.prototype.mapXml5_0 = function (contest) {
 };
 
 Contest.prototype.mapCsv = function (contest) {
-  this.model = new this.models.Contest({
+  this.model = new this.models.contests({
     elementId: contest.id,     //required
     electionId:  contest.election_id,
     electoralDistrictId:  contest.electoral_district_id,

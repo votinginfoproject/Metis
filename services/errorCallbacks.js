@@ -143,25 +143,25 @@ function errorIndexGET(req, res) {
 
   var map = {
     // overview errors on the Feed Overview - under Polling Locations
-    "earlyvotesites": daoSchemas.models.EarlyVoteSite.Error,
-    "electionadministrations": daoSchemas.models.ElectionAdmin.Error,
-    "electionofficials": daoSchemas.models.ElectionOfficial.Error,
-    "localities": daoSchemas.models.Locality.Error,
-    "pollinglocations": daoSchemas.models.PollingLocation.Error,
-    "precincts": daoSchemas.models.Precinct.Error,
-    "precinctsplits": daoSchemas.models.PrecinctSplit.Error,
-    "streetsegments": daoSchemas.models.StreetSegment.Error,
+    "earlyvotesites": daoSchemas.models.earlyVoteSites.Error,
+    "electionadministrations": daoSchemas.models.electionAdmins.Error,
+    "electionofficials": daoSchemas.models.electionOfficials.Error,
+    "localities": daoSchemas.models.localitys.Error,
+    "pollinglocations": daoSchemas.models.pollingLocations.Error,
+    "precincts": daoSchemas.models.precincts.Error,
+    "precinctsplits": daoSchemas.models.precinctSplits.Error,
+    "streetsegments": daoSchemas.models.streetSegments.Error,
 
     // overview errors on the Feed Overview - under Contests
-    "ballots": daoSchemas.models.Ballot.Error,
-    "candidates": daoSchemas.models.Candidate.Error,
-    "contests": daoSchemas.models.Contest.Error,
-    "electoraldistricts": daoSchemas.models.ElectoralDistrict.Error,
-    "referenda": daoSchemas.models.Referendum.Error,
+    "ballots": daoSchemas.models.ballots.Error,
+    "candidates": daoSchemas.models.candidates.Error,
+    "contests": daoSchemas.models.contests.Error,
+    "electoraldistricts": daoSchemas.models.electoralDistricts.Error,
+    "referenda": daoSchemas.models.referendums.Error,
 
     // overview errors on the Feed Overview - under Results
-    "contestresults": daoSchemas.models.ContestResult.Error,
-    "ballotlineresults": daoSchemas.models.BallotLineResult.Error
+    "contestresults": daoSchemas.models.contestResults.Error,
+    "ballotlineresults": daoSchemas.models.ballotLineResults.Error
   };
 
   // check the type

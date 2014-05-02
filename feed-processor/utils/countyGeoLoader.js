@@ -49,7 +49,7 @@ function featureHandler(feature) {
 
 function saveCounty(state, county, name, fullName, coordinates, isMulti) {
   refCount++;
-  schemas.models.County.create({
+  schemas.models.county.create({
     stateFIPS: state,
     countyFIPS: county,
     name: name,

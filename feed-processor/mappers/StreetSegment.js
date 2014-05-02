@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   StreetSegment = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'StreetSegment');
+    basemapper.call(this, models, feedId, models.streetSegments);
   };
 util.inherits(StreetSegment, basemapper);
 
 StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
-  this.model = new this.models.StreetSegment({
+  this.model = new this.models.streetSegments({
     elementId: streetSegment.$.id,     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,
@@ -39,7 +39,7 @@ StreetSegment.prototype.mapXml3_0 = function (streetSegment) {
 StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
   this.version = "v5";
 
-  this.model = new this.models.StreetSegment({
+  this.model = new this.models.streetSegments({
     elementId: streetSegment.$.id,     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,
@@ -69,7 +69,7 @@ StreetSegment.prototype.mapXml5_0 = function (streetSegment) {
 };
 
 StreetSegment.prototype.mapCsv = function (streetSegment) {
-  this.model = new this.models.StreetSegment({
+  this.model = new this.models.streetSegments({
     elementId: streetSegment.id,     //required
     startHouseNumber: streetSegment.start_house_number,
     endHouseNumber: streetSegment.end_house_number,

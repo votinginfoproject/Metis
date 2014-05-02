@@ -8,7 +8,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function stateExport(feedId, callback) {
-  schemas.models.State.findOne({_feed: feedId}, function(err, result) {
+  schemas.models.states.findOne({_feed: feedId}, function(err, result) {
 
     if(!result) {
       callback(-1);

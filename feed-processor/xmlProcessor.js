@@ -371,7 +371,7 @@ module.exports = function() {
       feedId = schemas.types.ObjectId();
       console.log('FeedId = ' + feedId.toString());
 
-      models.Feed.create({
+      models.feeds.create({
         _id: feedId,
         complete: false,
         failed: false,

@@ -41,9 +41,9 @@ function onSaveComplete(results) {
 
   // just grab the feedid from any overview object
   // and set the feed to complete
-  schemas.models.Feed.findOne({_id: results[0]._feed}, function(err, feed) {
+  schemas.models.feeds.findOne({_id: results[0]._feed}, function(err, feed) {
 
-    schemas.models.Feed.findById(results[0]._feed, { payload: 0 })
+    schemas.models.feeds.findById(results[0]._feed, { payload: 0 })
       .populate('_state')
       .populate('_election')
       .exec(function(err, feed) {
@@ -70,7 +70,7 @@ function onSaveComplete(results) {
         }
 
         // now also save the friendly feed id
-        schemas.models.Feed.update({_id: feed._id},
+        schemas.models.feeds.update({_id: feed._id},
           {
             feedStatus: 'Complete',
             complete: true,
@@ -96,7 +96,7 @@ function calculateFields(feedId, saveCalc) {
 };
 
 function createOverviewModel(name, overview, errors, section, feed) {
-  overviewModels.push(schemas.models.Overview.create({
+  overviewModels.push(schemas.models.overview.create({
     elementType: name,
     amount: overview.amount,
     completePct: overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0,

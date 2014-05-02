@@ -14,9 +14,8 @@ const
 
     this.models = models;
     this.feedId = feedId;
-    this.collection = models[collection];
+    this.collection = collection;
     this.version = "v3";
-    this.modelType = collection;
   };
 
 BaseModel.prototype.save = function () {
@@ -114,9 +113,9 @@ BaseModel.prototype.saveUniqueId = function () {
     return;
   }
 
-  this.models.UniqueId.create({
+  this.models.uniqueId.create({
     elementId: this.model.elementId,
-    model: this.modelType,
+    model: this.collection.collection.name,
     ref: this.model._id.toString()
   }).then(function() { });
 };

@@ -9,7 +9,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function pollingLocationExport(feedId, callback) {
-  schemas.models.PollingLocation.find({_feed: feedId}, function(err, results) {
+  schemas.models.pollingLocations.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

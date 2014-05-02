@@ -8,7 +8,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function precinctExport(feedId, callback) {
-  schemas.models.Precinct.find({_feed: feedId}, function(err, results) {
+  schemas.models.precincts.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

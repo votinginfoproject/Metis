@@ -130,7 +130,7 @@ function startFileProcessing(fileInfo){
       }
 
 
-        schemas.models.Feed.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
+        schemas.models.feeds.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
         function(err, feed) {
         }
       );

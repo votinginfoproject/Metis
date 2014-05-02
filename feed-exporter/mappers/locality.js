@@ -9,7 +9,7 @@ var pd = require('pretty-data').pd;
 
 function localityExport(feedId, callback) {
 
-  schemas.models.Locality.find({_feed: feedId}, function(err, results) {
+  schemas.models.localitys.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

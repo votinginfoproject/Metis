@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   Election = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Election');
+    basemapper.call(this, models, feedId, models.elections);
   };
 util.inherits(Election, basemapper);
 
 Election.prototype.mapXml3_0 = function (election) {
-  this.model = new this.models.Election({
+  this.model = new this.models.elections({
     elementId: election.$.id,
     date: election.date,
     electionType: election.election_type,
@@ -30,7 +30,7 @@ Election.prototype.mapXml3_0 = function (election) {
 Election.prototype.mapXml5_0 = function (election) {
   this.version = "v5";
 
-  this.model = new this.models.Election({
+  this.model = new this.models.elections({
     elementId: election.$.id,
     date: election.date,
     electionType: election.election_type,
@@ -51,7 +51,7 @@ Election.prototype.mapXml5_0 = function (election) {
 };
 
 Election.prototype.mapCsv = function (election) {
-  this.model = new this.models.Election({
+  this.model = new this.models.elections({
     elementId: election.id,
     date: election.date,
     electionType: election.election_type,

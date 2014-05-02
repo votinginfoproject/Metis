@@ -6,13 +6,13 @@ const
   util = require('util'),
   _ = require('underscore'),
   Ballot = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Ballot');
+    basemapper.call(this, models, feedId, models.ballots);
   };
 util.inherits(Ballot, basemapper);
 
 Ballot.prototype.mapXml3_0 = function (ballot) {
 
-  this.model = new this.models.Ballot({
+  this.model = new this.models.ballots({
     elementId: ballot.$.id,     //required
     referendumIds: _.map(ballot.referendum_id, function(ref) {
       return {
@@ -37,7 +37,7 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
 Ballot.prototype.mapXml5_0 = function (ballot) {
   this.version = "v5";
 
-  this.model = new this.models.Ballot({
+  this.model = new this.models.ballots({
     elementId: ballot.$.id,     //required
     contestIds: _.map(ballot.contest_id, function(contest) {
       return {
@@ -65,7 +65,7 @@ Ballot.prototype.mapXml5_0 = function (ballot) {
 };
 
 Ballot.prototype.mapCsv = function (ballot) {
-  this.model = new this.models.Ballot({
+  this.model = new this.models.ballots({
     elementId: ballot.id,     //required
     referendumIds: _.map(ballot.referendum_id, function(ref) {
       return {

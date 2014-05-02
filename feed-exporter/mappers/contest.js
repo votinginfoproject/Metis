@@ -9,7 +9,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function contestExport(feedId, callback) {
-  schemas.models.Contest.find({_feed: feedId}, function(err, results) {
+  schemas.models.contests.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

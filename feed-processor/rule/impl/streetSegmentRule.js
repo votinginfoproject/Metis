@@ -23,7 +23,7 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
   else
     feedId = _feedId;
 
-  schemas.models.Feed.findOne( { _id: feedId }, function(err, feed) {
+  schemas.models.feeds.findOne( { _id: feedId }, function(err, feed) {
 
     if(err) {
       console.log(err);

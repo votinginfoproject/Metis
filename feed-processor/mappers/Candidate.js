@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   Candidate = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Candidate');
+    basemapper.call(this, models, feedId, models.candidates);
   };
 util.inherits(Candidate, basemapper);
 
 Candidate.prototype.mapXml3_0 = function (candidate) {
-  this.model = new this.models.Candidate({
+  this.model = new this.models.candidates({
     elementId: candidate.$.id,     //required
     name: candidate.name,
     party: candidate.party,
@@ -28,7 +28,7 @@ Candidate.prototype.mapXml3_0 = function (candidate) {
 Candidate.prototype.mapXml5_0 = function (candidate) {
   this.version = "v5";
 
-  this.model = new this.models.Candidate({
+  this.model = new this.models.candidates({
     elementId: candidate.$.id,     //required
     name: candidate.name,
     partyId: candidate.party_id,
@@ -39,7 +39,7 @@ Candidate.prototype.mapXml5_0 = function (candidate) {
     filedMailingAddress: this.mapSimpleAddress(candidate.filed_mailing_address),
     email: candidate.email,
     incumbent: candidate.incumbent,
-    lastName: candidate.lastName,
+    lastName: candidate.last_name,
     candidateStatus: candidate.candidate_status,
     sortOrder: candidate.sort_order,
     ballotId: candidate.ballot_id,
@@ -48,7 +48,7 @@ Candidate.prototype.mapXml5_0 = function (candidate) {
 };
 
 Candidate.prototype.mapCsv = function (candidate) {
-  this.model = new this.models.Candidate({
+  this.model = new this.models.candidates({
     elementId: candidate.id,     //required
     name: candidate.name,
     party: candidate.party,

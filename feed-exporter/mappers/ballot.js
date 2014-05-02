@@ -9,7 +9,7 @@ var pd = require('pretty-data').pd;
 var zlib = require('zlib');
 
 function ballotExport(feedId, callback) {
-  schemas.models.Ballot.find({_feed: feedId}, function(err, results) {
+  schemas.models.ballots.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

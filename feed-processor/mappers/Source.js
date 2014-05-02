@@ -7,12 +7,12 @@ const
   when = require('when'),
   Types = require('mongoose').Types,
   Source = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Source');
+    basemapper.call(this, models, feedId, models.sources);
   };
 util.inherits(Source, basemapper);
 
 Source.prototype.mapXml3_0 = function (source) {
-  this.model = new this.models.Source({
+  this.model = new this.models.sources({
     elementId: source.$.id,
     vipId: source.vip_id,
     datetime: source.datetime,
@@ -32,7 +32,7 @@ Source.prototype.mapXml5_0 = function (source) {
 };
 
 Source.prototype.mapCsv = function (source) {
-  this.model = new this.models.Source({
+  this.model = new this.models.sources({
     elementId: source.id,
     vipId: source.vip_id,
     datetime: source.datetime,
@@ -59,7 +59,7 @@ Source.prototype.save = function () {
 
   return when.join(
     this.collection.create(this.model),
-    this.models.Feed.findByIdAndUpdate(this.feedId, { $set: { fipsCode: this.model.vipId } }).exec());
+    this.models.feeds.findByIdAndUpdate(this.feedId, { $set: { fipsCode: this.model.vipId } }).exec());
 }
 
 module.exports = Source;

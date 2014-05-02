@@ -111,7 +111,7 @@ module.exports = function () {
       if (feedId === undefined) {
         feedId = schemas.types.ObjectId();
 
-        models.Feed.create({
+        models.feeds.create({
           _id: feedId,
           complete: false,
           failed: false,

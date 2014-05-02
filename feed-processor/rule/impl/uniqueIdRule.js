@@ -3,6 +3,7 @@
  */
 
 var schemas = require('../../../dao/schemas');
+var _ = require('underscore');
 var _s = require('underscore.string');
 var when = require('when');
 
@@ -10,7 +11,7 @@ var when = require('when');
 var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callback) {
   var totalErrorCount = 0;
 
-  schemas.models.UniqueId.aggregate()
+  schemas.models.uniqueId.aggregate()
     .group({
       _id: {
         elementId: '$elementId'
@@ -32,12 +33,8 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
       promises = results.map(function (result) {
         var promise = null;
         result.models.forEach(function (model, index) {
-
-          if(!schemas.models[model])
-            console.log(model);
-
           totalErrorCount++;
-          var createProm = schemas.models[model].Error.create({
+          var createProm = schemas.models[_s.camelize(model)].Error.create({
             severityCode: ruleDefinition.severityCode,
             severityText: ruleDefinition.severityText,
             errorCode: ruleDefinition.errorCode,
@@ -64,7 +61,7 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
         callback({ isViolated: true, promisedErrorCount: totalErrorCount });
       });
 
-      schemas.models.UniqueId.remove({}, function(err) { console.log('uniqueIds removed'); });
+      schemas.models.uniqueId.remove({}, function(err) { console.log('uniqueIds removed'); });
     });
 };
 

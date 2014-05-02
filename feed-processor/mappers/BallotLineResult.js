@@ -6,12 +6,12 @@ const
   util = require('util'),
   _ = require('underscore'),
   BallotLineResult = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'BallotLineResult');
+    basemapper.call(this, models, feedId, models.ballotLineResults);
   };
 util.inherits(BallotLineResult, basemapper);
 
 BallotLineResult.prototype.mapXml3_0 = function (ballotLineResult) {
-  this.model = new this.models.BallotLineResult({
+  this.model = new this.models.ballotLineResults({
     elementId: ballotLineResult.$.id,     //required
     contestId: ballotLineResult.contest_id,
     jurisdictionId: ballotLineResult.jurisdiction_id,
@@ -28,10 +28,10 @@ BallotLineResult.prototype.mapXml3_0 = function (ballotLineResult) {
 BallotLineResult.prototype.mapXml5_0 = function (ballotLineResult) {
   this.version = "v5";
 
-  this.model = new this.models.BallotLineResult({
+  this.model = new this.models.ballotLineResults({
     elementId: ballotLineResult.$.id,     //required
     contestId: ballotLineResult.contest_id,
-    referendumId: ballotLineResult.referendumId,
+    referendumId: ballotLineResult.referendum_id,
     jurisdictionId: ballotLineResult.jurisdiction_id,
     entireDistrict: this.convertYesNo(ballotLineResult.entire_district),
     candidateId: (!_.isEmpty(ballotLineResult.candidate_id)) ? _.first(ballotLineResult.candidate_id) : undefined,
@@ -45,7 +45,7 @@ BallotLineResult.prototype.mapXml5_0 = function (ballotLineResult) {
 };
 
 BallotLineResult.prototype.mapCsv = function (ballotLineResult) {
-  this.model = new this.models.BallotLineResult({
+  this.model = new this.models.ballotLineResults({
     elementId: ballotLineResult.id,     //required
     contestId: ballotLineResult.contest_id,
     jurisdictionId: ballotLineResult.jurisdiction_id,

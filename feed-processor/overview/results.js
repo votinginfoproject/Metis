@@ -20,17 +20,17 @@ function resultsCalc(feedId, saveCalc) {
   var resultsOverview = { };
   var paramsList = [];
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.ContestResult, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.contestResults, function(res, cb) {
     resultsOverview.contestResults = res;
-    schemas.models.ContestResult.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.contestResults.Error.count({_feed: feedId}, function(err, count) {
       resultsOverview.contestResults.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.BallotLineResult, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.ballotLineResults, function(res, cb) {
     resultsOverview.ballotLineResults = res;
-    schemas.models.BallotLineResult.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.ballotLineResults.Error.count({_feed: feedId}, function(err, count) {
       resultsOverview.ballotLineResults.errorCount = count;
       cb();
     });

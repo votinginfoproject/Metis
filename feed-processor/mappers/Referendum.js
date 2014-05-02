@@ -6,12 +6,12 @@ const
   util = require('util'),
   _ = require('underscore'),
   Referendum = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'Referendum');
+    basemapper.call(this, models, feedId, models.referendums);
   };
 util.inherits(Referendum, basemapper);
 
 Referendum.prototype.mapXml3_0 = function (referendum) {
-  this.model = new this.models.Referendum({
+  this.model = new this.models.referendums({
     elementId: referendum.$.id,     //required
     title: referendum.title,
     subtitle: referendum.subtitle,
@@ -34,7 +34,7 @@ Referendum.prototype.mapXml3_0 = function (referendum) {
 Referendum.prototype.mapXml5_0 = function (referendum) {
   this.version = "v5";
 
-  this.model = new this.models.Referendum({
+  this.model = new this.models.referendums({
     elementId: referendum.$.id,     //required
     title: referendum.title,
     subtitle: referendum.subtitle,
@@ -57,7 +57,7 @@ Referendum.prototype.mapXml5_0 = function (referendum) {
 };
 
 Referendum.prototype.mapCsv = function (referendum) {
-  this.model = new this.models.Referendum({
+  this.model = new this.models.referendums({
     elementId: referendum.id,     //required
     title: referendum.title,
     subtitle: referendum.subtitle,

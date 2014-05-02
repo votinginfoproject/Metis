@@ -7,14 +7,14 @@ const
   util = require('util'),
   _ = require('underscore'),
   BallotStyle = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'BallotStyle');
+    basemapper.call(this, models, feedId, models.ballotStyles);
   };
 util.inherits(BallotStyle, basemapper);
 
 BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
   this.version = "v5";
 
-  this.model = new this.models.BallotStyle({
+  this.model = new this.models.ballotStyles({
     elementId: ballotStyle.$.id,
     name: ballotStyle.name,
     electionId: ballotStyle.election_id,

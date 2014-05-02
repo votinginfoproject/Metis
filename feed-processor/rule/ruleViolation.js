@@ -49,7 +49,7 @@ RuleViolation.prototype.model = function(modelName){
 }
 
 function deriveErrorSchema(entity){
-  return (entity.substring(0,entity.length-1) + 'Errors');
+  return (entity.substring(0,entity.length-1) + '_errors');
 }
 
 RuleViolation.prototype.save = function(){

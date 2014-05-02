@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ContestResult = function (models, feedId) {
-    basemapper.call(this, models, feedId, 'ContestResult');
+    basemapper.call(this, models, feedId, models.contestResults);
   };
 util.inherits(ContestResult, basemapper);
 
 ContestResult.prototype.mapXml3_0 = function (contestResult) {
-  this.model = new this.models.ContestResult({
+  this.model = new this.models.contestResults({
     elementId: contestResult.$.id,     //required
     contestId: contestResult.contest_id,
     jurisdictionId: contestResult.jurisdiction_id,
@@ -29,7 +29,7 @@ ContestResult.prototype.mapXml3_0 = function (contestResult) {
 ContestResult.prototype.mapXml5_0 = function (contestResult) {
   this.version = "v5";
 
-  this.model = new this.models.ContestResult({
+  this.model = new this.models.contestResults({
     elementId: contestResult.$.id,     //required
     contestId: contestResult.contest_id,
     referendumId: contestResult.referendum_id,
@@ -49,7 +49,7 @@ ContestResult.prototype.mapXml5_0 = function (contestResult) {
 };
 
 ContestResult.prototype.mapCsv = function (contestResult) {
-  this.model = new this.models.ContestResult({
+  this.model = new this.models.contestResults({
     elementId: contestResult.id,     //required
     contestId: contestResult.contest_id,
     jurisdictionId: contestResult.jurisdiction_id,

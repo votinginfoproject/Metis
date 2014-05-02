@@ -8,7 +8,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function referendumExport(feedId, callback) {
-  schemas.models.Referendum.find({_feed: feedId}, function(err, results) {
+  schemas.models.referendums.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
