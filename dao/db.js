@@ -587,10 +587,8 @@ function getOverviewTable(feedId, section, callback) {
     .exec(callback);
 }
 
-function getCounties(feedId, callback) {
-  daoSchemas.models.feeds.find({_id: feedId}, function(err, feed) {
-    daoSchemas.models.county.find({ stateFIPS: feed.fipsCode }, callback);
-  });
+function getCounties(stateId, callback) {
+  daoSchemas.models.county.find({ stateFIPS: stateId }, callback);
 }
 
 function getCounty(countyId, callback) {
