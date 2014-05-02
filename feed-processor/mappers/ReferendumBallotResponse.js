@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   ReferendumBallotResponse = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.ReferendumBallotResponse);
+    basemapper.call(this, models, feedId, models.referendumballotresponse);
     this.models = models;
     this.feedId = feedId;
   };

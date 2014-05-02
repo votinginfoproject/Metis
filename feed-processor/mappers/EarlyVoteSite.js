@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   EarlyVoteSite = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.earlyVoteSites);
+    basemapper.call(this, models, feedId, models.earlyvotesites);
   };
 util.inherits(EarlyVoteSite, basemapper);
 
 EarlyVoteSite.prototype.mapXml3_0 = function (earlyVoteSite) {
-  this.model = new this.models.earlyVoteSites({
+  this.model = new this.models.earlyvotesites({
     elementId: earlyVoteSite.$.id,     //required
     name: earlyVoteSite.name,
     address: this.mapSimpleAddress(earlyVoteSite.address),
@@ -26,7 +26,7 @@ EarlyVoteSite.prototype.mapXml3_0 = function (earlyVoteSite) {
 EarlyVoteSite.prototype.mapXml5_0 = function (earlyVoteSite) {
   this.version = "v5";
 
-  this.model = new this.models.earlyVoteSites({
+  this.model = new this.models.earlyvotesites({
     elementId: earlyVoteSite.$.id,     //required
     name: earlyVoteSite.name,
     address: this.mapSimpleAddress(earlyVoteSite.address),
@@ -40,7 +40,7 @@ EarlyVoteSite.prototype.mapXml5_0 = function (earlyVoteSite) {
 };
 
 EarlyVoteSite.prototype.mapCsv = function (earlyVoteSite) {
-  this.model = new this.models.earlyVoteSites({
+  this.model = new this.models.earlyvotesites({
     elementId: earlyVoteSite.id,     //required
     name: earlyVoteSite.name,
     address: {

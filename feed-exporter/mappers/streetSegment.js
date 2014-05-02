@@ -9,7 +9,7 @@ var pd = require('pretty-data').pd;
 
 function streetSegmentExport(feedId, callback) {
 
-  var stream = schemas.models.streetSegments.find({_feed: feedId}).stream();
+  var stream = schemas.models.streetsegments.find({_feed: feedId}).stream();
 
   var resume = function() {
     stream.resume();

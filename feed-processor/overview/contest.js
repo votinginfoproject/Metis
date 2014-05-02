@@ -52,8 +52,8 @@ function contestCalc(feedId, saveCalc) {
         if(!contest._electoralDistrict)
           count = 0;
 
-        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(count, util.countProperties(contest._electoralDistrict), schemas.models.electoralDistricts.fieldCount, 0);
-        schemas.models.electoralDistricts.Error.count({_ref: contest._electoralDistrict}, function(err, count) {
+        contestOverview[overviewPos].electoralDistrict = util.createOverviewObject(count, util.countProperties(contest._electoralDistrict), schemas.models.electoraldistricts.fieldCount, 0);
+        schemas.models.electoraldistricts.Error.count({_ref: contest._electoralDistrict}, function(err, count) {
           contestOverview[overviewPos].electoralDistrict.errorCount = count;
           wait();
         });
@@ -98,9 +98,9 @@ function contestReferendumCalc(feedId, ballot, returnTotal) {
       initial.fieldCount += util.countProperties(current);
       initial.schemaFieldCount += schemas.models.referendums.fieldCount;
       if(current._doc.ballotResponses) {
-        util.findOverviewObject(feedId, util.convertObjArrToIdArr(current.ballotResponses), schemas.models.ballotResponses, function(res) {
+        util.findOverviewObject(feedId, util.convertObjArrToIdArr(current.ballotResponses), schemas.models.ballotresponses, function(res) {
           util.addOverviewObjects(initial, res);
-          schemas.models.ballotResponses.Error.count({_ref: {$in: util.convertObjArrToIdArr(current.ballotResponses)}}, function(err, count) {
+          schemas.models.ballotresponses.Error.count({_ref: {$in: util.convertObjArrToIdArr(current.ballotResponses)}}, function(err, count) {
             initial.errorCount += count;
             done();
           })

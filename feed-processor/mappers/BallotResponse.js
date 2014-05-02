@@ -5,12 +5,12 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   BallotResponse = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.ballotResponses);
+    basemapper.call(this, models, feedId, models.ballotresponses);
   };
 util.inherits(BallotResponse, basemapper);
 
 BallotResponse.prototype.mapXml3_0 = function (ballotResponse) {
-  this.model = new this.models.ballotResponses({
+  this.model = new this.models.ballotresponses({
     elementId: ballotResponse.$.id,     //required
     text: ballotResponse.text,
     sortOrder: ballotResponse.sort_order,
@@ -25,7 +25,7 @@ BallotResponse.prototype.mapXml5_0 = function (ballotResponse) {
 };
 
 BallotResponse.prototype.mapCsv = function (ballotResponse) {
-  this.model = new this.models.ballotResponses({
+  this.model = new this.models.ballotresponses({
     elementId: ballotResponse.id,     //required
     text: ballotResponse.text,
     sortOrder: ballotResponse.sort_order,

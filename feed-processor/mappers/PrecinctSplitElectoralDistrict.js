@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   PrecinctSplitElectoralDistrict = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.PrecinctSplitElectoralDistrict);
+    basemapper.call(this, models, feedId, models.precinctsplitelectoraldistrict);
     this.models = models;
     this.feedId = feedId;
   };
@@ -14,7 +14,7 @@ util.inherits(PrecinctSplitElectoralDistrict, basemapper);
 PrecinctSplitElectoralDistrict.prototype.mapXml5_0 = function (precinctSplitElectoralDistrict) {
   this.version = "v5";
 
-  this.model = new this.models.PrecinctSplitElectoralDistrict({
+  this.model = new this.models.precinctsplitelectoraldistrict({
     precinctSplitId: precinctSplitElectoralDistrict.precinct_split_id,
     precinctId: precinctSplitElectoralDistrict.precinct_id,
     electoralDistrictId: precinctSplitElectoralDistrict.electoral_district_id

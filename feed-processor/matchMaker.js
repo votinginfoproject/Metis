@@ -44,7 +44,7 @@ function createRelationshipsFeed (feedId, models) {
   var sourceId;
 
   sourcePromise.then(function (source) {
-    return models.electionOfficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
+    return models.electionofficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
       updateRelationship(models.feeds, { _id: feedId }, { _feedContact: eoId }, onUpdate);
     }, onError);
@@ -56,7 +56,7 @@ function createRelationshipsSource (feedId, models) {
 
   sourcePromise.then(function (source) {
     sourceId = source._id;
-    return models.electionOfficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
+    return models.electionofficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
       updateRelationship(models.sources, { _id: sourceId }, { _feedContact: eoId }, onUpdate);
     }, onError);
@@ -71,7 +71,7 @@ function createRelationshipsState (feedId, models) {
     updateRelationship(models.elections, { _feed: feedId }, { _state: stateId }, onUpdate);
     updateRelationship(models.feeds, { _id: feedId }, { _state: stateId }, onUpdate);
 
-    return models.electionAdmins.findOne({ _feed: feedId, elementId: state.electionAdministrationId})
+    return models.electionadmins.findOne({ _feed: feedId, elementId: state.electionAdministrationId})
       .select('_id').exec();
   }, onError).then(function(eaId) {
       updateRelationship(models.states, { _id: stateId }, { _electionAdministration: eaId}, onUpdate);
@@ -139,7 +139,7 @@ function createRelationshipsPrecinct (feedId, models) {
 };
 
 function createRelationshipsPrecinctSplit (feedId, models) {
-  var promise = models.precinctSplits.find({ _feed: feedId }).exec();
+  var promise = models.precinctsplits.find({ _feed: feedId }).exec();
 
   promise.then(function (precinctSplits) {
     precinctSplits.forEach(function (precinctSplit) {
@@ -155,7 +155,7 @@ function createRelationshipsPrecinctSplit (feedId, models) {
 };
 
 function createRelationshipsElectionAdministration (feedId, models) {
-  var promise = models.electionAdmins.find({ _feed: feedId }).exec();
+  var promise = models.electionadmins.find({ _feed: feedId }).exec();
 
   promise.then(function (electionAdmins) {
     electionAdmins.forEach(function (electionAdmin) {
@@ -193,7 +193,7 @@ function createRelationshipsContest (feedId, models) {
 };
 
 function createRelationshipsElectoralDistrict(feedId, models) {
-  var promise = models.electoralDistricts.find({ _feed: feedId }).exec();
+  var promise = models.electoraldistricts.find({ _feed: feedId }).exec();
 
   promise.then(function (electoralDistricts) {
     electoralDistricts.forEach(function(district) {
@@ -224,7 +224,7 @@ function createRelationshipsBallot(feedId, models) {
 };
 
 function createRelationshipsCustomBallot(feedId, models) {
-  var promise = models.customBallots.find({ _feed: feedId }).exec();
+  var promise = models.customballots.find({ _feed: feedId }).exec();
 
   promise.then(function(cbs) {
     if (cbs.length > 0) {
@@ -248,7 +248,7 @@ function createRelationshipsReferendum(feedId, models) {
 };
 
 function createRelationshipsContestResult(feedId, models) {
-  var promise = models.contestResults.find({ _feed: feedId }).exec();
+  var promise = models.contestresults.find({ _feed: feedId }).exec();
 
   promise.then(function(results) {
     if (results.length > 0) {
@@ -261,7 +261,7 @@ function createRelationshipsContestResult(feedId, models) {
 };
 
 function createRelationshipsBallotLineResult(feedId, models) {
-  var promise = models.ballotLineResults.find({ _feed: feedId }).exec();
+  var promise = models.ballotlineresults.find({ _feed: feedId }).exec();
 
   promise.then(function(results) {
     if (results.length > 0) {
@@ -276,7 +276,7 @@ function createRelationshipsBallotLineResult(feedId, models) {
 }
 
 function createRelationshipsPollingLocation(feedId, models) {
-  var promise = models.pollingLocations.find({ _feed: feedId }).exec();
+  var promise = models.pollinglocations.find({ _feed: feedId }).exec();
 
   promise.then(function(pollingLocations) {
     if (pollingLocations.length > 0) {
@@ -309,7 +309,7 @@ function createRelationshipsCandidate(feedId, models) {
 }
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
-  var promise = models.electionAdmins.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
+  var promise = models.electionadmins.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
   promise.then(function (electionAdminOid) {
     updateRelationship(models.localitys, { _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
@@ -317,12 +317,12 @@ function joinLocalityElectionAdmin (models, locality, eaId) {
 };
 
 function joinLocalityEarlyVoteSite (models, locality, evsIds) {
-  var promise = models.earlyVoteSites.find({ _feed: locality._feed, elementId: { $in: evsIds } }).select('_id').exec();
+  var promise = models.earlyvotesites.find({ _feed: locality._feed, elementId: { $in: evsIds } }).select('_id').exec();
 
   promise.then(function (evsOids) {
     if (evsOids.length > 0) {
       updateRelationship(models.localitys, { _id: locality._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
-      updateRelationship(models.earlyVoteSites, { _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
+      updateRelationship(models.earlyvotesites, { _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
     }
   }, onError);
 };
@@ -342,7 +342,7 @@ function joinLocalityPrecincts (models, locality) {
 };
 
 function joinPrecinctElectoralDistricts (models, precinct) {
-  var promise = models.electoralDistricts
+  var promise = models.electoraldistricts
     .find({ _feed: precinct._feed, elementId: { $in: precinct.electoralDistrictIds } })
     .select('_id')
     .exec();
@@ -355,7 +355,7 @@ function joinPrecinctElectoralDistricts (models, precinct) {
 };
 
 function joinPrecinctEarlyVoteSites (models, precinct) {
-  var promise = models.earlyVoteSites
+  var promise = models.earlyvotesites
     .find({ _feed: precinct._feed, elementId: { $in: precinct.earlyVoteSiteIds } })
     .select('_id')
     .exec();
@@ -372,7 +372,7 @@ function joinPrecinctPollingLocations (models, precinct) {
   if(_schemaVersion == '5.0')
     return;
 
-  var promise = models.pollingLocations
+  var promise = models.pollinglocations
     .find({ _feed: precinct._feed, elementId: { $in: precinct.pollingLocationIds } })
     .select('_id')
     .exec();
@@ -385,7 +385,7 @@ function joinPrecinctPollingLocations (models, precinct) {
 };
 
 function joinPrecinctPrecinctSplits (models, precinct) {
-  var promise = models.precinctSplits
+  var promise = models.precinctsplits
     .find({ _feed: precinct._feed, precinctId: precinct.elementId })
     .select('_id')
     .exec();
@@ -397,13 +397,13 @@ function joinPrecinctPrecinctSplits (models, precinct) {
       }
 
       var psIds = psOids.map(function(ps) { return ps._id; });
-      updateRelationship(models.precinctSplits, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
+      updateRelationship(models.precinctsplits, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
     }
   });
 };
 
 function joinPrecinctStreetSegments (models, precinct) {
-  var promise = models.streetSegments.find({ _feed: precinct._feed, precinctId: precinct.elementId })
+  var promise = models.streetsegments.find({ _feed: precinct._feed, precinctId: precinct.elementId })
     .select('_id')
     .exec();
 
@@ -415,14 +415,14 @@ function joinPrecinctStreetSegments (models, precinct) {
 };
 
 function joinPrecinctSplitElectoralDistrict (models, precinctSplit) {
-  var promise = models.electoralDistricts
+  var promise = models.electoraldistricts
     .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.electoralDistrictIds } })
     .select('_id')
     .exec();
 
   promise.then(function (edOids) {
     if (edOids.length > 0) {
-      updateRelationship(models.precinctSplits,
+      updateRelationship(models.precinctsplits,
         { _id: precinctSplit._id },
         { $addToSet: { _electoralDistricts: { $each: edOids } } },
         onUpdate);
@@ -431,13 +431,13 @@ function joinPrecinctSplitElectoralDistrict (models, precinctSplit) {
 };
 
 function joinPrecinctSplitStreetSegments (models, precinctSplit) {
-  var promise = models.streetSegments.find({ _feed: precinctSplit._feed, precinctSplitId: precinctSplit.elementId })
+  var promise = models.streetsegments.find({ _feed: precinctSplit._feed, precinctSplitId: precinctSplit.elementId })
     .select('_id')
     .exec();
 
   promise.then(function (streetOids) {
     if (streetOids.length > 0) {
-      updateRelationship(models.precinctSplits,
+      updateRelationship(models.precinctsplits,
         { _id: precinctSplit._id },
         { $addToSet: { _streetSegments: { $each: streetOids } } },
         onUpdate);
@@ -446,14 +446,14 @@ function joinPrecinctSplitStreetSegments (models, precinctSplit) {
 };
 
 function joinPrecinctSplitPollingLocations (models, precinctSplit) {
-  var promise = models.pollingLocations
+  var promise = models.pollinglocations
     .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.pollingLocationIds } })
     .select('_id')
     .exec();
 
   promise.then(function (plOids) {
     if (plOids.length > 0) {
-      updateRelationship(models.precinctSplits,
+      updateRelationship(models.precinctsplits,
         { _id: precinctSplit._id },
         { $addToSet: { _pollingLocations: { $each: plOids } } },
         onUpdate);
@@ -462,36 +462,36 @@ function joinPrecinctSplitPollingLocations (models, precinctSplit) {
 };
 
 function joinElectionAdminElectionOfficial (models, electionAdmin) {
-  var promiseEO = models.electionOfficials.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.eoId })
+  var promiseEO = models.electionofficials.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.eoId })
     .select('_id')
     .exec();
 
-  var promiseOVC = models.electionOfficials.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.ovcId })
+  var promiseOVC = models.electionofficials.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.ovcId })
     .select('_id')
     .exec();
 
   promiseEO.then(function (eo) {
     if (eo) {
-      updateRelationship(models.electionAdmins, { _id: electionAdmin._id }, { _electionOfficial: eo._id }, onUpdate);
+      updateRelationship(models.electionadmins, { _id: electionAdmin._id }, { _electionOfficial: eo._id }, onUpdate);
     }
   });
 
   promiseOVC.then(function (ovc) {
     if (ovc) {
-      updateRelationship(models.electionAdmins, { _id: electionAdmin._id }, { _overseasVoterContact: ovc._id }, onUpdate);
+      updateRelationship(models.electionadmins, { _id: electionAdmin._id }, { _overseasVoterContact: ovc._id }, onUpdate);
     }
   });
 };
 
 function joinContestElectoralDistrict (models, contest) {
-  var promise = models.electoralDistricts.findOne({ _feed: contest._feed, elementId: contest.electoralDistrictId })
+  var promise = models.electoraldistricts.findOne({ _feed: contest._feed, elementId: contest.electoralDistrictId })
     .select('_id')
     .exec();
 
   promise.then(function (ed) {
     if (ed) {
       updateRelationship(models.contests, { _id: contest._id }, { _electoralDistrict: ed._id }, onUpdate);
-      updateRelationship(models.electoralDistricts, { _id: ed._id }, { _contest: contest }, onUpdate);
+      updateRelationship(models.electoraldistricts, { _id: ed._id }, { _contest: contest }, onUpdate);
     }
   });
 };
@@ -513,7 +513,7 @@ function joinContestBallot (models, contest, done) {
 };
 
 function joinContestResults (models, contest) {
-  var promiseCR = models.contestResults.findOne({ _feed: contest._feed, contestId: contest.elementId })
+  var promiseCR = models.contestresults.findOne({ _feed: contest._feed, contestId: contest.elementId })
     .select('_id')
     .exec();
 
@@ -523,7 +523,7 @@ function joinContestResults (models, contest) {
     }
   });
 
-  var promiseBLR = models.ballotLineResults.find({ _feed: contest._feed, contestId: contest.elementId })
+  var promiseBLR = models.ballotlineresults.find({ _feed: contest._feed, contestId: contest.elementId })
     .select('_id')
     .exec();
 
@@ -545,21 +545,21 @@ function joinElectoralDistrictPrecincts(models, electoralDistrict) {
 
   promisePrecincts.then(function(precincts) {
     if (precincts.length > 0) {
-      updateRelationship(models.electoralDistricts,
+      updateRelationship(models.electoraldistricts,
         { _id: electoralDistrict._id },
         { $addToSet: { _precincts: { $each: precincts } } },
         onUpdate);
     }
   });
 
-  var promisePrecinctSplits = models.precinctSplits
+  var promisePrecinctSplits = models.precinctsplits
     .find({ _feed: electoralDistrict._feed, electoralDistrictIds: electoralDistrict.elementId })
     .select('_id')
     .exec();
 
   promisePrecinctSplits.then(function(precinctSplits) {
     if (precinctSplits.length > 0) {
-      updateRelationship(models.electoralDistricts,
+      updateRelationship(models.electoraldistricts,
         { _id: electoralDistrict._id },
         { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
         onUpdate);
@@ -615,7 +615,7 @@ function joinBallotReferenda(models, ballot) {
 };
 
 function joinBallotCustomBallot(models, ballot) {
-  var promise = models.customBallots.findOne({ _feed: ballot._feed, elementId: ballot.customBallotId })
+  var promise = models.customballots.findOne({ _feed: ballot._feed, elementId: ballot.customBallotId })
     .select('_id')
     .exec();
 
@@ -627,13 +627,13 @@ function joinBallotCustomBallot(models, ballot) {
 
 function joinCustomBallotResponses(models, customBallot) {
   var ballotResponseIds = customBallot.ballotResponses.map(function(resp) { return resp.elementId; });
-  var promise = models.ballotResponses.find({ _feed: customBallot._feed, elementId: { $in: ballotResponseIds } })
+  var promise = models.ballotresponses.find({ _feed: customBallot._feed, elementId: { $in: ballotResponseIds } })
     .select('_id elementId')
     .exec();
 
   promise.then(function(responses) {
     responses.forEach(function(resp) {
-      updateRelationship(models.customBallots,
+      updateRelationship(models.customballots,
         {_id: customBallot._id, 'ballotResponses.elementId': resp.elementId },
         {$set: { 'ballotResponses.$._response': resp._id } },
         onUpdate);
@@ -645,7 +645,7 @@ function joinReferendumBallotResponses(models, referendum) {
   var ballotResponseIds = referendum.ballotResponses.map(function(resp) {
     return resp.elementId;
   });
-  var promise = models.ballotResponses.find({ _feed: referendum._feed, elementId: { $in: ballotResponseIds } })
+  var promise = models.ballotresponses.find({ _feed: referendum._feed, elementId: { $in: ballotResponseIds } })
     .select('_id elementId')
     .exec();
 
@@ -665,7 +665,7 @@ function joinContestResultContest(models, result) {
     .exec();
 
   promise.then(function(contest) {
-    updateRelationship(models.contestResults, { _id: result._id }, { _contest: contest }, onUpdate);
+    updateRelationship(models.contestresults, { _id: result._id }, { _contest: contest }, onUpdate);
   });
 };
 
@@ -682,41 +682,41 @@ function joinContestResultJurisdiction(models, result) {
     .select('_id')
     .exec();
 
-  var promisePrecinctSplit = models.precinctSplits.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
+  var promisePrecinctSplit = models.precinctsplits.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
 
-  var promiseElectoralDistrict = models.electoralDistricts.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
+  var promiseElectoralDistrict = models.electoraldistricts.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
 
   promiseState.then(function(state) {
     if (state) {
-      updateRelationship(models.contestResults, { _id: result._id }, { _state: state }, onUpdate);
+      updateRelationship(models.contestresults, { _id: result._id }, { _state: state }, onUpdate);
     }
   });
 
   promiseLocality.then(function(locality) {
     if (locality) {
-      updateRelationship(models.contestResults, { _id: result._id }, { _locality: locality }, onUpdate);
+      updateRelationship(models.contestresults, { _id: result._id }, { _locality: locality }, onUpdate);
     }
   });
 
   promisePrecinct.then(function(precinct) {
     if (precinct) {
-      updateRelationship(models.contestResults, { _id: result._id }, { _precinct: precinct }, onUpdate);
+      updateRelationship(models.contestresults, { _id: result._id }, { _precinct: precinct }, onUpdate);
     }
   });
 
   promisePrecinctSplit.then(function(precinctSplit) {
     if (precinctSplit) {
-      updateRelationship(models.contestResults, { _id: result._id }, { _precinctSplit: precinctSplit }, onUpdate);
+      updateRelationship(models.contestresults, { _id: result._id }, { _precinctSplit: precinctSplit }, onUpdate);
     }
   });
 
   promiseElectoralDistrict.then(function(district) {
     if (district) {
-      updateRelationship(models.contestResults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
+      updateRelationship(models.contestresults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
     }
   });
 }
@@ -727,7 +727,7 @@ function joinBallotLineResultContest(models, result) {
     .exec();
 
   promise.then(function(contest) {
-    updateRelationship(models.ballotLineResults, { _id: result._id }, { _contest: contest }, onUpdate);
+    updateRelationship(models.ballotlineresults, { _id: result._id }, { _contest: contest }, onUpdate);
   });
 }
 
@@ -738,19 +738,19 @@ function joinBallotLineResultCandidate(models, result) {
       .exec();
 
     promise.then(function(candidate) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _candidate: candidate }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _candidate: candidate }, onUpdate);
     });
   }
 }
 
 function joinBallotLineResultResponse(models, result) {
   if (result.ballotResponseId) {
-    var promise = models.ballotResponses.findOne({ _feed: result._feed, elementId: result.ballotResponseId })
+    var promise = models.ballotresponses.findOne({ _feed: result._feed, elementId: result.ballotResponseId })
       .select('_id')
       .exec();
 
     promise.then(function(response) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _ballotResponse: response }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _ballotResponse: response }, onUpdate);
     });
   }
 }
@@ -769,41 +769,41 @@ function joinBallotLineResultJurisdiction(models, result) {
     .select('_id')
     .exec();
 
-  var promisePrecinctSplit = models.precinctSplits.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
+  var promisePrecinctSplit = models.precinctsplits.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
 
-  var promiseElectoralDistrict = models.electoralDistricts.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
+  var promiseElectoralDistrict = models.electoraldistricts.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
 
   promiseState.then(function(state) {
     if (state) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _state: state }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _state: state }, onUpdate);
     }
   });
 
   promiseLocality.then(function(locality) {
     if (locality) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _locality: locality }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _locality: locality }, onUpdate);
     }
   });
 
   promisePrecinct.then(function(precinct) {
     if (precinct) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _precinct: precinct }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _precinct: precinct }, onUpdate);
     }
   });
 
   promisePrecinctSplit.then(function(precinctSplit) {
     if (precinctSplit) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _precinctSplit: precinctSplit }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _precinctSplit: precinctSplit }, onUpdate);
     }
   });
 
   promiseElectoralDistrict.then(function(district) {
     if (district) {
-      updateRelationship(models.ballotLineResults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
+      updateRelationship(models.ballotlineresults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
     }
   });
 }
@@ -814,7 +814,7 @@ function joinPollingLocationPrecinct(models, pollingLocation) {
     .exec();
 
   promise.then(function(precincts) {
-    updateRelationship(models.pollingLocations,
+    updateRelationship(models.pollinglocations,
       { _id: pollingLocation._id },
       { $addToSet: { _precincts: { $each: precincts } } },
       onUpdate);
@@ -822,12 +822,12 @@ function joinPollingLocationPrecinct(models, pollingLocation) {
 }
 
 function joinPollingLocationPrecinctSplit(models, pollingLocation) {
-  var promise = models.precinctSplits.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
+  var promise = models.precinctsplits.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
     .select('_id')
     .exec();
 
   promise.then(function(precinctSplits) {
-    updateRelationship(models.pollingLocations,
+    updateRelationship(models.pollinglocations,
       { _id: pollingLocation._id },
       { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
       onUpdate);

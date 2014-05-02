@@ -143,25 +143,25 @@ function errorIndexGET(req, res) {
 
   var map = {
     // overview errors on the Feed Overview - under Polling Locations
-    "earlyvotesites": daoSchemas.models.earlyVoteSites.Error,
-    "electionadministrations": daoSchemas.models.electionAdmins.Error,
-    "electionofficials": daoSchemas.models.electionOfficials.Error,
+    "earlyvotesites": daoSchemas.models.earlyvotesites.Error,
+    "electionadministrations": daoSchemas.models.electionadmins.Error,
+    "electionofficials": daoSchemas.models.electionofficials.Error,
     "localities": daoSchemas.models.localitys.Error,
-    "pollinglocations": daoSchemas.models.pollingLocations.Error,
+    "pollinglocations": daoSchemas.models.pollinglocations.Error,
     "precincts": daoSchemas.models.precincts.Error,
-    "precinctsplits": daoSchemas.models.precinctSplits.Error,
-    "streetsegments": daoSchemas.models.streetSegments.Error,
+    "precinctsplits": daoSchemas.models.precinctsplits.Error,
+    "streetsegments": daoSchemas.models.streetsegments.Error,
 
     // overview errors on the Feed Overview - under Contests
     "ballots": daoSchemas.models.ballots.Error,
     "candidates": daoSchemas.models.candidates.Error,
     "contests": daoSchemas.models.contests.Error,
-    "electoraldistricts": daoSchemas.models.electoralDistricts.Error,
+    "electoraldistricts": daoSchemas.models.electoraldistricts.Error,
     "referenda": daoSchemas.models.referendums.Error,
 
     // overview errors on the Feed Overview - under Results
-    "contestresults": daoSchemas.models.contestResults.Error,
-    "ballotlineresults": daoSchemas.models.ballotLineResults.Error
+    "contestresults": daoSchemas.models.contestresults.Error,
+    "ballotlineresults": daoSchemas.models.ballotlineresults.Error
   };
 
   // check the type

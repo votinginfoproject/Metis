@@ -55,9 +55,9 @@ function contestCalc(feedId, saveCalc) {
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.electoralDistricts, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.electoraldistricts, function(res, cb) {
     contestsOverview.electoralDistricts = res;
-    schemas.models.electoralDistricts.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.electoraldistricts.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.electoralDistricts.errorCount = count;
       cb();
     });

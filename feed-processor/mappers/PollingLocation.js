@@ -6,12 +6,12 @@ const
   util = require('util'),
   types = require('mongoose').Types,
   PollingLocation = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.pollingLocations);
+    basemapper.call(this, models, feedId, models.pollinglocations);
   };
 util.inherits(PollingLocation, basemapper);
 
 PollingLocation.prototype.mapXml3_0 = function (pollingLocation) {
-  this.model = new this.models.pollingLocations({
+  this.model = new this.models.pollinglocations({
     _id: types.ObjectId(),
     elementId: pollingLocation.$.id,     //required
     address: this.mapSimpleAddress(pollingLocation.address),
@@ -29,7 +29,7 @@ PollingLocation.prototype.mapXml5_0 = function (pollingLocation) {
 };
 
 PollingLocation.prototype.mapCsv = function (pollingLocation) {
-  this.model = new this.models.pollingLocations({
+  this.model = new this.models.pollinglocations({
     elementId: pollingLocation.id,     //required
     address: {
       locationName: pollingLocation.address_location_name,

@@ -8,7 +8,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function ballotLineResultExport(feedId, callback) {
-  schemas.models.ballotLineResults.find({_feed: feedId}, function(err, results) {
+  schemas.models.ballotlineresults.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);

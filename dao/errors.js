@@ -8,25 +8,25 @@ var async = require('async');
 
 function allErrors(feedId, callback) {
   var allErrorModels = [daoSchemas.models.ballots.Error,
-    daoSchemas.models.ballotResponses.Error,
-    daoSchemas.models.ballotLineResults.Error,
+    daoSchemas.models.ballotresponses.Error,
+    daoSchemas.models.ballotlineresults.Error,
     daoSchemas.models.candidates.Error,
     daoSchemas.models.contests.Error,
-    daoSchemas.models.contestResults.Error,
-    daoSchemas.models.customBallots.Error,
-    daoSchemas.models.earlyVoteSites.Error,
+    daoSchemas.models.contestresults.Error,
+    daoSchemas.models.customballots.Error,
+    daoSchemas.models.earlyvotesites.Error,
     daoSchemas.models.elections.Error,
-    daoSchemas.models.electionAdmins.Error,
-    daoSchemas.models.electionOfficials.Error,
-    daoSchemas.models.electoralDistricts.Error,
+    daoSchemas.models.electionadmins.Error,
+    daoSchemas.models.electionofficials.Error,
+    daoSchemas.models.electoraldistricts.Error,
     daoSchemas.models.localitys.Error,
-    daoSchemas.models.pollingLocations.Error,
+    daoSchemas.models.pollinglocations.Error,
     daoSchemas.models.precincts.Error,
-    daoSchemas.models.precinctSplits.Error,
+    daoSchemas.models.precinctsplits.Error,
     daoSchemas.models.referendums.Error,
     daoSchemas.models.sources.Error,
     daoSchemas.models.states.Error,
-    daoSchemas.models.streetSegments.Error];
+    daoSchemas.models.streetsegments.Error];
 
   var errorQueries = allErrorModels.map(function (model) {
     return aggregateErrors({ $match: { _feed: daoSchemas.types.ObjectId(feedId) } }, model).exec();
@@ -53,7 +53,7 @@ function ballotErrors(feedId, contestId, callback) {
 
 function ballotLineResultErrors(feedId, ballotLineResultId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: ballotLineResultId };
-  var model = daoSchemas.models.ballotLineResults.Error;
+  var model = daoSchemas.models.ballotlineresults.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, ballotLineResultId, callback);
     });
@@ -69,7 +69,7 @@ function candidateErrors(feedId, candidateId, callback) {
 
 function contestErrors(feedId, contestId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
-  var model = daoSchemas.models.contests.Error
+  var model = daoSchemas.models.contests.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, contestId, callback);
     });
@@ -77,7 +77,7 @@ function contestErrors(feedId, contestId, callback) {
 
 function contestResultErrors(feedId, contestId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: contestId };
-  var model = daoSchemas.models.contestResults.Error;
+  var model = daoSchemas.models.contestresults.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, contestId, callback);
     });
@@ -85,7 +85,7 @@ function contestResultErrors(feedId, contestId, callback) {
 
 function customBallotErrors(feedId, customBallotId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: customBallotId };
-  var model = daoSchemas.models.customBallots.Error;
+  var model = daoSchemas.models.customballots.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, customBallotId, callback);
     });
@@ -93,7 +93,7 @@ function customBallotErrors(feedId, customBallotId, callback) {
 
 function earlyVoteSiteErrors(feedId, earlyVoteSiteId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: earlyVoteSiteId };
-  var model = daoSchemas.models.earlyVoteSites.Error;
+  var model = daoSchemas.models.earlyvotesites.Error;
   aggregateErrors({ $match:  matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, earlyVoteSiteId, callback);
     });
@@ -110,7 +110,7 @@ function electionErrors(feedId, callback) {
 
 function electionAdminErrors(feedId, electionAdminId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionAdminId };
-  var model = daoSchemas.models.electionAdmins.Error;
+  var model = daoSchemas.models.electionadmins.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, electionAdminId, callback);
     });
@@ -118,7 +118,7 @@ function electionAdminErrors(feedId, electionAdminId, callback) {
 
 function electionOfficialErrors(feedId, electionOfficialId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electionOfficialId };
-  var model = daoSchemas.models.electionOfficials.Error;
+  var model = daoSchemas.models.electionofficials.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, electionOfficialId, callback);
     });
@@ -126,7 +126,7 @@ function electionOfficialErrors(feedId, electionOfficialId, callback) {
 
 function electoralDistrictErrors(feedId, electoralDistrictId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: electoralDistrictId };
-  var model = daoSchemas.models.electoralDistricts.Error;
+  var model = daoSchemas.models.electoraldistricts.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, electoralDistrictId, callback);
     });
@@ -142,7 +142,7 @@ function localityErrors(feedId, localityId, callback) {
 
 function pollingLocationErrors(feedId, pollingLocationId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: pollingLocationId };
-  var model = daoSchemas.models.pollingLocations.Error;
+  var model = daoSchemas.models.pollinglocations.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, pollingLocationId, callback);
     });
@@ -158,7 +158,7 @@ function precinctErrors(feedId, precinctId, callback) {
 
 function precinctSplitErrors(feedId, precinctSplitId, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: precinctSplitId };
-  var model = daoSchemas.models.precinctSplits.Error;
+  var model = daoSchemas.models.precinctsplits.Error;
   aggregateErrors({ $match: matcher }, model).exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, precinctSplitId, callback);
     });
@@ -192,7 +192,7 @@ function stateErrors(feedId, callback) {
 
 function ballotResponseErrors(feedId, responseIds, callback) {
   var matcher = { _feed: daoSchemas.types.ObjectId(feedId), refElementId: { $in: responseIds } };
-  var model = daoSchemas.models.ballotResponses.Error;
+  var model = daoSchemas.models.ballotresponses.Error;
   aggregateErrors({ $match: matcher }, model)
     .exec(function(err, aggregate) {
       findTextualReference(model, feedId, aggregate, responseIds, callback);
@@ -207,7 +207,7 @@ function precinctStreetSegmentErrors(feedId, precinctId, callback) {
 
   promise.then(function (precinct) {
     var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinct._streetSegments } };
-    var model = daoSchemas.models.streetSegments.Error;
+    var model = daoSchemas.models.streetsegments.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
         findTextualReference(model, feedId, aggregate, precinct._streetSegments, callback);
@@ -216,14 +216,14 @@ function precinctStreetSegmentErrors(feedId, precinctId, callback) {
 }
 
 function precinctSplitStreetSegmentErrors(feedId, precinctSplitId, callback) {
-  var promise = daoSchemas.models.precinctSplits
+  var promise = daoSchemas.models.precinctsplits
     .findOne({ _feed: feedId, elementId: precinctSplitId })
     .select('_streetSegments')
     .exec();
 
   promise.then(function (precinctSplit) {
     var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: { $in: precinctSplit._streetSegments } };
-    var model = daoSchemas.models.streetSegments.Error;
+    var model = daoSchemas.models.streetsegments.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
         findTextualReference(model, feedId, aggregate, precinctSplit._streetSegments, callback);
@@ -246,7 +246,7 @@ function errorIndexLocalityEarlyVoteSite(feedId, localityId, callback) {
 
   localityPromise.then(function (locality) {
     var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: locality._earlyVoteSites} };
-    var model = daoSchemas.models.earlyVoteSites.Error;
+    var model = daoSchemas.models.earlyvotesites.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
         findTextualReference(model, feedId, aggregate, locality._earlyVoteSites, callback);
@@ -260,7 +260,7 @@ function errorIndexLocalityElectionAdministration(feedId, localityId, callback) 
 
   localityPromise.then(function (locality) {
     var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: locality._electionAdministration };
-    var model = daoSchemas.models.electionAdmins.Error;
+    var model = daoSchemas.models.electionadmins.Error;
     aggregateErrors({ $match: matcher }, model)
       .exec(function(err, aggregate) {
         findTextualReference(model, feedId, aggregate, [locality._electionAdministration], callback);
@@ -286,7 +286,7 @@ function errorIndexLocalityPollingLocations(feedId, localityId, callback) {
       });
 
       var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: pollinglocations} };
-      var model = daoSchemas.models.pollingLocations.Error;
+      var model = daoSchemas.models.pollinglocations.Error;
       aggregateErrors({ $match: matcher }, model)
         .exec(function(err, aggregate) {
           findTextualReference(model, feedId, aggregate, pollinglocations, callback);
@@ -313,7 +313,7 @@ function errorIndexLocalityPrecinctSplits(feedId, localityId, callback) {
       });
 
       var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: precinctsplits} };
-      var model = daoSchemas.models.precinctSplits.Error;
+      var model = daoSchemas.models.precinctsplits.Error;
       aggregateErrors({ $match: matcher }, model)
         .exec(function(err, aggregate) {
           findTextualReference(model, feedId, aggregate, precinctsplits, callback);
@@ -361,7 +361,7 @@ function errorIndexLocalityStreetSegments(feedId, localityId, callback) {
 
       });
 
-      var precinctsplitsPromise = daoSchemas.models.precinctSplits.find({ _feed: feedId, _id: {$in: precinctsplits} }, {_streetSegments: 1}).exec();
+      var precinctsplitsPromise = daoSchemas.models.precinctsplits.find({ _feed: feedId, _id: {$in: precinctsplits} }, {_streetSegments: 1}).exec();
 
       precinctsplitsPromise.then(function (precinctsplits) {
 
@@ -374,7 +374,7 @@ function errorIndexLocalityStreetSegments(feedId, localityId, callback) {
         });
 
         var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: {$in: streetsegments} };
-        var model = daoSchemas.models.streetSegments.Error;
+        var model = daoSchemas.models.streetsegments.Error;
         aggregateErrors({ $match: matcher }, model)
           .exec(function(err, aggregate) {
             findTextualReference(model, feedId, aggregate, streetsegments, callback);
@@ -437,11 +437,11 @@ function errorIndexContestElectoralDistrict(feedId, contestId, callback) {
   var contestPromise = daoSchemas.models.contests.findOne({ _feed: feedId, elementId: contestId }, {_electoralDistrict: 1}).exec();
 
   contestPromise.then(function (contest) {
-    var electoraldistrictPromise = daoSchemas.models.electoralDistricts.findOne({ _id: contest._electoralDistrict }, {_id: 1}).exec();
+    var electoraldistrictPromise = daoSchemas.models.electoraldistricts.findOne({ _id: contest._electoralDistrict }, {_id: 1}).exec();
 
     electoraldistrictPromise.then(function (electoraldistrict) {
       var matcher = { _feed: daoSchemas.types.ObjectId(feedId), _ref: electoraldistrict._id };
-      var model = daoSchemas.models.electoralDistricts.Error;
+      var model = daoSchemas.models.electoraldistricts.Error;
       aggregateErrors({ $match: matcher }, model)
         .exec(function(err, aggregate) {
           findTextualReference(model, feedId, aggregate, [electoraldistrict._id], callback);
