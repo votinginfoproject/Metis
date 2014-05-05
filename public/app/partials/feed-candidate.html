@@ -10,7 +10,20 @@
     <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
     <dt class="key">Last Name:</dt> <dd id="candidate-lastname" class="value">{{feedCandidate.last_name}}</dd>
     <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
-    <dt class="key">Party:</dt> <dd id="candidate-party" class="value">{{feedCandidate.party}}</dd>
+
+    <!-- Logic to switch detailed party -->
+    <dt class="key" ng-if="!feedCandidate.party.name">Party:</dt>
+    <dd id="candidate-party" class="value" ng-if="!feedCandidate.party.name">{{feedCandidate.party}}</dd>
+
+    <dt class="key" ng-if="feedCandidate.party.name">Primary Party Name:</dt>
+    <dd id="candidate-party-name" class="value" ng-if="feedCandidate.party.name">{{feedCandidate.party.name}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.initial">Primary Party Initial:</dt>
+    <dd id="candidate-party-initial" class="value" ng-if="feedCandidate.party.initial">{{feedCandidate.party.initial}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.abbreviation">Primary Party Abbreviation:</dt>
+    <dd id="candidate-party-abbreviation" class="value" ng-if="feedCandidate.party.abbreviation">{{feedCandidate.party.abbreviation}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.majorParty">Primary Party Major Party:</dt>
+    <dd id="candidate-party-majorparty" class="value" ng-if="feedCandidate.party.majorParty">{{feedCandidate.party.majorParty}}</dd>
+
     <dt class="key">Candidate Url:</dt> <dd id="candidate-url" class="value">{{feedCandidate.candidate_url}}</dd>
     <dt class="key">Biography:</dt> <dd id="candidate-biography" class="value">{{feedCandidate.biography}}</dd>
     <dt class="key">Phone:</dt> <dd id="candidate-phone" class="value">{{feedCandidate.phone}}</dd>

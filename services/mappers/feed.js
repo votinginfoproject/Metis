@@ -326,7 +326,7 @@ function mapContest (path, contest) {
   var primParty = contest.primaryParty;
   if(!contest.primaryParty) {
     if(contest._party)
-      primParty = contest._party.name;
+      primParty = contest._party;
   }
 
   return {
@@ -608,7 +608,7 @@ var mapCandidate = function (path, candidate) {
   var party = candidate.party;
   if(!candidate.party) {
     if(candidate._party) {
-      party = candidate._party.name;
+      party = candidate._party;
     }
   }
 
@@ -617,7 +617,7 @@ var mapCandidate = function (path, candidate) {
     error_count: candidate.errorCount,
     errors: _path.join(path, '/errors'),
     name: candidate.name,
-    incumbent: candidate.incumbent, //TODO: v5.0 element
+    incumbent: candidate.incumbent,
     party: party,
     candidate_url: candidate.candidateUrl,
     biography: candidate.biography,

@@ -9,7 +9,20 @@
   <dl class="attributes" ng-if="feedContest">
     <dt class="key">Type:</dt> <dd id="contest-type" class="value">{{feedContest.type}}</dd>
     <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
-    <dt class="key">Primary Party:</dt> <dd id="contest-party" class="value">{{feedContest.primary_party}}</dd>
+
+    <!-- Logic to switch detailed party -->
+    <dt class="key" ng-if="!feedContest.primary_party.name">Primary Party:</dt>
+    <dd id="contest-party" class="value" ng-if="!feedContest.primary_party.name">{{feedContest.primary_party}}</dd>
+
+    <dt class="key" ng-if="feedContest.primary_party.name">Primary Party Name:</dt>
+    <dd id="contest-party-name" class="value" ng-if="feedContest.primary_party.name">{{feedContest.primary_party.name}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.initial">Primary Party Initial:</dt>
+    <dd id="contest-party-initial" class="value" ng-if="feedContest.primary_party.initial">{{feedContest.primary_party.initial}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.abbreviation">Primary Party Abbreviation:</dt>
+    <dd id="contest-party-abbreviation" class="value" ng-if="feedContest.primary_party.abbreviation">{{feedContest.primary_party.abbreviation}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.majorParty">Primary Party Major Party:</dt>
+    <dd id="contest-party-majorparty" class="value" ng-if="feedContest.primary_party.majorParty">{{feedContest.primary_party.majorParty}}</dd>
+
     <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
     <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
     <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
