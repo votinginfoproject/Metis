@@ -106,8 +106,6 @@ function mapResultsContestResults(path, contestResult) {
 }
 
 function mapResultsBallotLineResults(path, ballotLineResult) {
-  console.dir(ballotLineResult);
-
   return {
     id: ballotLineResult.elementId,
     office: ballotLineResult._contest.office,
@@ -144,6 +142,7 @@ function mapBallotLineResult(path, ballotLineResult) {
     votes: ballotLineResult.votes,
     victorious: ballotLineResult.victorious,
     certification: ballotLineResult.certification,
+    voteType: ballotLineResult.voteType,
     response_text: ballotLineResult._ballotResponse ? ballotLineResult._ballotResponse.text : null,
     candidate: mapCandidateSummary(path, ballotLineResult._candidate),
     contest: mapContestSummary(_path.join(path, '..'), ballotLineResult._contest),

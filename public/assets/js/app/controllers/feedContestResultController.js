@@ -44,8 +44,13 @@ function FeedContestResultCtrl_getFeedContestResult($scope, $rootScope, $feedsSe
 
   $feedsService.getFeedContestResult(servicePath)
     .success(function(data) {
-      data.contest.self = data.contest.self.replace("/services/","/#/");
-      data.jurisdiction.self = data.jurisdiction.self.replace("/services/", "/#/");
+
+      if(data.contest)
+        data.contest.self = data.contest.self.replace("/services/","/#/");
+
+      if(data.jurisdiction)
+        data.jurisdiction.self = data.jurisdiction.self.replace("/services/", "/#/");
+
       // set the feeds data into the Angular model
       $scope.feedContestResult = data;
       // set the title

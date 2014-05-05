@@ -249,6 +249,7 @@ var contestResultSchema = {
   rejectedVotes: Number,
   certification: String,
   voteType: Boolean,
+  machineId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
   _contest: { type: Types.ObjectId, ref: config.mongoose.model.contest },
   _state: { type: Types.ObjectId, ref: config.mongoose.model.state },

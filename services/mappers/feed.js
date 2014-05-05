@@ -451,6 +451,7 @@ function mapPrecinctSplit (path, precinctSplit) {
     error_count: precinctSplit.errorCount,
     errors: _path.join(path, '/errors'),
     name: precinctSplit.name,
+    ballot_style_image_url: precinctSplit.ballotStyleImageUrl,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
