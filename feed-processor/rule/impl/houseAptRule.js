@@ -61,7 +61,7 @@ function streamTo(houseAptNumSegmentResult) {
   for(var i = 0; i < constraints.fields.length; i++){
     var prop = constraints.fields[i];
 
-    if(houseAptNumSegmentResult[prop]!== undefined){
+    if(houseAptNumSegmentResult[prop]){
       resultSet+= prop + "=" + (houseAptNumSegmentResult[prop]).toString() + ", ";
     }
   }

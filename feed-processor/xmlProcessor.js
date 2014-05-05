@@ -302,8 +302,10 @@ module.exports = function() {
   }
 
   function processPartyElement(party) {
-    var model = new Party(models, feedId);
-    mapAndSave(model, party);
+    if(schemaVersion == '5.0') {
+      var model = new Party(models, feedId);
+      mapAndSave(model, party);
+    }
   }
 
   function processPollingLocationElement(pollingLocation) {
