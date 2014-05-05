@@ -22,21 +22,20 @@
 
 </section><!-- /.data-group -->
 
-  <!-- TODO Figure out how to actually make this look good -->
 <section class="data-group data-module">
   <h2>{{feedLocality.poll_book_type.length}} Poll Book Types</h2>
 
   <span ng-if="!feedLocality" class="is-loading"></span>
-  <table class="associations" ng-if="feedLocality.poll_book_type">
+  <table ng-if="feedLocality.poll_book_type">
     <!--<thead>-->
     <!--<tr>-->
       <!--<th>Type</th>-->
     <!--</tr>-->
     <!--</thead>-->
     <tbody>
-    <tr id="pollbook{{$index}}" ng-repeat="pollbook in feedLocality.poll_book_type">
-      <td id="locality-pollbook-type{{$index}}" class="id">{{pollbook}}</td>
-    </tr>
+      <tr id="pollbook{{$index}}" ng-repeat="pollbook in feedLocality.poll_book_type">
+        <td id="locality-pollbook-type{{$index}}">{{pollbook}}</td>
+      </tr>
     </tbody>
   </table>
 </section>
