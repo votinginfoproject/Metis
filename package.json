@@ -29,7 +29,8 @@
     "interval-query": "~0.3.0",
     "fast-csv": "~0.2.2",
     "aws-sdk": "~2.0.0-rc13",
-    "underscore.string": "~2.3.3"
+    "underscore.string": "~2.3.3",
+    "winston": "~0.7.3"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
