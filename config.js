@@ -7,6 +7,18 @@ config.upload = {
   uploadPath: 'upload/'
 };
 
+// Log path is relative (should not start with a slash '/', but requires the end slash '/')
+// Log folder will be created if it doesn't exist.
+// Log level defaults to 'debug' in development, and 'info' in production
+config.log = {
+  logpath: 'logs/',
+  logname: 'vip.log',
+  lognameExceptions: 'vip-exceptions.log',
+  loglevel: 'info',
+  maxsizeMB: 2, // 2MB max log size
+  maxFiles:  3   // 3 log files in rotation
+};
+
 config.web = {
   port: process.env.PORT || 4000,
   favicon: 'public/assets/images/favicon.ico',

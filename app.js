@@ -10,6 +10,7 @@ var path = require('path');
 var passport = require('passport');
 var auth = require('./auth');
 var fs = require('fs');
+var logger = require('winston');
 
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
@@ -19,6 +20,33 @@ var geoServices = require('./services/geo');
 
 var app = express();
 
+// Create log folder if it doesn't exist. throw an error if we don't have access to create the folder.
+try {
+  fs.mkdirSync(config.log.logpath);
+} catch(err){
+  if(err.code == 'EACCES'){
+    throw "Could not create log folder " + err;
+  }
+}
+
+// adding in a File transport for Winston
+logger.add(logger.transports.File,
+  { filename: config.log.logpath + config.log.logname,
+    level: config.log.loglevel,
+    maxsize: 1024 * 1024 * config.log.maxsizeMB,
+    maxFiles: config.log.maxFiles
+  });
+
+logger.handleExceptions(new logger.transports.File({
+    filename: config.log.logpath + config.log.lognameExceptions,
+    maxsize: 1024 * 1024 * config.log.maxsizeMB,
+    maxFiles: config.log.maxFiles
+  }
+))
+
+logger.info('=========================================================');
+logger.info('VIP App Started');
+logger.info('=========================================================');
 
 // all environments
 app.use(express.favicon(config.web.favicon));
@@ -38,6 +66,7 @@ app.use('/feeds', express.static(path.join(__dirname, 'feeds')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+  logger.info('Running in Development Mode.');
 }
 
 //user authentication
@@ -57,10 +86,10 @@ if (config.web.enableSSL) {
   };
 
   https.createServer(opts, app).listen(config.web.port, function() {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 } else {
   http.createServer(app).listen(config.web.port, function () {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 }
