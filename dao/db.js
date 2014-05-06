@@ -22,8 +22,30 @@ function dbConnect() {
     daoSchemas.initSchemas(mongoose);
     console.log("Initialized Mongoose for VIP database.");
 
+    // TODO: don't startup app until both calls below complete as we don't want the app to allow users to
+    // login until the setup below is complete. However In 99.9% of cases, the calls below will be completed
+    // before the app allows users to login
+
+    // 1)
     // load the friendly id map into memory
     feedIdMapper.loadUserFriendlyIdMap();
+
+    // 2)
+    // go through the Feeds and mark any feeds that are in the middle of processing as failed as we
+    // are making this check on startup, it means that the app has been restarted while a feed was
+    // processing
+    daoSchemas.models.feeds.find({ complete: false, failed: false }, { payload: 0 })
+    .exec(function(err, feeds){
+
+        for(var i=0; i< feeds.length; i++){
+
+          var feed = feeds[i];
+          daoSchemas.models.feeds.update({_id: feed._id}, { feedStatus: "Stopped (App was Shutdown while Processing)", complete: false, failed: true }, function(err, result) {
+            console.log("Marked feed" + feed._id + " as failed as it was processing while the App was shutdown/restarted.")
+          });
+        }
+    });
+
 
   });
 };

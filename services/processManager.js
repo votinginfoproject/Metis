@@ -5,6 +5,9 @@ var schemas = require('../dao/schemas');
 var feedIdMapper = require('../feedIdMapper');
 var util = require('util');
 
+var express = require('express');
+var app = express();
+
 // The child process module
 var childProcess = require("child_process");
 
@@ -24,12 +27,18 @@ function handleFileProcessing(req, res){
 
   if(req.body.filename === undefined || (req.body.filename).trim() === "" ){
 
-    // missing filename to process
-    res.send("Received POST, however filename missing.");
+    if ('development' == app.get('env')) {
+      // in development
+      res.redirect('/');
+    } else {
+      // production
+
+      // missing filename to process
+      res.send("Received POST, however filename missing.");
+    }
   } else {
 
     // have a filename to process
-    res.send(util.format("Received POST, filename: %s, s3 bucket: %s", req.body.filename, req.body.s3bucket));
 
     // put the file at the end of the file queue
     fileQueue.push({ filename: req.body.filename, s3Bucket: req.body.s3bucket });
@@ -41,6 +50,20 @@ function handleFileProcessing(req, res){
 
       fileProcessing = {};
       startFileProcessing(fileQueue.shift());
+    }
+
+    if ('development' == app.get('env')) {
+
+      // in development
+      // delaying responding back to the UI to allow the system to start processing so when we return, the Feed status
+      // can be updated with the current feed being processed
+      setTimeout(function(){
+        res.redirect('/');
+      }, 1000);
+
+    } else {
+      // production
+      res.send(util.format("Received POST, filename: %s, s3 bucket: %s", req.body.filename, req.body.s3bucket));
     }
 
   }
@@ -61,8 +84,8 @@ function startFileProcessing(fileInfo){
     processArgs.push(fileInfo.s3Bucket);
     console.log('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
   } else {
-  processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
-  console.log('Starting to process: ' + processArgs[0]);
+    processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
+    console.log('Starting to process: ' + processArgs[0]);
   }
 
   // Forking a whole new instance of v8
@@ -156,4 +179,9 @@ function startFileProcessing(fileInfo){
   });
 }
 
+function getFileQueue(){
+  return fileQueue;
+}
+
+exports.getFileQueue = getFileQueue;
 exports.handleFileProcessing = handleFileProcessing;

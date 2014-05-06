@@ -33,6 +33,12 @@ function feedProcessingPost (req, res) {
 /*
  * Callbacks for HTTP verbs
  */
+function feedQueueGET (req, res) {
+  res.json(
+    mapper.mapFeedQueue()
+  );
+};
+
 function allFeedsGET (req, res) {
   dao.getFeeds(function (err, data) {
     res.json(data.map(function (data) {
@@ -392,6 +398,7 @@ function feedExportPOST(req, res) {
 }
 
 exports.feedProcessingPost = feedProcessingPost;
+exports.feedQueueGET = feedQueueGET;
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;

@@ -58,6 +58,7 @@
 .alert-box.processing {
   background: $processing-color;
   color: darken($processing-color, 60);
+  border-radius: 5px;
 
   a {
     color: $blue;

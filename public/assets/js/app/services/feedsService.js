@@ -14,10 +14,15 @@ vipApp.factory('$feedsService', function ($http, $appProperties) {
       // don't want this service call to ever be cached by IE
       return $http.get($appProperties.servicesPath + "/feeds" + vipApp_ns.cacheBuster() );
     },
+    getFeedQueue: function (servicePath) {
+      // don't want this service call to ever be cached by IE
+      return $http.get(servicePath + vipApp_ns.cacheBuster() );
+    },
 
     // Feed error pages (multiple)
     // ========================================================
     getFeedErrors: function (servicePath) {
+      // don't want this service call to ever be cached by IE
       return $http.get(servicePath + vipApp_ns.cacheBuster() );
     },
 
