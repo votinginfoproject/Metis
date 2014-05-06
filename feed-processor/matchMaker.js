@@ -2,9 +2,13 @@
  * Created by bantonides on 1/3/14.
  */
 var updateCounter = 0;
+var finished = false;
 var _feedId;
 var _models;
 var _schemaVersion;
+
+
+var when = require('when');
 
 /**
  * Creates relationships between documents in the database
@@ -18,7 +22,7 @@ function onUpdate (err, numAffected) {
     console.log('Updated ' + numAffected + ' document.');
   }
 
-  if (updateCounter <= 0) {
+  if(updateCounter <= 0 && finished) {
     console.log('****Linking Complete!!!');
     console.log('****Initializing Rules Engine');
     var promise = require('./rule/rulesEngine').processRules(_feedId);
@@ -48,6 +52,8 @@ function createRelationshipsFeed (feedId, models) {
   }, onError).then(function (eoId) {
       updateRelationship(models.feeds, { _id: feedId }, { _feedContact: eoId }, onUpdate);
     }, onError);
+
+  return sourcePromise;
 };
 
 function createRelationshipsSource (feedId, models) {
@@ -60,6 +66,8 @@ function createRelationshipsSource (feedId, models) {
   }, onError).then(function (eoId) {
       updateRelationship(models.sources, { _id: sourceId }, { _feedContact: eoId }, onUpdate);
     }, onError);
+
+  return sourcePromise;
 };
 
 function createRelationshipsState (feedId, models) {
@@ -90,6 +98,8 @@ function createRelationshipsState (feedId, models) {
         { $addToSet: { _localities: { $each: locality.localityIds } } }, onUpdate);
     });
   }, onError);
+
+  return statePromise;
 };
 
 function createRelationshipsElection (feedId, models) {
@@ -98,6 +108,8 @@ function createRelationshipsElection (feedId, models) {
   electionPromise.then(function (electionId) {
     updateRelationship(models.feeds, { _id: feedId }, { _election: electionId}, onUpdate);
   }, onError);
+
+  return electionPromise;
 };
 
 function createRelationshipsLocality (feedId, models) {
@@ -115,6 +127,8 @@ function createRelationshipsLocality (feedId, models) {
       joinLocalityPrecincts(models, locality);
     });
   }, onError);
+
+  return promise;
 };
 
 function createRelationshipsPrecinct (feedId, models) {
@@ -136,6 +150,8 @@ function createRelationshipsPrecinct (feedId, models) {
       joinPrecinctStreetSegments(models, precinct);
     });
   }, onError);
+
+  return promise;
 };
 
 function createRelationshipsPrecinctSplit (feedId, models) {
@@ -152,6 +168,8 @@ function createRelationshipsPrecinctSplit (feedId, models) {
       joinPrecinctSplitStreetSegments(models, precinctSplit);
     });
   });
+
+  return promise;
 };
 
 function createRelationshipsElectionAdministration (feedId, models) {
@@ -167,6 +185,8 @@ function createRelationshipsElectionAdministration (feedId, models) {
       }
     });
   });
+
+  return promise;
 };
 
 function createRelationshipsContest (feedId, models) {
@@ -190,6 +210,8 @@ function createRelationshipsContest (feedId, models) {
 
     });
   });
+
+  return promise;
 };
 
 function createRelationshipsElectoralDistrict(feedId, models) {
@@ -200,6 +222,8 @@ function createRelationshipsElectoralDistrict(feedId, models) {
       joinElectoralDistrictPrecincts(models, district);
     });
   });
+
+  return promise;
 };
 
 function createRelationshipsBallot(feedId, models) {
@@ -221,6 +245,8 @@ function createRelationshipsBallot(feedId, models) {
       }
     });
   });
+
+  return promise;
 };
 
 function createRelationshipsCustomBallot(feedId, models) {
@@ -233,6 +259,8 @@ function createRelationshipsCustomBallot(feedId, models) {
       });
     }
   });
+
+  return promise;
 };
 
 function createRelationshipsReferendum(feedId, models) {
@@ -245,6 +273,8 @@ function createRelationshipsReferendum(feedId, models) {
       });
     }
   });
+
+  return promise;
 };
 
 function createRelationshipsContestResult(feedId, models) {
@@ -258,6 +288,8 @@ function createRelationshipsContestResult(feedId, models) {
       });
     }
   });
+
+  return promise;
 };
 
 function createRelationshipsBallotLineResult(feedId, models) {
@@ -273,6 +305,8 @@ function createRelationshipsBallotLineResult(feedId, models) {
       });
     }
   });
+
+  return promise;
 }
 
 function createRelationshipsPollingLocation(feedId, models) {
@@ -286,12 +320,18 @@ function createRelationshipsPollingLocation(feedId, models) {
       });
     }
   });
+
+  return promise;
 }
 
 function createRelationshipsCandidate(feedId, models) {
+
+  if(_schemaVersion !== '5.0') {
+    return;
+  }
+
   var promise = models.candidates.find({_feed: feedId}).exec();
 
-  ++updateCounter;
   promise.then(function(candidates) {
     require('async').eachSeries(candidates, function(candidate, done) {
       if(candidate.partyId) {
@@ -304,8 +344,10 @@ function createRelationshipsCandidate(feedId, models) {
       else {
         done();
       }
-    }, function(err) { onUpdate(null, 0); });
+    }, function() { onUpdate(null, 0); });
   });
+
+  return promise;
 }
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
@@ -920,23 +962,29 @@ function createMissingBallot(models, candidate, done) {
 }
 
 function createDBRelationships(feedId, models, schemaVersion) {
-  createRelationshipsFeed(feedId, models);
-  createRelationshipsSource(feedId, models);
-  createRelationshipsState(feedId, models);
-  createRelationshipsElection(feedId, models);
-  createRelationshipsLocality(feedId, models);
-  createRelationshipsPrecinct(feedId, models);
-  createRelationshipsPrecinctSplit(feedId, models);
-  createRelationshipsElectionAdministration(feedId, models);
-  createRelationshipsContest(feedId, models);
-  createRelationshipsElectoralDistrict(feedId, models);
-  createRelationshipsBallot(feedId, models);
-  createRelationshipsCustomBallot(feedId, models);
-  createRelationshipsReferendum(feedId, models);
-  createRelationshipsContestResult(feedId, models);
-  createRelationshipsBallotLineResult(feedId, models);
-  createRelationshipsPollingLocation(feedId, models);
-  createRelationshipsCandidate(feedId, models);
+  var createRelQue = [];
+
+  createRelQue.push(createRelationshipsFeed(feedId, models));
+  createRelQue.push(createRelationshipsSource(feedId, models));
+  createRelQue.push(createRelationshipsState(feedId, models));
+  createRelQue.push(createRelationshipsElection(feedId, models));
+  createRelQue.push(createRelationshipsLocality(feedId, models));
+  createRelQue.push(createRelationshipsPrecinct(feedId, models));
+  createRelQue.push(createRelationshipsPrecinctSplit(feedId, models));
+  createRelQue.push(createRelationshipsElectionAdministration(feedId, models));
+  createRelQue.push(createRelationshipsContest(feedId, models));
+  createRelQue.push(createRelationshipsElectoralDistrict(feedId, models));
+  createRelQue.push(createRelationshipsBallot(feedId, models));
+  createRelQue.push(createRelationshipsCustomBallot(feedId, models));
+  createRelQue.push(createRelationshipsReferendum(feedId, models));
+  createRelQue.push(createRelationshipsContestResult(feedId, models));
+  createRelQue.push(createRelationshipsBallotLineResult(feedId, models));
+  createRelQue.push(createRelationshipsPollingLocation(feedId, models));
+  createRelQue.push(createRelationshipsCandidate(feedId, models));
+
+  when.all(createRelQue).then(function(docs) {
+    finished = true;
+  });
 
   _feedId = feedId;
   _models = models;

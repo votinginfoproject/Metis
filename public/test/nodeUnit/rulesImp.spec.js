@@ -23,6 +23,9 @@ describe('Rule Implementation Tests', function() {
         expect(res.isViolated).toBeTruthy();
       });
 
+      util.testObjectLevelRules(zipCode, '00000', function(res) {
+        expect(res.isViolated).toBeTruthy();
+      });
     });
 
     it('Should not send an error', function() {
