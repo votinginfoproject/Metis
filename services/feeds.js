@@ -18,6 +18,7 @@ function registerFeedsServices (app) {
   // post endpoint for starting the feed exporting
   app.post('/services/feeds/:feedid', utils.ensureAuthentication, httpCallback.feedExportPOST);
 
+  app.get('/services/feedqueue', utils.ensureAuthentication, httpCallback.feedQueueGET);
   app.get('/services/feeds', utils.ensureAuthentication, httpCallback.allFeedsGET);
   app.get('/services/feeds/:feedid', utils.ensureAuthentication, httpCallback.feedOverviewGET);
   app.get('/services/feeds/:feedid/source', utils.ensureAuthentication, httpCallback.feedSourceGET);
