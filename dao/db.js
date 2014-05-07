@@ -64,6 +64,11 @@ function getFeedOverview (id, callback) {
     .populate('_feedContact')
     .populate('_election')
     .exec(function(err, overview) {
+
+      if(!overview) {
+        callback(null, null);
+      }
+
       var allErrorModels = [daoSchemas.models.ballots.Error,
         daoSchemas.models.ballotresponses.Error,
         daoSchemas.models.ballotlineresults.Error,
