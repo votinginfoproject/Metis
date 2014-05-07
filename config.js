@@ -13,8 +13,10 @@ config.upload = {
 config.log = {
   logpath: 'logs/',
   logname: 'vip.log',
+  lognameErrors: 'vip-errors.log',
   lognameExceptions: 'vip-exceptions.log',
-  loglevel: 'info',
+  logProfileMongoDBCollection: '_profilelogs',
+  loglevel: 'debug',
   maxsizeMB: 2, // 2MB max log size
   maxFiles:  3   // 3 log files in rotation
 };
@@ -134,6 +136,7 @@ config.mongoose = {
 
     uniqueid: 'uniqueIds'
   },
+  dbname: 'metis',
   connectionString: 'mongodb://localhost/metis',
   maxWriteQueueLength: 20000
 }

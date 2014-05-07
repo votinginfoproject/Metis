@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+var logger = (require('./vip-winston')).Logger;
 
 var config = require('./config');
 var express = require('express');
@@ -10,7 +11,6 @@ var path = require('path');
 var passport = require('passport');
 var auth = require('./auth');
 var fs = require('fs');
-var logger = require('winston');
 
 var authServices = require('./services/auth');
 var feedServices = require('./services/feeds');
@@ -19,30 +19,6 @@ var overviewServices = require('./services/overviews');
 var geoServices = require('./services/geo');
 
 var app = express();
-
-// Create log folder if it doesn't exist. throw an error if we don't have access to create the folder.
-try {
-  fs.mkdirSync(config.log.logpath);
-} catch(err){
-  if(err.code == 'EACCES'){
-    throw "Could not create log folder " + err;
-  }
-}
-
-// adding in a File transport for Winston
-logger.add(logger.transports.File,
-  { filename: config.log.logpath + config.log.logname,
-    level: config.log.loglevel,
-    maxsize: 1024 * 1024 * config.log.maxsizeMB,
-    maxFiles: config.log.maxFiles
-  });
-
-logger.handleExceptions(new logger.transports.File({
-    filename: config.log.logpath + config.log.lognameExceptions,
-    maxsize: 1024 * 1024 * config.log.maxsizeMB,
-    maxFiles: config.log.maxFiles
-  }
-))
 
 logger.info('=========================================================');
 logger.info('VIP App Started');
