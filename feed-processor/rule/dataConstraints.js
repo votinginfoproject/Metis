@@ -112,7 +112,9 @@ var theseConstraints = {
     {
       entity: [models.streetsegment], fields: ['startHouseNumber', 'endHouseNumber', 'startApartmentNumber', 'endApartmentNumber']
     }
-  ]
+  ],
+
+  orphanedEVS : [ { entity: [ models.earlyvotesite ] } ], fields: []
 
 };
 
