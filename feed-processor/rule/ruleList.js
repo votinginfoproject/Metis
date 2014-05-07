@@ -144,6 +144,19 @@ var metisRuleList = [
     severityText: 'Error',
     implementation: './impl/orphanedEVSRule',
     dataConstraints: constraints['orphanedEVS']
+  },
+  {
+    ruleId: 'missingPollingLocationRule',
+    title: 'Precinct Split Missing Polling Location',
+    type: 'objectLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 12,
+    errorText: 'Precinct Split has no Polling Location associated with it',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/missingPollingLocationRule',
+    dataConstraints: constraints['missingPollingLocation']
   }
   /* address direction range */
 ];
