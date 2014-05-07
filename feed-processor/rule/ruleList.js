@@ -131,6 +131,19 @@ var metisRuleList = [
     severityText: 'Warning',
     implementation: './impl/houseAptRule',
     dataConstraints: constraints['houseAptNumber']
+  },
+  {
+    ruleId: 'orphanedEVSRule',
+    title: 'Orphaned Early Vote Site',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 11,
+    errorText: 'Early Vote Site is not referenced in any Precinct, Precinct Split, or Locality',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/orphanedEVSRule',
+    dataConstraints: constraints['orphanedEVS']
   }
   /* address direction range */
 ];
