@@ -2,7 +2,7 @@
  * A module that adds a layer of abstraction to Winston to allow logger.error() calls to go to a different file than
  * all other logger.xxx() statements, without needing to use separate loggers.
  */
-var config = require('./config');
+var config = require('./../config');
 var winston = require('winston');
 var fs = require('fs');
 require('winston-mongodb').MongoDB;
@@ -68,11 +68,11 @@ var errorLogger = new (winston.Logger)({
 var profileLogger = new (winston.Logger)({
   transports: [
     new winston.transports.File({
-        filename: config.log.logpath + config.log.logname,
-        level: config.log.loglevel,
-        maxsize: 1024 * 1024 * config.log.maxsizeMB,
-        maxFiles: config.log.maxFiles,
-        json: false
+      filename: config.log.logpath + config.log.logname,
+      level: config.log.loglevel,
+      maxsize: 1024 * 1024 * config.log.maxsizeMB,
+      maxFiles: config.log.maxFiles,
+      json: false
     }),
     new winston.transports.Console({
       // no options on purpose, using all default option values

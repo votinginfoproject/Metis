@@ -31,7 +31,8 @@
     "aws-sdk": "~2.0.0-rc13",
     "underscore.string": "~2.3.3",
     "winston": "~0.7.3",
-    "winston-mongodb": "~0.4.3"
+    "winston-mongodb": "~0.4.3",
+    "meld": "~1.3.1"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-var logger = (require('./vip-winston')).Logger;
+var logger = (require('./logging/vip-winston')).Logger;
 
 var config = require('./config');
 var express = require('express');
