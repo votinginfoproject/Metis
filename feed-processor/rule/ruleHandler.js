@@ -1,10 +1,9 @@
 
 var logger = (require('../../vip-winston')).Logger;
 var fetcher = require('./dataFetcher');
-var Violation = require('./ruleViolation');
 var violationCount = 0;
 
-
+var mongoose = require('mongoose');
 var async = require('async');
 var fn = require('when/function');
 var when = require('when');
@@ -147,9 +146,19 @@ RuleHandler.prototype.processFeedLevelRule = function(ruleDef, feedId, constrain
 };
 
 RuleHandler.prototype.createViolation = function createViolation(entity, dataItem, dataSet, ruleDef){
-  var violation = new Violation(entity, dataSet.elementId, dataSet._id, dataSet._feed, dataSet, dataItem, ruleDef);
   violationCount++;
-  return violation.getCollection().create(violation.model());
+  var model =  mongoose.model(entity.substring(0, entity.length-1) + 'errors');
+  return model.create({
+    severityCode: ruleDef.severityCode,
+    severityText: ruleDef.severityText,
+    errorCode: ruleDef.errorCode,
+    title: ruleDef.title,
+    details: ruleDef.errorText,
+    textualReference: 'id = ' + dataSet._id + " (" + dataItem + ")",
+    refElementId: dataItem,
+    _ref: dataSet._id,
+    _feed: dataSet._feed
+  });
 };
 
 module.exports = RuleHandler;

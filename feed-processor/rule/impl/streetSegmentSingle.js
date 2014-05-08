@@ -3,7 +3,6 @@
  */
 
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
 
 function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinition, callback) {
 
@@ -53,8 +52,18 @@ function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinit
 }
 
 function createError(constraints, elementId, mongoId, feedId, error, rule) {
-  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
-  return ruleErrors.model().save();
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: error,
+    textualReference: 'id = ' + elementId + " (" + error + ")",
+    refElementId: elementId,
+    _ref: mongoId,
+    _feed: feedId
+  });
 }
 
 exports.evaluateStreetSegmentsOverlapSingle = evaluateStreetSegmentsOverlapSingle;

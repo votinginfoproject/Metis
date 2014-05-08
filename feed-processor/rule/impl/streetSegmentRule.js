@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
 var schemas = require('../../../dao/schemas');
 var async = require('async');
 var config = require('../../../config');
@@ -94,8 +93,18 @@ function evaluate(constraintSet, callback) {
 
 function createError(elementId, mongoId, error) {
   errorCount++;
-  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
-  return ruleErrors.model().save();
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: error,
+    textualReference: 'id = ' + elementId + " (" + error + ")",
+    refElementId: elementId,
+    _ref: mongoId,
+    _feed: feedId
+  });
 }
 
 function checkOverlap(docs, createError) {

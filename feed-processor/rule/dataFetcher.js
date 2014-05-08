@@ -1,5 +1,6 @@
 
 var mongoose = require('mongoose');
+var logger = (require('../../vip-winston')).Logger;
 
 function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnData) {
 
@@ -14,6 +15,8 @@ function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnDa
 
   // If there is an error send back the 'error code' and TODO: print the error using winston
   stream.on('error', function(err){
+    logger.Error('Error with streaming ' + entity);
+    logger.Error(err);
     returnData(-1);
   });
 

@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation')
 
 var errorCount = 0;
 var constraints = null;
@@ -52,8 +51,18 @@ var evaluateHouseAptNumber = function(feedId, constraintSet, ruleDefinition, cal
 
 function createError(houseAptNumSegment, directionalError) {
   errorCount++;
-  var ruleErrors = new ruleViolation(constraints.entity[0], houseAptNumSegment.elementId, houseAptNumSegment._id, houseAptNumSegment._feed, directionalError, directionalError, rule);
-  ruleErrors.model().save();
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: directionalError,
+    textualReference: 'id = ' + houseAptNumSegment.elementId + " (" + directionalError + ")",
+    refElementId: houseAptNumSegment.elementId,
+    _ref: houseAptNumSegment._id,
+    _feed: houseAptNumSegment._feed
+  });
 }
 
 function streamTo(houseAptNumSegmentResult) {
