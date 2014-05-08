@@ -1,13 +1,11 @@
 
 var logger = (require('../../vip-winston')).Logger;
 var fetcher = require('./dataFetcher');
-var violationCount = 0;
-
 var mongoose = require('mongoose');
 var async = require('async');
-var fn = require('when/function');
 var when = require('when');
 
+var violationCount = 0;
 
 function Rule(ruleDef){
   this.implementation = ruleDef.implementation;
