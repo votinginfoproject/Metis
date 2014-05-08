@@ -1,34 +1,32 @@
 
 var mongoose = require('mongoose');
+var logger = (require('../../logging/vip-winston')).Logger;
 
+function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnData) {
 
-function fetchEntityData(entity, resultFields, feedId, returnData, done){
-
+  // Get the model from mongoose, and start the stream.
   var Model = mongoose.model(entity);
-
   var stream = Model.find(formatQueryArgs(feedId), formatSearchResultFields(resultFields)).stream();
 
+  // When it gets data back return the data.
   stream.on('data', function(result){
-    returnData(result);
+    returnData( { dataResults: result, retrieveRule: rule, entity: entity } );
   });
 
+  // If there is an error send back the 'error code' and TODO: print the error using winston
   stream.on('error', function(err){
-    done(err);
+    logger.Error('Error with streaming ' + entity);
+    logger.Error(err);
+    returnData(-1);
   });
 
+  // When the stream closes send back null so that it knows that there is no more data coming.
   stream.on('close', function() {
-    done(null);
+    returnData(null);
   });
 
+  // return the stream data so it can track the saves and wither or not to pause the stream.
   return { stream: stream, saveStackCount: 0, isPaused: false };
-}
-
-function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnData, done){
-  return fetchEntityData(entity, resultFields, feedId, function(results){
-
-    returnData( { dataResults: results, retrieveRule: rule, entity: entity } );
-
-  }, done);
 }
 
 /**
@@ -68,5 +66,4 @@ var formatSearchResultFields = function(resultFields){
 
 }
 
-exports.fetchEntityData = fetchEntityData;
 exports.applyConstraints = resolveRuleWithConstraints;

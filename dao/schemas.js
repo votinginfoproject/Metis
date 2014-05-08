@@ -38,7 +38,10 @@ var ballotSchema = {
     elementId: String,
     sortOrder: Number
   }],
-  customBallotId: String,
+  customBallotId: {
+    elementId: String,
+    sortOrder: Number
+  },
   writeIn: Boolean,
   imageUrl: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },

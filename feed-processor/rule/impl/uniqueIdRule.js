@@ -2,6 +2,7 @@
  * Created by nboseman on 2/11/14.
  */
 
+var logger = (require('../../../logging/vip-winston')).Logger;
 var schemas = require('../../../dao/schemas');
 var _s = require('underscore.string');
 var when = require('when');
@@ -60,7 +61,7 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
         callback({ isViolated: true, promisedErrorCount: totalErrorCount });
       });
 
-      schemas.models.uniqueId.remove({}, function(err) { console.log('uniqueIds removed'); });
+      schemas.models.uniqueid.remove({}, function(err) { logger.info('*removed uniqueIds collection*'); });
     });
 };
 

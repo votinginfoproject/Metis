@@ -24,7 +24,6 @@ function onUpdate (err, numAffected) {
 
   if(updateCounter <= 0 && finished) {
     console.log('****Linking Complete!!!');
-    console.log('****Initializing Rules Engine');
     var promise = require('./rule/rulesEngine').processRules(_feedId);
 
 
@@ -344,7 +343,7 @@ function createRelationshipsCandidate(feedId, models) {
       else {
         done();
       }
-    }, function() { onUpdate(null, 0); });
+    });
   });
 
   return promise;
@@ -657,7 +656,12 @@ function joinBallotReferenda(models, ballot) {
 };
 
 function joinBallotCustomBallot(models, ballot) {
-  var promise = models.customballots.findOne({ _feed: ballot._feed, elementId: ballot.customBallotId })
+
+  var cbId = ballot.customBallotId;
+  if(ballot.customBallotId.elementId)
+    cbId = ballot.customBallotId.elementId;
+
+  var promise = models.customballots.findOne({ _feed: ballot._feed, elementId: cbId})
     .select('_id')
     .exec();
 
@@ -964,8 +968,13 @@ function createMissingBallot(models, candidate, done) {
 function createDBRelationships(feedId, models, schemaVersion) {
   var createRelQue = [];
 
+  _feedId = feedId;
+  _models = models;
+  _schemaVersion = schemaVersion;
+
   createRelQue.push(createRelationshipsFeed(feedId, models));
   createRelQue.push(createRelationshipsSource(feedId, models));
+  createRelQue.push(createRelationshipsCandidate(feedId, models));
   createRelQue.push(createRelationshipsState(feedId, models));
   createRelQue.push(createRelationshipsElection(feedId, models));
   createRelQue.push(createRelationshipsLocality(feedId, models));
@@ -980,15 +989,10 @@ function createDBRelationships(feedId, models, schemaVersion) {
   createRelQue.push(createRelationshipsContestResult(feedId, models));
   createRelQue.push(createRelationshipsBallotLineResult(feedId, models));
   createRelQue.push(createRelationshipsPollingLocation(feedId, models));
-  createRelQue.push(createRelationshipsCandidate(feedId, models));
 
   when.all(createRelQue).then(function(docs) {
     finished = true;
   });
-
-  _feedId = feedId;
-  _models = models;
-  _schemaVersion = schemaVersion;
 };
 
 exports.createDBRelationships = createDBRelationships;

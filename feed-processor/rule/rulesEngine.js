@@ -1,59 +1,64 @@
 
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var async = require('async');
 var metisRuleHandler = require('./ruleHandler');
 var ruleList = require('./ruleList');
 
 var ruleHandler = new metisRuleHandler();
-var rules = [];
 var deferred = null;
 
 
 function processRules(vipFeedId){
   deferred = require('when').defer();
-  console.log('initializing rules..');
-  async.each(ruleList, loadRule, function(err){
-    console.log(rules.length, 'Metis rules loaded and staged for analysis');
-    applyRules(vipFeedId, deferred);
+  logger.info('=========================================');
+  logger.info('Initializing Rules Engine');
+  logger.info('=========================================');
+
+  var rules = [];
+  // Loops through the rule list creating a new rule for each entry.
+  ruleList.forEach(function(rule) {
+
+    if(rule.isActive) {
+      logger.info('loaded: ' + rule.ruleId);
+      rules.push(ruleHandler.createRule(rule));
+    }
+
   });
+
+  logger.info('---------------------------------------');
+  logger.info(rules.length + ' Metis rules loaded and ready to be processed.');
+  logger.info('---------------------------------------');
+  applyRules(vipFeedId, rules);
   return deferred.promise;
 }
 
-var loadRule = function(ruleDef, next){
-  var activeState = false
-  try {
-    activeState = JSON.parse(ruleDef.isActive)
-  }
-  catch(err){ /* doNothing() */ }
-  if(activeState) {
-    console.log('loading...', ruleDef.ruleId);
-    rules[rules.length] = ruleHandler.createRule(ruleDef);
-  }
-  next();
-}
-
-var applyRules = function(vipFeedId){
+var applyRules = function(vipFeedId, rules){
   var totalErrorCount = 0;
-  console.log(rules.length, 'Rules to apply');
-  async.eachSeries(rules, function(rule, done){
+
+  // Loop through each rule, applying them one at a time so that it can conserve on memory
+  async.eachSeries(rules, function(rule, done) {
+
     ruleHandler.applyRule(rule, vipFeedId, function(count) {
       totalErrorCount += count;
-      console.log(count + ' errors added');
-//      setTimeout(done, 1000);
+      logger.info(count + ' errors created');
+      logger.info('---------------------------------------');
       done();
     });
-  }, function(err) {
-    endSession(totalErrorCount);
+
+  },
+  function(err) {
+
+    if(err) { logger.error('ERROR: Problem with applying rule', err); }
+
+    logger.info("Rules Processing completed:");
+    logger.info(rules.length + " rules have been processed");
+    logger.info(totalErrorCount + " total errors created");
+    logger.info('Rules Processor shutting down');
+    logger.info('---------------------------------------');
+    deferred.resolve();
+
   });
-}
-
-var endSession = function(violationCount){
-  console.log("Data analysis complete.")
-  console.log(rules.length + " Rules applied");
-  console.log(violationCount + " Rule errors created");
-  console.log("Rules processor shutting down");
-  deferred.resolve();
-}
-
+};
 
 exports.processRules = processRules;
