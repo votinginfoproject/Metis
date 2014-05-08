@@ -657,7 +657,12 @@ function joinBallotReferenda(models, ballot) {
 };
 
 function joinBallotCustomBallot(models, ballot) {
-  var promise = models.customballots.findOne({ _feed: ballot._feed, elementId: ballot.customBallotId })
+
+  var cbId = ballot.customBallotId;
+  if(ballot.customBallotId.elementId)
+    cbId = ballot.customBallotId.elementId;
+
+  var promise = models.customballots.findOne({ _feed: ballot._feed, elementId: cbId})
     .select('_id')
     .exec();
 
@@ -964,6 +969,10 @@ function createMissingBallot(models, candidate, done) {
 function createDBRelationships(feedId, models, schemaVersion) {
   var createRelQue = [];
 
+  _feedId = feedId;
+  _models = models;
+  _schemaVersion = schemaVersion;
+
   createRelQue.push(createRelationshipsFeed(feedId, models));
   createRelQue.push(createRelationshipsSource(feedId, models));
   createRelQue.push(createRelationshipsState(feedId, models));
@@ -985,10 +994,6 @@ function createDBRelationships(feedId, models, schemaVersion) {
   when.all(createRelQue).then(function(docs) {
     finished = true;
   });
-
-  _feedId = feedId;
-  _models = models;
-  _schemaVersion = schemaVersion;
 };
 
 exports.createDBRelationships = createDBRelationships;

@@ -104,11 +104,11 @@ BaseModel.prototype.checkRequiredFields = function () {
 };
 
 BaseModel.prototype.saveUniqueId = function () {
-  if (!this.model || !this.model.elementId || !this.modelType) {
+  if (!this.model || !this.model.elementId) {
     return;
   }
 
-  this.models.uniqueId.create({
+  this.models.uniqueid.create({
     elementId: this.model.elementId,
     model: this.collection.collection.name,
     ref: this.model._id.toString()

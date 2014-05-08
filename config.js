@@ -135,7 +135,7 @@ config.mongoose = {
     precinctsplitelectoraldistrict: 'precinctsplitelectoraldistricts',
     precinctsplitballotstyle: 'precinctsplitballotstyles',
 
-    uniqueid: 'uniqueIds'
+    uniqueid: 'uniqueids'
   },
   dbname: 'metis',
   connectionString: 'mongodb://localhost/metis',

@@ -26,7 +26,7 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
         sortOrder: (candidate.$ === undefined) ? undefined : candidate.$.sort_order
       };
     }),
-    customBallotId: ballot.custom_ballot_id,
+    customBallotId: ballot.custom_ballot_id ? { elementId: ballot.custom_ballot_id } : null,
     writeIn: this.convertYesNo(ballot.write_in),
     imageUrl: ballot.image_url,
     _feed: this.feedId
@@ -57,7 +57,10 @@ Ballot.prototype.mapXml5_0 = function (ballot) {
         sortOrder: (candidate.$ === undefined) ? undefined : candidate.$.sort_order
       };
     }),
-    customBallotId: ballot.custom_ballot_id,
+    customBallotId: {
+      elementId: (ballot.custom_ballot_id.$text === undefined) ? ballot.custom_ballot_id : ballot.custom_ballot_id.$text,
+      sortOrder: (ballot.custom_ballot_id.$ === undefined) ? undefined : ballot.custom_ballot_id.$.sort_order
+    },
     writeIn: this.convertYesNo(ballot.write_in),
     imageUrl: ballot.image_url,
     _feed: this.feedId
