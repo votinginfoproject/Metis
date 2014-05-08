@@ -1,7 +1,6 @@
 /**
  * Created by rcartier13 on 1/14/14.
  */
-
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
 var _path = require('path');
@@ -9,7 +8,6 @@ var exporter = require('../feed-exporter/exporter');
 var schemas = require('../dao/schemas');
 var processManager = require('./processManager');
 var feedIdMapper = require('../feedIdMapper');
-
 
 /*
  * Error handling middleware
@@ -54,6 +52,7 @@ function feedOverviewGET (req, res) {
       res.json(mapper.mapFeedOverview(req.path, feed))
     });
   });
+
 };
 
 function feedSourceGET (req, res) {
@@ -442,3 +441,8 @@ exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
 
 exports.feedExportPOST = feedExportPOST;
+
+// adding profiling for all functions in this file
+// that meet the certain criteria
+var profileHelper = require('../logging/profile-helper');
+profileHelper.profileAsyncJsonResponse("HttpCallbacks", this);
