@@ -1,6 +1,6 @@
 
 
-var logger = (require('../../vip-winston')).Logger;
+var logger = (require('../../logging/vip-winston')).Logger;
 var async = require('async');
 var metisRuleHandler = require('./ruleHandler');
 var ruleList = require('./ruleList');

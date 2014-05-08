@@ -2,7 +2,7 @@
  * Created by nboseman on 2/11/14.
  */
 
-var logger = (require('../../../vip-winston')).Logger;
+var logger = (require('../../../logging/vip-winston')).Logger;
 var schemas = require('../../../dao/schemas');
 var _s = require('underscore.string');
 var when = require('when');

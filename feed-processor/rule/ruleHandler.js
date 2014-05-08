@@ -1,5 +1,5 @@
 
-var logger = (require('../../vip-winston')).Logger;
+var logger = (require('../../logging/vip-winston')).Logger;
 var fetcher = require('./dataFetcher');
 var mongoose = require('mongoose');
 var async = require('async');

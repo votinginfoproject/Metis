@@ -1,6 +1,6 @@
 
 var mongoose = require('mongoose');
-var logger = (require('../../vip-winston')).Logger;
+var logger = (require('../../logging/vip-winston')).Logger;
 
 function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnData) {
 
