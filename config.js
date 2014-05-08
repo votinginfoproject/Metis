@@ -15,6 +15,7 @@ config.log = {
   logname: 'vip.log',
   lognameErrors: 'vip-errors.log',
   lognameExceptions: 'vip-exceptions.log',
+  logProfileMongoDB: 'metis',
   logProfileMongoDBCollection: '_profilelogs',
   loglevel: 'debug',
   maxsizeMB: 2, // 2MB max log size
