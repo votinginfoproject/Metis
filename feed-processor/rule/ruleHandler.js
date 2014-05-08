@@ -1,4 +1,5 @@
 
+var logger = (require('../../vip-winston')).Logger;
 var fetcher = require('./dataFetcher');
 var Violation = require('./ruleViolation');
 var violationCount = 0;
@@ -30,11 +31,12 @@ RuleHandler.prototype.applyRule = function(rule, feedId, ruleEngineCompletionCal
   RuleHandler.prototype.ruleInstance = rule;
   RuleHandler.prototype.vipFeedId = feedId;
   violationCount = 0;
-  console.log('applying rule', rule.ruleDef.ruleId);
+  logger.info('starting rule: ' + rule.ruleDef.ruleId);
 
   // Loop through the list of constraints for this rule
   async.eachSeries(rule.dataConstraints, this.applyDataConstraints, function(err){
-    console.log(rule.ruleDef.ruleId + ' complete');
+    logger.info(rule.ruleDef.ruleId + ' completed');
+
     ruleEngineCompletionCallback(violationCount);
   });
 };
