@@ -24,7 +24,6 @@ function onUpdate (err, numAffected) {
 
   if(updateCounter <= 0 && finished) {
     console.log('****Linking Complete!!!');
-    console.log('****Initializing Rules Engine');
     var promise = require('./rule/rulesEngine').processRules(_feedId);
 
 
@@ -344,7 +343,7 @@ function createRelationshipsCandidate(feedId, models) {
       else {
         done();
       }
-    }, function() { onUpdate(null, 0); });
+    });
   });
 
   return promise;
@@ -975,6 +974,7 @@ function createDBRelationships(feedId, models, schemaVersion) {
 
   createRelQue.push(createRelationshipsFeed(feedId, models));
   createRelQue.push(createRelationshipsSource(feedId, models));
+  createRelQue.push(createRelationshipsCandidate(feedId, models));
   createRelQue.push(createRelationshipsState(feedId, models));
   createRelQue.push(createRelationshipsElection(feedId, models));
   createRelQue.push(createRelationshipsLocality(feedId, models));
@@ -989,7 +989,6 @@ function createDBRelationships(feedId, models, schemaVersion) {
   createRelQue.push(createRelationshipsContestResult(feedId, models));
   createRelQue.push(createRelationshipsBallotLineResult(feedId, models));
   createRelQue.push(createRelationshipsPollingLocation(feedId, models));
-  createRelQue.push(createRelationshipsCandidate(feedId, models));
 
   when.all(createRelQue).then(function(docs) {
     finished = true;
