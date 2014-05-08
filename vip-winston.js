@@ -49,7 +49,8 @@ var logger = new (winston.Logger)({
 });
 
 // 2) ERROR LOGGER
-// Logs only 'error' level logs to its own file and to the console
+// Logs only 'error' level logs to its own file. Not logging to the console as we
+// are also sending the error logs to the regular logger which will log to the console.
 var errorLogger = new (winston.Logger)({
   transports: [
     new winston.transports.File({
@@ -58,9 +59,6 @@ var errorLogger = new (winston.Logger)({
         maxsize: 1024 * 1024 * config.log.maxsizeMB,
         maxFiles: config.log.maxFiles,
         json: false
-    }),
-    new winston.transports.Console({
-      // no options on purpose, using all default option values
     })
   ]
 });
@@ -78,10 +76,9 @@ var profileLogger = new (winston.Logger)({
     }),
     new winston.transports.Console({
       // no options on purpose, using all default option values
-    })
-    ,
+    }),
     new winston.transports.MongoDB({
-        db: config.mongoose.dbname,
+        db: config.log.logProfileMongoDB,
         collection: config.log.logProfileMongoDBCollection
     })
   ]
@@ -96,16 +93,21 @@ var Logging = function(){
     profile:  function(arg){
       profileLogger.profile(arg);
     },
-    // TODO: implement the log() function
+    // Log function not implemented
     //log:  function(){
     //},
     debug:    logger.debug,
     info:     logger.info,
     warn:     logger.warn,
 
-    // using a different logger for the 'error' level to we can pipe the output to a different File transport,
-    // since you can't have 2 different File Transports for the same logger.
-    error:    errorLogger.error
+    // using a different logger for the 'error' level so we can pipe the output to a different File transport,
+    // since you can't have 2 different File Transports for the same logger. Also sending errors to the regular
+    // log file also.
+    error:    function(){
+      // calling the actual error functions for each logger with the arguments that were passed in
+      logger.error.apply(null, arguments);
+      errorLogger.error.apply(null, arguments);
+    }
   };
 
   this.getLogger = function (){
