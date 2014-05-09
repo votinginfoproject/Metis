@@ -14,7 +14,7 @@ const
   };
 
 BaseModel.prototype.save = function () {
-  if (!this.model || !this.model.elementId) {
+  if (!this.model) {
     return;
   }
 
@@ -104,7 +104,7 @@ BaseModel.prototype.checkRequiredFields = function () {
 };
 
 BaseModel.prototype.saveUniqueId = function () {
-  if (!this.model || !this.model.elementId) {
+  if (!this.model || !this.model.elementId || !this.modelType) {
     return;
   }
 
