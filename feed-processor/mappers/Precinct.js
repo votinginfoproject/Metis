@@ -43,6 +43,7 @@ Precinct.prototype.mapXml5_0 = function (precinct) {
     pollingLocationIds: precinct.polling_location_id,
     earlyVoteSiteIds: precinct.early_vote_site_id,
     ballotStyleImageUrl: precinct.ballot_style_image_url,
+    registeredVoters: precinct.registered_voters,
     _feed: this.feedId,
     _precinctSplits: precinct._precinctSplits,
     _pollingLocations: precinct._pollingLocations

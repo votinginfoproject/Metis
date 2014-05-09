@@ -37,8 +37,6 @@ module.exports = function () {
       .on('record', function (data) {
         mapper.mapCsv(data);
 
-        mapper.trimStrings();
-
         var savePromise = mapper.save();
 
         if (savePromise) {
@@ -53,7 +51,8 @@ module.exports = function () {
         if (!unfolding && writeQue.length > config.mongoose.maxWriteQueueLength) {
           startUnfold();
         }
-      }).on('end', function () {
+      })
+      .on('end', function () {
         console.log('end');
         startUnfold();
       });
