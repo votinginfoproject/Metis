@@ -6,6 +6,7 @@ var logger = (require('../../../logging/vip-winston')).Logger;
 var schemas = require('../../../dao/schemas');
 var _s = require('underscore.string');
 var when = require('when');
+var mongoose = require('mongoose');
 
 
 var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callback) {
@@ -24,8 +25,18 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
     .match({ count: { $gt: 1 } })
     .exec(function (err, results) {
 
+      if(err) {
+        logger.error(err);
+        return;
+      }
+
       if (results.length == 0) {
-        callback({ isViolated: false, promisedErrorCount: 0 });
+
+        mongoose.connections[0].collections['uniqueids'].drop(function(err) {
+          logger.info('*removed uniqueIds collection*');
+          callback({ isViolated: false, promisedErrorCount: 0 });
+        });
+
         return;
       }
 
@@ -58,10 +69,13 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
       });
 
       when.all(promises).then(function (err) {
-        callback({ isViolated: true, promisedErrorCount: totalErrorCount });
+        mongoose.connections[0].collections['uniqueids'].drop(function(err) {
+          logger.info('*removed uniqueIds collection*');
+          callback({ isViolated: true, promisedErrorCount: totalErrorCount });
+        });
       });
 
-      schemas.models.uniqueid.remove({}, function(err) { logger.info('*removed uniqueIds collection*'); });
+
     });
 };
 

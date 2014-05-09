@@ -13,7 +13,7 @@ function resolveRuleWithConstraints(entity, resultFields, feedId, rule, returnDa
     returnData( { dataResults: result, retrieveRule: rule, entity: entity } );
   });
 
-  // If there is an error send back the 'error code' and TODO: print the error using winston
+  // If there is an error send back the 'error code' and log the error
   stream.on('error', function(err){
     logger.Error('Error with streaming ' + entity);
     logger.Error(err);

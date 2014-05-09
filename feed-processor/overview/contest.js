@@ -2,14 +2,17 @@
  * Created by rcartier13 on 2/11/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 
 function kickoffContest(feedId, createOverviewModel, wait) {
-  console.log('Starting Single Contest Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Single Contest Calc...');
   contestCalc(feedId, function(contestOverview) {
-    console.log('Finished Single Contest');
+    logger.info('Finished Single Contest');
+    logger.info('=======================================');
     contestOverview.forEach(function(overview) {
       createOverviewModel('Ballot', overview.ballot, overview.ballot.errorCount, overview.section, feedId);
       createOverviewModel('Candidates', overview.candidate, overview.candidate.errorCount, overview.section, feedId);
@@ -28,6 +31,7 @@ function contestCalc(feedId, saveCalc) {
     .exec(function(err, contests) {
 
       async.each(contests, function(data, done) {
+
         var counter = 0;
         function wait() {
           if(++counter === 4)

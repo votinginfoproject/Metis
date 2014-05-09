@@ -43,32 +43,47 @@ RuleHandler.prototype.applyDataConstraints = function (constraintSet, cb){
 
     // Loop through entities in the constraint set in order to avoid having two streams running at once.
     async.eachSeries(constraintSet.entity, function(contraint, done) {
-      var promises = [];
+      var mainPromise = null;
       // Starts the stream and calls the first call back every time it gets a document back from MongoDB
       var streamObj = fetcher.applyConstraints( contraint, constraintSet.fields, RuleHandler.prototype.vipFeedId, RuleHandler.prototype.ruleInstance, function(fetchedData){
 
         // If it is one of the two end states make sure that all the promises are finished saving before starting the next save
         if(fetchedData == -1 || fetchedData == null) {
-          when.all(promises).then(function() {
+
+          if(mainPromise == null){
             done();
-          });
+          }
+          else {
+            mainPromise.then(function () {
+              done();
+            });
+          }
           return;
         }
 
         // Sends the data to the rule to be checked and saved if it is an error
         var promise = RuleHandler.prototype.processDataResults( fetchedData.retrieveRule.ruleDef, fetchedData.entity, fetchedData.dataResults, constraintSet);
-        promises.push(promise);
 
         if(promise) {
+
+          if(mainPromise == null) {
+            mainPromise = promise;
+          }
+          else {
+            mainPromise = when.join(mainPromise, promise);
+          }
+
           // If too many objects are ing the que to be saved at once pause the stream
-          if(++streamObj.saveStackCount >= 10000) {
+          if(++streamObj.saveStackCount >= 1000) {
+            logger.info('!Pausing Stream!');
             streamObj.isPaused = true;
             streamObj.stream.pause();
           }
 
           // Wait for the promise to come back before decrementing the save counter and possibly resuming the stream.
           promise.then(function() {
-            if(--streamObj.saveStackCount === 0 && streamObj.isPaused) {
+            if(--streamObj.saveStackCount <= 0 && streamObj.isPaused) {
+              logger.info('!Resuming Stream!');
               streamObj.isPaused = false;
               streamObj.stream.resume();
             }
@@ -98,10 +113,12 @@ RuleHandler.prototype.processDataResults = function(ruleDef, entity, result, con
       if(resultItem != null) {
         var promise = RuleHandler.prototype.processRule( ruleDef, resultItem, result, entity, field );
 
-        if(index == 0)
-          retPromise = promise;
-        else
-          retPromise = when.join(retPromise, promise);
+        if(promise) {
+          if (index == 0)
+            retPromise = promise;
+          else
+            retPromise = when.join(retPromise, promise);
+        }
       }
     });
 

@@ -1,11 +1,14 @@
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var utils = require('./utils');
 var async = require('async');
 
 function kickoffPollingLoc(feedId, createOverviewModel, wait) {
-  console.log('Starting Localities Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Localities Calc...');
   pollingLocationsCalc(feedId, function(pollinglocationsOverview) {
-    console.log('Finished Localities');
+    logger.info('Finished Localities');
+    logger.info('=======================================');
     createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, pollinglocationsOverview.earlyvotesites.errorCount, -1, feedId);
     createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, pollinglocationsOverview.electionadministrations.errorCount, -1, feedId);
     createOverviewModel('Election Officials', pollinglocationsOverview.electionofficials, pollinglocationsOverview.electionofficials.errorCount, -1, feedId);
@@ -90,9 +93,6 @@ function pollingLocationsCalc(feedId, saveCalc) {
     var stream = utils.streamOverviewObject(params);
     var overview = utils.createOverviewObject();
     stream.on('data', function(doc) {
-      if(!doc)
-        console.log('document is null');
-
       overview.amount++;
       overview.fieldCount += utils.countProperties(doc);
       overview.schemaFieldCount += params.model.fieldCount;
