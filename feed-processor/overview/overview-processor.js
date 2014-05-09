@@ -2,6 +2,7 @@
  * Created by rcartier13 on 2/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var config = require('../../config');
 var feedIdMapper = require('../../feedIdMapper');
 var mongoose = require('mongoose');
@@ -37,7 +38,7 @@ function errorHandler(err) {
 }
 
 function onSaveComplete(results) {
-  console.log("Shutting down overview processor");
+  logger.info('Shutting down overview processor');
 
   // just grab the feedid from any overview object
   // and set the feed to complete

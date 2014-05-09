@@ -2,14 +2,17 @@
  * Created by rcartier13 on 2/6/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 
 function kickoffContest(feedId, createOverviewModel, wait) {
-  console.log('Starting Contests Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Contests Calc...');
   contestCalc(feedId, function(contestOverview) {
-    console.log('Finished Contests');
+    logger.info('Finished Contests');
+    logger.info('=======================================');
     createOverviewModel('Ballots', contestOverview.ballots, contestOverview.ballots.errorCount, -2, feedId);
     createOverviewModel('Candidates', contestOverview.candidates, contestOverview.candidates.errorCount, -2, feedId);
     createOverviewModel('Contests', contestOverview.contests, contestOverview.contests.errorCount, -2, feedId);
@@ -23,6 +26,7 @@ function contestCalc(feedId, saveCalc) {
   var contestsOverview = { };
   var paramsList = [];
 
+  // Creates a list of params so that each can be streamed seperatly
   paramsList.push(util.createParamList(feedId, 0, schemas.models.contests, function(res, cb) {
     contestsOverview.contests = res;
     schemas.models.contests.Error.count({_feed: feedId}, function(err, count) {

@@ -2,15 +2,18 @@
  * Created by rcartier13 on 2/13/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 var _ = require('underscore');
 
 function kickoffLocality(feedId, createOverviewModel, wait) {
-  console.log('Starting Single Locality Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Single Locality Calc...');
   localityCalc(feedId, function(localityOverview) {
-    console.log('Finished Single Locality');
+    logger.info('Finished Single Locality');
+    logger.info('=======================================');
     localityOverview.forEach(function(overview) {
       createOverviewModel('Early Vote Sites', overview.earlyVoteSites, overview.earlyVoteSites.errorCount, overview.section, feedId);
       createOverviewModel('Election Administration', overview.electionAdmin, overview.electionAdmin.errorCount, overview.section, feedId);
