@@ -29,7 +29,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
         } else {
           // disable the feed link if it's processing or failed
-          data[i].self = "javascript: void(0);";
+          data[i].self = "";
 
           // if not failed
           if(!data[i].failed){
@@ -102,7 +102,7 @@ function FeedsCtrl_getFeedQueue($scope, $rootScope, $feedsService, servicePath, 
   $feedsService.getFeedQueue(servicePath)
     .success(function (data) {
 
-      console.log(data)
+      console.log(data);
 
       // set the feeds data into the Angular model
       $scope.feedQueue = data.feedQueue;
