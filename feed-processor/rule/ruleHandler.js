@@ -14,6 +14,7 @@ function Rule(ruleDef){
   this.ruleDef = ruleDef;
   this.type = ruleDef.type;
   this.dataConstraints = ruleDef.dataConstraints;
+  this.ruleId = ruleDef.ruleId;
 }
 
 function RuleHandler() {}

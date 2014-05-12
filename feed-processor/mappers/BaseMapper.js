@@ -104,7 +104,7 @@ BaseModel.prototype.checkRequiredFields = function () {
 };
 
 BaseModel.prototype.saveUniqueId = function () {
-  if (!this.model || !this.model.elementId || !this.modelType) {
+  if (!this.model || !this.model.elementId) {
     return;
   }
 

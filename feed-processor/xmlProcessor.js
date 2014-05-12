@@ -374,7 +374,7 @@ module.exports = function() {
       console.log('FeedId = ' + feedId.toString());
 
       models.feeds.create({
-        _id: feedId,
+        _id: feedId.toString(),
         complete: false,
         failed: false,
         completedOn: null,

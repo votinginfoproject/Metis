@@ -3,8 +3,6 @@
  */
 
 var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, ruleDef, callback){
-
-
   var isViolated = false;
   if(zipCode) {
     var trimmedZip = zipCode.trim();
