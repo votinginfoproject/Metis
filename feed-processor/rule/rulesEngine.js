@@ -39,9 +39,11 @@ var applyRules = function(vipFeedId, rules){
   // Loop through each rule, applying them one at a time so that it can conserve on memory
   async.eachSeries(rules, function(rule, done) {
 
+    logger.profile('rulesEngine.applyRules: ' + rule.ruleId);
     ruleHandler.applyRule(rule, vipFeedId, function(count) {
       totalErrorCount += count;
       logger.info(count + ' errors created');
+      logger.profile('rulesEngine.applyRules: ' + rule.ruleId);
       logger.info('---------------------------------------');
       done();
     });

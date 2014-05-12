@@ -7,6 +7,8 @@ var interval = require('interval-query');
 
 var singleState = require('./streetSegmentSingle');
 
+var logger = (require('../../../logging/vip-winston')).Logger;
+
 var errorCount = 0;
 var constraints;
 var feedId;
@@ -54,11 +56,13 @@ function evaluate(constraintSet, callback) {
     })
     .match({ count : { $gt : 1 }})
     .exec(function(err, results) {
+
       if(err) {
         console.log(err);
         process.exit(1);
       }
 
+      logger.profile("streetSegmentRule.evaluate: async finds for, " + results.length);
       async.eachSeries(results, function (result, done) {
 
         if(!result._id.zip) {
@@ -87,7 +91,10 @@ function evaluate(constraintSet, callback) {
             checkOverlap(docs, createError);
             done();
           });
-      }, function() { callback({promisedErrorCount: errorCount}); });
+      }, function() {
+        logger.profile("streetSegmentRule.evaluate: async finds for, " + results.length);
+        callback({promisedErrorCount: errorCount});
+      });
     });
 }
 
@@ -108,6 +115,7 @@ function createError(elementId, mongoId, error) {
 }
 
 function checkOverlap(docs, createError) {
+
   var tree = new interval.SegmentTree;
   tree.clearIntervalStack();
 
