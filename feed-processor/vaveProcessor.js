@@ -33,7 +33,7 @@ module.exports = function () {
     var recordCount = 0;
 
     csv
-      .fromStream(fileStream, { headers: true })
+      .fromStream(fileStream, { headers: true, ignoreEmpty: true })
       .on('record', function (data) {
         mapper.mapCsv(data);
 
