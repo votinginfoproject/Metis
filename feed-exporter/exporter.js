@@ -1,6 +1,8 @@
 /**
  * Created by rcartier13 on 3/3/14.
  */
+var logger = (require('../logging/vip-winston')).Logger;
+var auth = require('../services/auth');
 
 var db = require('../dao/db');
 var fs = require('fs');
@@ -126,6 +128,18 @@ function writeFeed(feedId, instance, callback) {
         fs.unlinkSync(instance.tempLoc);
         fs.rmdirSync(config.exporter.tempLocation);
         console.log('***Zip Finished***');
+
+        var output = {
+          FeedFile: instance.zipLoc,
+          DateTime: moment().utc().toString(),
+          FeedId: feedId,
+          User: auth.getCurrentUser().name.givenName + " " + auth.getCurrentUser().name.familyName,
+          UserName: auth.getCurrentUser().username,
+          UserEmail: auth.getCurrentUser().email
+        };
+
+        logger.info("Feed Approved: ", output);
+
       }
       else if(instance.streetSegmentCallback)
         instance.streetSegmentCallback();
