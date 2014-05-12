@@ -91,7 +91,9 @@ var profileLogger = new (winston.Logger)({
 var Logging = function(){
   var _loggers = {
     profile:  function(arg){
-      profileLogger.profile(arg);
+      if(config.log.logProfileEnabled){
+        profileLogger.profile(arg);
+      }
     },
     // Log function not implemented
     //log:  function(){
