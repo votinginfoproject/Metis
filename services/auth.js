@@ -3,6 +3,8 @@
  */
 var utils = require('./utils');
 
+var currentUser = null;
+
 var registerAuthServices = function(config, app, passport) {
   /*
    * Rest Endpoints associated with authentication and identity
@@ -50,7 +52,8 @@ var registerAuthServices = function(config, app, passport) {
  */
 loginLocalStrategyPOST = function(req, res) {
 
-  console.log("in passport success");
+  currentUser = req.user;
+  console.log("in local auth success");
 
   // successful login, go to the feeds page afterwards
   res.redirect('/#/feeds');
@@ -58,6 +61,7 @@ loginLocalStrategyPOST = function(req, res) {
 
 loginCrowdStrategyPOST = function(req, res) {
 
+  currentUser = req.user;
   console.log("in passport success");
 
   // successful login, go to the feeds page afterwards
@@ -66,6 +70,7 @@ loginCrowdStrategyPOST = function(req, res) {
 
 logoutGET = function(req,res){
 
+  currentUser = null;
   // logout the user here
   req.logout();
   res.redirect('/');
@@ -92,5 +97,9 @@ partialGetInterceptor = function(req,res,next){
   }
 };
 
+getCurrentUser = function(){
+  return currentUser;
+}
 
+exports.getCurrentUser = getCurrentUser;
 exports.registerAuthServices = registerAuthServices;
