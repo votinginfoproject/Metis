@@ -3,6 +3,8 @@ var schemas = require('../../../dao/schemas');
 var async = require('async');
 var config = require('../../../config');
 
+var _ = require('underscore');
+
 var interval = require('interval-query');
 
 var singleState = require('./streetSegmentSingle');
@@ -119,8 +121,16 @@ function checkOverlap(docs, createError) {
   var tree = new interval.SegmentTree;
   tree.clearIntervalStack();
 
+  var empty = true;
   for (var resIter = 0; resIter < docs.length; ++resIter) {
-    tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
+    if(_.isNumber(docs[resIter].startHouseNumber) && _.isNumber(docs[resIter].endHouseNumber)) {
+      empty = false;
+      tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
+    }
+  }
+
+  if(empty) {
+    return;
   }
 
   tree.buildTree();

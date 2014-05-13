@@ -60,7 +60,7 @@ Ballot.prototype.mapXml5_0 = function (ballot) {
     customBallotId: ballot.custom_ballot_id ? {
       elementId: (ballot.custom_ballot_id.$text === undefined) ? ballot.custom_ballot_id : ballot.custom_ballot_id.$text,
       sortOrder: (ballot.custom_ballot_id.$ === undefined) ? undefined : ballot.custom_ballot_id.$.sort_order
-    } : undefined,
+    } : null,
     writeIn: this.convertYesNo(ballot.write_in),
     imageUrl: ballot.image_url,
     _feed: this.feedId
