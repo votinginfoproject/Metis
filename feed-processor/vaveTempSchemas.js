@@ -6,65 +6,65 @@ const
   config = require('../config');
 
 var ballotCandidatesSchema = {
-  ballotId: Number,
-  candidateId: Number,
+  ballotId: String,
+  candidateId: String,
   sortOrder: Number,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
 var customBallotBallotResponse = {
-  customBallotId: Number,
-  ballotResponseId: Number,
+  customBallotId: String,
+  ballotResponseId: String,
   sortOrder: Number,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var localityEarlyVoteSiteSchema = {
-  localityId: Number,
-  earlyVoteSiteId: Number,
+  localityId: String,
+  earlyVoteSiteId: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var precinctEarlyVoteSiteSchema = {
-  precinctId: Number,
-  early_vote_site_id: Number,
+  precinctId: String,
+  early_vote_site_id: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var precinctElectoralDistrictSchema = {
-  precinctId: Number,
-  electoralDistrictId: Number,
+  precinctId: String,
+  electoralDistrictId: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var precinctPollingLocationsSchema = {
-  precinctId: Number,
-  pollingLocationId: Number,
+  precinctId: String,
+  pollingLocationId: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
-var precinctSplitElectoralDistrictSchema = {
-  precinctSplitId: Number,
-  electoralDistrictId: Number,
-  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
-}
+//var precinctSplitElectoralDistrictSchema = {
+//  precinctSplitId: String,
+//  electoralDistrictId: String,
+//  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
+//}
 
 var precinctSplitPollingLocationsSchema = {
-  precinctSplitId: Number,
-  pollingLocationId: Number,
+  precinctSplitId: String,
+  pollingLocationId: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var referendumBallotResponseSchema = {
-  referendumId: Number,
-  ballotResponseId: Number,
+  referendumId: String,
+  ballotResponseId: String,
   sortOrder: Number,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
 var stateEarlyVoteSiteSchema = {
-  stateId: Number,
-  earlyVoteSiteId: Number,
+  stateId: String,
+  earlyVoteSiteId: String,
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 

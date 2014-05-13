@@ -144,8 +144,8 @@ module.exports = function() {
     xml.on('endElement: polling_location', processPollingLocationElement);
     xml.on('endElement: precinct', processPrecinctElement);
     xml.on('endElement: precinct_split', processPrecinctSplitElement);
-//    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
-//    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
+    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
+    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
     xml.on('endElement: referendum', processReferendumElement);
     xml.on('endElement: source', processSourceElement);
     xml.on('endElement: state', processStateElement);
@@ -225,12 +225,14 @@ module.exports = function() {
   function processContestElement(contest) {
 
     if(schemaVersion == '5.0') {
-      contest.candidate.forEach(function(candidate) {
-        var candidateModel = new Candidate(models, feedId);
-        var candidateId = new schemas.types.ObjectId();
-        candidate.ballot_id = contest.ballot_id;
-        mapAndSave(candidateModel, candidate, candidateId);
-      });
+      if(contest.candidate) {
+        contest.candidate.forEach(function (candidate) {
+          var candidateModel = new Candidate(models, feedId);
+          var candidateId = new schemas.types.ObjectId();
+          candidate.ballot_id = contest.ballot_id;
+          mapAndSave(candidateModel, candidate, candidateId);
+        });
+      }
     }
 
     var model = new Contest(models, feedId);
@@ -335,15 +337,15 @@ module.exports = function() {
     mapAndSave(model, precinctSplit);
   }
 
-//  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
+  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
 //    var model = new PrecinctSplitElectoralDistrict(models, feedId);
 //    mapAndSave(model, psElectoralDistrict);
-//  }
-//
-//  function processPrecinctBallotStyleElement(psBallotStyle) {
+  }
+
+  function processPrecinctBallotStyleElement(psBallotStyle) {
 //    var model = new PrecinctSplitBallotStyle(models, feedId);
 //    mapAndSave(model, psBallotStyle);
-//  }
+  }
 
   function processReferendumElement(referendum) {
     var model = new Referendum(models, feedId);

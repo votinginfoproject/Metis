@@ -74,6 +74,10 @@ function createRelationshipsState (feedId, models) {
   var stateId;
 
   statePromise.then(function (state) {
+
+    if(!state)
+      return null;
+
     stateId = state._id;
     updateRelationship(models.elections, { _feed: feedId }, { _state: stateId }, onUpdate);
     updateRelationship(models.feeds, { _id: feedId }, { _state: stateId }, onUpdate);
@@ -81,6 +85,10 @@ function createRelationshipsState (feedId, models) {
     return models.electionadmins.findOne({ _feed: feedId, elementId: state.electionAdministrationId})
       .select('_id').exec();
   }, onError).then(function(eaId) {
+
+    if(!eaId)
+      return null;
+
       updateRelationship(models.states, { _id: stateId }, { _electionAdministration: eaId}, onUpdate);
     }, onError);
 
@@ -331,7 +339,13 @@ function createRelationshipsCandidate(feedId, models) {
 
   var promise = models.candidates.find({_feed: feedId}).exec();
 
+  var defered = when.defer();
+
   promise.then(function(candidates) {
+
+    if(!candidates)
+      return;
+
     require('async').eachSeries(candidates, function(candidate, done) {
       if(candidate.partyId) {
         joinCandidateParty(models, candidate);
@@ -343,10 +357,12 @@ function createRelationshipsCandidate(feedId, models) {
       else {
         done();
       }
+    }, function() {
+      defered.resolve();
     });
   });
 
-  return promise;
+  return defered.promise;
 }
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
@@ -546,10 +562,6 @@ function joinContestBallot (models, contest, done) {
     if (ballot) {
       updateRelationship(models.contests, { _id: contest._id }, { _ballot: ballot._id }, onUpdate);
     }
-
-    if(done)
-      done();
-
   });
 };
 
@@ -952,6 +964,7 @@ function createMissingBallot(models, candidate, done) {
       .exec();
 
     contestPromise.then(function(contests) {
+      done();
       updateRelationship(models.ballots,
         { _id: ballotId },
         { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
@@ -974,7 +987,6 @@ function createDBRelationships(feedId, models, schemaVersion) {
 
   createRelQue.push(createRelationshipsFeed(feedId, models));
   createRelQue.push(createRelationshipsSource(feedId, models));
-  createRelQue.push(createRelationshipsCandidate(feedId, models));
   createRelQue.push(createRelationshipsState(feedId, models));
   createRelQue.push(createRelationshipsElection(feedId, models));
   createRelQue.push(createRelationshipsLocality(feedId, models));
@@ -989,6 +1001,7 @@ function createDBRelationships(feedId, models, schemaVersion) {
   createRelQue.push(createRelationshipsContestResult(feedId, models));
   createRelQue.push(createRelationshipsBallotLineResult(feedId, models));
   createRelQue.push(createRelationshipsPollingLocation(feedId, models));
+  createRelQue.push(createRelationshipsCandidate(feedId, models));
 
   when.all(createRelQue).then(function(docs) {
     finished = true;
