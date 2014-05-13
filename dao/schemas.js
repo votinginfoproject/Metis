@@ -882,13 +882,17 @@ var ballotStyleSchema = {
   elementId: String,
   name: String,
   electionId: String,
-  contestId: String,
   referendumId: String,
   sortOrder: String,
-  candidateId: {
-    elementId: String,
-    sortOrder: String
-  },
+  contestIds: [{
+    ballotId: [String],
+    contestOrder: String,
+    contestId: String,
+    candidateIds: [{
+      sortOrder: Number,
+      candidateId: String
+    }]
+  }],
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
@@ -945,7 +949,7 @@ var precinctSplitBallotStyleSchema = {
   precinctSplitId: String,
   ballotStyleId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
-}
+};
 
 var overviewSchema = {
   elementType: String,

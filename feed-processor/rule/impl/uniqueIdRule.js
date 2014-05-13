@@ -32,7 +32,7 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
 
       if (results.length == 0) {
 
-        mongoose.models['uniqueids'].collection.drop(function(err) {
+        schemas.models.uniqueid.collection.drop(function(err) {
           logger.info('*removed uniqueIds collection*');
           callback({ isViolated: false, promisedErrorCount: 0 });
         });
@@ -69,7 +69,7 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
       });
 
       when.all(promises).then(function (err) {
-        mongoose.models['uniqueids'].collection.drop(function(err) {
+        schemas.models.uniqueid.collection.drop(function(err) {
           logger.info('*removed uniqueIds collection*');
           callback({ isViolated: true, promisedErrorCount: totalErrorCount });
         });

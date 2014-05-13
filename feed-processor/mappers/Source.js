@@ -60,7 +60,7 @@ Source.prototype.save = function () {
 
   return when.join(
     this.collection.create(this.model),
-    this.models.feeds.findByIdAndUpdate(this.feedId.toString(), { $set: { fipsCode: this.model.vipId } }).exec());
+    this.models.feeds.findByIdAndUpdate(this.feedId, { $set: { fipsCode: this.model.vipId } }).exec());
 }
 
 module.exports = Source;

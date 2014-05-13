@@ -26,6 +26,19 @@ var mockedData = {
     contest_id: [{$text: '4', $: {sort_order: 4}}]
   },
 
+  ballot5XML: {
+      $: {
+        id: '1'
+      },
+
+      referendum_id: [{$text: '3', $: {sort_order: 4}}, {$text: '5', $: {sort_order: 6}}],
+      candidate_id: [{$text: '3', $: {sort_order: 4}}, {$text: '5', $: {sort_order: 6}}],
+      custom_ballot_id: { $text: '3', $: { sort_order: 4 } },
+      write_in: 'yes',
+      image_url: 'http://fakeUrl.com   ',
+      contest_id: [{$text: '4', $: {sort_order: 4}}]
+  },
+
   ballotLineResultXml: {
     $: {
       id: '1',

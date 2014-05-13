@@ -159,6 +159,7 @@ module.exports = function() {
       xml.collect('precinct_split');
       xml.collect('polling_location');
       xml.collect('candidate');
+      xml.collect('contest');
     }
   }
 
@@ -220,6 +221,9 @@ module.exports = function() {
   }
 
   function processContestElement(contest) {
+
+    if(!contest.$)
+      return;
 
     if(schemaVersion == '5.0') {
       if(contest.candidate) {
