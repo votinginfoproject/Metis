@@ -1,6 +1,9 @@
 /**
  * Created by bantonides on 1/3/14.
  */
+var logger = (require('../logging/vip-winston')).Logger;
+var _fileName = "matchMaker";
+
 var updateCounter = 0;
 var finished = false;
 var _feedId;
@@ -16,25 +19,34 @@ var when = require('when');
 function onUpdate (err, numAffected) {
   updateCounter--;
   if (err) {
-    console.error(err);
+    logger.error(err);
   }
   else {
-    console.log('Updated ' + numAffected + ' document.');
+    logger.info('Updated ' + numAffected + ' document.');
   }
 
   if(updateCounter <= 0 && finished) {
-    console.log('****Linking Complete!!!');
+    // matchmaker as a whole (end)
+    logger.profile(_fileName);
+
+    // rulesEngine as a whole (start)
+    logger.profile("rulesEngine");
+
+    logger.info('****Linking Complete!!!');
     var promise = require('./rule/rulesEngine').processRules(_feedId);
 
 
     promise.then(function(emptyPromise){
-      console.log("****Processing Overview Details");
+      // rulesEngine as a whole (end)
+      logger.profile("rulesEngine");
+
+      logger.info("****Processing Overview Details");
       require('./overview/overview-processor').runOverviewProcessor(_feedId)});
   }
 };
 
 function onError (err) {
-  console.error(err);
+  logger.error(err);
 };
 
 function updateRelationship (model, conditions, update, options, callback) {
@@ -43,6 +55,9 @@ function updateRelationship (model, conditions, update, options, callback) {
 };
 
 function createRelationshipsFeed (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var sourcePromise = models.sources.findOne({ _feed: feedId }).exec();
   var sourceId;
 
@@ -50,12 +65,17 @@ function createRelationshipsFeed (feedId, models) {
     return models.electionofficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
       updateRelationship(models.feeds, { _id: feedId }, { _feedContact: eoId }, onUpdate);
+
+      logger.profile(_profileStr);
     }, onError);
 
   return sourcePromise;
 };
 
 function createRelationshipsSource (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var sourcePromise = models.sources.findOne({ _feed: feedId }).exec();
   var sourceId;
 
@@ -64,12 +84,16 @@ function createRelationshipsSource (feedId, models) {
     return models.electionofficials.findOne({ _feed: feedId, elementId: source.feedContactId }).select('_id').exec();
   }, onError).then(function (eoId) {
       updateRelationship(models.sources, { _id: sourceId }, { _feedContact: eoId }, onUpdate);
+      logger.profile(_profileStr);
     }, onError);
 
   return sourcePromise;
 };
 
 function createRelationshipsState (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var statePromise = models.states.findOne({ _feed: feedId }).exec();
   var stateId;
 
@@ -90,6 +114,8 @@ function createRelationshipsState (feedId, models) {
       return null;
 
       updateRelationship(models.states, { _id: stateId }, { _electionAdministration: eaId}, onUpdate);
+
+      logger.profile(_profileStr);
     }, onError);
 
   var localityPromise = models.localitys.aggregate(
@@ -100,6 +126,8 @@ function createRelationshipsState (feedId, models) {
     } }).exec();
 
   localityPromise.then(function (localities) {
+    logger.info(_profileStr + " locality count:" + localities.length);
+
     localities.forEach(function (locality) {
       updateRelationship(models.states, { _feed: feedId, elementId: locality._id },
         { $addToSet: { _localities: { $each: locality.localityIds } } }, onUpdate);
@@ -110,19 +138,28 @@ function createRelationshipsState (feedId, models) {
 };
 
 function createRelationshipsElection (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var electionPromise = models.elections.findOne({ _feed: feedId }).select('_id').exec();
 
   electionPromise.then(function (electionId) {
     updateRelationship(models.feeds, { _id: feedId }, { _election: electionId}, onUpdate);
+    logger.profile(_profileStr);
   }, onError);
 
   return electionPromise;
 };
 
 function createRelationshipsLocality (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.localitys.find({ _feed: feedId }).exec();
 
   promise.then(function (localities) {
+    logger.info(_profileStr + " locality count:" + localities.length);
+
     localities.forEach(function (locality) {
       //link to election administration and early vote sites and precincts
       if (locality.electionAdminId) {
@@ -133,15 +170,21 @@ function createRelationshipsLocality (feedId, models) {
       }
       joinLocalityPrecincts(models, locality);
     });
+    logger.profile(_profileStr);
   }, onError);
 
   return promise;
 };
 
 function createRelationshipsPrecinct (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precincts.find({ _feed: feedId }).exec();
 
   promise.then(function (precincts) {
+    logger.info(_profileStr + " precinct count:" + precincts.length);
+
     precincts.forEach(function (precinct) {
       //link to electoral district, polling location, early vote site
       if (precinct.electoralDistrictIds) {
@@ -156,15 +199,22 @@ function createRelationshipsPrecinct (feedId, models) {
       joinPrecinctPrecinctSplits(models, precinct);
       joinPrecinctStreetSegments(models, precinct);
     });
+
+    logger.profile(_profileStr);
   }, onError);
 
   return promise;
 };
 
 function createRelationshipsPrecinctSplit (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precinctsplits.find({ _feed: feedId }).exec();
 
   promise.then(function (precinctSplits) {
+    logger.info(_profileStr + " precinct splits count:" + precinctSplits.length);
+
     precinctSplits.forEach(function (precinctSplit) {
       if (precinctSplit.electoralDistrictIds.length > 0) {
         joinPrecinctSplitElectoralDistrict(models, precinctSplit);
@@ -174,16 +224,24 @@ function createRelationshipsPrecinctSplit (feedId, models) {
       }
       joinPrecinctSplitStreetSegments(models, precinctSplit);
     });
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsElectionAdministration (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electionadmins.find({ _feed: feedId }).exec();
 
   promise.then(function (electionAdmins) {
+    logger.info(_profileStr + " electionAdmin count:" + electionAdmins.length);
+
     electionAdmins.forEach(function (electionAdmin) {
+
       if (electionAdmin.eoId) {
         joinElectionAdminElectionOfficial(models, electionAdmin);
       }
@@ -191,15 +249,22 @@ function createRelationshipsElectionAdministration (feedId, models) {
         joinElectionAdminElectionOfficial(models, electionAdmin);
       }
     });
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsContest (feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.contests.find({ _feed: feedId }).exec();
 
   promise.then(function (contests) {
+    logger.info(_profileStr + " contest count:" + contests.length);
+
     contests.forEach(function (contest) {
       if (contest.electoralDistrictId) {
         joinContestElectoralDistrict(models, contest);
@@ -216,27 +281,42 @@ function createRelationshipsContest (feedId, models) {
       joinContestResults(models, contest);
 
     });
+
+    logger.profile(_profileStr);
+
   });
 
   return promise;
 };
 
 function createRelationshipsElectoralDistrict(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electoraldistricts.find({ _feed: feedId }).exec();
 
   promise.then(function (electoralDistricts) {
+    logger.info(_profileStr + " electoralDistrict count:" + electoralDistricts.length);
+
     electoralDistricts.forEach(function(district) {
       joinElectoralDistrictPrecincts(models, district);
     });
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsBallot(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.ballots.find({ _feed: feedId }).exec();
 
   promise.then(function(ballots) {
+    logger.info(_profileStr + " ballot count:" + ballots.length);
+
     ballots.forEach(function(ballot) {
       if (ballot.candidates && ballot.candidates.length > 0) {
         joinBallotCandidates(models, ballot);
@@ -251,58 +331,85 @@ function createRelationshipsBallot(feedId, models) {
         joinBallotContest(models, ballot);
       }
     });
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsCustomBallot(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.customballots.find({ _feed: feedId }).exec();
 
   promise.then(function(cbs) {
+    logger.info(_profileStr + " custom ballot count:" + cbs.length);
+
     if (cbs.length > 0) {
       cbs.forEach(function(cb) {
         joinCustomBallotResponses(models, cb);
       });
     }
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsReferendum(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.referendums.find({ _feed: feedId }).exec();
 
   promise.then(function(referenda) {
+    logger.info(_profileStr + " referenda count:" + referenda.length);
+
     if (referenda.length > 0) {
       referenda.forEach(function(referendum) {
         joinReferendumBallotResponses(models, referendum);
       });
     }
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsContestResult(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.contestresults.find({ _feed: feedId }).exec();
 
   promise.then(function(results) {
+    logger.info(_profileStr + " results count:" + results.length);
+
     if (results.length > 0) {
       results.forEach(function(result) {
         joinContestResultContest(models, result);
         joinContestResultJurisdiction(models, result);
       });
     }
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 };
 
 function createRelationshipsBallotLineResult(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.ballotlineresults.find({ _feed: feedId }).exec();
 
   promise.then(function(results) {
+    logger.info(_profileStr + " results count:" + results.length);
+
     if (results.length > 0) {
       results.forEach(function(result) {
         joinBallotLineResultContest(models, result);
@@ -311,21 +418,30 @@ function createRelationshipsBallotLineResult(feedId, models) {
         joinBallotLineResultJurisdiction(models, result);
       });
     }
+
+    logger.profile(_profileStr);
   });
 
   return promise;
 }
 
 function createRelationshipsPollingLocation(feedId, models) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.pollinglocations.find({ _feed: feedId }).exec();
 
   promise.then(function(pollingLocations) {
+    logger.info(_profileStr + " pollingLocation count:" + pollingLocations.length);
+
     if (pollingLocations.length > 0) {
       pollingLocations.forEach(function(pollingLocation) {
         joinPollingLocationPrecinct(models, pollingLocation);
         joinPollingLocationPrecinctSplit(models, pollingLocation);
       });
     }
+
+    logger.profile(_profileStr);
   });
 
   return promise;
@@ -336,6 +452,9 @@ function createRelationshipsCandidate(feedId, models) {
   if(_schemaVersion !== '5.0') {
     return;
   }
+
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
 
   var promise = models.candidates.find({_feed: feedId}).exec();
 
@@ -360,20 +479,30 @@ function createRelationshipsCandidate(feedId, models) {
     }, function() {
       defered.resolve();
     });
+
+    logger.profile(_profileStr);
   });
 
   return defered.promise;
 }
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electionadmins.findOne({ _feed: locality._feed, elementId: eaId }).select('_id').exec();
 
   promise.then(function (electionAdminOid) {
     updateRelationship(models.localitys, { _id: locality._id }, { _electionAdministration: electionAdminOid }, onUpdate);
+
+    logger.profile(_profileStr);
   }, onError);
 };
 
 function joinLocalityEarlyVoteSite (models, locality, evsIds) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.earlyvotesites.find({ _feed: locality._feed, elementId: { $in: evsIds } }).select('_id').exec();
 
   promise.then(function (evsOids) {
@@ -381,6 +510,8 @@ function joinLocalityEarlyVoteSite (models, locality, evsIds) {
       updateRelationship(models.localitys, { _id: locality._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
       updateRelationship(models.earlyvotesites, { _id: { $in: evsOids } }, { _locality: locality._id }, { multi: true }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   }, onError);
 };
 
@@ -389,16 +520,24 @@ function joinLocalityPrecincts (models, locality) {
   if(_schemaVersion == '5.0')
     return;
 
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precincts.find({ _feed: locality._feed, localityId: locality.elementId }).select('_id').exec();
 
   promise.then(function (precinctOids) {
     if (precinctOids.length > 0) {
       updateRelationship(models.localitys, { _id: locality._id }, { $addToSet: { _precincts: { $each: precinctOids } } }, onUpdate);
+
+      logger.profile(_profileStr);
     }
   }, onError);
 };
 
 function joinPrecinctElectoralDistricts (models, precinct) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electoraldistricts
     .find({ _feed: precinct._feed, elementId: { $in: precinct.electoralDistrictIds } })
     .select('_id')
@@ -408,10 +547,15 @@ function joinPrecinctElectoralDistricts (models, precinct) {
     if (edOids.length > 0) {
       updateRelationship(models.precincts, { _id: precinct._id }, { $addToSet: { _electoralDistricts: { $each: edOids } } }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   }, onError);
 };
 
 function joinPrecinctEarlyVoteSites (models, precinct) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.earlyvotesites
     .find({ _feed: precinct._feed, elementId: { $in: precinct.earlyVoteSiteIds } })
     .select('_id')
@@ -420,6 +564,8 @@ function joinPrecinctEarlyVoteSites (models, precinct) {
   promise.then(function (evsOids) {
     if (evsOids.length > 0) {
       updateRelationship(models.precincts, { _id: precinct._id }, { $addToSet: { _earlyVoteSites: { $each: evsOids } } }, onUpdate);
+
+      logger.profile(_profileStr);
     }
   }, onError);
 };
@@ -428,6 +574,9 @@ function joinPrecinctPollingLocations (models, precinct) {
 
   if(_schemaVersion == '5.0')
     return;
+
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
 
   var promise = models.pollinglocations
     .find({ _feed: precinct._feed, elementId: { $in: precinct.pollingLocationIds } })
@@ -438,10 +587,15 @@ function joinPrecinctPollingLocations (models, precinct) {
     if (plOids.length > 0) {
       updateRelationship(models.precincts, { _id: precinct._id }, { $addToSet: { _pollingLocations: { $each: plOids } } }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   }, onError);
 };
 
 function joinPrecinctPrecinctSplits (models, precinct) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precinctsplits
     .find({ _feed: precinct._feed, precinctId: precinct.elementId })
     .select('_id')
@@ -456,10 +610,15 @@ function joinPrecinctPrecinctSplits (models, precinct) {
       var psIds = psOids.map(function(ps) { return ps._id; });
       updateRelationship(models.precinctsplits, { _id: { $in: psIds } }, { _precinct: precinct }, { multi: true }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinPrecinctStreetSegments (models, precinct) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.streetsegments.find({ _feed: precinct._feed, precinctId: precinct.elementId })
     .select('_id')
     .exec();
@@ -468,10 +627,15 @@ function joinPrecinctStreetSegments (models, precinct) {
     if (streetOids.length > 0) {
       updateRelationship(models.precincts, { _id: precinct._id }, { $addToSet: { _streetSegments: { $each: streetOids } } }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinPrecinctSplitElectoralDistrict (models, precinctSplit) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electoraldistricts
     .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.electoralDistrictIds } })
     .select('_id')
@@ -484,10 +648,15 @@ function joinPrecinctSplitElectoralDistrict (models, precinctSplit) {
         { $addToSet: { _electoralDistricts: { $each: edOids } } },
         onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinPrecinctSplitStreetSegments (models, precinctSplit) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.streetsegments.find({ _feed: precinctSplit._feed, precinctSplitId: precinctSplit.elementId })
     .select('_id')
     .exec();
@@ -499,10 +668,15 @@ function joinPrecinctSplitStreetSegments (models, precinctSplit) {
         { $addToSet: { _streetSegments: { $each: streetOids } } },
         onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinPrecinctSplitPollingLocations (models, precinctSplit) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.pollinglocations
     .find({ _feed: precinctSplit._feed, elementId: { $in: precinctSplit.pollingLocationIds } })
     .select('_id')
@@ -515,10 +689,15 @@ function joinPrecinctSplitPollingLocations (models, precinctSplit) {
         { $addToSet: { _pollingLocations: { $each: plOids } } },
         onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinElectionAdminElectionOfficial (models, electionAdmin) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promiseEO = models.electionofficials.findOne({ _feed: electionAdmin._feed, elementId: electionAdmin.eoId })
     .select('_id')
     .exec();
@@ -537,10 +716,15 @@ function joinElectionAdminElectionOfficial (models, electionAdmin) {
     if (ovc) {
       updateRelationship(models.electionadmins, { _id: electionAdmin._id }, { _overseasVoterContact: ovc._id }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinContestElectoralDistrict (models, contest) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.electoraldistricts.findOne({ _feed: contest._feed, elementId: contest.electoralDistrictId })
     .select('_id')
     .exec();
@@ -550,10 +734,15 @@ function joinContestElectoralDistrict (models, contest) {
       updateRelationship(models.contests, { _id: contest._id }, { _electoralDistrict: ed._id }, onUpdate);
       updateRelationship(models.electoraldistricts, { _id: ed._id }, { _contest: contest }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinContestBallot (models, contest, done) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.ballots.findOne({ _feed: contest._feed, elementId: contest.ballotId })
     .select('_id')
     .exec();
@@ -562,10 +751,19 @@ function joinContestBallot (models, contest, done) {
     if (ballot) {
       updateRelationship(models.contests, { _id: contest._id }, { _ballot: ballot._id }, onUpdate);
     }
+
+    if(done)
+      done();
+
+    logger.profile(_profileStr);
+
   });
 };
 
 function joinContestResults (models, contest) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promiseCR = models.contestresults.findOne({ _feed: contest._feed, contestId: contest.elementId })
     .select('_id')
     .exec();
@@ -587,10 +785,15 @@ function joinContestResults (models, contest) {
         { $addToSet: { _ballotLineResults: { $each: blrOids } } },
         onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinElectoralDistrictPrecincts(models, electoralDistrict) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promisePrecincts = models.precincts
     .find({ _feed: electoralDistrict._feed, electoralDistrictIds: electoralDistrict.elementId })
     .select('_id')
@@ -617,26 +820,37 @@ function joinElectoralDistrictPrecincts(models, electoralDistrict) {
         { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
         onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinBallotCandidates(models, ballot) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var candidateIds = ballot.candidates.map(function(candidate) { return candidate.elementId });
   var promise = models.candidates.find({ _feed: ballot._feed, elementId: { $in: candidateIds } })
     .select('_id elementId')
     .exec();
 
   promise.then(function (candidates) {
+    logger.info(_profileStr + " candidate count:" + candidates.length);
+
     candidates.forEach(function(candidate) {
       updateRelationship(models.ballots,
         {_id: ballot._id, 'candidates.elementId': candidate.elementId },
         {$set: { 'candidates.$._candidate': candidate._id } },
         onUpdate);
     });
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinBallotReferenda(models, ballot) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
 
   var referendumIds = ballot.referendumIds.map(function(referenda) { return referenda.elementId });
   var promise = models.referendums.find({ _feed: ballot._feed, elementId: { $in: referendumIds } })
@@ -664,10 +878,14 @@ function joinBallotReferenda(models, ballot) {
     }
     */
 
+    logger.profile(_profileStr);
+
   });
 };
 
 function joinBallotCustomBallot(models, ballot) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
 
   var cbId = ballot.customBallotId;
   if(ballot.customBallotId.elementId)
@@ -680,26 +898,38 @@ function joinBallotCustomBallot(models, ballot) {
   promise.then(function(customBallot) {
     updateRelationship(models.ballots, { _id: ballot._id }, { $set: { _customBallot: customBallot } },
     onUpdate);
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinCustomBallotResponses(models, customBallot) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var ballotResponseIds = customBallot.ballotResponses.map(function(resp) { return resp.elementId; });
   var promise = models.ballotresponses.find({ _feed: customBallot._feed, elementId: { $in: ballotResponseIds } })
     .select('_id elementId')
     .exec();
 
   promise.then(function(responses) {
+    logger.info(_profileStr + " response count:" + responses.length);
+
     responses.forEach(function(resp) {
       updateRelationship(models.customballots,
         {_id: customBallot._id, 'ballotResponses.elementId': resp.elementId },
         {$set: { 'ballotResponses.$._response': resp._id } },
         onUpdate);
     });
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinReferendumBallotResponses(models, referendum) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var ballotResponseIds = referendum.ballotResponses.map(function(resp) {
     return resp.elementId;
   });
@@ -708,26 +938,38 @@ function joinReferendumBallotResponses(models, referendum) {
     .exec();
 
   promise.then(function(responses) {
+    logger.info(_profileStr + " response count:" + responses.length);
+
     responses.forEach(function(resp) {
       updateRelationship(models.referendums,
         {_id: referendum._id, 'ballotResponses.elementId': resp.elementId },
         {$set: { 'ballotResponses.$._response': resp._id } },
         onUpdate);
     });
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinContestResultContest(models, result) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.contests.findOne({ _feed: result._feed, elementId: result.contestId })
     .select('_id')
     .exec();
 
   promise.then(function(contest) {
     updateRelationship(models.contestresults, { _id: result._id }, { _contest: contest }, onUpdate);
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinContestResultJurisdiction(models, result) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promiseState = models.states.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
@@ -776,20 +1018,30 @@ function joinContestResultJurisdiction(models, result) {
     if (district) {
       updateRelationship(models.contestresults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinBallotLineResultContest(models, result) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.contests.findOne({ _feed: result._feed, elementId: result.contestId })
     .select('_id')
     .exec();
 
   promise.then(function(contest) {
     updateRelationship(models.ballotlineresults, { _id: result._id }, { _contest: contest }, onUpdate);
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinBallotLineResultCandidate(models, result) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   if (result.candidateId) {
     var promise = models.candidates.findOne({ _feed: result._feed, elementId: result.candidateId })
       .select('_id')
@@ -797,24 +1049,36 @@ function joinBallotLineResultCandidate(models, result) {
 
     promise.then(function(candidate) {
       updateRelationship(models.ballotlineresults, { _id: result._id }, { _candidate: candidate }, onUpdate);
+
+      logger.profile(_profileStr);
     });
   }
 }
 
 function joinBallotLineResultResponse(models, result) {
+
   if (result.ballotResponseId) {
+
+    var _profileStr = _fileName +"." + arguments.callee.name;
+    logger.profile(_profileStr);
+
     var promise = models.ballotresponses.findOne({ _feed: result._feed, elementId: result.ballotResponseId })
       .select('_id')
       .exec();
 
     promise.then(function(response) {
       updateRelationship(models.ballotlineresults, { _id: result._id }, { _ballotResponse: response }, onUpdate);
-    });
+
+      logger.profile(_profileStr);
+     });
   }
 }
 
 
 function joinBallotLineResultJurisdiction(models, result) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promiseState = models.states.findOne({ _feed: result._feed, elementId: result.jurisdictionId })
     .select('_id')
     .exec();
@@ -863,10 +1127,15 @@ function joinBallotLineResultJurisdiction(models, result) {
     if (district) {
       updateRelationship(models.ballotlineresults, { _id: result._id }, { _electoralDistrict: district }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinPollingLocationPrecinct(models, pollingLocation) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precincts.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
     .select('_id')
     .exec();
@@ -876,10 +1145,15 @@ function joinPollingLocationPrecinct(models, pollingLocation) {
       { _id: pollingLocation._id },
       { $addToSet: { _precincts: { $each: precincts } } },
       onUpdate);
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinPollingLocationPrecinctSplit(models, pollingLocation) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.precinctsplits.find({ _feed: pollingLocation._feed, pollingLocationIds: pollingLocation.elementId })
     .select('_id')
     .exec();
@@ -889,10 +1163,15 @@ function joinPollingLocationPrecinctSplit(models, pollingLocation) {
       { _id: pollingLocation._id },
       { $addToSet: { _precinctSplits: { $each: precinctSplits } } },
       onUpdate);
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinCandidateParty(models, candidate) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.parties.findOne({ _feed: candidate._feed, elementId: candidate.partyId })
     .select('_id')
     .exec();
@@ -901,10 +1180,15 @@ function joinCandidateParty(models, candidate) {
     updateRelationship(models.candidates,
       { _id: candidate._id },
       { _party: party._id }, onUpdate);
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinContestParty(models, contest) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.parties.findOne({_feed: contest._feed, elementId: contest.primaryPartyId})
     .select('_id')
     .exec();
@@ -913,10 +1197,14 @@ function joinContestParty(models, contest) {
     updateRelationship(models.contests,
       { _id: contest._id },
       { _party: party._id }, onUpdate);
+
+    logger.profile(_profileStr);
   });
 }
 
 function joinBallotContest(models, ballot) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
 
   var contestIds = ballot.contestIds.map(function(contest) { return contest.elementId });
   var promise = models.contests.find({_feed: ballot._feed, elementId: { $in: contestIds }})
@@ -928,10 +1216,15 @@ function joinBallotContest(models, ballot) {
       { _id: ballot._id },
       { $addToSet: { _contests: { $each: contests } }},
       onUpdate);
+
+    logger.profile(_profileStr);
   });
 };
 
 function joinCandidateBallot(models, candidate, done) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var promise = models.ballots.findOne({ _feed: candidate._feed, elementId: candidate.ballotId })
     .exec();
 
@@ -945,11 +1238,16 @@ function joinCandidateBallot(models, candidate, done) {
         { _id: ballot._id },
         { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
     }
+
+    logger.profile(_profileStr);
   });
 }
 
 
 function createMissingBallot(models, candidate, done) {
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var ballotId = require('mongoose').Types.ObjectId();
   var createPromise = models.ballots.create({
     elementId: candidate.ballotId,
@@ -969,16 +1267,26 @@ function createMissingBallot(models, candidate, done) {
         { _id: ballotId },
         { $addToSet: { candidates: { elementId: candidate.elementId, sortOrder: candidate.sortOrder, _candidate: candidate._id } } }, onUpdate);
 
+      logger.info(_profileStr + " contest count:" + contest.length);
+
       contests.forEach(function(contest) {
         if(!contest._ballot) {
           joinContestBallot(models, contest, done);
         }
       });
+
+      logger.profile(_profileStr);
     });
   });
 }
 
 function createDBRelationships(feedId, models, schemaVersion) {
+  // matchmaker as a whole (start)
+  logger.profile(_fileName);
+
+  var _profileStr = _fileName +"." + arguments.callee.name;
+  logger.profile(_profileStr);
+
   var createRelQue = [];
 
   _feedId = feedId;
@@ -1005,6 +1313,8 @@ function createDBRelationships(feedId, models, schemaVersion) {
 
   when.all(createRelQue).then(function(docs) {
     finished = true;
+
+    logger.profile(_profileStr);
   });
 };
 
