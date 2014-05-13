@@ -3,6 +3,9 @@
  */
 
 var logger = (require('../../logging/vip-winston')).Logger;
+var _fileName = "overview-processor";
+
+
 var config = require('../../config');
 var feedIdMapper = require('../../feedIdMapper');
 var mongoose = require('mongoose');
@@ -21,6 +24,8 @@ var overviewModels = [];
 var functionArr = [];
 
 function runOverviewProcessor(feedId) {
+  // overview-processor as a whole (start)
+  logger.profile(_fileName);
 
   functionArr.push(pollinglocations.kickoffPollingLoc);
   functionArr.push(contests.kickoffContest);
@@ -38,6 +43,9 @@ function errorHandler(err) {
 }
 
 function onSaveComplete(results) {
+  // overview-processor as a whole (end)
+  logger.profile(_fileName);
+
   logger.info('Shutting down overview processor');
 
   // just grab the feedid from any overview object
