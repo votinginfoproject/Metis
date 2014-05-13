@@ -940,13 +940,6 @@ var partyErrorSchema = {
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
 };
 
-var precinctSplitElectoralDistrictSchema = {
-  precinctId: String,
-  precinctSplitId: String,
-  electoralDistrictId: String,
-  _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed }
-}
-
 var precinctSplitBallotStyleSchema = {
   precinctId: String,
   precinctSplitId: String,
@@ -1015,7 +1008,6 @@ exports.initSchemas = function (mongoose) {
 
   models.ballotstyles = mongoose.model(config.mongoose.model.ballotstyle, mongoose.Schema(ballotStyleSchema));
   models.parties = mongoose.model(config.mongoose.model.party, mongoose.Schema(partySchema));
-  models.precinctsplitelectoraldistrict = mongoose.model(config.mongoose.model.precinctsplitelectoraldistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
   models.precinctsplitballotstyle = mongoose.model(config.mongoose.model.precinctsplitballotstyle, mongoose.Schema(precinctSplitBallotStyleSchema));
 
   models.ballots.Error = mongoose.model(config.mongoose.model.balloterror, mongoose.Schema(ballotErrorSchema));

@@ -43,11 +43,11 @@ var precinctPollingLocationsSchema = {
   _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
 }
 
-//var precinctSplitElectoralDistrictSchema = {
-//  precinctSplitId: String,
-//  electoralDistrictId: String,
-//  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
-//}
+var precinctSplitElectoralDistrictSchema = {
+  precinctSplitId: String,
+  electoralDistrictId: String,
+  _feed: { type: mongoose.Schema.Types.ObjectId, ref: config.mongoose.model.feed }
+}
 
 var precinctSplitPollingLocationsSchema = {
   precinctSplitId: String,
@@ -75,7 +75,7 @@ function addTemporaryCollectionModels(models) {
   models.precinctearlyvotesite = mongoose.model(config.mongoose.model.precinctearlyvotesite, mongoose.Schema(precinctEarlyVoteSiteSchema));
   models.precinctelectoraldistrict = mongoose.model(config.mongoose.model.precinctelectoraldistrict, mongoose.Schema(precinctElectoralDistrictSchema));
   models.precinctpollinglocation = mongoose.model(config.mongoose.model.precinctpollinglocation, mongoose.Schema(precinctPollingLocationsSchema));
-  //models.precinctsplitelectoraldistrict = mongoose.model(config.mongoose.model.precinctsplitelectoraldistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
+  models.precinctsplitelectoraldistrict = mongoose.model(config.mongoose.model.precinctsplitelectoraldistrict, mongoose.Schema(precinctSplitElectoralDistrictSchema));
   models.precinctsplitpollinglocation = mongoose.model(config.mongoose.model.precinctsplitpollinglocation, mongoose.Schema(precinctSplitPollingLocationsSchema));
   models.referendumballotresponse = mongoose.model(config.mongoose.model.referendumballotresponse, mongoose.Schema(referendumBallotResponseSchema));
   models.stateearlyvotesite = mongoose.model(config.mongoose.model.stateearlyvotesite, mongoose.Schema(stateEarlyVoteSiteSchema));

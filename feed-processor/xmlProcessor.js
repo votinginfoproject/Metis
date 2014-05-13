@@ -144,7 +144,6 @@ module.exports = function() {
     xml.on('endElement: polling_location', processPollingLocationElement);
     xml.on('endElement: precinct', processPrecinctElement);
     xml.on('endElement: precinct_split', processPrecinctSplitElement);
-    xml.on('endElement: precinct_split_electoral_district', processPrecinctSplitElectoralDistrictElement);
     xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
     xml.on('endElement: referendum', processReferendumElement);
     xml.on('endElement: source', processSourceElement);
@@ -172,8 +171,6 @@ module.exports = function() {
     }
     else
       model.mapXml5_0(element);
-
-    model.trimStrings();
 
     var savePromise = model.save();
 
@@ -337,14 +334,9 @@ module.exports = function() {
     mapAndSave(model, precinctSplit);
   }
 
-  function processPrecinctSplitElectoralDistrictElement(psElectoralDistrict) {
-//    var model = new PrecinctSplitElectoralDistrict(models, feedId);
-//    mapAndSave(model, psElectoralDistrict);
-  }
-
   function processPrecinctBallotStyleElement(psBallotStyle) {
-//    var model = new PrecinctSplitBallotStyle(models, feedId);
-//    mapAndSave(model, psBallotStyle);
+    var model = new PrecinctSplitBallotStyle(models, feedId);
+    mapAndSave(model, psBallotStyle);
   }
 
   function processReferendumElement(referendum) {
@@ -392,7 +384,7 @@ module.exports = function() {
       // if we are a child process
       if (process.send) {
         // tell the parent about the feedid of the current feed being processed
-        process.send({"messageId": 1, "feedId": feedId});
+        process.send({"messageId": 1, "feedId": feedId.toString()});
       }
 
       // (NOTE if child process) *** *** ***

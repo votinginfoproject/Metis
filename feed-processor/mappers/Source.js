@@ -55,6 +55,7 @@ Source.prototype.save = function () {
   this.model._id = Types.ObjectId();
 
   this.trimStrings();
+  this.checkRequiredFields();
   this.saveUniqueId();
 
   return when.join(
