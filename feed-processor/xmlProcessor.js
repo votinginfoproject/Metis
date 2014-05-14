@@ -124,6 +124,9 @@ module.exports = function() {
     xml.collect('pollbook_type');
     xml.collect('contest_id');
 
+    xml.collect('contest');
+    xml.collect('candidates');
+
     xml.on('end', onParsingEnd);
     xml.on('startElement: vip_object', processFeedAttributes);
     xml.on('endElement: ballot', processBallotElement);
@@ -159,7 +162,6 @@ module.exports = function() {
       xml.collect('precinct_split');
       xml.collect('polling_location');
       xml.collect('candidate');
-      xml.collect('contest');
     }
   }
 
@@ -222,7 +224,7 @@ module.exports = function() {
 
   function processContestElement(contest) {
 
-    if(!contest.$)
+    if(!contest.$.id)
       return;
 
     if(schemaVersion == '5.0') {

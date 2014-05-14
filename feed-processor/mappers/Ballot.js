@@ -15,9 +15,11 @@ Ballot.prototype.mapXml3_0 = function (ballot) {
   this.model = new this.models.ballots({
     elementId: ballot.$.id,     //required
     referendumIds: _.map(ballot.referendum_id, function(ref) {
-      return {
-        elementId: (ref.$text === undefined) ? ref : ref.$text,
-        sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
+      if(ref.$text) {
+        return {
+          elementId: ref.$text,
+          sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
+        };
       }
     }),
     candidates: _.map(ballot.candidate_id, function(candidate) {
@@ -46,10 +48,12 @@ Ballot.prototype.mapXml5_0 = function (ballot) {
       }
     }),
     referendumIds: _.map(ballot.referendum_id, function(ref) {
-      return {
-        elementId: (ref.$text === undefined) ? ref : ref.$text,
-        sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
-      };
+      if(ref.$text) {
+        return {
+          elementId: ref.$text,
+          sortOrder: (ref.$ === undefined) ? undefined : ref.$.sort_order
+        };
+      }
     }),
     candidates: _.map(ballot.candidate_id, function(candidate) {
       return {

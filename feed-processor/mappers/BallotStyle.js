@@ -19,16 +19,16 @@ BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
     name: ballotStyle.name,
     electionId: ballotStyle.election_id,
     referendumId: ballotStyle.referendum_id,
-    sortOrder: ballotStyle.$.sort_order,
+    sortOrder: ballotStyle.$.sort_order ? ballotStyle.sort_order : null,
     contestIds: _.map(ballotStyle.contest, function(contest) {
       return {
         ballotId: contest.ballot_id,
-        contestOrder: contest.contest_order,
-        contestId: contest.contest_id,
+        contestOrder: contest.$.contest_order ? contest.$.contest_order : null,
+        contestId: contest.$.contest_id ? contest.$.contest_id : null,
         candidateIds: _.map(contest.candidates, function (candidate) {
           return {
-            sortOrder: candidate.sort_order,
-            candidateId: candidate.candidate_id
+            sortOrder: candidate.$.sort_order ? candidate.$.sort_order : null,
+            candidateId: candidate.$.candidate_id ? candidate.$.candidate_id : null
           }
         })
       }

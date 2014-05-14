@@ -77,6 +77,11 @@ function addOverviewObjects(first, second) {
 }
 
 function reduceOverviewObject(arr, schemaFieldCount) {
+
+  if(!arr) {
+    return [];
+  }
+
   var initial = createOverviewObject();
   arr.reduce(function(memo, current) {
     memo.amount++;
