@@ -123,7 +123,7 @@ function checkOverlap(docs, createError) {
 
   var empty = true;
   for (var resIter = 0; resIter < docs.length; ++resIter) {
-    if(_.isNumber(docs[resIter].startHouseNumber) && _.isNumber(docs[resIter].endHouseNumber)) {
+    if(_.isNumber(docs[resIter].startHouseNumber) && _.isNumber(docs[resIter].endHouseNumber) && docs[resIter].startHouseNumber < docs[resIter].endHouseNumber) {
       empty = false;
       tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
     }
