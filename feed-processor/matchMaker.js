@@ -27,10 +27,10 @@ function onUpdate (err, numAffected) {
 
   if(updateCounter <= 0 && finished) {
     // matchmaker as a whole (end)
-    logger.profile(_fileName);
+    logger.profileSeparately(_fileName);
 
     // rulesEngine as a whole (start)
-    logger.profile("rulesEngine");
+    logger.profileSeparately("rulesEngine");
 
     logger.info('****Linking Complete!!!');
     var promise = require('./rule/rulesEngine').processRules(_feedId);
@@ -38,7 +38,7 @@ function onUpdate (err, numAffected) {
 
     promise.then(function(emptyPromise){
       // rulesEngine as a whole (end)
-      logger.profile("rulesEngine");
+      logger.profileSeparately("rulesEngine");
 
       logger.info("****Processing Overview Details");
       require('./overview/overview-processor').runOverviewProcessor(_feedId)});
@@ -1282,7 +1282,7 @@ function createMissingBallot(models, candidate, done) {
 
 function createDBRelationships(feedId, models, schemaVersion) {
   // matchmaker as a whole (start)
-  logger.profile(_fileName);
+  logger.profileSeparately(_fileName);
 
   var _profileStr = _fileName +"." + arguments.callee.name;
   logger.profile(_profileStr);

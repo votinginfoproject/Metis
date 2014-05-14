@@ -50,6 +50,7 @@ var ballotSchema = {
   _contests: [{ type: Types.ObjectId, ref: config.mongoose.model.contest }]
 };
 
+
 var ballotRequiredFields =  {
   v3: [],
   v5: []
@@ -213,6 +214,7 @@ var contestSchema = {
   _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotlineresult }],
   _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
 };
+
 
 var contestRequiredFields = {
   v3: [
@@ -1044,6 +1046,62 @@ exports.initSchemas = function (mongoose) {
   models.uniqueid = mongoose.model(config.mongoose.model.uniqueid, mongoose.Schema(uniqueIdSchema));
   models.county = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
   models.fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
+
+  // Set up indexes
+  /*
+  models.ballots.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.ballotresponses.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.ballotlineresults.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.candidates.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.contests.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.contestresults.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.customballots.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.earlyvotesites.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.elections.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.electionadmins.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.electionofficials.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.electoraldistricts.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.localitys.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.pollinglocations.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.precincts.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.precinctsplits.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.referendums.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.sources.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.states.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.streetsegments.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.ballotstyles.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.parties.schema.index({elementId: 1, _feed: 1}, {unique: true});
+  models.precinctsplitelectoraldistrict.schema.index({_feed: 1}, {unique: true});
+  models.precinctsplitballotstyle.schema.index({_feed: 1}, {unique: true});
+  models.overview.schema.index({_feed: 1}, {unique: true});
+  models.uniqueid.schema.index({elementType:1}, {unique: true});
+  */
+  models.ballots.schema.index({_feed: 1});
+  models.ballotresponses.schema.index({_feed: 1});
+  models.ballotlineresults.schema.index({_feed: 1});
+  models.candidates.schema.index({_feed: 1});
+  models.contests.schema.index({_feed: 1});
+  models.contestresults.schema.index({_feed: 1});
+  models.customballots.schema.index({_feed: 1});
+  models.earlyvotesites.schema.index({_feed: 1});
+  models.elections.schema.index({_feed: 1});
+  models.electionadmins.schema.index({_feed: 1});
+  models.electionofficials.schema.index({_feed: 1});
+  models.electoraldistricts.schema.index({_feed: 1});
+  models.localitys.schema.index({_feed: 1});
+  models.pollinglocations.schema.index({_feed: 1});
+  models.precincts.schema.index({_feed: 1});
+  models.precinctsplits.schema.index({_feed: 1});
+  models.referendums.schema.index({_feed: 1});
+  models.sources.schema.index({_feed: 1});
+  models.states.schema.index({_feed: 1});
+  models.streetsegments.schema.index({_feed: 1});
+  models.ballotstyles.schema.index({_feed: 1});
+  models.parties.schema.index({_feed: 1});
+  models.precinctsplitelectoraldistrict.schema.index({_feed: 1});
+  models.precinctsplitballotstyle.schema.index({_feed: 1});
+  models.overview.schema.index({_feed: 1});
+
 
   // Set up required fields
   models.ballots.RequiredFields = ballotRequiredFields;

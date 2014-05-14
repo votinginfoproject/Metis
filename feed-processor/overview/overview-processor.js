@@ -27,7 +27,7 @@ var functionArr = [];
 
 function runOverviewProcessor(feedId) {
   // overview-processor as a whole (start)
-  logger.profile(_fileName);
+  logger.profileSeparately(_fileName);
 
   functionArr.push(pollinglocations.kickoffPollingLoc);
   functionArr.push(contests.kickoffContest);
@@ -46,7 +46,7 @@ function errorHandler(err) {
 
 function onSaveComplete(results) {
   // overview-processor as a whole (end)
-  logger.profile(_fileName);
+  logger.profileSeparately(_fileName);
 
   logger.info('Shutting down overview processor');
 

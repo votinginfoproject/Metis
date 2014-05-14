@@ -84,6 +84,30 @@ var profileLogger = new (winston.Logger)({
   ]
 });
 
+
+// 4) A SEPERATE PROFILE LOGGER
+// Logs 'profile' log statements to Mongo, to the regular log file, and to the console
+var profileSeparateLogger = new (winston.Logger)({
+  transports: [
+    new winston.transports.File({
+      filename: config.log.logpath + config.log.lognameSeparateProfile,
+      level: config.log.loglevel,
+      maxsize: 1024 * 1024 * config.log.maxsizeMB,
+      maxFiles: config.log.maxFiles,
+      json: false
+    }),
+    new winston.transports.Console({
+      // no options on purpose, using all default option values
+    }),
+    new winston.transports.MongoDB({
+      db: config.log.logProfileMongoDB,
+      collection: config.log.logProfileMongoDBCollection
+    })
+  ]
+});
+
+
+
 // ====================================================================================================
 // ====================================================================================================
 
@@ -92,7 +116,13 @@ var Logging = function(){
   var _loggers = {
     profile:  function(arg){
       if(config.log.logProfileEnabled){
+          profileLogger.profile(arg);
+      }
+    },
+    profileSeparately:  function(arg){
+      if(config.log.logProfileEnabled){
         profileLogger.profile(arg);
+        profileSeparateLogger.profile(arg);
       }
     },
     // Log function not implemented

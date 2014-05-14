@@ -15,6 +15,7 @@ config.log = {
   logname: 'vip.log',
   lognameErrors: 'vip-errors.log',
   lognameExceptions: 'vip-exceptions.log',
+  lognameSeparateProfile: 'separateProfile.log',
   logProfileEnabled: true,
   logProfileMongoDB: 'metis',
   logProfileMongoDBCollection: '_profilelogs',
