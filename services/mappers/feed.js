@@ -601,8 +601,8 @@ var mapBallotCandidates = function(path, candidates) {
   return candidates ? candidates.map(function(candidate) {
     return {
       id: candidate.elementId,
-      name: candidate._candidate.name,
-      party: candidate._candidate.party,
+      name: candidate._candidate ? candidate._candidate.name : null,
+      party: candidate._candidate ? candidate._candidate.party : null,
       sort_order: candidate.sortOrder,
       self: _path.join(path, candidate.elementId.toString())
     };

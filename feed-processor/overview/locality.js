@@ -52,7 +52,12 @@ function localityCalc(feedId, saveCalc) {
        });
 
        var adminCount = locality._electionAdministration ? util.countProperties(locality._electionAdministration) : 0;
-       localityOverview[overviewPos].electionAdmin = util.createOverviewObject(adminCount ? 1 : 0, adminCount, schemas.models.electionadmins.fieldCount);
+       if(adminCount) {
+         localityOverview[overviewPos].electionAdmin = util.createOverviewObject(1, adminCount, schemas.models.electionadmins.fieldCount);
+       }
+       else {
+         localityOverview[overviewPos].electionAdmin = util.createOverviewObject();
+       }
        schemas.models.electionadmins.Error.count({ _ref: locality._electionAdministration }, function(err, count) {
          localityOverview[overviewPos].electionAdmin.errorCount = count;
          wait();

@@ -53,6 +53,8 @@ function processFeed(filePath, s3Bucket) {
       feedStream = fs.createReadStream(file);
     }
 
+    schemas.models.uniqueid.collection.drop();
+
       // if file exists
       switch (ext.toLowerCase()) {
         case '.zip':

@@ -18,13 +18,21 @@ BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
     elementId: ballotStyle.$.id,
     name: ballotStyle.name,
     electionId: ballotStyle.election_id,
-    contestId: ballotStyle.contest_id,
     referendumId: ballotStyle.referendum_id,
-    sortOrder: ballotStyle.$.sort_order,
-    candidateId: ballotStyle.candidate_id ? {
-      elementId: (ballotStyle.candidate_id.$text === undefined) ? ballotStyle.candidate_id : ballotStyle.candidate_id.$text,
-      sortOrder: (ballotStyle.candidate_id.$ === undefined) ? undefined : ballotStyle.candidate_id.$.sort_order
-    } : null
+    sortOrder: ballotStyle.$.sort_order ? ballotStyle.sort_order : null,
+    contestIds: _.map(ballotStyle.contest, function(contest) {
+      return {
+        ballotId: contest.ballot_id,
+        contestOrder: contest.$.contest_order ? contest.$.contest_order : null,
+        contestId: contest.$.contest_id ? contest.$.contest_id : null,
+        candidateIds: _.map(contest.candidates, function (candidate) {
+          return {
+            sortOrder: candidate.$.sort_order ? candidate.$.sort_order : null,
+            candidateId: candidate.$.candidate_id ? candidate.$.candidate_id : null
+          }
+        })
+      }
+    })
   });
 };
 

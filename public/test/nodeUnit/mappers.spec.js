@@ -40,19 +40,17 @@ describe('Mapper Unit Tests', function() {
         expect(doc.referendumIds[1].sortOrder).toBe(xml.referendum_id[1].$.sort_order);
         expect(doc.candidates[0].elementId).toBe(xml.candidate_id[0].$text);
         expect(doc.candidates[1].sortOrder).toBe(xml.candidate_id[1].$.sort_order);
-        expect(doc.customBallotId).toBe(xml.custom_ballot_id);
+        expect(doc.customBallotId.elementId).toBe(xml.custom_ballot_id);
         expect(doc.writeIn).toBe(true);
-        expect(doc.imageUrl).toBe(xml.image_url);
+        expect(doc.imageUrl).toBe(xml.image_url.trim());
       };
 
       nodeUtil.mapperTest3_0(save, model, xml, done);
-      model.trimStrings();
-      expect(model.model.imageUrl).toBe(xml.image_url.trim());
     });
 
     it('Xml5_0 maps properly', function(done) {
       var Ballot = require('../../../feed-processor/mappers/Ballot');
-      var xml = mockXml.ballotXML;
+      var xml = mockXml.ballot5XML;
       var model = new Ballot(schemas.models, mongoose.Schema.Types.ObjectId('1'));
       var save = function(doc) {
         expect(doc.elementId).toBe(xml.$.id);
@@ -60,16 +58,15 @@ describe('Mapper Unit Tests', function() {
         expect(doc.referendumIds[1].sortOrder).toBe(xml.referendum_id[1].$.sort_order);
         expect(doc.candidates[0].elementId).toBe(xml.candidate_id[0].$text);
         expect(doc.candidates[1].sortOrder).toBe(xml.candidate_id[1].$.sort_order);
-        expect(doc.customBallotId).toBe(xml.custom_ballot_id);
+        expect(doc.customBallotId.elementId).toBe(xml.custom_ballot_id.$text);
+        expect(doc.customBallotId.sortOrder).toBe(xml.custom_ballot_id.$.sort_order);
         expect(doc.writeIn).toBe(true);
-        expect(doc.imageUrl).toBe(xml.image_url);
+        expect(doc.imageUrl).toBe(xml.image_url.trim());
         expect(doc.contestIds[0].elementId).toBe(xml.contest_id[0].$text);
         expect(doc.contestIds[0].sortOrder).toBe(xml.contest_id[0].$.sort_order);
       };
 
       nodeUtil.mapperTest5_0(save, model, xml, done);
-      model.trimStrings();
-      expect(model.model.imageUrl).toBe(xml.image_url.trim());
     });
   });
 

@@ -55,11 +55,12 @@ Source.prototype.save = function () {
   this.model._id = Types.ObjectId();
 
   this.trimStrings();
+  this.checkRequiredFields();
   this.saveUniqueId();
 
   return when.join(
     this.collection.create(this.model),
-    this.models.feeds.findByIdAndUpdate(this.feedId.toString(), { $set: { fipsCode: this.model.vipId } }).exec());
+    this.models.feeds.findByIdAndUpdate(this.feedId, { $set: { fipsCode: this.model.vipId } }).exec());
 }
 
 module.exports = Source;

@@ -21,6 +21,7 @@ BaseModel.prototype.save = function () {
   //Set the _id on the document before saving
   this.model._id = Types.ObjectId();
 
+  this.trimStrings();
   this.checkRequiredFields();
   this.saveUniqueId();
 
@@ -60,22 +61,25 @@ BaseModel.prototype.trimStrings = function () {
     return;
 
   _.keys(self.model._doc).forEach(function (key) {
-    var value = self.model._doc[key];
-    if(_.isString(value)) {
-      self.model._doc[key] = _s.trim(value);
-    }
 
-    if(_.isObject(value)) {
-      _.keys(value).forEach(function (embeddedKey) {
-        var embeddedValue = value[embeddedKey];
-        if(_.isString(embeddedValue)) {
-          value[embeddedKey] = _s.trim(embeddedValue);
-        }
-      });
+    if(key != '_id' && key != '_feed') {
+      var value = self.model._doc[key];
+      if (_.isString(value)) {
+        self.model._doc[key] = _s.trim(value);
+      }
 
-      self.model._doc[key] = value;
+      if (_.isObject(value)) {
+        _.keys(value).forEach(function (embeddedKey) {
+          var embeddedValue = value[embeddedKey];
+          if (_.isString(embeddedValue)) {
+            value[embeddedKey] = _s.trim(embeddedValue);
+          }
+        });
+
+        self.model._doc[key] = value;
+      }
     }
-  })
+  });
 };
 
 BaseModel.prototype.checkRequiredFields = function () {

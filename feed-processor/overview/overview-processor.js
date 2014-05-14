@@ -20,6 +20,8 @@ var contest = require('./contest');
 var locality = require('./locality');
 var pollinglocations = require('./pollinglocations');
 
+var _ = require('underscore');
+
 var overviewModels = [];
 var functionArr = [];
 
@@ -105,14 +107,28 @@ function calculateFields(feedId, saveCalc) {
 };
 
 function createOverviewModel(name, overview, errors, section, feed) {
-  overviewModels.push(schemas.models.overview.create({
+
+  if(overview.amount == undefined) {
+    overviewModels.push(schemas.models.overview.create({
+      elementType: name,
+      amount: 0,
+      errorCount: 0,
+      section: section,
+      _feed: feed
+    }));
+    return;
+  }
+
+  var pct = overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0;
+  var create = {
     elementType: name,
     amount: overview.amount,
-    completePct: overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0,
+    completePct: pct,
     errorCount: errors,
     section: section,
     _feed: feed
-  }));
+  };
+  overviewModels.push(schemas.models.overview.create(create));
 };
 
 exports.runOverviewProcessor = runOverviewProcessor;
