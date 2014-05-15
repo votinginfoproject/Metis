@@ -16,7 +16,7 @@ BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
 
   this.model = new this.models.ballotstyles({
     elementId: ballotStyle.$.id,
-    name: ballotStyle.name,
+    name: ballotStyle.$.name,
     electionId: ballotStyle.election_id,
     referendumId: ballotStyle.referendum_id,
     sortOrder: ballotStyle.$.sort_order ? ballotStyle.sort_order : null,

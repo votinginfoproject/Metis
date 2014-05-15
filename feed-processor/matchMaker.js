@@ -1308,7 +1308,7 @@ function joinBallotStyleContest(models, ballotStyle) {
 
     promise.then(function (contests) {
       contests.forEach(function (contest) {
-        updateRelationship(models.contests, { _id: contest }, { $addToSet: {_ballotStyle: ballotStyle._id} }, onUpdate)
+        updateRelationship(models.contests, { _id: contest }, { $addToSet: {_ballotStyles: ballotStyle._id} }, onUpdate)
       });
     });
   }
@@ -1328,7 +1328,7 @@ function joinBallotStyleCandidate(models, ballotStyle) {
 
     promise.then(function (candidates) {
       candidates.forEach(function (candidate) {
-        updateRelationship(models.candidates, { _id: candidate }, { $addToSet: {_ballotStyle: ballotStyle._id} }, onUpdate);
+        updateRelationship(models.candidates, { _id: candidate }, { $addToSet: {_ballotStyles: ballotStyle._id} }, onUpdate);
       });
     });
   }

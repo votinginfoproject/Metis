@@ -350,6 +350,7 @@ function mapContest (path, contest) {
     number_elected: contest.numberElected,
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
+    ballotStyles: contest._ballotStyles.map(mapBallotStyles),
     overview: _path.join(path, '/contestoverview'),
     ballot: contest['_ballot'] ? {
       id: contest._ballot.elementId,
@@ -635,7 +636,8 @@ var mapCandidate = function (path, candidate) {
     incumbent: candidate.incumbent,
     last_name: candidate.lastName,
     party_id: candidate.partyId,
-    candidate_status: candidate.candidateStatus
+    candidate_status: candidate.candidateStatus,
+    ballotStyles: candidate._ballotStyles.map(mapBallotStyles)
   };
 };
 
@@ -670,6 +672,16 @@ function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
     electoral_districts: precinctSplit._electoralDistricts.length,
     self: _path.join(path, '../../..', precinctSplit.precinctId.toString(), 'precinctsplits', precinctSplit.elementId.toString())
   };
+}
+
+function mapBallotStyles(ballotStyle) {
+  return {
+    name: ballotStyle.name,
+    sortOrder: ballotStyle.sortOrder,
+    referendum: ballotStyle.referendumId,
+    election: ballotStyle.electionId,
+    elementId: ballotStyle.elementId
+  }
 }
 
 exports.mapFeedQueue = mapFeedQueue;
