@@ -1098,7 +1098,6 @@ exports.initSchemas = function (mongoose) {
   models.streetsegments.schema.index({_feed: 1});
   models.ballotstyles.schema.index({_feed: 1});
   models.parties.schema.index({_feed: 1});
-  models.precinctsplitelectoraldistrict.schema.index({_feed: 1});
   models.precinctsplitballotstyle.schema.index({_feed: 1});
   models.overview.schema.index({_feed: 1});
 
