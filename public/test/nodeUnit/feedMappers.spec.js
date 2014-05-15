@@ -408,4 +408,18 @@ describe('Feed Mappers Tests', function() {
       expect(res[0].error_count).toBe(overview[0].errorCount);
     });
   });
+
+  describe('mapBallotStyles', function() {
+    it('returns the data', function() {
+      var ballotStyles = data.ballotStyles;
+      var res = mappers.mapBallotStyles('', ballotStyles);
+
+      expect(res[0].elementId).toBe(ballotStyles[0].elementId);
+      expect(res[0].name).toBe(ballotStyles[0].name);
+      expect(res[0].sortOrder).toBe(ballotStyles[0].sortOrder);
+      expect(res[0].referendum).toBe(ballotStyles[0].referendumId);
+      expect(res[0].election).toBe(ballotStyles[0].electionId);
+    });
+  });
+
 });

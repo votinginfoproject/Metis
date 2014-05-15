@@ -22,7 +22,6 @@ module.exports = function(config) {
       'public/assets/js/lib/jquery/jquery.min.js',
       'public/assets/js/lib/javascript-debug/ba-debug.min.js',
       'public/assets/js/lib/ng-table/ng-table.js',
-      'public/assets/js/lib/leaflet/0.7.2/leaflet.js',
       'public/test/Mocking.js',
       'public/assets/js/app/utils.js',
       'public/assets/js/app/app.js',
@@ -69,7 +68,7 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
 
 
     // If browser does not capture in given timeout [ms], kill it

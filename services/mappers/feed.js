@@ -600,10 +600,18 @@ function mapBallotResponse(response) {
 
 var mapBallotCandidates = function(path, candidates) {
   return candidates ? candidates.map(function(candidate) {
+    var party = candidate._candidate ? candidate._candidate.party : null;
+
+    if(candidate._candidate) {
+      if (candidate._candidate._party) {
+        party = candidate._candidate._party.name;
+      }
+    }
+
     return {
       id: candidate.elementId,
       name: candidate._candidate ? candidate._candidate.name : null,
-      party: candidate._candidate ? candidate._candidate.party : null,
+      party: party,
       sort_order: candidate.sortOrder,
       self: _path.join(path, candidate.elementId.toString())
     };
