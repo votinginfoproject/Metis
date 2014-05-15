@@ -282,18 +282,22 @@ module.exports = function() {
     if(schemaVersion == '5.0') {
       locality.precinct.forEach(function (precinct) {
 
-        precinct._precinctSplits = [];
-        precinct.precinct_split.forEach(function (split) {
-          var splitModel = new PrecinctSplit(models, feedId);
-          precinct._precinctSplits.push(mapAndSave(splitModel, split));
-        });
+        if(precinct._precinctSplits) {
+          precinct._precinctSplits = [];
+          precinct.precinct_split.forEach(function (split) {
+            var splitModel = new PrecinctSplit(models, feedId);
+            precinct._precinctSplits.push(mapAndSave(splitModel, split));
+          });
+        }
 
-        precinct._pollingLocations = [];
-        precinct.polling_location.forEach(function (location) {
-          var locationModel = new PollingLocation(models, feedId);
-          var locationId = new schemas.types.ObjectId();
-          precinct._pollingLocations.push(mapAndSave(locationModel, location, locationId));
-        });
+        if(precinct._pollingLocations) {
+          precinct._pollingLocations = [];
+          precinct.polling_location.forEach(function (location) {
+            var locationModel = new PollingLocation(models, feedId);
+            var locationId = new schemas.types.ObjectId();
+            precinct._pollingLocations.push(mapAndSave(locationModel, location, locationId));
+          });
+        }
 
         locality._precincts = [];
         var precinctModel = new Precinct(models, feedId);

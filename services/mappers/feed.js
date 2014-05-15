@@ -350,7 +350,7 @@ function mapContest (path, contest) {
     number_elected: contest.numberElected,
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
-    ballotStyles: contest._ballotStyles.map(mapBallotStyles),
+    ballotStyles: _path.join(path, '/ballotstyles'),
     overview: _path.join(path, '/contestoverview'),
     ballot: contest['_ballot'] ? {
       id: contest._ballot.elementId,
@@ -637,7 +637,7 @@ var mapCandidate = function (path, candidate) {
     last_name: candidate.lastName,
     party_id: candidate.partyId,
     candidate_status: candidate.candidateStatus,
-    ballotStyles: candidate._ballotStyles.map(mapBallotStyles)
+    ballotStyles: _path.join(path, '/ballotstyles')
   };
 };
 
@@ -674,14 +674,18 @@ function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
   };
 }
 
-function mapBallotStyles(ballotStyle) {
-  return {
-    name: ballotStyle.name,
-    sortOrder: ballotStyle.sortOrder,
-    referendum: ballotStyle.referendumId,
-    election: ballotStyle.electionId,
-    elementId: ballotStyle.elementId
-  }
+function mapBallotStyles(path, ballotStyles) {
+  var styles = ballotStyles.map(function(ballotStyle) {
+    return {
+      name: ballotStyle.name,
+      sortOrder: ballotStyle.sortOrder,
+      referendum: ballotStyle.referendumId,
+      election: ballotStyle.electionId,
+      elementId: ballotStyle.elementId
+    }
+  });
+
+  return styles;
 }
 
 exports.mapFeedQueue = mapFeedQueue;
@@ -719,3 +723,4 @@ exports.mapPollingLocation = mapPollingLocation;
 exports.mapOverviewTables = mapOverviewTables;
 exports.mapResultsContestResults = resultsMapper.mapResultsContestResults;
 exports.mapResultsBallotLineResults = resultsMapper.mapResultsBallotLineResults;
+exports.mapBallotStyles = mapBallotStyles;

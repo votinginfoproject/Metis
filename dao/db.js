@@ -386,7 +386,7 @@ function feedLocalityElectionAdministration (feedId, localityId, callback) {
 
 function feedContest (feedId, contestId, callback) {
   var promise = daoSchemas.models.contests.findOne({ _feed: feedId, elementId: contestId })
-    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults _party _ballotStyles')
+    .populate('_ballot _electoralDistrict _contestResult _ballotLineResults _party')
     .exec();
 
   promise.then(function(contest) {
@@ -503,7 +503,7 @@ function feedBallotCandidates(feedId, contestId, callback) {
 
 function feedCandidate(feedId, candidateId, callback) {
   var promise = daoSchemas.models.candidates.findOne({ _feed: feedId, elementId: candidateId })
-    .populate('_party _ballotStyles')
+    .populate('_party')
     .exec();
 
   promise.then(function(candidate) {
@@ -609,6 +609,26 @@ function getBallotLineResult(feedId, blrId, callback) {
   });
 }
 
+function getContestBallotStyles(feedId, contestId, callback) {
+  var promise = daoSchemas.models.contests.findOne({ _feed: feedId, elementId: contestId })
+    .populate('_ballotStyles')
+    .exec();
+
+  promise.then(function(contest) {
+    callback(null, contest._ballotStyles);
+  });
+}
+
+function getCandidateBallotStyles(feedId, candidateId, callback) {
+  var promise = daoSchemas.models.candidates.findOne({ _feed: feedId, elementId: candidateId })
+    .populate('_ballotStyles')
+    .exec();
+
+  promise.then(function(candidate) {
+    callback(null, candidate._ballotStyles);
+  });
+}
+
 function getOverviewTable(feedId, section, callback) {
   daoSchemas.models.overview.find({ _feed: feedId, section: section })
     .exec(callback);
@@ -663,6 +683,8 @@ exports.getContestBallotLineResults = getContestBallotLineResults;
 exports.getBallotLineResult = getBallotLineResult;
 exports.dbConnect = dbConnect;
 exports.getOverviewTable = getOverviewTable;
+exports.getContestBallotStyles = getContestBallotStyles;
+exports.getCandidateBallotStyles = getCandidateBallotStyles;
 
 exports.getCounties = getCounties;
 exports.getCounty = getCounty;
