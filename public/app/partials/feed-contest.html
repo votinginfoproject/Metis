@@ -137,3 +137,28 @@
     </ul>
   </script>
 </section>
+
+<section class="data-group data-module">
+  <h2>{{feedBallotStyle.length}} Ballot Styles</h2>
+
+  <span ng-if="!feedBallotStyle" class="is-loading"></span>
+  <table ng-show="feedBallotStyle.length" id="ballotStylesTable" ng-table="contestBallotStylesTableParams" template-pagination="ballotStylesPagination">
+    <tr id="ballotStyle{{$index}}" ng-repeat="result in $data">
+      <td id="ballotStyle-id{{$index}}" data-title="'ID'" sortable="'elementId'"><span class="td-text">{{result.elementId}}</span></td>
+      <td id="ballotStyle-election{{$index}}" data-title="'Election'" sortable="'election'"><span class="td-text">{{result.election}}</span></td>
+      <td id="ballotStyle-name{{$index}}" data-title="'Name'" sortable="'name'"><span class="td-text">{{result.name}}</span></td>
+      <td id="ballotStyle-sortOrder{{$index}}" data-title="'Sort Order'" sortable="'sortOrder'"><span class="td-text">{{result.sortOrder}}</span></td>
+      <td id="ballotStyle-referendum{{$index}}" data-title="'Referendum'" sortable="'referendum'"><span class="td-text">{{result.referendum}}</span></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="ballotStylesPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotStylePage{{$index}}" ng-class="{'is-active': page.number == contestBallotStylesTableParams.page()}"
+           ng-click="contestBallotStylesTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>

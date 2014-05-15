@@ -334,6 +334,16 @@ var data = {
       completePct: 2,
       errorCount: 3
     }
+  ],
+
+  ballotStyles: [
+    {
+      elementId: '1',
+      name: 'name',
+      sortOrder: 1,
+      referendumId: '2',
+      electionId: '3'
+    }
   ]
 };
 

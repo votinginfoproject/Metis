@@ -20,9 +20,9 @@ function ballotExport(feedId, callback) {
       chunk = util.startElement("ballot", "id", _.escape(result.elementId.toString()), null, null);
 
       if(result.referendumIds.length) {
-        result.referendumIds.forEach(function(refId) {
-          if(refId)
-            chunk += util.startEndElement("referendum_id", _.escape(refId.toString()));
+        result.referendumIds.forEach(function(ref) {
+          if(ref.elementId)
+            chunk += util.startEndElement("referendum_id", _.escape(ref.elementId.toString()));
         });
       }
       if(result.candidates.length) {
@@ -31,8 +31,10 @@ function ballotExport(feedId, callback) {
             chunk += util.startEndElement("candidate_id", _.escape(candidate.elementId.toString()));
         });
       }
-      if(result.customBallotId)
-        chunk += util.startEndElement("custom_ballot_id", _.escape(result.customBallotId.toString()));
+      if(result.customBallotId) {
+        if(result.customBallotId.elementId)
+          chunk += util.startEndElement("custom_ballot_id", _.escape(result.customBallotId.elementId.toString()));
+      }
       if(result.writeIn != undefined && result.writeIn != null)
         chunk += util.startEndElement("write_in", result.writeIn ? 'yes' : 'no');
       if(result.imageUrl)

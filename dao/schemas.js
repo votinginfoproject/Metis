@@ -165,7 +165,8 @@ var candidateSchema = {
   candidateStatus: String,
   ballotId: String,
   _feed: { type: Types.ObjectId, ref: config.mongoose.model.feed },
-  _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
+  _party: { type: Types.ObjectId, ref: config.mongoose.model.party },
+  _ballotStyles: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotstyle }]
 };
 
 var candidateRequiredFields = {
@@ -212,7 +213,8 @@ var contestSchema = {
   _ballot: { type: Types.ObjectId, ref: config.mongoose.model.ballot },
   _contestResult: { type: Types.ObjectId, ref: config.mongoose.model.contestresult },
   _ballotLineResults: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotlineresult }],
-  _party: { type: Types.ObjectId, ref: config.mongoose.model.party }
+  _party: { type: Types.ObjectId, ref: config.mongoose.model.party },
+  _ballotStyles: [{ type: Types.ObjectId, ref: config.mongoose.model.ballotstyle }]
 };
 
 

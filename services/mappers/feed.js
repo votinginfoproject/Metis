@@ -350,6 +350,7 @@ function mapContest (path, contest) {
     number_elected: contest.numberElected,
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
+    ballotStyles: _path.join(path, '/ballotstyles'),
     overview: _path.join(path, '/contestoverview'),
     ballot: contest['_ballot'] ? {
       id: contest._ballot.elementId,
@@ -599,10 +600,18 @@ function mapBallotResponse(response) {
 
 var mapBallotCandidates = function(path, candidates) {
   return candidates ? candidates.map(function(candidate) {
+    var party = candidate._candidate ? candidate._candidate.party : null;
+
+    if(candidate._candidate) {
+      if (candidate._candidate._party) {
+        party = candidate._candidate._party.name;
+      }
+    }
+
     return {
       id: candidate.elementId,
       name: candidate._candidate ? candidate._candidate.name : null,
-      party: candidate._candidate ? candidate._candidate.party : null,
+      party: party,
       sort_order: candidate.sortOrder,
       self: _path.join(path, candidate.elementId.toString())
     };
@@ -635,7 +644,8 @@ var mapCandidate = function (path, candidate) {
     incumbent: candidate.incumbent,
     last_name: candidate.lastName,
     party_id: candidate.partyId,
-    candidate_status: candidate.candidateStatus
+    candidate_status: candidate.candidateStatus,
+    ballotStyles: _path.join(path, '/ballotstyles')
   };
 };
 
@@ -670,6 +680,20 @@ function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
     electoral_districts: precinctSplit._electoralDistricts.length,
     self: _path.join(path, '../../..', precinctSplit.precinctId.toString(), 'precinctsplits', precinctSplit.elementId.toString())
   };
+}
+
+function mapBallotStyles(path, ballotStyles) {
+  var styles = ballotStyles.map(function(ballotStyle) {
+    return {
+      name: ballotStyle.name,
+      sortOrder: ballotStyle.sortOrder,
+      referendum: ballotStyle.referendumId,
+      election: ballotStyle.electionId,
+      elementId: ballotStyle.elementId
+    }
+  });
+
+  return styles;
 }
 
 exports.mapFeedQueue = mapFeedQueue;
@@ -707,3 +731,4 @@ exports.mapPollingLocation = mapPollingLocation;
 exports.mapOverviewTables = mapOverviewTables;
 exports.mapResultsContestResults = resultsMapper.mapResultsContestResults;
 exports.mapResultsBallotLineResults = resultsMapper.mapResultsBallotLineResults;
+exports.mapBallotStyles = mapBallotStyles;

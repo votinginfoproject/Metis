@@ -386,6 +386,22 @@ function feedBallotLineResultGET(req, res) {
   });
 }
 
+function feedContestBallotStyleGET(req, res) {
+  dao.getContestBallotStyles(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, ballotStyles) {
+    notFoundHandler(res, err, ballotStyles, function() {
+      res.json(mapper.mapBallotStyles(req.path, ballotStyles));
+    })
+  })
+}
+
+function feedCandidateBallotStyleGET(req, res) {
+  dao.getCandidateBallotStyles(feedIdMapper.getId(req.params.feedid), req.params.candidateid, function(err, ballotStyles) {
+    notFoundHandler(res, err, ballotStyles, function() {
+      res.json(mapper.mapBallotStyles(req.path, ballotStyles));
+    });
+  });
+}
+
 function feedExportPOST(req, res) {
   // not converting the feedid, as we are passing in the mongo feedid
   exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err, location) {
@@ -439,6 +455,8 @@ exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
+exports.feedContestBallotStyleGET = feedContestBallotStyleGET;
+exports.feedCandidateBallotStyleGET = feedCandidateBallotStyleGET;
 
 exports.feedExportPOST = feedExportPOST;
 
