@@ -12,6 +12,7 @@ var _schemaVersion;
 
 
 var when = require('when');
+var _ = require('underscore');
 
 /**
  * Creates relationships between documents in the database
@@ -484,6 +485,23 @@ function createRelationshipsCandidate(feedId, models) {
   });
 
   return defered.promise;
+}
+
+function createRelationshipsBallotStyle(feedId, models) {
+  if(_schemaVersion != '5.0') {
+    return;
+  }
+
+  var promise = models.ballotstyles.find({_feed: feedId}).exec();
+
+  promise.then(function(ballotStyles) {
+    ballotStyles.forEach(function(ballotStyle) {
+      if(ballotStyle.contestIds.length) {
+        joinBallotStyleContest(models, ballotStyle);
+        joinBallotStyleCandidate(models, ballotStyle);
+      }
+    });
+  });
 }
 
 function joinLocalityElectionAdmin (models, locality, eaId) {
@@ -1280,6 +1298,42 @@ function createMissingBallot(models, candidate, done) {
   });
 }
 
+function joinBallotStyleContest(models, ballotStyle) {
+  var contestIds = ballotStyle.contestIds.map(function(contestId) { return contestId.contestId; });
+
+  if(contestIds.length) {
+    var promise = models.contests.find({ _feed: ballotStyle._feed, elementId: { $in: contestIds } })
+      .select('_id')
+      .exec();
+
+    promise.then(function (contests) {
+      contests.forEach(function (contest) {
+        updateRelationship(models.contests, { _id: contest }, { $addToSet: {_ballotStyle: ballotStyle._id} }, onUpdate)
+      });
+    });
+  }
+}
+
+function joinBallotStyleCandidate(models, ballotStyle) {
+  var candidateIds = ballotStyle.contestIds.map(function(contestId) {
+    return contestId.candidateIds.map(function(candidateId) { return candidateId.candidateId })
+  });
+
+  candidateIds = _.flatten(candidateIds);
+
+  if(candidateIds.length) {
+    var promise = models.candidates.find({ _feed: ballotStyle._feed, elementId: { $in: candidateIds }})
+      .select('_id')
+      .exec();
+
+    promise.then(function (candidates) {
+      candidates.forEach(function (candidate) {
+        updateRelationship(models.candidates, { _id: candidate }, { $addToSet: {_ballotStyle: ballotStyle._id} }, onUpdate);
+      });
+    });
+  }
+}
+
 function createDBRelationships(feedId, models, schemaVersion) {
   // matchmaker as a whole (start)
   logger.profileSeparately(_fileName);
@@ -1310,6 +1364,7 @@ function createDBRelationships(feedId, models, schemaVersion) {
   createRelQue.push(createRelationshipsBallotLineResult(feedId, models));
   createRelQue.push(createRelationshipsPollingLocation(feedId, models));
   createRelQue.push(createRelationshipsCandidate(feedId, models));
+  createRelQue.push(createRelationshipsBallotStyle(feedId, models));
 
   when.all(createRelQue).then(function(docs) {
     finished = true;

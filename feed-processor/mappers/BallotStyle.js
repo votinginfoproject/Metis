@@ -32,7 +32,8 @@ BallotStyle.prototype.mapXml5_0 = function (ballotStyle) {
           }
         })
       }
-    })
+    }),
+    _feed: this.feedId
   });
 };
 
