@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
 var daoSchemas = require('./schemas');
 var when = require('when');
 
+var logger = (require('../logging/vip-winston')).Logger;
+
 function dbConnect() {
   mongoose.connect(config.mongoose.connectionString);
   var db = mongoose.connection;
@@ -59,15 +61,16 @@ function getFeedList (callback) {
 
 function getFeedOverview (id, callback) {
 
+  if(!id) {
+    logger.error('db.getFeedOverview: bad FeedID!', id);
+    return;
+  }
+
   daoSchemas.models.feeds.findById(id, { payload: 0 })
     .populate('_state')
     .populate('_feedContact')
     .populate('_election')
     .exec(function(err, overview) {
-
-      if(!overview) {
-        callback(null, null);
-      }
 
       var allErrorModels = [daoSchemas.models.ballots.Error,
         daoSchemas.models.ballotresponses.Error,
