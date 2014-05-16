@@ -120,12 +120,13 @@ function checkOverlap(docs, createError) {
 
   var tree = new interval.SegmentTree;
   tree.clearIntervalStack();
-
+  var indexes = [];
   var empty = true;
   for (var resIter = 0; resIter < docs.length; ++resIter) {
     if(_.isNumber(docs[resIter].startHouseNumber) && _.isNumber(docs[resIter].endHouseNumber) && docs[resIter].startHouseNumber < docs[resIter].endHouseNumber) {
       empty = false;
       tree.pushInterval(docs[resIter].startHouseNumber, docs[resIter].endHouseNumber);
+      indexes.push(resIter);
     }
   }
 
@@ -143,13 +144,16 @@ function checkOverlap(docs, createError) {
         var index = treeOverlap.overlap[k];
         index = parseInt(index) - 1;
 
-        if(docs[j].oddEvenBoth == docs[index].oddEvenBoth || docs[j].oddEvenBoth == 'both' || docs[index].oddEvenBoth == 'both') {
-          if(docs[j].nonHouseAddress.streetName == docs[index].nonHouseAddress.streetName &&
-            docs[j].nonHouseAddress.streetDirection == docs[index].nonHouseAddress.streetDirection &&
-            docs[j].nonHouseAddress.streetSuffix == docs[index].nonHouseAddress.streetSuffix &&
-            docs[j].nonHouseAddress.addressDirection == docs[index].nonHouseAddress.addressDirection) {
-            var errors = "overlaps with elementId: " + docs[index].elementId;
-            createError(docs[j].elementId, docs[j].id, errors)
+        var first = indexes[j];
+        var second = indexes[index];
+
+        if(docs[first].oddEvenBoth == docs[second].oddEvenBoth || docs[first].oddEvenBoth == 'both' || docs[second].oddEvenBoth == 'both') {
+          if(docs[first].nonHouseAddress.streetName == docs[second].nonHouseAddress.streetName &&
+            docs[first].nonHouseAddress.streetDirection == docs[second].nonHouseAddress.streetDirection &&
+            docs[first].nonHouseAddress.streetSuffix == docs[second].nonHouseAddress.streetSuffix &&
+            docs[first].nonHouseAddress.addressDirection == docs[second].nonHouseAddress.addressDirection) {
+            var errors = "overlaps with elementId: " + docs[second].elementId;
+            createError(docs[first].elementId, docs[first].id, errors)
           }
         }
       }
