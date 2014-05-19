@@ -157,6 +157,19 @@ var metisRuleList = [
     severityText: 'Error',
     implementation: './impl/missingPollingLocationRule',
     dataConstraints: constraints['missingPollingLocation']
+  },
+  {
+    ruleId: 'nonExistentAdminRule',
+    title: 'Linking to a nonexistent Election Administration',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 13,
+    errorText: 'Link to Election Administration does not exist',
+    severityCode: 2,
+    severityText: 'warning',
+    implementation: './impl/nonExistentAdminRule',
+    dataConstraints: constraints['nonExistentAdmin']
   }
   /* address direction range */
 ];

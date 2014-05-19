@@ -116,7 +116,9 @@ var theseConstraints = {
 
   orphanedEVS : [ { entity: [ models.earlyvotesite ], fields: [] } ],
 
-  missingPollingLocation: [ { entity: [ models.precinctsplit ], fields: [ '_pollingLocations' ] } ]
+  missingPollingLocation: [ { entity: [ models.precinctsplit ], fields: [ '_pollingLocations' ] } ],
+
+  nonExistentAdmin: [ { entity: [ models.localitys, models.states ], fields: [] } ]
 
 };
 

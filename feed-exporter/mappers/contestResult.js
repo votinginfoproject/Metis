@@ -2,12 +2,14 @@
  * Created by rcartier13 on 3/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function contestResultExport(feedId, callback) {
+  logger.info('Export Contest Results Started');
   schemas.models.contestresults.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -39,7 +41,8 @@ function contestResultExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('contest result finished');
+    logger.info('Export Contest Results Finished');
+    logger.info('----------------------------');
   });
 }
 

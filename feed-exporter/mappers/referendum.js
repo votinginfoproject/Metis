@@ -1,13 +1,14 @@
 /**
  * Created by rcartier13 on 3/5/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function referendumExport(feedId, callback) {
+  logger.info('Export Referendums Started');
   schemas.models.referendums.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -43,7 +44,8 @@ function referendumExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('referendum finished');
+    logger.info('Export Referendum Finished');
+    logger.info('----------------------------');
   });
 }
 

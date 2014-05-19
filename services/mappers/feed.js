@@ -83,6 +83,11 @@ var mapOverview = function(path, feed) {
   title += feed._election.electionType ? feed._election.electionType : "" ;
   title = title.trim();
 
+  var county = _path.join('/services/geo/counties');
+  if(feed.fipsCode) {
+   county = _path.join('/services/geo/', feed.fipsCode.toString(), 'counties');
+  }
+
   return {
     id: feed.id,
     title: title,
@@ -95,7 +100,7 @@ var mapOverview = function(path, feed) {
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
     state: _path.join(path, '/election/state'),
-    county_map: _path.join('/services/geo/', feed.fipsCode.toString(), 'counties'),
+    county_map: county,
     localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
     election_contests: _path.join(path, '/election/contests'),

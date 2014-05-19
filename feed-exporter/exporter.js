@@ -7,7 +7,6 @@ var auth = require('../services/auth');
 var db = require('../dao/db');
 var fs = require('fs');
 
-var states = require('./states');
 var config = require('../config');
 
 var ballot = require('./mappers/ballot');
@@ -121,13 +120,14 @@ function writeFeed(feedId, instance, callback) {
     if(instance.written === 0) {
       if(instance.finished) {
         instance.stream.end();
-        console.log('Finished writing XML');
-        console.log('***Zip XML***');
+        logger.info('---------------------------------');
+        logger.info('Finished writing XML');
+        logger.info('***Zip XML***');
         instance.zip.addLocalFile(instance.tempLoc);
         instance.zip.writeZip(instance.zipLoc);
         fs.unlinkSync(instance.tempLoc);
         fs.rmdirSync(config.exporter.tempLocation);
-        console.log('***Zip Finished***');
+        logger.info('***Zip Finished***');
 
         var output = {
           FeedFile: instance.zipLoc,
@@ -168,7 +168,7 @@ function writeFeed(feedId, instance, callback) {
     ++instance.written;
     instance.stream.write("</vip_object>", finishedWrite);
     instance.finished = true;
-    console.log('Finished adding to writing buffer');
+    logger.info('Finished adding to writing buffer');
   }
 }
 
