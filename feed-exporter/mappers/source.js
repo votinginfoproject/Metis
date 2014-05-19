@@ -1,7 +1,7 @@
 /**
  * Created by rcartier13 on 3/4/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var db = require('../../dao/db');
 var moment = require('moment');
 var util = require('./util');
@@ -9,6 +9,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function sourceExport(feedId, callback) {
+  logger.info('Export Source Started');
   db.getFeedSource(feedId, function(err, result) {
 
     if(!result) {
@@ -35,7 +36,8 @@ function sourceExport(feedId, callback) {
 
     chunk += util.endElement('source');
 
-    console.log('source finished');
+    logger.info('Export Source Finished');
+    logger.info('----------------------------');
     callback(pd.xml(chunk));
   });
 }

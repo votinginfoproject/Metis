@@ -1,13 +1,14 @@
 /**
  * Created by rcartier13 on 3/5/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function precinctSplitExport(feedId, callback) {
+  logger.info('Export Precinct Splits Started');
   schemas.models.precinctsplits.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -37,7 +38,8 @@ function precinctSplitExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('precinct split finished');
+    logger.info('Export Precinct Splits Finished');
+    logger.info('----------------------------');
   });
 }
 

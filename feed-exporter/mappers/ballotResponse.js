@@ -2,12 +2,14 @@
  * Created by rcartier13 on 3/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function ballotResponseExport(feedId, callback) {
+  logger.info('Export Ballot Responses Started');
   schemas.models.ballotresponses.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -25,7 +27,8 @@ function ballotResponseExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('ballot response finished');
+    logger.info('Export Ballot Responses finished');
+    logger.info('----------------------------');
   });
 }
 

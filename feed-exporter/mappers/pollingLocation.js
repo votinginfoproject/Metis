@@ -1,7 +1,7 @@
 /**
  * Created by rcartier13 on 3/5/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var util = require('./util');
@@ -9,6 +9,7 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function pollingLocationExport(feedId, callback) {
+  logger.info('Export Polling Locations Started');
   schemas.models.pollinglocations.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -30,7 +31,8 @@ function pollingLocationExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('polling location finished');
+    logger.info('Export Polling Locations Finished');
+    logger.info('----------------------------');
   });
 }
 

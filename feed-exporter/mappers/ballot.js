@@ -2,6 +2,7 @@
  * Created by rcartier13 on 3/4/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
@@ -9,6 +10,7 @@ var pd = require('pretty-data').pd;
 var zlib = require('zlib');
 
 function ballotExport(feedId, callback) {
+  logger.info('Export Ballots Started');
   schemas.models.ballots.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
@@ -44,7 +46,8 @@ function ballotExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('ballot finished');
+    logger.info('Export Ballots Finished');
+    logger.info('----------------------------');
   });
 }
 
