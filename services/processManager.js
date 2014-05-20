@@ -17,6 +17,8 @@ var fileProcessing = null;
 // store the process ids and the feed ids they represent
 var pIdsAndFeedIds = {};
 
+var logger = (require('../logging/vip-winston')).Logger;
+
 /*
  * Handling the POST call after a file is uploaded.
  * This will queue up the file and start the processing of the file
@@ -82,10 +84,10 @@ function startFileProcessing(fileInfo){
   if (config.importer.useS3) {
     processArgs.push(fileInfo.filename);
     processArgs.push(fileInfo.s3Bucket);
-    console.log('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
+    logger.info('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
   } else {
     processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
-    console.log('Starting to process: ' + processArgs[0]);
+    logger.info('Starting to process: ' + processArgs[0]);
   }
 
   // Forking a whole new instance of v8
@@ -113,7 +115,7 @@ function startFileProcessing(fileInfo){
 
         // stringify the pid
         var pid = fileProcessing.pid + "";
-        console.log("Setting the pid: " + pid + " to match with feed " + msg.feedId);
+        logger.info("Setting the pid: " + pid + " to match with feed " + msg.feedId);
         pIdsAndFeedIds[pid] = msg.feedId;
 
         // **** *** ***
@@ -132,7 +134,7 @@ function startFileProcessing(fileInfo){
 
   // when child shuts down
   fileProcessing.on('exit', function (code) {
-    console.log('Processing Exited: ' + code);
+    logger.info('Processing Exited: ' + code);
 
     // stringify the pid
     var pid = fileProcessing.pid + "";
@@ -172,10 +174,10 @@ function startFileProcessing(fileInfo){
 
   });
   fileProcessing.on('close', function (code) {
-    console.log('Processing Closed: ' + code);
+    logger.info('Processing Closed: ' + code);
   });
   fileProcessing.on('error', function (code) {
-    console.log('Processing Errored: ' + code);
+    logger.info('Processing Errored: ' + code);
   });
 }
 

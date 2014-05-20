@@ -2,7 +2,8 @@
  * Created by bantonides on 3/12/14.
  */
 const
-  unfold = require('when/unfold');
+  unfold = require('when/unfold'),
+  logger = (require('../logging/vip-winston')).Logger;
 
 module.exports = function () {
   var updateQ = [];
@@ -189,7 +190,7 @@ module.exports = function () {
       return;
     }
 
-    console.log('Starting unfold');
+    logger.info('Starting unfold');
 
     unfolding = true;
     unfold(unspool, condition, log, 0)
@@ -197,8 +198,8 @@ module.exports = function () {
         console.error(err);
       })
       .then(function () {
-        console.log('unfold completed!!!!');
-        console.log('Creating database relationships...');
+        logger.info('unfold completed!!!!');
+        logger.info('Creating database relationships...');
         require('./matchMaker').createDBRelationships(feedId, models);
       });
   }
@@ -210,7 +211,7 @@ module.exports = function () {
 
   function condition() {
     if (updateQ.length == 0) {
-      console.log('updateQ empty');
+      logger.info('updateQ empty');
       unfolding = false;
     }
 
@@ -230,7 +231,7 @@ module.exports = function () {
       consolidatePrecinctSplit(models, feedId);
       consolidateReferendum(models, feedId);
       consolidateState(models, feedId);
-      console.log('all consolidates called.')
+      logger.info('all consolidates called.')
 
       startUnfold(models, feedId);
 
