@@ -5,7 +5,7 @@ const
   path = require('path'),
   unfold = require('when/unfold'),
   xstream = require('xml-stream'),
-  config = require('../config');
+  config = require('../config'),
   moment = require('moment');
 
 
@@ -50,6 +50,8 @@ module.exports = function() {
 
   var parsingComplete = false;
 
+  var logger = (require('../logging/vip-winston')).Logger;
+
   /*
    * functions to move into base class
    */
@@ -60,7 +62,7 @@ module.exports = function() {
 
     xml.pause();
 
-    console.log('Starting unfold');
+    logger.info('Starting unfold');
 
     unfolding = true;
     unfold(unspool, condition, log, 0)
@@ -68,7 +70,7 @@ module.exports = function() {
         console.error (err);
       })
       .then(function() {
-        console.log('unfold completed!!!!');
+        logger.info('unfold completed!!!!');
         xml.resume();
         completeCheck();
       });
@@ -81,7 +83,7 @@ module.exports = function() {
 
   function condition(writes) {
     if (writeQue.length == 0) {
-      console.log('condition = true');
+      logger.info('condition = true');
       unfolding = false;
     }
 
@@ -90,13 +92,13 @@ module.exports = function() {
 
   function log(data) {
     if (data) {
-    } else { console.log('data null'); }
+    } else { logger.info('data null'); }
   }
 
   function completeCheck() {
     if (parsingComplete) {
       if (writeQue.length == 0) {
-        console.log('Creating database relationships...');
+        logger.info('Creating database relationships...');
         require('./matchMaker').createDBRelationships(feedId, models, schemaVersion);
       }
       else {
@@ -107,7 +109,7 @@ module.exports = function() {
 
   function onParsingEnd() {
     parsingComplete = true;
-    console.log('Parsing Complete!');
+    logger.info('Parsing Complete!');
     startUnfold();
   }
 
@@ -182,7 +184,7 @@ module.exports = function() {
     }
 
     if (recordCount % 10000 == 0) {
-      console.log('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
+      logger.info('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
     }
 
     if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
@@ -375,7 +377,7 @@ module.exports = function() {
       models = schemas.models;
 
       feedId = schemas.types.ObjectId();
-      console.log('FeedId = ' + feedId.toString());
+      logger.info('FeedId = ' + feedId.toString());
 
       models.feeds.create({
         _id: feedId.toString(),
@@ -388,7 +390,7 @@ module.exports = function() {
         name: fileName,
         friendlyId: null
       }, function(err, feed) {
-        console.log('Wrote feed with id = ' + feed._id.toString());
+        logger.info('Wrote feed with id = ' + feed._id.toString());
       });
 
       // if we are a child process

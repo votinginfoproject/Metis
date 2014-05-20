@@ -5,7 +5,7 @@ const
   path = require('path'),
   unfold = require('when/unfold'),
   csv = require('fast-csv'),
-  config = require('./vaveConfig');
+  config = require('./vaveConfig'),
   moment = require('moment');
 
 
@@ -18,6 +18,7 @@ module.exports = function () {
   var writeQue = [];
 
   var unfolding = false;
+  var logger = (require('../logging/vip-winston')).Logger;
 
   function parseCSV(fileStream) {
     var fileName = path.basename(fileStream.path, path.extname(fileStream.path));
@@ -46,7 +47,7 @@ module.exports = function () {
         recordCount++;
 
         if (recordCount % 10000 == 0) {
-          console.log('record count = %d and queue length = %d', recordCount, writeQue.length);
+          logger.info('record count = %d and queue length = %d', recordCount, writeQue.length);
         }
 
         if (!unfolding && writeQue.length > config.mongoose.maxWriteQueueLength) {
@@ -54,7 +55,7 @@ module.exports = function () {
         }
       })
       .on('end', function () {
-        console.log('end');
+        logger.info('end');
         startUnfold();
       });
   }
@@ -64,15 +65,15 @@ module.exports = function () {
       return;
     }
 
-    console.log('Starting unfold');
+    logger.info('Starting unfold');
 
     unfolding = true;
     unfold(unspool, condition, log, 0)
       .catch(function(err) {
-        console.error (err);
+        logger.error (err);
       })
       .then(function() {
-        console.log('unfold completed!!!!');
+        logger.info('unfold completed!!!!');
       });
   }
 
@@ -83,7 +84,7 @@ module.exports = function () {
 
   function condition(writes) {
     if (writeQue.length == 0) {
-      console.log('condition = true');
+      logger.info('condition = true');
       unfolding = false;
     }
 
@@ -92,7 +93,7 @@ module.exports = function () {
 
   function log(data) {
     if (data) {
-    } else { console.log('data null'); }
+    } else { logger.info('data null'); }
   }
 
   function consolidate() {
@@ -122,7 +123,7 @@ module.exports = function () {
           name: path.basename(filePath),
           friendlyId: null
         }, function (err, feed) {
-          console.log('Wrote feed with id = ' + feed._id.toString());
+          logger.info('Wrote feed with id = ' + feed._id.toString());
         });
 
         // if we are a child process
@@ -142,7 +143,7 @@ module.exports = function () {
       parseCSV(fileStream);
     },
     consolidateFeedData: function () {
-      console.log('consolidating feed data...')
+      console.log('consolidating feed data...');
       readComplete = true;
       consolidate();
     }
