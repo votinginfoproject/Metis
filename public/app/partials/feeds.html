@@ -37,7 +37,7 @@
 </div>
 
 <div ng-show="feedQueue.length > 0" class="data-module data-module-full">
-  <h2 class="secondary">Feeds in Queue For Processing</h2>
+  <h2 class="secondary">Feeds in Queue For Processing <a style="font-weight: bold; color: orange; font-size: 13px" href="/">(Click to Refresh List)</a></h2>
 
   <span ng-if="!feeds" class="is-loading"></span>
   <table>
@@ -68,9 +68,9 @@
 </small>
 <div style="border: 1px solid #cecece; padding: 5px; max-width: 500px">
   <small>
-    <form name="feedForm" action="/services/feeds" method="post" onsubmit="  if(this.elements['filename'].value.trim().length==0){ alert('Filename field is required.'); this.elements['filename'].focus(); return false; } else { this.elements['submit'].disabled = true; document.forms[0].elements['submit'].style.cssText='background-color: gray';  this.elements['submit'].value='Please Wait...'; return true; } ">
-      <b>Filename:</b> <input onchange="this.value = this.value.trim()" style="max-width: 350px;" type="text" name="filename">
-      <b>S3 Bucket Name:</b> <input onchange="this.value = this.value.trim()" style="max-width: 350px;" type="text" name="s3bucket">
+    <form name="feedForm" action="/services/feeds" method="post" onsubmit="  if(this.elements['filenames'].value.trim().length==0){ alert('Filename(s) field is required.'); this.elements['filenames'].focus(); return false; } else { this.elements['submit'].disabled = true; document.forms[0].elements['submit'].style.cssText='background-color: gray';  this.elements['submit'].value='Please Wait...'; return true; } ">
+      <b>Enter one or more Filenames, separated by a new line:</b> <textarea onchange="this.value = this.value.trim()" style="display: block; max-width: 350px; height: 200px" type="text" name="filenames"></textarea>
+      <b>Enter the S3 Bucket Name (if any):</b> <input onchange="this.value = this.value.trim()" style="max-width: 350px;" type="text" name="s3bucket">
       <input name="submit" type="submit" value="Submit">
     </form>
   </small>
