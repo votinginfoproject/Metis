@@ -170,7 +170,7 @@ RuleHandler.prototype.createViolation = function createViolation(entity, dataIte
     errorCode: ruleDef.errorCode,
     title: ruleDef.title,
     details: ruleDef.errorText,
-    textualReference: 'id = ' + dataSet._id + " (" + dataItem + ")",
+    textualReference: 'id = ' + dataSet.elementId + " (" + dataItem + ")",
     refElementId: dataItem,
     _ref: dataSet._id,
     _feed: dataSet._feed

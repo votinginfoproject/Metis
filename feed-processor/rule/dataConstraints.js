@@ -118,7 +118,11 @@ var theseConstraints = {
 
   missingPollingLocation: [ { entity: [ models.precinctsplit ], fields: [ '_pollingLocations' ] } ],
 
-  nonExistentAdmin: [ { entity: [ models.localitys, models.states ], fields: [] } ]
+  nonExistentLink: [
+    { entity: [ models.state ], fields: [ 'electionAdministrationId', '_electionAdministration'] },
+    { entity: [ models.precinctsplit ], fields: [ 'pollingLocationIds', '_pollingLocations' ] },
+    { entity: [ models.precinct ], fields: [ 'pollingLocationIds', '_pollingLocations' ] }
+  ]
 
 };
 
