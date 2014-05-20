@@ -15,7 +15,7 @@ function electionExport(feedId, callback) {
 
     if(!result) {
       callback(-1);
-      console.log('election finished');
+      logger.info('election finished');
       return;
     }
 

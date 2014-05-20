@@ -13,6 +13,8 @@ const
   config = require('../../config'),
   schemas = require('../../dao/schemas');
 
+var logger = (require('../../logging/vip-winston')).Logger;
+
 var refCount = 0;
 var readComplete = false;
 
@@ -30,9 +32,9 @@ function readShapefile(file) {
 connectMongo = function (next) {
   mongoose.connect(config.mongoose.connectionString);
   var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+  db.on('error', logger.error.bind(logger, 'MongoDB connection error: '));
   db.once('open', function callback() {
-    console.log("initialized VIP database via Mongoose");
+    logger.info("initialized VIP database via Mongoose");
     schemas.initSchemas(mongoose);
     next();
   });
@@ -61,7 +63,7 @@ function saveCounty(state, county, name, fullName, coordinates, isMulti) {
 
 function errorHandler(err) {
   if (err) {
-    console.error(err);
+    logger.error(err);
     process.exit();
   }
 }
@@ -70,7 +72,7 @@ function onCreateComplete(err) {
   refCount--;
   errorHandler(err);
   if (readComplete && refCount <= 0) {
-    console.log('Loading complete');
+    logger.info('Loading complete');
     process.exit();
   }
 }
@@ -83,9 +85,9 @@ if (process.argv.length > 2 && process.argv[2] != null) {
   parseShapefile(process.argv[2])
 }
 else {
-  console.error("ERROR: insufficient arguments provided \n");
+  logger.error("ERROR: insufficient arguments provided \n");
 
-  console.log("Usage: node countyGeoLoader.js  <county_geojson_file>");
-  console.log("");
+  logger.info("Usage: node countyGeoLoader.js  <county_geojson_file>");
+  logger.info("");
   process.exit();
 }
