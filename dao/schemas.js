@@ -992,31 +992,106 @@ exports.types = mongoose.Types;
 exports.models = models;
 
 exports.initSchemas = function (mongoose) {
-  models.ballots = mongoose.model(config.mongoose.model.ballot, mongoose.Schema(ballotSchema));
-  models.ballotresponses = mongoose.model(config.mongoose.model.ballotresponse, mongoose.Schema(ballotResponseSchema));
-  models.ballotlineresults = mongoose.model(config.mongoose.model.ballotlineresult, mongoose.Schema(ballotLineResultSchema));
-  models.candidates = mongoose.model(config.mongoose.model.candidate, mongoose.Schema(candidateSchema));
-  models.contests = mongoose.model(config.mongoose.model.contest, mongoose.Schema(contestSchema));
-  models.contestresults = mongoose.model(config.mongoose.model.contestresult, mongoose.Schema(contestResultSchema));
-  models.customballots = mongoose.model(config.mongoose.model.customballot, mongoose.Schema(customBallotSchema));
-  models.earlyvotesites = mongoose.model(config.mongoose.model.earlyvotesite, mongoose.Schema(earlyVoteSiteSchema));
-  models.elections = mongoose.model(config.mongoose.model.election, mongoose.Schema(electionSchema));
-  models.electionadmins = mongoose.model(config.mongoose.model.electionadministration, mongoose.Schema(electionAdminSchema));
-  models.electionofficials = mongoose.model(config.mongoose.model.electionofficial, mongoose.Schema(electionOfficialSchema));
-  models.electoraldistricts = mongoose.model(config.mongoose.model.electoraldistrict, mongoose.Schema(electoralDistrictSchema));
-  models.feeds = mongoose.model(config.mongoose.model.feed, mongoose.Schema(feedSchema));
-  models.localitys = mongoose.model(config.mongoose.model.locality, mongoose.Schema(localitySchema));
-  models.pollinglocations = mongoose.model(config.mongoose.model.pollinglocation, mongoose.Schema(pollingLocationSchema));
-  models.precincts = mongoose.model(config.mongoose.model.precinct, mongoose.Schema(precinctSchema));
-  models.precinctsplits = mongoose.model(config.mongoose.model.precinctsplit, mongoose.Schema(precinctSplitSchema));
-  models.referendums = mongoose.model(config.mongoose.model.referendum, mongoose.Schema(referendumSchema));
-  models.sources = mongoose.model(config.mongoose.model.source, mongoose.Schema(sourceSchema));
-  models.states = mongoose.model(config.mongoose.model.state, mongoose.Schema(stateSchema));
-  models.streetsegments = mongoose.model(config.mongoose.model.streetsegment, mongoose.Schema(streetSegmentSchema));
 
-  models.ballotstyles = mongoose.model(config.mongoose.model.ballotstyle, mongoose.Schema(ballotStyleSchema));
-  models.parties = mongoose.model(config.mongoose.model.party, mongoose.Schema(partySchema));
-  models.precinctsplitballotstyle = mongoose.model(config.mongoose.model.precinctsplitballotstyle, mongoose.Schema(precinctSplitBallotStyleSchema));
+  var _schema = null;
+  // =============
+
+  _schema = mongoose.Schema(ballotSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.ballots = mongoose.model(config.mongoose.model.ballot, _schema);
+
+  _schema = mongoose.Schema(ballotResponseSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.ballotresponses = mongoose.model(config.mongoose.model.ballotresponse, _schema);
+
+  _schema = mongoose.Schema(ballotLineResultSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.ballotlineresults = mongoose.model(config.mongoose.model.ballotlineresult, _schema);
+
+  _schema = mongoose.Schema(candidateSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.candidates = mongoose.model(config.mongoose.model.candidate, _schema);
+
+  _schema = mongoose.Schema(contestSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.contests = mongoose.model(config.mongoose.model.contest, _schema);
+
+  _schema = mongoose.Schema(contestResultSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.contestresults = mongoose.model(config.mongoose.model.contestresult, _schema);
+
+  _schema = mongoose.Schema(customBallotSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.customballots = mongoose.model(config.mongoose.model.customballot, _schema);
+
+  _schema = mongoose.Schema(earlyVoteSiteSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.earlyvotesites = mongoose.model(config.mongoose.model.earlyvotesite, _schema);
+
+  _schema = mongoose.Schema(electionSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.elections = mongoose.model(config.mongoose.model.election, _schema);
+
+  _schema = mongoose.Schema(electionAdminSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.electionadmins = mongoose.model(config.mongoose.model.electionadministration, _schema);
+
+  _schema = mongoose.Schema(electionOfficialSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.electionofficials = mongoose.model(config.mongoose.model.electionofficial, _schema);
+
+  _schema = mongoose.Schema(electoralDistrictSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.electoraldistricts = mongoose.model(config.mongoose.model.electoraldistrict, _schema);
+
+  models.feeds = mongoose.model(config.mongoose.model.feed, mongoose.Schema(feedSchema));
+
+  _schema = mongoose.Schema(localitySchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.localitys = mongoose.model(config.mongoose.model.locality, _schema);
+
+  _schema = mongoose.Schema(pollingLocationSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.pollinglocations = mongoose.model(config.mongoose.model.pollinglocation, _schema);
+
+  _schema = mongoose.Schema(precinctSchema);
+  _schema.index({_feed: 1, pollingLocationIds: 1}, { background: true });
+  _schema.index({_feed: 1, electoralDistrictIds: 1}, { background: true });
+  models.precincts = mongoose.model(config.mongoose.model.precinct, _schema);
+
+  _schema = mongoose.Schema(precinctSplitSchema);
+  _schema.index({_feed: 1, electoralDistrictIds: 1}, { background: true });
+  models.precinctsplits = mongoose.model(config.mongoose.model.precinctsplit, _schema);
+
+  _schema = mongoose.Schema(referendumSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.referendums = mongoose.model(config.mongoose.model.referendum, _schema);
+
+  _schema = mongoose.Schema(sourceSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.sources = mongoose.model(config.mongoose.model.source, _schema);
+
+  _schema = mongoose.Schema(stateSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.states = mongoose.model(config.mongoose.model.state, _schema);
+
+  _schema = mongoose.Schema(streetSegmentSchema);
+  _schema.index({_feed: 1, precinctId: 1}, { background: true });
+  _schema.index({_feed: 1, precinctSplitId: 1}, { background: true });
+  _schema.index({_feed: 1, 'nonHouseAddress.zip': 1}, { background: true });
+  models.streetsegments = mongoose.model(config.mongoose.model.streetsegment, _schema);
+
+  _schema = mongoose.Schema(ballotStyleSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.ballotstyles = mongoose.model(config.mongoose.model.ballotstyle, _schema);
+
+  _schema = mongoose.Schema(partySchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.parties = mongoose.model(config.mongoose.model.party, _schema);
+
+  _schema = mongoose.Schema(precinctSplitBallotStyleSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.precinctsplitballotstyle = mongoose.model(config.mongoose.model.precinctsplitballotstyle, _schema);
 
   models.ballots.Error = mongoose.model(config.mongoose.model.balloterror, mongoose.Schema(ballotErrorSchema));
   models.ballotresponses.Error = mongoose.model(config.mongoose.model.ballotresponseerror, mongoose.Schema(ballotResponseErrorSchema));
@@ -1043,66 +1118,15 @@ exports.initSchemas = function (mongoose) {
   models.ballotstyles.Error = mongoose.model(config.mongoose.model.ballotstyleerror, mongoose.Schema(ballotStyleErrorSchema));
   models.parties.Error = mongoose.model(config.mongoose.model.partyerror, mongoose.Schema(partyErrorSchema));
 
-  models.overview = mongoose.model(config.mongoose.model.overview, mongoose.Schema(overviewSchema));
+  _schema = mongoose.Schema(overviewSchema);
+  _schema.index({_feed: 1}, { background: true });
+  models.overview = mongoose.model(config.mongoose.model.overview, _schema);
 
   models.uniqueid = mongoose.model(config.mongoose.model.uniqueid, mongoose.Schema(uniqueIdSchema));
   models.county = mongoose.model(config.mongoose.model.county, mongoose.Schema(countySchema));
   models.fips = mongoose.model(config.mongoose.model.fips, mongoose.Schema(fipsSchema));
 
-  // Set up indexes
-  /*
-  models.ballots.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.ballotresponses.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.ballotlineresults.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.candidates.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.contests.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.contestresults.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.customballots.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.earlyvotesites.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.elections.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.electionadmins.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.electionofficials.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.electoraldistricts.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.localitys.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.pollinglocations.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.precincts.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.precinctsplits.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.referendums.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.sources.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.states.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.streetsegments.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.ballotstyles.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.parties.schema.index({elementId: 1, _feed: 1}, {unique: true});
-  models.precinctsplitelectoraldistrict.schema.index({_feed: 1}, {unique: true});
-  models.precinctsplitballotstyle.schema.index({_feed: 1}, {unique: true});
-  models.overview.schema.index({_feed: 1}, {unique: true});
-  models.uniqueid.schema.index({elementType:1}, {unique: true});
-  */
-  models.ballots.schema.index({_feed: 1});
-  models.ballotresponses.schema.index({_feed: 1});
-  models.ballotlineresults.schema.index({_feed: 1});
-  models.candidates.schema.index({_feed: 1});
-  models.contests.schema.index({_feed: 1});
-  models.contestresults.schema.index({_feed: 1});
-  models.customballots.schema.index({_feed: 1});
-  models.earlyvotesites.schema.index({_feed: 1});
-  models.elections.schema.index({_feed: 1});
-  models.electionadmins.schema.index({_feed: 1});
-  models.electionofficials.schema.index({_feed: 1});
-  models.electoraldistricts.schema.index({_feed: 1});
-  models.localitys.schema.index({_feed: 1});
-  models.pollinglocations.schema.index({_feed: 1});
-  models.precincts.schema.index({_feed: 1});
-  models.precinctsplits.schema.index({_feed: 1});
-  models.referendums.schema.index({_feed: 1});
-  models.sources.schema.index({_feed: 1});
-  models.states.schema.index({_feed: 1});
-  models.streetsegments.schema.index({_feed: 1});
-  models.ballotstyles.schema.index({_feed: 1});
-  models.parties.schema.index({_feed: 1});
-  models.precinctsplitballotstyle.schema.index({_feed: 1});
-  models.overview.schema.index({_feed: 1});
-
+  // =======================
 
   // Set up required fields
   models.ballots.RequiredFields = ballotRequiredFields;
