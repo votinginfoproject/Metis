@@ -284,7 +284,7 @@ module.exports = function() {
     if(schemaVersion == '5.0') {
       locality.precinct.forEach(function (precinct) {
 
-        if(precinct._precinctSplits) {
+        if(precinct.precinct_split) {
           precinct._precinctSplits = [];
           precinct.precinct_split.forEach(function (split) {
             var splitModel = new PrecinctSplit(models, feedId);
@@ -292,7 +292,7 @@ module.exports = function() {
           });
         }
 
-        if(precinct._pollingLocations) {
+        if(precinct.polling_location) {
           precinct._pollingLocations = [];
           precinct.polling_location.forEach(function (location) {
             var locationModel = new PollingLocation(models, feedId);

@@ -12,7 +12,6 @@ util.inherits(PrecinctSplit, basemapper);
 
 PrecinctSplit.prototype.mapXml3_0 = function (precinctSplit) {
   this.model = new this.models.precinctsplits({
-    _id: types.ObjectId(),
     elementId: precinctSplit.$.id,     //required
     name: precinctSplit.name,
     precinctId: precinctSplit.precinct_id,
@@ -27,7 +26,6 @@ PrecinctSplit.prototype.mapXml5_0 = function (precinctSplit) {
   this.version = "v5";
 
   this.model = new this.models.precinctsplits({
-    _id: types.ObjectId(),
     elementId: precinctSplit.$.id,     //required
     name: precinctSplit.name,
     precinctId: precinctSplit.precinct_id,
