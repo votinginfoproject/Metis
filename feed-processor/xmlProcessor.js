@@ -102,7 +102,7 @@ module.exports = function() {
         require('./matchMaker').createDBRelationships(feedId, models, schemaVersion);
       }
       else {
-        console.log(writeQue.length);
+        logger.info(writeQue.length);
       }
     }
   }
