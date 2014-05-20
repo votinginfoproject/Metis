@@ -31,7 +31,7 @@ module.exports = function () {
 
     var mapper = new mapperCtr(models, feedId);
 
-    console.log(fileName);
+    logger.info(fileName);
     var recordCount = 0;
 
     csv
@@ -143,7 +143,7 @@ module.exports = function () {
       parseCSV(fileStream);
     },
     consolidateFeedData: function () {
-      console.log('consolidating feed data...');
+      logger.info('consolidating feed data...');
       readComplete = true;
       consolidate();
     }
