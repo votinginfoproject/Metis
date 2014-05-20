@@ -433,21 +433,38 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    * Set a flag to determine if the screen is in mobile dimensions
    */
   var mobileThreshhold = 1116;
-  $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
+  var inMobileThreshhold = false;
   $rootScope.toggleAside = true;
+  $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
 
   /*
    * When the window is resized manage the show/hiding of the aside
    */
-  window.onresize = function(){
+  var checkResize = function(){
 
     $rootScope.mobileDimensions = ($window.innerWidth < mobileThreshhold);
     if(!$rootScope.mobileDimensions){
 
+      inMobileThreshhold = false;
       $rootScope.toggleAside = true;
+      $("#asideSection").show();
+    } else {
+
+      // only do 1 time, per each iteration of going into the mobile threshold
+      if(!inMobileThreshhold){
+        $("#asideSection").hide();
+        inMobileThreshhold = true;
+      }
+
     }
+
     $rootScope.$apply();
   }
+
+  window.onresize = checkResize;
+
+  // in case we start out in the mobile dimensions
+  //$timeout(function() { checkResize(); }, 200);
 
   /*
    * Independent toggle the aside - used with a onclick event
@@ -455,6 +472,12 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   $rootScope.toggleAsideFunc = function(){
     if($rootScope.mobileDimensions){
       $rootScope.toggleAside = !$rootScope.toggleAside;
+
+      if($rootScope.toggleAside){
+        $("#asideSection").slideUp();
+      } else {
+        $("#asideSection").slideDown();
+      }
     }
   }
 
