@@ -2,6 +2,7 @@
  * Created by Akelaus on 12/4/13.
  */
 
+var logger = (require('../logging/vip-winston')).Logger;
 var feedIdMapper = require('../feedIdMapper');
 
 //app configuration
@@ -15,6 +16,14 @@ var when = require('when');
 var logger = (require('../logging/vip-winston')).Logger;
 
 function dbConnect() {
+
+  // turn on for debug level mongoose logging
+  //mongoose.set('debug', true);
+
+  mongoose.connection.on('error', function(err) {
+    logger.error('MongoDB error: ' + err);
+  });
+
   mongoose.connect(config.mongoose.connectionString);
   var db = mongoose.connection;
 

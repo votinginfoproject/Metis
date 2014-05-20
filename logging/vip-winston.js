@@ -65,13 +65,14 @@ var errorLogger = new (winston.Logger)({
 
 // 3) PROFILE LOGGER
 // Logs 'profile' log statements to Mongo, to the regular log file, and to the console
+
+// ** NOTE: Do not set maxsize and maxFiles on this logger as another logger above working on the same log file already has
+// Doing so can cause the logger to crash.
 var profileLogger = new (winston.Logger)({
   transports: [
     new winston.transports.File({
       filename: config.log.logpath + config.log.logname,
       level: config.log.loglevel,
-      maxsize: 1024 * 1024 * config.log.maxsizeMB,
-      maxFiles: config.log.maxFiles,
       json: false
     }),
     new winston.transports.Console({
