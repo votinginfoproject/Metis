@@ -18,6 +18,7 @@ var fileProcessing = null;
 var pIdsAndFeedIds = {};
 
 var logger = (require('../logging/vip-winston')).Logger;
+var NEWLINE = require('os').EOL;
 
 /*
  * Handling the POST call after a file is uploaded.
@@ -27,23 +28,38 @@ var logger = (require('../logging/vip-winston')).Logger;
  */
 function handleFileProcessing(req, res){
 
-  if(req.body.filename === undefined || (req.body.filename).trim() === "" ){
+  if(req.body.filenames === undefined || (req.body.filenames).trim() === "" ){
 
     if ('development' == app.get('env')) {
       // in development
+
+      logger.info("Received POST, however filename missing.");
       res.redirect('/');
     } else {
       // production
 
       // missing filename to process
+      logger.info("Received POST, however filename missing.");
       res.send("Received POST, however filename missing.");
     }
   } else {
 
-    // have a filename to process
+    // get any filenames to process
+    var files = req.body.filenames.split(NEWLINE);
 
-    // put the file at the end of the file queue
-    fileQueue.push({ filename: req.body.filename, s3Bucket: req.body.s3bucket });
+    for(var i=0; i<files.length; i++){
+
+      var file = files[i];
+      // remove any remnant of \r
+      file = file.replace(/\r/g, '');
+
+      file = file.trim();
+
+      if(file.length > 0){
+        // put the file at the end of the file queue
+        fileQueue.push({ filename: file, s3Bucket: req.body.s3bucket });
+      }
+    }
 
     // if a file is processing, then do nothing since when that process ends or fails,
     // the file queue is checked for the next file to process, otherwise start to process the next file
@@ -65,7 +81,7 @@ function handleFileProcessing(req, res){
 
     } else {
       // production
-      res.send(util.format("Received POST, filename: %s, s3 bucket: %s", req.body.filename, req.body.s3bucket));
+      res.send(util.format("Received POST, filename(s): %s, s3 bucket: %s", req.body.filenames, req.body.s3bucket));
     }
 
   }

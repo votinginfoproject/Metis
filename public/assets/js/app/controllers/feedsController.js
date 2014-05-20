@@ -102,8 +102,6 @@ function FeedsCtrl_getFeedQueue($scope, $rootScope, $feedsService, servicePath, 
   $feedsService.getFeedQueue(servicePath)
     .success(function (data) {
 
-      console.log(data);
-
       // set the feeds data into the Angular model
       $scope.feedQueue = data.feedQueue;
 
