@@ -38,7 +38,7 @@ audio:not([controls]) {
 
 // Address styling not present in IE 8/9.
 
-[hidden] {
+.hidden, [hidden] {
     display: none;
 }
 
