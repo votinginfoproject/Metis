@@ -3,6 +3,8 @@
  */
 
 var mongoose = require('mongoose');
+var logger = (require('../../../logging/vip-winston')).Logger;
+
 
 function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinition, callback) {
 
@@ -39,7 +41,7 @@ function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinit
     },
     { $match: { count: { $gt : 1 } } }).exec(function(err, results) {
       if(err) {
-        console.log(err);
+        logger.error(err);
         return;
       }
 

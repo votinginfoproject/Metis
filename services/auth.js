@@ -2,6 +2,8 @@
  * Created by bantonides on 12/3/13.
  */
 var utils = require('./utils');
+var logger = (require('../logging/vip-winston')).Logger;
+
 
 var currentUser = null;
 
@@ -53,7 +55,7 @@ var registerAuthServices = function(config, app, passport) {
 loginLocalStrategyPOST = function(req, res) {
 
   currentUser = req.user;
-  console.log("in local auth success");
+  logger.info("in local auth success");
 
   // successful login, go to the feeds page afterwards
   res.redirect('/#/feeds');
@@ -62,7 +64,7 @@ loginLocalStrategyPOST = function(req, res) {
 loginCrowdStrategyPOST = function(req, res) {
 
   currentUser = req.user;
-  console.log("in passport success");
+  logger.info("in passport success");
 
   // successful login, go to the feeds page afterwards
   res.redirect('/#/feeds');

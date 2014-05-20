@@ -41,7 +41,7 @@ function runOverviewProcessor(feedId) {
 }
 
 function errorHandler(err) {
-  console.error(err);
+  logger.error(err);
 }
 
 function onSaveComplete(results) {

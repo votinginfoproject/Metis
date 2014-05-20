@@ -13,7 +13,7 @@ var evaluateValidUrl = function(urlString, dataSet, entity, constraintSet, ruleD
       isViolated = !matcher.test(urlString.trim().toLowerCase());
     }
     catch(err){
-      //console.log(err); doNothing
+      // doNothing
     }
   }
 

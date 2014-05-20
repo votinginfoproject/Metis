@@ -126,9 +126,11 @@ var Logging = function(){
         profileSeparateLogger.profile(arg);
       }
     },
-    // Log function not implemented
+    // Log function not implemented the same as the underlying Winston Log function, simply forwarding to info()
     //log:  function(){
     //},
+    log:      logger.info,
+
     debug:    logger.debug,
     info:     logger.info,
     warn:     logger.warn,

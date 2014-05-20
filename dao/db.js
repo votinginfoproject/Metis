@@ -27,7 +27,7 @@ function dbConnect() {
   mongoose.connect(config.mongoose.connectionString);
   var db = mongoose.connection;
 
-  db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+  db.on('error', logger.error.bind(logger, 'MongoDB connection error: '));
   db.once('open', function callback(){
     logger.info("Initializing Mongoose...");
     daoSchemas.initSchemas(mongoose);

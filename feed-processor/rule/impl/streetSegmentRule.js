@@ -29,12 +29,12 @@ var evaluateStreetSegmentsOverlap = function(_feedId, constraintSet, ruleDefinit
   schemas.models.feeds.findOne( { _id: feedId }, function(err, feed) {
 
     if(err) {
-      console.log(err);
+      logger.error(err);
       process.exit(1);
     }
 
     if(!feed) {
-      console.log("could not find feed");
+      logger.info("could not find feed");
       process.exit(1);
     }
 
@@ -60,7 +60,7 @@ function evaluate(constraintSet, callback) {
     .exec(function(err, results) {
 
       if(err) {
-        console.log(err);
+        logger.error(err);
         process.exit(1);
       }
 

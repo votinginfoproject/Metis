@@ -9,6 +9,8 @@ var errorMapper = require('./mappers/errors');
 var endOfLine = require('os').EOL;
 var feedIdMapper = require('../feedIdMapper');
 var _ = require('underscore');
+var logger = (require('../logging/vip-winston')).Logger;
+
 
 function allErrorsGET(req, res) {
   daoErrors.allErrors(feedIdMapper.getId(req.params.feedid), mapAndReturnErrors.bind(undefined, res, req));
@@ -171,7 +173,7 @@ function errorIndexGET(req, res) {
       mapAndReturnErrors.bind(undefined, res, req));
 
   } else {
-    console.error("Invalid error index");
+    logger.error("Invalid error index");
     res.send(500);
   }
 
@@ -232,7 +234,7 @@ function errorIndexContestReferendaGET(req, res) {
 function mapAndReturnErrors(res, req, err, errors) {
 
   if (err) {
-    console.error(err);
+    logger.error(err);
     res.send(500);
   }
   else {
