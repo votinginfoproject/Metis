@@ -16,12 +16,6 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
   $feedsService.getFeedData(feedid)
     .success(function (data, $http) {
 
-      // if the user returned to the Feeds list while waiting for the overview page to load, discard the asynchronous response here
-      // A global solution to intercept the promise is a better solution
-      if($location.url()=='/feeds'){
-        return
-      }
-
       // set the feeds data into the Angular model
       $scope.feedData = data;
       $rootScope.feedData = data;
@@ -37,12 +31,6 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
 
     }).error(function (data, $http) {
-
-      // if the user returned to the Feeds list while waiting for the overview page to load, discard the asynchronous response here
-      // A global solution to intercept the promise is a better solution
-      if($location.url()=='/feeds'){
-        return
-      }
 
       if($http===404){
         // feed not found
