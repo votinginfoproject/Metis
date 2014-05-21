@@ -95,7 +95,7 @@ BaseModel.prototype.checkRequiredFields = function () {
       self.collection.Error.create({
         severityCode: 1,
         severityText: 'Error',
-        errorCode: 0,
+        errorCode: 13,
         title: 'Missing Required Field',
         details: _s.sprintf('%s required field: "%s" is missing for element with id %s.', _s.capitalize(self.collection.collection.name), requiredField, self.model.elementId),
         textualReference: _s.sprintf('id = %s', self.model.elementId),

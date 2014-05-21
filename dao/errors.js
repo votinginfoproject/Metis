@@ -475,11 +475,7 @@ function aggregateErrors(match, errorModel) {
     {
       $group: {
         _id: {
-          errorCode: "$errorCode",
-          severityCode: "$severityCode",
-          severityText: "$severityText",
-          title: "$title",
-          details: "$details"
+          errorCode: "$errorCode"
         },
         count: { $sum: 1 }
       }
@@ -500,9 +496,13 @@ function findTextualReference(model, feedId, aggregates, ids, callback) {
       search = { _feed: feedId, errorCode: agg._id.errorCode };
     }
 
-    model.findOne(search, { textualReference: 1 })
+    model.findOne(search, { textualReference: 1, severityCode: 1, severityText: 1, title: 1, details: 1 })
       .exec(function (err, references) {
         agg.textualReferences = [references.textualReference];
+        agg.severityCode = references.severityCode;
+        agg.severityText = references.severityText;
+        agg.title = references.title;
+        agg.details = references.details;
         agg.models = [model.modelName];
         agg.searches = [search];
         done();
@@ -518,6 +518,10 @@ function groupErrors(errors) {
   var mapred = _.values(grouped).map(function(errs) {
     var initialState = {
       _id: _.first(errs)._id,
+      severityCode : _.first(errs).severityCode,
+      severityText : _.first(errs).severityText,
+      title : _.first(errs).title,
+      details : _.first(errs).details,
       count: 0,
       textualReferences: [],
       models: [],
@@ -526,6 +530,10 @@ function groupErrors(errors) {
     return _.reduce(errs, function(memo, err) {
       memo.count += err.count;
       memo.textualReferences = memo.textualReferences.concat(err.textualReferences);
+      memo.severityCode = err.severityCode;
+      memo.severityText = err.severityText;
+      memo.title = err.title;
+      memo.details = err.details;
       memo.models = memo.models.concat(err.models);
       memo.searches = memo.searches.concat(err.searches);
       return memo;

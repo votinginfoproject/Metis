@@ -62,12 +62,23 @@ function checkArray(doc, constraintSet, ruleDefinition, feedId) {
   if( !doc[constraintSet.fields[0]] )
     return null;
 
+  if(doc[constraintSet.fields[0]].length == doc[constraintSet.fields[1]].length)
+    return null;
+
   var promise = null;
   for(var i = 0; i < doc[constraintSet.fields[0]].length; ++i) {
     var id = doc[constraintSet.fields[0]][i];
     var link = false;
-    if(doc[constraintSet.fields[1]] && doc[constraintSet.fields[1]][i] && doc[constraintSet.fields[1]][i].elementId == doc[constraintSet.fields[0]][i])
-      link = true;
+    if(doc[constraintSet.fields[1]] && doc[constraintSet.fields[1]][i]) {
+      if(doc[constraintSet.fields[1]][i].elementId != doc[constraintSet.fields[0]][i]) {
+
+        doc[constraintSet.fields[1]].forEach(function(testLink) {
+          if(doc[constraintSet.fields[0]][i] == testLink.elementId)
+            link = true;
+        });
+      }
+      else { link = true; }
+    }
 
     if(id && !link) {
       var newProm = createError(constraintSet, ruleDefinition, feedId, id, doc.elementId, doc._id);

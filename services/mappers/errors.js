@@ -3,11 +3,11 @@
  */
 function mapError(error) {
   return {
-    severity_code: error._id.severityCode,
-    severity_text: error._id.severityText,
+    severity_code: error.severityCode,
+    severity_text: error.severityText,
     error_code: error._id.errorCode,
-    title: error._id.title,
-    details: error._id.details,
+    title: error.title,
+    details: error.details,
     textual_references: error.textualReferences,
     models: error.models,
     searches: error.searches,
