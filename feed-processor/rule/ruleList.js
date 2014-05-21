@@ -164,7 +164,7 @@ var metisRuleList = [
     type: 'feedLevelRule',
     isFeedLevelRule: false,
     isActive: true,
-    errorCode: 13,
+    errorCode: 14,
     errorText: '',
     severityCode: 2,
     severityText: 'warning',

@@ -17,10 +17,17 @@ var nonExistentLinkRule = function(feedId, constraintSet, ruleDefinition, callba
   searchResults[constraintSet.fields[1]] = 1;
   searchResults['_id'] = 1;
   searchResults['elementId'] = 1;
+  searchResults['mailOnly'] = 1;
 
   var stream = model.find({ _feed: feedId }, searchResults).populate(constraintSet.fields[1]).stream();
 
   stream.on('data', function(doc) {
+
+    if(constraintSet.entity[0] == 'precincts') {
+      if(doc.mailOnly) {
+        return;
+      }
+    }
 
     var newProm;
     if(_.isString(doc._doc[constraintSet.fields[0]])) {
@@ -66,8 +73,16 @@ function checkArray(doc, constraintSet, ruleDefinition, feedId) {
   for(var i = 0; i < doc[constraintSet.fields[0]].length; ++i) {
     var id = doc[constraintSet.fields[0]][i];
     var link = false;
-    if(doc[constraintSet.fields[1]] && doc[constraintSet.fields[1]][i] && doc[constraintSet.fields[1]][i].elementId == doc[constraintSet.fields[0]][i])
-      link = true;
+    if(doc[constraintSet.fields[1]] && doc[constraintSet.fields[1]][i]) {
+      if(doc[constraintSet.fields[1]][i].elementId != doc[constraintSet.fields[0]][i]) {
+
+        doc[constraintSet.fields[1]].forEach(function(testLink) {
+          if(doc[constraintSet.fields[0]][i] == testLink.elementId)
+            link = true;
+        });
+      }
+      else { link = true; }
+    }
 
     if(id && !link) {
       var newProm = createError(constraintSet, ruleDefinition, feedId, id, doc.elementId, doc._id);

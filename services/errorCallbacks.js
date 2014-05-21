@@ -292,6 +292,8 @@ function mapAndReturnErrors(res, req, err, errors) {
           var completeModel = require('mongoose').model(model);
           var stream = completeModel.find(feederror.searches[index++]).stream();
 
+          var downloadCount = 0;
+
           stream.on('data', function(ref) {
             response +=
               makeCSVSafe((count++).toString(), delim) + delim +
@@ -300,6 +302,11 @@ function mapAndReturnErrors(res, req, err, errors) {
               makeCSVSafe(ref.title, delim) + delim +
               makeCSVSafe(ref.details, delim) + delim +
               makeCSVSafe(ref.textualReference, delim) + endOfLine;
+
+            if(++downloadCount >= 600000) {
+              logger.info('Download cap reached!!!');
+              stream.destroy();
+            }
           });
 
           stream.on('close', function(err) {
