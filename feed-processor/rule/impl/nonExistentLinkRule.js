@@ -17,10 +17,17 @@ var nonExistentLinkRule = function(feedId, constraintSet, ruleDefinition, callba
   searchResults[constraintSet.fields[1]] = 1;
   searchResults['_id'] = 1;
   searchResults['elementId'] = 1;
+  searchResults['mailOnly'] = 1;
 
   var stream = model.find({ _feed: feedId }, searchResults).populate(constraintSet.fields[1]).stream();
 
   stream.on('data', function(doc) {
+
+    if(constraintSet.entity[0] == 'precincts') {
+      if(doc.mailOnly) {
+        return;
+      }
+    }
 
     var newProm;
     if(_.isString(doc._doc[constraintSet.fields[0]])) {
@@ -60,9 +67,6 @@ function checkSingle(doc, constraintSet, ruleDefinition, feedId) {
 function checkArray(doc, constraintSet, ruleDefinition, feedId) {
 
   if( !doc[constraintSet.fields[0]] )
-    return null;
-
-  if(doc[constraintSet.fields[0]].length == doc[constraintSet.fields[1]].length)
     return null;
 
   var promise = null;
