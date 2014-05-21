@@ -5,7 +5,7 @@
  * Returning promises, allowing the Controller to handle success and error responses appropriately
  *
  */
-vipApp.factory('$feedsService', function ($http, $appProperties) {
+vipApp.factory('$feedsService', function ($http, $appProperties, $q) {
 
   return {
     // Feed index page

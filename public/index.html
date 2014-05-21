@@ -153,7 +153,7 @@
         </footer><!-- / contentinfo -->
       </div><!-- /.content -->
 
-      <aside class="feed-meta" ng-if="pageHeader.section==='feeds'&&pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
+      <aside class="feed-meta" ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds'&& pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
 
     </div><!-- / .wrapper -->
 
