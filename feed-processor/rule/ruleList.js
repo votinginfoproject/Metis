@@ -133,8 +133,8 @@ var metisRuleList = [
     dataConstraints: constraints['houseAptNumber']
   },
   {
-    ruleId: 'orphanedEVSRule',
-    title: 'Orphaned Early Vote Site',
+    ruleId: 'orphanedEntityRule',
+    title: 'Orphaned Entity',
     type: 'feedLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -142,8 +142,8 @@ var metisRuleList = [
     errorText: 'Early Vote Site is not referenced in any Precinct, Precinct Split, or Locality',
     severityCode: 1,
     severityText: 'Error',
-    implementation: './impl/orphanedEVSRule',
-    dataConstraints: constraints['orphanedEVS']
+    implementation: './impl/orphanedEntityRule',
+    dataConstraints: constraints['orphanedEntity']
   },
   {
     ruleId: 'missingPollingLocationRule',
