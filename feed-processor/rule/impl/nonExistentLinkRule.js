@@ -17,9 +17,16 @@ var nonExistentLinkRule = function(feedId, constraintSet, ruleDefinition, callba
   searchResults[constraintSet.fields[1]] = 1;
   searchResults['_id'] = 1;
   searchResults['elementId'] = 1;
-  searchResults['mailOnly'] = 1;
 
-  var stream = model.find({ _feed: feedId }, searchResults).populate(constraintSet.fields[1]).stream();
+  var stream;
+  if(constraintSet.entity[0] != 'states') {
+    if(constraintSet.entity[0] == 'precincts')
+      searchResults['mailOnly'] = 1;
+    stream = model.find({ _feed: feedId }, searchResults).populate(constraintSet.fields[1]).stream();
+  }
+  else {
+    stream = model.find({ _feed: feedId }, searchResults).stream();
+  }
 
   stream.on('data', function(doc) {
 
@@ -29,12 +36,16 @@ var nonExistentLinkRule = function(feedId, constraintSet, ruleDefinition, callba
       }
     }
 
+    if(!doc._doc[constraintSet.fields[0]])
+      return;
+
     var newProm;
     if(_.isString(doc._doc[constraintSet.fields[0]])) {
       newProm = checkSingle(doc._doc, constraintSet, ruleDefinition, feedId);
     }
     else {
-      newProm = checkArray(doc._doc, constraintSet, ruleDefinition, feedId);
+      if(doc._doc[constraintSet.fields[0]].length)
+        newProm = checkArray(doc._doc, constraintSet, ruleDefinition, feedId);
     }
 
     if(newProm) {
@@ -54,6 +65,10 @@ var nonExistentLinkRule = function(feedId, constraintSet, ruleDefinition, callba
       callback({ promisedErrorCount: 0 });
     }
   });
+
+  stream.on('err', function(err) {
+    logger.error(err);
+  });
 };
 
 function checkSingle(doc, constraintSet, ruleDefinition, feedId) {
@@ -72,19 +87,20 @@ function checkArray(doc, constraintSet, ruleDefinition, feedId) {
   var promise = null;
   for(var i = 0; i < doc[constraintSet.fields[0]].length; ++i) {
     var id = doc[constraintSet.fields[0]][i];
-    var link = false;
-    if(doc[constraintSet.fields[1]] && doc[constraintSet.fields[1]][i]) {
-      if(doc[constraintSet.fields[1]][i].elementId != doc[constraintSet.fields[0]][i]) {
+    var links = doc[constraintSet.fields[1]];
+    var hasLink = false;
+    if(links && links[i]) {
+      if(links[i].elementId != id) {
 
-        doc[constraintSet.fields[1]].forEach(function(testLink) {
-          if(doc[constraintSet.fields[0]][i] == testLink.elementId)
-            link = true;
+        links.forEach(function(testLink) {
+          if(id == testLink.elementId)
+            hasLink = true;
         });
       }
-      else { link = true; }
+      else { hasLink = true; }
     }
 
-    if(id && !link) {
+    if(id && !hasLink) {
       var newProm = createError(constraintSet, ruleDefinition, feedId, id, doc.elementId, doc._id);
 
       if(newProm) {
