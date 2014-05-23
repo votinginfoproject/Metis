@@ -10,7 +10,7 @@ var evaluateOrphanedEntity = function(feedId, constraintSet, ruleDefinition, cal
 
   var searchResults = {};
   if(constraintSet.fields.length == 3)
-    searchResults[constraintSet.fields[0]] = 1;
+    searchResults[constraintSet.fields[2]] = 1;
   searchResults['_id'] = 1;
   searchResults['elementId'] = 1;
 
@@ -33,20 +33,36 @@ var evaluateOrphanedEntity = function(feedId, constraintSet, ruleDefinition, cal
       return;
     }
 
-    var matchResults = {};
-    matchResults['_feed'] = feedId;
-    matchResults[constraintSet.fields[1]] = { $in: [doc._id] };
+    var secondMatchResults = {};
+    secondMatchResults['_feed'] = feedId;
+    secondMatchResults[constraintSet.fields[0]] = { $in: [doc._id] };
+
+    var thirdMatchResults = {};
+    thirdMatchResults['_feed'] = feedId;
+    thirdMatchResults[constraintSet.fields[1]] = { $in: [doc._id] };
 
     var secondModel = mongoose.model(constraintSet.entity[1]);
-    var thirdModel = mongoose.model(constraintSet.entity[2]);
-    var promise = when.join(secondModel.count(matchResults).exec(),
-      thirdModel.count(matchResults).exec());
+    var promise;
+
+    if(constraintSet.entity.length == 3) {
+      var thirdModel = mongoose.model(constraintSet.entity[2]);
+      promise = when.join(secondModel.count(secondMatchResults).exec(),
+        thirdModel.count(thirdMatchResults).exec());
+    }
+    else {
+      promise = secondModel.count(secondMatchResults).exec();
+    }
 
     totalCounted++;
 
     promise.then(function (counts) {
       --totalCounted;
-      if (counts[0] == 0 && counts[1] == 0) {
+      var test = true;
+
+      if( counts.length == 2 )
+        test = counts[1] == 0 ? false : true;
+
+      if (counts[0] == 0 && test) {
         ++errorCount;
         createPromises.push(createError(doc));
       }

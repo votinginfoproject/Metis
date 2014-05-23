@@ -115,8 +115,7 @@ var theseConstraints = {
   ],
 
   orphanedEntity : [
-    { entity: [ models.earlyvotesite, models.precinct, models.precinctsplit ], fields: [ '_locality', '_earlyVoteSites', '_earlyVoteSites'] },
-    { entity: [ models.streetsegment, models.precinct, models.precinctsplit ], fields: [ '_streetSegments', '_streetSegments' ] }
+    { entity: [ models.earlyvotesite, models.precinct ], fields: ['_earlyVoteSites', '_earlyVoteSites',  '_locality' ] }
   ],
 
   missingPollingLocation: [ { entity: [ models.precinctsplit ], fields: [ '_pollingLocations' ] } ],

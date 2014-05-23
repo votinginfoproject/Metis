@@ -146,28 +146,15 @@ var metisRuleList = [
     dataConstraints: constraints['orphanedEntity']
   },
   {
-    ruleId: 'missingPollingLocationRule',
-    title: 'Precinct Split Missing Polling Location',
-    type: 'objectLevelRule',
-    isFeedLevelRule: false,
-    isActive: true,
-    errorCode: 12,
-    errorText: 'Precinct Split has no Polling Location associated with it',
-    severityCode: 1,
-    severityText: 'Error',
-    implementation: './impl/missingPollingLocationRule',
-    dataConstraints: constraints['missingPollingLocation']
-  },
-  {
     ruleId: 'nonExistentLinkRule',
     title: 'Linking to a nonexistent ID',
     type: 'feedLevelRule',
     isFeedLevelRule: false,
     isActive: true,
-    errorCode: 14,
+    errorCode: 13,
     errorText: '',
-    severityCode: 2,
-    severityText: 'warning',
+    severityCode: 1,
+    severityText: 'Error',
     implementation: './impl/nonExistentLinkRule',
     dataConstraints: constraints['nonExistentLink']
   }
