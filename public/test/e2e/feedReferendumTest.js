@@ -63,12 +63,12 @@ describe('Testing Feed Referendum Page', function() {
     })
   })
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Referendum', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Referendum', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {
@@ -131,12 +131,12 @@ describe('Testing Feed Referenda Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Referenda', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Referenda', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

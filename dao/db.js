@@ -70,11 +70,6 @@ function getFeedList (callback) {
 
 function getFeedOverview (id, callback) {
 
-  if(!id) {
-    logger.error('db.getFeedOverview: bad FeedID!', id);
-    return;
-  }
-
   daoSchemas.models.feeds.findById(id, { payload: 0 })
     .populate('_state')
     .populate('_feedContact')
@@ -519,7 +514,7 @@ function feedCandidate(feedId, candidateId, callback) {
     .exec();
 
   promise.then(function(candidate) {
-    daoSchemas.models.candidates.Error.count({_feed: feedId, _ref: candidate._id}, function(err, count) {
+    daoSchemas.models.candidates.Error.count({_feed: feedId, _ref: candidate._id}, function (err, count) {
       candidate.errorCount = count;
       callback(null, candidate);
     });
