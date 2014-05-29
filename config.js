@@ -16,10 +16,10 @@ config.log = {
   lognameErrors: 'vip-errors.log',
   lognameExceptions: 'vip-exceptions.log',
   lognameSeparateProfile: 'separateProfile.log',
-  logProfileEnabled: true,
+  logProfileEnabled: false,
   logProfileMongoDB: 'metis',
   logProfileMongoDBCollection: '_profilelogs',
-  loglevel: 'debug',
+  loglevel: 'info',
   maxsizeMB: 2, // 2MB max log size
   maxFiles:  3   // 3 log files in rotation
 };
