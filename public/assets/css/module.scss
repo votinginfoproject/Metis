@@ -11,6 +11,14 @@
   margin-bottom: $base-line-height / 2;
   padding: $base-line-height / 2;
   position: relative;
+  &:before {
+    font-family: "foundation-icons";
+    content: "\f15e";
+    font-size: 24px;
+    font-weight: normal;
+    position: relative;
+    top: 3px;
+  }
 
   a {
     color: darken($notice-color, 70);
@@ -50,6 +58,7 @@
 .alert-box.processing {
   background: $processing-color;
   color: darken($processing-color, 60);
+  border-radius: 5px;
 
   a {
     color: $blue;
@@ -118,7 +127,7 @@
       }
 
       &:hover {
-        background: $blue-darkest;
+        background: #628eb7;
         color: $white;
         a {
           color: $white;
@@ -353,7 +362,7 @@
   }
 
   a {
-    border-bottom: 1px solid $blue-dark;
+    border-bottom: 1px solid #9eafc3;
     &:hover, &:focus {
       border-color: $hover-link-color;
     }
@@ -468,28 +477,16 @@ aside {
   }
 }
 
-  // .animate-hide {
-  //   -webkit-transition:all linear 0.6s;
-  //   transition:all linear 0.6s;
-  //   opacity:1;
-  //   max-height: 1200px;
-  //   position: relative;
-  //   z-index: 1;
-
-  // }
-
-  // .animate-hide.ng-hide,
-  // .animate-hide.ng-hide {
-  //   display:block!important;
-  // }
-
-  // .animate-hide.ng-hide {
-  //   opacity:0;
-  //   max-height: 0;
-  //   z-index: -1;
-  // }
-
-
+.dl-feed {
+  @include word-break;
+  font-size: 0.875em;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  a {
+    color: $white;
+    border-bottom: 1px solid $white;
+  }
+}
 
 // ============================================================================
 // Feed Meta
@@ -631,6 +628,12 @@ aside {
     color: $white;
     background: #0c6;
   }
+
+  h3 {
+    font-size: 1.25em;
+    font-size: 1.25rem;
+    margin-bottom: $base-sm;
+  }
 }
 
 .vcard {
@@ -656,8 +659,23 @@ aside {
 .map {
   margin-bottom: 1em;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 200px;
   color: black;
+  @media screen and (min-height: 340px){
+    min-height: 300px;
+  }
+  @media screen and (min-height: 400px){
+    min-height: 360px;
+  }
+  @media screen and (min-height: 450px){
+    min-height: 410px;
+  }
+  @media screen and (min-height: 480px){
+    min-height: 440px;
+  }
+  @media screen and (min-height: 520px){
+    min-height: 480px;
+  }
 }
 
 

@@ -3,8 +3,15 @@
  */
 
 var util = {
-  mapperTest: function(saveFunc, model, xml, done) {
+  mapperTest3_0: function(saveFunc, model, xml, done) {
     model.mapXml3_0(xml);
+    model.collection.create = saveFunc;
+    model.save();
+    done();
+  },
+
+  mapperTest5_0: function(saveFunc, model, xml, done) {
+    model.mapXml5_0(xml);
     model.collection.create = saveFunc;
     model.save();
     done();

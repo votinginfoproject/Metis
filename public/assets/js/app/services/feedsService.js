@@ -5,26 +5,67 @@
  * Returning promises, allowing the Controller to handle success and error responses appropriately
  *
  */
-vipApp.factory('$feedsService', function ($http, $appProperties) {
+vipApp.factory('$feedsService', function ($http, $appProperties, $q, $location) {
 
   return {
     // Feed index page
     // ========================================================
     getFeeds: function () {
       // don't want this service call to ever be cached by IE
-      return $http.get($appProperties.servicesPath + "/feeds" + vipApp_ns.cacheBuster() );
+      return $http.get($appProperties.servicesPath + "/feeds" + vipApp_ns.cacheBuster());
+    },
+    getFeedQueue: function (servicePath) {
+      // don't want this service call to ever be cached by IE
+      return $http.get(servicePath + vipApp_ns.cacheBuster() );
     },
 
     // Feed error pages (multiple)
     // ========================================================
     getFeedErrors: function (servicePath) {
+      // don't want this service call to ever be cached by IE
       return $http.get(servicePath + vipApp_ns.cacheBuster() );
     },
 
     // Feed overview page
     // ========================================================
     getFeedData: function (feedid) {
-      return $http.get($appProperties.servicesPath + "/feeds/" + feedid);
+      // This service call occurs on every page as it grabs the minimum data needed to populate the UI with the current Feed data
+      // Even though as the user navigates from page to page this information should remain the same and hence retrieving the data
+      // from the server would not be necessary,
+
+      var deferred = $q.defer();
+      var promise = deferred.promise;
+
+      var fetch = $http.get($appProperties.servicesPath + "/feeds/" + feedid);
+      fetch.then(function(data){
+
+          // if we have gone back to the Feeds list page, then ignore this request
+          if($location.url()=='/feeds'){
+            // We ignore the promise and we won't resolve the promise.
+            // We won't reject the promise cause that will pass an error back to the Controller
+            return;
+          } else {
+            // otherwise resolve the promise as usual
+            deferred.resolve(data);
+          }
+      });
+
+      promise.success = function(fn) {
+        promise.then(function(response) {
+          fn(response.data, response.status, response.headers, response.config, response.statusText);
+        });
+        return promise;
+      };
+
+      promise.error = function(fn) {
+        promise.then(null, function(response) {
+          fn(response.data, response.status, response.headers, response.config, response.statusText);
+        });
+        return promise;
+      };
+
+      return deferred.promise;
+
     },
     getFeedPollingLocations: function (servicePath) {
       return $http.get(servicePath);

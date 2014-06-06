@@ -6,7 +6,7 @@ const
   mongoose = require('mongoose'),
   schemas = require('../dao/schemas'),
   xmlProc = require('./xmlProcessor'),
-  vaveProc = require('./vaveProcessor')
+  vaveProc = require('./vaveProcessor'),
   path = require('path'),
   fs = require('fs'),
   unzip = require('unzip'),
@@ -18,6 +18,7 @@ function processFeed(filePath, s3Bucket) {
   var vave = vaveProc();
 
   var consolidationRequired = false;
+  var logger = (require('../logging/vip-winston')).Logger;
 
   schemas.initSchemas(mongoose);
 
@@ -28,7 +29,7 @@ function processFeed(filePath, s3Bucket) {
     db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error: '));
     db.once('open', function callback() {
-      console.log("initialized VIP database via Mongoose");
+      logger.info("initialized VIP database via Mongoose");
       next();
     });
   };
@@ -47,11 +48,13 @@ function processFeed(filePath, s3Bucket) {
       feedStream = s3.getObject(params).createReadStream();
     } else {
       if (!fs.existsSync(file)) {
-        console.error('File "' + file + '" not found.');
-        exitProcess();
+        logger.error('File "' + file + '" not found.');
+        exitProcess(1);
       }
       feedStream = fs.createReadStream(file);
     }
+
+    schemas.models.uniqueid.collection.drop();
 
       // if file exists
       switch (ext.toLowerCase()) {
@@ -65,8 +68,8 @@ function processFeed(filePath, s3Bucket) {
           x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
           break;
         default:
-          console.error('Filetype %s is not currently supported.', ext)
-          exitProcess();
+          logger.error('Filetype %s is not currently supported.', ext)
+          exitProcess(1);
       }
   }
 
@@ -81,7 +84,7 @@ function processFeed(filePath, s3Bucket) {
         vave.processCSV(schemas, filePath, entry);
         break;
       case '':
-        console.log('Directory - ' + entry.path);
+        logger.info('Directory - ' + entry.path);
         break;
       default:
         entry.autodrain();
@@ -101,17 +104,17 @@ if (process.argv.length > 2 && process.argv[2] != null) {
   processFeed(process.argv[2], process.argv[3]);
 }
 else {
-  console.error("ERROR: insufficient arguments provided to processor.js\n");
+  logger.error("ERROR: insufficient arguments provided to processor.js\n");
 
-  console.log("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
-  console.log("");
+  logger.info("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
+  logger.info("");
 
-  exitProcess();
+  exitProcess(1);
 }
 
-function exitProcess(){
+function exitProcess(code){
 
   // now close out the mongoose connection and exit the process
   mongoose.disconnect();
-  process.exit();
+  process.exit(code);
 }

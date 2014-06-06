@@ -131,6 +131,32 @@ var metisRuleList = [
     severityText: 'Warning',
     implementation: './impl/houseAptRule',
     dataConstraints: constraints['houseAptNumber']
+  },
+  {
+    ruleId: 'orphanedEntityRule',
+    title: 'Orphaned Entity',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 11,
+    errorText: 'Early Vote Site is not referenced in any Precinct, Precinct Split, or Locality',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/orphanedEntityRule',
+    dataConstraints: constraints['orphanedEntity']
+  },
+  {
+    ruleId: 'nonExistentLinkRule',
+    title: 'Linking to a nonexistent ID',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 13,
+    errorText: '',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/nonExistentLinkRule',
+    dataConstraints: constraints['nonExistentLink']
   }
   /* address direction range */
 ];

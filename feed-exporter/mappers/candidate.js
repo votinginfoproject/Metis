@@ -2,6 +2,7 @@
  * Created by rcartier13 on 3/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var util = require('./util');
@@ -9,7 +10,8 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function candidateExport(feedId, callback) {
-  schemas.models.Candidate.find({_feed: feedId}, function(err, results) {
+  logger.info('Export Candidates Started');
+  schemas.models.candidates.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
@@ -40,7 +42,8 @@ function candidateExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('candidate finished');
+    logger.info('Export Candidates Finished');
+    logger.info('----------------------------');
   });
 }
 

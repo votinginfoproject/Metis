@@ -14,35 +14,35 @@ var address = {
 };
 
 var ballotLineResultsData = {
-  elementId: 1,
-  candidateId: 2,
-  ballotResponseId: 3,
+  elementId: '1',
+  candidateId: '2',
+  ballotResponseId: '3',
   votes: 4,
   certification: 'cert'
 };
 
 var electionAdministration = {
-  elementId: 2,
+  elementId: '2',
   name: 'name',
   physicalAddress: address,
   address: address
 };
 
 var referendaData = {
-  elementId: 1,
+  elementId: '1',
   title: 'title'
 };
 
 var ballotResponsesData = {
   _response: {
-    elementId: 1,
+    elementId: '1',
     text: 'text',
     sortOrder: 2
   }
 };
 
 var electionOfficial = {
-  elementId: 1,
+  elementId: '1',
   name: 'name',
   title: 'title',
   phone: 'phone',
@@ -62,12 +62,12 @@ var data = {
     },
     _state: {
       name: 'name',
-      elementId: 4
+      elementId: '4'
     }
   },
 
   source: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     datetime: Date('2012-09-06'),
     description: 'desc',
@@ -83,7 +83,7 @@ var data = {
   },
 
   election: {
-    elementId: 1,
+    elementId: '1',
     date: Date('2012-09-06'),
     electionType: 'type',
     stateWide: 'yes',
@@ -94,7 +94,7 @@ var data = {
     electionDayRegistration: 'reg',
     registrationDeadLine: Date('2012-09-06'),
     absenteeRequestDeadline: Date('2012-09-06'),
-    stateId: 2,
+    stateId: '2',
     _state: {
       name: 'name',
       localityCount: 3
@@ -108,7 +108,7 @@ var data = {
   },
 
   locality: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     type: 'type',
     _precincts: {
@@ -128,7 +128,7 @@ var data = {
   },
 
   precinct: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     number: 'number',
     ward: 'ward',
@@ -140,20 +140,20 @@ var data = {
   },
 
   electoralDistrict: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     type: 'type',
     number: 'number'
   },
 
   contest: {
-    elementId: 1,
+    elementId: '1',
     type: 'type',
     office: 'office'
   },
 
   streetSegments: {
-    elementId: 1,
+    elementId: '1',
     startHourseNumber: 2,
     endHouseNumber: 3,
     oddEvenBoth: 'yes',
@@ -173,7 +173,7 @@ var data = {
   },
 
   earlyVote: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     address: address,
     directions: 'dir',
@@ -184,7 +184,7 @@ var data = {
   },
 
   electionAdmin: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     physicalAddress: address,
     mailingAddress: address,
@@ -202,7 +202,7 @@ var data = {
   },
 
   electionContest: {
-    elementId: 1,
+    elementId: '1',
     type: 'type',
     partisan: 'partisan',
     primaryParty: 'primary',
@@ -215,18 +215,18 @@ var data = {
     ballotPlacement: 4,
     overview: 'overviewstuff',
     _ballot: {
-      elementId: 1,
+      elementId: '1',
       candidates: { length: 2 },
       referendumIds: {length: 3}
     },
     _electoralDistrict: {
-      elementId: 1,
+      elementId: '1',
       name: 'name',
       _precincts: { length: 2 },
       _precinctSplits: { length: 3 }
     },
     _contestResult: {
-      elementId: 5,
+      elementId: '5',
       totalVotes: 6,
       totalValidVotes: 7,
       overvotes: 8,
@@ -242,7 +242,7 @@ var data = {
   },
 
   ballot: {
-    elementId: 1,
+    elementId: '1',
     writeIn: 'yes',
     imageUrl: 'url',
     _referenda: {
@@ -251,8 +251,12 @@ var data = {
       },
       data: referendaData
     },
+    _contests: [{
+      elementId: '1',
+      type: 'type'
+    }],
     _customBallot: {
-      elementId: 1,
+      elementId: '1',
       heading: 'heading',
       ballotResponses: {
         map: function(callback) {
@@ -263,8 +267,10 @@ var data = {
     }
   },
 
+
+
   candidates: {
-    elementId: 1,
+    elementId: '1',
     _candidate: {
       name: 'name',
       party: 'party'
@@ -273,7 +279,7 @@ var data = {
   },
 
   candidate: {
-    elementId: 1,
+    elementId: '1',
     name: 'name',
     incumbent: 'incumbent',
     party: 'party',
@@ -289,7 +295,7 @@ var data = {
   referenda: referendaData,
 
   referendum: {
-    elementId: 1,
+    elementId: '1',
     title: 'title',
     subtitle: 'subtitle',
     brief: 'brief',
@@ -308,7 +314,7 @@ var data = {
   ballotResponse: ballotResponsesData,
 
   pollingLocation: {
-    elementId: 1,
+    elementId: '1',
     address: address,
     directions: 'dir',
     photoUrl: 'url',
@@ -327,6 +333,16 @@ var data = {
       amount: 1,
       completePct: 2,
       errorCount: 3
+    }
+  ],
+
+  ballotStyles: [
+    {
+      elementId: '1',
+      name: 'name',
+      sortOrder: 1,
+      referendumId: '2',
+      electionId: '3'
     }
   ]
 };

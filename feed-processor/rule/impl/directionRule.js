@@ -3,8 +3,8 @@
  */
 
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
 var async = require('async');
+var utils = require('../../utils');
 
 var errorCount = 0;
 var constraints = null;
@@ -50,12 +50,7 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var saveStack = 0;
     stream.on('data', function(addressSegmentResultSet) {
 
-      var fieldPath = fieldStrings[i].split(".");
-      var resultSet = addressSegmentResultSet;
-      for(var x = 0; x < fieldPath.length; x++) {
-        var path = (fieldPath[x]).toString();
-        resultSet = resultSet[path];
-      }
+      var resultSet = utils.getProperty(addressSegmentResultSet, fieldStrings[i]);
 
       if(!resultSet || resultSet.trim() === '') {
         return;
@@ -90,8 +85,18 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
 
 function createError(addressSegment, directionalError) {
   errorCount++;
-  var ruleErrors = new ruleViolation(constraints.entity[0], addressSegment.elementId, addressSegment._id, addressSegment._feed, directionalError, directionalError, rule);
-  return ruleErrors.getCollection().create(ruleErrors.model());
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: directionalError,
+    textualReference: 'id = ' + addressSegment.elementId + " (" + directionalError + ")",
+    refElementId: addressSegment.elementId,
+    _ref: addressSegment._id,
+    _feed: addressSegment._feed
+  });
 }
 
 exports.evaluate = evaluateAddressDirectionType;

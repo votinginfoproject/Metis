@@ -5,7 +5,7 @@ const
   path = require('path'),
   unfold = require('when/unfold'),
   xstream = require('xml-stream'),
-  config = require('../config');
+  config = require('../config'),
   moment = require('moment');
 
 
@@ -18,10 +18,12 @@ module.exports = function() {
   var feedId;
   var schemaVersion;
   var models;
+  var schemas;
 
   var Ballot = require('./mappers/Ballot');
   var BallotLineResult = require('./mappers/BallotLineResult');
   var BallotResponse = require('./mappers/BallotResponse');
+  var BallotStyle = require('./mappers/BallotStyle');
   var Candidate = require('./mappers/Candidate');
   var Contest = require('./mappers/Contest');
   var ContestResult = require('./mappers/ContestResult');
@@ -32,9 +34,12 @@ module.exports = function() {
   var ElectionOfficial = require('./mappers/ElectionOfficial');
   var ElectoralDistrict = require('./mappers/ElectoralDistrict');
   var Locality = require('./mappers/Locality');
+  var Party = require('./mappers/Party');
   var PollingLocation = require('./mappers/PollingLocation');
   var Precinct = require('./mappers/Precinct');
   var PrecinctSplit = require('./mappers/PrecinctSplit');
+  var PrecinctSplitElectoralDistrict = require('./mappers/PrecinctSplitElectoralDistrict');
+  var PrecinctSplitBallotStyle = require('./mappers/PrecinctSplitBallotStyle');
   var Referendum = require('./mappers/Referendum');
   var Source = require('./mappers/Source');
   var State = require('./mappers/State');
@@ -44,6 +49,8 @@ module.exports = function() {
   var unfolding = false;
 
   var parsingComplete = false;
+
+  var logger = (require('../logging/vip-winston')).Logger;
 
   /*
    * functions to move into base class
@@ -55,7 +62,7 @@ module.exports = function() {
 
     xml.pause();
 
-    console.log('Starting unfold');
+    logger.info('Starting unfold');
 
     unfolding = true;
     unfold(unspool, condition, log, 0)
@@ -63,7 +70,7 @@ module.exports = function() {
         console.error (err);
       })
       .then(function() {
-        console.log('unfold completed!!!!');
+        logger.info('unfold completed!!!!');
         xml.resume();
         completeCheck();
       });
@@ -76,7 +83,7 @@ module.exports = function() {
 
   function condition(writes) {
     if (writeQue.length == 0) {
-      console.log('condition = true');
+      logger.info('condition = true');
       unfolding = false;
     }
 
@@ -85,28 +92,29 @@ module.exports = function() {
 
   function log(data) {
     if (data) {
-    } else { console.log('data null'); }
+    } else { logger.info('data null'); }
   }
 
   function completeCheck() {
     if (parsingComplete) {
       if (writeQue.length == 0) {
-        console.log('Creating database relationships...');
-        require('./matchMaker').createDBRelationships(feedId, models);
+        logger.info('Creating database relationships...');
+        require('./matchMaker').createDBRelationships(feedId, models, schemaVersion);
       }
       else {
-        console.log(writeQue.length);
+        logger.info(writeQue.length);
       }
     }
   }
 
   function onParsingEnd() {
     parsingComplete = true;
-    console.log('Parsing Complete!');
+    logger.info('Parsing Complete!');
     startUnfold();
   }
 
   function readXMLFromStream(xmlStream) {
+
     xml = xmlStream;
 
     xml.collect('early_vote_site_id');
@@ -115,12 +123,18 @@ module.exports = function() {
     xml.collect('polling_location_id');
     xml.collect('ballot_response_id');
     xml.collect('referendum_id');
+    xml.collect('pollbook_type');
+    xml.collect('contest_id');
+
+    xml.collect('contest');
+    xml.collect('candidates');
 
     xml.on('end', onParsingEnd);
     xml.on('startElement: vip_object', processFeedAttributes);
     xml.on('endElement: ballot', processBallotElement);
     xml.on('endElement: ballot_line_result', processBallotLineResultElement);
     xml.on('endElement: ballot_response', processBallotResponseElement);
+    xml.on('endElement: ballot_style', processBallotStyleElement);
     xml.on('endElement: candidate', processCandidateElement);
     xml.on('endElement: contest', processContestElement);
     xml.on('endElement: contest_result', processContestResultElement);
@@ -131,9 +145,11 @@ module.exports = function() {
     xml.on('endElement: election_official', processElectionOfficialElement);
     xml.on('endElement: electoral_district', processElectoralDistrictElement);
     xml.on('endElement: locality', processLocalityElement);
+    xml.on('endElement: party', processPartyElement);
     xml.on('endElement: polling_location', processPollingLocationElement);
     xml.on('endElement: precinct', processPrecinctElement);
     xml.on('endElement: precinct_split', processPrecinctSplitElement);
+    xml.on('endElement: precinct_split_ballot_style', processPrecinctBallotStyleElement);
     xml.on('endElement: referendum', processReferendumElement);
     xml.on('endElement: source', processSourceElement);
     xml.on('endElement: state', processStateElement);
@@ -142,11 +158,25 @@ module.exports = function() {
 
   function processFeedAttributes(vipObject) {
     schemaVersion = vipObject.$.schemaVersion;
+
+    if(schemaVersion == '5.0') {
+      xml.collect('precinct');
+      xml.collect('precinct_split');
+      xml.collect('polling_location');
+      xml.collect('candidate');
+    }
   }
 
   function mapAndSave(model, element) {
     recordCount++;
-    model.mapXml3_0(element);
+
+    if(schemaVersion == '3.0') {
+      if(model.mapXml3_0)
+        model.mapXml3_0(element);
+    }
+    else
+      model.mapXml5_0(element);
+
     var savePromise = model.save();
 
     if (savePromise) {
@@ -154,12 +184,15 @@ module.exports = function() {
     }
 
     if (recordCount % 10000 == 0) {
-      console.log('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
+      logger.info('RecordCount: %d WriteQ: %d', recordCount, writeQue.length);
     }
 
     if (!unfolding && writeQue.length >= config.mongoose.maxWriteQueueLength) {
       startUnfold();
     }
+
+    if(model.model)
+      return model.model._id;
   }
 
   function processBallotElement(ballot) {
@@ -177,12 +210,36 @@ module.exports = function() {
     mapAndSave(model, ballotResponse);
   }
 
+  function processBallotStyleElement(ballotStyle) {
+    var model = new BallotStyle(models, feedId);
+    mapAndSave(model, ballotStyle);
+  }
+
   function processCandidateElement(candidate) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new Candidate(models, feedId);
     mapAndSave(model, candidate);
   }
 
   function processContestElement(contest) {
+
+    if(!contest.$.id)
+      return;
+
+    if(schemaVersion == '5.0') {
+      if(contest.candidate) {
+        contest.candidate.forEach(function (candidate) {
+          var candidateModel = new Candidate(models, feedId);
+          var candidateId = new schemas.types.ObjectId();
+          candidate.ballot_id = contest.ballot_id;
+          mapAndSave(candidateModel, candidate, candidateId);
+        });
+      }
+    }
+
     var model = new Contest(models, feedId);
     mapAndSave(model, contest);
   }
@@ -223,23 +280,75 @@ module.exports = function() {
   }
 
   function processLocalityElement(locality) {
+
+    if(schemaVersion == '5.0') {
+      locality.precinct.forEach(function (precinct) {
+
+        if(precinct.precinct_split) {
+          precinct._precinctSplits = [];
+          precinct.precinct_split.forEach(function (split) {
+            var splitModel = new PrecinctSplit(models, feedId);
+            precinct._precinctSplits.push(mapAndSave(splitModel, split));
+          });
+        }
+
+        if(precinct.polling_location) {
+          precinct._pollingLocations = [];
+          precinct.polling_location.forEach(function (location) {
+            var locationModel = new PollingLocation(models, feedId);
+            var locationId = new schemas.types.ObjectId();
+            precinct._pollingLocations.push(mapAndSave(locationModel, location, locationId));
+          });
+        }
+
+        locality._precincts = [];
+        var precinctModel = new Precinct(models, feedId);
+        var precinctId = new schemas.types.ObjectId();
+        locality._precincts.push(mapAndSave(precinctModel, precinct, precinctId));
+      });
+    }
+
     var model = new Locality(models, feedId);
     mapAndSave(model, locality);
   }
 
+  function processPartyElement(party) {
+    if(schemaVersion == '5.0') {
+      var model = new Party(models, feedId);
+      mapAndSave(model, party);
+    }
+  }
+
   function processPollingLocationElement(pollingLocation) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new PollingLocation(models, feedId);
     mapAndSave(model, pollingLocation);
   }
 
   function processPrecinctElement(precinct) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new Precinct(models, feedId);
     mapAndSave(model, precinct);
   }
 
   function processPrecinctSplitElement(precinctSplit) {
+
+    if(schemaVersion == '5.0')
+      return;
+
     var model = new PrecinctSplit(models, feedId);
     mapAndSave(model, precinctSplit);
+  }
+
+  function processPrecinctBallotStyleElement(psBallotStyle) {
+    var model = new PrecinctSplitBallotStyle(models, feedId);
+    mapAndSave(model, psBallotStyle);
   }
 
   function processReferendumElement(referendum) {
@@ -263,14 +372,15 @@ module.exports = function() {
   }
 
   return {
-    processXml: function (schemas, filePath, fileName, fileStream) {
+    processXml: function (_schemas, filePath, fileName, fileStream) {
+      schemas = _schemas;
       models = schemas.models;
 
       feedId = schemas.types.ObjectId();
-      console.log('FeedId = ' + feedId.toString());
+      logger.info('FeedId = ' + feedId.toString());
 
-      models.Feed.create({
-        _id: feedId,
+      models.feeds.create({
+        _id: feedId.toString(),
         complete: false,
         failed: false,
         completedOn: null,
@@ -280,17 +390,25 @@ module.exports = function() {
         name: fileName,
         friendlyId: null
       }, function(err, feed) {
-        console.log('Wrote feed with id = ' + feed._id.toString());
-
-        if (process.send) {
-          // tell the parent about the feedid of the current feed being processed
-          process.send({"messageid": 1, "feedId": feedId});
-        }
+        logger.info('Wrote feed with id = ' + feed._id.toString());
       });
 
+      // if we are a child process
+      if (process.send) {
+        // tell the parent about the feedid of the current feed being processed
+        process.send({"messageId": 1, "feedId": feedId.toString()});
+      }
+
+      // (NOTE if child process) *** *** ***
+      // If the processing fails it will get caught by the parent, but only
+      // after the message in the send() statement above finishes as node is single threaded
+      // Make sure the end target of the send() call above only does in memory operations and
+      // no blocking I/O or asynchronous operations, which would break this pattern and require us
+      // to wait for the send() calls execution to finish before starting the processing below.
 
       var xml = new xstream(fileStream);
       readXMLFromStream(xml);
+
     }
   };
 };

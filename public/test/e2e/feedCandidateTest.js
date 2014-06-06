@@ -58,12 +58,12 @@ describe('Testing Feed Candidate Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Candidate', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Candidate', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {
@@ -124,12 +124,12 @@ describe('Testing Feed Candidates Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Candidates', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Candidates', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

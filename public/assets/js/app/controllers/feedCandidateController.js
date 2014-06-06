@@ -2,7 +2,7 @@
  * Created by rcartier13 on 1/23/14.
  */
 
-function FeedCandidateCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
+function FeedCandidateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -20,7 +20,7 @@ function FeedCandidateCtrl($scope, $rootScope, $feedsService, $routeParams, $loc
       $rootScope.feedData = data;
 
       // now call the other services to get the rest of the data
-      FeedCandidateCtrl_getFeedCandidate($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()));
+      FeedCandidateCtrl_getFeedCandidate($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -37,15 +37,18 @@ function FeedCandidateCtrl($scope, $rootScope, $feedsService, $routeParams, $loc
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
       $scope.feedCandidate = {};
+      $scope.feedBallotStyle = {};
     });
 };
 
-function FeedCandidateCtrl_getFeedCandidate ($scope, $rootScope, $feedsService, servicePath) {
+function FeedCandidateCtrl_getFeedCandidate ($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
   $feedsService.getFeedCandidate(servicePath)
     .success(function(data) {
 
       // set the feeds data into the Angular model
       $scope.feedCandidate = data;
+
+      FeedCandidateCtrl_getFeedBallotStyle($scope, $rootScope, $feedsService, data.ballotStyles, $appProperties, $filter, ngTableParams);
 
       // set the title
       $rootScope.pageHeader.title = "Candidate ID: " + data.id;
@@ -55,4 +58,15 @@ function FeedCandidateCtrl_getFeedCandidate ($scope, $rootScope, $feedsService, 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedCandidate = {};
     });
+}
+
+function FeedCandidateCtrl_getFeedBallotStyle($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
+  $feedsService.getFeedBallot(servicePath)
+    .success(function(data) {
+      $scope.feedBallotStyle = data;
+
+      $scope.candidateBallotStylesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+    }).error(function(data, $http) {
+      $scope.feedBallotStyle = {};
+    })
 }

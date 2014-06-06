@@ -1,11 +1,12 @@
 /**
  * Created by rcartier13 on 3/3/14.
  */
+var logger = (require('../logging/vip-winston')).Logger;
+var auth = require('../services/auth');
 
 var db = require('../dao/db');
 var fs = require('fs');
 
-var states = require('./states');
 var config = require('../config');
 
 var ballot = require('./mappers/ballot');
@@ -119,13 +120,26 @@ function writeFeed(feedId, instance, callback) {
     if(instance.written === 0) {
       if(instance.finished) {
         instance.stream.end();
-        console.log('Finished writing XML');
-        console.log('***Zip XML***');
+        logger.info('---------------------------------');
+        logger.info('Finished writing XML');
+        logger.info('***Zip XML***');
         instance.zip.addLocalFile(instance.tempLoc);
         instance.zip.writeZip(instance.zipLoc);
         fs.unlinkSync(instance.tempLoc);
         fs.rmdirSync(config.exporter.tempLocation);
-        console.log('***Zip Finished***');
+        logger.info('***Zip Finished***');
+
+        var output = {
+          FeedFile: instance.zipLoc,
+          DateTime: moment().utc().toString(),
+          FeedId: feedId,
+          User: auth.getCurrentUser().name.givenName + " " + auth.getCurrentUser().name.familyName,
+          UserName: auth.getCurrentUser().username,
+          UserEmail: auth.getCurrentUser().email
+        };
+
+        logger.info("Feed Approved: ", output);
+
       }
       else if(instance.streetSegmentCallback)
         instance.streetSegmentCallback();
@@ -154,7 +168,7 @@ function writeFeed(feedId, instance, callback) {
     ++instance.written;
     instance.stream.write("</vip_object>", finishedWrite);
     instance.finished = true;
-    console.log('Finished adding to writing buffer');
+    logger.info('Finished adding to writing buffer');
   }
 }
 

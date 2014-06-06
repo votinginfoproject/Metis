@@ -1,14 +1,15 @@
 /**
  * Created by rcartier13 on 3/4/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function electoralDistrictExport(feedId, callback) {
-  schemas.models.ElectoralDistrict.find({_feed: feedId}, function(err, results) {
+  logger.info('Export Electoral Districts Started');
+  schemas.models.electoraldistricts.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
@@ -27,7 +28,8 @@ function electoralDistrictExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('electoral district finished');
+    logger.info('Export Electoral Districts Finished');
+    logger.info('----------------------------');
   });
 }
 

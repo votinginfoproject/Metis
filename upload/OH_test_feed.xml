@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <!--
-
-Sample XML file for Voting Information Project (VIP) Spec Version 3.0
-Date: 2011-06-15
-File would be named: vipFeed-39-2012-11-06.xml
-
-A sample file for one state's (Ohio's) election. In this hypothetical version of Ohio, the state comprises only three counties.
-Each county has multiple precincts; one precinct is split; precincts sometimes share the same polling location. One county has a common drop
-location, while another county has a precinct with a specific mail location. The mail-only precinct comprises the entire town of Rural, OH.
-Five candidate contests are occuring in one November election, along with one county referendum, and one judge retention.
-One of the candidate contests is a special state senate primary; the state senate district comprises one full county
-and one precinct split in a neighboring county.
-The other contests are either statewide or countywide; the county contests are non-partisan.
-
-Note that the ID attributes are unique throughout the file.
-
--->
+ 
+ Sample XML file for Voting Information Project (VIP) Spec Version 3.0
+ Date: 2011-06-15
+ File would be named: vipFeed-39-2012-11-06.xml
+ 
+ A sample file for one state's (Ohio's) election. In this hypothetical version of Ohio, the state comprises only three counties.
+ Each county has multiple precincts; one precinct is split; precincts sometimes share the same polling location. One county has a common drop
+ location, while another county has a precinct with a specific mail location. The mail-only precinct comprises the entire town of Rural, OH.
+ Five candidate contests are occuring in one November election, along with one county referendum, and one judge retention.
+ One of the candidate contests is a special state senate primary; the state senate district comprises one full county
+ and one precinct split in a neighboring county.
+ The other contests are either statewide or countywide; the county contests are non-partisan.
+ 
+ Note that the ID attributes are unique throughout the file.
+ 
+ -->
 <vip_object xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://election-info-standard.googlecode.com/files/election_spec_v3.0.xsd" schemaVersion="3.0">
-      <source id="0">
+    <source id="0">
         <name>State of Ohio</name>
         <vip_id>39</vip_id>
         <datetime>2012-10-31T15:45:10</datetime>
@@ -25,7 +25,7 @@ Note that the ID attributes are unique throughout the file.
         <organization_url>http://www.sos.state.oh.us/</organization_url>
         <feed_contact_id>1555122</feed_contact_id>
         <tou_url>http://www.sos.state.oh.us/vipFeed/terms_of_use.html</tou_url>
-      </source>
+    </source>
 	<election id="1">
 		<date>2014-04-10</date>
 		<election_type>Federal</election_type>
@@ -34,10 +34,10 @@ Note that the ID attributes are unique throughout the file.
 		<registration_info>http://www.sos.state.oh.us/sos/PublicAffairs/VoterInfoGuide.aspx?Section=14</registration_info>
 		<absentee_ballot_info>http://www.sos.state.oh.us/sos/PublicAffairs/VoterInfoGuide.aspx?Section=16</absentee_ballot_info>
 		<results_url>http://www.sos.state.oh.us/sos/ElectionsVoter/electionResults.aspx</results_url>
-            <polling_hours>7am-8pm</polling_hours>
-            <election_day_registration>no</election_day_registration>
-            <registration_deadline>2012-10-01</registration_deadline>
-            <absentee_request_deadline>2012-11-01</absentee_request_deadline>
+        <polling_hours>7am-8pm</polling_hours>
+        <election_day_registration>no</election_day_registration>
+        <registration_deadline>2012-10-01</registration_deadline>
+        <absentee_request_deadline>2012-11-01</absentee_request_deadline>
 	</election>
 	<state id="39">
 		<name>Ohio</name>
@@ -103,7 +103,7 @@ Note that the ID attributes are unique throughout the file.
 		<locality_id>102</locality_id>
 		<electoral_district_id>70001</electoral_district_id>
 		<electoral_district_id>70002</electoral_district_id>
-	      <mail_only>yes</mail_only>
+        <mail_only>yes</mail_only>
 		<early_vote_site_id>30204</early_vote_site_id>
 	</precinct>
 	<precinct id="10301">
@@ -229,16 +229,16 @@ Note that the ID attributes are unique throughout the file.
         <fax>(101) 555-1216</fax>
         <email>rmiller@ohio.gov</email>
     </election_official>
-
+    
 	<polling_location id="20121">
 		<address><location_name>Springfield Elementary</location_name><line1>123 Main St.</line1><city>Fake Twp</city><state>OH</state><zip>33333_error</zip></address>
 		<directions>Enter through gym door.</directions>
-        	<polling_hours>7:30am-8:30pm</polling_hours>
+        <polling_hours>7:30am-8:30pm</polling_hours>
 	</polling_location>
 	<polling_location id="20122">
 		<address><location_name>Adams Church</location_name><line1>123 Main St.</line1><city>Adams</city><state>OH</state><zip>33333</zip></address>
 		<directions>Enter through door by parking lot.</directions>
-        	<photo_url>http://www.seo.gov/photo20122.jpg</photo_url>
+        <photo_url>http://www.seo.gov/photo20122.jpg</photo_url>
 	</polling_location>
 	<polling_location id="20201">
 		<address><location_name>Bath Firehouse Church</location_name><line1>123 State St.</line1><city>Bath</city><state>OH</state><zip>33333_second</zip></address>
@@ -251,56 +251,56 @@ Note that the ID attributes are unique throughout the file.
 	<polling_location id="20141">
 		<address><location_name>41 Springfield Elementary</location_name><line1>123 Main St.</line1><city>Fake Twp</city><state>OH</state><zip>33333</zip></address>
 		<directions>41 Enter through gym door.</directions>
-        	<polling_hours>41 7:30am-8:30pm</polling_hours>
+        <polling_hours>41 7:30am-8:30pm</polling_hours>
 	</polling_location>
 	<polling_location id="20142">
 		<address><location_name>42 Adams Church</location_name><line1>123 Main St.</line1><city>Adams</city><state>OH</state><zip>33333</zip></address>
 		<directions>42 Enter through door by parking lot.</directions>
-        	<photo_url>42 http://www.seo.gov/photo20122.jpg</photo_url>
+        <photo_url>42 http://www.seo.gov/photo20122.jpg</photo_url>
 	</polling_location>
 	<early_vote_site id="30203">
         <name>Adams Early Vote Center</name>
         <address>
-          <location_name>Adams County Government Center</location_name>
-          <line1>321 Main St.</line1>
-	    <line2>Suite 200</line2>
-          <city>Adams</city>
-          <state>OH</state>
-          <zip>42224-1</zip>
+            <location_name>Adams County Government Center</location_name>
+            <line1>321 Main St.</line1>
+            <line2>Suite 200</line2>
+            <city>Adams</city>
+            <state>OH</state>
+            <zip>42224-1</zip>
         </address>
         <directions>Follow signs to early vote</directions>
         <voter_services>Early voting is available.</voter_services>
-	  <start_date>2012-10-01</start_date>
+        <start_date>2012-10-01</start_date>
         <end_date>2012-11-04</end_date>
         <days_times_open>Mon-Fri: 9am - 6pm. Sat. and Sun.: 10am - 7pm.</days_times_open>
 	</early_vote_site>
 	<early_vote_site id="30204">
         <name>Springfield Ballot Drop</name>
         <address>
-          <line1>321 Main St.</line1>
-          <city>Springfield</city>
-          <state>OH</state>
-          <zip>44444-1</zip>
+            <line1>321 Main St.</line1>
+            <city>Springfield</city>
+            <state>OH</state>
+            <zip>44444-1</zip>
         </address>
         <directions>Next to Post Office.</directions>
         <voter_services>Ballot drop only</voter_services>
-	  <start_date>2012-10-01</start_date>
+        <start_date>2012-10-01</start_date>
         <end_date>2012-11-06</end_date>
         <days_times_open>Open all days, all times.</days_times_open>
 	</early_vote_site>
 	<early_vote_site id="30205">
         <name>05 Adams Early Vote Center</name>
         <address>
-          <location_name>05 Adams County Government Center</location_name>
-          <line1>321 Main St.</line1>
-	    <line2>Suite 200</line2>
-          <city>Adams</city>
-          <state>OH</state>
-          <zip>42224</zip>
+            <location_name>05 Adams County Government Center</location_name>
+            <line1>321 Main St.</line1>
+            <line2>Suite 200</line2>
+            <city>Adams</city>
+            <state>OH</state>
+            <zip>42224</zip>
         </address>
         <directions>05 Follow signs to early vote</directions>
         <voter_services>05 Early voting is available.</voter_services>
-	  <start_date>2012-10-01</start_date>
+        <start_date>2012-10-01</start_date>
         <end_date>2012-11-04</end_date>
         <days_times_open>Mon-Fri: 9am - 6pm. Sat. and Sun.: 10am - 7pm.</days_times_open>
 	</early_vote_site>
@@ -388,8 +388,8 @@ Note that the ID attributes are unique throughout the file.
 		<candidate_id>90001</candidate_id>
 		<candidate_id>90002</candidate_id>
 		<candidate_id>90003</candidate_id>
-    <write_in>yes</write_in>
-    <image_url>http://www.FakeUrl.com</image_url>
+        <write_in>yes</write_in>
+        <image_url>http://www.FakeUrl.com</image_url>
 	</ballot>
 	<ballot id="80002">
 		<candidate_id>90004</candidate_id>
@@ -403,11 +403,11 @@ Note that the ID attributes are unique throughout the file.
 	<ballot id="80004">
 		<candidate_id>90001</candidate_id>
 		<candidate_id>90002</candidate_id>
-    <write_in>yes</write_in>
-    <image_url>FakeUrlcom</image_url>
-    <referendum_id>90011</referendum_id>
-    <referendum_id>90012</referendum_id>
-    <custom_ballot_id>90013</custom_ballot_id>
+        <write_in>yes</write_in>
+        <image_url>FakeUrlcom</image_url>
+        <referendum_id>90011</referendum_id>
+        <referendum_id>90012</referendum_id>
+        <custom_ballot_id>90013</custom_ballot_id>
 	</ballot>
 	<ballot id="80005">
 		<candidate_id>90010</candidate_id>
@@ -434,11 +434,11 @@ Note that the ID attributes are unique throughout the file.
 		<name>Berlin Opponent</name>
 		<party>Republican</party>
 		<sort_order>2</sort_order>
-    <candidate_url>http://www.berlinOpp.org</candidate_url>
-    <biography>Daniel Berlin's opponent grew up somewhere else</biography>
-    <phone>223-456-7890</phone>
-    <filed_mailing_address><line1>1234 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
-    <email>dberlinop@example.com</email>
+        <candidate_url>http://www.berlinOpp.org</candidate_url>
+        <biography>Daniel Berlin's opponent grew up somewhere else</biography>
+        <phone>223-456-7890</phone>
+        <filed_mailing_address><line1>1234 Fake St.</line1><city>Rockville</city><state>OH</state><zip>20852</zip></filed_mailing_address>
+        <email>dberlinop@example.com</email>
 	</candidate>
 	<candidate id="90003">
 		<name>Third Party Person</name>
@@ -482,17 +482,17 @@ Note that the ID attributes are unique throughout the file.
 		<ballot_response_id>120001</ballot_response_id>
 		<ballot_response_id>120002</ballot_response_id>
 	</referendum>
-  <referendum id="90012">
-    <title>Proposition 12</title>
-    <subtitle>A referendum to...</subtitle>
-    <brief>A yes vote is a vote to...</brief>
-    <text>Shall the State of Ohio ... (full text of referendum as it appears on the ballot).</text>
-    <pro_statement>Vote yes please</pro_statement>
-    <con_statement>Vote no please</con_statement>
-    <passage_threshold>three-fifths</passage_threshold>
-    <effect_of_abstain>Abstaining has no effect</effect_of_abstain>
-    <ballot_response_id>120003</ballot_response_id>
-  </referendum>
+    <referendum id="90012">
+        <title>Proposition 12</title>
+        <subtitle>A referendum to...</subtitle>
+        <brief>A yes vote is a vote to...</brief>
+        <text>Shall the State of Ohio ... (full text of referendum as it appears on the ballot).</text>
+        <pro_statement>Vote yes please</pro_statement>
+        <con_statement>Vote no please</con_statement>
+        <passage_threshold>three-fifths</passage_threshold>
+        <effect_of_abstain>Abstaining has no effect</effect_of_abstain>
+        <ballot_response_id>120003</ballot_response_id>
+    </referendum>
 	<custom_ballot id="90013">
 		<heading>Should Judge Carlton Smith be retained?</heading>
 		<ballot_response_id>120001</ballot_response_id>
@@ -506,70 +506,70 @@ Note that the ID attributes are unique throughout the file.
 		<sort_order>2</sort_order>
 		<text>No</text>
 	</ballot_response>
-  <ballot_response id="120003">
-    <sort_order>3</sort_order>
-    <text>No</text>
-  </ballot_response>
+    <ballot_response id="120003">
+        <sort_order>3</sort_order>
+        <text>No</text>
+    </ballot_response>
     <contest_result id="61004" certification="certified">
-      <contest_id>60001</contest_id>
-      <jurisdiction_id>70003</jurisdiction_id>
-      <entire_district>Yes</entire_district>
-      <total_votes>1002</total_votes>
-      <total_valid_votes>1000</total_valid_votes>
-      <overvotes>1</overvotes>
-      <blank_votes>1</blank_votes>
-      <accepted_provisional_votes>1</accepted_provisional_votes>
-      <rejected_votes>2</rejected_votes>
+        <contest_id>60001</contest_id>
+        <jurisdiction_id>70003</jurisdiction_id>
+        <entire_district>Yes</entire_district>
+        <total_votes>1002</total_votes>
+        <total_valid_votes>1000</total_valid_votes>
+        <overvotes>1</overvotes>
+        <blank_votes>1</blank_votes>
+        <accepted_provisional_votes>1</accepted_provisional_votes>
+        <rejected_votes>2</rejected_votes>
     </contest_result>
     <ballot_line_result id="91008" certification="certified">
-      <contest_id>60001</contest_id>
-      <jurisdiction_id>70003</jurisdiction_id>
-      <entire_district>Yes</entire_district>
-      <candidate_id>90008</candidate_id>
-      <votes>510</votes>
-      <victorious>Yes</victorious>
+        <contest_id>60001</contest_id>
+        <jurisdiction_id>70003</jurisdiction_id>
+        <entire_district>Yes</entire_district>
+        <candidate_id>90008</candidate_id>
+        <votes>510</votes>
+        <victorious>Yes</victorious>
     </ballot_line_result>
     <ballot_line_result id="91009" certification="certified">
-      <contest_id>60001</contest_id>
-      <jurisdiction_id>70003</jurisdiction_id>
-      <entire_district>Yes</entire_district>
-      <candidate_id>90009</candidate_id>
-      <votes>490</votes>
-      <victorious>No</victorious>
+        <contest_id>60001</contest_id>
+        <jurisdiction_id>70003</jurisdiction_id>
+        <entire_district>Yes</entire_district>
+        <candidate_id>90009</candidate_id>
+        <votes>490</votes>
+        <victorious>No</victorious>
     </ballot_line_result>
     <contest_result id="61006" certification="certified">
-      <contest_id>60006</contest_id>
-      <jurisdiction_id>10103</jurisdiction_id>
-      <entire_district>No</entire_district>
-      <total_votes>250</total_votes>
+        <contest_id>60006</contest_id>
+        <jurisdiction_id>10103</jurisdiction_id>
+        <entire_district>No</entire_district>
+        <total_votes>250</total_votes>
     </contest_result>
     <ballot_line_result id="62006" certification="certified">
-      <contest_id>60006</contest_id>
-      <jurisdiction_id>10103</jurisdiction_id>
-      <entire_district>No</entire_district>
-	<ballot_response_id>120001</ballot_response_id>
-      <votes>150</votes>
+        <contest_id>60006</contest_id>
+        <jurisdiction_id>10103</jurisdiction_id>
+        <entire_district>No</entire_district>
+        <ballot_response_id>120001</ballot_response_id>
+        <votes>150</votes>
     </ballot_line_result>
     <ballot_line_result id="63006" certification="certified">
-      <contest_id>60006</contest_id>
-      <jurisdiction_id>10103</jurisdiction_id>
-      <entire_district>No</entire_district>
-	<ballot_response_id>120002</ballot_response_id>
-      <votes>100</votes>
+        <contest_id>60006</contest_id>
+        <jurisdiction_id>10103</jurisdiction_id>
+        <entire_district>No</entire_district>
+        <ballot_response_id>120002</ballot_response_id>
+        <votes>100</votes>
     </ballot_line_result>
     <street_segment id="1210001">
         <start_house_number>1</start_house_number>
         <end_house_number>12</end_house_number>
         <odd_even_both>both</odd_even_both>
         <non_house_address>
-          <street_direction>eE</street_direction>
-          <street_name>Guineveres</street_name>
-          <street_suffix>Dr</street_suffix>
-          <address_direction>SE</address_direction>
-          <apartment>616S</apartment>
-          <state>VA</state>
-          <city>Annandale</city>
-          <zip>22003</zip>
+            <street_direction>eE</street_direction>
+            <street_name>Guineveres</street_name>
+            <street_suffix>Dr</street_suffix>
+            <address_direction>SE</address_direction>
+            <apartment>616S</apartment>
+            <state>VA</state>
+            <city>Annandale</city>
+            <zip>22003</zip>
         </non_house_address>
         <precinct_id>10101</precinct_id>
     </street_segment>
@@ -611,12 +611,12 @@ Note that the ID attributes are unique throughout the file.
         <odd_even_both>even</odd_even_both>
         <non_house_address>
             <street_suffix>Dr</street_suffix>
-          <street_direction>E</street_direction>
-          <address_direction>N</address_direction>
-          <street_name>Main</street_name>
-          <city>Annandale</city>
-          <state>OH</state>
-          <zip>43321</zip>
+            <street_direction>E</street_direction>
+            <address_direction>N</address_direction>
+            <street_name>Main</street_name>
+            <city>Annandale</city>
+            <state>OH</state>
+            <zip>43321</zip>
         </non_house_address>
         <precinct_id>10203</precinct_id>
     </street_segment>
@@ -682,139 +682,139 @@ Note that the ID attributes are unique throughout the file.
         <precinct_split_id>30101</precinct_split_id>
         <precinct_id>10101</precinct_id>
     </street_segment>
-
-
-<street_segment id="222">
-    <start_house_number>0</start_house_number>
-    <end_house_number>20</end_house_number>
-    <odd_even_both>both</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>111</precinct_split_id>
-    <precinct_id>10302</precinct_id>
-</street_segment>
-<street_segment id="223">
-    <start_house_number>1</start_house_number>
-    <end_house_number>20</end_house_number>
-    <odd_even_both>both</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>111</precinct_split_id>
-    <precinct_id>10302</precinct_id>
-</street_segment>
-<street_segment id="224">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>odd</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="101">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>odd</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-
-<street_segment id="44">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>odd</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>2Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="45">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>even</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>2Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="46">
-    <start_house_number>1</start_house_number>
-    <end_house_number>10</end_house_number>
-    <odd_even_both>even</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>1Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="47">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>even</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>1Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="48">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>even</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>3Rural</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-<street_segment id="49">
-    <start_house_number>15</start_house_number>
-    <end_house_number>21</end_house_number>
-    <odd_even_both>both</odd_even_both>
-    <non_house_address>
-        <street_name>Main</street_name>
-        <city>3Rurala</city>
-        <state>OH</state>
-        <zip>43320</zip>
-    </non_house_address>
-    <precinct_split_id>44</precinct_split_id>
-    <precinct_id>10103</precinct_id>
-</street_segment>
-
-
+    
+    
+    <street_segment id="222">
+        <start_house_number>0</start_house_number>
+        <end_house_number>20</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>111</precinct_split_id>
+        <precinct_id>10302</precinct_id>
+    </street_segment>
+    <street_segment id="223">
+        <start_house_number>1</start_house_number>
+        <end_house_number>20</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>111</precinct_split_id>
+        <precinct_id>10302</precinct_id>
+    </street_segment>
+    <street_segment id="224">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>odd</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="101">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>odd</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    
+    <street_segment id="44">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>odd</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>2Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="45">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>2Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="46">
+        <start_house_number>1</start_house_number>
+        <end_house_number>10</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>1Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="47">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>1Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="48">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>even</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>3Rural</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    <street_segment id="49">
+        <start_house_number>15</start_house_number>
+        <end_house_number>21</end_house_number>
+        <odd_even_both>both</odd_even_both>
+        <non_house_address>
+            <street_name>Main</street_name>
+            <city>3Rurala</city>
+            <state>OH</state>
+            <zip>43320</zip>
+        </non_house_address>
+        <precinct_split_id>44</precinct_split_id>
+        <precinct_id>10103</precinct_id>
+    </street_segment>
+    
+    
 </vip_object>

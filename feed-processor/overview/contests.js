@@ -2,14 +2,17 @@
  * Created by rcartier13 on 2/6/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 
 function kickoffContest(feedId, createOverviewModel, wait) {
-  console.log('Starting Contests Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Contests Calc...');
   contestCalc(feedId, function(contestOverview) {
-    console.log('Finished Contests');
+    logger.info('Finished Contests');
+    logger.info('=======================================');
     createOverviewModel('Ballots', contestOverview.ballots, contestOverview.ballots.errorCount, -2, feedId);
     createOverviewModel('Candidates', contestOverview.candidates, contestOverview.candidates.errorCount, -2, feedId);
     createOverviewModel('Contests', contestOverview.contests, contestOverview.contests.errorCount, -2, feedId);
@@ -23,41 +26,42 @@ function contestCalc(feedId, saveCalc) {
   var contestsOverview = { };
   var paramsList = [];
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Contest, function(res, cb) {
+  // Creates a list of params so that each can be streamed seperatly
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.contests, function(res, cb) {
     contestsOverview.contests = res;
-    schemas.models.Contest.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.contests.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.contests.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Ballot, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.ballots, function(res, cb) {
     contestsOverview.ballots = res;
-    schemas.models.Ballot.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.ballots.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.ballots.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Candidate, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.candidates, function(res, cb) {
     contestsOverview.candidates = res;
-    schemas.models.Candidate.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.candidates.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.candidates.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.Referendum, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.referendums, function(res, cb) {
     contestsOverview.referenda = res;
-    schemas.models.Referendum.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.referendums.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.referenda.errorCount = count;
       cb();
     });
   }));
 
-  paramsList.push(util.createParamList(feedId, 0, schemas.models.ElectoralDistrict, function(res, cb) {
+  paramsList.push(util.createParamList(feedId, 0, schemas.models.electoraldistricts, function(res, cb) {
     contestsOverview.electoralDistricts = res;
-    schemas.models.ElectoralDistrict.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.electoraldistricts.Error.count({_feed: feedId}, function(err, count) {
       contestsOverview.electoralDistricts.errorCount = count;
       cb();
     });

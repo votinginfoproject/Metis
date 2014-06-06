@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+var logger = (require('./logging/vip-winston')).Logger;
 
 var config = require('./config');
 var express = require('express');
@@ -19,6 +20,9 @@ var geoServices = require('./services/geo');
 
 var app = express();
 
+logger.info('=========================================================');
+logger.info('VIP App Started');
+logger.info('=========================================================');
 
 // all environments
 app.use(express.favicon(config.web.favicon));
@@ -38,6 +42,7 @@ app.use('/feeds', express.static(path.join(__dirname, 'feeds')));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+  logger.info('Running in Development Mode.');
 }
 
 //user authentication
@@ -57,10 +62,10 @@ if (config.web.enableSSL) {
   };
 
   https.createServer(opts, app).listen(config.web.port, function() {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 } else {
   http.createServer(app).listen(config.web.port, function () {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 }

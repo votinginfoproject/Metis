@@ -76,12 +76,12 @@ describe('Testing Feed Ballot Line Result Page', function() {
     });
   });
 
-  describe('Checks if errors were thrown', function() {
-    it('Navigates to Ballot', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults/1ballotlineresult");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors were thrown', function() {
+//    it('Navigates to Ballot', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults/1ballotlineresult");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

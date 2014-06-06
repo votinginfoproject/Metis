@@ -85,6 +85,8 @@ function mapContestResult(path, contestResult) {
     rejected_votes: contestResult.rejectedVotes,
     certification: contestResult.certification,
     contest: mapContestSummary(path, contestResult._contest),
+    vote_type: contestResult.voteType,
+    machine_id: contestResult.machineId,
     jurisdiction: mapState(path, contestResult._state) || mapLocality(path, contestResult._locality) ||
       mapPrecinct(path, contestResult._precinct) || mapPrecinctSplit(path, contestResult._precinctSplit) ||
       mapElectoralDistrict(path, contestResult._electoralDistrict)
@@ -104,8 +106,6 @@ function mapResultsContestResults(path, contestResult) {
 }
 
 function mapResultsBallotLineResults(path, ballotLineResult) {
-  console.dir(ballotLineResult);
-
   return {
     id: ballotLineResult.elementId,
     office: ballotLineResult._contest.office,
@@ -113,7 +113,8 @@ function mapResultsBallotLineResults(path, ballotLineResult) {
     jurisdiction: mapState(path, ballotLineResult._state) || mapLocality(path, ballotLineResult._locality) ||
       mapPrecinct(path, ballotLineResult._precinct) || mapPrecinctSplit(path, ballotLineResult._precinctSplit) ||
       mapElectoralDistrict(path, ballotLineResult._electoralDistrict),
-    candidate: (ballotLineResult._candidate ? ballotLineResult._candidate.name : "")
+    candidate: (ballotLineResult._candidate ? ballotLineResult._candidate.name : ""),
+    vote_type: ballotLineResult.voteType
   }
 }
 
@@ -141,6 +142,7 @@ function mapBallotLineResult(path, ballotLineResult) {
     votes: ballotLineResult.votes,
     victorious: ballotLineResult.victorious,
     certification: ballotLineResult.certification,
+    voteType: ballotLineResult.voteType,
     response_text: ballotLineResult._ballotResponse ? ballotLineResult._ballotResponse.text : null,
     candidate: mapCandidateSummary(path, ballotLineResult._candidate),
     contest: mapContestSummary(_path.join(path, '..'), ballotLineResult._contest),

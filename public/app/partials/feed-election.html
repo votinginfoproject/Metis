@@ -7,6 +7,8 @@
 
 <div class="data-module-full">
   <dl class="attributes" ng-if="feedElection">
+    <dt class="key">Name:</dt>
+    <dd id="election-name" class="value">{{feedElection.name}}</dd>
     <dt class="key">Date:</dt>
     <dd id="election-date" class="value">{{feedElection.date}}</dd>
     <dt class="key">Election Type:</dt>
@@ -30,6 +32,8 @@
     <dd id="election-registration_deadline" class="value">{{feedElection.registration_deadline}}</dd>
     <dt class="key">Absentee Request Deadline:</dt>
     <dd id="election-absentee_deadline" class="value">{{feedElection.absentee_deadline}}</dd>
+    <dt class="key">UOCAVA Mail Deadline:</dt>
+    <dd id="election-uocava_deadline" class="value">{{feedElection.uocava_mail_deadline}}</dd>
   </dl>
 </div>
 

@@ -3,6 +3,7 @@
  */
 var dao = require('../dao/db');
 var mapper = require('./mappers/geo');
+var logger = (require('../logging/vip-winston')).Logger;
 
 function stateCountiesGET(req, res) {
   dao.getCounties(req.params.stateId, mapAndReturnCounties.bind(undefined, res));
@@ -14,7 +15,7 @@ function countyGET(req, res) {
 
 function mapAndReturnCounties(res, err, counties) {
   if (err) {
-    console.error(err);
+    logger.error(err);
     res.send(500);
   }
   else if (counties && counties.length > 0) {

@@ -131,12 +131,12 @@ describe('Testing Feed Contest Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Contests', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {
@@ -196,12 +196,12 @@ describe('Testing Feed Contests Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Contests', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Contests', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

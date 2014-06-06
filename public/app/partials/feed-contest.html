@@ -9,7 +9,20 @@
   <dl class="attributes" ng-if="feedContest">
     <dt class="key">Type:</dt> <dd id="contest-type" class="value">{{feedContest.type}}</dd>
     <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
-    <dt class="key">Primary Party:</dt> <dd id="contest-party" class="value">{{feedContest.primary_party}}</dd>
+
+    <!-- Logic to switch detailed party -->
+    <dt class="key" ng-if="!feedContest.primary_party.name">Primary Party:</dt>
+    <dd id="contest-party" class="value" ng-if="!feedContest.primary_party.name">{{feedContest.primary_party}}</dd>
+
+    <dt class="key" ng-if="feedContest.primary_party.name">Primary Party Name:</dt>
+    <dd id="contest-party-name" class="value" ng-if="feedContest.primary_party.name">{{feedContest.primary_party.name}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.initial">Primary Party Initial:</dt>
+    <dd id="contest-party-initial" class="value" ng-if="feedContest.primary_party.initial">{{feedContest.primary_party.initial}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.abbreviation">Primary Party Abbreviation:</dt>
+    <dd id="contest-party-abbreviation" class="value" ng-if="feedContest.primary_party.abbreviation">{{feedContest.primary_party.abbreviation}}</dd>
+    <dt class="key" ng-if="feedContest.primary_party.majorParty">Primary Party Major Party:</dt>
+    <dd id="contest-party-majorparty" class="value" ng-if="feedContest.primary_party.majorParty">{{feedContest.primary_party.majorParty}}</dd>
+
     <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
     <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
     <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
@@ -17,6 +30,7 @@
     <dt class="key">Number Elected:</dt> <dd id="contest-elected" class="value">{{feedContest.number_elected}}</dd>
     <dt class="key">Number Voting For:</dt> <dd id="contest-votingFor" class="value">{{feedContest.number_voting_for}}</dd>
     <dt class="key">Ballot Placement:</dt> <dd id="contest-ballot" class="value">{{feedContest.ballot_placement}}</dd>
+    <dt class="key">Write In:</dt> <dd id="contest-writeIn" class="value">{{feedContest.write_in}}</dd>
   </dl>
 </div>
 
@@ -119,6 +133,31 @@
           ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
         <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == ballotLineResultTableParams.page()}"
            ng-click="ballotLineResultTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
+</section>
+
+<section class="data-group data-module">
+  <h2>{{feedBallotStyle.length}} Ballot Styles</h2>
+
+  <span ng-if="!feedBallotStyle" class="is-loading"></span>
+  <table ng-show="feedBallotStyle.length" id="ballotStylesTable" ng-table="contestBallotStylesTableParams" template-pagination="ballotStylesPagination">
+    <tr id="ballotStyle{{$index}}" ng-repeat="result in $data">
+      <td id="ballotStyle-id{{$index}}" data-title="'ID'" sortable="'elementId'"><span class="td-text">{{result.elementId}}</span></td>
+      <td id="ballotStyle-election{{$index}}" data-title="'Election'" sortable="'election'"><span class="td-text">{{result.election}}</span></td>
+      <td id="ballotStyle-name{{$index}}" data-title="'Name'" sortable="'name'"><span class="td-text">{{result.name}}</span></td>
+      <td id="ballotStyle-sortOrder{{$index}}" data-title="'Sort Order'" sortable="'sortOrder'"><span class="td-text">{{result.sortOrder}}</span></td>
+      <td id="ballotStyle-referendum{{$index}}" data-title="'Referendum'" sortable="'referendum'"><span class="td-text">{{result.referendum}}</span></td>
+    </tr>
+  </table>
+
+  <script type="text/ng-template" id="ballotStylesPagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="ballotStylePage{{$index}}" ng-class="{'is-active': page.number == contestBallotStylesTableParams.page()}"
+           ng-click="contestBallotStylesTableParams.page(page.number)" href="">{{page.number}}</a>
       </li>
     </ul>
   </script>

@@ -1,7 +1,6 @@
 /**
  * Created by rcartier13 on 1/14/14.
  */
-
 var dao = require('../dao/db');
 var mapper = require('./mappers/feed');
 var _path = require('path');
@@ -9,7 +8,6 @@ var exporter = require('../feed-exporter/exporter');
 var schemas = require('../dao/schemas');
 var processManager = require('./processManager');
 var feedIdMapper = require('../feedIdMapper');
-
 
 /*
  * Error handling middleware
@@ -33,6 +31,12 @@ function feedProcessingPost (req, res) {
 /*
  * Callbacks for HTTP verbs
  */
+function feedQueueGET (req, res) {
+  res.json(
+    mapper.mapFeedQueue()
+  );
+};
+
 function allFeedsGET (req, res) {
   dao.getFeeds(function (err, data) {
     res.json(data.map(function (data) {
@@ -48,6 +52,7 @@ function feedOverviewGET (req, res) {
       res.json(mapper.mapFeedOverview(req.path, feed))
     });
   });
+
 };
 
 function feedSourceGET (req, res) {
@@ -381,6 +386,22 @@ function feedBallotLineResultGET(req, res) {
   });
 }
 
+function feedContestBallotStyleGET(req, res) {
+  dao.getContestBallotStyles(feedIdMapper.getId(req.params.feedid), req.params.contestid, function(err, ballotStyles) {
+    notFoundHandler(res, err, ballotStyles, function() {
+      res.json(mapper.mapBallotStyles(req.path, ballotStyles));
+    })
+  })
+}
+
+function feedCandidateBallotStyleGET(req, res) {
+  dao.getCandidateBallotStyles(feedIdMapper.getId(req.params.feedid), req.params.candidateid, function(err, ballotStyles) {
+    notFoundHandler(res, err, ballotStyles, function() {
+      res.json(mapper.mapBallotStyles(req.path, ballotStyles));
+    });
+  });
+}
+
 function feedExportPOST(req, res) {
   // not converting the feedid, as we are passing in the mongo feedid
   exporter.createXml(req.params.feedid, req.body.feedName, req.body.feedFolder, exporter.Instance(), function(err, location) {
@@ -392,6 +413,7 @@ function feedExportPOST(req, res) {
 }
 
 exports.feedProcessingPost = feedProcessingPost;
+exports.feedQueueGET = feedQueueGET;
 exports.allFeedsGET = allFeedsGET;
 exports.feedOverviewGET = feedOverviewGET;
 exports.feedSourceGET = feedSourceGET;
@@ -433,5 +455,12 @@ exports.feedBallotReferendumGET = feedBallotReferendumGET;
 exports.feedCandidateGET = feedCandidateGET;
 exports.feedContestBallotLineResultsGET = feedContestBallotLineResultsGET;
 exports.feedBallotLineResultGET = feedBallotLineResultGET;
+exports.feedContestBallotStyleGET = feedContestBallotStyleGET;
+exports.feedCandidateBallotStyleGET = feedCandidateBallotStyleGET;
 
 exports.feedExportPOST = feedExportPOST;
+
+// adding profiling for all functions in this file
+// that meet the certain criteria
+var profileHelper = require('../logging/profile-helper');
+profileHelper.profileAsyncJsonResponse("HttpCallbacks", this);

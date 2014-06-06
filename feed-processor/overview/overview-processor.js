@@ -2,6 +2,10 @@
  * Created by rcartier13 on 2/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
+var _fileName = "overview-processor";
+
+
 var config = require('../../config');
 var feedIdMapper = require('../../feedIdMapper');
 var mongoose = require('mongoose');
@@ -16,10 +20,14 @@ var contest = require('./contest');
 var locality = require('./locality');
 var pollinglocations = require('./pollinglocations');
 
+var _ = require('underscore');
+
 var overviewModels = [];
 var functionArr = [];
 
 function runOverviewProcessor(feedId) {
+  // overview-processor as a whole (start)
+  logger.profileSeparately(_fileName);
 
   functionArr.push(pollinglocations.kickoffPollingLoc);
   functionArr.push(contests.kickoffContest);
@@ -33,17 +41,20 @@ function runOverviewProcessor(feedId) {
 }
 
 function errorHandler(err) {
-  console.error(err);
+  logger.error(err);
 }
 
 function onSaveComplete(results) {
-  console.log("Shutting down overview processor");
+  // overview-processor as a whole (end)
+  logger.profileSeparately(_fileName);
+
+  logger.info('Shutting down overview processor');
 
   // just grab the feedid from any overview object
   // and set the feed to complete
-  schemas.models.Feed.findOne({_id: results[0]._feed}, function(err, feed) {
+  schemas.models.feeds.findOne({_id: results[0]._feed}, function(err, feed) {
 
-    schemas.models.Feed.findById(results[0]._feed, { payload: 0 })
+    schemas.models.feeds.findById(results[0]._feed, { payload: 0 })
       .populate('_state')
       .populate('_election')
       .exec(function(err, feed) {
@@ -51,11 +62,11 @@ function onSaveComplete(results) {
         var title = "";
 
         // add feed date
-        title += ( moment(feed._election.date).utc().format('YYYY-MM-DD') ? moment(feed._election.date).utc().format('YYYY-MM-DD') + "-" : "");
+        title += ( feed._election && feed._election.date ? moment(feed._election.date).utc().format('YYYY-MM-DD') + "-" : "");
         // add feed state
-        title += ( feed._state.name ? feed._state.name + "-" : "");
+        title += ( feed._state && feed._state.name ? feed._state.name + "-" : "");
         // add feed electiontype
-        title += ( feed._election.electionType ? feed._election.electionType + "-" : "");
+        title += ( feed._election && feed._election.electionType ? feed._election.electionType + "-" : "");
 
         var completedOnDate = moment().utc();
 
@@ -70,7 +81,7 @@ function onSaveComplete(results) {
         }
 
         // now also save the friendly feed id
-        schemas.models.Feed.update({_id: feed._id},
+        schemas.models.feeds.update({_id: feed._id},
           {
             feedStatus: 'Complete',
             complete: true,
@@ -81,7 +92,7 @@ function onSaveComplete(results) {
 
             // now close out the mongoose connection and exit the process
             mongoose.disconnect();
-            process.exit();
+            process.exit(0);
           }
         );
       })
@@ -96,14 +107,28 @@ function calculateFields(feedId, saveCalc) {
 };
 
 function createOverviewModel(name, overview, errors, section, feed) {
-  overviewModels.push(schemas.models.Overview.create({
+
+  if(overview.amount == undefined) {
+    overviewModels.push(schemas.models.overview.create({
+      elementType: name,
+      amount: 0,
+      errorCount: 0,
+      section: section,
+      _feed: feed
+    }));
+    return;
+  }
+
+  var pct = overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0;
+  var create = {
     elementType: name,
     amount: overview.amount,
-    completePct: overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0,
+    completePct: pct,
     errorCount: errors,
     section: section,
     _feed: feed
-  }));
+  };
+  overviewModels.push(schemas.models.overview.create(create));
 };
 
 exports.runOverviewProcessor = runOverviewProcessor;

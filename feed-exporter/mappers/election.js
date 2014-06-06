@@ -2,6 +2,7 @@
  * Created by rcartier13 on 3/4/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var db = require('../../dao/db');
 var moment = require('moment');
 var util = require('./util');
@@ -9,11 +10,12 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function electionExport(feedId, callback) {
+  logger.info('Export Election Started');
   db.getFeedElection(feedId, function(err, result) {
 
     if(!result) {
       callback(-1);
-      console.log('election finished');
+      logger.info('election finished');
       return;
     }
 
@@ -43,7 +45,8 @@ function electionExport(feedId, callback) {
       chunk += util.startEndElement('state_id', _.escape(result.stateId.toString()));
 
     chunk += util.endElement('election');
-    console.log('election finished');
+    logger.info('Export Election Finished');
+    logger.info('----------------------------');
     callback(pd.xml(chunk));
   });
 }

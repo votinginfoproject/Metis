@@ -65,12 +65,12 @@ describe('Testing Feed Contest Results Page', function() {
     });
   });
 
-  describe('Checks if errors were thrown', function() {
-    it('Navigates to Ballot', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/contestresult");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors were thrown', function() {
+//    it('Navigates to Ballot', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/contestresult");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

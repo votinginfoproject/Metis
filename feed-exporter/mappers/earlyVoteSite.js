@@ -2,6 +2,7 @@
  * Created by rcartier13 on 3/4/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var addrEx = require('./address');
 var moment = require('moment');
@@ -10,8 +11,8 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function earlyVoteSitesExport(feedId, callback) {
-
-  schemas.models.EarlyVoteSite.find({_feed: feedId}, function(err, results) {
+  logger.info('Export Early Vote Sites Started');
+  schemas.models.earlyvotesites.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
@@ -39,7 +40,8 @@ function earlyVoteSitesExport(feedId, callback) {
     });
   });
 
-  console.log('early vote site finished');
+  logger.info('Export Early Vote Sites Finished');
+  logger.info('----------------------------');
 }
 
 exports.earlyVoteSitesExport = earlyVoteSitesExport;
