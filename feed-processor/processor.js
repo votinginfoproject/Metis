@@ -12,13 +12,14 @@ const
   unzip = require('unzip'),
   AWS = require('aws-sdk');
 
+var logger = (require('../logging/vip-winston')).Logger;
+
 function processFeed(filePath, s3Bucket) {
   var db;
   var x = xmlProc();
   var vave = vaveProc();
 
   var consolidationRequired = false;
-  var logger = (require('../logging/vip-winston')).Logger;
   var stopProcessing = false;
   var errorMessage = null;
 
@@ -58,21 +59,21 @@ function processFeed(filePath, s3Bucket) {
 
     schemas.models.uniqueid.collection.drop();
 
-      // if file exists
-      switch (ext.toLowerCase()) {
-        case '.zip':
-          feedStream
-            .pipe(unzip.Parse())
-            .on('entry', processZipEntry)
-            .on('close', finishZipProcessing);
-          break;
-        case '.xml':
-          x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
-          break;
-        default:
-          logger.error('Filetype %s is not currently supported.', ext)
-          exitProcess(1);
-      }
+    // if file exists
+    switch (ext.toLowerCase()) {
+      case '.zip':
+        feedStream
+          .pipe(unzip.Parse())
+          .on('entry', processZipEntry)
+          .on('close', finishZipProcessing);
+        break;
+      case '.xml':
+        x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
+        break;
+      default:
+        logger.error('Filetype %s is not currently supported.', ext)
+        exitProcess(1);
+    }
   }
 
   function processZipEntry(entry) {
