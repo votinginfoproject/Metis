@@ -19,6 +19,8 @@ function processFeed(filePath, s3Bucket) {
 
   var consolidationRequired = false;
   var logger = (require('../logging/vip-winston')).Logger;
+  var stopProcessing = false;
+  var errorMessage = null;
 
   schemas.initSchemas(mongoose);
 
@@ -74,6 +76,12 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function processZipEntry(entry) {
+    if (stopProcessing) {
+      logger.info("processing stopped, skipping entry");
+      return;
+    } else {
+      logger.info("processing entry: " + entry.path);
+    }
     switch (path.extname(entry.path).toLowerCase()) {
       case '.xml':
         x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
@@ -81,7 +89,12 @@ function processFeed(filePath, s3Bucket) {
       case '.txt':
       case '.csv':
         consolidationRequired = true;  //if we see any flat files then we need to consolidate the data
-        vave.processCSV(schemas, filePath, entry);
+        vave.processCSV(schemas, filePath, entry, function(message) {
+          stopProcessing = true;
+          errorMessage = message;
+          process.send({"messageId": -1, "errorMessage": errorMessage});
+          exitProcess(10);
+        });
         break;
       case '':
         logger.info('Directory - ' + entry.path);
@@ -93,9 +106,11 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function finishZipProcessing() {
-    //This is only required if we processed flat files.  XML data is already consolidated.
-    if (consolidationRequired) {
-      vave.consolidateFeedData();
+    if (errorMessage == null) {
+      //This is only required if we processed flat files.  XML data is already consolidated.
+      if (consolidationRequired) {
+        vave.consolidateFeedData();
+      }
     }
   }
 }

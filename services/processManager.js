@@ -96,6 +96,7 @@ function handleFileProcessing(req, res){
 function startFileProcessing(fileInfo){
 
   var processArgs = [];
+  var processingError = null;
 
   if (config.importer.useS3) {
     processArgs.push(fileInfo.filename);
@@ -144,6 +145,11 @@ function startFileProcessing(fileInfo){
         // add the friendly id to the list of ids loaded into memory
         feedIdMapper.addToUserFriendlyIdMap(msg.friendlyId, msg.feedId);
       }
+
+      if(msg.messageId==-1){
+        logger.error("messageId == -1, message: " + msg.errorMessage);
+        processingError = msg.errorMessage;
+      }
     }
 
   }.bind(this))
@@ -168,10 +174,12 @@ function startFileProcessing(fileInfo){
         statusReason = " (Invalid Feed File)";
       } else if(code===5){
         statusReason = " (Out of Memory)";
+      } else if(code===10){
+        statusReason = " (" + processingError + ")";
       }
 
 
-        schemas.models.feeds.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
+      schemas.models.feeds.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
         function(err, feed) {
         }
       );
