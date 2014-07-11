@@ -18,6 +18,10 @@ var errorServices = require('./services/errors');
 var overviewServices = require('./services/overviews');
 var geoServices = require('./services/geo');
 
+if (fs.existsSync('./newrelic.js')) {
+  require('newrelic');
+}
+
 var app = express();
 
 logger.info('=========================================================');
