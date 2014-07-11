@@ -36,6 +36,14 @@ function processFeed(filePath, s3Bucket) {
     });
   };
 
+  //sends errors back to the parent process and exits
+  function returnError(errorInfo) {
+    // errorInfo is a Hash, we just need to add in the messageId
+    errorInfo["messageId"] = -1;
+    process.send(errorInfo);
+    exitProcess(10);
+  };
+
   function startProcessing(file, s3Bucket) {
     var ext = path.extname(file);
     var feedStream;
@@ -67,7 +75,7 @@ function processFeed(filePath, s3Bucket) {
           .on('close', finishZipProcessing);
         break;
       case '.xml':
-        x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
+        x.processXml(schemas, filePath, path.basename(file, ext), feedStream, returnError);
         break;
       default:
         logger.error('Filetype %s is not currently supported.', ext)
@@ -84,7 +92,7 @@ function processFeed(filePath, s3Bucket) {
     }
     switch (path.extname(entry.path).toLowerCase()) {
       case '.xml':
-        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
+        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry, returnError);
         break;
       case '.txt':
       case '.csv':
@@ -92,9 +100,7 @@ function processFeed(filePath, s3Bucket) {
         vave.processCSV(schemas, filePath, entry, function(errorInfo) {
           // errorInfo is a Hash, we just need to add in the messageId
           stopProcessing = true;
-          errorInfo["messageId"] = -1;
-          process.send(errorInfo);
-          exitProcess(10);
+          returnError(errorInfo);
         });
         break;
       case '':
