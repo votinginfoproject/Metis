@@ -147,8 +147,8 @@ function startFileProcessing(fileInfo){
       }
 
       if(msg.messageId==-1){
-        logger.error("messageId == -1, message: " + msg.errorMessage);
-        processingError = msg.errorMessage;
+        logger.error("child process stack trace: " + msg.stack);
+        processingError = msg.errorMessage + " in file " + msg.fileName;
       }
     }
 

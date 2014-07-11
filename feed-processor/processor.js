@@ -21,7 +21,6 @@ function processFeed(filePath, s3Bucket) {
 
   var consolidationRequired = false;
   var stopProcessing = false;
-  var errorMessage = null;
 
   schemas.initSchemas(mongoose);
 
@@ -90,10 +89,11 @@ function processFeed(filePath, s3Bucket) {
       case '.txt':
       case '.csv':
         consolidationRequired = true;  //if we see any flat files then we need to consolidate the data
-        vave.processCSV(schemas, filePath, entry, function(message) {
+        vave.processCSV(schemas, filePath, entry, function(errorInfo) {
+          // errorInfo is a Hash, we just need to add in the messageId
           stopProcessing = true;
-          errorMessage = message;
-          process.send({"messageId": -1, "errorMessage": errorMessage});
+          errorInfo["messageId"] = -1;
+          process.send(errorInfo);
           exitProcess(10);
         });
         break;
@@ -107,7 +107,7 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function finishZipProcessing() {
-    if (errorMessage == null) {
+    if (stopProcessing != true) {
       //This is only required if we processed flat files.  XML data is already consolidated.
       if (consolidationRequired) {
         vave.consolidateFeedData();

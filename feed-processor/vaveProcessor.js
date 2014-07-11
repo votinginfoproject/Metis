@@ -56,7 +56,9 @@ module.exports = function () {
       })
       .on('error', function(err) {
         logger.error("error in csv parsing : " + err.message);
-        errorFn(err.message + " in " + fileName);
+        errorFn({"errorMessage": err.message,
+                 "stack": err.stack,
+                 "fileName": fileName});
       })
       .on('end', function () {
         logger.info('end');
