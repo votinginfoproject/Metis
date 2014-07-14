@@ -20,7 +20,7 @@ module.exports = function () {
   var unfolding = false;
   var logger = (require('../logging/vip-winston')).Logger;
 
-  function parseCSV(fileStream) {
+  function parseCSV(fileStream, errorFn) {
     var fileName = path.basename(fileStream.path, path.extname(fileStream.path));
 
     var mapperCtr = config.mapperLookup[fileName];
@@ -53,6 +53,12 @@ module.exports = function () {
         if (!unfolding && writeQue.length > config.mongoose.maxWriteQueueLength) {
           startUnfold();
         }
+      })
+      .on('error', function(err) {
+        logger.error("error in csv parsing : " + err.message);
+        errorFn({"errorMessage": err.message,
+                 "stack": err.stack,
+                 "fileName": fileName});
       })
       .on('end', function () {
         logger.info('end');
@@ -102,7 +108,7 @@ module.exports = function () {
   }
 
   return {
-    processCSV: function (schemas, filePath, fileStream) {
+    processCSV: function (schemas, filePath, fileStream, errorFn) {
       if (!initialized) {
         models = require('./vaveTempSchemas')(schemas.models);
         initialized = true;
@@ -123,7 +129,7 @@ module.exports = function () {
           name: path.basename(filePath),
           friendlyId: null
         }, function (err, feed) {
-          logger.info('Wrote feed with id = ' + feed._id.toString());
+          logger.error('Error in feed with id = ' + feed._id.toString());
         });
 
         // if we are a child process
@@ -140,7 +146,7 @@ module.exports = function () {
         // to wait for the send() calls execution to finish before starting the processing below.
 
       // start the processing
-      parseCSV(fileStream);
+      parseCSV(fileStream, errorFn);
     },
     consolidateFeedData: function () {
       logger.info('consolidating feed data...');

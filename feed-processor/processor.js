@@ -12,13 +12,15 @@ const
   unzip = require('unzip'),
   AWS = require('aws-sdk');
 
+var logger = (require('../logging/vip-winston')).Logger;
+
 function processFeed(filePath, s3Bucket) {
   var db;
   var x = xmlProc();
   var vave = vaveProc();
 
   var consolidationRequired = false;
-  var logger = (require('../logging/vip-winston')).Logger;
+  var stopProcessing = false;
 
   schemas.initSchemas(mongoose);
 
@@ -32,6 +34,14 @@ function processFeed(filePath, s3Bucket) {
       logger.info("initialized VIP database via Mongoose");
       next();
     });
+  };
+
+  //sends errors back to the parent process and exits
+  function returnError(errorInfo) {
+    // errorInfo is a Hash, we just need to add in the messageId
+    errorInfo["messageId"] = -1;
+    process.send(errorInfo);
+    exitProcess(10);
   };
 
   function startProcessing(file, s3Bucket) {
@@ -56,32 +66,42 @@ function processFeed(filePath, s3Bucket) {
 
     schemas.models.uniqueid.collection.drop();
 
-      // if file exists
-      switch (ext.toLowerCase()) {
-        case '.zip':
-          feedStream
-            .pipe(unzip.Parse())
-            .on('entry', processZipEntry)
-            .on('close', finishZipProcessing);
-          break;
-        case '.xml':
-          x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
-          break;
-        default:
-          logger.error('Filetype %s is not currently supported.', ext)
-          exitProcess(1);
-      }
+    // if file exists
+    switch (ext.toLowerCase()) {
+      case '.zip':
+        feedStream
+          .pipe(unzip.Parse())
+          .on('entry', processZipEntry)
+          .on('close', finishZipProcessing);
+        break;
+      case '.xml':
+        x.processXml(schemas, filePath, path.basename(file, ext), feedStream, returnError);
+        break;
+      default:
+        logger.error('Filetype %s is not currently supported.', ext)
+        exitProcess(1);
+    }
   }
 
   function processZipEntry(entry) {
+    if (stopProcessing) {
+      logger.info("processing stopped, skipping entry");
+      return;
+    } else {
+      logger.info("processing entry: " + entry.path);
+    }
     switch (path.extname(entry.path).toLowerCase()) {
       case '.xml':
-        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
+        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry, returnError);
         break;
       case '.txt':
       case '.csv':
         consolidationRequired = true;  //if we see any flat files then we need to consolidate the data
-        vave.processCSV(schemas, filePath, entry);
+        vave.processCSV(schemas, filePath, entry, function(errorInfo) {
+          // errorInfo is a Hash, we just need to add in the messageId
+          stopProcessing = true;
+          returnError(errorInfo);
+        });
         break;
       case '':
         logger.info('Directory - ' + entry.path);
@@ -93,9 +113,11 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function finishZipProcessing() {
-    //This is only required if we processed flat files.  XML data is already consolidated.
-    if (consolidationRequired) {
-      vave.consolidateFeedData();
+    if (!stopProcessing) {
+      //This is only required if we processed flat files.  XML data is already consolidated.
+      if (consolidationRequired) {
+        vave.consolidateFeedData();
+      }
     }
   }
 }

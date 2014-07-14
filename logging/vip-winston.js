@@ -18,23 +18,34 @@ try {
   }
 }
 
+var transports = [
+  new winston.transports.File({
+      filename: config.log.logpath + config.log.logname,
+      level: config.log.loglevel,
+      maxsize: 1024 * 1024 * config.log.maxsizeMB,
+      maxFiles: config.log.maxFiles,
+      json: false
+  }),
+  new winston.transports.Console({
+    // no options on purpose, using all default option values
+  })
+];
+
+if (config.log.papertrail) {
+  require('winston-papertrail');
+  transports.push(new winston.transports.Papertrail({
+    host: config.log.papertrail.host,
+    port: config.log.papertrail.port,
+    hostname: config.log.papertrail.appname
+  }))
+}
+
 // 1) REGULAR LOGGER
 // Our regular logger will log all non "error" levels, or at the max level specified by the 'loglevel' property
 // to its own file and to the console (Potential Log levels handled: debug, info, warn).
 // It will also log 'uncaught exceptions' to its own file and to the console.
 var logger = new (winston.Logger)({
-  transports: [
-    new winston.transports.File({
-        filename: config.log.logpath + config.log.logname,
-        level: config.log.loglevel,
-        maxsize: 1024 * 1024 * config.log.maxsizeMB,
-        maxFiles: config.log.maxFiles,
-        json: false
-    }),
-    new winston.transports.Console({
-      // no options on purpose, using all default option values
-    })
-  ],
+  transports: transports,
   exceptionHandlers: [
     new winston.transports.File({
         filename: config.log.logpath + config.log.lognameExceptions,
