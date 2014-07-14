@@ -121,7 +121,7 @@ function startFileProcessing(fileInfo){
       // if the message contains a feedid
       // store this feedid with the pid of the child process so if later
       // the child process errors, we can set the failed flag for the feed in mongo
-      if(msg.messageId==1){
+      if(msg.messageId===1){
 
         // **** *** ***
         // NOTE - Do not do any I/O / Asynchronous calls in this block
@@ -140,13 +140,13 @@ function startFileProcessing(fileInfo){
       }
 
       // message with feedid and friendlyfeedid of the feed the child is processing
-      if(msg.messageId==2){
+      if(msg.messageId===2){
 
         // add the friendly id to the list of ids loaded into memory
         feedIdMapper.addToUserFriendlyIdMap(msg.friendlyId, msg.feedId);
       }
 
-      if(msg.messageId==-1){
+      if(msg.messageId===-1){
         logger.error("child process stack trace: " + msg.stack);
         processingError = msg.errorMessage + " in file " + msg.fileName;
       }

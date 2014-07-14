@@ -169,7 +169,7 @@ module.exports = function() {
   //Because we have to use the #once emitter, we have to stop processing like with CSVs
   function trap(processFn){
     return function(model, element) {
-      if(stopProcessing == false) {
+      if(!stopProcessing) {
         processFn(model, element);
       }
     }

@@ -113,7 +113,7 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function finishZipProcessing() {
-    if (stopProcessing != true) {
+    if (!stopProcessing) {
       //This is only required if we processed flat files.  XML data is already consolidated.
       if (consolidationRequired) {
         vave.consolidateFeedData();
