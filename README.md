@@ -1,7 +1,7 @@
 VotingInfoApp
 =============
 
-Voting Information Project web app.  
+Voting Information Project web app.
 
 [Learn more](https://votinginfoproject.org/)
 
@@ -37,10 +37,14 @@ Voting Information Project web app.
 
 For more information see the [Crowd Admin Guide](https://confluence.atlassian.com/display/CROWD/Crowd+Administration+Guide).
 
+## Resetting the Database
+
+1. Run `mongo metis --eval "db.dropDatabase()"`
+
 ## Importing Data into Mongo
 
 1. Run `mongoimport -d metis -c counties < data/counties.json`
-2. Run `mongoimport -d metis -c stateFIPS < data/statefips.json`
+2. Run `mongoimport -d metis -c statefips < data/statefips.json`
 
 ## Running Karma Unit Tests
 
@@ -48,7 +52,9 @@ For more information see the [Crowd Admin Guide](https://confluence.atlassian.co
 ```
 npm install karma
 ```
-2. run karma
+2. locate karma executable, usually in ./node_modules/karma/bin/karma, either symlink it to
+   a directory in your PATH, or use the full path when running it.
+3. run karma
 ```
 karma start _name of config file_
 ```
@@ -58,14 +64,21 @@ Karma is configured to use chrome as the default browser.
 
 ## Running Functional Tests
 
-1. Give permissions to RunFunctional.sh
+1. Give permissions to public/test/RunFunctional.sh
 ```
 chmod +x RunFunctional.sh
 ```
-2. Double click or run through terminal using
+2. Run mongo
 ```
-./RunFunctional.sh
+mongod --config /usr/local/etc/mongod.conf
 ```
+(assuming a homebrew install, otherwise locate your mongod.conf and use it instead)
+3. Execute the script
+```
+public/test/RunFunctional.sh
+```
+4. Open a browser to run the tests once the script brings up the server, see output for
+   URL.
 
 ## Running Jasmine-Node Unit Tests
 
