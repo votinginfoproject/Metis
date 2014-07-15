@@ -22,6 +22,11 @@ config.log = {
   loglevel: 'info',
   maxsizeMB: 2, // 2MB max log size
   maxFiles:  3   // 3 log files in rotation
+  // ,papertrail: {
+  //   host: '<<INSERT YOUR PAPERTRAIL HOST URL, ie logs.papertrailapp.com',
+  //   port: <<INSERT YOUR PAPERTRAIL PORT #>>,
+  //   appname: 'metis' //how you want the source identified in papertrail
+  // }
 };
 
 config.web = {
