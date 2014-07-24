@@ -1,5 +1,5 @@
-FROM democracyworks/base:latest
-MAINTAINER Democracy Works, Inc. <dev@turbovote.org>
+FROM quay.io/democracyworks/base:latest
+MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install MongoDB
 RUN apt-get install -y mongodb
