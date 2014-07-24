@@ -5,6 +5,21 @@ Voting Information Project web app.
 
 [Learn more](https://votinginfoproject.org/)
 
+## Running in Docker
+
+> The only prerequisite for this is [Docker](http://docker.io/). You don't need
+> to install the prerequisites in the list below when using Docker.
+
+1. `docker build -t votinginfoproject/metis .`
+1. `docker run -d -p 4000:4000 votinginfoproject/metis`
+1. Then hit [http://localhost:4000/](http://localhost:4000/) (or [http://localdocker:4000/](http://localdocker:4000/) with docker-osx)
+
+### Running tests in Docker
+
+> Just the karma tests for now. TODO: Run the other tests in /run-tests.sh too.
+
+1. `docker run votinginfoproject/metis /run-tests.sh`
+
 ## Prerequisites
 
 * [Node.js](http://nodejs.org)
