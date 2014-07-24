@@ -3,15 +3,19 @@
  */
 
 var evaluateValidZipCode = function(zipCode, dataSet, entity, constraintSet, ruleDef, callback){
-
-
   var isViolated = false;
-  if(zipCode !== null && zipCode.trim() !== ""){
-    var matcher = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
-    isViolated = !matcher.test(zipCode);
-  }
+  if(zipCode) {
+    var trimmedZip = zipCode.trim();
+    if (trimmedZip !== "") {
+      var matcher = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+      isViolated = !matcher.test(trimmedZip);
 
-  callback( { isViolated: isViolated, dataItem: constraintSet.fields + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
-}
+      if(trimmedZip == '00000' || trimmedZip == '00000-0000') {
+        isViolated = true;
+      }
+    }
+   }
+  callback( { isViolated: isViolated, dataItem: constraintSet + " = " + zipCode, dataSet: dataSet, entity: entity, ruleDef: ruleDef } );
+};
 exports.evaluate = evaluateValidZipCode;
 

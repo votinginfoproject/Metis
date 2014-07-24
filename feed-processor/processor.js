@@ -6,11 +6,13 @@ const
   mongoose = require('mongoose'),
   schemas = require('../dao/schemas'),
   xmlProc = require('./xmlProcessor'),
-  vaveProc = require('./vaveProcessor')
+  vaveProc = require('./vaveProcessor'),
   path = require('path'),
   fs = require('fs'),
   unzip = require('unzip'),
   AWS = require('aws-sdk');
+
+var logger = (require('../logging/vip-winston')).Logger;
 
 function processFeed(filePath, s3Bucket) {
   var db;
@@ -18,6 +20,7 @@ function processFeed(filePath, s3Bucket) {
   var vave = vaveProc();
 
   var consolidationRequired = false;
+  var stopProcessing = false;
 
   schemas.initSchemas(mongoose);
 
@@ -28,9 +31,17 @@ function processFeed(filePath, s3Bucket) {
     db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error: '));
     db.once('open', function callback() {
-      console.log("initialized VIP database via Mongoose");
+      logger.info("initialized VIP database via Mongoose");
       next();
     });
+  };
+
+  //sends errors back to the parent process and exits
+  function returnError(errorInfo) {
+    // errorInfo is a Hash, we just need to add in the messageId
+    errorInfo["messageId"] = -1;
+    process.send(errorInfo);
+    exitProcess(10);
   };
 
   function startProcessing(file, s3Bucket) {
@@ -47,41 +58,53 @@ function processFeed(filePath, s3Bucket) {
       feedStream = s3.getObject(params).createReadStream();
     } else {
       if (!fs.existsSync(file)) {
-        console.error('File "' + file + '" not found.');
-        exitProcess();
+        logger.error('File "' + file + '" not found.');
+        exitProcess(1);
       }
       feedStream = fs.createReadStream(file);
     }
 
-      // if file exists
-      switch (ext.toLowerCase()) {
-        case '.zip':
-          feedStream
-            .pipe(unzip.Parse())
-            .on('entry', processZipEntry)
-            .on('close', finishZipProcessing);
-          break;
-        case '.xml':
-          x.processXml(schemas, filePath, path.basename(file, ext), feedStream);
-          break;
-        default:
-          console.error('Filetype %s is not currently supported.', ext)
-          exitProcess();
-      }
+    schemas.models.uniqueid.collection.drop();
+
+    // if file exists
+    switch (ext.toLowerCase()) {
+      case '.zip':
+        feedStream
+          .pipe(unzip.Parse())
+          .on('entry', processZipEntry)
+          .on('close', finishZipProcessing);
+        break;
+      case '.xml':
+        x.processXml(schemas, filePath, path.basename(file, ext), feedStream, returnError);
+        break;
+      default:
+        logger.error('Filetype %s is not currently supported.', ext)
+        exitProcess(1);
+    }
   }
 
   function processZipEntry(entry) {
+    if (stopProcessing) {
+      logger.info("processing stopped, skipping entry");
+      return;
+    } else {
+      logger.info("processing entry: " + entry.path);
+    }
     switch (path.extname(entry.path).toLowerCase()) {
       case '.xml':
-        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry);
+        x.processXml(schemas, filePath, path.basename(entry.path, path.extname(entry.path)), entry, returnError);
         break;
       case '.txt':
       case '.csv':
         consolidationRequired = true;  //if we see any flat files then we need to consolidate the data
-        vave.processCSV(schemas, filePath, entry);
+        vave.processCSV(schemas, filePath, entry, function(errorInfo) {
+          // errorInfo is a Hash, we just need to add in the messageId
+          stopProcessing = true;
+          returnError(errorInfo);
+        });
         break;
       case '':
-        console.log('Directory - ' + entry.path);
+        logger.info('Directory - ' + entry.path);
         break;
       default:
         entry.autodrain();
@@ -90,9 +113,11 @@ function processFeed(filePath, s3Bucket) {
   }
 
   function finishZipProcessing() {
-    //This is only required if we processed flat files.  XML data is already consolidated.
-    if (consolidationRequired) {
-      vave.consolidateFeedData();
+    if (!stopProcessing) {
+      //This is only required if we processed flat files.  XML data is already consolidated.
+      if (consolidationRequired) {
+        vave.consolidateFeedData();
+      }
     }
   }
 }
@@ -101,17 +126,17 @@ if (process.argv.length > 2 && process.argv[2] != null) {
   processFeed(process.argv[2], process.argv[3]);
 }
 else {
-  console.error("ERROR: insufficient arguments provided to processor.js\n");
+  logger.error("ERROR: insufficient arguments provided to processor.js\n");
 
-  console.log("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
-  console.log("");
+  logger.info("Usage: node  <javascript_file_name>  <relative_xml_file_path>");
+  logger.info("");
 
-  exitProcess();
+  exitProcess(1);
 }
 
-function exitProcess(){
+function exitProcess(code){
 
   // now close out the mongoose connection and exit the process
   mongoose.disconnect();
-  process.exit();
+  process.exit(code);
 }

@@ -1,21 +1,23 @@
 <i id="feed-overview-content"></i>
 
-<section class="data-group data-module finished">
+<div class="overview-wrap">
+
+<!-- <section class="data-group data-module finished">
   <header class="data-group-header">
     <h2>Source</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
     <a id="source-link" ng-if="feedData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
   </header>
-</section>
+</section> -->
 <!-- /.data-group -->
 
-<section class="data-group data-module finished">
+<!-- <section class="data-group data-module finished">
   <header class="data-group-header">
     <h2>Election</h2>
     <span ng-if="!feedData" class="more-detail is-loading"></span>
     <a id="election-link" ng-if="feedData.election" class="more-detail" href="{{$location.absUrl()}}/election">More Detail</a>
   </header>
-</section>
+</section> -->
 <!-- /.data-group -->
 
 <section class="data-group data-module started">
@@ -36,11 +38,12 @@
   <header class="data-group-header">
     <h2>{{feedLocalities.length}} Localities
     <small>({{feedCounties.features.length}} Counties)</small></h2>
-    <span ng-if="!feedCounties" class="is-loading"></span>
-    <a class="more-detail" href="{{$location.absUrl()}}/election/state/localities/">More Detail</a>
+    <span ng-if="!feedCounties" class="more-detail is-loading"></span>
+    <a class="more-detail" ng-if="feedCounties" href="{{$location.absUrl()}}/election/state/localities/">More Detail</a>
   </header>
 
   <!-- element table directive -->
+  <span ng-if="!feedCounties" class="is-loading"></span>
   <div id="map" class="map" hidden></div>
 
 </section>
@@ -60,7 +63,7 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group data-module unstarted">
+<section class="data-group data-module started">
   <header class="data-group-header">
     <h2>Results</h2>
     <span ng-if="!feedResults" class="more-detail is-loading"></span>
@@ -73,3 +76,5 @@
 
 </section>
 <!-- /.data-group -->
+
+</div>

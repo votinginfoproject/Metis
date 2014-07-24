@@ -3,8 +3,15 @@
  */
 
 var util = {
-  mapperTest: function(saveFunc, model, xml, done) {
+  mapperTest3_0: function(saveFunc, model, xml, done) {
     model.mapXml3_0(xml);
+    model.collection.create = saveFunc;
+    model.save();
+    done();
+  },
+
+  mapperTest5_0: function(saveFunc, model, xml, done) {
+    model.mapXml5_0(xml);
     model.collection.create = saveFunc;
     model.save();
     done();
@@ -34,7 +41,7 @@ var util = {
   testElectionAdmin: function(first, second) {
     expect(first.id).toBe(second.elementId);
     expect(first.name).toBe(second.name);
-    expect(first.address).toBe(second.physicalAddress.city +', ' + second.physicalAddress.state + ' ' + second.physicalAddress.zip);
+    expect(first.address).toBe(second.physicalAddress.city +', ' + second.physicalAddress.state + ', ' + second.physicalAddress.zip);
   },
 
   testMapperAddress: function(first, second) {
@@ -54,6 +61,10 @@ var util = {
     expect(first.phone).toBe(second.phone);
     expect(first.fax).toBe(second.fax);
     expect(first.email).toBe(second.email);
+  },
+
+  testObjectLevelRules: function(rule, data, cb) {
+    rule.evaluate(data, null, null, null, null, cb);
   }
 };
 

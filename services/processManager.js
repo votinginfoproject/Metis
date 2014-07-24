@@ -5,6 +5,9 @@ var schemas = require('../dao/schemas');
 var feedIdMapper = require('../feedIdMapper');
 var util = require('util');
 
+var express = require('express');
+var app = express();
+
 // The child process module
 var childProcess = require("child_process");
 
@@ -14,6 +17,9 @@ var fileProcessing = null;
 // store the process ids and the feed ids they represent
 var pIdsAndFeedIds = {};
 
+var logger = (require('../logging/vip-winston')).Logger;
+var NEWLINE = require('os').EOL;
+
 /*
  * Handling the POST call after a file is uploaded.
  * This will queue up the file and start the processing of the file
@@ -22,17 +28,38 @@ var pIdsAndFeedIds = {};
  */
 function handleFileProcessing(req, res){
 
-  if(req.body.filename === undefined || (req.body.filename).trim() === "" ){
+  if(req.body.filenames === undefined || (req.body.filenames).trim() === "" ){
 
-    // missing filename to process
-    res.send("Received POST, however filename missing.");
+    if ('development' == app.get('env')) {
+      // in development
+
+      logger.info("Received POST, however filename missing.");
+      res.redirect('/');
+    } else {
+      // production
+
+      // missing filename to process
+      logger.info("Received POST, however filename missing.");
+      res.send("Received POST, however filename missing.");
+    }
   } else {
 
-    // have a filename to process
-    res.send(util.format("Received POST, filename: %s, s3 bucket: %s", req.body.filename, req.body.s3bucket));
+    // get any filenames to process
+    var files = req.body.filenames.split(NEWLINE);
 
-    // put the file at the end of the file queue
-    fileQueue.push({ filename: req.body.filename, s3Bucket: req.body.s3bucket });
+    for(var i=0; i<files.length; i++){
+
+      var file = files[i];
+      // remove any remnant of \r
+      file = file.replace(/\r/g, '');
+
+      file = file.trim();
+
+      if(file.length > 0){
+        // put the file at the end of the file queue
+        fileQueue.push({ filename: file, s3Bucket: req.body.s3bucket });
+      }
+    }
 
     // if a file is processing, then do nothing since when that process ends or fails,
     // the file queue is checked for the next file to process, otherwise start to process the next file
@@ -41,6 +68,20 @@ function handleFileProcessing(req, res){
 
       fileProcessing = {};
       startFileProcessing(fileQueue.shift());
+    }
+
+    if ('development' == app.get('env')) {
+
+      // in development
+      // delaying responding back to the UI to allow the system to start processing so when we return, the Feed status
+      // can be updated with the current feed being processed
+      setTimeout(function(){
+        res.redirect('/');
+      }, 1000);
+
+    } else {
+      // production
+      res.send(util.format("Received POST, filename(s): %s, s3 bucket: %s", req.body.filenames, req.body.s3bucket));
     }
 
   }
@@ -55,14 +96,15 @@ function handleFileProcessing(req, res){
 function startFileProcessing(fileInfo){
 
   var processArgs = [];
+  var processingError = null;
 
   if (config.importer.useS3) {
     processArgs.push(fileInfo.filename);
     processArgs.push(fileInfo.s3Bucket);
-    console.log('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
+    logger.info('Starting to process: %s in S3 bucket: %s', processArgs[0], processArgs[1]);
   } else {
-  processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
-  console.log('Starting to process: ' + processArgs[0]);
+    processArgs.push(_path.join(_path.resolve(config.upload.uploadPath), fileInfo.filename));
+    logger.info('Starting to process: ' + processArgs[0]);
   }
 
   // Forking a whole new instance of v8
@@ -79,20 +121,34 @@ function startFileProcessing(fileInfo){
       // if the message contains a feedid
       // store this feedid with the pid of the child process so if later
       // the child process errors, we can set the failed flag for the feed in mongo
-      if(msg.messageId==1){
+      if(msg.messageId===1){
+
+        // **** *** ***
+        // NOTE - Do not do any I/O / Asynchronous calls in this block
+        // as the setting of the feedId into the pIdsAndFeedIds object needs
+        // to occur before this node process ever executes the on('exit') function,
+        // which is the case since node is single threaded, but this pattern would
+        // break if there is a I/O blocking call in this code block
+
         // stringify the pid
         var pid = fileProcessing.pid + "";
-
-        console.log("Setting the pid: " + pid + " to match with feed " + msg.feedId);
-
+        logger.info("Setting the pid: " + pid + " to match with feed " + msg.feedId);
         pIdsAndFeedIds[pid] = msg.feedId;
+
+        // **** *** ***
+
       }
 
       // message with feedid and friendlyfeedid of the feed the child is processing
-      if(msg.messageId==2){
+      if(msg.messageId===2){
 
         // add the friendly id to the list of ids loaded into memory
         feedIdMapper.addToUserFriendlyIdMap(msg.friendlyId, msg.feedId);
+      }
+
+      if(msg.messageId===-1){
+        logger.error("child process stack trace: " + msg.stack);
+        processingError = msg.errorMessage + " in file " + msg.fileName;
       }
     }
 
@@ -100,19 +156,32 @@ function startFileProcessing(fileInfo){
 
   // when child shuts down
   fileProcessing.on('exit', function (code) {
-    console.log('Processing Exited: ' + code);
+    logger.info('Processing Exited: ' + code);
 
     // stringify the pid
     var pid = fileProcessing.pid + "";
 
     // if there was an error in the child process mark the feed as such
     // code 0 means everything was ok
-    // any code below 0 is our own code for things that go wrong, so we won't check those as if we are
-    // setting the codes for exit, we will also update the status of the feed at that point in time
-    if(code>0 && pIdsAndFeedIds[pid] != undefined ){
+    // any code other than 0 is an error
+    if( (code!==0) && pIdsAndFeedIds[pid] != undefined ){
 
-      schemas.models.Feed.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: 'Errored', complete: false, failed: true },
-        function(err, feed) {}
+      var status = 'Errored';
+      var statusReason = "";
+
+      // bad feed file
+      if(code===8){
+        statusReason = " (Invalid Feed File)";
+      } else if(code===5){
+        statusReason = " (Out of Memory)";
+      } else if(code===10){
+        statusReason = " (" + processingError + ")";
+      }
+
+
+      schemas.models.feeds.update({_id: pIdsAndFeedIds[pid]}, { feedStatus: status + statusReason, complete: false, failed: true },
+        function(err, feed) {
+        }
       );
     }
 
@@ -129,11 +198,16 @@ function startFileProcessing(fileInfo){
 
   });
   fileProcessing.on('close', function (code) {
-    console.log('Processing Closed: ' + code);
+    logger.info('Processing Closed: ' + code);
   });
   fileProcessing.on('error', function (code) {
-    console.log('Processing Errored: ' + code);
+    logger.info('Processing Errored: ' + code);
   });
 }
 
+function getFileQueue(){
+  return fileQueue;
+}
+
+exports.getFileQueue = getFileQueue;
 exports.handleFileProcessing = handleFileProcessing;

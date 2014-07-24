@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+var logger = (require('./logging/vip-winston')).Logger;
 
 var config = require('./config');
 var express = require('express');
@@ -17,8 +18,15 @@ var errorServices = require('./services/errors');
 var overviewServices = require('./services/overviews');
 var geoServices = require('./services/geo');
 
+if (fs.existsSync('./newrelic.js')) {
+  require('newrelic');
+}
+
 var app = express();
 
+logger.info('=========================================================');
+logger.info('VIP App Started');
+logger.info('=========================================================');
 
 // all environments
 app.use(express.favicon(config.web.favicon));
@@ -32,12 +40,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.directory(path.join(__dirname, 'feeds')));
-app.use(express.static(path.join(__dirname, 'feeds')));
+app.use('/feeds', express.directory(path.join(__dirname, 'feeds')));
+app.use('/feeds', express.static(path.join(__dirname, 'feeds')));
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
+  logger.info('Running in Development Mode.');
 }
 
 //user authentication
@@ -57,10 +66,10 @@ if (config.web.enableSSL) {
   };
 
   https.createServer(opts, app).listen(config.web.port, function() {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 } else {
   http.createServer(app).listen(config.web.port, function () {
-    console.log('Express server listening on port ' + config.web.port);
+    logger.info('Express server listening on port ' + config.web.port);
   });
 }

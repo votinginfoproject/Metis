@@ -3,8 +3,8 @@
  */
 
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
 var async = require('async');
+var utils = require('../../utils');
 
 var errorCount = 0;
 var constraints = null;
@@ -31,6 +31,8 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var mixedCaseDirections = [];
     mixedCaseDirections = mixedCaseDirections.concat(upperCaseMap);
     mixedCaseDirections = mixedCaseDirections.concat(lowerCaseMap);
+
+    // still need the below, to not pull back null or empty strings
     mixedCaseDirections = mixedCaseDirections.concat(['', null]);
 
     var conditions = {};
@@ -47,6 +49,13 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
     var paused = false;
     var saveStack = 0;
     stream.on('data', function(addressSegmentResultSet) {
+
+      var resultSet = utils.getProperty(addressSegmentResultSet, fieldStrings[i]);
+
+      if(!resultSet || resultSet.trim() === '') {
+        return;
+      }
+
       ++saveStack;
 
       if(saveStack >= 10000) {
@@ -54,12 +63,6 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
         stream.pause();
       }
 
-      var fieldPath = fieldStrings[i].split(".");
-      var resultSet= addressSegmentResultSet;
-      for(var x = 0; x < fieldPath.length; x++){
-        var path = (fieldPath[x]).toString();
-        resultSet = resultSet[path];
-      }
       createError(addressSegmentResultSet, fieldStrings[i] + " = " + resultSet)
         .then(function() {
           --saveStack;
@@ -75,15 +78,25 @@ var evaluateAddressDirectionType = function(feedId, constraintSet, ruleDefinitio
       done();
     });
   }, function() {
-//    console.log(errorCount + ' errors added');
+
     callback( { promisedErrorCount: errorCount } )
   });
 }
 
 function createError(addressSegment, directionalError) {
   errorCount++;
-  var ruleErrors = new ruleViolation(constraints.entity[0], addressSegment.elementId, addressSegment._id, addressSegment._feed, directionalError, directionalError, rule);
-  return ruleErrors.getCollection().create(ruleErrors.model());
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: directionalError,
+    textualReference: 'id = ' + addressSegment.elementId + " (" + directionalError + ")",
+    refElementId: addressSegment.elementId,
+    _ref: addressSegment._id,
+    _feed: addressSegment._feed
+  });
 }
 
 exports.evaluate = evaluateAddressDirectionType;

@@ -11,6 +11,14 @@
   margin-bottom: $base-line-height / 2;
   padding: $base-line-height / 2;
   position: relative;
+  &:before {
+    font-family: "foundation-icons";
+    content: "\f15e";
+    font-size: 24px;
+    font-weight: normal;
+    position: relative;
+    top: 3px;
+  }
 
   a {
     color: darken($notice-color, 70);
@@ -50,6 +58,7 @@
 .alert-box.processing {
   background: $processing-color;
   color: darken($processing-color, 60);
+  border-radius: 5px;
 
   a {
     color: $blue;
@@ -118,7 +127,7 @@
       }
 
       &:hover {
-        background: $blue-darkest;
+        background: #628eb7;
         color: $white;
         a {
           color: $white;
@@ -341,8 +350,6 @@
   margin: 0;
   padding: 0 $base $base-sm;
 
-  
-
   @include bp(c6) {
     padding-top: $base-xs;
     float: left;
@@ -351,6 +358,13 @@
 
     &:nth-child(2) {
       border-top: none;
+    }
+  }
+
+  a {
+    border-bottom: 1px solid #9eafc3;
+    &:hover, &:focus {
+      border-color: $hover-link-color;
     }
   }
 }
@@ -463,6 +477,16 @@ aside {
   }
 }
 
+.dl-feed {
+  @include word-break;
+  font-size: 0.875em;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  a {
+    color: $white;
+    border-bottom: 1px solid $white;
+  }
+}
 
 // ============================================================================
 // Feed Meta
@@ -604,6 +628,12 @@ aside {
     color: $white;
     background: #0c6;
   }
+
+  h3 {
+    font-size: 1.25em;
+    font-size: 1.25rem;
+    margin-bottom: $base-sm;
+  }
 }
 
 .vcard {
@@ -629,8 +659,23 @@ aside {
 .map {
   margin-bottom: 1em;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 200px;
   color: black;
+  @media screen and (min-height: 340px){
+    min-height: 300px;
+  }
+  @media screen and (min-height: 400px){
+    min-height: 360px;
+  }
+  @media screen and (min-height: 450px){
+    min-height: 410px;
+  }
+  @media screen and (min-height: 480px){
+    min-height: 440px;
+  }
+  @media screen and (min-height: 520px){
+    min-height: 480px;
+  }
 }
 
 
@@ -754,18 +799,36 @@ form[role="search"] {
 .error-count {
   color: $white;
   font-weight: bold;
-  padding: $base-xs $base-sm;
-  margin: 0 0 $base-med;
+  padding: 0.1875em 0.625em 0.25em;
+  display: inline-block;
+  margin: 0 $base-sm $base;
   background: $red;
-  border-radius: 10px;
+  border-radius: 15px;
 
   @include bp(c6) {
     margin-left: 0;
     margin-right: 0;
   }
 
-  &:hover {
-    color: $gray-medium;
+  &:before {
+    margin-right: 5px;
+    font-family: "foundation-icons";
+    content: "\f101";
+  }
+
+  &:hover, &:focus {
+    background: #f33;
+    color: $white;
+  }
+}
+
+.error-count-0 {
+  background-color: $green-dark;
+  &:before {
+    content: "\f126"; 
+  }
+  &:hover, &:focus {
+    background-color: $green;
   }
 }
 

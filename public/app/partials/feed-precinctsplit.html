@@ -1,6 +1,6 @@
 <i id="feed-precinctsplit-content"></i>
 
-<p ng-if="feedPrecinctSplit.error_count !== undefined"><a id="precinctsplit-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a></p>
+<p ng-if="feedPrecinctSplit.error_count !== undefined"><a id="precinctsplit-errors" class="error-count error-count-{{feedPrecinctSplit.error_count}}" href="{{$location.absUrl()}}/errors">{{feedPrecinctSplit.error_count}} Errors in Precinct Split ID: {{feedPrecinctSplit.id}}</a></p>
 
 
 <div class="data-module-full">
@@ -8,7 +8,7 @@
     <dt class="key">Name:</dt>
     <dd id="precinctsplit-name" class="value">{{feedPrecinctSplit.name}}</dd>
     <dt class="key">Ballot Style Image URL:</dt>
-    <dd id="precinctsplit-ballotimage" class="value"><a target="_blank" href="{{feedPrecinctSplit.ballotimage}}">{{feedPrecinctSplit.ballotimage}}</a></dd>
+    <dd id="precinctsplit-ballotimage" class="value"><a target="_blank" href="{{feedPrecinctSplit.ballot_style_image_url}}">{{feedPrecinctSplit.ballot_style_image_url}}</a></dd>
   </dl>
 </div>
 
@@ -61,7 +61,7 @@
   <h2>{{feedPrecinctSplit.street_segments.total}} Street Segments</h2>
   
   <div class="data-text">
-    <p ng-if="feedPrecinctSplit.street_segments.error_count !== undefined"><a id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a></p>
+    <p ng-if="feedPrecinctSplit.street_segments.error_count !== undefined"><a id="streetsegments-errors" class="error-count error-count-{{feedPrecinctSplit.street_segments.error_count}}" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinctSplit.street_segments.error_count}} Errors in Street Segments</a></p>
   </div>
 
   <span ng-if="!feedPrecinctSplit" class="is-loading"></span>

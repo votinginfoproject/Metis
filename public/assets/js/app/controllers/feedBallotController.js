@@ -47,11 +47,16 @@ function FeedBallotCtrl_getFeedBallot($scope, $rootScope, $feedsService, service
 
       $rootScope.pageHeader.title = "Ballot ID: " + data.id;
 
+      $scope.feedBallot.contests.forEach(function(contest) {
+        contest.self = $rootScope.getAngularUrl(contest.self);
+      });
+
       $scope.ballotCandidatesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.candidates, $appProperties.lowPagination, { id: 'asc' });
       $scope.referendaTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.referenda, $appProperties.lowPagination, { id: 'asc' });
+      $scope.ballotContestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.contests, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function(data) {
-      $rootScope.pageHeader.error += "Could not retrieve Ballot data."
+      $rootScope.pageHeader.error += "Could not retrieve Ballot data.";
 
       $scope.feedBallot = {};
     });

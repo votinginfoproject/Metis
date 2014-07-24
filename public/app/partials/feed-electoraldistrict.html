@@ -1,6 +1,6 @@
 <i id="{{pageId}}"></i>
 
-<p ng-if="feedElectoralDistrict.error_count !== undefined"><a id="electoraldistrict-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedElectoralDistrict.error_count}} Errors in Electoral District ID: {{feedElectoralDistrict.id}}</a></p>
+<p ng-if="feedElectoralDistrict.error_count !== undefined"><a id="electoraldistrict-errors" class="error-count error-count-{{feedElectoralDistrict.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectoralDistrict.error_count}} Errors in Electoral District ID: {{feedElectoralDistrict.id}}</a></p>
 
 <div class="data-module-full">
   <dl class="attributes">
@@ -10,6 +10,8 @@
     <dd id="type" class="value">{{feedElectoralDistrict.type}}</dd>
     <dt class="key">Number:</dt>
     <dd id="number" class="value">{{feedElectoralDistrict.number}}</dd>
+    <dt class="key">Description:</dt>
+    <dd id="number" class="value">{{feedElectoralDistrict.description}}</dd>
   </dl>
 </div>
 

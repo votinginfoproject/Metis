@@ -29,7 +29,7 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
         } else {
           // disable the feed link if it's processing or failed
-          data[i].self = "javascript: void(0);";
+          data[i].self = "";
 
           // if not failed
           if(!data[i].failed){
@@ -53,7 +53,6 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
 
       // set the feeds data into the Angular model
       $scope.feeds = data;
-
 
       // if any feed is processing
       if($scope.isProcessing){
@@ -80,8 +79,37 @@ function FeedsCtrl($scope, $rootScope, $feedsService, $location, $filter, ngTabl
       // sort by date_loaded, descending order
       $scope.feedTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, 10, {date_loaded: 'des'});
 
+      // Also call our function to get the Feed Queue
+      FeedsCtrl_getFeedQueue($scope, $rootScope, $feedsService, '/services/feedqueue', $filter, ngTableParams);
+
+
     }).error(function (data) {
 
       $rootScope.pageHeader.error = "Could not retrieve Feeds Data.";
+      $scope.feedQueue = {};
+    });
+
+}
+
+
+/*
+ * Get the Feed Queue
+ *
+ */
+function FeedsCtrl_getFeedQueue($scope, $rootScope, $feedsService, servicePath, $filter, ngTableParams){
+
+  // get Feed Queue
+  $feedsService.getFeedQueue(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedQueue = data.feedQueue;
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve List of Queued Feeds. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedQueue = {};
     });
 }

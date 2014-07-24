@@ -10,8 +10,11 @@ lib-cov
 pids
 logs
 results
+feeds
+upload
 
 node_modules
+feeds
 
 .idea
 .DS_Store

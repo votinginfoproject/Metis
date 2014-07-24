@@ -2,15 +2,18 @@
  * Created by rcartier13 on 2/13/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var async = require('async');
 var util = require('./utils');
 var _ = require('underscore');
 
 function kickoffLocality(feedId, createOverviewModel, wait) {
-  console.log('Starting Single Locality Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Single Locality Calc...');
   localityCalc(feedId, function(localityOverview) {
-    console.log('Finished Single Locality');
+    logger.info('Finished Single Locality');
+    logger.info('=======================================');
     localityOverview.forEach(function(overview) {
       createOverviewModel('Early Vote Sites', overview.earlyVoteSites, overview.earlyVoteSites.errorCount, overview.section, feedId);
       createOverviewModel('Election Administration', overview.electionAdmin, overview.electionAdmin.errorCount, overview.section, feedId);
@@ -25,7 +28,7 @@ function kickoffLocality(feedId, createOverviewModel, wait) {
 
 function localityCalc(feedId, saveCalc) {
  var localityOverview = [];
- schemas.models.Locality.find({ _feed: feedId })
+ schemas.models.localitys.find({ _feed: feedId })
    .populate('_earlyVoteSites')
    .populate('_electionAdministration')
    .populate('_precincts')
@@ -42,15 +45,20 @@ function localityCalc(feedId, saveCalc) {
           done();
        }
 
-       localityOverview[overviewPos].earlyVoteSites = util.reduceOverviewObject(locality._earlyVoteSites, schemas.models.EarlyVoteSite.fieldCount);
-       schemas.models.EarlyVoteSite.Error.count({ _ref: {$in: locality._earlyVoteSites} }, function(err, count) {
+       localityOverview[overviewPos].earlyVoteSites = util.reduceOverviewObject(locality._earlyVoteSites, schemas.models.earlyvotesites.fieldCount);
+       schemas.models.earlyvotesites.Error.count({ _ref: {$in: locality._earlyVoteSites} }, function(err, count) {
          localityOverview[overviewPos].earlyVoteSites.errorCount = count;
          wait();
        });
 
        var adminCount = locality._electionAdministration ? util.countProperties(locality._electionAdministration) : 0;
-       localityOverview[overviewPos].electionAdmin = util.createOverviewObject(adminCount ? 1 : 0, adminCount, schemas.models.ElectionAdmin.fieldCount);
-       schemas.models.ElectionAdmin.Error.count({ _ref: locality._electionAdministration }, function(err, count) {
+       if(adminCount) {
+         localityOverview[overviewPos].electionAdmin = util.createOverviewObject(1, adminCount, schemas.models.electionadmins.fieldCount);
+       }
+       else {
+         localityOverview[overviewPos].electionAdmin = util.createOverviewObject();
+       }
+       schemas.models.electionadmins.Error.count({ _ref: locality._electionAdministration }, function(err, count) {
          localityOverview[overviewPos].electionAdmin.errorCount = count;
          wait();
        });
@@ -62,7 +70,7 @@ function localityCalc(feedId, saveCalc) {
          localityOverview[overviewPos].pollingLocations = pollingLoc;
          localityOverview[overviewPos].streetSegments = streetSeg;
 
-         schemas.models.Precinct.Error.count({ _ref: {$in: locality._precincts} }, function(err, count) {
+         schemas.models.precincts.Error.count({ _ref: {$in: locality._precincts} }, function(err, count) {
            localityOverview[overviewPos].precincts.errorCount = count;
            wait();
          });
@@ -87,19 +95,19 @@ function precinctsCalc(feedId, precincts, returnTotal) {
 
     ++precinctOverview.amount;
     precinctOverview.fieldCount += util.countProperties(precinct);
-    precinctOverview.schemaFieldCount += schemas.models.Precinct.fieldCount;
+    precinctOverview.schemaFieldCount += schemas.models.precincts.fieldCount;
 
     var paramList = [];
 
-    paramList.push(util.createParamList(feedId, precinct._precinctSplits, schemas.models.PrecinctSplit, function(res, cb) {
+    paramList.push(util.createParamList(feedId, precinct._precinctSplits, schemas.models.precinctsplits, function(res, cb) {
       splitOverview = util.addOverviewObjects(splitOverview, res);
-      schemas.models.PrecinctSplit.Error.count({ _ref: {$in: precinct._precinctSplits} }, function(err, count) {
+      schemas.models.precinctsplits.Error.count({ _ref: {$in: precinct._precinctSplits} }, function(err, count) {
         splitOverview.errorCount += count;
         cb();
       });
     }));
 
-    paramList.push(util.createParamList(feedId, precinct._pollingLocations, schemas.models.PollingLocation, function(res, cb) {
+    paramList.push(util.createParamList(feedId, precinct._pollingLocations, schemas.models.pollinglocations, function(res, cb) {
 
       pollingLocOverview = util.addOverviewObjects(pollingLocOverview, res);
 
@@ -116,18 +124,18 @@ function precinctsCalc(feedId, precincts, returnTotal) {
         }
       }
 
-      schemas.models.PollingLocation.Error.count({ _ref: {$in: pollingLocationsToQuery} }, function(err, count) {
+      schemas.models.pollinglocations.Error.count({ _ref: {$in: pollingLocationsToQuery} }, function(err, count) {
         pollingLocOverview.errorCount += count;
         cb();
       });
     }));
 
-    paramList.push(util.createParamList(feedId, precinct._streetSegments, schemas.models.StreetSegment, function(res, cb) {
+    paramList.push(util.createParamList(feedId, precinct._streetSegments, schemas.models.streetsegments, function(res, cb) {
       streetSegOverview = util.addOverviewObjects(streetSegOverview, res);
 
       // we only have to count the street segments under the precinct, as the street segments under
       // a precinct are the aggregate of street segments under its precinct splits (if any)
-      schemas.models.StreetSegment.Error.count({ _ref: {$in: precinct._streetSegments} }, function(err, count) {
+      schemas.models.streetsegments.Error.count({ _ref: {$in: precinct._streetSegments} }, function(err, count) {
         streetSegOverview.errorCount += count;
         cb();
       });

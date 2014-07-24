@@ -2,7 +2,8 @@
  * Created by bantonides on 3/12/14.
  */
 const
-  unfold = require('when/unfold');
+  unfold = require('when/unfold'),
+  logger = (require('../logging/vip-winston')).Logger;
 
 module.exports = function () {
   var updateQ = [];
@@ -11,7 +12,7 @@ module.exports = function () {
   var count = 0;
 
   function consolidateBallot(models, feedId) {
-    var promise = models.BallotCandidate.aggregate(
+    var promise = models.ballotcandidate.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$ballotId", candidates: { $push: { elementId: "$candidateId", sortOrder: "$sortOrder" } } } }
     ).exec();
@@ -21,7 +22,7 @@ module.exports = function () {
     promise.then(function (groupedCandidates) {
       groupedCandidates.forEach(function (candidates) {
         count++;
-        updateQ.push(models.Ballot.update(
+        updateQ.push(models.ballots.update(
           { _feed: feedId, elementId: candidates._id },
           { candidates: candidates.candidates }).exec());
       });
@@ -29,7 +30,7 @@ module.exports = function () {
   }
 
   function consolidateCustomBallot(models, feedId) {
-    var promise = models.CustomBallotBallotResponse.aggregate(
+    var promise = models.customballotballotresponse.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$customBallotId", ballotResponses: { $push: { elementId: "$ballotResponseId", sortOrder: "$sortOrder" } } } }
     ).exec();
@@ -39,7 +40,7 @@ module.exports = function () {
     promise.then(function (groupedBallotResponses) {
       groupedBallotResponses.forEach(function (responses) {
         count++;
-        updateQ.push(models.CustomBallot.update(
+        updateQ.push(models.customballots.update(
           { _feed: feedId, elementId: responses._id },
           { ballotResponses: responses.ballotResponses }).exec());
       });
@@ -47,7 +48,7 @@ module.exports = function () {
   }
 
   function consolidateLocality(models, feedId) {
-    var promise = models.LocalityEarlyVoteSite.aggregate(
+    var promise = models.localityearlyvotesite.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$localityId", earlyVoteSites: { $push: "$earlyVoteSiteId" } } }
     ).exec();
@@ -57,7 +58,7 @@ module.exports = function () {
     promise.then(function (groupedEarlyVoteSites) {
       groupedEarlyVoteSites.forEach(function (earlyVoteSites) {
         count++;
-        updateQ.push(models.Locality.update(
+        updateQ.push(models.localitys.update(
           { _feed: feedId, elementId: earlyVoteSites._id },
           { earlyVoteSiteIds: earlyVoteSites.earlyVoteSites }).exec());
       });
@@ -65,7 +66,7 @@ module.exports = function () {
   }
 
   function consolidatePrecinct(models, feedId) {
-    var promiseEVS = models.PrecinctEarlyVoteSite.aggregate(
+    var promiseEVS = models.precinctearlyvotesite.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$precinctId", earlyVoteSites: { $push: "$earlyVoteSiteId" } } }
     ).exec();
@@ -75,13 +76,13 @@ module.exports = function () {
     promiseEVS.then(function (groupedEarlyVoteSites) {
       groupedEarlyVoteSites.forEach(function (earlyVoteSites) {
         count++;
-        updateQ.push(models.Precinct.update(
+        updateQ.push(models.precincts.update(
           { _feed: feedId, elementId: earlyVoteSites._id },
           { earlyVoteSiteIds: earlyVoteSites.earlyVoteSites }).exec());
       });
     });
 
-    var promiseED = models.PrecinctElectoralDistrict.aggregate(
+    var promiseED = models.precinctelectoraldistrict.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$precinctId", electoralDistricts: { $push: "$electoralDistrictId" } } }
     ).exec();
@@ -91,13 +92,13 @@ module.exports = function () {
     promiseED.then(function (groupedElectoralDistricts) {
       groupedElectoralDistricts.forEach(function (electoralDistricts) {
         count++;
-        updateQ.push(models.Precinct.update(
+        updateQ.push(models.precincts.update(
           { _feed: feedId, elementId: electoralDistricts._id },
           { electoralDistrictIds: electoralDistricts.electoralDistricts }).exec());
       });
     });
 
-    var promisePL = models.PrecinctPollingLocation.aggregate(
+    var promisePL = models.precinctpollinglocation.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$precinctId", pollingLocations: { $push: "$pollingLocationId" } } }
     ).exec();
@@ -107,7 +108,7 @@ module.exports = function () {
     promisePL.then(function (groupedPollingLocations) {
       groupedPollingLocations.forEach(function (pollingLocations) {
         count++;
-        updateQ.push(models.Precinct.update(
+        updateQ.push(models.precincts.update(
           { _feed: feedId, elementId: pollingLocations._id },
           { pollingLocationIds: pollingLocations.pollingLocations }).exec());
       });
@@ -115,7 +116,7 @@ module.exports = function () {
   }
 
   function consolidatePrecinctSplit(models, feedId) {
-    var promiseED = models.PrecinctSplitElectoralDistrict.aggregate(
+    var promiseED = models.precinctsplitelectoraldistrict.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$precinctSplitId", electoralDistricts: { $push: "$electoralDistrictId" } } }
     ).exec();
@@ -125,13 +126,13 @@ module.exports = function () {
     promiseED.then(function (groupedElectoralDistricts) {
       groupedElectoralDistricts.forEach(function (electoralDistricts) {
         count++;
-        updateQ.push(models.PrecinctSplit.update(
+        updateQ.push(models.precinctsplits.update(
           { _feed: feedId, elementId: electoralDistricts._id },
           { electoralDistrictIds: electoralDistricts.electoralDistricts }).exec());
       });
     });
 
-    var promisePL = models.PrecinctSplitPollingLocation.aggregate(
+    var promisePL = models.precinctsplitpollinglocation.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$precinctSplitId", pollingLocations: { $push: "$pollingLocationId" } } }
     ).exec();
@@ -141,7 +142,7 @@ module.exports = function () {
     promisePL.then(function (groupedPollingLocations) {
       groupedPollingLocations.forEach(function (pollingLocations) {
         count++;
-        updateQ.push(models.PrecinctSplit.update(
+        updateQ.push(models.precinctsplits.update(
           { _feed: feedId, elementId: pollingLocations._id },
           { pollingLocationIds: pollingLocations.pollingLocations }).exec());
       });
@@ -149,7 +150,7 @@ module.exports = function () {
   }
 
   function consolidateReferendum(models, feedId) {
-    var promise = models.ReferendumBallotResponse.aggregate(
+    var promise = models.referendumballotresponse.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$referendumId", ballotResponses: { $push: { elementId: "$ballotResponseId", sortOrder: "$sortOrder" } } } }
     ).exec();
@@ -159,7 +160,7 @@ module.exports = function () {
     promise.then(function (groupedBallotResponses) {
       groupedBallotResponses.forEach(function (ballotResponses) {
         count++;
-        updateQ.push(models.Referendum.update(
+        updateQ.push(models.referendums.update(
           { _feed: feedId, elementId: ballotResponses._id },
           { ballotResponses: ballotResponses.ballotResponses }).exec());
       });
@@ -167,7 +168,7 @@ module.exports = function () {
   }
 
   function consolidateState(models, feedId) {
-    var promise = models.StateEarlyVoteSite.aggregate(
+    var promise = models.stateearlyvotesite.aggregate(
       { $match: { _feed: feedId } },
       { $group: { _id: "$stateId", earlyVoteSites: { $push: "$earlyVoteSiteId" } } }
     ).exec();
@@ -177,7 +178,7 @@ module.exports = function () {
     promise.then(function (groupedEarlyVoteSites) {
       groupedEarlyVoteSites.forEach(function (earlyVoteSites) {
         count++;
-        updateQ.push(models.State.update(
+        updateQ.push(models.states.update(
           { _feed: feedId, elementId: earlyVoteSites._id },
           { earlyVoteSiteIds: earlyVoteSites.earlyVoteSites }).exec());
       });
@@ -189,7 +190,7 @@ module.exports = function () {
       return;
     }
 
-    console.log('Starting unfold');
+    logger.info('Starting unfold');
 
     unfolding = true;
     unfold(unspool, condition, log, 0)
@@ -197,8 +198,8 @@ module.exports = function () {
         console.error(err);
       })
       .then(function () {
-        console.log('unfold completed!!!!');
-        console.log('Creating database relationships...');
+        logger.info('unfold completed!!!!');
+        logger.info('Creating database relationships...');
         require('./matchMaker').createDBRelationships(feedId, models);
       });
   }
@@ -210,7 +211,7 @@ module.exports = function () {
 
   function condition() {
     if (updateQ.length == 0) {
-      console.log('updateQ empty');
+      logger.info('updateQ empty');
       unfolding = false;
     }
 
@@ -230,7 +231,7 @@ module.exports = function () {
       consolidatePrecinctSplit(models, feedId);
       consolidateReferendum(models, feedId);
       consolidateState(models, feedId);
-      console.log('all consolidates called.')
+      logger.info('all consolidates called.')
 
       startUnfold(models, feedId);
 

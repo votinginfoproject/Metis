@@ -3,7 +3,8 @@
  */
 
 var mongoose = require('mongoose');
-var ruleViolation = require('../ruleViolation');
+var logger = (require('../../../logging/vip-winston')).Logger;
+
 
 function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinition, callback) {
 
@@ -40,7 +41,7 @@ function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinit
     },
     { $match: { count: { $gt : 1 } } }).exec(function(err, results) {
       if(err) {
-        console.log(err);
+        logger.error(err);
         return;
       }
 
@@ -53,8 +54,18 @@ function evaluateStreetSegmentsOverlapSingle(_feedId, constraintSet, ruleDefinit
 }
 
 function createError(constraints, elementId, mongoId, feedId, error, rule) {
-  var ruleErrors = new ruleViolation(constraints.entity[0], elementId, mongoId, feedId, error, error, rule);
-  return ruleErrors.model().save();
+  var model =  mongoose.model(constraints.entity[0].substring(0, constraints.entity[0].length-1) + 'errors');
+  return model.create({
+    severityCode: rule.severityCode,
+    severityText: rule.severityText,
+    errorCode: rule.errorCode,
+    title: rule.title,
+    details: error,
+    textualReference: 'id = ' + elementId + " (" + error + ")",
+    refElementId: elementId,
+    _ref: mongoId,
+    _feed: feedId
+  });
 }
 
 exports.evaluateStreetSegmentsOverlapSingle = evaluateStreetSegmentsOverlapSingle;

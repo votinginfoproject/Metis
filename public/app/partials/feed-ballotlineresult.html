@@ -1,6 +1,6 @@
 <i id="feed-ballotlineresult-content"></i>
 
-<p ng-if="feedBallotLineResult.error_count !== undefined"><a class="error-count" href="{{$location.absUrl()}}/errors">{{feedBallotLineResult.error_count}}
+<p ng-if="feedBallotLineResult.error_count !== undefined"><a class="error-count error-count-{{feedBallotLineResult.error_count}}" href="{{$location.absUrl()}}/errors">{{feedBallotLineResult.error_count}}
   Errors In Ballot Line Result ID: {{feedBallotLineResult.id}}</a></p>
 
 <span ng-if="!feedBallotLineResult" class="is-loading"></span>
@@ -10,6 +10,7 @@
     <dt class="key">Votes:</dt> <dd id="ballotlineresult-votes" class="value">{{feedBallotLineResult.votes}}</dd>
     <dt class="key">Victorious:</dt> <dd id="ballotlineresult-victorious" class="value">{{feedBallotLineResult.victorious}}</dd>
     <dt class="key">Certification:</dt> <dd id="ballotlineresult-certification" class="value">{{feedBallotLineResult.certification}}</dd>
+    <dt class="key">Vote Type:</dt> <dd id="ballotlineresult-votetype" class="value">{{feedBallotLineResult.voteType}}</dd>
   </dl>
 </div>
 

@@ -1,6 +1,6 @@
 <i id="feed-candidate-content"></i>
 
-<p ng-if="feedCandidate.error_count !== undefined"><a id="candidate-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
+<p ng-if="feedCandidate.error_count !== undefined"><a id="candidate-errors" class="error-count error-count-{{feedCandidate.error_count}}" href="{{$location.absUrl()}}/errors">{{feedCandidate.error_count}}
   Errors in Candidate ID: {{feedCandidate.id}}</a></p>
 
 <span ng-if="!feedCandidate" class="is-loading"></span>
@@ -8,8 +8,22 @@
 <div class="data-module-full">
   <dl class="attributes" ng-if="feedCandidate">
     <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
+    <dt class="key">Last Name:</dt> <dd id="candidate-lastname" class="value">{{feedCandidate.last_name}}</dd>
     <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
-    <dt class="key">Party:</dt> <dd id="candidate-party" class="value">{{feedCandidate.party}}</dd>
+
+    <!-- Logic to switch detailed party -->
+    <dt class="key" ng-if="!feedCandidate.party.name">Party:</dt>
+    <dd id="candidate-party" class="value" ng-if="!feedCandidate.party.name">{{feedCandidate.party}}</dd>
+
+    <dt class="key" ng-if="feedCandidate.party.name">Primary Party Name:</dt>
+    <dd id="candidate-party-name" class="value" ng-if="feedCandidate.party.name">{{feedCandidate.party.name}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.initial">Primary Party Initial:</dt>
+    <dd id="candidate-party-initial" class="value" ng-if="feedCandidate.party.initial">{{feedCandidate.party.initial}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.abbreviation">Primary Party Abbreviation:</dt>
+    <dd id="candidate-party-abbreviation" class="value" ng-if="feedCandidate.party.abbreviation">{{feedCandidate.party.abbreviation}}</dd>
+    <dt class="key" ng-if="feedCandidate.party.majorParty">Primary Party Major Party:</dt>
+    <dd id="candidate-party-majorparty" class="value" ng-if="feedCandidate.party.majorParty">{{feedCandidate.party.majorParty}}</dd>
+
     <dt class="key">Candidate Url:</dt> <dd id="candidate-url" class="value">{{feedCandidate.candidate_url}}</dd>
     <dt class="key">Biography:</dt> <dd id="candidate-biography" class="value">{{feedCandidate.biography}}</dd>
     <dt class="key">Phone:</dt> <dd id="candidate-phone" class="value">{{feedCandidate.phone}}</dd>
@@ -22,5 +36,34 @@
 
     <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>
     <dt class="key">Sort Order:</dt> <dd id="candidate-sortorder" class="value">{{feedCandidate.sort_order}}</dd>
+    <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
+    <dt class="key">Candidate Status:</dt> <dd id="candidate-status" class="value">{{feedCandidate.candidate_status}}</dd>
   </dl>
+
+  <section class="data-group data-module">
+    <h2>{{feedBallotStyle.length}} Ballot Styles</h2>
+
+    <span ng-if="!feedBallotStyle" class="is-loading"></span>
+    <table ng-show="feedBallotStyle.length" id="ballotStylesTable" ng-table="candidateBallotStylesTableParams" template-pagination="ballotStylesPagination">
+      <tr id="ballotStyle{{$index}}" ng-repeat="result in $data">
+        <td id="ballotStyle-id{{$index}}" data-title="'ID'" sortable="'elementId'"><span class="td-text">{{result.elementId}}</span></td>
+        <td id="ballotStyle-election{{$index}}" data-title="'Election'" sortable="'election'"><span class="td-text">{{result.election}}</span></td>
+        <td id="ballotStyle-name{{$index}}" data-title="'Name'" sortable="'name'"><span class="td-text">{{result.name}}</span></td>
+        <td id="ballotStyle-sortOrder{{$index}}" data-title="'Sort Order'" sortable="'sortOrder'"><span class="td-text">{{result.sortOrder}}</span></td>
+        <td id="ballotStyle-referendum{{$index}}" data-title="'Referendum'" sortable="'referendum'"><span class="td-text">{{result.referendum}}</span></td>
+      </tr>
+    </table>
+
+    <script type="text/ng-template" id="ballotStylesPagination">
+      <ul class="pagination ng-cloak">
+        <li ng-repeat="page in pages"
+            ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+          <a id="ballotStylePage{{$index}}" ng-class="{'is-active': page.number == candidateBallotStylesTableParams.page()}"
+             ng-click="candidateBallotStylesTableParams.page(page.number)" href="">{{page.number}}</a>
+        </li>
+      </ul>
+    </script>
+  </section>
+
 </div>
+

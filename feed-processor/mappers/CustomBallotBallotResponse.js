@@ -5,7 +5,7 @@ const
   basemapper = require('./BaseMapper'),
   util = require('util'),
   CustomBallotBallotResponse = function (models, feedId) {
-    basemapper.call(this, models, feedId, models.CustomBallotBallotResponse);
+    basemapper.call(this, models, feedId, models.customballotballotresponse);
     this.models = models;
     this.feedId = feedId;
   };

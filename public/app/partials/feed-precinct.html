@@ -1,6 +1,6 @@
 <i id="feed-precinct-content"></i>
 
-<p ng-if="feedPrecinct.error_count !== undefined"><a id="precinct-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a></p>
+<p ng-if="feedPrecinct.error_count !== undefined"><a id="precinct-errors" class="error-count error-count-{{feedPrecinct.error_count}}" href="{{$location.absUrl()}}/errors">{{feedPrecinct.error_count}} Errors in Precinct ID: {{feedPrecinct.id}}</a></p>
 
 <div class="data-module-full">
   <dl class="attributes">
@@ -112,7 +112,7 @@
 
   <div class="data-text">
   
-    <p ng-if="feedPrecinct.streetsegments.error_count !== undefined"><a id="streetsegments-errors" class="error-count" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinct.streetsegments.error_count}} Errors in Street Segments</a></p>
+    <p ng-if="feedPrecinct.streetsegments.error_count !== undefined"><a id="streetsegments-errors" class="error-count error-count-{{feedPrecinct.streetsegments.error_count}}" href="{{$location.absUrl()}}/streetsegments/errors">{{feedPrecinct.streetsegments.error_count}} Errors in Street Segments</a></p>
 
     <span ng-if="!feedPrecinct" class="is-loading"></span>
   </div>

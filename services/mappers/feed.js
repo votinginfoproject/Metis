@@ -4,7 +4,7 @@
 var moment = require('moment');
 var _path = require('path');
 var resultsMapper = require('./results');
-var feedIdMapper = require('../../feedIdMapper');
+var processManager = require('../processManager');
 var _ = require("underscore");
 
 function addressToShortString (address) {
@@ -37,6 +37,12 @@ function addressToJson (address) {
   }
 
   return add;
+};
+
+var mapFeedQueue = function() {
+  return {
+    feedQueue: processManager.getFileQueue()
+  };
 };
 
 var mapFeed = function(path, feed) {
@@ -77,6 +83,11 @@ var mapOverview = function(path, feed) {
   title += feed._election.electionType ? feed._election.electionType : "" ;
   title = title.trim();
 
+  var county = _path.join('/services/geo/counties');
+  if(feed.fipsCode) {
+   county = _path.join('/services/geo/', feed.fipsCode.toString(), 'counties');
+  }
+
   return {
     id: feed.id,
     title: title,
@@ -89,7 +100,7 @@ var mapOverview = function(path, feed) {
     source: _path.join(path, '/source'),
     election: _path.join(path, '/election'),
     state: _path.join(path, '/election/state'),
-    county_map: _path.join('/services/geo/', feed.fipsCode.toString(), 'counties'),
+    county_map: county,
     localities: _path.join(path, '/election/state/localities'),
     polling_locations: _path.join(path, '/polling'),
     election_contests: _path.join(path, '/election/contests'),
@@ -140,6 +151,9 @@ var mapElection = function(path, election) {
     day_of_registration: election.electionDayRegistration,
     registration_deadline: moment(election.registrationDeadline).utc().format('YYYY-MM-DD'),
     absentee_deadline: moment(election.absenteeRequestDeadline).utc().format('YYYY-MM-DD'),
+    name: election.name,
+    division_id: election.divisionId,
+    uocava_mail_deadline:  moment(election.uocavaMailDeadline).utc().format('YYYY-MM-DD'),
     state: {
       id: election.stateId,
       name: election._state.name,
@@ -157,6 +171,8 @@ var mapState = function(path, state) {
     errors: _path.join(path, '/errors'),
     name: state.name,
     county_map: _path.join('/services/geo/', state.elementId.toString(), 'counties'),
+    abbreviation: state.abbreviation,
+    region: state.region,
     administration: (state['_electionAdministration']) ? {
       id: state._electionAdministration.elementId,
       name: state._electionAdministration.name,
@@ -175,8 +191,8 @@ var mapLocality = function(path, locality) {
     errors: _path.join(path, '/errors'),
     name: locality.name,
     type: locality.type,
-    election_machine_type: "Requires 5.0 Schema",
-    poll_book_type: "Requires 5.0 Schema",
+    parent_id: locality.parentId,
+    poll_book_type: locality.pollbookTypes,
     overview: _path.join(path, '/localityoverview'),
     administration: locality['_electionAdministration'] ? {
       id: locality._electionAdministration.elementId,
@@ -269,6 +285,7 @@ function mapElectoralDistrict(path, electoralDistrict) {
     name: electoralDistrict.name,
     type: electoralDistrict.type,
     number: electoralDistrict.number,
+    description: electoralDistrict.description,
     contests: electoralDistrict._contest ? [mapElectionContest(path, electoralDistrict._contest)] : [],
     precincts: electoralDistrict._precincts ?
       electoralDistrict._precincts.map(function(precinct) {
@@ -317,13 +334,20 @@ var mapElectionContest = function(path, contest) {
 };
 
 function mapContest (path, contest) {
+  var primParty = contest.primaryParty;
+  if(!contest.primaryParty) {
+    if(contest._party)
+      primParty = contest._party;
+  }
+
   return {
     id: contest.elementId,
     error_count: contest.errorCount,
     errors: _path.join(path, '/errors'),
     type: contest.type,
     partisan: contest.partisan,
-    primary_party: contest.primaryParty,
+    primary_party: primParty,
+    write_in: contest.writeIn,
     electorate_specifications: contest.electorateSpecifications,
     special: contest.special,
     office: contest.office,
@@ -331,6 +355,7 @@ function mapContest (path, contest) {
     number_elected: contest.numberElected,
     number_voting_for: contest.numberVotingFor,
     ballot_placement: contest.ballotPlacement,
+    ballotStyles: _path.join(path, '/ballotstyles'),
     overview: _path.join(path, '/contestoverview'),
     ballot: contest['_ballot'] ? {
       id: contest._ballot.elementId,
@@ -367,7 +392,10 @@ var mapOverviewTables = function(data, selfpath) {
 
   data.forEach(function(element) {
 
-    var self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
+    var self = null;
+
+    if(element.elementType)
+      self = selfpath + "/overview/" + element.elementType.toLowerCase().replace(/ /g, '') + "/errors";
 
     overview.push({
       element_type: element.elementType,
@@ -409,6 +437,9 @@ function mapStreetSegments (path, streetSegments) {
       start_house_number: st.startHouseNumber,
       end_house_number: st.endHouseNumber,
       odd_even: st.oddEvenBoth,
+      city: st.city,
+      zip: st.zip,
+      state_id: st.stateId,
       address: st.nonHouseAddress ? {
         house_number: st.nonHouseAddress.houseNumber,
         house_number_prefix: st.nonHouseAddress.houseNumberPrefix,
@@ -432,6 +463,7 @@ function mapPrecinctSplit (path, precinctSplit) {
     error_count: precinctSplit.errorCount,
     errors: _path.join(path, '/errors'),
     name: precinctSplit.name,
+    ballot_style_image_url: precinctSplit.ballotStyleImageUrl,
     electoral_districts: _path.join(path, '/electoraldistricts'),
     polling_locations: _path.join(path, '/pollinglocations'),
     street_segments: {
@@ -466,8 +498,8 @@ function mapElectionAdministration (path, electionAdministration) {
     name: electionAdministration.name,
     physical_address: addressToJson(electionAdministration.physicalAddress),
     mailing_address: addressToJson(electionAdministration.mailingAddress),
-    phone: electionAdministration.phone,  //TODO: v5.0 element
-    email: electionAdministration.email,  //TODO: v5.0 element
+    phone: electionAdministration.phone,
+    email: electionAdministration.email,
     elections_url: electionAdministration.electionsUrl,
     registration_url: electionAdministration.registrationUrl,
     am_i_registered_url: electionAdministration.amIRegisteredUrl,
@@ -491,11 +523,13 @@ function mapElectionOfficial (electionOfficial) {
     title: electionOfficial.title,
     phone: electionOfficial.phone,
     fax: electionOfficial.fax,
-    email: electionOfficial.email
+    email: electionOfficial.email,
+    election_administration_id: electionOfficial.electionAdminId
   };
 };
 
 function mapBallot(path, ballot) {
+
   return {
     id: ballot.elementId,
     error_count: ballot.errorCount,
@@ -504,6 +538,11 @@ function mapBallot(path, ballot) {
     image_url: ballot.imageUrl,
     candidates: mapBallotCandidates(_path.join(path, '/candidates'), ballot.candidates),
     referenda: mapReferenda(_path.join(path, 'referenda'), ballot._referenda),
+    contests: mapBallotContests(_path.join(path, '/candidates'), ballot._contests),
+    contest_id: ballot.contestId ? {
+      id: ballot.contestId.elementId,
+      sort_order: ballot.contestId.sortOrder
+    } : null,
     custom_ballot: ballot['_customBallot'] ? {
       id: ballot._customBallot.elementId,
       error_count: ballot._customBallot.errorCount,
@@ -525,6 +564,17 @@ function mapReferenda(path, referenda) {
   });
 };
 
+function mapBallotContests(path, contests) {
+  return contests.map(function(contest) {
+    return {
+      id: contest.elementId,
+      type: contest.type,
+      office: contest.office,
+      self: _path.join(path, '../../..', contest.elementId)
+    }
+  });
+}
+
 function mapReferendum(path, referendum) {
   return {
     id: referendum.elementId,
@@ -539,7 +589,9 @@ function mapReferendum(path, referendum) {
     passage_threshold: referendum.passageThreshold,
     effect_of_abstain: referendum.effectOfAbstain,
     ballot_responses_error_count: referendum.ballotResponsesErrorCount,
-    ballot_responses: referendum.ballotResponses.map(mapBallotResponse)
+    ballot_responses: referendum.ballotResponses.map(mapBallotResponse),
+    electoral_district_id: referendum.electoralDistrictId,
+    ballot_placement: referendum.ballotPlacement
   };
 };
 
@@ -553,10 +605,18 @@ function mapBallotResponse(response) {
 
 var mapBallotCandidates = function(path, candidates) {
   return candidates ? candidates.map(function(candidate) {
+    var party = candidate._candidate ? candidate._candidate.party : null;
+
+    if(candidate._candidate) {
+      if (candidate._candidate._party) {
+        party = candidate._candidate._party.name;
+      }
+    }
+
     return {
       id: candidate.elementId,
-      name: candidate._candidate.name,
-      party: candidate._candidate.party,
+      name: candidate._candidate ? candidate._candidate.name : null,
+      party: party,
       sort_order: candidate.sortOrder,
       self: _path.join(path, candidate.elementId.toString())
     };
@@ -564,20 +624,33 @@ var mapBallotCandidates = function(path, candidates) {
 };
 
 var mapCandidate = function (path, candidate) {
+
+  var party = candidate.party;
+  if(!candidate.party) {
+    if(candidate._party) {
+      party = candidate._party;
+    }
+  }
+
   return {
     id: candidate.elementId,
     error_count: candidate.errorCount,
     errors: _path.join(path, '/errors'),
     name: candidate.name,
-    incumbent: candidate.incumbent, //TODO: v5.0 element
-    party: candidate.party,
+    incumbent: candidate.incumbent,
+    party: party,
     candidate_url: candidate.candidateUrl,
     biography: candidate.biography,
     phone: candidate.phone,
     photo_url: candidate.photoUrl,
     filed_mailing_address: addressToJson(candidate.filedMailingAddress),
     email: candidate.email,
-    sort_order: candidate.sortOrder
+    sort_order: candidate.sortOrder,
+    incumbent: candidate.incumbent,
+    last_name: candidate.lastName,
+    party_id: candidate.partyId,
+    candidate_status: candidate.candidateStatus,
+    ballotStyles: _path.join(path, '/ballotstyles')
   };
 };
 
@@ -590,6 +663,7 @@ function mapPollingLocation(path, pollingLocation) {
     directions: pollingLocation.directions,
     photo_url: pollingLocation.photoUrl,
     polling_hours: pollingLocation.pollingHours,
+    name: pollingLocation.name,
     precincts: pollingLocation._precincts.map(mapPollingLocationPrecinctSummary.bind(undefined, path)),
     precinct_splits: pollingLocation._precinctSplits.map(mapPollingLocationPrecinctSplitSummary.bind(undefined, path))
   };
@@ -613,6 +687,21 @@ function mapPollingLocationPrecinctSplitSummary(path, precinctSplit) {
   };
 }
 
+function mapBallotStyles(path, ballotStyles) {
+  var styles = ballotStyles.map(function(ballotStyle) {
+    return {
+      name: ballotStyle.name,
+      sortOrder: ballotStyle.sortOrder,
+      referendum: ballotStyle.referendumId,
+      election: ballotStyle.electionId,
+      elementId: ballotStyle.elementId
+    }
+  });
+
+  return styles;
+}
+
+exports.mapFeedQueue = mapFeedQueue;
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;
@@ -647,3 +736,4 @@ exports.mapPollingLocation = mapPollingLocation;
 exports.mapOverviewTables = mapOverviewTables;
 exports.mapResultsContestResults = resultsMapper.mapResultsContestResults;
 exports.mapResultsBallotLineResults = resultsMapper.mapResultsBallotLineResults;
+exports.mapBallotStyles = mapBallotStyles;

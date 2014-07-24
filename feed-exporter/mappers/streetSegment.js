@@ -1,7 +1,7 @@
 /**
  * Created by rcartier13 on 3/5/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
@@ -9,14 +9,16 @@ var pd = require('pretty-data').pd;
 
 function streetSegmentExport(feedId, callback) {
 
-  var stream = schemas.models.StreetSegment.find({_feed: feedId}).stream();
+  logger.info('Export Street Segments Started');
+  var stream = schemas.models.streetsegments.find({_feed: feedId}).stream();
 
   var resume = function() {
     stream.resume();
   }
 
   stream.on('close', function() {
-    console.log('street segment finished');
+    logger.info('Export Street Segments Finished');
+    logger.info('----------------------------');
     callback(-1);
   });
 

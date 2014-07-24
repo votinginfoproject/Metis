@@ -11,7 +11,7 @@ var metisRuleList = [
   /* valid url format */
   {
     ruleId: 'validUrl',
-    title: 'Url Format Invalid',
+    title: 'Invalid Url Format',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -25,7 +25,7 @@ var metisRuleList = [
   /* locality type range */
   {
     ruleId: 'localityTypes',
-    title: 'Locality Type Invalid',
+    title: 'Invalid Locality Type',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -51,7 +51,7 @@ var metisRuleList = [
   },
   {
     ruleId: 'streetSegmentOverlap',
-    title: 'Street Segment ranges cannot overlap',
+    title: 'Street Segment Overlap',
     type: 'feedLevelRule',
     isFeedLevelRule: true,
     isActive: true,
@@ -93,7 +93,7 @@ var metisRuleList = [
   /* phone number format */
   {
     ruleId: 'phoneNumberRule',
-    title: 'Invalid Phone Number.',
+    title: 'Invalid Phone Number',
     type: 'objectLevelRule',
     isFeedLevelRule: false,
     isActive: true,
@@ -131,6 +131,32 @@ var metisRuleList = [
     severityText: 'Warning',
     implementation: './impl/houseAptRule',
     dataConstraints: constraints['houseAptNumber']
+  },
+  {
+    ruleId: 'orphanedEntityRule',
+    title: 'Orphaned Entity',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 11,
+    errorText: 'Early Vote Site is not referenced in any Precinct, Precinct Split, or Locality',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/orphanedEntityRule',
+    dataConstraints: constraints['orphanedEntity']
+  },
+  {
+    ruleId: 'nonExistentLinkRule',
+    title: 'Linking to a nonexistent ID',
+    type: 'feedLevelRule',
+    isFeedLevelRule: false,
+    isActive: true,
+    errorCode: 13,
+    errorText: '',
+    severityCode: 1,
+    severityText: 'Error',
+    implementation: './impl/nonExistentLinkRule',
+    dataConstraints: constraints['nonExistentLink']
   }
   /* address direction range */
 ];

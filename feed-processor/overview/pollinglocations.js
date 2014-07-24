@@ -1,11 +1,14 @@
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var utils = require('./utils');
 var async = require('async');
 
 function kickoffPollingLoc(feedId, createOverviewModel, wait) {
-  console.log('Starting Localities Calc...');
+  logger.info('=======================================');
+  logger.info('Starting Localities Calc...');
   pollingLocationsCalc(feedId, function(pollinglocationsOverview) {
-    console.log('Finished Localities');
+    logger.info('Finished Localities');
+    logger.info('=======================================');
     createOverviewModel('Early Vote Sites', pollinglocationsOverview.earlyvotesites, pollinglocationsOverview.earlyvotesites.errorCount, -1, feedId);
     createOverviewModel('Election Administrations', pollinglocationsOverview.electionadministrations, pollinglocationsOverview.electionadministrations.errorCount, -1, feedId);
     createOverviewModel('Election Officials', pollinglocationsOverview.electionofficials, pollinglocationsOverview.electionofficials.errorCount, -1, feedId);
@@ -22,65 +25,65 @@ function pollingLocationsCalc(feedId, saveCalc) {
   var pollinglocationsOverview = { };
   var paramList = [];
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.EarlyVoteSite, function (res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.earlyvotesites, function (res, cb) {
     pollinglocationsOverview.earlyvotesites = res;
-    schemas.models.EarlyVoteSite.Error.count({_feed: feedId}, function (err, count) {
+    schemas.models.earlyvotesites.Error.count({_feed: feedId}, function (err, count) {
       pollinglocationsOverview.earlyvotesites.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.ElectionAdmin, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.electionadmins, function(res, cb) {
     pollinglocationsOverview.electionadministrations = res;
-    schemas.models.ElectionAdmin.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.electionadmins.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.electionadministrations.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.ElectionOfficial, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.electionofficials, function(res, cb) {
     pollinglocationsOverview.electionofficials = res;
-    schemas.models.ElectionOfficial.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.electionofficials.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.electionofficials.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.Locality, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.localitys, function(res, cb) {
     pollinglocationsOverview.localities = res;
-    schemas.models.Locality.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.localitys.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.localities.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.PollingLocation, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.pollinglocations, function(res, cb) {
     pollinglocationsOverview.pollinglocations = res;
-    schemas.models.PollingLocation.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.pollinglocations.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.pollinglocations.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.Precinct, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.precincts, function(res, cb) {
     pollinglocationsOverview.precincts = res;
-    schemas.models.Precinct.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.precincts.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.precincts.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.PrecinctSplit, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.precinctsplits, function(res, cb) {
     pollinglocationsOverview.precinctsplits = res;
-    schemas.models.PrecinctSplit.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.precinctsplits.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.precinctsplits.errorCount = count;
       cb();
     });
   }));
 
-  paramList.push(utils.createParamList(feedId, 0, schemas.models.StreetSegment, function(res, cb) {
+  paramList.push(utils.createParamList(feedId, 0, schemas.models.streetsegments, function(res, cb) {
     pollinglocationsOverview.streetsegments = res;
-    schemas.models.StreetSegment.Error.count({_feed: feedId}, function(err, count) {
+    schemas.models.streetsegments.Error.count({_feed: feedId}, function(err, count) {
       pollinglocationsOverview.streetsegments.errorCount = count;
       cb();
     });
@@ -90,9 +93,6 @@ function pollingLocationsCalc(feedId, saveCalc) {
     var stream = utils.streamOverviewObject(params);
     var overview = utils.createOverviewObject();
     stream.on('data', function(doc) {
-      if(!doc)
-        console.log('document is null');
-
       overview.amount++;
       overview.fieldCount += utils.countProperties(doc);
       overview.schemaFieldCount += params.model.fieldCount;

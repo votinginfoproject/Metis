@@ -1,6 +1,6 @@
 <i id="feed-locality-content"></i>
 
-<p ng-if="feedLocality !== undefined"><a id="locality-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a></p>
+<p ng-if="feedLocality !== undefined"><a id="locality-errors" class="error-count error-count-{{feedLocality.error_count}}" href="{{$location.absUrl()}}/errors">{{feedLocality.error_count}} Errors in Locality ID: {{feedLocality.id}}</a></p>
 
 
 <div class="data-module-full">
@@ -9,10 +9,9 @@
     <dd id="locality-name" class="value">{{feedLocality.name}}</dd>
     <dt class="key">Type:</dt>
     <dd id="locality-type" class="value">{{feedLocality.type}}</dd>
-    <dt class="key">Election Machine Type:</dt>
-    <dd id="locality-electionmachintype" class="value">{{feedLocality.election_machine_type}}</dd>
-    <dt class="key">Pollbook Type:</dt>
-    <dd id="locality-pollbooktype" class="value">{{feedLocality.poll_book_type}}</dd>
+    <!-- Not sure why this was added, not in the schema -->
+    <!--<dt class="key">Election Machine Type:</dt>-->
+    <!--<dd id="locality-electionmachintype" class="value">{{feedLocality.election_machine_type}}</dd>-->
   </dl>
 </div>
 
@@ -25,6 +24,24 @@
 </section><!-- /.data-group -->
 
 <section class="data-group data-module">
+  <h2>{{feedLocality.poll_book_type.length}} Poll Book Types</h2>
+
+  <span ng-if="!feedLocality" class="is-loading"></span>
+  <table ng-if="feedLocality.poll_book_type">
+    <!--<thead>-->
+    <!--<tr>-->
+      <!--<th>Type</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <tbody>
+      <tr id="pollbook{{$index}}" ng-repeat="pollbook in feedLocality.poll_book_type">
+        <td id="locality-pollbook-type{{$index}}">{{pollbook}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="data-group data-module">
   <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
 
   <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
@@ -35,6 +52,15 @@
       <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a></td>
     </tr>
   </table>
+
+  <script type="text/ng-template" id="earlyVotePagination">
+    <ul class="pagination ng-cloak">
+      <li ng-repeat="page in pages"
+          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+        <a id="evsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}" ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
+      </li>
+    </ul>
+  </script>
 </section>
 
 <section class="data-group data-module">
@@ -57,16 +83,6 @@
     </tr>
     </tbody>
   </table>
-
-  <script type="text/ng-template" id="earlyVotePagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}" ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
-
 </section>
 
 <section class="data-group data-module">

@@ -1,11 +1,15 @@
 <i id="feed-state-content"></i>
 
-<p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
+<p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
 
 <div class="data-module-full">
   <dl class="attributes">
     <dt class="key">Name:</dt>
     <dd class="value">{{feedState.name}}</dd>
+    <dt class="key">Abbreviation:</dt>
+    <dd class="value">{{feedState.abbreviation}}</dd>
+    <dt class="key">Region:</dt>
+    <dd class="value">{{feedState.region}}</dd>
   </dl>
 </div>
 

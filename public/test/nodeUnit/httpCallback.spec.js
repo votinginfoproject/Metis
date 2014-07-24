@@ -351,7 +351,7 @@ describe('Feeds Unit Tests', function() {
     it('Calls Json Function', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
-      overviewCallback.localitiesOverviewGET(req, res);
+      overviewCallback.pollinglocationsOverviewGET(req, res);
     });
   });
 
@@ -360,6 +360,22 @@ describe('Feeds Unit Tests', function() {
       daoStub.getOverviewTable = nodeUtil.daoFunc;
       feedStub.mapOverviewTables = nodeUtil.feedFunc;
       overviewCallback.resultsOverviewGET(req, res);
+    });
+  });
+
+  describe('Contest Ballot Style GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getContestBallotStyles = nodeUtil.daoFunc;
+      feedStub.mapBallotStyles = nodeUtil.feedFunc;
+      httpCallback.feedContestBallotStyleGET(req, res);
+    });
+  });
+
+  describe('Candidate Ballot Style GET Test', function() {
+    it('Calls Json Function', function() {
+      daoStub.getCandidateBallotStyles = nodeUtil.daoFunc;
+      feedStub.mapBallotStyles = nodeUtil.feedFunc;
+      httpCallback.feedCandidateBallotStyleGET(req, res);
     });
   });
 });

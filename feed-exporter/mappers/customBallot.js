@@ -2,13 +2,15 @@
  * Created by rcartier13 on 3/5/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function customBallotExport(feedId, callback) {
-  schemas.models.CustomBallot.find({_feed: feedId}, function(err, results) {
+  logger.info('Export Custom Ballots Started');
+  schemas.models.customballots.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
@@ -29,7 +31,8 @@ function customBallotExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('custom ballot finished');
+    logger.info('Export Custom Ballots Finished');
+    logger.info('----------------------------');
   });
 }
 

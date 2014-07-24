@@ -20,11 +20,18 @@ describe('Testing Feed Referendum Page', function() {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should have an election link
-      expect(element('#election-link').count()).toBe(1);
+      /*
+       expect(element('#election-link').count()).toBe(1);
+
+       // click the election link
+       element('#election-link').click();
+       sleep(testGlobals.sleepTime);
+       */
+
+      expect(element('#sidebar-election').count()).toBe(1);
 
       // click the election link
-      element('#election-link').click();
+      element('#sidebar-election').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed election page
@@ -56,12 +63,12 @@ describe('Testing Feed Referendum Page', function() {
     })
   })
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Referendum', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Referendum', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {
@@ -89,11 +96,18 @@ describe('Testing Feed Referenda Page', function() {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should have an election link
-      expect(element('#election-link').count()).toBe(1);
+      /*
+       expect(element('#election-link').count()).toBe(1);
+
+       // click the election link
+       element('#election-link').click();
+       sleep(testGlobals.sleepTime);
+       */
+
+      expect(element('#sidebar-election').count()).toBe(1);
 
       // click the election link
-      element('#election-link').click();
+      element('#sidebar-election').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed election page
@@ -117,12 +131,12 @@ describe('Testing Feed Referenda Page', function() {
     });
   });
 
-  describe('Checks if errors are thrown', function() {
-    it('Navigates to Referenda', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda");
-      expect(element('#pageHeader-alert').html()).toBeDefined();
-    });
-  });
+//  describe('Checks if errors are thrown', function() {
+//    it('Navigates to Referenda', function() {
+//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda");
+//      expect(element('#pageHeader-alert').html()).toBeDefined();
+//    });
+//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

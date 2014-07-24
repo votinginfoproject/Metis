@@ -13,7 +13,8 @@ describe('Feed Candidate Unit Tests', function() {
     beforeEach(inject(function($injector) {
       var mockService = {
         getFeedData: karmaUtil.setupServiceFunc($injector),
-        getFeedCandidate: karmaUtil.setupServiceFunc($injector)
+        getFeedCandidate: karmaUtil.setupServiceFunc($injector),
+        getFeedBallot: karmaUtil.setupServiceFunc($injector)
       }
 
       $httpBackend = $injector.get('$httpBackend');

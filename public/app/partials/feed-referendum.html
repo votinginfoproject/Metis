@@ -1,6 +1,6 @@
 <i id="feed-referendum-content"></i>
 
-<p ng-if="feedReferendum.error_count !== undefined"><a id="referendum-errors" class="error-count" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
+<p ng-if="feedReferendum.error_count !== undefined"><a id="referendum-errors" class="error-count error-count-{{feedReferendum.error_count}}" href="{{$location.absUrl()}}/errors">{{feedReferendum.error_count}}
   Errors in Referendum ID: {{feedReferendum.id}}</a></p>
 
 <span ng-if="!feedReferendum" class="is-loading"></span>
@@ -15,6 +15,7 @@
     <dt class="key">Con Statement:</dt> <dd id="referendum-constatement" class="value">{{feedReferendum.con_statement}}</dd>
     <dt class="key">Passage Threshold:</dt> <dd id="referendum-threshold" class="value">{{feedReferendum.passage_threshold}}</dd>
     <dt class="key">Effect of Abstain:</dt> <dd id="referendum-abstain" class="value">{{feedReferendum.effect_of_abstain}}</dd>
+    <dt class="key">Ballot Placement:</dt> <dd id="refernendum-placement" class="value">{{feedReferendum.ballot_placement}}</dd>
   </dl>
 </div>
 

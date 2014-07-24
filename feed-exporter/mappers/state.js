@@ -1,14 +1,15 @@
 /**
  * Created by rcartier13 on 3/4/14.
  */
-
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var util = require('./util');
 var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function stateExport(feedId, callback) {
-  schemas.models.State.findOne({_feed: feedId}, function(err, result) {
+  logger.info('Export State Started');
+  schemas.models.states.findOne({_feed: feedId}, function(err, result) {
 
     if(!result) {
       callback(-1);
@@ -28,7 +29,8 @@ function stateExport(feedId, callback) {
     }
 
     chunk += util.endElement('state');
-    console.log('state finished');
+    logger.info('Export State Finished');
+    logger.info('----------------------------');
     callback(pd.xml(chunk))
   });
 }

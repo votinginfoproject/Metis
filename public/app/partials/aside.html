@@ -6,7 +6,7 @@
   </div>
 </header>
 
-<div class="details" ng-hide="mobileDimensions && toggleAside">
+<div id="asideSection" class="details animate-hide" ng-class="{'hidden': mobileDimensions}">
   <div class="wrapper">
 
   <div class="aside-nav">
@@ -27,7 +27,14 @@
     </nav>
 
     <a ng-if="!feedData.is_exporting" ng-click="exportFeedPost(feedData)" class="button-approve">Approve Feed</a>
-    <a ng-if="feedData.is_exporting" class="button-approve disabled">Feed Location: {{feedData.export_status}}</a>
+    <div ng-if="feedData.is_exporting" class="button-approve disabled">
+      <h3>Feed Location:</h3>
+      <div ng-if="feedData.export_success" class="dl-feed">
+        <p><a href="{{feedData.export_status}}" target="_blank">{{feedData.export_status}}</a></p>
+        <p>(Please allow time for the Feed to be prepared for export)</p>
+      </div>
+      <small ng-if="!feedData.export_success">{{feedData.export_status}}</small>
+    </div>
 
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>
   </div>

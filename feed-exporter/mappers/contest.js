@@ -2,6 +2,7 @@
  * Created by rcartier13 on 3/4/14.
  */
 
+var logger = (require('../../logging/vip-winston')).Logger;
 var schemas = require('../../dao/schemas');
 var moment = require('moment');
 var util = require('./util');
@@ -9,7 +10,8 @@ var _ = require('underscore');
 var pd = require('pretty-data').pd;
 
 function contestExport(feedId, callback) {
-  schemas.models.Contest.find({_feed: feedId}, function(err, results) {
+  logger.info('Export Contests Started');
+  schemas.models.contests.find({_feed: feedId}, function(err, results) {
 
     if(!results.length)
       callback(-1);
@@ -48,7 +50,8 @@ function contestExport(feedId, callback) {
       callback(pd.xml(chunk));
     });
 
-    console.log('contest finished');
+    logger.info('Export Contests Finished');
+    logger.info('----------------------------');
   })
 }
 

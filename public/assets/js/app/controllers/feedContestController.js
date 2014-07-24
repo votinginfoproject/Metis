@@ -51,6 +51,7 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
 
       $scope.ballotLineResultTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.ballot_line_results, $appProperties.lowPagination, { id: 'asc' });
 
+      FeedContestCtrl_getBallotStyles($scope, $rootScope, $feedsService, data.ballotStyles, $appProperties, $filter, ngTableParams);
       FeedContestCtrl_getFeedContestOverview($scope, $rootScope, $feedsService, data.overview);
 
       // set the title
@@ -63,6 +64,19 @@ function FeedContestCtrl_getFeedContests($scope, $rootScope, $feedsService, serv
       $scope.feedContest = {};
     });
 };
+
+function FeedContestCtrl_getBallotStyles($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
+  $feedsService.getFeedBallot(servicePath)
+    .success(function(data) {
+      $scope.feedBallotStyle = data;
+      $scope.contestBallotStylesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+
+    }).error(function(data, $http) {
+      $rootScope.pageHeader.error += "Could not retrieve Feed Ballot Style data";
+
+      $scope.ballotStyle = {};
+    })
+}
 
 function FeedContestCtrl_getFeedContestOverview($scope, $rootScope, $feedsService, servicePath) {
   $feedsService.getFeedContest(servicePath)

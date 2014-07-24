@@ -23,7 +23,7 @@ audio:not([controls]) {
   display: none;
   height: 0; }
 
-[hidden] {
+.hidden, [hidden] {
   display: none; }
 
 html {
@@ -1456,9 +1456,9 @@ dl {
   display: block; }
 
 a {
-  -webkit-transition: color 0.1s linear;
-  -moz-transition: color 0.1s linear;
-  transition: color 0.1s linear;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  transition: all 0.15s linear;
   color: #3c5f87;
   text-decoration: none; }
   a:hover {
@@ -1708,7 +1708,7 @@ input[type="submit"] {
   .disabled:hover,
   button:hover,
   input[type="submit"]:hover {
-    background: #2c4664;
+    background: #628eb7;
     color: white; }
 
 .disabled {
@@ -1720,11 +1720,9 @@ input[type="submit"] {
     cursor: default; }
 
 .disabled-row {
-  background: whitesmoke;
   color: #949598 !important;
   cursor: default; }
   .disabled-row:hover {
-    color: #949598 !important;
     cursor: default; }
 
 .disabled-row-failed {
@@ -1857,6 +1855,13 @@ th {
   margin-bottom: 0.75em;
   padding: 0.75em;
   position: relative; }
+  .alert-box:before {
+    font-family: "foundation-icons";
+    content: "\f15e";
+    font-size: 24px;
+    font-weight: normal;
+    position: relative;
+    top: 3px; }
   .alert-box a {
     color: #594c00; }
     .alert-box a:hover {
@@ -1880,7 +1885,8 @@ th {
 
 .alert-box.processing {
   background: #e6efc2;
-  color: #56651a; }
+  color: #56651a;
+  border-radius: 5px; }
   .alert-box.processing a {
     color: #33699c; }
     .alert-box.processing a:hover {
@@ -1922,7 +1928,7 @@ th {
   .associations tbody tr td:first-child a {
     border: none; }
   .associations tbody tr:hover {
-    background: #01244c;
+    background: #628eb7;
     color: white; }
     .associations tbody tr:hover a {
       color: white; }
@@ -2102,6 +2108,10 @@ th {
       border-top: 1px solid #628eb7; }
       .value:nth-child(2) {
         border-top: none; } }
+  .value a {
+    border-bottom: 1px solid #9eafc3; }
+    .value a:hover, .value a:focus {
+      border-color: #243a52; }
 
 .accordion {
   margin-top: 1em; }
@@ -2175,6 +2185,20 @@ aside {
     .contact-wrap a:hover, .contact-wrap a:focus {
       color: white;
       border-color: white; }
+
+.dl-feed {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  font-size: 0.875em;
+  font-size: 0.875rem;
+  line-height: 1.5; }
+  .dl-feed a {
+    color: white;
+    border-bottom: 1px solid white; }
 
 .feed-title {
   cursor: pointer; }
@@ -2275,6 +2299,10 @@ aside {
   .button-approve:hover, .button-approve:focus {
     color: white;
     background: #0c6; }
+  .button-approve h3 {
+    font-size: 1.25em;
+    font-size: 1.25rem;
+    margin-bottom: 0.5em; }
 
 .vcard span {
   display: block; }
@@ -2286,8 +2314,23 @@ aside {
 .map {
   margin-bottom: 1em;
   max-width: 100%;
-  min-height: 480px;
+  min-height: 200px;
   color: black; }
+  @media screen and (min-height: 340px) {
+    .map {
+      min-height: 300px; } }
+  @media screen and (min-height: 400px) {
+    .map {
+      min-height: 360px; } }
+  @media screen and (min-height: 450px) {
+    .map {
+      min-height: 410px; } }
+  @media screen and (min-height: 480px) {
+    .map {
+      min-height: 440px; } }
+  @media screen and (min-height: 520px) {
+    .map {
+      min-height: 480px; } }
 
 form[role="search"] {
   margin-bottom: 1em; }
@@ -2360,16 +2403,29 @@ form[role="search"] {
 .error-count {
   color: white;
   font-weight: bold;
-  padding: 0.25em 0.5em;
-  margin: 0 0 1.5em;
+  padding: 0.1875em 0.625em 0.25em;
+  display: inline-block;
+  margin: 0 0.5em 1em;
   background: #ce3d3d;
-  border-radius: 10px; }
+  border-radius: 15px; }
   @media (min-width: 600px) {
     .error-count {
       margin-left: 0;
       margin-right: 0; } }
-  .error-count:hover {
-    color: #b1b3b6; }
+  .error-count:before {
+    margin-right: 5px;
+    font-family: "foundation-icons";
+    content: "\f101"; }
+  .error-count:hover, .error-count:focus {
+    background: #f33;
+    color: white; }
+
+.error-count-0 {
+  background-color: #009933; }
+  .error-count-0:before {
+    content: "\f126"; }
+  .error-count-0:hover, .error-count-0:focus {
+    background-color: #00cc66; }
 
 .example {
   *zoom: 1;
@@ -2850,6 +2906,7 @@ form[role="search"] {
       width: auto;
       height: auto; } }
   .errors:hover {
+    background: #f33;
     color: white; }
   .errors .error-text {
     font-weight: normal; }
@@ -2866,6 +2923,9 @@ form[role="search"] {
 
 .errors.none {
   background-color: #00cc66; }
+  .errors.none:hover, .errors.none:focus {
+    background-color: #00cc66;
+    cursor: default; }
 
 .data-module-full {
   clear: both;
@@ -2882,20 +2942,22 @@ section.data-module {
   margin-bottom: 1.5em; }
   @media (min-width: 600px) {
     section.data-module {
-      margin-bottom: 2em; } }
+      margin-bottom: 2.25em; } }
   @media (min-width: 1452px) {
-    section.data-module {
+    .overview-wrap section.data-module {
       float: right;
       margin-left: 3.7037%;
       width: 48.14815%;
       float: left; }
-      section.data-module:nth-of-type(2n+1) {
+      .overview-wrap section.data-module:nth-of-type(2n+1) {
         margin-left: 0;
         clear: left; }
-      section.data-module:only-of-type {
+      .overview-wrap section.data-module:only-of-type {
         width: 100%;
         float: none;
         margin-left: 0; } }
+  section.data-module table {
+    margin-bottom: 0; }
 
 .data-module > h2 {
   background: #006cb1;
@@ -2949,12 +3011,25 @@ section.data-module {
   font-size: 0.75em;
   font-size: 0.75rem;
   letter-spacing: 1px;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  position: relative;
+  top: -1px;
+  left: -15px;
+  border-bottom: 1px solid #006cb1; }
+  .more-detail:after {
+    content: ' \2192';
+    font-size: 1em;
+    font-size: 1rem;
+    position: absolute;
+    right: -15px;
+    top: -1px; }
   @media (min-width: 600px) {
     .more-detail {
       font-size: 0.875em;
       font-size: 0.875rem;
       margin-top: 0.5em; } }
+  .more-detail:hover, .more-detail:focus {
+    border-bottom: 1px solid white; }
 
 .branding {
   display: inline-block;
@@ -3035,6 +3110,11 @@ section.data-module {
   width: 16px;
   height: 16px;
   display: inline-block; }
+  table .is-loading-small {
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    top: 1px; }
 
 /* print.scss */
 @media print {
