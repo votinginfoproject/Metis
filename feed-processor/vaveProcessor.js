@@ -16,6 +16,7 @@ module.exports = function () {
 
   var readComplete = false;
   var writeQueue = [];
+  var errorCount = 0;
 
   var logger = (require('../logging/vip-winston')).Logger;
 
@@ -61,18 +62,22 @@ module.exports = function () {
       })
       .on('end', function () {
         logger.info('end');
-        startUnfold(this);
+        startUnfold(this, errorFn, fileName);
       });
   }
 
-  function startUnfold(csvStream) {
+  function startUnfold(csvStream, errorFn, fileName) {
     csvStream.pause();
+    errorCount = 0;
 
     logger.info('Starting unfold');
 
     unfold(unspool, condition, log, 0)
       .catch(function(err) {
         logger.error (err);
+        errorFn({"errorMessage": err.message,
+                 "stack": err.stack,
+                 "fileName": fileName});
       })
       .then(function() {
         csvStream.resume();
@@ -86,7 +91,7 @@ module.exports = function () {
   }
 
   function condition(writes) {
-    if (writeQueue.length == 0) {
+    if (writeQueue.length + errorCount == 0) {
       logger.info('condition = true');
     }
 
