@@ -61,11 +61,11 @@ module.exports = function () {
       })
       .on('end', function () {
         logger.info('end');
-        startUnfold(this);
+        startUnfold(this, errorFn, fileName);
       });
   }
 
-  function startUnfold(csvStream) {
+  function startUnfold(csvStream, errorFn, fileName) {
     csvStream.pause();
 
     logger.info('Starting unfold');
@@ -73,6 +73,9 @@ module.exports = function () {
     unfold(unspool, condition, log, 0)
       .catch(function(err) {
         logger.error (err);
+        errorFn({"errorMessage": err.message,
+                 "stack": err.stack,
+                 "fileName": fileName});
       })
       .then(function() {
         csvStream.resume();
@@ -86,11 +89,11 @@ module.exports = function () {
   }
 
   function condition(writes) {
-    if (writeQueue.length == 0) {
+    if (writeQueue.length === 0) {
       logger.info('condition = true');
     }
 
-    return writeQueue.length == 0;
+    return writeQueue.length === 0;
   }
 
   function log(data) {
