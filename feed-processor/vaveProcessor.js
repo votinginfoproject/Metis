@@ -15,9 +15,8 @@ module.exports = function () {
   var feedId;
 
   var readComplete = false;
-  var writeQue = [];
+  var writeQueue = [];
 
-  var unfolding = false;
   var logger = (require('../logging/vip-winston')).Logger;
 
   function parseCSV(fileStream, errorFn) {
@@ -42,16 +41,16 @@ module.exports = function () {
         var savePromise = mapper.save();
 
         if (savePromise) {
-          writeQue.push(savePromise);
+          writeQueue.push(savePromise);
         }
         recordCount++;
 
         if (recordCount % 10000 == 0) {
-          logger.info('record count = %d and queue length = %d', recordCount, writeQue.length);
+          logger.info('record count = %d and queue length = %d', recordCount, writeQueue.length);
         }
 
-        if (!unfolding && writeQue.length > config.mongoose.maxWriteQueueLength) {
-          startUnfold();
+        if (writeQueue.length >= config.mongoose.maxWriteQueueLength) {
+          startUnfold(this);
         }
       })
       .on('error', function(err) {
@@ -62,39 +61,36 @@ module.exports = function () {
       })
       .on('end', function () {
         logger.info('end');
-        startUnfold();
+        startUnfold(this);
       });
   }
 
-  function startUnfold() {
-    if (unfolding) {
-      return;
-    }
+  function startUnfold(csvStream) {
+    csvStream.pause();
 
     logger.info('Starting unfold');
 
-    unfolding = true;
     unfold(unspool, condition, log, 0)
       .catch(function(err) {
         logger.error (err);
       })
       .then(function() {
+        csvStream.resume();
         logger.info('unfold completed!!!!');
       });
   }
 
   function unspool(count) {
-    var currentWrite = writeQue.shift();
+    var currentWrite = writeQueue.shift();
     return [currentWrite, count++];
   }
 
   function condition(writes) {
-    if (writeQue.length == 0) {
+    if (writeQueue.length == 0) {
       logger.info('condition = true');
-      unfolding = false;
     }
 
-    return writeQue.length == 0;
+    return writeQueue.length == 0;
   }
 
   function log(data) {
