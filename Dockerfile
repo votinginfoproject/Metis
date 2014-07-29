@@ -1,4 +1,7 @@
-FROM quay.io/democracyworks/supervisor:latest
+# This starts with oracle-jdk-7-supervisor because it needs supervisor
+# and it is easier for us to maintain just two inheritance chains
+# (supervisor+JDK & just JDK) rather than adding a third one for just supervisor.
+FROM quay.io/democracyworks/oracle-jdk-7-supervisor:latest
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install MongoDB
