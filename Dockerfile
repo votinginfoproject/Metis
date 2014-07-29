@@ -1,4 +1,4 @@
-FROM quay.io/democracyworks/base:latest
+FROM quay.io/democracyworks/supervisor:latest
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install MongoDB
