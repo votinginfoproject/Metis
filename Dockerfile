@@ -1,4 +1,9 @@
-FROM quay.io/democracyworks/base:latest
+# This starts with clojure-api-supervisor because it needs supervisor
+# and it is easier for us to maintain one Docker inheritance chain rather than
+# three (clojure-api, clojure-api-supervisor, and supervisor). One day Docker
+# will hopefully obviate the need for this with some shiny new INCLUDE command
+# or something similar. - WM 2014-7-29
+FROM quay.io/democracyworks/clojure-api-supervisor:latest
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install MongoDB
