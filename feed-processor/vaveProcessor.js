@@ -4,7 +4,7 @@
 const
   path = require('path'),
   unfold = require('when/unfold'),
-  csv = require('fast-csv'),
+  csv = require('csv'),
   config = require('./vaveConfig'),
   moment = require('moment');
 
@@ -30,14 +30,12 @@ module.exports = function () {
 
     var mapper = new mapperCtr(models, feedId);
 
-    logger.info(fileName);
+    logger.info("parseCSV: " + fileName);
     var recordCount = 0;
 
-    csv
-      .fromStream(fileStream, { headers: true, ignoreEmpty: true })
-      .on('record', function (data) {
+    var parser = csv.parse({"relax": true, "skip_empty_lines": true})
+      .on('record', function (data, index) {
         mapper.mapCsv(data);
-
         var savePromise = mapper.save();
 
         if (savePromise) {
@@ -63,6 +61,7 @@ module.exports = function () {
         logger.info('end');
         startUnfold(this, errorFn, fileName);
       });
+      fileStream.pipe(parser);
   }
 
   function startUnfold(csvStream, errorFn, fileName) {
