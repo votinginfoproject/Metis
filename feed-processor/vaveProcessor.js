@@ -33,8 +33,8 @@ module.exports = function () {
     logger.info("parseCSV: " + fileName);
     var recordCount = 0;
 
-    var parser = csv.parse({"relax": true, "skip_empty_lines": true})
-      .on('record', function (data, index) {
+    var parser = csv.parse({"relax": true, "skip_empty_lines": true, "columns": true})
+      .on('data', function (data) {
         mapper.mapCsv(data);
         var savePromise = mapper.save();
 
@@ -71,7 +71,7 @@ module.exports = function () {
 
     unfold(unspool, condition, log, 0)
       .catch(function(err) {
-        logger.error (err);
+        logger.error("unfold error: " + err);
         errorFn({"errorMessage": err.message,
                  "stack": err.stack,
                  "fileName": fileName});
