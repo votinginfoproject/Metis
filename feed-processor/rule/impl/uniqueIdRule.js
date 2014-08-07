@@ -23,6 +23,7 @@ var evaluateUniqueId = function (_feedId, constraintSet, ruleDefinition, callbac
       count: { $sum: 1 }
     })
     .match({ count: { $gt: 1 } })
+    .allowDiskUse(true)
     .exec(function (err, results) {
 
       if(err) {
