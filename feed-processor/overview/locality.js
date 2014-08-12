@@ -33,11 +33,10 @@ function localityCalc(feedId, saveCalc) {
    .populate('_electionAdministration')
    .populate('_precincts')
    .exec(function(err, localities) {
-
-     async.eachSeries(localities, function(data, done) {
+    //use eachLimit instead of eachSeries to speed up processing, picking 20 items to start
+     async.eachLimit(localities, 20, function(data, done) {
        var locality = data._doc;
-       localityOverview.push({ section: locality.elementId });
-       var overviewPos = localityOverview.length - 1;
+       var localityCalc = { section: locality.elementId };
 
        var localityCount = 0;
        function wait() {
@@ -45,36 +44,38 @@ function localityCalc(feedId, saveCalc) {
           done();
        }
 
-       localityOverview[overviewPos].earlyVoteSites = util.reduceOverviewObject(locality._earlyVoteSites, schemas.models.earlyvotesites.fieldCount);
+       localityCalc.earlyVoteSites = util.reduceOverviewObject(locality._earlyVoteSites, schemas.models.earlyvotesites.fieldCount);
        schemas.models.earlyvotesites.Error.count({ _ref: {$in: locality._earlyVoteSites} }, function(err, count) {
-         localityOverview[overviewPos].earlyVoteSites.errorCount = count;
+         localityCalc.earlyVoteSites.errorCount = count;
          wait();
        });
 
        var adminCount = locality._electionAdministration ? util.countProperties(locality._electionAdministration) : 0;
        if(adminCount) {
-         localityOverview[overviewPos].electionAdmin = util.createOverviewObject(1, adminCount, schemas.models.electionadmins.fieldCount);
+         localityCalc.electionAdmin = util.createOverviewObject(1, adminCount, schemas.models.electionadmins.fieldCount);
        }
        else {
-         localityOverview[overviewPos].electionAdmin = util.createOverviewObject();
+         localityCalc.electionAdmin = util.createOverviewObject();
        }
        schemas.models.electionadmins.Error.count({ _ref: locality._electionAdministration }, function(err, count) {
-         localityOverview[overviewPos].electionAdmin.errorCount = count;
+         localityCalc.electionAdmin.errorCount = count;
          wait();
        });
 
        precinctsCalc(feedId, locality._precincts, function(precinct, split, pollingLoc, streetSeg) {
 
-         localityOverview[overviewPos].precincts = precinct;
-         localityOverview[overviewPos].precinctSplits = split;
-         localityOverview[overviewPos].pollingLocations = pollingLoc;
-         localityOverview[overviewPos].streetSegments = streetSeg;
+         localityCalc.precincts = precinct;
+         localityCalc.precinctSplits = split;
+         localityCalc.pollingLocations = pollingLoc;
+         localityCalc.streetSegments = streetSeg;
 
          schemas.models.precincts.Error.count({ _ref: {$in: locality._precincts} }, function(err, count) {
-           localityOverview[overviewPos].precincts.errorCount = count;
+           localityCalc.precincts.errorCount = count;
            wait();
          });
        });
+
+       localityOverview.push(localityCalc);
 
      }, function(err) { saveCalc(localityOverview); });
 
