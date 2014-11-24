@@ -42,6 +42,7 @@ function runOverviewProcessor(feedId) {
 
 function errorHandler(err) {
   logger.error(err);
+  exitProcess(1);
 }
 
 function onSaveComplete(results) {
@@ -130,5 +131,13 @@ function createOverviewModel(name, overview, errors, section, feed) {
   };
   overviewModels.push(schemas.models.overview.create(create));
 };
+
+
+function exitProcess(code){
+
+  // now close out the mongoose connection and exit the process
+  mongoose.disconnect();
+  process.exit(code);
+}
 
 exports.runOverviewProcessor = runOverviewProcessor;
