@@ -121,11 +121,15 @@ function createOverviewModel(name, overview, errors, section, feed) {
   }
 
   var pct = overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0;
+
+  // Sometimes errors is NaN, or possibly "NaN", not sure what we can do except to convert to 0.
+  var errorCount = +errors || 0;
+
   var create = {
     elementType: name,
     amount: overview.amount,
     completePct: pct,
-    errorCount: errors,
+    errorCount: errorCount,
     section: section,
     _feed: feed
   };
