@@ -42,6 +42,7 @@ function runOverviewProcessor(feedId) {
 
 function errorHandler(err) {
   logger.error(err);
+  exitProcess(1);
 }
 
 function onSaveComplete(results) {
@@ -120,15 +121,48 @@ function createOverviewModel(name, overview, errors, section, feed) {
   }
 
   var pct = overview.schemaFieldCount !== 0 ? parseInt((overview.fieldCount / overview.schemaFieldCount) * 100) : 0;
+
+  // Sometimes errors is NaN, or possibly "NaN", not sure what we can do except to convert to 0.
+  var errorCount = +errors || 0;
+
   var create = {
     elementType: name,
     amount: overview.amount,
     completePct: pct,
-    errorCount: errors,
+    errorCount: errorCount,
     section: section,
     _feed: feed
   };
   overviewModels.push(schemas.models.overview.create(create));
 };
+
+function exitProcess(code){
+  // now close out the mongoose connection and exit the process
+  mongoose.disconnect();
+  process.exit(code);
+}
+
+// To debug an overview for a specific feed, uncomment this, and call node overview-processor.js feedid
+if (process.argv.length > 2 && process.argv[1].indexOf("overview-processor.js") !== -1) {
+  if (process.argv[1] != null) {
+    logger.info("running overview-processor manually");
+    schemas.initSchemas(mongoose);
+
+    mongoose.connect(config.mongoose.connectionString);
+    db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'MongoDB connection error: '));
+    db.once('open', function callback() {
+      logger.info("initialized VIP database via Mongoose");
+      runOverviewProcessor(process.argv[2]);
+    });
+  } else {
+    logger.error("ERROR: insufficient arguments provided to overview-processor.js\n");
+
+    logger.info("Usage: node  overview-processor.js  feedid");
+    logger.info("");
+
+    exitProcess(1);
+  }
+}
 
 exports.runOverviewProcessor = runOverviewProcessor;
