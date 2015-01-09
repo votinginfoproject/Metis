@@ -49,4 +49,3 @@ RUN ln -s /metis/docker/run-tests.sh /run-tests.sh
 
 # run the app
 EXPOSE 4000 27017 28017
-CMD ["/run.sh"]
