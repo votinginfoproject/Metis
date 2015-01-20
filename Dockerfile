@@ -7,7 +7,11 @@ FROM quay.io/democracyworks/clojure-api-supervisor:latest
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install MongoDB
-RUN apt-get install -y mongodb
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+RUN apt-get update
+
+RUN apt-get install -y mongodb-org
 RUN mkdir -p /data/db
 
 # install git (bower dependency)
@@ -49,4 +53,3 @@ RUN ln -s /metis/docker/run-tests.sh /run-tests.sh
 
 # run the app
 EXPOSE 4000 27017 28017
-CMD ["/run.sh"]
