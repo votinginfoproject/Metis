@@ -1,0 +1,12 @@
+FROM mongo:2.6.9 
+MAINTAINER Democracy Works, Inc. <dev@democracy.works>
+
+RUN mkdir -p /home/mongo
+WORKDIR /home/mongo
+
+COPY mongo/mongo.sh /home/mongo/
+COPY mongo/mongod.conf /home/mongo/
+COPY data/counties.json /home/mongo/
+COPY data/stateFIPS.json /home/mongo/
+
+CMD ["/home/mongo/mongo.sh"]
