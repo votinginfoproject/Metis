@@ -7,18 +7,13 @@ Voting Information Project web app.
 
 ## Running in Docker
 
-> The only prerequisite for this is [Docker](http://docker.io/). You don't need
-> to install the prerequisites in the list below when using Docker.
+> To run in docker, the simplest way is to have [docker-compose](https://docs.docker.com/compose/)
+> installed (`brew install docker-compose`).
 
-1. `docker build -t votinginfoproject/metis .`
-1. `docker run -d -p 4000:4000 votinginfoproject/metis`
-1. Then hit [http://localhost:4000/](http://localhost:4000/) (or [http://localdocker:4000/](http://localdocker:4000/) with docker-osx)
-
-### Running tests in Docker
-
-> Just the karma tests for now. TODO: Run the other tests in /run-tests.sh too.
-
-1. `docker run votinginfoproject/metis /run-tests.sh`
+1. `docker-compose build`
+1. `docker-compose up`
+1. Then hit [http://localdocker:4000/](http://localdocker:4000/), assuming you have a localdocker host file entry pointing to your docker host. If not, replace localdocker with your docker host IP address.
+1. Any of the feeds in the `upload/` directory when you built will be available for feed processing when you log in to the application, just put the name in the text area at the bottom and submit for feed processing.
 
 ## Prerequisites
 
