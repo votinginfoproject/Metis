@@ -1,0 +1,11 @@
+app:
+  build: .
+  links:
+    - mongo
+  ports:
+    - 4000:4000
+mongo:
+  build: data/
+  ports:
+    - 27017:27017 
+    - 28017:28017

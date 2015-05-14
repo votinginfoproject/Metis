@@ -3,6 +3,10 @@
  */
 var config = {};
 
+var host = process.env.MONGO_PORT_27017_TCP_ADDR || 'localhost';
+var connectionString = 'mongodb://' + host + '/metis';
+
+
 config.upload = {
   uploadPath: 'upload/'
 };
@@ -145,7 +149,7 @@ config.mongoose = {
     uniqueid: 'uniqueids'
   },
   dbname: 'metis',
-  connectionString: 'mongodb://localhost/metis',
+  connectionString: connectionString,
   maxWriteQueueLength: 20000
 }
 
