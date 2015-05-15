@@ -47,6 +47,13 @@ Voting Information Project web app.
 
 For more information see the [Crowd Admin Guide](https://confluence.atlassian.com/display/CROWD/Crowd+Administration+Guide).
 
+## Running Mongo from script
+
+You can run Mongo in a similar manner to the Dockerized version from the data directory. This will initialize the seed data for counties and states at startup, and make mongo available on localhost at the standard port.
+
+1. cd data
+2. Run `mongo/mongo.sh --counties counties.json --states stateFIPS.json --config mongod.conf`
+
 ## Resetting the Database
 
 1. Run `mongo metis --eval "db.dropDatabase()"`

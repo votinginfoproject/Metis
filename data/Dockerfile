@@ -10,4 +10,4 @@ COPY stateFIPS.json /home/mongo/data/
 
 EXPOSE 27017 28017
 
-CMD ["/home/mongo/mongo.sh"]
+CMD ["/home/mongo/mongo.sh", "--counties", "data/counties.json", "--states", "data/stateFIPS.json"]
