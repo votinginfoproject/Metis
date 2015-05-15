@@ -10,9 +10,6 @@ MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 RUN npm install -g grunt-cli
 RUN npm install -g bower
 
-# install build-essential for dependencies that need that stuff
-# RUN apt-get install -y build-essential
-
 # install bower deps (TODO: move this to cached step)
 RUN cd /usr/src/app && bower --allow-root install
 
