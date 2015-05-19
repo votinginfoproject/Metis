@@ -47,7 +47,7 @@ describe('Feed Source Test', function () {
    ------------------------------------------*/
   describe('Check Feed Source data', function () {
     // check the the number of items
-    xit('Should have source data', function () {
+    it('Should have source data', function () {
 
       expect(element('#source-name').count()).toBe(1);
     });
@@ -55,22 +55,15 @@ describe('Feed Source Test', function () {
   });
 
   /* ----------------------------------------
-   Feed Source page Feed Contact
+   Feed Source page Election data
    ------------------------------------------*/
   describe('Check Feed Contact data', function () {
     // check the the number of items
-    xit('Should have feed contact data', function () {
+    it('Should have election data', function () {
 
-      expect(element('#feed-contact-name').count()).toBe(1);
+      expect(element('#election-date').count()).toBe(1);
     });
 
-  });
-
-  describe('Check The Error Links', function() {
-    it('Error page link works', function() {
-      element('#source-errors').click();
-      expect(element('#feeds-source-errors-content').count()).toBe(1);
-    })
   });
 
   /* ----------------------------------------
