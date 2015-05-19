@@ -22,6 +22,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
 
       // now call the other services to get the rest of the data
       FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, data.source);
+      FeedSourceCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election);
 
     }).error(function (data, $http) {
 
@@ -60,6 +61,28 @@ function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, service
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed Source. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedSource = {};
+    });
+}
+
+/*
+ * Get the Feed Election for the Feed detail page
+ *
+ */
+function FeedSourceCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath){
+
+  // get Feed Election
+  $feedsService.getFeedElection(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedElection = data;
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Feed Election. ";
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedSource = {};
