@@ -26,7 +26,6 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       // now call the other services to get the rest of the data
       FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
       FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
-      FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, data.results);
       FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities);
       FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
 
@@ -46,7 +45,6 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $scope.feedData = {};
       $scope.feedPollingLocations = {};
       $scope.feedContests = {};
-      $scope.feedResults = {};
       $scope.feedLocalities = {};
       $scope.feedCounties = {};
     });
@@ -93,28 +91,6 @@ function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedContests = {};
-    });
-}
-
-/*
- * Get the Feed Results for the Feed Overview page
- *
- */
-function FeedOverviewCtrl_getFeedResults($scope, $rootScope, $feedsService, servicePath){
-
-  // get Results
-  $feedsService.getFeedResults(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedResults = data;
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Results. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedResults = {};
     });
 }
 

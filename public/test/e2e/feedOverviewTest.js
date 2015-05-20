@@ -67,18 +67,6 @@ describe('Feed Overview Test', function () {
   });
 
   /* ----------------------------------------
-   Feed Overview Results
-   ------------------------------------------*/
-  describe('Check Feed Results', function () {
-    // check the the number of items
-    it('Should have results', function () {
-
-      expect(element('#feedResults0').count()).toBe(1);
-    });
-
-  });
-
-  /* ----------------------------------------
    Feed Sidebar
    ------------------------------------------*/
   describe('Check Feed Sidebar', function () {

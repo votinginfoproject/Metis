@@ -1,10 +1,10 @@
-{"stateFIPS":01,"name":"alabama","stateAbbr":"AL"}
-{"stateFIPS":02,"name":"alaska","stateAbbr":"AK"}
-{"stateFIPS":04,"name":"arizona","stateAbbr":"AZ"}
-{"stateFIPS":05,"name":"arkansas","stateAbbr":"AR"}
-{"stateFIPS":06,"name":"california","stateAbbr":"CA"}
-{"stateFIPS":08,"name":"colorado","stateAbbr":"CO"}
-{"stateFIPS":09,"name":"connecticut","stateAbbr":"CT"}
+{"stateFIPS":1,"name":"alabama","stateAbbr":"AL"}
+{"stateFIPS":2,"name":"alaska","stateAbbr":"AK"}
+{"stateFIPS":4,"name":"arizona","stateAbbr":"AZ"}
+{"stateFIPS":5,"name":"arkansas","stateAbbr":"AR"}
+{"stateFIPS":6,"name":"california","stateAbbr":"CA"}
+{"stateFIPS":8,"name":"colorado","stateAbbr":"CO"}
+{"stateFIPS":9,"name":"connecticut","stateAbbr":"CT"}
 {"stateFIPS":10,"name":"delaware","stateAbbr":"DE"}
 {"stateFIPS":11,"name":"district of columbia","stateAbbr":"DC"}
 {"stateFIPS":12,"name":"florida","stateAbbr":"FL"}

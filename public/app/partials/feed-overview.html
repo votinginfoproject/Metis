@@ -63,18 +63,4 @@
 </section>
 <!-- /.data-group -->
 
-<section class="data-group data-module started">
-  <header class="data-group-header">
-    <h2>Results</h2>
-    <span ng-if="!feedResults" class="more-detail is-loading"></span>
-    <a id="results-link" ng-if="feedResults" class="more-detail" href="{{$location.absUrl()}}/election/results">More Detail</a>
-  </header>
-
-  <!-- element table directive -->
-  <span ng-if="!feedResults" class="is-loading"></span>
-  <div ng-show="feedResults.length" ng-overviewtable ng-model="feedResults" loading="feedResults" label="feedResults"></div>
-
-</section>
-<!-- /.data-group -->
-
 </div>

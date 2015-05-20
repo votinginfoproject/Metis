@@ -21,6 +21,18 @@ vipApp.constant('$appProperties', {
   servicesPath: '/services'
 });
 
+var formatVipFeedID = function(name) {
+  var vipFeedID = name.split("-");
+  
+  if(vipFeedID.length < 5) {
+    return vipFeedID.join("-");
+  } else {
+    vipFeedID.pop();
+    var electionDate = vipFeedID.slice(0,3);
+    var electionName = vipFeedID.slice(3,vipFeedID.length);
+    return electionDate.join("-") + " " + electionName.join(" ");
+  }
+};
 
 /*
  * VIP App configuration
@@ -58,11 +70,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/feeds/:vipfeed/election', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-election.html',
       controller: 'FeedElectionCtrl'
-    });
-
-    $routeProvider.when('/feeds/:vipfeed/election/results', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-results.html',
-      controller: 'FeedResultsCtrl'
     });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests', {
@@ -617,6 +624,8 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       // if it's not the feed id token then camel case the name (the feed id is the 2nd token)
       if(index !==1){
         name = vipApp_ns.camelCase(name);
+      } else {
+        name = formatVipFeedID(name);
       }
 
       if(makeUrlNull){
