@@ -10,11 +10,15 @@
   <div class="wrapper">
 
   <div class="aside-nav">
-    <a class="button-errors" href="{{getAngularUrl(feedData.errors)}}">
+    <span class="button-errors">
       {{feedData.error_count | number}} Total Errors in Feed
       <br>
       <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(feedData.date)}}</time>
-    </a>
+      <a class="button button-download" href="{{getUrlPath(feedData.errors)}}?error_report">Download Full Error Report</a>
+
+    </span>
+
+
 
     <nav class="feed-nav">
       <ul>
