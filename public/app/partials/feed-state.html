@@ -2,42 +2,40 @@
 
 <p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
 
-<div class="data-module-full">
-  <dl class="attributes">
-    <dt class="key">Name:</dt>
-    <dd class="value">{{feedState.name}}</dd>
-    <dt class="key">Abbreviation:</dt>
-    <dd class="value">{{feedState.abbreviation}}</dd>
-    <dt class="key">Region:</dt>
-    <dd class="value">{{feedState.region}}</dd>
-  </dl>
-</div>
-
 <section class="data-group data-module">
-  <h2>{{feedEarlyVoteSites.length}} Early Vote Sites</h2>
+  <h2>State</h2>
 
-  <span ng-if="!feedEarlyVoteSites" class="is-loading"></span>
-  <table ng-show="feedEarlyVoteSites.length" id="earlyVoteTable" ng-table="earlyVoteTableParams"
-         template-pagination="earlyVotePagination" class="associations">
-    <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
-      <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{earlyVoteSite.self}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a>
-      </td>
-      <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{earlyVoteSite.self}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a>
-      </td>
-      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{earlyVoteSite.self}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address}}</span></a>
+  <span ng-if="!feedElection" class="is-loading"></span>
+  <table ng-if="feedElection.state" class="associations">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Localities</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td id="state-id" class="id"><a href="{{$location.absUrl()}}" data-title-text="ID"><span class="td-text">{{feedElection.state.id}}</span></a></td>
+      <td id="state-name" class="name"><a href="{{$location.absUrl()}}" data-title-text="Name"><span class="td-text">{{feedElection.state.name}}</span></a></td>
+      <td id="state-localities" class="localities"><a href="{{$location.absUrl()}}" data-title-text="Localities"><span class="td-text">{{feedElection.state.locality_count}}</span></a>
       </td>
     </tr>
+    </tbody>
   </table>
 
-  <script type="text/ng-template" id="earlyVotePagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == earlyVoteTableParams.page()}"
-           ng-click="earlyVoteTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
+</section>
+
+<section class="data-group data-module started">
+  <header class="data-group-header">
+    <h2>Polling Locations</h2>
+    <span ng-if="!feedPollingLocations" class="more-detail is-loading"></span>
+    <a id="state-link" ng-if="feedPollingLocations" class="more-detail" href="{{$location.absUrl()}}/election/state">More Detail</a>
+  </header>
+
+  <!-- element table directive -->
+  <span ng-if="!feedPollingLocations" class="is-loading"></span>
+  <div ng-show="feedPollingLocations.length" ng-overviewtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
 
 </section>
 
@@ -66,14 +64,8 @@
 </section><!-- /.data-group -->
 
 <section class="data-group data-module">
-  <h2>{{feedLocalities.length}} Localities
-    <small>({{feedCounties.features.length}} Counties)</small>
-  </h2>
-  <span ng-if="!feedCounties" class="is-loading"></span>
-  <div id="map" class="map" hidden></div>
-</section>
+  <h2>{{feedLocalities.length}} Localities</h2>
 
-<section class="data-group data-module">
   <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
   <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination"
          class="associations">

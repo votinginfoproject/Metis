@@ -22,6 +22,8 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProp
 
       // now call the other services to get the rest of the data
       FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, data.state, $appProperties, $filter, ngTableParams);
+      FeedStateCtrl_getFeedElection($scope, $rootScope, $feedsService, data.election, $appProperties, $filter, ngTableParams);
+      FeedStateCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
 
     }).error(function (data, $http) {
 
@@ -38,7 +40,8 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProp
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedData = {};
       $scope.feedState = {};
-      $scope.feedEarlyVoteSites = {};
+      $scope.feedElection = {};
+      $scope.feedPollingLocations = {};
       $scope.feedLocalities = {};
     });
 }
@@ -59,46 +62,58 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       // set the title
       $rootScope.pageHeader.title = "State ID: " + data.id;
 
-      FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, data.earlyvotesites, $appProperties, $filter, ngTableParams);
       FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
-      FeedStateCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
 
     }).error(function (data) {
 
       $rootScope.pageHeader.error += "Could not retrieve Feed State data. ";
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedState = {};
-      $scope.feedEarlyVoteSites = {};
       $scope.feedLocalities = {};
-      $scope.feedCounties = {};
     });
 }
 
 /*
- * Get the Feed State Early Vote Sites for the Feed detail page
+ * Get the Feed Election for the Feed detail page
  *
  */
-function FeedStateCtrl_getFeedEarlyVoteSites($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
+function FeedStateCtrl_getFeedElection($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
-  // get Feed Early Vote Sites
-  $feedsService.getFeedStateEarlyVoteSites(servicePath)
+  // get Feed Election
+  $feedsService.getFeedElection(servicePath)
     .success(function (data) {
 
-      // use the self property to use as the linked URL for each item
-      $rootScope.changeSelfToAngularPath(data);
-
       // set the feeds data into the Angular model
-      $scope.feedEarlyVoteSites = data;
-
-      $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
+      $scope.feedElection = data;
 
     }).error(function (data) {
 
-      $rootScope.pageHeader.error += "Could not retrieve State Early Vote Sites. ";
+      $rootScope.pageHeader.error += "Could not retrieve Feed Election Elections. ";
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedEarlyVoteSites = {};
+      $scope.feedElection = {};
+    });
+}
+
+/*
+ * Get the Feed Polling Locations for the Feed Overview page
+ *
+ */
+function FeedStateCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath){
+
+  // get Polling Locations
+  $feedsService.getFeedPollingLocations(servicePath)
+    .success(function (data) {
+
+      // set the feeds data into the Angular model
+      $scope.feedPollingLocations = data;
+
+    }).error(function (data) {
+
+      $rootScope.pageHeader.error += "Could not retrieve Feed Polling Locations. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedPollingLocations = {};
     });
 }
 
@@ -126,30 +141,5 @@ function FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, serv
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedLocalities = {};
-    });
-}
-
-/*
- * Get the Feed Counties (Map) for the Feed State page
- *
- */
-function FeedStateCtrl_getFeedCounties($scope, $rootScope, $feedsService, servicePath){
-
-  // get Results
-  $feedsService.getFeedCounties(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedCounties = data;
-
-      // generate the map
-      vipApp_ns.generateMap(data, $rootScope.$appProperties);
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Counties. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedCounties = {};
     });
 }

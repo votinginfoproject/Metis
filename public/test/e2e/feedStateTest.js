@@ -59,9 +59,15 @@ describe('Feed State Test', function () {
    ------------------------------------------*/
   describe('Check Feed State data', function () {
     // if there is data
-    it('Should have Early Vote Sites data', function () {
+    it('Should have State data', function () {
 
-      expect(element('#earlyVoteSite0').count()).toBe(1);
+      expect(element('#state-id').count()).toBe(1);
+    });
+
+    // if there is data
+    it('Should have Polling Location data', function () {
+
+      expect(element('#pollingLocation0').count()).toBe(1);
     });
 
     // if there is data
@@ -87,6 +93,31 @@ describe('Feed State Test', function () {
 
       expect(element('#feed-state-content').count()).toBe(1);
     })
+  });
+
+  /* ----------------------------------------
+   Feed Overview Polling Locations
+   ------------------------------------------*/
+  describe('Check Feed Overview polling locations', function () {
+    // check the the number of items
+    it('Should have polling locations', function () {
+
+      // let's make sure we have the various sections available in the polling locations section
+      expect(element('#pollingLocation0').count()).toBe(1);
+      //...
+      expect(element('#pollingLocation6').count()).toBe(1);
+
+
+      expect(element('#pollingLocation-element-type0').html()).toBe("Early Vote Sites");
+      expect(element('#pollingLocation-element-type1').html()).toBe("Election Administrations");
+      expect(element('#pollingLocation-element-type2').html()).toBe("Election Officials");
+      expect(element('#pollingLocation-element-type3').html()).toBe("Localities");
+      expect(element('#pollingLocation-element-type4').html()).toBe("Polling Locations");
+      expect(element('#pollingLocation-element-type5').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type6').html()).toBe("Precincts");
+      expect(element('#pollingLocation-element-type7').html()).toBe("Street Segments");
+    });
+
   });
 
   /* ----------------------------------------
@@ -147,68 +178,51 @@ describe('Feed State Test', function () {
   });
 
   /* ----------------------------------------
-   Feed State Early Vote Site page
+   Feed State Localities page
    ------------------------------------------*/
-  describe('Check Feed State Early Vote Site page', function () {
-    // if there is data
-    it('Should be able to go into a State Early Vote Site page', function () {
+  describe('Check Feed State Localities page', function () {
+    // check the the number of items
+    it('Should go to the Localities page', function () {
 
-      expect(element('#earlyVoteSite-id0 a').count()).toBe(1);
-      element('#earlyVoteSite-id0 a').click();
+      expect(element('#locality-id0').count()).toBe(1);
+      // click the state link
+      element('#locality-id0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed state early vote site page
-      expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
+      // should be on the feed state election administration page
+      expect(element('#feed-locality-content').count()).toBe(1);
     });
 
-    // if there is data
-    it('Should have Early Vote Site data', function () {
+    // go back to state page
+    it('Should be able to go back to the State page via the breadcrumbs', function () {
 
-      expect(element('#name').html()).not().toBe("");
-    });
-
-  });
-
-  describe('Check error page link', function() {
-    it('Error page link works', function() {
-      element('#earlyvotesite-errors').click();
+      // now go back to the state page
+      // click the state breadcrumb
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
-      expect(element('#feeds-election-state-earlyvotesites-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb5 a').click();
-      expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
+
+      // should be on the feed state page
+      expect(element('#feed-state-content').count()).toBe(1);
     });
+
   });
 
   /* ----------------------------------------
-   Feed State Early Vote Sites page
+   Feed State Polling Locations page
    ------------------------------------------*/
-  describe('Check Feed State Early Vote Sites page', function () {
-    // if there is data
-    it('Should be able to go into a State Early Vote Sites page via breadcrumbs', function () {
+  describe('Check Feed State Polling Locations page', function () {
+    // check the the number of items
+    it('Should go to the Polling Locations error page', function () {
 
-      element('#pageHeader-breadcrumb4 a').click();
+      expect(element('#pollingLocation-errors0').count()).toBe(1);
+      // click the state link
+      element('#pollingLocation-errors0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed state early vote sites page
-      expect(element('#feeds-election-state-earlyvotesites-content').count()).toBe(1);
+      // should be on the feed state election administration page
+      expect(element('#feeds-overview-earlyvotesites-errors-content').count()).toBe(1);
     });
 
-    // if there is data
-    it('Should have Early Vote Sites data', function () {
-
-      expect(element('#earlyVoteSite-id0 a').html()).not().toBe("");
-
-    });
-
-    // click to an earlyvote site
-    it('Should be able to click on the link and be taken back to an Early Vote Site page', function () {
-
-      element('#earlyVoteSite-id0 a').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed state early vote site page
-      expect(element('#feeds-election-state-earlyvotesites-content-single').count()).toBe(1);
-    });
   });
 
   /* ----------------------------------------
