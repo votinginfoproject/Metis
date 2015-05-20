@@ -36,16 +36,46 @@
 
 <section class="data-group data-module started">
   <header class="data-group-header">
-    <h2>{{feedLocalities.length}} Localities
-    <small>({{feedCounties.features.length}} Counties)</small></h2>
-    <span ng-if="!feedCounties" class="more-detail is-loading"></span>
-    <a class="more-detail" ng-if="feedCounties" href="{{$location.absUrl()}}/election/state/localities/">More Detail</a>
+    <h2>{{feedLocalities.length}} Localities</h2>
+
+    <span ng-if="!feedLocalities" class="more-detail is-loading"></span>
+    <a class="more-detail" ng-if="feedLocalities" href="{{$location.absUrl()}}/election/state/localities/">More Detail</a>
   </header>
 
   <!-- element table directive -->
-  <span ng-if="!feedCounties" class="is-loading"></span>
-  <div id="map" class="map" hidden></div>
+  <section class="data-group data-module">
+    <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
+    
+    <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
+      <tr id="locality{{$index}}" ng-repeat="locality in $data">
+        <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
+          <a href="{{locality.self}}" data-title-text="ID">
+            <span class="td-text">{{locality.id}}</span>
+          </a>
+        </td>
+        <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'">
+          <a href="{{locality.self}}" data-title-text="Name">
+            <span class="td-text">{{locality.name}}</span>
+          </a>
+        </td>
+        <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'">
+          <a href="{{locality.self}}" data-title-text="Precincts">
+            <span class="td-text">{{locality.precincts}}</span>
+          </a>
+        </td>
+      </tr>
+    </table>
 
+    <script type="text/ng-template" id="localPagination">
+      <ul class="pagination ng-cloak">
+        <li ng-repeat="page in pages"
+            ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localTableParams.page()}"
+             ng-click="localTableParams.page(page.number)" href="">{{page.number}}</a>
+        </li>
+      </ul>
+    </script>
+  </section>
 </section>
 <!-- /.data-group -->
 

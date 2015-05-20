@@ -3,7 +3,7 @@
  * Feeds Overview Controller
  *
  */
-function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location) {
+function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $appProperties, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
@@ -26,8 +26,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       // now call the other services to get the rest of the data
       FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
       FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
-      FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities);
-      FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, data.county_map);
+      FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
 
@@ -98,14 +97,19 @@ function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
  * Get the Feed Localities for the Feed Overview page
  *
  */
-function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath){
+function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Results
   $feedsService.getFeedLocalities(servicePath)
     .success(function (data) {
 
+      // use the self property to use as the linked URL for each item
+      $rootScope.changeSelfToAngularPath(data);
+
       // set the feeds data into the Angular model
       $scope.feedLocalities = data;
+
+      $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
 
@@ -113,30 +117,5 @@ function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, s
 
       // so the loading spinner goes away and we are left with an empty table
       $scope.feedLocalities = {};
-    });
-}
-
-/*
- * Get the Feed Counties (Map) for the Feed Overview page
- *
- */
-function FeedOverviewCtrl_getFeedCounties($scope, $rootScope, $feedsService, servicePath){
-
-  // get Results
-  $feedsService.getFeedCounties(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedCounties = data;
-
-      // generate the map
-      vipApp_ns.generateMap(data, $rootScope.$appProperties);
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Counties. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedCounties = {};
     });
 }

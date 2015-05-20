@@ -55,6 +55,19 @@ describe('Feed Overview Test', function () {
   });
 
   /* ----------------------------------------
+   Feed Overview Localities
+   ------------------------------------------*/
+  describe('Check Feed Overview localities', function () {
+    // check the the number of items
+    it('Should have localities', function () {
+
+      expect(element('#LocalTable').count()).toBe(1);
+      expect(element('#locality0').count()).toBe(1);
+    });
+
+  });
+
+  /* ----------------------------------------
    Feed Overview Contests
    ------------------------------------------*/
   describe('Check Feed Contests', function () {
