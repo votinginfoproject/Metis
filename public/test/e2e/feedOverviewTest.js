@@ -80,6 +80,21 @@ describe('Feed Overview Test', function () {
   });
 
   /* ----------------------------------------
+   Feed Overview Source & Election
+   ------------------------------------------*/
+  describe('Check Feed Source & Election', function () {
+    // check the the number of items
+    it('Should have source results', function () {
+      expect(element('#feedSource').count()).toBe(1);
+    });
+
+    it('Should have election results', function () {
+      expect(element('#feedElection').count()).toBe(1);
+    });
+  });
+
+
+  /* ----------------------------------------
    Feed Sidebar
    ------------------------------------------*/
   describe('Check Feed Sidebar', function () {

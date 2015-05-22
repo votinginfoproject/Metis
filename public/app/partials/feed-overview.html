@@ -155,4 +155,60 @@
 </section>
 <!-- /.data-group -->
 
+<section class="data-group data-module started">
+  <header class="data-group-header">
+    <h2>Source &amp; Election</h2>
+    <span ng-if="!feedSource" class="more-detail is-loading"></span>
+    <a id="state-link" ng-if="feedSource" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
+  </header>
+
+  <!-- element table directive -->
+  <table class="overview">
+    <thead>
+      <tr>
+        <th>Element Type</th>
+        <th class="numeric">Amount</th>
+        <th>Completion</th>
+        <th class="numeric">Errors</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="feedSource">
+        <td id="feedSource-element-type" class="element-type">Source</td>
+        <td id="feedSource-amount" class="numeric amount">{{feedSource ? 1 : 0}}</td>
+        <td id="feedSource-complete" class="completion">
+          <div class="completeness">
+            <span class="complete-{{feedSource.complete_pct}}"></span>
+            <div class="counter">{{feedSource.complete_pct | number}}% <span class="counter-text">complete</span></div>
+          </div>
+        </td>
+        <td id="feedSource-errors" class="numeric element-errors">
+          <a title="View the Errors" ng-class="{default_pointer: feedSource.error_count===0}" href="{{feedSource.error_count===0 ? 'javascript: void(0);' : feedSource.self}}">
+            <div errorvalue="{{feedSource.error_count}}" ng-class="{none: feedSource.error_count===0}"
+                  class="errors">{{feedSource.error_count | number}} <span class="error-text" ng-if="feedSource.error_count===1">error</span><span class="error-text" ng-if="feedSource.error_count!=1">errors</span> <span ng-if="feedSource.error_count===0"><i class="fi-check"></i></span><span ng-if="feedSource.error_count!=0"><i class="fi-alert"></i></span>
+            </div>
+          </a>
+        </td>
+      </tr>
+      <tr id="feedElection">
+        <td id="feedElection-element-type" class="element-type">Election</td>
+        <td id="feedElection-amount" class="numeric amount">{{feedElection ? 1 : 0}}</td>
+        <td id="feedElection-complete" class="completion">
+          <div class="completeness">
+            <span class="complete-{{feedElection.complete_pct}}"></span>
+            <div class="counter">{{feedElection.complete_pct | number}}% <span class="counter-text">complete</span></div>
+          </div>
+        </td>
+        <td id="feedElection-errors" class="numeric element-errors">
+          <a title="View the Errors" ng-class="{default_pointer: feedElection.error_count===0}" href="{{feedElection.error_count===0 ? 'javascript: void(0);' : feedElection.self}}">
+            <div errorvalue="{{feedElection.error_count}}" ng-class="{none: feedElection.error_count===0}"
+                  class="errors">{{feedElection.error_count | number}} <span class="error-text" ng-if="feedElection.error_count===1">error</span><span class="error-text" ng-if="feedElection.error_count!=1">errors</span> <span ng-if="feedElection.error_count===0"><i class="fi-check"></i></span><span ng-if="feedElection.error_count!=0"><i class="fi-alert"></i></span>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
 </div>
