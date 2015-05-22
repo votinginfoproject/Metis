@@ -42,14 +42,14 @@ describe('Feed Overview Test', function () {
       expect(element('#pollingLocation6').count()).toBe(1);
 
 
-      expect(element('#pollingLocation-element-type0').html()).toBe("Early Vote Sites");
-      expect(element('#pollingLocation-element-type1').html()).toBe("Election Administrations");
-      expect(element('#pollingLocation-element-type2').html()).toBe("Election Officials");
-      expect(element('#pollingLocation-element-type3').html()).toBe("Localities");
-      expect(element('#pollingLocation-element-type4').html()).toBe("Polling Locations");
-      expect(element('#pollingLocation-element-type5').html()).toBe("Precinct Splits");
-      expect(element('#pollingLocation-element-type6').html()).toBe("Precincts");
-      expect(element('#pollingLocation-element-type7').html()).toBe("Street Segments");
+      expect(element('#pollingLocation-element-type0 span').html()).toBe("Early Vote Sites");
+      expect(element('#pollingLocation-element-type1 span').html()).toBe("Election Administrations");
+      expect(element('#pollingLocation-element-type2 span').html()).toBe("Election Officials");
+      expect(element('#pollingLocation-element-type3 span').html()).toBe("Localities");
+      expect(element('#pollingLocation-element-type4 span').html()).toBe("Polling Locations");
+      expect(element('#pollingLocation-element-type5 span').html()).toBe("Precinct Splits");
+      expect(element('#pollingLocation-element-type6 span').html()).toBe("Precincts");
+      expect(element('#pollingLocation-element-type7 span').html()).toBe("Street Segments");
     });
 
   });
@@ -61,7 +61,7 @@ describe('Feed Overview Test', function () {
     // check the the number of items
     it('Should have localities', function () {
 
-      expect(element('#LocalTable').count()).toBe(1);
+      expect(element('#localTable').count()).toBe(1);
       expect(element('#locality0').count()).toBe(1);
     });
 

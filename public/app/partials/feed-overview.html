@@ -28,9 +28,39 @@
   </header>
 
   <!-- element table directive -->
-  <span ng-if="!feedPollingLocations" class="is-loading"></span>
-  <div ng-show="feedPollingLocations.length" ng-overviewtable ng-model="feedPollingLocations" loading="feedPollingLocations" label="pollingLocation"></div>
+  <section class="data-group data-module">
+    <div ng-if="!feedPollingLocations"></br><span class="is-loading"></span></div>
+    
+    <table class="overview" ng-show="feedPollingLocations.length" id="pollingTable" template-pagination="pollingPagination" ng-table="pollingTableParams" class="associations">
+      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
+        <td data-title="'Element Type'" sortable="'element_type'" id="pollingLocation-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{pollingLocation.element_type}}</span></td>
+        <td data-title="'Amount'" sortable="'amount'" id="pollingLocation-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{pollingLocation.amount | number}}</span></td>
+        <td data-title="'Completion'" sortable="'complete_pct'" id="pollingLocation-complete{{$index}}" class="completion">
+          <div data-title-text="Completion" class="completeness">
+            <span class="complete-{{pollingLocation.complete_pct}}"></span>
+            <div class="counter">{{pollingLocation.complete_pct | number}}% <span class="counter-text">complete</span></div>
+          </div>
+        </td>
+        <td data-title="'Errors'" sortable="'error_count'" id="pollingLocation-errors{{$index}}" class="numeric element-errors">
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count===0}" href="{{pollingLocation.error_count===0 ? 'javascript: void(0);' : pollingLocation.self}}">
+            <div errorvalue="{{pollingLocation.error_count}}" ng-class="{none: pollingLocation.error_count===0}"
+                  class="errors">{{pollingLocation.error_count | number}} <span class="error-text" ng-if="pollingLocation.error_count===1">error</span><span class="error-text" ng-if="pollingLocation.error_count!=1">errors</span> <span ng-if="pollingLocation.error_count===0"><i class="fi-check"></i></span><span ng-if="pollingLocation.error_count!=0"><i class="fi-alert"></i></span>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </table>
 
+    <script type="text/ng-template" id="pollingPagination">
+      <ul class="pagination ng-cloak">
+        <li ng-repeat="page in pages"
+            ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingTableParams.page()}"
+             ng-click="pollingTableParams.page(page.number)" href="">{{page.number}}</a>
+        </li>
+      </ul>
+    </script>
+  </section>
 </section>
 <!-- /.data-group -->
 
@@ -45,8 +75,8 @@
   <!-- element table directive -->
   <section class="data-group data-module">
     <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
-    
-    <table ng-show="feedLocalities.length" id="LocalTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
+    {{localTableParams}}
+    <table ng-show="feedLocalities.length" id="localTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
       <tr id="locality{{$index}}" ng-repeat="locality in $data">
         <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
           <a href="{{locality.self}}" data-title-text="ID">
@@ -88,7 +118,39 @@
 
   <!-- element table directive -->
   <span ng-if="!feedContests" class="is-loading"></span>
-  <div ng-show="feedContests.length" ng-overviewtable ng-model="feedContests" loading="feedContests" label="feedContests"></div>
+  <section class="data-group data-module">
+    <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
+    
+    <table class="overview" ng-show="feedContests.length" id="contestTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
+      <tr id="feedContests{{$index}}" ng-repeat="contest in $data">
+        <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{contest.element_type}}</span></td>
+        <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contest.amount | number}}</span></td>
+        <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
+          <div data-title-text="Completion" class="completeness">
+            <span class="complete-{{contest.complete_pct}}"></span>
+            <div class="counter">{{contest.complete_pct | number}}% <span class="counter-text">complete</span></div>
+          </div>
+        </td>
+        <td data-title="'Errors'" sortable="'error_count'" id="feedContests-errors{{$index}}" class="numeric element-errors">
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: contest.error_count===0}" href="{{contest.error_count===0 ? 'javascript: void(0);' : contest.self}}">
+            <div errorvalue="{{contest.error_count}}" ng-class="{none: contest.error_count===0}"
+                  class="errors">{{contest.error_count | number}} <span class="error-text" ng-if="contest.error_count===1">error</span><span class="error-text" ng-if="contest.error_count!=1">errors</span> <span ng-if="contest.error_count===0"><i class="fi-check"></i></span><span ng-if="contest.error_count!=0"><i class="fi-alert"></i></span>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/ng-template" id="pollingPagination">
+      <ul class="pagination ng-cloak">
+        <li ng-repeat="page in pages"
+            ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestTableParams.page()}"
+             ng-click="contestTableParams.page(page.number)" href="">{{page.number}}</a>
+        </li>
+      </ul>
+    </script>
+  </section>
 
 </section>
 <!-- /.data-group -->

@@ -24,8 +24,8 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
       $rootScope.pageHeader.title = data.title;
 
       // now call the other services to get the rest of the data
-      FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations);
-      FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests);
+      FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, data.polling_locations, $appProperties, $filter, ngTableParams);
+      FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, data.contests, $appProperties, $filter, ngTableParams);
       FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 
     }).error(function (data, $http) {
@@ -53,7 +53,7 @@ function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $loca
  * Get the Feed Polling Locations for the Feed Overview page
  *
  */
-function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath){
+function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Polling Locations
   $feedsService.getFeedPollingLocations(servicePath)
@@ -61,6 +61,8 @@ function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsServ
 
       // set the feeds data into the Angular model
       $scope.feedPollingLocations = data;
+
+      $scope.pollingTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { element_type: 'asc' });
 
     }).error(function (data) {
 
@@ -75,7 +77,7 @@ function FeedOverviewCtrl_getFeedPollingLocations($scope, $rootScope, $feedsServ
  * Get the Feed Contests for the Feed Overview page
  *
  */
-function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath){
+function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
 
   // get Contests
   $feedsService.getFeedContests(servicePath)
@@ -83,6 +85,7 @@ function FeedOverviewCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
 
       // set the feeds data into the Angular model
       $scope.feedContests = data;
+      $scope.contestTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { element_type: 'asc' });
 
     }).error(function (data) {
 
@@ -108,7 +111,6 @@ function FeedOverviewCtrl_getFeedLocalities($scope, $rootScope, $feedsService, s
 
       // set the feeds data into the Angular model
       $scope.feedLocalities = data;
-
       $scope.localTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.lowPagination, { id: 'asc' });
 
     }).error(function (data) {
