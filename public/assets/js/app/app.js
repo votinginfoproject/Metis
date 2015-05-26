@@ -508,12 +508,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
   };
 
   /*
-   * Takes a URL path and returns it as is (for generating top-level error reports out of path scope)
+   * Takes a URL path and turns it into a service path used to get the data for the current page
    */
-  $rootScope.getUrlPath = function(urlPath){
-    return urlPath;
+  $rootScope.getServiceUrl = function(urlPath){
+    return "/services" + urlPath;
   }
-
 
   /*
    * Turns a service URL into the equeivlant Angular path
