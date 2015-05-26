@@ -23,7 +23,7 @@ vipApp.constant('$appProperties', {
 
 var formatVipFeedID = function(name) {
   var vipFeedID = name.split("-");
-  
+
   if(vipFeedID.length < 5) {
     return vipFeedID.join("-");
   } else {
@@ -506,13 +506,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       }
     });
   };
-
-  /*
-   * Takes a URL path and turns it into a service path used to get the data for the current page
-   */
-  $rootScope.getServiceUrl = function(urlPath){
-    return "/services" + urlPath;
-  }
 
   /*
    * Takes a URL path and returns it as is (for generating top-level error reports out of path scope)
