@@ -10,11 +10,15 @@
   <div class="wrapper">
 
   <div class="aside-nav">
-    <a class="button-errors" href="{{getAngularUrl(feedData.errors)}}">
+    <span class="button-errors">
       {{feedData.error_count | number}} Total Errors in Feed
       <br>
       <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(feedData.date)}}</time>
-    </a>
+      <a class="button button-download" href="{{(feedData.errors)}}?error_report">Download Full Error Report</a>
+
+    </span>
+
+
 
     <nav class="feed-nav">
       <ul>
@@ -22,6 +26,7 @@
         <li><a id="sidebar-election" class="is-finished" href="{{getAngularUrl(feedData.election)}}">Election</a></li>
         <li><a id="sidebar-pollinglocations" class="is-started" href="{{getAngularUrl(feedData.state)}}">Polling Locations</a></li>
         <li><a id="sidebar-contests" class="is-started" href="{{getAngularUrl(feedData.election_contests)}}">Contests</a></li>
+        <li><a id="sidebar-errors" class="is-started" href="{{getAngularUrl(feedData.errors)}}">Errors</a></li>
       </ul>
     </nav>
 

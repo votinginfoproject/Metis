@@ -535,13 +535,8 @@ aside {
   padding: $base-sm;
   margin-bottom: $base;
   border: 2px solid $white;
-  border-radius: 15px;  
+  border-radius: 15px;
   width: 100%;
-
-  &:hover, &:focus {
-    background: #f33;
-    color: $white;
-  }
 
   time {
     display: block;
@@ -550,10 +545,15 @@ aside {
     font-weight: normal;
     text-transform: none;
   }
+  .button-download {
+    font-size: .875em;
+    margin-top: .5em;
+    background: #8b0304;
+  }
 }
 
 .feed-status {
-  font-size: .875em;
+  font-size: .75em;
   margin-top: 1em;
 }
 

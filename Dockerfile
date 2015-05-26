@@ -10,6 +10,10 @@ MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 RUN npm install -g grunt-cli
 RUN npm install -g bower
 
+# install and compile SCSS
+RUN npm install -g node-sass
+RUN node-sass public/assets/css/app.scss public/assets/css/app.css
+
 # install bower deps (TODO: move this to cached step)
 RUN cd /usr/src/app && bower --allow-root install
 

@@ -23,7 +23,7 @@ vipApp.constant('$appProperties', {
 
 var formatVipFeedID = function(name) {
   var vipFeedID = name.split("-");
-  
+
   if(vipFeedID.length < 5) {
     return vipFeedID.join("-");
   } else {
