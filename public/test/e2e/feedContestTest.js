@@ -189,10 +189,14 @@ describe('Testing Feed Contests Page', function() {
 
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contests-content').count()).toBe(1);
+      expect(element('#contestsTable').count()).toBe(1);
+      expect(element('#contestsOverviewTable').count()).toBe(1);
+
     });
 
     it('Has Content on the page', function() {
       expect(element('#contests-id0').count()).toBe(1);
+      expect(element('#feedContests-element-type0').count()).toBe(1);
     });
   });
 
@@ -209,4 +213,3 @@ describe('Testing Feed Contests Page', function() {
     });
   });
 });
-
