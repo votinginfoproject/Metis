@@ -137,6 +137,7 @@ function FeedOverviewCtrl_getFeedSource($scope, $rootScope, $feedsService, servi
     .success(function (data) {
 
       // temporarily sets the percentages for just the overview page
+      // '5.0' is the number of fields we're expecting from the data
       data['complete_pct'] = Math.round(Object.keys(data['source_info']).length / 5.0 * 100);
 
       // set the feeds data into the Angular model
@@ -162,6 +163,7 @@ function FeedOverviewCtrl_getFeedElection($scope, $rootScope, $feedsService, ser
     .success(function (data) {
 
       // temporarily sets the percentages for just the overview page
+      // '17.0' is the number of fields we're expecting from the data
       data['complete_pct'] = Math.round(Object.keys(data).length / 17.0 * 100);
       data['complete_pct'] = data['complete_pct'] > 100 ? 100 : data['complete_pct']
       
