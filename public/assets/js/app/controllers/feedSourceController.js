@@ -85,6 +85,6 @@ function FeedSourceCtrl_getFeedElection($scope, $rootScope, $feedsService, servi
       $rootScope.pageHeader.error += "Could not retrieve Feed Election. ";
 
       // so the loading spinner goes away and we are left with an empty table
-      $scope.feedSource = {};
+      $scope.feedElection = {};
     });
 }

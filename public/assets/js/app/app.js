@@ -493,6 +493,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    */
   $rootScope.createTableParams = function(ngTableParams, $filter, data, count, sorting) {
     // sets the defaults for the table sorting parameters
+
     return new ngTableParams({
       page: 1,
       count: count,
@@ -501,6 +502,12 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       total: data.length,
       // sets the type of sorting for the table
       getData: function ($defer, params) {
+        // change any IDs to integers for smarter sorting
+        $.map(data, function(row) {
+          if (row['id']) row['id'] = parseInt(row['id']);
+          return row;
+        });
+
         var orderedData = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
         $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
       }
