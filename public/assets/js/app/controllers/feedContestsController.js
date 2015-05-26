@@ -22,6 +22,8 @@ function FeedContestsCtrl($scope, $rootScope, $feedsService, $routeParams, $appP
 
       // now call the other services to get the rest of the data
       FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
+      FeedContestsOverviewCtrl_getFeedContestsOverview($scope, $rootScope, $feedsService, data.contests, $appProperties, $filter, ngTableParams);
+
 
     }).error(function (data, $http) {
 
@@ -45,6 +47,29 @@ function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
 
   $feedsService.getFeedContests(servicePath)
     .success(function(data) {
+
+
+      // set the feeds data into the Angular model
+      $scope.feedContests = data;
+
+      // sets the defaults for the table sorting parameters
+      $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
+
+      // set the title
+      $rootScope.pageHeader.title = $scope.feedContests.length + " Contests";
+    }).error(function(data, $http) {
+      $rootScope.pageHeader.error += "Could not retrieve Feed Contests data. ";
+
+      // so the loading spinner goes away and we are left with an empty table
+      $scope.feedContests = {};
+    });
+}
+
+function FeedContestsOverviewCtrl_getFeedContestsOverview($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
+
+  $feedsService.getFeedContests(servicePath)
+    .success(function(data) {
+
 
       // set the feeds data into the Angular model
       $scope.feedContests = data;
