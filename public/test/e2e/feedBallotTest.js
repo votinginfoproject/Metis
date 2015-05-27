@@ -23,19 +23,19 @@ describe('Testing Feed Ballot Page', function() {
       /*
        expect(element('#election-link').count()).toBe(1);
 
-       // click the election link
+       // click the contests link
        element('#election-link').click();
        sleep(testGlobals.sleepTime);
        */
 
-      expect(element('#sidebar-election').count()).toBe(1);
+      expect(element('#sidebar-contests').count()).toBe(1);
 
-      // click the election link
-      element('#sidebar-election').click();
+      // click the contests link
+      element('#sidebar-contests').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed election page
-      expect(element('#feed-election-content').count()).toBe(1);
+      expect(element('#feed-contests-content').count()).toBe(1);
 
       element('#contests-id0 a').click();
 
