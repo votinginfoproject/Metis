@@ -584,6 +584,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
         url = null;
       }
 
+      if(name === "source"){
+        name = "source & election";
+        url = null;
+      }
+
       if(name === "electionadministration"){
         name = "election administration";
       }

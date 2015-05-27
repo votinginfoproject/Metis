@@ -10,7 +10,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedsService, $routeParams, $locati
   $scope.vipfeed = $routeParams.vipfeed;
 
   // initialize page header variables
-  $rootScope.setPageHeader("Source", $rootScope.getBreadCrumbs(), "feeds", "" ,null);
+  $rootScope.setPageHeader("Source & Election", $rootScope.getBreadCrumbs(), "feeds", "" ,null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -56,7 +56,7 @@ function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, service
       $scope.feedSource = data;
 
       // set the title
-      $rootScope.pageHeader.title = "Source ID: " + data.id;
+      $rootScope.pageHeader.title = "Source & Election ID: " + data.id;
 
     }).error(function (data) {
 
