@@ -8,8 +8,6 @@
 <div class="data-module-full">
   <dl class="attributes" ng-if="feedCandidate">
     <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
-    <dt class="key">Last Name:</dt> <dd id="candidate-lastname" class="value">{{feedCandidate.last_name}}</dd>
-    <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
 
     <!-- Logic to switch detailed party -->
     <dt class="key" ng-if="!feedCandidate.party.name">Party:</dt>
@@ -36,8 +34,6 @@
 
     <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>
     <dt class="key">Sort Order:</dt> <dd id="candidate-sortorder" class="value">{{feedCandidate.sort_order}}</dd>
-    <dt class="key">Incumbent:</dt> <dd id="candidate-incumbent" class="value">{{feedCandidate.incumbent}}</dd>
-    <dt class="key">Candidate Status:</dt> <dd id="candidate-status" class="value">{{feedCandidate.candidate_status}}</dd>
   </dl>
 
   <section class="data-group data-module">
@@ -66,4 +62,3 @@
   </section>
 
 </div>
-
