@@ -560,11 +560,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     var pathTokens = path.split("/");
 
-    var url = "/#";
+    var url = "/#/feeds";
     var name = null;
 
     var makeUrlNull = false;
-    for(var index=0; index<pathTokens.length; index++){
+    for(var index=1; index<pathTokens.length; index++){
 
       name = pathTokens[index];
       url += "/" + pathTokens[index];
