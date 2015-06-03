@@ -75,7 +75,6 @@
   <!-- element table directive -->
   <section class="data-group data-module">
     <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
-    {{localTableParams}}
     <table ng-show="feedLocalities.length" id="localTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
       <tr id="locality{{$index}}" ng-repeat="locality in $data">
         <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
