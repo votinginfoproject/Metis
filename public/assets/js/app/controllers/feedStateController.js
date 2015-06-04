@@ -60,7 +60,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       $scope.feedState = data;
 
       // set the title
-      $rootScope.pageHeader.title = "State ID: " + data.id;
+      $rootScope.pageHeader.title = "Polling Locations";
 
       FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 
