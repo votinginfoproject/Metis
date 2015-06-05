@@ -560,11 +560,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
     var pathTokens = path.split("/");
 
-    var url = "/#";
+    // Since we want to eliminate the "Feeds" link from the breadcrumb path, we start off at /#/feeds and increment the for loop from 1 instead of 0
+
+    var url = "/#/feeds";
     var name = null;
 
     var makeUrlNull = false;
-    for(var index=0; index<pathTokens.length; index++){
+
+    for(var index=1; index<pathTokens.length; index++){
 
       name = pathTokens[index];
       url += "/" + pathTokens[index];
@@ -581,6 +584,11 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "streetsegments"){
         name = "street segments";
+        url = null;
+      }
+
+      if(name === "source"){
+        name = "source & election";
         url = null;
       }
 

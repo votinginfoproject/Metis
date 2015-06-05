@@ -29,10 +29,10 @@ describe('Feed Election Test', function () {
       sleep(testGlobals.sleepTime);
       */
 
-      expect(element('#sidebar-election').count()).toBe(1);
+      expect(element('#sidebar-source').count()).toBe(1);
 
-      // click the election link
-      element('#sidebar-election').click();
+      // click the source link
+      element('#sidebar-source').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed Source page

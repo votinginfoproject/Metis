@@ -10,7 +10,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProp
   $scope.vipfeed = feedid;
 
   // initialize page header variables
-  $rootScope.setPageHeader("State", $rootScope.getBreadCrumbs(), "feeds", "", null);
+  $rootScope.setPageHeader("Polling Locations", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
@@ -60,7 +60,7 @@ function FeedStateCtrl_getFeedState($scope, $rootScope, $feedsService, servicePa
       $scope.feedState = data;
 
       // set the title
-      $rootScope.pageHeader.title = "State ID: " + data.id;
+      $rootScope.pageHeader.title = "Polling Locations";
 
       FeedStateCtrl_getFeedLocalities($scope, $rootScope, $feedsService, data.localities, $appProperties, $filter, ngTableParams);
 

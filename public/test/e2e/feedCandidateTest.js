@@ -28,14 +28,14 @@ describe('Testing Feed Candidate Page', function() {
        sleep(testGlobals.sleepTime);
        */
 
-      expect(element('#sidebar-election').count()).toBe(1);
+      expect(element('#sidebar-contests').count()).toBe(1);
 
-      // click the election link
-      element('#sidebar-election').click();
+      // click the contests link
+      element('#sidebar-contests').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed election page
-      expect(element('#feed-election-content').count()).toBe(1);
+      // should be on the feed contests page
+      expect(element('#feed-contests-content').count()).toBe(1);
 
       element('#contests-id0 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
@@ -99,14 +99,14 @@ describe('Testing Feed Candidates Page', function() {
        sleep(testGlobals.sleepTime);
        */
 
-      expect(element('#sidebar-election').count()).toBe(1);
+      expect(element('#sidebar-contests').count()).toBe(1);
 
-      // click the election link
-      element('#sidebar-election').click();
+      // click the contests link
+      element('#sidebar-contests').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed election page
-      expect(element('#feed-election-content').count()).toBe(1);
+      expect(element('#feed-contests-content').count()).toBe(1);
 
       element('#contests-id0 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
@@ -137,4 +137,3 @@ describe('Testing Feed Candidates Page', function() {
     });
   });
 });
-
