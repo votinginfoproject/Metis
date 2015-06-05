@@ -73,3 +73,17 @@ if (config.web.enableSSL) {
     logger.info('Express server listening on port ' + config.web.port);
   });
 }
+
+var pg = require('pg');
+var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER + 
+                 ":" + process.env.DB_ENV_POSTGRES_PASSWORD +
+                 "@" + process.env.DB_PORT_5432_TCP_ADDR +
+                 ":" + process.env.DB_PORT_5432_TCP_PORT;
+
+pg.connect(connString, function(err, client, done) {
+  if(err) {
+    return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
+  }
+
+  logger.info('Connected to PostgreSQL.');
+});
