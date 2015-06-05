@@ -10,7 +10,7 @@ function FeedStateCtrl($scope, $rootScope, $feedsService, $routeParams, $appProp
   $scope.vipfeed = feedid;
 
   // initialize page header variables
-  $rootScope.setPageHeader("State", $rootScope.getBreadCrumbs(), "feeds", "", null);
+  $rootScope.setPageHeader("Polling Locations", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   // get general Feed data
   $feedsService.getFeedData(feedid)
