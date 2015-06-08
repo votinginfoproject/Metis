@@ -6,7 +6,6 @@ var config = {};
 var host = process.env.MONGO_PORT_27017_TCP_ADDR || 'localhost';
 var connectionString = 'mongodb://' + host + '/metis';
 
-
 config.upload = {
   uploadPath: 'upload/'
 };
