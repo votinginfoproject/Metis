@@ -1,4 +1,5 @@
 var conn = require('./conn.js');
+var resp = require('./response.js');
 
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
@@ -29,7 +30,7 @@ module.exports = {
       }
 
       client.end();
-      conn.writeResponse(result.rows, res)
+      resp.writeResponse(result.rows, res)
     });
   },
   getValidationsErrorCount: function(req, res) {
@@ -50,7 +51,7 @@ module.exports = {
       }
 
       client.end();
-      conn.writeResponse(count, res)
+      resp.writeResponse(count, res)
     });
   }
 }
