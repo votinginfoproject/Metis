@@ -3,11 +3,17 @@
  * Feeds Overview Controller
  *
  */
-function FeedOverviewCtrl($scope, $rootScope, $feedsService, $routeParams, $location, $appProperties, $filter, ngTableParams) {
+function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $location, $appProperties, $filter, ngTableParams) {
 
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
+
+  var errorPath = $feedDataPaths.getFeedValidationsErrorCountPath(feedid);
+  $feedDataPaths.getResponse({ path: errorPath,
+                               scope: $rootScope,
+                               key: "errorCount",
+                               errorMessage: "Could not retrieve Feed Error Count."});
 
   // initialize page header variables
   $rootScope.setPageHeader("", $rootScope.getBreadCrumbs(), "feeds", "", null);
