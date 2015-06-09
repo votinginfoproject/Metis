@@ -12,7 +12,7 @@ vipApp.factory('$feedDataPaths', function ($http) {
         }).
         error(function (results, status) {
           options['scope'][options['key']] = null;
-          scope['pageHeader']['error'] += options['errorMessage'];
+          options['pageHeader']['error'] += options['errorMessage'];
         });
     }
   }
