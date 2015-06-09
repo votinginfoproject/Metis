@@ -39,8 +39,8 @@ describe('Feed Locality Test', function () {
       expect(element('#feed-contests-content').count()).toBe(1);
 
       // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      element('#pageHeader-breadcrumb2').click();
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      element('#pageHeader-breadcrumb1').click();
 
       // should be on the feed election page
 
@@ -101,7 +101,7 @@ describe('Feed Locality Test', function () {
     it('Error page link works', function() {
       element('#locality-errors').click();
       expect(element('#feeds-election-state-localities-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       expect(element('#feed-locality-content').count()).toBe(1);
     });
   });
@@ -143,7 +143,7 @@ describe('Feed Locality Test', function () {
     it('Error page link works', function() {
       element('#electionadmin-errors').click();
       expect(element('#feeds-election-state-localities-electionadministration-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb6 a').click();
+      element('#pageHeader-breadcrumb5 a').click();
       expect(element('#feeds-election-state-localities-electionadministration-content').count()).toBe(1);
     });
 
@@ -152,7 +152,7 @@ describe('Feed Locality Test', function () {
 
       // now go back to the locality page
       // click the state breadcrumb
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality page
@@ -188,7 +188,7 @@ describe('Feed Locality Test', function () {
     it('Error page link works', function() {
       element('#earlyvotesite-errors').click();
       expect(element('#feeds-election-state-localities-earlyvotesites-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb7 a').click();
+      element('#pageHeader-breadcrumb6 a').click();
       expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
     });
   });
@@ -200,7 +200,7 @@ describe('Feed Locality Test', function () {
     // if there is data
     it('Should be able to go into a Locality Early Vote Sites page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb6 a').click();
+      element('#pageHeader-breadcrumb5 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality early vote sites page

@@ -76,7 +76,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
 
     });
@@ -114,7 +114,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -149,7 +149,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -186,7 +186,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -222,7 +222,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -258,7 +258,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -293,7 +293,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -329,7 +329,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -377,7 +377,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -414,7 +414,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -450,7 +450,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -486,7 +486,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -521,7 +521,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the overview page
-      element('#pageHeader-breadcrumb1 a').click();
+      element('#pageHeader-breadcrumb0 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -585,7 +585,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the contest page
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -619,7 +619,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the contest page
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -654,7 +654,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the contest page
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -689,7 +689,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the contest page
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -753,7 +753,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -788,7 +788,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -823,7 +823,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -858,7 +858,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -893,7 +893,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
@@ -928,7 +928,7 @@ describe('Feed Overview Test', function () {
       if(errorcountVal !== "0"){ expect(errorcount).toBe(errorcount2.value); }
 
       // go back to the locality page
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       sleep(testGlobals.sleepTime);
     });
 
