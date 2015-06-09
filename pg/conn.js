@@ -12,7 +12,7 @@ module.exports = {
   closePostgres: function(query, client, res) {
     query.on("end", function (result) {
       client.end();
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(result.rows, null, "    ") + "\n");
       res.end();
     });

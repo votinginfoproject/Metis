@@ -29,7 +29,7 @@ module.exports = {
       }
 
       client.end();
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(result.rows, null, "    ") + "\n");
       res.end();
     });
@@ -52,7 +52,7 @@ module.exports = {
       }
 
       client.end();
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(count, null, "    ") + "\n");
       res.end();
     });
