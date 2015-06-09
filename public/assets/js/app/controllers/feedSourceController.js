@@ -56,7 +56,7 @@ function FeedSourceCtrl_getFeedSource($scope, $rootScope, $feedsService, service
       $scope.feedSource = data;
 
       // set the title
-      $rootScope.pageHeader.title = "Source & Election ID: " + data.id;
+      $rootScope.pageHeader.title = "Source & Election";
 
     }).error(function (data) {
 

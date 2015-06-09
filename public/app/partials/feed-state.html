@@ -20,7 +20,7 @@
       <td id="state-localities" class="localities"><a href="{{$location.absUrl()}}" data-title-text="Localities"><span class="td-text">{{feedElection.state.locality_count}}</span></a>
       </td>
       <td data-title="'Errors'" sortable="'error_count'" id="feedContests-errors{{$index}}" class="numeric element-errors">
-       <p ng-if="feedState.error_count !== undefined" data-title-text="Errors"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}" href="{{$location.absUrl()}}/errors">{{feedState.error_count}}<span ng-if="feedState.error_count===0"><i class="fi-check"></i></span><span ng-if="feedState.error_count!=0"><i class="fi-alert"></i></span></a></p>
+       <p ng-if="feedState.error_count !== undefined" data-title-text="Errors"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}">{{feedState.error_count}}<span ng-if="feedState.error_count===0"><i class="fi-check"></i></span><span ng-if="feedState.error_count!=0"><i class="fi-alert"></i></span></a></p>
       </td>
     </tr>
     </tbody>
