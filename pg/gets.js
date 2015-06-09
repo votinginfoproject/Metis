@@ -4,7 +4,7 @@ module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getResults: function(req, res) {
     var client = conn.openPostgres();
-    var query = client.query("SELECT * FROM results WHERE id=" + req.query.id);
+    var query = client.query("SELECT * FROM results WHERE id=$1", [req.query.id]);
 
     query.on("row", function (row, result) {
       result.addRow(row);
@@ -14,7 +14,7 @@ module.exports = {
   },
   getValidations: function(req, res) {
     var client = conn.openPostgres();
-    var query = client.query("SELECT * FROM validations WHERE result_id=" + req.query.id);
+    var query = client.query("SELECT * FROM validations WHERE result_id=$1", [req.query.id]);
 
     query.on("row", function (row, result) {
       result.addRow(row);
@@ -29,14 +29,12 @@ module.exports = {
       }
 
       client.end();
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(result.rows, null, "    ") + "\n");
-      res.end();
+      conn.writeResponse(result.rows, res)
     });
   },
   getValidationsErrorCount: function(req, res) {
     var client = conn.openPostgres();
-    var query = client.query("SELECT message FROM validations WHERE result_id=" + req.query.id);
+    var query = client.query("SELECT message FROM validations WHERE result_id=$1", [req.query.id]);
 
     query.on("row", function (row, result) {
       result.addRow(row);
@@ -52,9 +50,7 @@ module.exports = {
       }
 
       client.end();
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(count, null, "    ") + "\n");
-      res.end();
+      conn.writeResponse(count, res)
     });
   }
 }

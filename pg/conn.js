@@ -8,13 +8,16 @@ module.exports = {
     client.connect();
     return client;
   },
+  writeResponse: function(result, res) {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(result, null, "    ") + "\n");
+    res.end();
+  },
   // Close the connection
   closePostgres: function(query, client, res) {
     query.on("end", function (result) {
       client.end();
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.write(JSON.stringify(result.rows, null, "    ") + "\n");
-      res.end();
+      this.writeResponse(result.rows, res)
     });
   }
 }
