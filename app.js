@@ -17,6 +17,7 @@ var feedServices = require('./services/feeds');
 var errorServices = require('./services/errors');
 var overviewServices = require('./services/overviews');
 var geoServices = require('./services/geo');
+var pgServices = require('./pg/services');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -58,6 +59,7 @@ feedServices.registerFeedsServices(app);
 errorServices.registerErrorServices(app);
 overviewServices.registerOverviewServices(app);
 geoServices.registerGeoServices(app);
+pgServices.registerPostgresServices(app);
 
 if (config.web.enableSSL) {
   var opts = {
@@ -79,6 +81,7 @@ var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER +
                  ":" + process.env.DB_ENV_POSTGRES_PASSWORD +
                  "@" + process.env.DB_PORT_5432_TCP_ADDR +
                  ":" + process.env.DB_PORT_5432_TCP_PORT;
+process.env.DATABASE_URL = connString;
 
 pg.connect(connString, function(err, client, done) {
   if(err) {
