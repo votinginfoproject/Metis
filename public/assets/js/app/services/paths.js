@@ -5,10 +5,14 @@ vipApp.factory('$feedDataPaths', function ($http) {
     getFeedResultsPath: function (feedid) { return '/db/results?id=' + feedid },
     getFeedValidationsPath: function (feedid) { return '/db/validations?id=' + feedid },
     getFeedValidationsErrorCountPath: function (feedid) { return '/db/validations/errorCount?id=' + feedid },
-    getResponse: function(options) {
+    getFeedContestsPath: function (feedid) { return "/db/feeds/" + feedid + "/contests" },
+    getResponse: function(options, callback) {
       $http.get(options['path']).
         success(function (results, status) {
-         options['scope'][options['key']] = results;
+          options['scope'][options['key']] = results;
+          if (callback) {
+            callback(results);
+          }
         }).
         error(function (results, status) {
           options['scope'][options['key']] = null;

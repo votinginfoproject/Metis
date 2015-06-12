@@ -13,6 +13,16 @@ module.exports = {
 
     conn.closePostgres(query, client, res);
   },
+  getFeedContests: function(req, res) {
+    var client = conn.openPostgres();
+    var query = client.query("SELECT * FROM contests WHERE results_id=$1", [req.params.feedid]);
+
+    query.on("row", function (row, result) {
+      result.addRow(row);
+    });
+
+    conn.closePostgres(query, client, res);
+  },
   getValidations: function(req, res) {
     var client = conn.openPostgres();
     var query = client.query("SELECT * FROM validations WHERE result_id=$1", [req.query.id]);
@@ -44,7 +54,7 @@ module.exports = {
     query.on("end", function (result) {
       var edn = require("jsedn");
       var count = 0;
-      
+
       for (i = 0; i < result.rows.length; i++) {
         var parsed_message = edn.toJS(edn.parse(result.rows[i]["message"]));
         count += parsed_message.length || 1;
