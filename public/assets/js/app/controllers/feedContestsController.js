@@ -56,7 +56,7 @@ function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedsService, ser
       $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
       // set the title
-      $rootScope.pageHeader.title = $scope.feedContests.length + " Contests";
+      $rootScope.pageHeader.title = "Contests";
     }).error(function(data, $http) {
       $rootScope.pageHeader.error += "Could not retrieve Feed Contests data. ";
 
@@ -78,7 +78,7 @@ function FeedContestsOverviewCtrl_getFeedContestsOverview($scope, $rootScope, $f
       $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
 
       // set the title
-      $rootScope.pageHeader.title = $scope.feedContests.length + " Contests";
+      $rootScope.pageHeader.title = "Contests";
     }).error(function(data, $http) {
       $rootScope.pageHeader.error += "Could not retrieve Feed Contests data. ";
 

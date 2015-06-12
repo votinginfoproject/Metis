@@ -1,7 +1,5 @@
 <i id="feed-state-content"></i>
 
-<p ng-if="feedState.error_count !== undefined"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}" href="{{$location.absUrl()}}/errors">{{feedState.error_count}} Errors in State ID: {{feedState.id}}</a></p>
-
 <section class="data-group data-module">
   <h2>State</h2>
 
@@ -12,6 +10,7 @@
       <th>ID</th>
       <th>Name</th>
       <th>Localities</th>
+      <th class="numeric">Errors</th>
     </tr>
     </thead>
     <tbody>
@@ -19,6 +18,9 @@
       <td id="state-id" class="id"><a href="{{$location.absUrl()}}" data-title-text="ID"><span class="td-text">{{feedElection.state.id}}</span></a></td>
       <td id="state-name" class="name"><a href="{{$location.absUrl()}}" data-title-text="Name"><span class="td-text">{{feedElection.state.name}}</span></a></td>
       <td id="state-localities" class="localities"><a href="{{$location.absUrl()}}" data-title-text="Localities"><span class="td-text">{{feedElection.state.locality_count}}</span></a>
+      </td>
+      <td data-title="'Errors'" sortable="'error_count'" id="feedContests-errors{{$index}}" class="numeric element-errors">
+       <p ng-if="feedState.error_count !== undefined" data-title-text="Errors"><a id="state-errors" class="error-count error-count-{{feedState.error_count}}">{{feedState.error_count}}<span ng-if="feedState.error_count===0"><i class="fi-check"></i></span><span ng-if="feedState.error_count!=0"><i class="fi-alert"></i></span></a></p>
       </td>
     </tr>
     </tbody>
@@ -89,4 +91,3 @@
     </ul>
   </script>
 </section>
-

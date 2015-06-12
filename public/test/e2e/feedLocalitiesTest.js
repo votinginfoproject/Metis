@@ -22,21 +22,27 @@ describe('Feed Localities Test', function () {
       sleep(testGlobals.sleepTime);
 
       /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
-      expect(element('#sidebar-election').count()).toBe(1);
+      expect(element('#election-link').count()).toBe(1);
 
       // click the election link
-      element('#sidebar-election').click();
+      element('#election-link').click();
+      sleep(testGlobals.sleepTime);
+      */
+
+      expect(element('#sidebar-contests').count()).toBe(1);
+
+      // click the contests link
+      element('#sidebar-contests').click();
       sleep(testGlobals.sleepTime);
 
+      // should be on the feed contests page
+      expect(element('#feed-contests-content').count()).toBe(1);
+
+      // should have a link back to the election page in the breadcrumbs
+      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
+      element('#pageHeader-breadcrumb2').click();
+
       // should be on the feed election page
-      expect(element('#feed-election-content').count()).toBe(1);
 
       // should have a state link
       expect(element('#state-id a').count()).toBe(1);

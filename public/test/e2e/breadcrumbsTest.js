@@ -80,7 +80,7 @@ describe('Breadcrumbs Test', function () {
 
       expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Source");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Source & Election");
 
     });
   });
