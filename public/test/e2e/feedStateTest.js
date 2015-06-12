@@ -39,8 +39,8 @@ describe('Feed State Test', function () {
       expect(element('#feed-contests-content').count()).toBe(1);
 
       // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      element('#pageHeader-breadcrumb2').click();
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      element('#pageHeader-breadcrumb1').click();
 
       // should be on the feed election page
 
@@ -92,7 +92,7 @@ describe('Feed State Test', function () {
 
       expect(element('#feeds-election-state-errors-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb3 a').click();
+      element('#pageHeader-breadcrumb2 a').click();
       sleep(testGlobals.sleepTime);
 
       expect(element('#feed-state-content').count()).toBe(1);
@@ -162,7 +162,7 @@ describe('Feed State Test', function () {
       element('#electionadmin-errors').click();
       sleep(testGlobals.sleepTime);
       expect(element('#feeds-election-state-electionadministration-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
       expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
     });
@@ -172,7 +172,7 @@ describe('Feed State Test', function () {
 
       // now go back to the state page
       // click the state breadcrumb
-      element('#pageHeader-breadcrumb3 a').click();
+      element('#pageHeader-breadcrumb2 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state page
@@ -202,7 +202,7 @@ describe('Feed State Test', function () {
 
       // now go back to the state page
       // click the state breadcrumb
-      element('#pageHeader-breadcrumb3 a').click();
+      element('#pageHeader-breadcrumb2 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed state page
