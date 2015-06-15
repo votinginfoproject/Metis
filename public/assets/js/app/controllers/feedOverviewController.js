@@ -17,7 +17,8 @@ function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope:  $rootScope,
                                key: 'overviewData',
-                               errorMessage: 'Cound not retrieve Feed Overview Data.'});
+                               errorMessage: 'Cound not retrieve Feed Overview Data.'},
+                             function(result) { $rootScope.overviewData = result[0]; });
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/localities ',
                                scope:  $rootScope,
                                key: 'feedLocalities',
