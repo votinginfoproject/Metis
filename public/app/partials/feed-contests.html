@@ -10,19 +10,19 @@
   <section class="data-group data-module">
     <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
     <table class="overview" ng-show="feedContests.length" id="contestsOverviewTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
-      <tr id="feedContests{{$index}}" ng-repeat="contest in feedContests">
-        <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{contest.element_type}}</span></td>
-        <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contest.amount | number}}</span></td>
+      <tr id="feedContests{{$index}}" ng-repeat="element in contestsOverviewTable[0]">
+        <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{element.element_type}}</span></td>
+        <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{element.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
           <div data-title-text="Completion" class="completeness">
-            <span class="complete-{{contest.complete_pct}}"></span>
-            <div class="counter">{{contest.complete_pct | number}}% <span class="counter-text">complete</span></div>
+            <span class="complete-{{element.complete_pct}}"></span>
+            <div class="counter">{{element.complete_pct | number}}% <span class="counter-text">complete</span></div>
           </div>
         </td>
         <td data-title="'Errors'" sortable="'error_count'" id="feedContests-errors{{$index}}" class="numeric element-errors">
-          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: contest.error_count===0}" href="{{contest.error_count===0 ? 'javascript: void(0);' : contest.self}}">
-            <div errorvalue="{{contest.error_count}}" ng-class="{none: contest.error_count===0}"
-                  class="errors">{{contest.error_count | number}} <span class="error-text" ng-if="contest.error_count===1">error</span><span class="error-text" ng-if="contest.error_count!=1">errors</span> <span ng-if="contest.error_count===0"><i class="fi-check"></i></span><span ng-if="contest.error_count!=0"><i class="fi-alert"></i></span>
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: element.error_count===0}" href="{{element.error_count===0 ? 'javascript: void(0);' : element.link}}">
+            <div errorvalue="{{element.error_count}}" ng-class="{none: element.error_count===0}"
+                  class="errors">{{element.error_count | number}} <span class="error-text" ng-if="element.error_count===1">error</span><span class="error-text" ng-if="element.error_count!=1">errors</span> <span ng-if="element.error_count===0"><i class="fi-check"></i></span><span ng-if="element.error_count!=0"><i class="fi-alert"></i></span>
             </div>
           </a>
         </td>
