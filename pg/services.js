@@ -6,6 +6,8 @@ function registerPostgresServices (app) {
   app.get('/db/validations/errorCount', function(req,res){ pg.getValidationsErrorCount(req,res); });
   app.get('/db/feeds/:feedid/contests', function(req,res){ pg.getFeedContests(req,res); });
   app.get('/db/feeds/:feedid/contests/overview', pg.getFeedContestsOverview);
+  app.get('/db/feeds/:feedid/overview', pg.getFeedOverview);
+  app.get('/db/feeds/:feedid/localities', pg.getFeedLocalities);
 }
 
 exports.registerPostgresServices = registerPostgresServices;
