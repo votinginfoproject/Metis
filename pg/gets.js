@@ -28,6 +28,7 @@ module.exports = {
   getFeedContests: simpleQueryResponder("SELECT * FROM contests WHERE results_id=$1", function(req) { return [req.params.feedid]; }),
   getFeedLocalities: simpleQueryResponder("SELECT l.id, l.name, COUNT(p.*) AS precincts, CONCAT('#/feeds/', l.results_id, '/election/state/localities/', l.id) as link FROM localities l INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id WHERE l.results_id = $1 GROUP BY l.id, l.name, l.results_id ORDER BY l.id;", function(req) { return [req.params.feedid]; }),
   getFeedState: simpleQueryResponder("SELECT s.id, s.name, (SELECT COUNT(l.*) FROM localities l WHERE l.results_id = $1) AS locality_count, (SELECT COUNT(v.*) FROM validations v WHERE v.result_id = $1 AND v.scope = 'states') AS error_count FROM states s WHERE s.results_id = $1 GROUP BY s.id, s.name ORDER BY s.id;", function(req) { return [req.params.feedid]; }),
+  getFeedElectionAdministrations: simpleQueryResponder("SELECT id, name, CONCAT(physical_address_city, ', ', physical_address_state, ', ', physical_address_zip) AS address, CONCAT('#/feeds/', e.results_id, '/election/state/electionadministration') AS link FROM election_administrations e WHERE results_id=$1;", function(req) { return [req.params.feedid]; }),
   getFeedOverview: function(req, res) {
     var client = conn.openPostgres();
     var feedid = req.params.feedid;

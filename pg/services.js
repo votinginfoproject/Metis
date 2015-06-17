@@ -9,6 +9,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/overview', pg.getFeedOverview);
   app.get('/db/feeds/:feedid/localities', pg.getFeedLocalities);
   app.get('/db/feeds/:feedid/election/state', pg.getFeedState);
+  app.get('/db/feeds/:feedid/election/state/election-administrations', pg.getFeedElectionAdministrations);
 }
 
 exports.registerPostgresServices = registerPostgresServices;
