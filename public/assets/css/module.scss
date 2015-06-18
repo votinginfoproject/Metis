@@ -134,15 +134,19 @@
         }
       }
       td.numeric {
-       padding: 1em 1em 0 0;
-       @include max-bp(c6) {
-        border-top: 1px solid #33699c;
-        padding: .5em 1em .5em 0;
-       }
+        padding: 1em 1em 0 0;
+        @include max-bp(c6) {
+          border-top: 1px solid #33699c;
+          padding: .5em 1em .5em 0;
+        }
 
-       p {
-        margin: 0;
-       }
+        p {
+          margin: 0;
+        }
+      }
+
+      td.numeric-error-count {
+        padding: 0.25em 1em 0.25em 0;
       }
     }
   }
