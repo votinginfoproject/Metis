@@ -24,15 +24,15 @@ var simpleQueryResponder = function(sqlQuery, paramsFn) {
 
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
-  getResults: simpleQueryResponder("SELECT * FROM results WHERE id=$1", function(req) { return [req.query.id]; }),
-  getFeedContests: simpleQueryResponder("SELECT * FROM contests WHERE results_id=$1", function(req) { return [req.params.feedid]; }),
-  getFeedLocalities: simpleQueryResponder("SELECT l.id, l.name, COUNT(p.*) AS precincts, CONCAT('#/feeds/', l.results_id, '/election/state/localities/', l.id) as link FROM localities l INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id WHERE l.results_id = $1 GROUP BY l.id, l.name, l.results_id ORDER BY l.id;", function(req) { return [req.params.feedid]; }),
+  getResults: simpleQueryResponder("SELECT * FROM results WHERE public_id=$1", function(req) { return [decodeURIComponent(req.query.id)]; }),
+  getFeedContests: simpleQueryResponder("SELECT c.* FROM contests c INNER JOIN results r ON r.id = c.results_id WHERE r.public_id=$1", function(req) { return [decodeURIComponent(req.params.feedid)]; }),
+  getFeedLocalities: simpleQueryResponder("SELECT l.id, l.name, COUNT(p.*) AS precincts, CONCAT('#/feeds/', l.results_id, '/election/state/localities/', l.id) as link FROM localities l INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id INNER JOIN results r ON l.results_id = r.id WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id ORDER BY l.id;", function(req) { return [decodeURIComponent(req.params.feedid)]; }),
   getFeedState: simpleQueryResponder("SELECT s.id, s.name, (SELECT COUNT(l.*) FROM localities l WHERE l.results_id = $1) AS locality_count, (SELECT COUNT(v.*) FROM validations v WHERE v.result_id = $1 AND v.scope = 'states') AS error_count FROM states s WHERE s.results_id = $1 GROUP BY s.id, s.name ORDER BY s.id;", function(req) { return [req.params.feedid]; }),
   getFeedElectionAdministrations: simpleQueryResponder("SELECT id, name, CONCAT(physical_address_city, ', ', physical_address_state, ', ', physical_address_zip) AS address, CONCAT('#/feeds/', e.results_id, '/election/state/electionadministration') AS link FROM election_administrations e WHERE results_id=$1;", function(req) { return [req.params.feedid]; }),
   getFeedOverview: function(req, res) {
     var client = conn.openPostgres();
     var feedid = req.params.feedid;
-    var query = client.query("SELECT * FROM statistics WHERE results_id=$1", [feedid]);
+    var query = client.query("SELECT s.* FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1", [decodeURIComponent(feedid)]);
 
     query.on("row", function (row, result) {
       var tables = {
@@ -64,7 +64,7 @@ module.exports = {
   getFeedContestsOverview: function(req, res) {
     var client = conn.openPostgres();
     var feedid = req.params.feedid;
-    var query = client.query("SELECT ballots_count, ballots_error_count, ballots_completion, candidates_count, candidates_error_count, candidates_completion, contests_count, contests_error_count, contests_completion, electoral_districts_count, electoral_districts_error_count, electoral_districts_completion, referendums_count, referendums_error_count, referendums_completion FROM statistics WHERE results_id=$1", [feedid]);
+    var query = client.query("SELECT s.ballots_count, s.ballots_error_count, s.ballots_completion, s.candidates_count, s.candidates_error_count, s.candidates_completion, s.contests_count, s.contests_error_count, s.contests_completion, s.electoral_districts_count, s.electoral_districts_error_count, s.electoral_districts_completion, s.referendums_count, s.referendums_error_count, s.referendums_completion FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1", [decodeURIComponent(feedid)]);
 
     query.on("row", function (row, result) {
       var tableData = [
@@ -81,7 +81,7 @@ module.exports = {
   },
   getValidations: function(req, res) {
     var client = conn.openPostgres();
-    var query = client.query("SELECT * FROM validations WHERE result_id=$1", [req.query.id]);
+    var query = client.query("SELECT v.* FROM validations v INNER JOIN results r ON v.result_id = r.id WHERE r.public_id=$1", [decodeURIComponent(req.query.id)]);
 
     query.on("row", function (row, result) {
       result.addRow(row);
@@ -101,7 +101,7 @@ module.exports = {
   },
   getValidationsErrorCount: function(req, res) {
     var client = conn.openPostgres();
-    var query = client.query("SELECT message FROM validations WHERE result_id=$1", [req.query.id]);
+    var query = client.query("SELECT message FROM validations v INNER JOIN results r ON v.result_id = r.id WHERE r.public_id=$1", [decodeURIComponent(req.query.id)]);
 
     query.on("row", function (row, result) {
       result.addRow(row);
