@@ -50,9 +50,9 @@
     </thead>
     <tbody>
     <tr>
-      <td id="state-id" class="id"><a href="{{feedState.link}}" data-title-text="ID"><span class="td-text">{{feedState.id}}</span></a></td>
-      <td id="state-name" class="name"><a href="{{feedState.link}}" data-title-text="Name"><span class="td-text">{{feedState.name}}</span></a></td>
-      <td id="state-localities" class="localities"><a href="{{feedState.link}}" data-title-text="Localities"><span class="td-text">{{feedState.locality_count}}</span></a>
+      <td id="state-id" class="id"><a href="{{$location.absUrl()}}/state" data-title-text="ID"><span class="td-text">{{feedState.id}}</span></a></td>
+      <td id="state-name" class="name"><a href="{{$location.absUrl()}}/state" data-title-text="Name"><span class="td-text">{{feedState.name}}</span></a></td>
+      <td id="state-localities" class="localities"><a href="{{$location.absUrl()}}/state" data-title-text="Localities"><span class="td-text">{{feedState.locality_count}}</span></a>
       </td>
     </tr>
     </tbody>
