@@ -4,21 +4,21 @@
 
 <span ng-if="!feedSource" class="is-loading"></span>
 
-<section class="data-module" ng-if="feedSource.source_info">
+<section class="data-module" ng-if="feedSource">
 <dl class="attributes">
   <dt class="key">Name:</dt>
-  <dd id="source-name" class="value">{{feedSource.source_info.name}}</dd>
+  <dd id="source-name" class="value">{{feedSource.name}}</dd>
   <dt class="key">Datetime:</dt>
-  <dd id="source-date" class="value">{{feedSource.source_info.date}}</dd>
+  <dd id="source-date" class="value">{{feedSource.datetime | date}}</dd>
   <dt class="key">Description:</dt>
-  <dd id="source-description" class="value">{{feedSource.source_info.description}}</dd>
+  <dd id="source-description" class="value">{{feedSource.description}}</dd>
   <dt class="key">Organization URL:</dt>
   <dd id="source-org_url" class="value"><a title="Visit this URL" target="_blank"
-                                           href="{{feedSource.source_info.org_url}}">{{feedSource.source_info.org_url}}</a>
+                                           href="{{feedSource.organization_url}}">{{feedSource.organization_url}}</a>
   </dd>
   <dt class="key">Terms of Use:</dt>
   <dd id="source-tou_url" class="value"><a title="Visit this URL" target="_blank"
-                                           href="{{feedSource.source_info.tou_url}}">{{feedSource.source_info.tou_url}}</a>
+                                           href="{{feedSource.tou_url}}">{{feedSource.tou_url}}</a>
   </dd>
 </dl>
 </section>
@@ -35,16 +35,16 @@
     <dt class="key">Name:</dt>
     <dd id="election-name" class="value">{{feedElection.name}}</dd>
     <dt class="key">Date:</dt>
-    <dd id="election-date" class="value">{{feedElection.date}}</dd>
+    <dd id="election-date" class="value">{{feedElection.date | date}}</dd>
     <dt class="key">Election Type:</dt>
-    <dd id="election-type" class="value">{{feedElection.type}}</dd>
+    <dd id="election-type" class="value">{{feedElection.election_type}}</dd>
     <dt class="key">Statewide</dt>
     <dd id="election-statewide" class="value">{{feedElection.statewide}}</dd>
     <dt class="key">Registration Info:</dt>
-    <dd id="election-registration_url" class="value"><a target="_blank" href="{{feedElection.registration_url}}">{{feedElection.registration_url}}</a>
+    <dd id="election-registration_url" class="value"><a target="_blank" href="{{feedElection.registration_info}}">{{feedElection.registration_info}}</a>
     </dd>
     <dt class="key">Absentee Ballot Info:</dt>
-    <dd id="election-absentee_url" class="value"><a target="_blank" href="{{feedElection.absentee_url}}">{{feedElection.absentee_url}}</a>
+    <dd id="election-absentee_url" class="value"><a target="_blank" href="{{feedElection.absentee_ballot_info}}">{{feedElection.absentee_ballot_info}}</a>
     </dd>
     <dt class="key">Results URL:</dt>
     <dd id="election-results_url" class="value"><a target="_blank" href="{{feedElection.results_url}}">{{feedElection.results_url}}</a>
@@ -52,11 +52,11 @@
     <dt class="key">Polling Hours:</dt>
     <dd id="election-polling_hours" class="value">{{feedElection.polling_hours}}</dd>
     <dt class="key">Election Day Registration:</dt>
-    <dd id="election-day_of_registration" class="value">{{feedElection.day_of_registration}}</dd>
+    <dd id="election-day_of_registration" class="value">{{feedElection.election_day_registration}}</dd>
     <dt class="key">Registration Deadline:</dt>
-    <dd id="election-registration_deadline" class="value">{{feedElection.registration_deadline}}</dd>
+    <dd id="election-registration_deadline" class="value">{{feedElection.registration_deadline | date}}</dd>
     <dt class="key">Absentee Request Deadline:</dt>
-    <dd id="election-absentee_deadline" class="value">{{feedElection.absentee_deadline}}</dd>
+    <dd id="election-absentee_deadline" class="value">{{feedElection.absentee_request_deadline | date}}</dd>
     <dt class="key">UOCAVA Mail Deadline:</dt>
     <dd id="election-uocava_deadline" class="value">{{feedElection.uocava_mail_deadline}}</dd>
   </dl>
