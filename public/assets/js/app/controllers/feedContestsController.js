@@ -17,20 +17,7 @@ function FeedContestsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                scope: $rootScope,
                                key: "errorCount",
                                errorMessage: "Could not retrieve Feed Error Count."});
-
-  FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedDataPaths, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
-
-  $feedDataPaths.getResponse({ path: $feedDataPaths.getContestsOverviewTablePath(feedid),
-                               scope: $rootScope,
-                               key: "contestsOverviewTable",
-                               errorMessage: "Could not retrieve Feed Contests Overview data."});
-}
-
-function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedDataPaths, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
-
-  var feedid = $scope.vipfeed;
-
-  $feedDataPaths.getResponse({ path: $feedDataPaths.getFeedContestsPath(feedid),
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests',
                                scope: $rootScope,
                                key: "feedContests",
                                errorMessage: "Could not retrieve Feed Contests data. "},
@@ -38,4 +25,9 @@ function FeedContestsCtrl_getFeedContests($scope, $rootScope, $feedDataPaths, $f
                                $scope.contestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
                                $rootScope.pageHeader.title = data.length + " Contests";
                              });
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
+                               scope: $rootScope,
+                               key: "feedContestsOverview",
+                               errorMessage: "Could not retrieve Feed Contests Overview data."},
+                             function(result) { $rootScope.feedContestsOverview = result[0]["contests"]; });
 }
