@@ -8,17 +8,17 @@
 
 <span ng-if="!feeds" class="is-loading"></span>
 <table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
-  <tr id="feedIndex{{$index}}" ng-repeat="feed in $data">
-    <td id="date{{$index}}" data-title="'Date'" sortable="'date'" ><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Date"><span class="td-text">{{feed.date}}</span></a>
+  <tr id="feedIndex{{$index}}" ng-repeat="feed in feeds">
+    <td id="date{{$index}}" data-title="'Date'" sortable="'date'" ><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Date"><span class="td-text">{{feed.date.slice(0,10)}}</span></a>
     </td>
-    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
+    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
     </td>
-    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Type"><span class="td-text">{{feed.type}}</span></a>
+    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Type"><span class="td-text">{{feed.election_type}}</span></a>
     </td>
-    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> <span class="td-text">{{feed.status}} <small>{{feed.processingTime}}</small></span></a>
+    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> <span ng-if="feed.complete" class="td-text">Complete <small>({{formatDuration(feed.duration)}})</small></span></a>
     </td>
-    <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
-    <td data-title="'Loaded On'" sortable="'date_loaded'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="{{feed.self}}" data-title-text="Loaded On"><span class="td-text">{{feed.date_loaded_formatted}}</span></a></td>
+    <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
+    <td data-title="'Loaded On'" sortable="'date_loaded'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Loaded On"><span class="td-text">{{feed.start_time}}</span></a></td>
   </tr>
   <tr ng-if="feeds.length === 0">
     <td colspan="6"><p style="padding: 1em;">No Feeds Found</p></td>
@@ -57,21 +57,4 @@
     </tr>
   </table>
 
-</div>
-
-
-
-<!-- Remove below for production -->
-<small>
-  <b>Please Note:</b> This is a temporary form to facilitate the starting of the feed processing.<br>
-  (If running locally, place feed file under the app's <b>/upload</b> folder)
-</small>
-<div style="border: 1px solid #cecece; padding: 5px; max-width: 500px">
-  <small>
-    <form name="feedForm" action="/services/feeds" method="post" onsubmit="  if(this.elements['filenames'].value.trim().length==0){ alert('Filename(s) field is required.'); this.elements['filenames'].focus(); return false; } else { this.elements['submit'].disabled = true; document.forms[0].elements['submit'].style.cssText='background-color: gray';  this.elements['submit'].value='Please Wait...'; return true; } ">
-      <b>Enter one or more Filenames, separated by a new line:</b> <textarea onchange="this.value = this.value.trim()" style="display: block; max-width: 350px; height: 200px" type="text" name="filenames"></textarea>
-      <b>Enter the S3 Bucket Name (if any):</b> <input onchange="this.value = this.value.trim()" style="max-width: 350px;" type="text" name="s3bucket">
-      <input name="submit" type="submit" value="Submit">
-    </form>
-  </small>
 </div>
