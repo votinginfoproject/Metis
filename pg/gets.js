@@ -11,8 +11,13 @@ var overviewTableRow = function(row, type, dbTable, link) {
 
 var simpleQueryResponder = function(sqlQuery, paramsFn) {
   return function(req, res) {
+    var query;
     var client = conn.openPostgres();
-    var query = client.query(sqlQuery, paramsFn(req));
+    if (paramsFn) {
+      query = client.query(sqlQuery, paramsFn(req));
+    } else {
+      query = client.query(sqlQuery);
+    };
 
     query.on("row", function (row, result) {
       result.addRow(row);
