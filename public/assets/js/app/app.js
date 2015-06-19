@@ -764,4 +764,21 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     return title;
 
   }
+
+  var formatDurationNumber = function(n) {
+    if (n && n < 10) {
+      return "0" + n;
+    } else if (n) {
+      return n;
+    } else {
+      return "00"
+    }
+  }
+
+  // Format the duration objects for feeds
+  $rootScope.formatDuration = function(duration) {
+    return formatDurationNumber(duration.hours) + ":" +
+      formatDurationNumber(duration.minutes) + ":" +
+      formatDurationNumber(duration.seconds);
+  }
 });

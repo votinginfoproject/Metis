@@ -11,8 +11,13 @@ var overviewTableRow = function(row, type, dbTable, link) {
 
 var simpleQueryResponder = function(sqlQuery, paramsFn) {
   return function(req, res) {
+    var query;
     var client = conn.openPostgres();
-    var query = client.query(sqlQuery, paramsFn(req));
+    if (paramsFn) {
+      query = client.query(sqlQuery, paramsFn(req));
+    } else {
+      query = client.query(sqlQuery);
+    };
 
     query.on("row", function (row, result) {
       result.addRow(row);
@@ -24,6 +29,7 @@ var simpleQueryResponder = function(sqlQuery, paramsFn) {
 
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
+  getFeeds: simpleQueryResponder("SELECT r.public_id, date(r.start_time) AS date, CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, r.complete, s.name AS state, e.election_type, e.date FROM results r LEFT JOIN states s ON s.results_id = r.id LEFT JOIN elections e ON e.results_id = r.id ORDER BY r.start_time DESC;"),
   getResults: simpleQueryResponder("SELECT * FROM results WHERE public_id=$1", function(req) { return [decodeURIComponent(req.query.id)]; }),
   getFeedContests: simpleQueryResponder("SELECT c.* FROM contests c INNER JOIN results r ON r.id = c.results_id WHERE r.public_id=$1", function(req) { return [decodeURIComponent(req.params.feedid)]; }),
   getFeedLocalities: simpleQueryResponder("SELECT l.id, l.name, COUNT(p.*) AS precincts, CONCAT('#/feeds/', l.results_id, '/election/state/localities/', l.id) as link FROM localities l INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id INNER JOIN results r ON l.results_id = r.id WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id ORDER BY l.id;", function(req) { return [decodeURIComponent(req.params.feedid)]; }),
