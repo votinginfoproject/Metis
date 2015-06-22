@@ -11,22 +11,11 @@
     <dt class="key">Partisan:</dt> <dd id="contest-partisan" class="value">{{feedContest.partisan}}</dd>
 
     <!-- Logic to switch detailed party -->
-    <dt class="key" ng-if="!feedContest.primary_party.name">Primary Party:</dt>
-    <dd id="contest-party" class="value" ng-if="!feedContest.primary_party.name">{{feedContest.primary_party}}</dd>
-
-    <dt class="key" ng-if="feedContest.primary_party.name">Primary Party Name:</dt>
-    <dd id="contest-party-name" class="value" ng-if="feedContest.primary_party.name">{{feedContest.primary_party.name}}</dd>
-    <dt class="key" ng-if="feedContest.primary_party.initial">Primary Party Initial:</dt>
-    <dd id="contest-party-initial" class="value" ng-if="feedContest.primary_party.initial">{{feedContest.primary_party.initial}}</dd>
-    <dt class="key" ng-if="feedContest.primary_party.abbreviation">Primary Party Abbreviation:</dt>
-    <dd id="contest-party-abbreviation" class="value" ng-if="feedContest.primary_party.abbreviation">{{feedContest.primary_party.abbreviation}}</dd>
-    <dt class="key" ng-if="feedContest.primary_party.majorParty">Primary Party Major Party:</dt>
-    <dd id="contest-party-majorparty" class="value" ng-if="feedContest.primary_party.majorParty">{{feedContest.primary_party.majorParty}}</dd>
-
+    <dt class="key" ng-if="!feedContest.primary_party">Primary Party:</dt> <dd id="contest-party" class="value" ng-if="!feedContest.primary_party">{{feedContest.primary_party}}</dd>
     <dt class="key">Electorate Specifications:</dt> <dd id="contest-electorate" class="value">{{feedContest.electorate_specifications}}</dd>
     <dt class="key">Special:</dt> <dd id="contest-special" class="value">{{feedContest.special}}</dd>
     <dt class="key">Office:</dt> <dd id="contest-Office" class="value">{{feedContest.office}}</dd>
-    <dt class="key">Filing Closed Date:</dt> <dd id="contest-closed" class="value">{{feedContest.filing_closed_date}}</dd>
+    <dt class="key">Filing Closed Date:</dt> <dd id="contest-closed" class="value">{{feedContest.filing_closed_date | date}}</dd>
     <dt class="key">Number Elected:</dt> <dd id="contest-elected" class="value">{{feedContest.number_elected}}</dd>
     <dt class="key">Number Voting For:</dt> <dd id="contest-votingFor" class="value">{{feedContest.number_voting_for}}</dd>
     <dt class="key">Ballot Placement:</dt> <dd id="contest-ballot" class="value">{{feedContest.ballot_placement}}</dd>
@@ -41,11 +30,11 @@
   <div ng-show="feedContest.overview.length" ng-overviewtable ng-model="feedContestOverview" loading="feedContestOverview" label="contestOverview"></div>
 
 </section>
-
 <section class="data-group data-module">
 
   <h2>Ballot</h2>
-  <table ng-show="feedContest.ballot" id="ballotTable" class="associations">
+  <table ng-show="feedContestBallot" id="ballotTable" class="associations">
+    
     <thead>
       <tr>
         <th>ID</th>
@@ -55,19 +44,19 @@
     </thead>
     <tbod>
       <tr>
-        <td id="ballot-id"><a href="{{$location.absUrl()}}/ballot" data-title-text="ID"><span class="td-text">{{feedContest.ballot.id}}</span></a></td>
-        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/ballot" data-title-text="Referendums"><span class="td-text">{{feedContest.ballot.referendum_count}}</span></a></td>
-        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/ballot" data-title-text="Candidates"><span class="td-text">{{feedContest.ballot.candidate_count}}</span></a></td>
+        <td id="ballot-id"><a href="{{$location.absUrl()}}/ballot" data-title-text="ID"><span class="td-text">{{feedContestBallot.ballot_id}}</span></a></td>
+        <td id="ballot-referendums"><a href="{{$location.absUrl()}}/ballot" data-title-text="Referendums"><span class="td-text">{{feedContestBallot.referendum_count || 0}}</span></a></td>
+        <td id="ballot-candidates"><a href="{{$location.absUrl()}}/ballot" data-title-text="Candidates"><span class="td-text">{{feedContestBallot.candidate_count || 0}}</span></a></td>
       </tr>
     </tbod>
   </table>
 </section>
 
 <section class="data-group data-module">
-  <h2><span ng-if="!feedContest.electoral_district">No </span>Electoral District</h2>
+  <h2><span ng-if="!feedContestElectoralDistrict">No </span>Electoral District</h2>
 
-  <div ng-if="!feedContest.electoral_district && feedContest.electoral_district !== null"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.electoral_district" id="districtTable" class="associations">
+  <div ng-if="!feedContestElectoralDistrict && feedContestElectoralDistrict !== null"></br><span class="is-loading"></span></div>
+  <table ng-show="feedContestElectoralDistrict" id="districtTable" class="associations">
     <thead>
       <tr>
         <th>ID</th>
@@ -78,20 +67,19 @@
     </thead>
     <tbody>
     <tr>
-      <td id="electoraldistrict-id"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="ID"><span class="td-text">{{feedContest.electoral_district.id}}</span></a></td>
-      <td id="electoraldistrict-name"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Name"><span class="td-text">{{feedContest.electoral_district.name}}</span></a></td>
-      <td id="electoraldistrict-precincts"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precincts"><span class="td-text">{{feedContest.electoral_district.precincts}}</span></a></td>
-      <td id="electoraldistrict-precinctsplits"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precinct Splits"><span class="td-text">{{feedContest.electoral_district.precinct_splits}}</span></a></td>
+      <td id="electoraldistrict-id"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="ID"><span class="td-text">{{feedContestElectoralDistrict.electoral_district_id}}</span></a></td>
+      <td id="electoraldistrict-name"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Name"><span class="td-text">{{feedContestElectoralDistrict.name}}</span></a></td>
+      <td id="electoraldistrict-precincts"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precincts"><span class="td-text">{{feedContestElectoralDistrict.precinct_count}}</span></a></td>
+      <td id="electoraldistrict-precinctsplits"><a href="{{$location.absUrl()}}/electoraldistrict" data-title-text="Precinct Splits"><span class="td-text">{{feedContestElectoralDistrict.precinct_split_count}}</span></a></td>
     </tr>
     </tbody>
   </table>
 </section>
 
 <section class="data-group data-module">
-  <h2><span ng-if="!feedContest.contest_result">No</span> Contest Result</h2>
+  <h2><span ng-if="!feedContestResult">No</span> Contest Result</h2>
 
-  <div ng-if="!feedContest.contest_result && feedContest.contest_result !== null"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.contest_result" id="contestResultTable" class="associations" >
+  <table ng-show="feedContestResult" id="contestResultTable" class="associations" >
     <thead>
       <tr>
         <th>ID</th>
@@ -104,23 +92,23 @@
     </thead>
     <tbody>
       <tr>
-        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult" data-title-text="ID"><span class="td-text">{{feedContest.contest_result.id}}</a></td>
-        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Votes"><span class="td-text">{{feedContest.contest_result.votes}}</span></a></td>
-        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Valid Votes"><span class="td-text">{{feedContest.contest_result.valid_votes}}</span></a></td>
-        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Overvotes"><span class="td-text">{{feedContest.contest_result.overvotes}}</span></a></td>
-        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Blank Votes"><span class="td-text">{{feedContest.contest_result.blank_votes}}</span></a></td>
-        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Certification"><span class="td-text">{{feedContest.contest_result.certification}}</span></a></td>
+        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult" data-title-text="ID"><span class="td-text">{{feedContestResult.id}}</a></td>
+        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Votes"><span class="td-text">{{feedContestResult.total_votes}}</span></a></td>
+        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Valid Votes"><span class="td-text">{{feedContestResult.total_valid_votes}}</span></a></td>
+        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Overvotes"><span class="td-text">{{feedContestResult.overvotes}}</span></a></td>
+        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Blank Votes"><span class="td-text">{{feedContestResult.blank_votes}}</span></a></td>
+        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Certification"><span class="td-text">{{feedContestResult.certification}}</span></a></td>
       </tr>
     </tbody>
   </table>
 </section>
 
 <section class="data-group data-module">
-  <h2>{{feedContest.ballot_line_results.length}} Ballot Line Results</h2>
+  <h2>{{feedContestBallotLineResults.length}} Ballot Line Results</h2>
 
-  <div ng-if="!feedContest.ballot_line_results"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContest.ballot_line_results.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
-    <tr id="ballotlineresult{{$index}}" ng-repeat="result in $data">
+  <div ng-if="!feedContestBallotLineResults"></br><span class="is-loading"></span></div>
+  <table ng-show="feedContestBallotLineResults.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
+    <tr id="ballotlineresult{{$index}}" ng-repeat="result in feedContestBallotLineResults">
       <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="ID"><span class="td-text">{{result.id}}</span></a></td>
       <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Votes"><span class="td-text">{{result.votes}}</span></a></td>
       <td id="ballotlineresult-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Certification"><span class="td-text">{{result.certification}}</span></a></td>
@@ -133,31 +121,6 @@
           ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
         <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == ballotLineResultTableParams.page()}"
            ng-click="ballotLineResultTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
-</section>
-
-<section class="data-group data-module">
-  <h2>{{feedBallotStyle.length}} Ballot Styles</h2>
-
-  <span ng-if="!feedBallotStyle" class="is-loading"></span>
-  <table ng-show="feedBallotStyle.length" id="ballotStylesTable" ng-table="contestBallotStylesTableParams" template-pagination="ballotStylesPagination">
-    <tr id="ballotStyle{{$index}}" ng-repeat="result in $data">
-      <td id="ballotStyle-id{{$index}}" data-title="'ID'" sortable="'elementId'"><span class="td-text">{{result.elementId}}</span></td>
-      <td id="ballotStyle-election{{$index}}" data-title="'Election'" sortable="'election'"><span class="td-text">{{result.election}}</span></td>
-      <td id="ballotStyle-name{{$index}}" data-title="'Name'" sortable="'name'"><span class="td-text">{{result.name}}</span></td>
-      <td id="ballotStyle-sortOrder{{$index}}" data-title="'Sort Order'" sortable="'sortOrder'"><span class="td-text">{{result.sortOrder}}</span></td>
-      <td id="ballotStyle-referendum{{$index}}" data-title="'Referendum'" sortable="'referendum'"><span class="td-text">{{result.referendum}}</span></td>
-    </tr>
-  </table>
-
-  <script type="text/ng-template" id="ballotStylesPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="ballotStylePage{{$index}}" ng-class="{'is-active': page.number == contestBallotStylesTableParams.page()}"
-           ng-click="contestBallotStylesTableParams.page(page.number)" href="">{{page.number}}</a>
       </li>
     </ul>
   </script>

@@ -6,11 +6,11 @@
   </header>
 
   <!-- element table directive -->
-  <span ng-if="!feedContests" class="is-loading"></span>
+  <span ng-if="!feedContestsOverview" class="is-loading"></span>
   <section class="data-group data-module">
-    <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
-    <table class="overview" ng-show="feedContests.length" id="contestsOverviewTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
-      <tr id="feedContests{{$index}}" ng-repeat="element in contestsOverviewTable[0]">
+    <div ng-if="!feedContestsOverview"></br><span class="is-loading"></span></div>
+    <table class="overview" ng-show="feedContestsOverview.length" id="contestsOverviewTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
+      <tr id="feedContests{{$index}}" ng-repeat="element in feedContestsOverview">
         <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{element.element_type}}</span></td>
         <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{element.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
