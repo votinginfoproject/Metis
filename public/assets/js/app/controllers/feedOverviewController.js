@@ -13,7 +13,8 @@ function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
   $feedDataPaths.getResponse({ path: errorPath,
                                scope: $rootScope,
                                key: "errorCount",
-                               errorMessage: "Could not retrieve Feed Error Count."});
+                               errorMessage: "Could not retrieve Feed Error Count."},
+                             function(result) { $rootScope.errorCount = result[0].errorcount; });
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope:  $rootScope,
                                key: 'overviewData',
