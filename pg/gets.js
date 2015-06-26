@@ -92,14 +92,5 @@ module.exports = {
 
     conn.closePostgres(query, client, res);
   },
-  getValidationsErrorCount: function(req, res) {
-    var client = conn.openPostgres();
-    var query = client.query("SELECT COUNT(*) AS errorcount FROM validations v INNER JOIN results r ON r.id = v.results_id WHERE r.public_id = $1", [decodeURIComponent(req.params.feedid)]);
-
-    query.on("row", function (row, result) {
-      result.addRow(row);
-    });
-
-    conn.closePostgres(query, client, res);
-  }
+  getValidationsErrorCount: simpleQueryResponder("SELECT COUNT(*) AS errorcount FROM validations v INNER JOIN results r ON r.id = v.results_id WHERE r.public_id = $1", function(req) { return [decodeURIComponent(req.params.feedid)]; })
 }
