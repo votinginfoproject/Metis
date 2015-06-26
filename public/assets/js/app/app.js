@@ -781,4 +781,17 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       formatDurationNumber(duration.minutes) + ":" +
       formatDurationNumber(duration.seconds);
   }
+
+  $rootScope.feedId = function () {
+    var locationParts = window.location.hash.split("/");
+    if (locationParts[1] === "feeds") {
+      return locationParts[2];
+    }
+  }
+
+  $rootScope.urlForFeed = function(path) {
+    var baseUrl = "#/feeds/" + $rootScope.feedId();
+    return baseUrl + path;
+  }
+
 });
