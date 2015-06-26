@@ -2,62 +2,46 @@
  * Created by rcartier13 on 1/28/14.
  */
 
-function FeedBallotCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
+function FeedBallotCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
   // get the vipfeed param from the route
-  var feedid = $routeParams.vipfeed;
-  $scope.vipfeed = feedid;
+  var feedid = $scope.vipfeed = $rootScope.vipfeed = $routeParams.vipfeed;
+  var contestid = $routeParams.contest;
 
-  // initialize page header variables
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid,
+                               scope: $rootScope,
+                               key: 'feedContest',
+                               errorMessage: 'Could not retrieve related Contest Data.'},
+                             function(result) { $rootScope.feedContest = result[0]; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot',
+                               scope: $rootScope,
+                               key: 'feedBallot',
+                               errorMessage: 'Could not retrieve Ballot Data for Contest ' + contestid + '.'},
+                             function(result) { $rootScope.feedBallot = result[0]; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot/candidates',
+                               scope: $rootScope,
+                               key: 'feedCandidates',
+                               errorMessage: 'Could not retrieve Candidate Data.'},
+                             function(result) { $scope.ballotCandidatesTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+  
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot/referendum',
+                               scope: $rootScope,
+                               key: 'feedReferendum',
+                               errorMessage: 'Could not retrieve Referendum Data.'},
+                             function(result) { $rootScope.feedReferendum = result[0]; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot/custom-ballot',
+                               scope: $rootScope,
+                               key: 'feedCustomBallot',
+                               errorMessage: 'Could not retrieve Custom Ballot Data.'},
+                             function(result) { $rootScope.feedCustomBallot = result[0]; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot/custom-ballot-responses',
+                               scope: $rootScope,
+                               key: 'feedCustomBallotResponses',
+                               errorMessage: 'Could not retrieve Custom Ballot Response Data.'});
+
+  // initialize page header variables  
   $rootScope.setPageHeader("Ballot", $rootScope.getBreadCrumbs(), "feeds", "", null);
-
-  // get general Feed data
-  $feedsService.getFeedData(feedid)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedData = data;
-      $rootScope.feedData = data;
-
-      // now call the other services to get the rest of the data
-      FeedBallotCtrl_getFeedBallot($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
-
-    }).error(function (data, $http) {
-
-      if($http===404){
-        // feed not found
-
-        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
-      } else {
-        // some other error
-
-        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
-      }
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedData = {};
-      $scope.feedBallot = {};
-    });
-};
-
-function FeedBallotCtrl_getFeedBallot($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams) {
-  $feedsService.getFeedBallot(servicePath)
-    .success(function(data) {
-
-      $scope.feedBallot = data;
-
-      $rootScope.pageHeader.title = "Ballot ID: " + data.id;
-
-      $scope.feedBallot.contests.forEach(function(contest) {
-        contest.self = $rootScope.getAngularUrl(contest.self);
-      });
-
-      $scope.ballotCandidatesTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.candidates, $appProperties.lowPagination, { id: 'asc' });
-      $scope.referendaTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.referenda, $appProperties.lowPagination, { id: 'asc' });
-      $scope.ballotContestsTableParams = $rootScope.createTableParams(ngTableParams, $filter, data.contests, $appProperties.lowPagination, { id: 'asc' });
-
-    }).error(function(data) {
-      $rootScope.pageHeader.error += "Could not retrieve Ballot data.";
-
-      $scope.feedBallot = {};
-    });
 }
