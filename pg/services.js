@@ -18,6 +18,8 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/state/election-administrations', pg.getFeedElectionAdministrations);
   app.get('/db/feeds/:feedid/localities', pg.getFeedLocalities);
   app.get('/db/feeds/:feedid/overview', pg.getFeedOverview);
+  app.get('/db/feeds/:feedid/referendum/:referendumid', pg.getFeedReferendum);
+  app.get('/db/feeds/:feedid/referendum/:referendumid/ballot-responses', pg.getFeedReferendumBallotResponses);
   app.get('/db/feeds/:feedid/results', pg.getResults);
   app.get('/db/feeds/:feedid/source', pg.getFeedSource);
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
