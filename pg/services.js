@@ -1,4 +1,5 @@
 var pg = require("./gets.js");
+var pgErrors = require("./gets_errors.js");
 
 function registerPostgresServices (app) {
   app.get('/db/feeds', pg.getFeeds);
@@ -23,6 +24,12 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/results', pg.getResults);
   app.get('/db/feeds/:feedid/source', pg.getFeedSource);
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
+
+  // errors
+  app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors', pgErrors.getFeedContestBallotErrors);
+  app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors/:error_type/example', pgErrors.getFeedContestBallotErrorExample);
+  app.get('/db/feeds/:feedid/overview/ballots/errors', pgErrors.getFeedBallotErrors);
+  app.get('/db/feeds/:feedid/overview/ballots/errors/:error_type/example', pgErrors.getFeedBallotErrorExample);
 }
 
 exports.registerPostgresServices = registerPostgresServices;
