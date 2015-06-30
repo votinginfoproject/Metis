@@ -27,9 +27,7 @@ function registerPostgresServices (app) {
 
   // errors
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors', pgErrors.getFeedContestBallotErrors);
-  app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors/:error_type/example', pgErrors.getFeedContestBallotErrorExample);
   app.get('/db/feeds/:feedid/overview/ballots/errors', pgErrors.getFeedBallotErrors);
-  app.get('/db/feeds/:feedid/overview/ballots/errors/:error_type/example', pgErrors.getFeedBallotErrorExample);
 }
 
 exports.registerPostgresServices = registerPostgresServices;

@@ -1,26 +1,29 @@
+/*
+   Build a query for validation errors based on joins and a where
+   clause. The validations table will be aliased as `v`. Where clauses
+   should use parameters starting at `$2`, as `$1` will be used by the
+   `public_id`.
+
+   For example: buildErrorQuery("", "");
+*/
+var buildErrorQuery = function(joins, wheres) {
+  var wherePart;
+  if (wheres) {
+    wherePart = "AND " + wheres;
+  }
+  return "SELECT DISTINCT ON (severity, scope, error_type) severity, scope, error_type, identifier, error_data, count \
+          FROM (SELECT DISTINCT COUNT(1) OVER (PARTITION BY v.results_id, v.severity, v.scope, v.error_type), \
+                       v.scope, v.error_type, v.identifier, v.error_data, v.severity \
+                FROM validations v \
+                INNER JOIN results r ON r.id = v.results_id " +
+          joins +
+         " WHERE r.public_id = $1 " + wherePart + ") as errors";
+}
+
 module.exports = {
 
   // errors
-  ballotErrors: "SELECT v.severity, v.scope, v.error_type, COUNT(v.*) \
-                 FROM validations v \
-                 INNER JOIN results r ON r.id = v.results_id \
-                 WHERE r.public_id = $1 AND scope = 'ballots' \
-                 GROUP BY v.error_type, v.severity, v.scope;",
-  ballotErrorExample: "SELECT v.identifier, v.error_type, v.error_data \
-                       FROM validations v \
-                       INNER JOIN results r ON r.id = v.results_id \
-                       WHERE v.scope = 'ballots' AND r.public_id = $1 AND v.error_type = $2 \
-                       LIMIT 1;",
-  contestBallotErrors: "SELECT v.severity, v.scope, v.error_type, COUNT(v.*) \
-                        FROM validations v \
-                        INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id \
-                        INNER JOIN results r ON r.id = v.results_id \
-                        WHERE v.scope = 'ballots' AND r.public_id = $1 AND c.id = $2 \
-                        GROUP BY v.error_type, v.severity, v.scope;",
-  contestBallotErrorExample: "SELECT v.identifier, v.error_type, v.error_data \
-                              FROM validations v \
-                              INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id \
-                              INNER JOIN results r ON r.id = v.results_id \
-                              WHERE v.scope = 'ballots' AND r.public_id = $1 AND c.id = $2 AND v.error_type = $3 \
-                              LIMIT 1;"
+  ballotErrors: buildErrorQuery("", "scope = 'ballots'"),
+  contestBallotErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id",
+                                       "v.scope = 'ballots' AND c.id = $2")
 }

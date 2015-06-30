@@ -22,10 +22,10 @@ angular.module('vipFilters', []).
   filter('errorTitle', translator(errorTitles)).
   filter('errorDescription', translator(errorDescriptions)).
   filter('errorExample', function () {
-    return function(example) {
-      var identifier = example.identifier;
-      if (example.identifier == -1) {
+    return function(error) {
+      var identifier = error.identifier;
+      if (error.identifier == -1) {
         identifier = 'global';
       }
-      return "id = " + identifier + " (" + example.error_data + ")";
+      return "id = " + identifier + " (" + error.error_data + ")";
     }});

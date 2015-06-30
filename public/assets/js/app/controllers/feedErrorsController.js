@@ -32,13 +32,5 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
   $feedDataPaths.getResponse({ path: '/db' + $location.path(),
                                scope:  $rootScope,
                                key: 'errors',
-                               errorMessage: 'Cound not retrieve errors' },
-                             function(results) {
-                               for (var i = 0; i < results.length; i++) {
-                                 $feedDataPaths.getResponse({ path: '/db' + $location.path() + '/' + results[i]['error_type'] + '/example',
-                                                              scope: results[i],
-                                                              key: 'example',
-                                                              errorMessage: 'Could not retrieve error example'});
-                               }
-                             });
+                               errorMessage: 'Cound not retrieve errors' });
 }
