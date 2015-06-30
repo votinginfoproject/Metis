@@ -4,7 +4,11 @@
    should use parameters starting at `$2`, as `$1` will be used by the
    `public_id`.
 
-   For example: buildErrorQuery("", "");
+   For example: buildErrorQuery("INNER JOIN ballots b ON b.results_id = v.results_id AND b.id = v.identifier",
+                                "b.id = $2 AND scope = 'ballots'");
+
+   That will get a count of all error types for a specific ballot and
+   example error data for each error type.
 */
 var buildErrorQuery = function(joins, wheres) {
   var wherePart;
