@@ -4,6 +4,9 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
   // initialize page header variables
   $rootScope.setPageHeader("Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
+  // clear previous errors (so they don't weirdly show up on the page)
+  $rootScope.errors = null;
+
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;

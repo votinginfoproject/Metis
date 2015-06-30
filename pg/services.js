@@ -27,7 +27,17 @@ function registerPostgresServices (app) {
 
   // errors
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors', pgErrors.getFeedContestBallotErrors);
-  app.get('/db/feeds/:feedid/overview/ballots/errors', pgErrors.getFeedBallotErrors);
+  app.get('/db/feeds/:feedid/errors', pgErrors.getFeedErrors);
+  app.get('/db/feeds/:feedid/overview/ballots/errors', pgErrors.overviewErrors("ballots"));
+  app.get('/db/feeds/:feedid/overview/candidates/errors', pgErrors.overviewErrors("candidates"));
+  app.get('/db/feeds/:feedid/overview/contests/errors', pgErrors.overviewErrors("contests"));
+  app.get('/db/feeds/:feedid/overview/electionadministrations/errors', pgErrors.overviewErrors("election-administrations"));
+  app.get('/db/feeds/:feedid/overview/electionofficials/errors', pgErrors.overviewErrors("election-officials"));
+  app.get('/db/feeds/:feedid/overview/electoraldistricts/errors', pgErrors.overviewErrors("electoral-districts"));
+  app.get('/db/feeds/:feedid/overview/localities/errors', pgErrors.overviewErrors("localities"));
+  app.get('/db/feeds/:feedid/overview/pollinglocations/errors', pgErrors.overviewErrors("polling-locations"));
+  app.get('/db/feeds/:feedid/overview/streetsegments/errors', pgErrors.overviewErrors("street-segments"));
+  app.get('/db/feeds/:feedid/source/errors', pgErrors.overviewErrors("sources"));
 }
 
 exports.registerPostgresServices = registerPostgresServices;
