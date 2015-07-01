@@ -4,7 +4,6 @@
   Errors in Candidate ID: {{feedCandidate.id}}</a></p>
 
 <span ng-if="!feedCandidate" class="is-loading"></span>
-
 <div class="data-module-full">
   <dl class="attributes" ng-if="feedCandidate">
     <dt class="key">Name:</dt> <dd id="candidate-name" class="value">{{feedCandidate.name}}</dd>
@@ -13,30 +12,21 @@
     <dt class="key" ng-if="!feedCandidate.party.name">Party:</dt>
     <dd id="candidate-party" class="value" ng-if="!feedCandidate.party.name">{{feedCandidate.party}}</dd>
 
-    <dt class="key" ng-if="feedCandidate.party.name">Primary Party Name:</dt>
-    <dd id="candidate-party-name" class="value" ng-if="feedCandidate.party.name">{{feedCandidate.party.name}}</dd>
-    <dt class="key" ng-if="feedCandidate.party.initial">Primary Party Initial:</dt>
-    <dd id="candidate-party-initial" class="value" ng-if="feedCandidate.party.initial">{{feedCandidate.party.initial}}</dd>
-    <dt class="key" ng-if="feedCandidate.party.abbreviation">Primary Party Abbreviation:</dt>
-    <dd id="candidate-party-abbreviation" class="value" ng-if="feedCandidate.party.abbreviation">{{feedCandidate.party.abbreviation}}</dd>
-    <dt class="key" ng-if="feedCandidate.party.majorParty">Primary Party Major Party:</dt>
-    <dd id="candidate-party-majorparty" class="value" ng-if="feedCandidate.party.majorParty">{{feedCandidate.party.majorParty}}</dd>
-
     <dt class="key">Candidate Url:</dt> <dd id="candidate-url" class="value">{{feedCandidate.candidate_url}}</dd>
     <dt class="key">Biography:</dt> <dd id="candidate-biography" class="value">{{feedCandidate.biography}}</dd>
     <dt class="key">Phone:</dt> <dd id="candidate-phone" class="value">{{feedCandidate.phone}}</dd>
     <dt class="key">Photo Url:</dt> <dd id="candidate-photourl" class="value">{{feedCandidate.photo_url}}</dd>
     <dt class="key">Filed Mailing Address:</dt>
     <dd id="physical_address" class="value">
-    {{feedCandidate.filed_mailing_address.line1}}<span ng-if="feedCandidate.filed_mailing_address.line1">,</span>
-    {{feedCandidate.filed_mailing_address.city}}<span ng-if="feedCandidate.filed_mailing_address.city">,</span>
-    {{feedCandidate.filed_mailing_address.state}} {{feedCandidate.filed_mailing_address.zip}}</dd>
+    {{feedCandidate.filed_mailing_address_line1}}<span ng-if="feedCandidate.filed_mailing_address_line1">,</span>
+    {{feedCandidate.filed_mailing_address_city}}<span ng-if="feedCandidate.filed_mailing_address_city">,</span>
+    {{feedCandidate.filed_mailing_address_state}} {{feedCandidate.filed_mailing_address_zip}}</dd>
 
     <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>
     <dt class="key">Sort Order:</dt> <dd id="candidate-sortorder" class="value">{{feedCandidate.sort_order}}</dd>
   </dl>
 
-  <section class="data-group data-module">
+  <section ng-show="feedBallotStyle" class="data-group data-module">
     <h2>{{feedBallotStyle.length}} Ballot Styles</h2>
 
     <span ng-if="!feedBallotStyle" class="is-loading"></span>
@@ -60,5 +50,4 @@
       </ul>
     </script>
   </section>
-
 </div>
