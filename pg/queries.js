@@ -260,6 +260,8 @@ module.exports = {
 
   // errors
   overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },
+  candidateErrors: buildErrorQuery("INNER JOIN candidates c ON v.identifier = c.id AND c.results_id = v.results_id",
+                                   "v.scope = 'candidates' AND c.id = $2"),
   contestBallotErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id",
                                        "v.scope = 'ballots' AND c.id = $2"),
   contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",

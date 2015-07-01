@@ -8,6 +8,7 @@ var errorResponder = function(query, params) {
 module.exports = {
   overviewErrors: function(table) { return errorResponder(queries.overallErrorQuery(table)); },
 
+  getFeedCandidateErrors: errorResponder(queries.candidateErrors, ['candidateid']),
   getFeedContestBallotErrors: errorResponder(queries.contestBallotErrors, ['contestid']),
   getFeedContestErrors: errorResponder(queries.contestErrors, ['contestid']),
   getFeedErrors: errorResponder(queries.errors),
