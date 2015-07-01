@@ -273,6 +273,34 @@ module.exports = {
                            INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.results_id = p.results_id \
                            INNER JOIN validations v ON v.results_id = p.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                            INNER JOIN results r ON r.id = p.results_id \
-                           WHERE r.public_id=$1 AND p.id=$2;"
-
+                           WHERE r.public_id=$1 AND p.id=$2;",
+  precinctSplit: "SELECT ps.*, \
+                  (SELECT COUNT(v.*) \
+                   FROM validations v \
+                   WHERE v.results_id = ps.results_id AND v.scope = 'precinct-splits' AND v.identifier = ps.id) AS error_count \
+                  FROM precinct_splits ps \
+                  INNER JOIN results r ON r.id = ps.results_id \
+                  WHERE r.public_id = $1 AND ps.id = $2",
+  precinctSplitElectoralDistricts: "SELECT ed.*, \
+                                    (SELECT COUNT(c.*) \
+                                     FROM contests c \
+                                     WHERE c.electoral_district_id = ed.id AND c.results_id = ps.results_id) AS contests \
+                                    FROM precinct_splits ps \
+                                    INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_split_id = ps.id AND psed.results_id = ps.results_id \
+                                    INNER JOIN electoral_districts ed ON ed.id = psed.electoral_district_id AND ed.results_id = ps.results_id \
+                                    INNER JOIN results r ON r.id = ps.results_id \
+                                    WHERE r.public_id = $1 AND ps.id = $2",
+  precinctSplitPollingLocations: "SELECT pl.* \
+                                  FROM precinct_splits ps \
+                                  INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = ps.results_id \
+                                  INNER JOIN polling_locations pl ON pl.id = pspl.polling_location_id AND pl.results_id = ps.results_id \
+                                  INNER JOIN results r ON r.id = ps.results_id \
+                                  WHERE r.public_id = $1 AND ps.id = $2;",
+  precinctSplitStreetSegments: "SELECT COUNT(ss.*) AS total, \
+                                COUNT(v.*) AS error_count \
+                                FROM precinct_splits ps \
+                                INNER JOIN street_segments ss ON ss.precinct_split_id = ps.id AND ss.results_id = ps.results_id \
+                                INNER JOIN validations v ON v.results_id = ps.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
+                                INNER JOIN results r ON r.id = ps.results_id \
+                                WHERE r.public_id=$1 AND ps.id=$2;"
 }
