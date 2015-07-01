@@ -27,6 +27,12 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precincts', pg.getFeedLocalityOverviewPrecincts);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precinct-splits', pg.getFeedLocalityOverviewPrecinctSplits);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/street-segments', pg.getFeedLocalityOverviewStreetSegments);
+  app.get('/db/feeds/:feedid/precinct/:precinctid', pg.getFeedPrecinct);
+  app.get('/db/feeds/:feedid/precinct/:precinctid/early-vote-sites', pg.getFeedPrecinctEarlyVoteSites);
+  app.get('/db/feeds/:feedid/precinct/:precinctid/electoral-districts', pg.getFeedPrecinctElectoralDistricts);
+  app.get('/db/feeds/:feedid/precinct/:precinctid/polling-locations', pg.getFeedPrecinctPollingLocations);
+  app.get('/db/feeds/:feedid/precinct/:precinctid/precinct-splits', pg.getFeedPrecinctPrecinctSplits);
+  app.get('/db/feeds/:feedid/precinct/:precinctid/street-segments', pg.getFeedPrecinctStreetSegments);
   app.get('/db/feeds/:feedid/localities', pg.getFeedLocalities);
   app.get('/db/feeds/:feedid/overview', pg.getFeedOverview);
   app.get('/db/feeds/:feedid/referendum/:referendumid', pg.getFeedReferendum);
