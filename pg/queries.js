@@ -36,7 +36,7 @@ module.exports = {
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \
-                    WHERE r.id = v.results_id AND v.scope = 'contests') AS error_count \
+                    WHERE r.id = v.results_id AND v.scope = 'contests' AND v.identifier = $2) AS error_count \
             FROM contests c \
             INNER JOIN results r ON r.id = c.results_id \
             WHERE r.public_id=$1 AND c.id=$2;",
