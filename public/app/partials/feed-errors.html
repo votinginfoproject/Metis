@@ -8,14 +8,14 @@
 
   <span ng-if="!errors" class="is-loading"></span>
   <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="table-errors">
-    <tr id="error{{$index}}" ng-repeat-start="error in $data">
+    <tr id="error{{$index}}" ng-repeat-start="error in errors">
       <td width="10%" class="numeric" id="error-count{{$index}}" data-title="'Count'" sortable="'error_count'">
-        <a href="javascript:void(0)" ng-click="toggleError($index)">{{error.error_count | number}}</a>
+        <a href="javascript:void(0)" ng-click="toggleError($index)">{{error.count | number}}</a>
       </td>
       <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severity_text'" class="toggle-td">
         <a href="javascript:void(0)" ng-click="toggleError($index)">
-          <h3><b class="error-toggle"><span id="errorArrowClosed{{$index}}"><i class="fi-plus"></i></span><span id="errorArrowOpen{{$index}}" hidden><i class="fi-minus"></i></span></b> <strong><i class="fi-alert"></i> {{error.severity_text}}:</strong> {{error.title}}</h3>
-          <p>{{error.details}}</p>
+          <h3><b class="error-toggle"><span id="errorArrowClosed{{$index}}"><i class="fi-plus"></i></span><span id="errorArrowOpen{{$index}}" hidden><i class="fi-minus"></i></span></b> <strong><i class="fi-alert"></i> {{error.severity | severity}}:</strong> {{error.error_type | errorTitle}}</h3>
+          <p>{{error.error_type | errorDescription}}</p>
         </a>
       </td>
     </tr>
@@ -24,8 +24,8 @@
       <td class="error-item" style="padding: 20px 0px; padding-right: 20px;">
         <div>
           <small>Sample from the Report:</small>
-          <div ng-if="error._code[0]" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error.textual_references[0]}}</code></pre></div>
-          <div ng-if="!error._code[0]" style="background-color: #fff; padding: 10px">{{error.textual_references[0]}}</div>
+          <div ng-if="error" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error | errorExample}}</code></pre></div>
+          <div ng-if="!error" style="background-color: #fff; padding: 10px">Could not fetch example error.</div>
           <br>
           <a class="button" href="{{servicePath}}?error_report&error_code={{error.error_code}}" ng-show="errors.length">Download Error Report</a>
           <div ng-show="error.error_count > 50000"><small>(Please be patient for large Error Reports to be prepared and downloaded)</small></div>
