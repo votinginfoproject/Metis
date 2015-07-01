@@ -6,7 +6,6 @@
 function FeedPrecinctCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-  var localityid = $routeParams.locality;
   var precinctid = $routeParams.precinct;
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct/' + precinctid,
