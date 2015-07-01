@@ -1,3 +1,29 @@
+/*
+   Build a query for validation errors based on joins and a where
+   clause. The validations table will be aliased as `v`. Where clauses
+   should use parameters starting at `$2`, as `$1` will be used by the
+   `public_id`.
+
+   For example: buildErrorQuery("INNER JOIN ballots b ON b.results_id = v.results_id AND b.id = v.identifier",
+                                "b.id = $2 AND scope = 'ballots'");
+
+   That will get a count of all error types for a specific ballot and
+   example error data for each error type.
+*/
+var buildErrorQuery = function(joins, wheres) {
+  var wherePart = "";
+  if (wheres) {
+    wherePart = "AND " + wheres;
+  }
+  return "SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
+                 COUNT(1), v.severity, v.scope, v.error_type, (array_agg(v.identifier))[1] AS identifier, (array_agg(v.error_data))[1] AS error_data \
+          FROM validations v \
+          INNER JOIN results r ON r.id = v.results_id " +
+         joins +
+         " WHERE r.public_id = $1 " + wherePart +
+         " GROUP BY v.severity, v.scope, v.error_type";
+}
+
 module.exports = {
   feeds: "SELECT r.public_id, date(r.start_time) AS date, \
                  CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
@@ -10,7 +36,7 @@ module.exports = {
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \
-                    WHERE r.id = v.results_id AND v.scope = 'contests') AS error_count \
+                    WHERE r.id = v.results_id AND v.scope = 'contests' AND v.identifier = $2) AS error_count \
             FROM contests c \
             INNER JOIN results r ON r.id = c.results_id \
             WHERE r.public_id=$1 AND c.id=$2;",
@@ -303,4 +329,14 @@ module.exports = {
                                 INNER JOIN validations v ON v.results_id = ps.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                 INNER JOIN results r ON r.id = ps.results_id \
                                 WHERE r.public_id=$1 AND ps.id=$2;"
+
+  // errors
+  overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },
+  candidateErrors: buildErrorQuery("INNER JOIN candidates c ON v.identifier = c.id AND c.results_id = v.results_id",
+                                   "v.scope = 'candidates' AND c.id = $2"),
+  contestBallotErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id",
+                                       "v.scope = 'ballots' AND c.id = $2"),
+  contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",
+                                 "v.scope = 'contests' AND c.id = $2"),
+  errors: buildErrorQuery("", "")
 }

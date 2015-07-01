@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
@@ -231,7 +231,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/ballotresponses/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/referenda/:referendum/ballotresponses/errors', error)
 
-      // error indexes
+    // error indexes
 
       // for all overview modules under the Feed Overview page
       .when('/feeds/:vipfeed/overview/:type/errors', error)
