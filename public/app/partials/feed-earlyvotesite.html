@@ -8,9 +8,9 @@
     <dd id="name" class="value">{{feedEarlyVoteSite.name}}</dd>
     <dt class="key">Address:</dt>
     <dd id="address" class="value">
-      {{feedEarlyVoteSite.address.line1}},
-      {{feedEarlyVoteSite.address.city}},
-      {{feedEarlyVoteSite.address.state}} {{feedEarlyVoteSite.address.zip}}</dd>
+      {{feedEarlyVoteSite.address_line1}},
+      {{feedEarlyVoteSite.address_city}},
+      {{feedEarlyVoteSite.address_state}} {{feedEarlyVoteSite.address.zip}}</dd>
     </dd>
     <dt class="key">Directions:</dt>
     <dd id="directions" class="value">{{feedEarlyVoteSite.directions}}</dd>
@@ -21,6 +21,6 @@
     <dt class="key">End Date:</dt>
     <dd id="end_date" class="value">{{feedEarlyVoteSite.end_date}}</dd>
     <dt class="key">Days Times Open:</dt>
-    <dd id="days_times_open" class="value">{{feedEarlyVoteSite.days_times_open}}</dd>
+    <dd id="days_times_open" class="value" ng-bind-html="feedEarlyVoteSite.days_times_open"></dd>
   </dl>
 </div>

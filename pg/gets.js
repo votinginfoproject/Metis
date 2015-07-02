@@ -57,6 +57,7 @@ module.exports = {
   getFeedPrecinctSplitPollingLocations: util.simpleQueryResponder(queries.precinctSplitPollingLocations, util.paramExtractor(['precinctsplitid'])),
   getFeedPrecinctSplitStreetSegments: util.simpleQueryResponder(queries.precinctSplitStreetSegments, util.paramExtractor(['precinctsplitid'])),
 
+  getFeedEarlyVoteSite: util.simpleQueryResponder(queries.earlyVoteSite, util.paramExtractor(['earlyvotesiteid'])),
   getFeedState: util.simpleQueryResponder(queries.state, util.paramExtractor()),
   getFeedElectionAdministrations: util.simpleQueryResponder(queries.electionAdministrations, util.paramExtractor()),
   getFeedElection: util.simpleQueryResponder(queries.election, util.paramExtractor()),

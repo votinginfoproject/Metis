@@ -11,7 +11,8 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/results', pg.getResults);
   app.get('/db/feeds/:feedid/source', pg.getFeedSource);
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
-
+  app.get('/db/feeds/:feedid/earlyvotesites/:earlyvotesiteid', pg.getFeedEarlyVoteSite);
+  
   // Contest-related routes
   app.get('/db/feeds/:feedid/contests', pg.getFeedContests);
   app.get('/db/feeds/:feedid/contests/:contestid', pg.getFeedContest);

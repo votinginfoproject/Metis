@@ -328,7 +328,14 @@ module.exports = {
                                 INNER JOIN street_segments ss ON ss.precinct_split_id = ps.id AND ss.results_id = ps.results_id \
                                 INNER JOIN validations v ON v.results_id = ps.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                 INNER JOIN results r ON r.id = ps.results_id \
-                                WHERE r.public_id=$1 AND ps.id=$2;"
+                                WHERE r.public_id=$1 AND ps.id=$2;",
+  earlyVoteSite: "SELECT evs.*, \
+                         (SELECT COUNT(v.*) \
+                          FROM validations v \
+                          WHERE v.results_id = evs.results_id AND v.scope = 'early-vote-sites' AND v.identifier = evs.id) AS error_count \
+                  FROM early_vote_sites evs \
+                  INNER JOIN results r ON r.id = evs.results_id \
+                  WHERE r.public_id = $1 AND evs.id = $2;",
 
   // errors
   overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },
