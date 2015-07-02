@@ -33,6 +33,8 @@ module.exports = {
   getFeedLocalityPrecincts: util.simpleQueryResponder(queries.localityPrecincts, util.paramExtractor(['localityid'])),
   getFeedLocalityEarlyVoteSites: util.simpleQueryResponder(queries.localityEarlyVoteSites, util.paramExtractor(['localityid'])),
   getFeedLocalityElectionAdministration: util.simpleQueryResponder(queries.localityElectionAdministration, util.paramExtractor(['localityid'])),
+  getFeedLocalityElectionAdministrationElectionOfficial: util.simpleQueryResponder(queries.localityElectionAdministrationElectionOfficial, util.paramExtractor(['localityid'])),
+  getFeedLocalityElectionAdministrationOverseasVoterContact: util.simpleQueryResponder(queries.localityElectionAdministrationOverseasVoterContact, util.paramExtractor(['localityid'])),
   getFeedLocalities: util.simpleQueryResponder(queries.localities, util.paramExtractor()),
 
   // Feed Locality Overview

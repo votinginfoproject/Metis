@@ -183,6 +183,18 @@ module.exports = {
                                    INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
                                    INNER JOIN results r ON r.id = l.results_id \
                                    WHERE r.public_id=$1 AND l.id=$2;",
+  localityElectionAdministrationElectionOfficial: "SELECT eo.* \
+                                                   FROM localities l \
+                                                   INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
+                                                   INNER JOIN election_officials eo ON eo.id = ea.eo_id AND eo.results_id = l.results_id \
+                                                   INNER JOIN results r ON r.id = l.results_id \
+                                                   WHERE r.public_id=$1 AND l.id=$2;",
+  localityElectionAdministrationOverseasVoterContact: "SELECT eo.* \
+                                                       FROM localities l \
+                                                       INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
+                                                       INNER JOIN election_officials eo ON eo.id = ea.ovc_id AND eo.results_id = l.results_id \
+                                                       INNER JOIN results r ON r.id = l.results_id \
+                                                       WHERE r.public_id=$1 AND l.id=$2;",
   localityPrecincts: "SELECT p.id, p.name, COUNT(ps.*) AS precinct_splits \
                       FROM localities l \
                       INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \

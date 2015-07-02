@@ -3,68 +3,28 @@
  * Feeds Election Administration Controller
  *
  */
-function FeedElectionAdministrationCtrl($scope, $rootScope, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
+function FeedElectionAdministrationCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
 
-  // get the vipfeed param from the route
-  var feedid = $routeParams.vipfeed;
-  $scope.vipfeed = feedid;
+  var feedid = $scope.vipfeed = $routeParams.vipfeed;
+  var localityid = $routeParams.locality;
 
-  // create a unique id for this page based on the breadcrumbs
-  $scope.pageId = $rootScope.generatePageId(feedid);
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration',
+                               scope: $rootScope,
+                               key: 'feedElectionAdministration',
+                               errorMessage: 'Could not retrieve Locality Data.'},
+                             function(result) { $rootScope.feedElectionAdministration = result[0]; });
 
-  // initialize page header variables
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/election-official',
+                               scope: $rootScope,
+                               key: 'feedElectionOfficial',
+                               errorMessage: 'Could not retrieve Locality Data.'},
+                             function(result) { $rootScope.feedElectionOfficial = result[0]; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/overseas-voter-contact',
+                               scope: $rootScope,
+                               key: 'feedOverseasVoterContact',
+                               errorMessage: 'Could not retrieve Locality Data.'},
+                             function(result) { $rootScope.feedOverseasVoterContact = result[0]; });  
+
   $rootScope.setPageHeader("Election Administration", $rootScope.getBreadCrumbs(), "feeds", "", null);
-
-  // get general Feed data
-  $feedsService.getFeedData(feedid)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedData = data;
-      $rootScope.feedData = data;
-
-      // now call the other services to get the rest of the data
-      FeedElectionAdministrationCtrl_getFeedElectionAdministration($scope, $rootScope, $feedsService, $rootScope.getServiceUrl($location.path()), $appProperties, $filter, ngTableParams);
-
-    }).error(function (data, $http) {
-
-      if($http===404){
-        // feed not found
-
-        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
-      } else {
-        // some other error
-
-        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
-      }
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedData = {};
-      $scope.feedElectionAdministration = {};
-    });
-}
-
-/*
- * Get the Feed Election Administration for the Feed detail page
- *
- */
-function FeedElectionAdministrationCtrl_getFeedElectionAdministration($scope, $rootScope, $feedsService, servicePath, $appProperties, $filter, ngTableParams){
-
-  // get Feed State
-  $feedsService.getFeedElectionAdministration(servicePath)
-    .success(function (data) {
-
-      // set the feeds data into the Angular model
-      $scope.feedElectionAdministration = data;
-
-      // update the title
-      $rootScope.pageHeader.title = "Election Administration ID: " + data.id;
-
-    }).error(function (data) {
-
-      $rootScope.pageHeader.error += "Could not retrieve Feed Election Administration data. ";
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedElectionAdministration = {};
-    });
 }
