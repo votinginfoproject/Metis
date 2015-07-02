@@ -23,15 +23,38 @@
   </dl>
 </div>
 
-<section class="data-group data-module overview">
-  <h2>Overview</h2>
+<section class="data-group data-module started">
+  <header class="data-group-header">
+    <h2>Overview</h2>
+    <span ng-if="!feedContestOverview['ballot'] || !feedContestOverview['referenda'] || !feedContestOverview['candidates'] || !feedContestOverview['electoralDistrict']" class="more-detail is-loading"></span>
+  </header>
 
   <!-- element table directive -->
-  <div ng-show="feedContest.overview.length" ng-overviewtable ng-model="feedContestOverview" loading="feedContestOverview" label="contestOverview"></div>
-
+  
+  <section class="data-group data-module">
+    <table class="overview" id="localityOverviewTable" template-pagination="pollingPagination" ng-table="localityOverviewTableParams" class="associations">
+      <tr id="locality-overview{{$index}}" ng-repeat="(elementType, localityOverview) in feedContestOverview">
+        <td data-title="'Element Type'" sortable="'element_type'" id="locality-overview-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{localityOverview.elementType}}</span></td>
+        <td data-title="'Amount'" sortable="'amount'" id="locality-overview-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{localityOverview.count | number}}</span></td>
+        <td data-title="'Completion'" sortable="'completion'" id="locality-overview-complete{{$index}}" class="completion">
+          <div data-title-text="Completion" class="completeness">
+            <span class="complete-{{localityOverview.completion}}"></span>
+            <div class="counter">{{localityOverview.completion | number}}% <span class="counter-text">complete</span></div>
+          </div>
+        </td>
+        <td data-title="'Errors'" sortable="'error_count'" id="locality-overview-errors{{$index}}" class="numeric element-errors">
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count==='0'}" href="{{localityOverview.error_count==='0' ? 'javascript: void(0);' : localityOverview.link}}">
+            <div errorvalue="{{localityOverview.error_count}}" ng-class="{none: localityOverview.error_count==='0'}"
+                  class="errors">{{localityOverview.error_count | number}} <span class="error-text" ng-if="localityOverview.error_count==='1'">error</span><span class="error-text" ng-if="localityOverview.error_count!='1'">errors</span> <span ng-if="localityOverview.error_count==='0'"><i class="fi-check"></i></span><span ng-if="localityOverview.error_count!='0'"><i class="fi-alert"></i></span>
+            </div>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </section>
 </section>
-<section class="data-group data-module">
 
+<section class="data-group data-module">
   <h2>Ballot</h2>
   <table ng-show="feedContestBallot" id="ballotTable" class="associations">
     
@@ -74,54 +97,4 @@
     </tr>
     </tbody>
   </table>
-</section>
-
-<section class="data-group data-module">
-  <h2><span ng-if="!feedContestResult">No</span> Contest Result</h2>
-
-  <table ng-show="feedContestResult" id="contestResultTable" class="associations" >
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Votes</th>
-        <th>Valid Votes</th>
-        <th>Overvotes</th>
-        <th>Blank Votes</th>
-        <th>Certification</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="contestresult-id"><a href="{{$location.absUrl()}}/contestresult" data-title-text="ID"><span class="td-text">{{feedContestResult.id}}</a></td>
-        <td id="contestresult-votes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Votes"><span class="td-text">{{feedContestResult.total_votes}}</span></a></td>
-        <td id="contestresult-validvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Valid Votes"><span class="td-text">{{feedContestResult.total_valid_votes}}</span></a></td>
-        <td id="contestresult-overvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Overvotes"><span class="td-text">{{feedContestResult.overvotes}}</span></a></td>
-        <td id="contestresult-blankvotes"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Blank Votes"><span class="td-text">{{feedContestResult.blank_votes}}</span></a></td>
-        <td id="contestresult-certification"><a href="{{$location.absUrl()}}/contestresult" data-title-text="Certification"><span class="td-text">{{feedContestResult.certification}}</span></a></td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<section class="data-group data-module">
-  <h2>{{feedContestBallotLineResults.length}} Ballot Line Results</h2>
-
-  <div ng-if="!feedContestBallotLineResults"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContestBallotLineResults.length" id="ballotLineResultTable" ng-table="ballotLineResultTableParams" template-pagination="ballotLineResultPagination"  class="associations">
-    <tr id="ballotlineresult{{$index}}" ng-repeat="result in feedContestBallotLineResults">
-      <td id="ballotlineresult-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="ID"><span class="td-text">{{result.id}}</span></a></td>
-      <td id="ballotlineresult-votes{{$index}}" data-title="'Votes'" sortable="'votes'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Votes"><span class="td-text">{{result.votes}}</span></a></td>
-      <td id="ballotlineresult-certification{{$index}}" data-title="'Certification'" sortable="'certification'"><a href="{{$location.absUrl()}}/ballotlineresults/{{result.id}}" data-title-text="Certification"><span class="td-text">{{result.certification}}</span></a></td>
-    </tr>
-  </table>
-
-  <script type="text/ng-template" id="ballotLineResultPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="ballotPage{{$index}}" ng-class="{'is-active': page.number == ballotLineResultTableParams.page()}"
-           ng-click="ballotLineResultTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
 </section>

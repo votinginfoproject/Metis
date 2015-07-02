@@ -84,16 +84,6 @@ module.exports = {
                              INNER JOIN electoral_districts e ON c.electoral_district_id = e.id \
                              INNER JOIN results r ON r.id = c.results_id \
                              WHERE r.public_id=$1 AND c.id=$2;",
-  contestResult: "SELECT cr.id, cr.total_votes, cr.total_valid_votes, cr.overvotes, cr.blank_votes, cr.certification \
-                  FROM contests c \
-                  INNER JOIN contest_results cr ON cr.contest_id = c.id \
-                  INNER JOIN results r ON r.id = c.results_id \
-                  WHERE r.public_id=$1 AND c.id=$2;",
-  contestBallotLineResults: "SELECT blr.id, blr.votes, blr.certification \
-                             FROM contests c \
-                             INNER JOIN ballot_line_results blr ON blr.contest_id = c.id \
-                             INNER JOIN results r ON r.id = c.results_id \
-                             WHERE r.public_id=$1 AND c.id=$2;",
   contests: "SELECT c.* \
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
@@ -166,6 +156,50 @@ module.exports = {
                            LEFT JOIN candidates can ON can.id = bc.candidate_id AND bc.results_id = can.results_id \
                            LEFT JOIN results r ON r.id=con.results_id \
                            WHERE r.public_id=$1 AND con.id=$2;",
+  contestOverviewBallot: "SELECT (CASE COUNT(b.*) \
+                                  WHEN 0 THEN 100 \
+                                  ELSE (COUNT(b.*) - COUNT(v.*)) / COUNT(b.*)::float * 100 END) AS completion, \
+                                  COUNT(b.*) AS count, \
+                                  COUNT(v.*) AS error_count \
+                          FROM contests c \
+                          INNER JOIN ballots b ON b.id = c.ballot_id AND b.results_id = c.results_id \
+                          INNER JOIN validations v ON v.results_id = c.results_id AND v.scope = 'ballots' AND v.identifier = b.id \
+                          INNER JOIN results r ON r.id = c.results_id \
+                          WHERE r.public_id=$1 AND c.id=$2;",
+  contestOverviewReferendum: "SELECT (CASE COUNT(b.*) \
+                                      WHEN 0 THEN 100 \
+                                      ELSE (COUNT(b.*) - COUNT(v.*)) / COUNT(b.*)::float * 100 END) AS completion, \
+                                      COUNT(b.*) AS count, \
+                                      COUNT(v.*) AS error_count \
+                              FROM contests c \
+                              INNER JOIN ballots b ON b.id = c.ballot_id AND b.results_id = c.results_id \
+                              INNER JOIN referendums ref ON ref.id = b.referendum_id AND ref.results_id = c.results_id \
+                              INNER JOIN validations v ON v.results_id = c.results_id AND v.scope = 'referendums' AND v.identifier = b.id \
+                              INNER JOIN results r ON r.id = c.results_id \
+                              WHERE r.public_id=$1 AND c.id=$2;",
+  contestOverviewCandidates: "SELECT (CASE COUNT(can.*) \
+                                      WHEN 0 THEN 100 \
+                                      ELSE (COUNT(can.*) - COUNT(v.*)) / COUNT(can.*)::float * 100 END) AS completion, \
+                                      COUNT(can.*) AS count, \
+                                      COUNT(v.*) AS error_count \
+                              FROM contests c \
+                              INNER JOIN ballots b ON b.id = c.ballot_id AND b.results_id = c.results_id \
+                              INNER JOIN ballot_candidates bc ON bc.ballot_id = b.id AND bc.results_id = c.results_id \
+                              INNER JOIN candidates can ON can.id = bc.candidate_id AND can.results_id = c.results_id \
+                              INNER JOIN validations v ON v.results_id = c.results_id AND v.scope = 'candidates' AND v.identifier = can.id \
+                              INNER JOIN results r ON r.id = c.results_id \
+                              WHERE r.public_id=$1 AND c.id=$2;",
+  contestOverviewElectoralDistrict: "SELECT (CASE COUNT(ed.*) \
+                                             WHEN 0 THEN 100 \
+                                             ELSE (COUNT(ed.*) - COUNT(v.*)) / COUNT(ed.*)::float * 100 END) AS completion, \
+                                             COUNT(ed.*) AS count, \
+                                             COUNT(v.*) AS error_count \
+                                     FROM contests c \
+                                     INNER JOIN electoral_districts ed ON ed.id = c.electoral_district_id AND ed.results_id = c.results_id \
+                                     INNER JOIN validations v ON v.results_id = c.results_id AND v.scope = 'electoral-districts' AND v.identifier = ed.id \
+                                     INNER JOIN results r ON r.id = c.results_id \
+                                     WHERE r.public_id=$1 AND c.id=$2;",
+
   locality: "SELECT l.*, (SELECT COUNT(v.*) \
                           FROM validations v \
                           WHERE v.results_id = l.results_id AND v.scope = 'precincts' AND v.identifier = l.id) AS error_count \
