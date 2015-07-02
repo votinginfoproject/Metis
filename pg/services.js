@@ -13,6 +13,11 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
   app.get('/db/feeds/:feedid/earlyvotesites/:earlyvotesiteid', pg.getFeedEarlyVoteSite);
   
+  // Polling Location-related routes
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid', pg.getFeedPollingLocation);
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precincts', pg.getFeedPollingLocationPrecincts);
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precinct-splits', pg.getFeedPollingLocationPrecinctSplits);
+  
   // Contest-related routes
   app.get('/db/feeds/:feedid/contests', pg.getFeedContests);
   app.get('/db/feeds/:feedid/contests/:contestid', pg.getFeedContest);

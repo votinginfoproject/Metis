@@ -269,6 +269,35 @@ module.exports = {
                                    INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                    INNER JOIN results r ON r.id = l.results_id \
                                    WHERE r.public_id=$1 AND l.id=$2;",
+  pollingLocation: "SELECT pl.*, \
+                           (SELECT COUNT(v.*) \
+                            FROM validations v \
+                            WHERE v.results_id = pl.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id) AS error_count \
+                    FROM polling_locations pl \
+                    INNER JOIN results r ON r.id = pl.results_id \
+                    WHERE r.public_id=$1 AND pl.id=$2;",
+  pollingLocationPrecincts: "SELECT p.*, \
+                                    (SELECT COUNT(ed.*) \
+                                     FROM electoral_districts ed \
+                                     INNER JOIN precinct_electoral_districts ped ON ped.precinct_id = p.id AND ped.results_id = p.results_id \
+                                     WHERE ed.id = ped.electoral_district_id AND ed.results_id = p.results_id) AS electoral_districts \
+                             FROM polling_locations pl \
+                             INNER JOIN precinct_polling_locations ppl ON ppl.polling_location_id = pl.id AND ppl.results_id = pl.results_id \
+                             INNER JOIN precincts p ON p.id = ppl.precinct_id AND p.results_id = pl.results_id \
+                             INNER JOIN results r ON r.id = pl.results_id \
+                             WHERE r.public_id=$1 AND pl.id=$2;",
+  pollingLocationPrecinctSplits: "SELECT ps.*, \
+                                         (SELECT COUNT(ed.*) \
+                                          FROM electoral_districts ed \
+                                          INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_id = ps.id AND psed.results_id = ps.results_id \
+                                          WHERE ed.id = psed.electoral_district_id AND ed.results_id = ps.results_id) AS electoral_districts \
+                                  FROM polling_locations pl \
+                                  INNER JOIN precinct_split_polling_locations pspl ON pspl.polling_location_id = pl.id AND pspl.results_id = pl.results_id \
+                                  INNER JOIN precinct_splits ps ON ps.id = pspl.precinct_split_id AND ps.results_id = pl.results_id \
+                                  INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_split_id = ps.id AND psed.results_id = ps.results_id \
+                                  INNER JOIN electoral_districts ed ON ed.id = psed.electoral_district_id AND ed.results_id = ps.results_id \
+                                  INNER JOIN results r ON r.id = pl.results_id \
+                                  WHERE r.public_id=$1 AND pl.id=$2;",
   precinct: "SELECT p.*, \
              (SELECT COUNT(v.*) \
               FROM validations v \
