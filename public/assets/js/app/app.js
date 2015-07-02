@@ -794,4 +794,8 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     return baseUrl + path;
   }
 
+  $rootScope.errorReportUrl = function() {
+    return '/db/feeds/' + $rootScope.feedId() + '/errors/report';
+  }
+
 });

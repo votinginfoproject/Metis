@@ -4,6 +4,8 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
   // initialize page header variables
   $rootScope.setPageHeader("Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
+  $rootScope.errorReportPath = "/db" + $location.path() + "/report";
+
   // clear previous errors (so they don't weirdly show up on the page)
   $rootScope.errors = null;
 
