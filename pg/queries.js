@@ -115,7 +115,7 @@ module.exports = {
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
              WHERE r.public_id=$1",
-  localities: "SELECT l.id, l.name, COUNT(p.*) AS precincts \
+  localities: "SELECT l.id, l.name, COUNT(p.*)::int AS precincts \
                FROM localities l \
                INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                INNER JOIN results r ON l.results_id = r.id \
