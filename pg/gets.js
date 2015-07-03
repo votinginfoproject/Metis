@@ -17,22 +17,32 @@ module.exports = {
   
   // Feed Contest-related queries
   getFeedContest: util.simpleQueryResponder(queries.contest, util.paramExtractor(['contestid'])),
+  getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.contestElectoralDistrict, util.paramExtractor(['contestid'])),
   getFeedContestBallot: util.simpleQueryResponder(queries.contestBallot, util.paramExtractor(['contestid'])),
   getFeedContestBallotReferendum: util.simpleQueryResponder(queries.contestBallotReferendum, util.paramExtractor(['contestid'])),
   getFeedContestBallotCandidate: util.simpleQueryResponder(queries.contestBallotCandidate, util.paramExtractor(['contestid','candidateid'])),
   getFeedContestBallotCandidates: util.simpleQueryResponder(queries.contestBallotCandidates, util.paramExtractor(['contestid'])),
   getFeedContestBallotCustomBallot: util.simpleQueryResponder(queries.contestBallotCustomBallot, util.paramExtractor(['contestid'])),
   getFeedContestBallotCustomBallotResponses: util.simpleQueryResponder(queries.contestBallotCustomBallotResponses, util.paramExtractor(['contestid'])),
-  getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.contestElectoralDistrict, util.paramExtractor(['contestid'])),
-  getFeedContestResult: util.simpleQueryResponder(queries.contestResult, util.paramExtractor(['contestid'])),
-  getFeedContestBallotLineResults: util.simpleQueryResponder(queries.contestBallotLineResults, util.paramExtractor(['contestid'])),
-  getFeedContests: util.simpleQueryResponder(queries.contests, util.paramExtractor()),
+  
+  // Feed Electoral District-related queries
+  getFeedElectoralDistrict: util.simpleQueryResponder(queries.electoralDistrict, util.paramExtractor(['contestid'])),
+  getFeedElectoralDistrictPrecincts: util.simpleQueryResponder(queries.electoralDistrictPrecincts, util.paramExtractor(['contestid'])),
+  getFeedElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.electoralDistrictPrecinctSplits, util.paramExtractor(['contestid'])),
+  
+  // Feed Contest Overview
+  getFeedContestOverviewBallot: util.simpleQueryResponder(queries.contestOverviewBallot, util.paramExtractor(['contestid'])),
+  getFeedContestOverviewReferendum: util.simpleQueryResponder(queries.contestOverviewReferendum, util.paramExtractor(['contestid'])),
+  getFeedContestOverviewCandidates: util.simpleQueryResponder(queries.contestOverviewCandidates, util.paramExtractor(['contestid'])),
+  getFeedContestOverviewElectoralDistrict: util.simpleQueryResponder(queries.contestOverviewElectoralDistrict, util.paramExtractor(['contestid'])),
   
   // Feed Locality-related queries
   getFeedLocality: util.simpleQueryResponder(queries.locality, util.paramExtractor(['localityid'])),
   getFeedLocalityPrecincts: util.simpleQueryResponder(queries.localityPrecincts, util.paramExtractor(['localityid'])),
   getFeedLocalityEarlyVoteSites: util.simpleQueryResponder(queries.localityEarlyVoteSites, util.paramExtractor(['localityid'])),
   getFeedLocalityElectionAdministration: util.simpleQueryResponder(queries.localityElectionAdministration, util.paramExtractor(['localityid'])),
+  getFeedLocalityElectionAdministrationElectionOfficial: util.simpleQueryResponder(queries.localityElectionAdministrationElectionOfficial, util.paramExtractor(['localityid'])),
+  getFeedLocalityElectionAdministrationOverseasVoterContact: util.simpleQueryResponder(queries.localityElectionAdministrationOverseasVoterContact, util.paramExtractor(['localityid'])),
   getFeedLocalities: util.simpleQueryResponder(queries.localities, util.paramExtractor()),
 
   // Feed Locality Overview
@@ -57,6 +67,13 @@ module.exports = {
   getFeedPrecinctSplitPollingLocations: util.simpleQueryResponder(queries.precinctSplitPollingLocations, util.paramExtractor(['precinctsplitid'])),
   getFeedPrecinctSplitStreetSegments: util.simpleQueryResponder(queries.precinctSplitStreetSegments, util.paramExtractor(['precinctsplitid'])),
 
+  // Feed Polling Location-related queries
+  getFeedPollingLocation: util.simpleQueryResponder(queries.pollingLocation, util.paramExtractor(['pollinglocationid'])),
+  getFeedPollingLocationPrecincts: util.simpleQueryResponder(queries.pollingLocationPrecincts, util.paramExtractor(['pollinglocationid'])),
+  getFeedPollingLocationPrecinctSplits: util.simpleQueryResponder(queries.pollingLocationPrecinctSplits, util.paramExtractor(['pollinglocationid'])),
+  
+  getFeedContests: util.simpleQueryResponder(queries.contests, util.paramExtractor()),
+  getFeedEarlyVoteSite: util.simpleQueryResponder(queries.earlyVoteSite, util.paramExtractor(['earlyvotesiteid'])),
   getFeedState: util.simpleQueryResponder(queries.state, util.paramExtractor()),
   getFeedElectionAdministrations: util.simpleQueryResponder(queries.electionAdministrations, util.paramExtractor()),
   getFeedElection: util.simpleQueryResponder(queries.election, util.paramExtractor()),

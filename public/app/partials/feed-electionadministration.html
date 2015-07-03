@@ -10,19 +10,15 @@
     <dd id="name" class="value">{{feedElectionAdministration.name}}</dd>
     <dt class="key">Physical Address:</dt>
     <dd id="physical_address" class="value">
-      {{feedElectionAdministration.physical_address.line1}},
-      {{feedElectionAdministration.physical_address.city}},
-      {{feedElectionAdministration.physical_address.state}} {{feedElectionAdministration.physical_address.zip}}</dd>
+      {{feedElectionAdministration.physical_address_line1}},
+      {{feedElectionAdministration.physical_address_city}},
+      {{feedElectionAdministration.physical_address_state}} {{feedElectionAdministration.physical_address_zip}}</dd>
     <dt class="key">Mailing Address:</dt>
     <dd id="mailing_address" class="value">
-      {{feedElectionAdministration.mailing_address.line1}},
-      {{feedElectionAdministration.mailing_address.city}},
-      {{feedElectionAdministration.mailing_address.state}} {{feedElectionAdministration.mailing_address.zip}}</dd>
+      {{feedElectionAdministration.mailing_address_line1}},
+      {{feedElectionAdministration.mailing_address_city}},
+      {{feedElectionAdministration.mailing_address_state}} {{feedElectionAdministration.mailing_address_zip}}</dd>
     </dd>
-    <dt class="key">Phone:</dt>
-    <dd id="phone" class="value">{{feedElectionAdministration.phone}}</dd>
-    <dt class="key">Email:</dt>
-    <dd id="email" class="value">{{feedElectionAdministration.email}}</dd>
     <dt class="key">Elections URL:</dt>
     <dd id="elections_url" class="value"><a target="_blank" href="h{{feedElectionAdministration.elections_url}}">{{feedElectionAdministration.elections_url}}</a></dd>
     <dt class="key">Registration URL:</dt>
@@ -44,38 +40,36 @@
   </dl>
 </div>
 
-<section class="data-group data-module">
+<section ng-if="feedElectionOfficial" class="data-group data-module">
   <h2>Election Official</h2>
 
-  <span ng-if="!feedElectionAdministration" class="is-loading"></span>
-  <dl ng-if="feedElectionAdministration.election_official" class="attributes">
+  <dl class="attributes">
     <dt class="key">Name:</dt>
-    <dd id="eo-name" class="value">{{feedElectionAdministration.election_official.name}}</dd>
+    <dd id="eo-name" class="value">{{feedElectionOfficial.name}}</dd>
     <dt class="key">Title:</dt>
-    <dd id="eo-title" class="value">{{feedElectionAdministration.election_official.title}}</dd>
+    <dd id="eo-title" class="value">{{feedElectionOfficial.title}}</dd>
     <dt class="key">Phone:</dt>
-    <dd id="eo-phone" class="value">{{feedElectionAdministration.election_official.phone}}<dd>
+    <dd id="eo-phone" class="value">{{feedElectionOfficial.phone}}<dd>
     <dt class="key">Fax:</dt>
-    <dd id="eo-fax" class="value">{{feedElectionAdministration.election_official.fax}}<dd>
+    <dd id="eo-fax" class="value">{{feedElectionOfficial.fax}}<dd>
     <dt class="key">Email:</dt>
-    <dd id="eo-email" class="value"><a href="mailto:{{feedElectionAdministration.election_official.email}}">{{feedElectionAdministration.election_official.email}}</a></dd>
+    <dd id="eo-email" class="value"><a href="mailto:{{feedElectionOfficial.email}}">{{feedElectionOfficial.email}}</a></dd>
   </dl>
 </section>
 
-<section class="data-group data-module">
+<section ng-if="feedOverseasVoterContact" class="data-group data-module">
   <h2>Overseas Voter Contact</h2>
 
-  <span ng-if="!feedElectionAdministration" class="is-loading"></span>
-  <dl ng-if="feedElectionAdministration.overseas_voter_contact" class="attributes">
+  <dl class="attributes">
       <dt class="key">Name:</dt>
-      <dd id="ovc-name" class="value">{{feedElectionAdministration.overseas_voter_contact.name}}</dd>
+      <dd id="ovc-name" class="value">{{feedOverseasVoterContact.name}}</dd>
       <dt class="key">Title:</dt>
-      <dd id="ovc-title" class="value">{{feedElectionAdministration.overseas_voter_contact.title}}</dd>
+      <dd id="ovc-title" class="value">{{feedOverseasVoterContact.title}}</dd>
       <dt class="key">Phone:</dt>
-      <dd id="ovc-phone" class="value">{{feedElectionAdministration.overseas_voter_contact.phone}}<dd>
+      <dd id="ovc-phone" class="value">{{feedOverseasVoterContact.phone}}<dd>
       <dt class="key">Fax:</dt>
-      <dd id="ovc-fax" class="value">{{feedElectionAdministration.overseas_voter_contact.fax}}<dd>
+      <dd id="ovc-fax" class="value">{{feedOverseasVoterContact.fax}}<dd>
       <dt class="key">Email:</dt>
-      <dd id="ovc-email" class="value"><a href="mailto:{{feedElectionAdministration.overseas_voter_contact.email}}">{{feedElectionAdministration.overseas_voter_contact.email}}</a></dd>
+      <dd id="ovc-email" class="value"><a href="mailto:{{feedOverseasVoterContact.email}}">{{feedOverseasVoterContact.email}}</a></dd>
     </dl>
 </section>

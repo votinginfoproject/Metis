@@ -11,7 +11,13 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/results', pg.getResults);
   app.get('/db/feeds/:feedid/source', pg.getFeedSource);
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
-
+  app.get('/db/feeds/:feedid/earlyvotesites/:earlyvotesiteid', pg.getFeedEarlyVoteSite);
+  
+  // Polling Location-related routes
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid', pg.getFeedPollingLocation);
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precincts', pg.getFeedPollingLocationPrecincts);
+  app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precinct-splits', pg.getFeedPollingLocationPrecinctSplits);
+  
   // Contest-related routes
   app.get('/db/feeds/:feedid/contests', pg.getFeedContests);
   app.get('/db/feeds/:feedid/contests/:contestid', pg.getFeedContest);
@@ -21,15 +27,22 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/candidates/:candidateid', pg.getFeedContestBallotCandidate);
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot', pg.getFeedContestBallotCustomBallot);
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot-responses', pg.getFeedContestBallotCustomBallotResponses);
-  app.get('/db/feeds/:feedid/contests/:contestid/ballot-line-results', pg.getFeedContestBallotLineResults);
-  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district', pg.getFeedContestElectoralDistrict);
-  app.get('/db/feeds/:feedid/contests/:contestid/result', pg.getFeedContestResult);
+  app.get('/db/feeds/:feedid/contests/:contestid/contest-electoral-district', pg.getFeedContestElectoralDistrict);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district', pg.getFeedElectoralDistrict);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precincts', pg.getFeedElectoralDistrictPrecincts);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precinct-splits', pg.getFeedElectoralDistrictPrecinctSplits);
+  app.get('/db/feeds/:feedid/contests/:contestid/overview/ballot', pg.getFeedContestOverviewBallot);
+  app.get('/db/feeds/:feedid/contests/:contestid/overview/referenda', pg.getFeedContestOverviewReferendum);
+  app.get('/db/feeds/:feedid/contests/:contestid/overview/candidates', pg.getFeedContestOverviewCandidates);
+  app.get('/db/feeds/:feedid/contests/:contestid/overview/electoral-districts', pg.getFeedContestOverviewElectoralDistrict);
   app.get('/db/feeds/:feedid/contests/overview', pg.getFeedContestsOverview);
-  
+
   // Locality-related routes
   app.get('/db/feeds/:feedid/election/state/localities/:localityid', pg.getFeedLocality);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/early-vote-sites', pg.getFeedLocalityEarlyVoteSites);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/election-administration', pg.getFeedLocalityElectionAdministration);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/election-administration/election-official', pg.getFeedLocalityElectionAdministrationElectionOfficial);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/election-administration/overseas-voter-contact', pg.getFeedLocalityElectionAdministrationOverseasVoterContact);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/precincts', pg.getFeedLocalityPrecincts);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/early-vote-sites', pg.getFeedLocalityOverviewEarlyVoteSites);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/election-administrations', pg.getFeedLocalityOverviewElectionAdministrations);
