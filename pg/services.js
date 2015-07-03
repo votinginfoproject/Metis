@@ -27,6 +27,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/candidates/:candidateid', pg.getFeedContestBallotCandidate);
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot', pg.getFeedContestBallotCustomBallot);
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot-responses', pg.getFeedContestBallotCustomBallotResponses);
+  app.get('/db/feeds/:feedid/contests/:contestid/contest-electoral-district', pg.getFeedContestElectoralDistrict);
   app.get('/db/feeds/:feedid/contests/:contestid/electoral-district', pg.getFeedElectoralDistrict);
   app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precincts', pg.getFeedElectoralDistrictPrecincts);
   app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precinct-splits', pg.getFeedElectoralDistrictPrecinctSplits);

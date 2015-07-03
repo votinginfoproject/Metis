@@ -26,7 +26,7 @@ function FeedContestCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $rou
                                errorMessage: 'Cound not retrieve Ballot Data for Contest ' + contestid + '.'},
                              function(result) { $rootScope.feedContestBallot = result[0]; });
   
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/electoral-district',
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/contest-electoral-district',
                                scope:  $rootScope,
                                key: 'feedContestElectoralDistrict',
                                errorMessage: 'Cound not retrieve Electoral District Data for Contest ' + contestid + '.'},
