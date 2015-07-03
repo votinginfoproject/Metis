@@ -122,10 +122,10 @@ module.exports = {
                WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id \
                ORDER BY l.id;",
   state: "SELECT s.id, s.name, \
-                 (SELECT COUNT(l.*) \
+                 (SELECT COUNT(l.*)::int \
                   FROM localities l \
                   WHERE l.results_id = s.results_id) AS locality_count, \
-                 (SELECT COUNT(v.*) \
+                 (SELECT COUNT(v.*)::int \
                   FROM validations v \
                   WHERE v.results_id = s.results_id AND v.scope = 'states') AS error_count \
           FROM states s \
