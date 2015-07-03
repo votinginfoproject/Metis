@@ -12,7 +12,7 @@
       {{errorCount | number}} Total Errors in Feed
       <br>
       <time id="feedDueDate" ng-if="getDueDateText(feedData.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(feedData.date)}}</time>
-      <a class="button button-download" href="{{(feedData.errors)}}?error_report">Download Full Error Report</a>
+      <a class="button button-download" href="{{errorReportUrl()}}">Download Full Error Report</a>
 
     </span>
 

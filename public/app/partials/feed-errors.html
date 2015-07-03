@@ -26,15 +26,11 @@
           <small>Sample from the Report:</small>
           <div ng-if="error" style="background-color: #fbfbfb; border: 1px solid #cecece; padding: 10px"><pre><code>{{error | errorExample}}</code></pre></div>
           <div ng-if="!error" style="background-color: #fff; padding: 10px">Could not fetch example error.</div>
-          <br>
-          <a class="button" href="{{servicePath}}?error_report&error_code={{error.error_code}}" ng-show="errors.length">Download Error Report</a>
-          <div ng-show="error.error_count > 50000"><small>(Please be patient for large Error Reports to be prepared and downloaded)</small></div>
-          <br><br>
         </div>
       </td>
     </tr>
   </table>
-  <a class="button" href="{{servicePath}}?error_report" ng-show="errors.length">Download Error Report</a>
+  <a class="button" href="{{errorReportPath}}" ng-show="errors.length">Download Error Report</a>
   <div ng-show="total_errors > 50000"><small>(Please be patient for large Error Reports to be prepared and downloaded)</small></div>
 
   <script type="text/ng-template" id="errorsPagination">
