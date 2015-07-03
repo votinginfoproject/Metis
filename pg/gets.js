@@ -23,7 +23,11 @@ module.exports = {
   getFeedContestBallotCandidates: util.simpleQueryResponder(queries.contestBallotCandidates, util.paramExtractor(['contestid'])),
   getFeedContestBallotCustomBallot: util.simpleQueryResponder(queries.contestBallotCustomBallot, util.paramExtractor(['contestid'])),
   getFeedContestBallotCustomBallotResponses: util.simpleQueryResponder(queries.contestBallotCustomBallotResponses, util.paramExtractor(['contestid'])),
-  getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.contestElectoralDistrict, util.paramExtractor(['contestid'])),
+  
+  // Feed Electoral District-related queries
+  getFeedElectoralDistrict: util.simpleQueryResponder(queries.electoralDistrict, util.paramExtractor(['contestid'])),
+  getFeedElectoralDistrictPrecincts: util.simpleQueryResponder(queries.electoralDistrictPrecincts, util.paramExtractor(['contestid'])),
+  getFeedElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.electoralDistrictPrecinctSplits, util.paramExtractor(['contestid'])),
   
   // Feed Contest Overview
   getFeedContestOverviewBallot: util.simpleQueryResponder(queries.contestOverviewBallot, util.paramExtractor(['contestid'])),

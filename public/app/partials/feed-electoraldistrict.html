@@ -10,20 +10,18 @@
     <dd id="type" class="value">{{feedElectoralDistrict.type}}</dd>
     <dt class="key">Number:</dt>
     <dd id="number" class="value">{{feedElectoralDistrict.number}}</dd>
-    <dt class="key">Description:</dt>
-    <dd id="number" class="value">{{feedElectoralDistrict.description}}</dd>
   </dl>
 </div>
 
 <section class="data-group data-module">
-  <h2><span ng-if="feedElectoralDistrict.contests">{{feedElectoralDistrict.contests.length}}</span> Contests</h2>
+  <h2><span ng-if="feedContests.length!=='0'">{{feedContests.length}}</span> Contest</h2>
 
-  <div ng-if="!feedElectoralDistrict"></br><span class="is-loading"></span></div>
-  <table ng-show="feedElectoralDistrict.contests.length" id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
-    <tr id="contests{{$index}}" ng-repeat="contest in $data">
-      <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{contest.self}}" data-title-text="ID"><span class="td-text">{{contest.id}}</span></a></td>
-      <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="{{contest.self}}" data-title-text="Type"><span class="td-text">{{contest.type}}</span></a></td>
-      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'Office / Referendum / Custom'"><a href="{{contest.self}}" data-title-text="ID"><span class="td-text">{{contest.title}}</span></a>
+  <div ng-if="!feedContests.length"></br><span class="is-loading"></span></div>
+  <table id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
+    <tr id="contests{{$index}}" ng-repeat="contest in feedContests">
+      <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.id}}</span></a></td>
+      <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="Type"><span class="td-text">{{contest.type}}</span></a></td>
+      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'Office / Referendum / Custom'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.office}}</span></a>
       </td>
     </tr>
   </table>
@@ -42,14 +40,14 @@
 
 
 <section class="data-group data-module">
-  <h2>{{feedElectoralDistrict.precincts.length}} Precincts</h2>
+  <h2>{{feedPrecincts.length}} Precincts</h2>
 
   <span ng-if="!feedElectoralDistrict" class="is-loading"></span>
-  <table ng-show="feedElectoralDistrict.precincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
-      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinct.self}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
-      <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinct.self}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
-      <td id="precinct-office{{$index}}" data-title="'Precinct Splits'" sortable="'precinct_splits'"><a href="{{precinct.self}}" data-title-text="Precinct Splits"><span class="td-text">{{precinct.precinct_splits}}</span></a></td>
+      <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinct.locality_id}}/precincts/{{precinct.id}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
+      <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinct.locality_id}}/precincts/{{precinct.id}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
+      <td id="precinct-office{{$index}}" data-title="'Precinct Splits'" sortable="'precinct_splits'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinct.locality_id}}/precincts/{{precinct.id}}" data-title-text="Precinct Splits"><span class="td-text">{{precinct.precinct_splits}}</span></a></td>
     </tr>
   </table>
 
@@ -66,14 +64,13 @@
 
 
 <section class="data-group data-module">
-  <h2>{{feedElectoralDistrict.precinctsplits.length}} Precinct Splits</h2>
+  <h2>{{feedPrecinctSplits.length}} Precinct Splits</h2>
 
-  <span ng-if="!feedElectoralDistrict" class="is-loading"></span>
-  <table ng-show="feedElectoralDistrict.precinctsplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTableParams" template-pagination="precinctSplitsPagination" class="associations">
-    <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in $data">
-      <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{precinctSplit.self}}" data-title-text="ID"><span class="td-text">{{precinctSplit.id}}</span></a></td>
-      <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{precinctSplit.self}}" data-title-text="Name"><span class="td-text">{{precinctSplit.name}}</span></a></td>
-      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'street_segments'"><a href="{{precinctSplit.self}}" data-title-text="Street Segments"><span class="td-text">{{precinctSplit.street_segments}}</span></a></td>
+  <table ng-show="feedPrecinctSplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTableParams" template-pagination="precinctSplitsPagination" class="associations">
+    <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in feedPrecinctSplits">
+      <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="ID"><span class="td-text">{{precinctSplit.id}}</span></a></td>
+      <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Name"><span class="td-text">{{precinctSplit.name}}</span></a></td>
+      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'street_segments'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Street Segments"><span class="td-text">{{precinctSplit.street_segments}}</span></a></td>
     </tr>
   </table>
 
