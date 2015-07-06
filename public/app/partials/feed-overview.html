@@ -14,7 +14,7 @@
     <div ng-if="!overviewData"></br><span class="is-loading"></span></div>
 
     <table class="overview" ng-show="overviewData" id="pollingTable" template-pagination="pollingPagination" ng-table="pollingLocationsTable" class="associations">
-      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in pollingLocationsTable['data']">
+      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
         <td data-title="'Element Type'" sortable="'element_type'" id="pollingLocation-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{pollingLocation.element_type}}</span></td>
         <td data-title="'Amount'" sortable="'count'" id="pollingLocation-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{pollingLocation.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="pollingLocation-complete{{$index}}" class="completion">
@@ -58,7 +58,7 @@
   <section class="data-group data-module">
     <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
     <table ng-show="feedLocalities.length" id="localTable" ng-table="localitiesTable" template-pagination="localPagination" class="associations">
-      <tr id="locality{{$index}}" ng-repeat="locality in localitiesTable['data']">
+      <tr id="locality{{$index}}" ng-repeat="locality in $data">
         <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
           <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="ID">
             <span class="td-text">{{locality.id}}</span>
@@ -103,7 +103,7 @@
     <div ng-if="!overviewData"></br><span class="is-loading"></span></div>
 
     <table class="overview" ng-show="overviewData" id="contestTable" template-pagination="pollingPagination" ng-table="contestsTable" class="associations">
-      <tr id="feedContests{{$index}}" ng-repeat="contest in contestsTable['data']">
+      <tr id="feedContests{{$index}}" ng-repeat="contest in $data">
         <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{contest.element_type}}</span></td>
         <td data-title="'Amount'" sortable="'count'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contest.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
