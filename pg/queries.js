@@ -131,11 +131,26 @@ module.exports = {
           FROM states s \
           INNER JOIN results r ON s.results_id = r.id \
           WHERE r.public_id = $1 GROUP BY s.id, s.name, s.results_id ORDER BY s.id;",
-  electionAdministrations: "SELECT e.id, e.name, \
+  stateElectionAdministration: "SELECT ea.*, \
+                                       CONCAT(ea.physical_address_city, ', ', \
+                                              ea.physical_address_state, ', ', \
+                                              ea.physical_address_zip) AS address, \
+                                       (SELECT l.id \
+                                        FROM localities l \
+                                        WHERE l.election_administration_id = ea.id AND l.results_id = s.results_id) AS locality_id, \
+                                       (SELECT COUNT(v.*) \
+                                        FROM validations v \
+                                        WHERE v.results_id = ea.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id) AS error_count \
+                                FROM states s \
+                                INNER JOIN election_administrations ea ON s.election_administration_id = ea.id AND ea.results_id = s.results_id \
+                                INNER JOIN results r ON s.results_id = r.id \
+                                WHERE r.public_id=$1;",
+  electionAdministrations: "SELECT e.*, l.id AS locality_id, \
                                    CONCAT(e.physical_address_city, ', ', \
                                           e.physical_address_state, ', ', \
                                           e.physical_address_zip) AS address \
                             FROM election_administrations e \
+                            INNER JOIN localities l ON l.election_administration_id = e.id AND l.results_id = e.results_id \
                             INNER JOIN results r ON e.results_id = r.id \
                             WHERE r.public_id=$1;",
   election: "SELECT e.*, \

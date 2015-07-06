@@ -75,10 +75,10 @@
 <!-- /.data-group -->
 
 <section class="data-group data-module">
-  <h2><span ng-if="!feedElectionAdministrations">No</span> Election Administration</h2>
-
-  <span ng-if="!feedState" class="is-loading"></span>
-  <table class="associations" ng-if="feedElectionAdministrations.length">
+  <h2><span ng-if="!feedElectionAdministration">No</span> Election Administration</h2>
+  
+  <span ng-if="!feedElectionAdministration" class="is-loading"></span>
+  <table class="associations" ng-if="feedElectionAdministration">
     <thead>
     <tr>
       <th>ID</th>
@@ -87,10 +87,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="admin in feedElectionAdministrations">
-      <td id="state-administration-id" class="id"><a href="{{admin.link}}" data-title-text="ID"><span class="td-text">{{admin.id}}</span></a></td>
-      <td id="state-administration-name" class="name"><a href="{{admin.link}}" data-title-text="Name"><span class="td-text">{{admin.name}}</span></a></td>
-      <td id="state-administration-address" class="address"><a href="{{admin.link}}" data-title-text="Address"><span class="td-text">{{admin.address}}</span></a>
+    <tr>
+      <td id="state-administration-id" class="id"><a href="/#/feeds/{{vipfeed}}/election/state/electionadministration" data-title-text="ID"><span class="td-text">{{feedElectionAdministration.id}}</span></a></td>
+      <td id="state-administration-name" class="name"><a href="/#/feeds/{{vipfeed}}/election/state/electionadministration" data-title-text="Name"><span class="td-text">{{feedElectionAdministration.name || feedElectionAdministration.physical_address_location_name}}</span></a></td>
+      <td id="state-administration-address" class="address"><a href="/#/feeds/{{vipfeed}}/election/state/electionadministration" data-title-text="Address"><span class="td-text">{{feedElectionAdministration.address}}</span></a>
       </td>
     </tr>
     </tbody>
@@ -106,11 +106,11 @@
          class="associations">
     <tr id="locality{{$index}}" ng-repeat="locality in localitiesTable['data']">
       <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a
-        href="{{locality.link}}" data-title-text="ID"><span class="td-text">{{locality.id}}</span></a></td>
+        href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="ID"><span class="td-text">{{locality.id}}</span></a></td>
       <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'"><a
-        href="{{locality.link}}" data-title-text="Name"><span class="td-text">{{locality.name}}</span></a></td>
+        href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Name"><span class="td-text">{{locality.name}}</span></a></td>
       <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precincts'"><a
-        href="{{locality.link}}" data-title-text="Precincts"><span class="td-text">{{locality.precincts}}</span></a></td>
+        href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Precincts"><span class="td-text">{{locality.precincts}}</span></a></td>
     </tr>
   </table>
 
