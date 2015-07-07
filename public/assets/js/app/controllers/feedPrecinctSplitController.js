@@ -18,13 +18,13 @@ function FeedPrecinctSplitCtrl($scope, $rootScope, $feedDataPaths, $feedsService
                                scope: $rootScope,
                                key: 'feedElectoralDistricts',
                                errorMessage: 'Could not retrieve data for Electoral Districts.'},
-                             function(result) { $scope.electoralDistrictsTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.electoralDistrictsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct-split/' + precinctsplitid + '/polling-locations',
                                scope: $rootScope,
                                key: 'feedPollingLocations',
                                errorMessage: 'Could not retrieve data for Polling Locations.'},
-                             function(result) { $scope.pollingLocationsTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.pollingLocationsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct-split/' + precinctsplitid + '/street-segments',
                                scope: $rootScope,
