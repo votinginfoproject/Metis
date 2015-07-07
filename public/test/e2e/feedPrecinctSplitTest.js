@@ -39,8 +39,8 @@ describe('Feed Precinct Split Test', function () {
       expect(element('#feed-contests-content').count()).toBe(1);
 
       // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      element('#pageHeader-breadcrumb2').click();
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      element('#pageHeader-breadcrumb1').click();
 
       // should be on the feed election page
 
@@ -166,7 +166,7 @@ describe('Feed Precinct Split Test', function () {
     it('Error page link works', function() {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb11 a').click();
+      element('#pageHeader-breadcrumb10 a').click();
       expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
     });
   });
@@ -179,10 +179,10 @@ describe('Feed Precinct Split Test', function () {
     it('Click and go to the Electoral Districts page', function () {
 
       // Should have Electoral Districts breadcrumb
-      expect(element('#pageHeader-breadcrumb10').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb10 a').click();
+      element('#pageHeader-breadcrumb9 a').click();
 
       sleep(testGlobals.sleepTime);
 
@@ -265,7 +265,7 @@ describe('Feed Precinct Split Test', function () {
     // if there is data
     it('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb10 a').click();
+      element('#pageHeader-breadcrumb9 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed polling locations page

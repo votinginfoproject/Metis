@@ -53,7 +53,7 @@ describe('Testing Feed Contest Page', function() {
     it('Contest error page link works', function() {
       element('#contest-errors').click();
       expect(element('#feeds-election-contests-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
     })
   });
 
@@ -105,7 +105,7 @@ describe('Testing Feed Contest Page', function() {
     it('Error page link works', function() {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-contests-electoraldistrict-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
       expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
     });
   });
@@ -118,10 +118,10 @@ describe('Testing Feed Contest Page', function() {
     it('Click and go to the Contest page', function () {
 
       // Should have Contest breadcrumb
-      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb4 a').click();
+      element('#pageHeader-breadcrumb3 a').click();
 
       sleep(testGlobals.sleepTime);
 

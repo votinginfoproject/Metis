@@ -21,7 +21,7 @@ function FeedLocalityCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                scope: $rootScope,
                                key: 'feedEarlyVoteSites',
                                errorMessage: 'Could not retrieve Early Vote Sites Data for Locality ' + localityid + '.'},
-                             function(result) { $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.earlyVoteTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration',
                                scope: $rootScope,

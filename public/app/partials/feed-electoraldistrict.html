@@ -13,29 +13,18 @@
   </dl>
 </div>
 
-<section class="data-group data-module">
-  <h2><span ng-if="feedContests.length!=='0'">{{feedContests.length}}</span> Contest</h2>
+<section ng-if="feedContest" class="data-group data-module">
+  <h2>Contest</h2>
 
-  <div ng-if="!feedContests.length"></br><span class="is-loading"></span></div>
-  <table id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
-    <tr id="contests{{$index}}" ng-repeat="contest in feedContests">
-      <td id="contests-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.id}}</span></a></td>
-      <td id="contests-type{{$index}}" data-title="'Type'" sortable="'type'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="Type"><span class="td-text">{{contest.type}}</span></a></td>
-      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'Office / Referendum / Custom'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.office}}</span></a>
+  <div ng-if="!feedContest"></br><span class="is-loading"></span></div>
+  <table id="contestsTable" class="associations">
+    <tr id="contests">
+      <td id="contests-id" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{feedContest.id}}" data-title-text="ID"><span class="td-text">{{feedContest.id}}</span></a></td>
+      <td id="contests-type" data-title="'Type'" sortable="'type'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{feedContest.id}}" data-title-text="Type"><span class="td-text">{{feedContest.type}}</span></a></td>
+      <td id="contests-office" data-title="'Office / Referendum / Custom'" sortable="'Office / Referendum / Custom'"><a href="/#/feeds/{{vipfeed}}/election/contests/{{feedContest.id}}" data-title-text="ID"><span class="td-text">{{feedContest.office}}</span></a>
       </td>
     </tr>
   </table>
-
-  <script type="text/ng-template" id="contestsPagination">
-    <ul class="pagination ng-cloak">
-      <li ng-repeat="page in pages"
-          ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestsTableParams.page()}"
-           ng-click="contestsTableParams.page(page.number)" href="">{{page.number}}</a>
-      </li>
-    </ul>
-  </script>
-
 </section>
 
 
@@ -43,7 +32,7 @@
   <h2>{{feedPrecincts.length}} Precincts</h2>
 
   <span ng-if="!feedElectoralDistrict" class="is-loading"></span>
-  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTableParams" template-pagination="precinctsPagination" class="associations">
+  <table ng-show="feedPrecincts.length" id="precinctsTable" ng-table="precinctsTable" template-pagination="precinctsPagination" class="associations">
     <tr id="precinct{{$index}}" ng-repeat="precinct in $data">
       <td id="precinct-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinct.locality_id}}/precincts/{{precinct.id}}" data-title-text="ID"><span class="td-text">{{precinct.id}}</span></a></td>
       <td id="precinct-type{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinct.locality_id}}/precincts/{{precinct.id}}" data-title-text="Name"><span class="td-text">{{precinct.name}}</span></a></td>
@@ -55,7 +44,7 @@
     <ul class="pagination ng-cloak">
       <li ng-repeat="page in pages"
           ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsTableParams.page()}" ng-click="precinctsTableParams.page(page.number)" href="">{{page.number}}</a>
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctsTable.page()}" ng-click="precinctsTable.page(page.number)" href="">{{page.number}}</a>
       </li>
     </ul>
   </script>
@@ -66,8 +55,8 @@
 <section class="data-group data-module">
   <h2>{{feedPrecinctSplits.length}} Precinct Splits</h2>
 
-  <table ng-show="feedPrecinctSplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTableParams" template-pagination="precinctSplitsPagination" class="associations">
-    <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in feedPrecinctSplits">
+  <table ng-show="feedPrecinctSplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTable" template-pagination="precinctSplitsPagination" class="associations">
+    <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in $data">
       <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="ID"><span class="td-text">{{precinctSplit.id}}</span></a></td>
       <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Name"><span class="td-text">{{precinctSplit.name}}</span></a></td>
       <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'street_segments'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Street Segments"><span class="td-text">{{precinctSplit.street_segments}}</span></a></td>
@@ -78,7 +67,7 @@
     <ul class="pagination ng-cloak">
       <li ng-repeat="page in pages"
           ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctSplitsTableParams.page()}" ng-click="precinctSplitsTableParams.page(page.number)" href="">{{page.number}}</a>
+        <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == precinctSplitsTable.page()}" ng-click="precinctSplitsTable.page(page.number)" href="">{{page.number}}</a>
       </li>
     </ul>
   </script>

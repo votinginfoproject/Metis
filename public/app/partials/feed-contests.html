@@ -2,17 +2,17 @@
 
 <section class="data-group data-module started">
   <header class="data-group-header">
-    <h2>Contests</h2>
+    <h2>Contests: Overview</h2>
   </header>
 
   <!-- element table directive -->
   <span ng-if="!feedContestsOverview" class="is-loading"></span>
   <section class="data-group data-module">
     <div ng-if="!feedContestsOverview"></br><span class="is-loading"></span></div>
-    <table class="overview" ng-show="feedContestsOverview.length" id="contestsOverviewTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
-      <tr id="feedContests{{$index}}" ng-repeat="element in feedContestsOverview">
+    <table class="overview" ng-show="feedContestsOverview.length" id="contestsOverviewTable" template-pagination="pollingPagination" ng-table="contestsOverviewTable" class="associations">
+      <tr id="feedContests{{$index}}" ng-repeat="element in $data">
         <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{element.element_type}}</span></td>
-        <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{element.count | number}}</span></td>
+        <td data-title="'Amount'" sortable="'count'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{element.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
           <div data-title-text="Completion" class="completeness">
             <span class="complete-{{element.complete_pct}}"></span>
@@ -33,8 +33,8 @@
       <ul class="pagination ng-cloak">
         <li ng-repeat="page in pages"
             ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestTableParams.page()}"
-             ng-click="contestTableParams.page(page.number)" href="">{{page.number}}</a>
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestsOverviewTable.page()}"
+             ng-click="contestsOverviewTable.page(page.number)" href="">{{page.number}}</a>
         </li>
       </ul>
     </script>
@@ -42,14 +42,17 @@
 
 </section>
 
-<section class="data-group data-module">
+<section class="data-group data-module started">
+  <header class="data-group-header">
+    <h2>Contests</h2>
+  </header>
 
   <div ng-if="!feedContests"></br><span class="is-loading"></span></div>
-  <table ng-show="feedContests.length" id="contestsTable" ng-table="contestsTableParams" template-pagination="contestsPagination" class="associations">
+  <table ng-show="feedContests.length" id="contestsTable" ng-table="contestsTable" template-pagination="contestsPagination" class="associations">
     <tr id="contests{{$index}}" ng-repeat="contest in $data">
       <td id="contests-id{{$index}}" class="id" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="ID"><span class="td-text">{{contest.id}}</span></a></td>
       <td id="contests-type{{$index}}" class="type" data-title="'Type'" sortable="'type'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="Type"><span class="td-text">{{contest.type}}</span></a></td>
-      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'title'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="Office / Referendum / Custom"><span class="td-text">{{contest.office}}</span></a>
+      <td id="contests-office{{$index}}" data-title="'Office / Referendum / Custom'" sortable="'office'"><a href="{{$location.absUrl()}}/{{contest.id}}" data-title-text="Office / Referendum / Custom"><span class="td-text">{{contest.office}}</span></a>
     </tr>
   </table>
 
@@ -57,7 +60,7 @@
     <ul class="pagination ng-cloak">
       <li ng-repeat="page in pages"
           ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-        <a id="contestsPage{{$index}}" ng-class="{'is-active': page.number == contestsTableParams.page()}" ng-click="contestsTableParams.page(page.number)" href="">{{page.number}}</a>
+        <a id="contestsPage{{$index}}" ng-class="{'is-active': page.number == contestsTable.page()}" ng-click="contestsTable.page(page.number)" href="">{{page.number}}</a>
       </li>
     </ul>
   </script>

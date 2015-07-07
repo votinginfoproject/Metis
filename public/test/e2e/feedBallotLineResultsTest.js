@@ -44,7 +44,7 @@ describe('Testing Feed Ballot Line Results Page', function() {
       element('#ballotlineresult-id0 a').click();
       expect(element('#feed-ballotlineresult-content').count()).toBe(1);
 
-      element('#pageHeader-breadcrumb5 a').click();
+      element('#pageHeader-breadcrumb4 a').click();
 
       expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-ballotlineresults-content').count()).toBe(1);
