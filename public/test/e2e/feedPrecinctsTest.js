@@ -39,8 +39,8 @@ describe('Feed Precincts Test', function () {
       expect(element('#feed-contests-content').count()).toBe(1);
 
       // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      element('#pageHeader-breadcrumb2').click();
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
+      element('#pageHeader-breadcrumb1').click();
 
       // should be on the feed election page
 
@@ -75,8 +75,8 @@ describe('Feed Precincts Test', function () {
       expect(element('#feed-precinct-content').count()).toBe(1);
 
       // click the precincts link
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
-      element('#pageHeader-breadcrumb6 a').click();
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
+      element('#pageHeader-breadcrumb5 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precincts page
