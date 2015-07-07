@@ -115,27 +115,42 @@ module.exports = {
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
              WHERE r.public_id=$1",
-  localities: "SELECT l.id, l.name, COUNT(p.*) AS precincts \
+  localities: "SELECT l.id, l.name, COUNT(p.*)::int AS precincts \
                FROM localities l \
                INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                INNER JOIN results r ON l.results_id = r.id \
                WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id \
                ORDER BY l.id;",
   state: "SELECT s.id, s.name, \
-                 (SELECT COUNT(l.*) \
+                 (SELECT COUNT(l.*)::int \
                   FROM localities l \
                   WHERE l.results_id = s.results_id) AS locality_count, \
-                 (SELECT COUNT(v.*) \
+                 (SELECT COUNT(v.*)::int \
                   FROM validations v \
                   WHERE v.results_id = s.results_id AND v.scope = 'states') AS error_count \
           FROM states s \
           INNER JOIN results r ON s.results_id = r.id \
           WHERE r.public_id = $1 GROUP BY s.id, s.name, s.results_id ORDER BY s.id;",
-  electionAdministrations: "SELECT e.id, e.name, \
+  stateElectionAdministration: "SELECT ea.*, \
+                                       CONCAT(ea.physical_address_city, ', ', \
+                                              ea.physical_address_state, ', ', \
+                                              ea.physical_address_zip) AS address, \
+                                       (SELECT l.id \
+                                        FROM localities l \
+                                        WHERE l.election_administration_id = ea.id AND l.results_id = s.results_id) AS locality_id, \
+                                       (SELECT COUNT(v.*) \
+                                        FROM validations v \
+                                        WHERE v.results_id = ea.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id) AS error_count \
+                                FROM states s \
+                                INNER JOIN election_administrations ea ON s.election_administration_id = ea.id AND ea.results_id = s.results_id \
+                                INNER JOIN results r ON s.results_id = r.id \
+                                WHERE r.public_id=$1;",
+  electionAdministrations: "SELECT e.*, l.id AS locality_id, \
                                    CONCAT(e.physical_address_city, ', ', \
                                           e.physical_address_state, ', ', \
                                           e.physical_address_zip) AS address \
                             FROM election_administrations e \
+                            INNER JOIN localities l ON l.election_administration_id = e.id AND l.results_id = e.results_id \
                             INNER JOIN results r ON e.results_id = r.id \
                             WHERE r.public_id=$1;",
   election: "SELECT e.*, \

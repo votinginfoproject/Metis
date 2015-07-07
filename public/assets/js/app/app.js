@@ -493,7 +493,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
    */
   $rootScope.createTableParams = function(ngTableParams, $filter, data, count, sorting) {
     // sets the defaults for the table sorting parameters
-
     return new ngTableParams({
       page: 1,
       count: count,

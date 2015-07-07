@@ -3,11 +3,8 @@
  * Feeds Overview Controller
  *
  */
-function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $location, $appProperties, $filter, ngTableParams) {
-
-  // get the vipfeed param from the route
-  var feedid = $routeParams.vipfeed;
-  $scope.vipfeed = feedid;
+function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $routeParams, $location, $appProperties, $filter, ngTableParams) {
+  var feedid = $scope.vipfeed = $routeParams.vipfeed;
 
   var errorPath = $feedDataPaths.getFeedValidationsErrorCountPath(feedid);
   $feedDataPaths.getResponse({ path: errorPath,
@@ -15,49 +12,23 @@ function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                key: "errorCount",
                                errorMessage: "Could not retrieve Feed Error Count."},
                              function(result) { $rootScope.errorCount = result[0].errorcount; });
+  
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope:  $rootScope,
                                key: 'overviewData',
                                errorMessage: 'Cound not retrieve Feed Overview Data.'},
-                             function(result) { $rootScope.overviewData = result[0]; });
+                             function(result) {
+                              $rootScope.overviewData = result[0];
+                              $scope.pollingLocationsTable = $rootScope.createTableParams(ngTableParams, $filter, result[0].pollingLocations, $appProperties.lowPagination, { element_type: 'asc' });
+                              $scope.contestsTable = $rootScope.createTableParams(ngTableParams, $filter, result[0].contests, $appProperties.lowPagination, { element_type: 'asc' });
+                             });
+  
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/localities ',
                                scope:  $rootScope,
                                key: 'feedLocalities',
-                               errorMessage: 'Cound not retrieve Feed Localities.'});
+                               errorMessage: 'Cound not retrieve Feed Localities.'},
+                             function(result) { $scope.localitiesTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
-  // initialize page header variables
-  $rootScope.setPageHeader("", $rootScope.getBreadCrumbs(), "feeds", "", null);
-
-  // get general Feed data
-  $feedsService.getFeedData(feedid)
-    .success(function (data, $http) {
-
-      // set the feeds data into the Angular model
-      $scope.feedData = data;
-      $rootScope.feedData = data;
-
-      // set the title
-      $rootScope.pageHeader.title = data.title;
-
-    }).error(function (data, $http) {
-
-      if($http===404){
-        // feed not found
-
-        $rootScope.pageHeader.alert = "Sorry, the VIP feed \"" + feedid + "\" does not exist.";
-      } else {
-        // some other error
-
-        $rootScope.pageHeader.error += "Could not retrieve Feed data. ";
-      }
-
-      // so the loading spinner goes away and we are left with an empty table
-      $scope.feedData = {};
-      $scope.feedPollingLocations = {};
-      $scope.feedContests = {};
-      $scope.feedLocalities = {};
-      $scope.feedCounties = {};
-      $scope.feedSource = {};
-      $scope.feedElection = {};
-    });
+  var breadcrumbs = $rootScope.getBreadCrumbs();
+  $rootScope.setPageHeader(breadcrumbs[0]["name"], breadcrumbs, "feeds", "", null);
 }

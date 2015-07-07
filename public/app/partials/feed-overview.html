@@ -6,17 +6,17 @@
   <header class="data-group-header">
     <h2>Polling Locations</h2>
     <span ng-if="!overviewData" class="more-detail is-loading"></span>
-    <a id="state-link" ng-if="feedPollingLocations" class="more-detail" href="{{$location.absUrl()}}/election/state">More Detail</a>
+    <a id="state-link" ng-if="overviewData.pollingLocations" class="more-detail" href="{{$location.absUrl()}}/election/state">More Detail</a>
   </header>
 
   <!-- element table directive -->
   <section class="data-group data-module">
     <div ng-if="!overviewData"></br><span class="is-loading"></span></div>
 
-    <table class="overview" ng-show="overviewData" id="pollingTable" template-pagination="pollingPagination" ng-table="pollingTableParams" class="associations">
-      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in overviewData.pollingLocations">
+    <table class="overview" ng-show="overviewData" id="pollingTable" template-pagination="pollingPagination" ng-table="pollingLocationsTable" class="associations">
+      <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
         <td data-title="'Element Type'" sortable="'element_type'" id="pollingLocation-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{pollingLocation.element_type}}</span></td>
-        <td data-title="'Amount'" sortable="'amount'" id="pollingLocation-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{pollingLocation.count | number}}</span></td>
+        <td data-title="'Amount'" sortable="'count'" id="pollingLocation-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{pollingLocation.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="pollingLocation-complete{{$index}}" class="completion">
           <div data-title-text="Completion" class="completeness">
             <span class="complete-{{pollingLocation.complete_pct}}"></span>
@@ -37,8 +37,8 @@
       <ul class="pagination ng-cloak">
         <li ng-repeat="page in pages"
             ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingTableParams.page()}"
-             ng-click="pollingTableParams.page(page.number)" href="">{{page.number}}</a>
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingLocationsTable.page()}"
+             ng-click="pollingLocationsTable.page(page.number)" href="">{{page.number}}</a>
         </li>
       </ul>
     </script>
@@ -57,20 +57,20 @@
   <!-- element table directive -->
   <section class="data-group data-module">
     <div ng-if="!feedLocalities"></br><span class="is-loading"></span></div>
-    <table ng-show="feedLocalities.length" id="localTable" ng-table="localTableParams" template-pagination="localPagination" class="associations">
-      <tr id="locality{{$index}}" ng-repeat="locality in feedLocalities">
+    <table ng-show="feedLocalities.length" id="localTable" ng-table="localitiesTable" template-pagination="localPagination" class="associations">
+      <tr id="locality{{$index}}" ng-repeat="locality in $data">
         <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
-          <a href="{{locality.link}}" data-title-text="ID">
+          <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="ID">
             <span class="td-text">{{locality.id}}</span>
           </a>
         </td>
         <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'">
-          <a href="{{locality.link}}" data-title-text="Name">
+          <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Name">
             <span class="td-text">{{locality.name}}</span>
           </a>
         </td>
-        <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precints'">
-          <a href="{{locality.link}}" data-title-text="Precincts">
+        <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precincts'">
+          <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Precincts">
             <span class="td-text">{{locality.precincts}}</span>
           </a>
         </td>
@@ -81,8 +81,8 @@
       <ul class="pagination ng-cloak">
         <li ng-repeat="page in pages"
             ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localTableParams.page()}"
-             ng-click="localTableParams.page(page.number)" href="">{{page.number}}</a>
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == localitiesTable.page()}"
+             ng-click="localitiesTable.page(page.number)" href="">{{page.number}}</a>
         </li>
       </ul>
     </script>
@@ -93,8 +93,8 @@
 <section class="data-group data-module started">
   <header class="data-group-header">
     <h2>Contests</h2>
-    <span ng-if="!overviewData" class="more-detail is-loading"></span>
-    <a class="more-detail" ng-if="feedContests" href="{{$location.absUrl()}}/election/contests">More Detail</a>
+    <span ng-if="!overviewData.contests" class="more-detail is-loading"></span>
+    <a class="more-detail" ng-if="overviewData.contests" href="{{$location.absUrl()}}/election/contests">More Detail</a>
   </header>
 
   <!-- element table directive -->
@@ -102,10 +102,10 @@
   <section class="data-group data-module">
     <div ng-if="!overviewData"></br><span class="is-loading"></span></div>
 
-    <table class="overview" ng-show="overviewData" id="contestTable" template-pagination="pollingPagination" ng-table="contestTableParams" class="associations">
-      <tr id="feedContests{{$index}}" ng-repeat="contest in overviewData.contests">
+    <table class="overview" ng-show="overviewData" id="contestTable" template-pagination="pollingPagination" ng-table="contestsTable" class="associations">
+      <tr id="feedContests{{$index}}" ng-repeat="contest in $data">
         <td data-title="'Element Type'" sortable="'element_type'" id="feedContests-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{contest.element_type}}</span></td>
-        <td data-title="'Amount'" sortable="'amount'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contest.count | number}}</span></td>
+        <td data-title="'Amount'" sortable="'count'" id="feedContests-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contest.count | number}}</span></td>
         <td data-title="'Completion'" sortable="'complete_pct'" id="feedContests-complete{{$index}}" class="completion">
           <div data-title-text="Completion" class="completeness">
             <span class="complete-{{contest.complete_pct}}"></span>
@@ -126,8 +126,8 @@
       <ul class="pagination ng-cloak">
         <li ng-repeat="page in pages"
             ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestTableParams.page()}"
-             ng-click="contestTableParams.page(page.number)" href="">{{page.number}}</a>
+          <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == contestsTable.page()}"
+             ng-click="contestsTable.page(page.number)" href="">{{page.number}}</a>
         </li>
       </ul>
     </script>
@@ -140,7 +140,7 @@
   <header class="data-group-header">
     <h2>Source &amp; Election</h2>
     <span ng-if="!overviewData" class="more-detail is-loading"></span>
-    <a id="state-link" ng-if="feedSource" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
+    <a id="state-link" ng-if="overviewData.source" class="more-detail" href="{{$location.absUrl()}}/source">More Detail</a>
   </header>
 
   <!-- element table directive -->

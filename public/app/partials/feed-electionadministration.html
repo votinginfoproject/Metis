@@ -7,7 +7,7 @@
 <div class="data-module-full">
   <dl class="attributes">
     <dt class="key">Name:</dt>
-    <dd id="name" class="value">{{feedElectionAdministration.name}}</dd>
+    <dd id="name" class="value">{{feedElectionAdministration.name || feedElectionAdministration.physical_address_location_name}}</dd>
     <dt class="key">Physical Address:</dt>
     <dd id="physical_address" class="value">
       {{feedElectionAdministration.physical_address_line1}},
