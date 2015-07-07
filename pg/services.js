@@ -30,9 +30,9 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot', pg.getFeedContestBallotCustomBallot);
   app.get('/db/feeds/:feedid/contests/:contestid/ballot/custom-ballot-responses', pg.getFeedContestBallotCustomBallotResponses);
   app.get('/db/feeds/:feedid/contests/:contestid/contest-electoral-district', pg.getFeedContestElectoralDistrict);
-  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district', pg.getFeedElectoralDistrict);
-  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precincts', pg.getFeedElectoralDistrictPrecincts);
-  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precinct-splits', pg.getFeedElectoralDistrictPrecinctSplits);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district', pg.getFeedContestElectoralDistrict);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precincts', pg.getFeedContestElectoralDistrictPrecincts);
+  app.get('/db/feeds/:feedid/contests/:contestid/electoral-district/precinct-splits', pg.getFeedContestElectoralDistrictPrecinctSplits);
   app.get('/db/feeds/:feedid/contests/:contestid/overview/ballot', pg.getFeedContestOverviewBallot);
   app.get('/db/feeds/:feedid/contests/:contestid/overview/referenda', pg.getFeedContestOverviewReferendum);
   app.get('/db/feeds/:feedid/contests/:contestid/overview/candidates', pg.getFeedContestOverviewCandidates);
@@ -66,6 +66,12 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/precinct-split/:precinctsplitid/electoral-districts', pg.getFeedPrecinctSplitElectoralDistricts);
   app.get('/db/feeds/:feedid/precinct-split/:precinctsplitid/polling-locations', pg.getFeedPrecinctSplitPollingLocations);
   app.get('/db/feeds/:feedid/precinct-split/:precinctsplitid/street-segments', pg.getFeedPrecinctSplitStreetSegments);
+
+  // Electoral District-related routes
+  app.get('/db/feeds/:feedid/electoral-districts/:electoraldistrictid', pg.getFeedElectoralDistrict);
+  app.get('/db/feeds/:feedid/electoral-districts/:electoraldistrictid/contest', pg.getFeedElectoralDistrictContest);
+  app.get('/db/feeds/:feedid/electoral-districts/:electoraldistrictid/precincts', pg.getFeedElectoralDistrictPrecincts);
+  app.get('/db/feeds/:feedid/electoral-districts/:electoraldistrictid/precinct-splits', pg.getFeedElectoralDistrictPrecinctSplits);
 
   // Referendum-related routes
   app.get('/db/feeds/:feedid/referendum/:referendumid', pg.getFeedReferendum);
