@@ -18,25 +18,25 @@ function FeedPrecinctCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                scope: $rootScope,
                                key: 'feedEarlyVoteSites',
                                errorMessage: 'Could not retrieve Early Vote Sites Data.'},
-                             function(result) { $scope.electoralDistrictsParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.earlyVoteSitesTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct/' + precinctid + '/electoral-districts',
                                scope: $rootScope,
                                key: 'feedElectoralDistricts',
                                errorMessage: 'Could not retrieve Electoral Districts Data.'},
-                             function(result) { $scope.earlyVoteTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.electoralDistrictsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct/' + precinctid + '/polling-locations',
                                scope: $rootScope,
                                key: 'feedPollingLocations',
                                errorMessage: 'Could not retrieve Polling Locations Data.'},
-                             function(result) { $scope.pollingLocationsParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.pollingLocationsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct/' + precinctid + '/precinct-splits',
                                scope: $rootScope,
                                key: 'feedPrecinctSplits',
                                errorMessage: 'Could not retrieve Precinct Splits Data.'},
-                             function(result) { $scope.precinctSplitsTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
+                             function(result) { $scope.precinctSplitsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/precinct/' + precinctid + '/street-segments',
                                scope: $rootScope,
