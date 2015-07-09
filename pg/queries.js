@@ -374,7 +374,7 @@ module.exports = {
   pollingLocationPrecinctSplits: "SELECT ps.*, \
                                          (SELECT COUNT(ed.*) \
                                           FROM electoral_districts ed \
-                                          INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_id = ps.id AND psed.results_id = ps.results_id \
+                                          INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_split_id = ps.id AND psed.results_id = ps.results_id \
                                           WHERE ed.id = psed.electoral_district_id AND ed.results_id = ps.results_id) AS electoral_districts \
                                   FROM polling_locations pl \
                                   INNER JOIN precinct_split_polling_locations pspl ON pspl.polling_location_id = pl.id AND pspl.results_id = pl.results_id \
