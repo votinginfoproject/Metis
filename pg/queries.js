@@ -122,12 +122,14 @@ module.exports = {
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
              WHERE r.public_id=$1",
-  localities: "SELECT l.id, l.name, COUNT(p.*)::int AS precincts \
+  localities: "SELECT l.*, \
+                      (SELECT COUNT(p.*)::int \
+                       FROM precincts p \
+                       WHERE p.locality_id = l.id AND p.results_id = l.results_id) AS precincts \
                FROM localities l \
-               INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                INNER JOIN results r ON l.results_id = r.id \
-               WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id \
-               ORDER BY l.id;",
+               WHERE r.public_id = $1 \
+               GROUP BY l.id, l.results_id;",
   state: "SELECT s.id, s.name, \
                  (SELECT COUNT(l.*)::int \
                   FROM localities l \
