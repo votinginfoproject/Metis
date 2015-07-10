@@ -14,8 +14,8 @@
       </td>
       <td id="error-type{{$index}}" data-title="'Error Type'" sortable="'severity_text'" class="toggle-td">
         <a href="javascript:void(0)" ng-click="toggleError($index)">
-          <h3><b class="error-toggle"><span id="errorArrowClosed{{$index}}"><i class="fi-plus"></i></span><span id="errorArrowOpen{{$index}}" hidden><i class="fi-minus"></i></span></b> <strong><i class="fi-alert"></i> {{error.severity | severity}}:</strong> {{error.error_type | errorTitle}}</h3>
-          <p>{{error.error_type | errorDescription}}</p>
+          <h3><b class="error-toggle"><span id="errorArrowClosed{{$index}}"><i class="fi-plus"></i></span><span id="errorArrowOpen{{$index}}" hidden><i class="fi-minus"></i></span></b> <strong><i class="fi-alert"></i> {{error.severity | severity}}:</strong> {{error | errorTitle}}</h3>
+          <p>{{error | errorDescription}} in {{error.scope | errorScope}} Table</p>
         </a>
       </td>
     </tr>
