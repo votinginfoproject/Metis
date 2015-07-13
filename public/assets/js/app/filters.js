@@ -40,7 +40,8 @@ var errorScope = { "ballots": "Ballots",
                    "state-early-vote-sites": "State-Early Vote Sites",
                    "street-segments": "Street Segments",
                    "sources": "Source",
-                   "states": "State" };
+                   "states": "State",
+                   'xml-generation': 'XML Generation' };
 
 var errorHeadings = [ 'absentee_ballot_info', 'absentee_url', 'accepted_provisional_votes', 
                       'absentee_request_deadline', 'address_city', 'address_line1', 'address_state', 
@@ -78,7 +79,8 @@ var errorTitles = { 'bad-filenames': 'CSV files named incorrectly',
                     'row-constraint': 'Row constraint',
                     'unknown-tag': 'Unknown tag',
                     'unmatched-reference': 'Unmatched reference',
-                    'unreferenced-row': 'Unreferenced row' };
+                    'unreferenced-row': 'Unreferenced row',
+                    'invalid-xml': 'Generated XML is invalid'};
 
 var errorDescriptions = { 'absentee_ballot_info': 'Url must conform to the format: http[?s]://<domain>.<org>',
                           'absentee_url': 'Url must conform to the format: http[?s]://<domain>.<org>',
@@ -171,6 +173,7 @@ var errorDescriptions = { 'absentee_ballot_info': 'Url must conform to the forma
                           'incomplete-mailing-address': 'Election administration addresses must be complete',
                           'incomplete-physical-address': 'Election administration addresses must be complete',
                           'invalid-vip-id': 'Source file must contain valid FIPS for vip_id',
+                          'invalid-xml': 'The XML generated from processing the feed is invalid',
                           'missing-csv': 'An essential CSV file is missing',
                           'missing-dependency': 'CSV files have additional, dependent files which have not been provided',
                           'missing-headers': 'Required headers missing from a .txt file',
