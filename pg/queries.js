@@ -25,9 +25,9 @@ var buildErrorQuery = function(joins, wheres) {
 }
 
 module.exports = {
-  feeds: "SELECT r.public_id, date(r.start_time) AS date, \
+  feeds: "SELECT r.public_id, date(r.start_time) AS start_time, \
                  CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
-                 r.complete, s.name AS state, e.election_type, e.date \
+                 r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
           FROM results r \
           LEFT JOIN states s ON s.results_id = r.id \
           LEFT JOIN elections e ON e.results_id = r.id \
@@ -122,12 +122,14 @@ module.exports = {
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
              WHERE r.public_id=$1",
-  localities: "SELECT l.id, l.name, COUNT(p.*)::int AS precincts \
+  localities: "SELECT l.*, \
+                      (SELECT COUNT(p.*)::int \
+                       FROM precincts p \
+                       WHERE p.locality_id = l.id AND p.results_id = l.results_id) AS precincts \
                FROM localities l \
-               INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                INNER JOIN results r ON l.results_id = r.id \
-               WHERE r.public_id = $1 GROUP BY l.id, l.name, l.results_id \
-               ORDER BY l.id;",
+               WHERE r.public_id = $1 \
+               GROUP BY l.id, l.results_id;",
   state: "SELECT s.id, s.name, \
                  (SELECT COUNT(l.*)::int \
                   FROM localities l \
@@ -372,7 +374,7 @@ module.exports = {
   pollingLocationPrecinctSplits: "SELECT ps.*, \
                                          (SELECT COUNT(ed.*) \
                                           FROM electoral_districts ed \
-                                          INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_id = ps.id AND psed.results_id = ps.results_id \
+                                          INNER JOIN precinct_split_electoral_districts psed ON psed.precinct_split_id = ps.id AND psed.results_id = ps.results_id \
                                           WHERE ed.id = psed.electoral_district_id AND ed.results_id = ps.results_id) AS electoral_districts \
                                   FROM polling_locations pl \
                                   INNER JOIN precinct_split_polling_locations pspl ON pspl.polling_location_id = pl.id AND pspl.results_id = pl.results_id \
