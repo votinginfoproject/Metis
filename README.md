@@ -13,7 +13,6 @@ Voting Information Project web app.
 1. `docker-compose build`
 1. `docker-compose up`
 1. Then hit [http://localdocker:4000/](http://localdocker:4000/), assuming you have a localdocker host file entry pointing to your docker host. If not, replace localdocker with your docker host IP address.
-1. Any of the feeds in the `upload/` directory when you built will be available for feed processing when you log in to the application, just put the name in the text area at the bottom and submit for feed processing.
 
 ## Prerequisites
 
@@ -22,14 +21,12 @@ Voting Information Project web app.
     * Install Grunt CLI `npm install -g grunt-cli`
 * [Bower](http://bower.io)
     * Intall Bower `npm install -g bower`
-* [MongoDB](http://http://www.mongodb.org/)
 
 ## Getting Started
 
 1. Download node.js modules using `npm install`
 2. Download libraries using `bower install`
-3. Import reference data into Mongo
-4. Run the app with `node app.js`
+3. Run the app with `node app.js`
 
 ## Available Grunt Commands
 
@@ -46,22 +43,6 @@ Voting Information Project web app.
 5. Add the user to `vip-user` group and click `Update`
 
 For more information see the [Crowd Admin Guide](https://confluence.atlassian.com/display/CROWD/Crowd+Administration+Guide).
-
-## Running Mongo from script
-
-You can run Mongo in a similar manner to the Dockerized version from the data directory. This will initialize the seed data for counties and states at startup, and make mongo available on localhost at the standard port.
-
-1. cd data
-2. Run `mongo/mongo.sh --counties counties.json --states stateFIPS.json --config mongod.conf`
-
-## Resetting the Database
-
-1. Run `mongo metis --eval "db.dropDatabase()"`
-
-## Importing Data into Mongo
-
-1. Run `mongoimport -d metis -c counties < data/counties.json`
-2. Run `mongoimport -d metis -c statefips < data/statefips.json`
 
 ## Running Karma Unit Tests
 
@@ -85,16 +66,11 @@ Karma is configured to use chrome as the default browser.
 ```
 chmod +x RunFunctional.sh
 ```
-2. Run mongo
-```
-mongod --config /usr/local/etc/mongod.conf
-```
-(assuming a homebrew install, otherwise locate your mongod.conf and use it instead)
-3. Execute the script
+2. Execute the script
 ```
 public/test/RunFunctional.sh
 ```
-4. Open a browser to run the tests once the script brings up the server, see output for
+3. Open a browser to run the tests once the script brings up the server, see output for
    URL.
 
 ## Running Jasmine-Node Unit Tests

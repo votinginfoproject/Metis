@@ -5,7 +5,6 @@
 var config = require('./../config');
 var winston = require('winston');
 var fs = require('fs');
-require('winston-mongodb').MongoDB;
 
 // Note, don't add log level coloring to winston, it will add extra escaped characters to the log
 
@@ -75,7 +74,7 @@ var errorLogger = new (winston.Logger)({
 });
 
 // 3) PROFILE LOGGER
-// Logs 'profile' log statements to Mongo, to the regular log file, and to the console
+// Logs 'profile' log statements to the regular log file, and to the console
 
 // ** NOTE: Do not set maxsize and maxFiles on this logger as another logger above working on the same log file already has
 // Doing so can cause the logger to crash.
@@ -88,17 +87,13 @@ var profileLogger = new (winston.Logger)({
     }),
     new winston.transports.Console({
       // no options on purpose, using all default option values
-    }),
-    new winston.transports.MongoDB({
-        db: config.log.logProfileMongoDB,
-        collection: config.log.logProfileMongoDBCollection
     })
   ]
 });
 
 
 // 4) A SEPERATE PROFILE LOGGER
-// Logs 'profile' log statements to Mongo, to the regular log file, and to the console
+// Logs 'profile' log statements to the regular log file, and to the console
 var profileSeparateLogger = new (winston.Logger)({
   transports: [
     new winston.transports.File({
@@ -110,10 +105,6 @@ var profileSeparateLogger = new (winston.Logger)({
     }),
     new winston.transports.Console({
       // no options on purpose, using all default option values
-    }),
-    new winston.transports.MongoDB({
-      db: config.log.logProfileMongoDB,
-      collection: config.log.logProfileMongoDBCollection
     })
   ]
 });
