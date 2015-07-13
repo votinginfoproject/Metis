@@ -4,7 +4,6 @@
 var moment = require('moment');
 var _path = require('path');
 var resultsMapper = require('./results');
-var processManager = require('../processManager');
 var _ = require("underscore");
 
 function addressToShortString (address) {
@@ -37,12 +36,6 @@ function addressToJson (address) {
   }
 
   return add;
-};
-
-var mapFeedQueue = function() {
-  return {
-    feedQueue: processManager.getFileQueue()
-  };
 };
 
 var mapFeed = function(path, feed) {
@@ -702,7 +695,6 @@ function mapBallotStyles(path, ballotStyles) {
   return styles;
 }
 
-exports.mapFeedQueue = mapFeedQueue;
 exports.mapFeed = mapFeed;
 exports.mapFeedOverview = mapOverview;
 exports.mapSource = mapSource;

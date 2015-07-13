@@ -13,10 +13,6 @@ var auth = require('./auth');
 var fs = require('fs');
 
 var authServices = require('./services/auth');
-var feedServices = require('./services/feeds');
-var errorServices = require('./services/errors');
-var overviewServices = require('./services/overviews');
-var geoServices = require('./services/geo');
 var pgServices = require('./pg/services');
 
 if (fs.existsSync('./newrelic.js')) {
@@ -55,10 +51,6 @@ auth.authSetup(config, passport, config.crowd.uselocalauth);
 
 //register REST services
 authServices.registerAuthServices(config, app, passport);
-feedServices.registerFeedsServices(app);
-errorServices.registerErrorServices(app);
-overviewServices.registerOverviewServices(app);
-geoServices.registerGeoServices(app);
 pgServices.registerPostgresServices(app);
 
 if (config.web.enableSSL) {
@@ -77,7 +69,7 @@ if (config.web.enableSSL) {
 }
 
 var pg = require('pg');
-var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER + 
+var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER +
                  ":" + process.env.DB_ENV_POSTGRES_PASSWORD +
                  "@" + process.env.DB_PORT_5432_TCP_ADDR +
                  ":" + process.env.DB_PORT_5432_TCP_PORT;

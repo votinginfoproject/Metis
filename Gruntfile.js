@@ -64,14 +64,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    shell: {
-      mongod: {
-        options: {
-        stdout: true
-      },
-        command: 'mongod'
-      }
-    },
     bower: {
       install: {
         // copy dependent packages from bower.json
@@ -83,7 +75,7 @@ module.exports = function(grunt) {
         options: {
           logConcurrentOutput: true
         },
-        tasks: ['bower:install', 'shell:mongod', 'watch', 'nodemon:dev']
+        tasks: ['bower:install', 'watch', 'nodemon:dev']
       }
     }
   });
