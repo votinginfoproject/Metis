@@ -32,6 +32,14 @@ module.exports = {
           LEFT JOIN states s ON s.results_id = r.id \
           LEFT JOIN elections e ON e.results_id = r.id \
           ORDER BY r.start_time DESC;",
+  feedsForState: "SELECT r.public_id, date(r.start_time) AS start_time, \
+                         CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
+                         r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
+                  FROM results r \
+                  LEFT JOIN states s ON s.results_id = r.id \
+                  LEFT JOIN elections e ON e.results_id = r.id \
+                  WHERE s.name = ANY ($1) \
+                  ORDER BY r.start_time DESC;",
   results: "SELECT * FROM results WHERE public_id=$1",
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
