@@ -6,12 +6,12 @@
 //TODO: Remove this authentication code and use Crowd
 var LocalStrategy = require('passport-local').Strategy;
 var users = [
-  { id: 1, username: 'testuser', password: 'test', email: 'user1@vip.org', name: { givenName: 'Test', familyName: 'User'} },
-  { id: 2, username: 'testuser2', password: 'test2', email: 'user2@vip.org', name: { givenName: 'Test', familyName: 'User2'} }
+  { id: 1, username: 'testuser', password: 'test', email: 'user1@vip.org', givenName: 'Test', surname: 'User', groups: {items: [{name: 'Super Admin'}]} },
+  { id: 2, username: 'testuser2', password: 'test2', email: 'user2@vip.org', givenName: 'Test', surname: 'User2', groups: {items: [{name: 'Super Admin'}]} }
 ];
 
 //Strategy for production
-var CrowdStrategy = require('passport-atlassian-crowd').Strategy;
+var StormpathStrategy = require('passport-stormpath').Strategy;
 var _ = require('underscore');
 
 //logged in user profiles
@@ -28,23 +28,6 @@ function findByUsername(username, fn) {
 }
 
 var setup = function (config, passport, isDevelopment) {
-
-  passport.serializeUser(function (user, done) {
-    done(null, user.username);
-  });
-
-  passport.deserializeUser(function (username, done) {
-    var user = _.find(profiles, function (user) {
-      return user.username == username;
-    });
-    if (user === undefined) {
-      done(new Error("No user with username '" + username + "' found."));
-    }
-    else {
-      done(null, user);
-    }
-  });
-
   if (isDevelopment) {
     passport.use(new LocalStrategy(
       function(username, password, done) {
@@ -65,14 +48,27 @@ var setup = function (config, passport, isDevelopment) {
         });
       }
     ));
-
+    passport.serializeUser(function (user, done) {
+      done(null, user.username);
+    });
+    passport.deserializeUser(function (username, done) {
+      var user = _.find(profiles, function (user) {
+        return user.username == username;
+      });
+      if (user === undefined) {
+        done(new Error("No user with username '" + username + "' found."));
+      }
+      else {
+        done(null, user);
+      }
+    });
   } else {
-    passport.use(new CrowdStrategy({
-        crowdServer: config.crowd.server,
-        crowdApplication: config.crowd.application,
-        crowdApplicationPassword: config.crowd.apppass,
-        retrieveGroupMemberships: config.crowd.retrieveGroups
-      },
+    var strategy = new StormpathStrategy(
+      {apiKeyId: config.auth.apiKey,
+       apiKeySecret: config.auth.apiKeySecret,
+       appHref: config.auth.appHref,
+       accountStore: { href: config.auth.accountStore },
+       expansions: 'groups,customData'},
       function (userprofile, done) {
         process.nextTick(function () {
           var exists = _.any(profiles, function (user) {
@@ -83,9 +79,10 @@ var setup = function (config, passport, isDevelopment) {
           }
           return done(null, userprofile);
         })
-      }
-    ));
-
+      });
+    passport.use(strategy);
+    passport.serializeUser(strategy.serializeUser);
+    passport.deserializeUser(strategy.deserializeUser);
   }
 };
 

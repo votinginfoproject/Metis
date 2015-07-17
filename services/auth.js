@@ -15,15 +15,14 @@ var registerAuthServices = function(config, app, passport) {
   /*
    * Log in the user
    */
-  //TODO: remove this check and just use Crowd for authentication
-  if (config.crowd.uselocalauth) {
+  if (config.auth.uselocalauth()) {
     app.post('/login',
       passport.authenticate('local', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
       loginLocalStrategyPOST);
   } else {
     app.post('/login',
-      passport.authenticate('atlassian-crowd', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
-      loginCrowdStrategyPOST);
+      passport.authenticate('stormpath', { failureRedirect: '/#/?badlogin', failureMessage: "Invalid username or password" }),
+      loginStormpathStrategyPOST);
   }
 
   /*
@@ -61,10 +60,11 @@ loginLocalStrategyPOST = function(req, res) {
   res.redirect('/#/feeds');
 };
 
-loginCrowdStrategyPOST = function(req, res) {
+loginStormpathStrategyPOST = function(req, res) {
 
   currentUser = req.user;
   logger.info("in passport success");
+  console.log(currentUser.groups.items[0]);
 
   // successful login, go to the feeds page afterwards
   res.redirect('/#/feeds');
@@ -83,7 +83,7 @@ userGET = function(req,res){
   res.json(
     {
       isAuthenticated: req.isAuthenticated(),
-      userName: ((req.user === undefined) ? '' : req.user.name.givenName + ' ' + req.user.name.familyName)
+      userName: ((req.user === undefined) ? '' : req.user.givenName + ' ' + req.user.surname)
     }
   );
 };

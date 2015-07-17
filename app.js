@@ -9,6 +9,7 @@ var http = require('http');
 var https = require('https');
 var path = require('path');
 var passport = require('passport');
+var stormpath = require('passport-stormpath');
 var auth = require('./auth');
 var fs = require('fs');
 
@@ -47,7 +48,7 @@ if ('development' == app.get('env')) {
 }
 
 //user authentication
-auth.authSetup(config, passport, config.crowd.uselocalauth);
+auth.authSetup(config, passport, config.auth.uselocalauth());
 
 //register REST services
 authServices.registerAuthServices(config, app, passport);
