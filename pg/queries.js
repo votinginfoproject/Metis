@@ -483,5 +483,9 @@ module.exports = {
                                        "v.scope = 'ballots' AND c.id = $2"),
   contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",
                                  "v.scope = 'contests' AND c.id = $2"),
+  localityStreetSegmentsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                                 INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id \
+                                                 INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.id = v.identifier AND ss.results_id = v.results_id",
+                                                 "v.scope = 'street-segments' AND l.id = $2"),
   errors: buildErrorQuery("", "")
 }
