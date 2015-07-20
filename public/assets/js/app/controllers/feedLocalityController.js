@@ -42,6 +42,15 @@ function FeedLocalityCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
   $rootScope.setPageHeader("Locality", $rootScope.getBreadCrumbs(), "feeds", "", null);
 }
 
+function completionStat(counts) {
+  if(counts["error_count"] == 0) {
+    return 100;
+  } else {
+    var noErrors = counts["count"] - counts["error_count"];
+    return Math.round(noErrors / counts["count"]);
+  }
+}
+
 function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
   var overviewEarlyVoteSitesLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/earlyvotesites/errors';
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/early-vote-sites',
@@ -50,6 +59,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) {
                               overview.earlyVoteSites = result[0];
+                              overview.earlyVoteSites["completion"] = completionStat(overview.earlyVoteSites);
                               overview.earlyVoteSites["elementType"] = "Early Vote Sites";
                               overview.earlyVoteSites["link"] = overviewEarlyVoteSitesLink;
                             });
@@ -61,6 +71,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) { 
                               overview.electionAdministrations = result[0]; 
+                              overview.electionAdministrations["completion"] = completionStat(overview.electionAdministrations);
                               overview.electionAdministrations["elementType"] = "Election Administrations";
                               overview.electionAdministrations["link"] = overviewElectionAdministrationsLink;
                             });
@@ -72,6 +83,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) { 
                               overview.pollingLocations = result[0]; 
+                              overview.pollingLocations["completion"] = completionStat(overview.pollingLocations);
                               overview.pollingLocations["elementType"] = "Polling Locations";
                               overview.pollingLocations["link"] = overviewPollingLocationsLink;
                             });
@@ -83,6 +95,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) { 
                               overview.precincts = result[0]; 
+                              overview.precincts["completion"] = completionStat(overview.precincts);
                               overview.precincts["elementType"] = "Precincts"; 
                               overview.precincts["link"] = overviewPrecinctsLink;
                             });
@@ -94,6 +107,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) { 
                               overview.precinctSplits = result[0]; 
+                              overview.precinctSplits["completion"] = completionStat(overview.precinctSplits);
                               overview.precinctSplits["elementType"] = "Precinct Splits";
                               overview.precinctSplits["link"] = overviewPrecinctSplitsLink;
                             });
@@ -105,6 +119,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                                errorMessage: 'Could not retrieve Overview Data.'},
                              function(result) { 
                               overview.streetSegments = result[0]; 
+                              overview.streetSegments["completion"] = completionStat(overview.streetSegments);
                               overview.streetSegments["elementType"] = "Street Segments"; 
                               overview.streetSegments["link"] = overviewStreetSegmentsLink;
                             });

@@ -31,9 +31,9 @@
           </div>
         </td>
         <td data-title="'Errors'" sortable="'error_count'" id="locality-overview-errors{{$index}}" class="numeric element-errors">
-          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count==='0'}" href="{{localityOverview.error_count==='0' ? 'javascript: void(0);' : localityOverview.link}}">
-            <div errorvalue="{{localityOverview.error_count}}" ng-class="{none: localityOverview.error_count==='0'}"
-                  class="errors">{{localityOverview.error_count | number}} <span class="error-text" ng-if="localityOverview.error_count==='1'">error</span><span class="error-text" ng-if="localityOverview.error_count!='1'">errors</span> <span ng-if="localityOverview.error_count==='0'"><i class="fi-check"></i></span><span ng-if="localityOverview.error_count!='0'"><i class="fi-alert"></i></span>
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count===0}" href="{{localityOverview.error_count===0 ? 'javascript: void(0);' : localityOverview.link}}">
+            <div errorvalue="{{localityOverview.error_count}}" ng-class="{none: localityOverview.error_count===0}"
+                  class="errors">{{localityOverview.error_count | number}} <span class="error-text" ng-if="localityOverview.error_count===1">error</span><span class="error-text" ng-if="localityOverview.error_count!=1">errors</span> <span ng-if="localityOverview.error_count===0"><i class="fi-check"></i></span><span ng-if="localityOverview.error_count!=0"><i class="fi-alert"></i></span>
             </div>
           </a>
         </td>
