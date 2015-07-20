@@ -11,5 +11,6 @@ module.exports = {
   getFeedCandidateErrors: errorResponder(queries.candidateErrors, ['candidateid']),
   getFeedContestBallotErrors: errorResponder(queries.contestBallotErrors, ['contestid']),
   getFeedContestErrors: errorResponder(queries.contestErrors, ['contestid']),
+  getFeedLocalityStreetSegmentsErrors: errorResponder(queries.localityStreetSegmentsErrors, ['localityid']),
   getFeedErrors: errorResponder(queries.errors),
 }
