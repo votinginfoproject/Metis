@@ -131,7 +131,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                               overview.precincts.info["link"] = overviewPrecinctsLink;
                             });
   
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precincts',
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precincts/errors',
                                scope: overview.precincts,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -151,7 +151,7 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                               overview.precinctSplits.info["link"] = overviewPrecinctSplitsLink;
                             });
   
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precinct-splits',
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precinct-splits/errors',
                                scope: overview.precinctSplits,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
