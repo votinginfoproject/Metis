@@ -335,7 +335,6 @@ module.exports = {
   localityOverviewPrecincts: "SELECT COUNT(p.*)::int AS count \
                               FROM localities l \
                               INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                              INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'precincts' AND v.identifier = p.id \
                               INNER JOIN results r ON r.id = l.results_id \
                               WHERE r.public_id=$1 AND l.id=$2;",
   localityOverviewPrecinctsErrors: "SELECT COUNT(v.*)::int AS count \
