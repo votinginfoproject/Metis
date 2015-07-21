@@ -280,80 +280,95 @@ module.exports = {
                                                        INNER JOIN election_officials eo ON eo.id = ea.ovc_id AND eo.results_id = l.results_id \
                                                        INNER JOIN results r ON r.id = l.results_id \
                                                        WHERE r.public_id=$1 AND l.id=$2;",
-  localityPrecincts: "SELECT p.id, p.name, COUNT(ps.*) AS precinct_splits \
+  localityPrecincts: "SELECT p.id, p.name, \
+                             (SELECT COUNT(ps.*) \
+                              FROM precinct_splits ps \
+                              WHERE ps.precinct_id = p.id AND ps.results_id = l.results_id)::int AS precinct_splits \
                       FROM localities l \
                       INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                      INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
                       INNER JOIN results r ON r.id = l.results_id \
                       WHERE r.public_id=$1 AND l.id=$2 \
-                      GROUP BY p.id, p.name",
-  localityOverviewEarlyVoteSites: "SELECT (CASE COUNT(evs.*) \
-                                           WHEN 0 THEN 100 \
-                                           ELSE (COUNT(evs.*) - COUNT(v.*)) / COUNT(evs.*)::float * 100 END) AS completion, \
-                                           COUNT(evs.*) AS count, \
-                                           COUNT(v.*) AS error_count \
+                      GROUP BY p.id, p.name, l.results_id",
+  localityOverviewEarlyVoteSites: "SELECT COUNT(evs.*)::int AS count \
                                    FROM localities l \
                                    INNER JOIN locality_early_vote_sites levs ON levs.locality_id = l.id AND levs.results_id = l.results_id \
                                    INNER JOIN early_vote_sites evs ON evs.id = levs.early_vote_site_id AND evs.results_id = l.results_id \
-                                   INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'early-vote-sites' AND v.identifier = evs.id \
                                    INNER JOIN results r ON r.id = l.results_id \
                                    WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewElectionAdministrations: "SELECT (CASE COUNT(ea.*) \
-                                                    WHEN 0 THEN 100 \
-                                                    ELSE (COUNT(ea.*) - COUNT(v.*)) / COUNT(ea.*)::float * 100 END) AS completion, \
-                                                    COUNT(ea.*) AS count, \
-                                                    COUNT(v.*) AS error_count \
+  localityOverviewEarlyVoteSitesErrors: "SELECT COUNT(v.*)::int AS count \
+                                         FROM localities l \
+                                         INNER JOIN locality_early_vote_sites levs ON levs.locality_id = l.id AND levs.results_id = l.results_id \
+                                         INNER JOIN early_vote_sites evs ON evs.id = levs.early_vote_site_id AND evs.results_id = l.results_id \
+                                         INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'early-vote-sites' AND v.identifier = evs.id \
+                                         INNER JOIN results r ON r.id = l.results_id \
+                                         WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewElectionAdministrations: "SELECT COUNT(ea.*)::int AS count \
                                             FROM localities l \
                                             INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
-                                            INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id \
                                             INNER JOIN results r ON r.id = l.results_id \
                                             WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewPollingLocations: "SELECT (CASE COUNT(pl.*) \
-                                             WHEN 0 THEN 100 \
-                                             ELSE (COUNT(pl.*) - COUNT(v.*)) / COUNT(pl.*)::float * 100 END) AS completion, \
-                                             COUNT(pl.*) AS count, \
-                                             COUNT(v.*) AS error_count \
+  localityOverviewElectionAdministrationsErrors: "SELECT COUNT(v.*)::int AS error_count \
+                                                  FROM localities l \
+                                                  INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
+                                                  INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id \
+                                                  INNER JOIN results r ON r.id = l.results_id \
+                                                  WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewPollingLocations: "SELECT COUNT(pl.*)::int AS count \
                                      FROM localities l \
                                      INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                      INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
                                      INNER JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
                                      INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
                                      INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id \
-                                     INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND identifier = pl.id \
                                      INNER JOIN results r ON r.id = l.results_id \
                                      WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewPrecincts: "SELECT (CASE COUNT(p.*) \
-                                      WHEN 0 THEN 100 \
-                                      ELSE (COUNT(p.*) - COUNT(v.*)) / COUNT(p.*)::float * 100 END) AS completion, \
-                                      COUNT(p.*) AS count, \
-                                      COUNT(v.*) AS error_count \
+  localityOverviewPollingLocationsErrors: "SELECT COUNT(v.*)::int AS count \
+                                           FROM localities l \
+                                           INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                           INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
+                                           INNER JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
+                                           INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
+                                           INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id \
+                                           INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id \
+                                           INNER JOIN results r ON r.id = l.results_id \
+                                           WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewPrecincts: "SELECT COUNT(p.*)::int AS count \
                               FROM localities l \
                               INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                              INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'precincts' AND identifier = p.id \
                               INNER JOIN results r ON r.id = l.results_id \
                               WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewPrecinctSplits: "SELECT (CASE COUNT(ps.*) \
-                                           WHEN 0 THEN 100 \
-                                           ELSE (COUNT(ps.*) - COUNT(v.*)) / COUNT(ps.*)::float * 100 END) AS completion, \
-                                           COUNT(ps.*) AS count, \
-                                           COUNT(v.*) AS error_count \
+  localityOverviewPrecinctsErrors: "SELECT COUNT(v.*)::int AS count \
+                                    FROM localities l \
+                                    INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                    INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'precincts' AND v.identifier = p.id \
+                                    INNER JOIN results r ON r.id = l.results_id \
+                                    WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewPrecinctSplits: "SELECT COUNT(ps.*)::int AS count \
                                    FROM localities l \
                                    INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                    INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                   INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'precinct-splits' AND identifier = ps.id \
                                    INNER JOIN results r ON r.id = l.results_id \
                                    WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewStreetSegments: "SELECT (CASE COUNT(ss.*) \
-                                           WHEN 0 THEN 100 \
-                                           ELSE (COUNT(ss.*) - COUNT(v.*)) / COUNT(ss.*)::float * 100 END) AS completion, \
-                                           COUNT(ss.*) AS count, \
-                                           COUNT(v.*) AS error_count \
+  localityOverviewPrecinctSplitsErrors: "SELECT COUNT(v.*)::int AS count \
+                                         FROM localities l \
+                                         INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                         INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
+                                         INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'precinct-splits' AND v.identifier = ps.id \
+                                         INNER JOIN results r ON r.id = l.results_id \
+                                         WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewStreetSegments: "SELECT COUNT(ss.*)::int AS count \
                                    FROM localities l \
                                    INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                    INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.results_id = l.results_id \
-                                   INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                    INNER JOIN results r ON r.id = l.results_id \
                                    WHERE r.public_id=$1 AND l.id=$2;",
+  localityOverviewStreetSegmentsErrors: "SELECT COUNT(v.*)::int AS count \
+                                         FROM localities l \
+                                         INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                         INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.results_id = l.results_id \
+                                         INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
+                                         INNER JOIN results r ON r.id = l.results_id \
+                                         WHERE r.public_id=$1 AND l.id=$2;",
   pollingLocation: "SELECT pl.*, \
                            (SELECT COUNT(v.*) \
                             FROM validations v \

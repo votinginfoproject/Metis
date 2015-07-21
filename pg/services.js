@@ -47,11 +47,17 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/election-administration/overseas-voter-contact', pg.getFeedLocalityElectionAdministrationOverseasVoterContact);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/precincts', pg.getFeedLocalityPrecincts);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/early-vote-sites', pg.getFeedLocalityOverviewEarlyVoteSites);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/early-vote-sites/errors', pg.getFeedLocalityOverviewEarlyVoteSitesErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/election-administrations', pg.getFeedLocalityOverviewElectionAdministrations);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/election-administrations/errors', pg.getFeedLocalityOverviewElectionAdministrations);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/polling-locations', pg.getFeedLocalityOverviewPollingLocations);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/polling-locations/errors', pg.getFeedLocalityOverviewPollingLocationsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precincts', pg.getFeedLocalityOverviewPrecincts);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precincts/errors', pg.getFeedLocalityOverviewPrecinctsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precinct-splits', pg.getFeedLocalityOverviewPrecinctSplits);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/precinct-splits/errors', pg.getFeedLocalityOverviewPrecinctSplitsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/street-segments', pg.getFeedLocalityOverviewStreetSegments);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/street-segments/errors', pg.getFeedLocalityOverviewStreetSegmentsErrors);
   
   // Precinct-related routes
   app.get('/db/feeds/:feedid/precinct/:precinctid', pg.getFeedPrecinct);
