@@ -4,6 +4,7 @@ var csv = require('./csv.js');
 
 function registerPostgresServices (app) {
   app.get('/db/feeds', pg.getFeeds);
+  app.get('/db/feeds/:feedid/error-total-count', pg.getErrorsTotal);
   app.get('/db/feeds/:feedid/election', pg.getFeedElection);
   app.get('/db/feeds/:feedid/election/state', pg.getFeedState);
   app.get('/db/feeds/:feedid/election/state/election-administration', pg.getFeedStateElectionAdministration);

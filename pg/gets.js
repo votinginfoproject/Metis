@@ -14,6 +14,7 @@ module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getFeeds: util.simpleQueryResponder(queries.feeds),
   getResults: util.simpleQueryResponder(queries.results, util.paramExtractor()),
+  getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),
   
   // Feed Contest-related queries
   getFeedContest: util.simpleQueryResponder(queries.contest, util.paramExtractor(['contestid'])),
