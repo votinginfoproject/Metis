@@ -5,13 +5,6 @@
  */
 function FeedOverviewCtrl($scope, $rootScope, $feedDataPaths, $routeParams, $location, $appProperties, $filter, ngTableParams) {
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-
-  var errorPath = $feedDataPaths.getFeedValidationsErrorCountPath(feedid);
-  $feedDataPaths.getResponse({ path: errorPath,
-                               scope: $rootScope,
-                               key: "errorCount",
-                               errorMessage: "Could not retrieve Feed Error Count."},
-                             function(result) { $rootScope.errorCount = result[0].errorcount; });
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope:  $rootScope,

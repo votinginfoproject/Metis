@@ -4,16 +4,8 @@
  *
  */
 function FeedStateCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
-
   // get the vipfeed param from the route
-  var feedid = $routeParams.vipfeed;
-  $scope.vipfeed = feedid;
-
-  var errorPath = $feedDataPaths.getFeedValidationsErrorCountPath(feedid);
-  $feedDataPaths.getResponse({ path: errorPath,
-                               scope: $rootScope,
-                               key: "errorCount",
-                               errorMessage: "Could not retrieve Feed Error Count."});
+  var feedid = $scope.vipfeed = $routeParams.vipfeed;
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state',
                                scope: $rootScope,
