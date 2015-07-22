@@ -514,6 +514,27 @@ module.exports = {
                                        "v.scope = 'ballots' AND c.id = $2"),
   contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",
                                  "v.scope = 'contests' AND c.id = $2"),
+  localityEarlyVoteSitesErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                                 INNER JOIN locality_early_vote_sites levs ON levs.locality_id = l.id AND levs.results_id = v.results_id \
+                                                 INNER JOIN early_vote_sites evs ON evs.id = levs.early_vote_site_id AND evs.results_id = v.results_id",
+                                                 "v.scope = 'early-vote-sites' AND l.id = $2"),
+  localityElectionAdministrationsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                                          INNER JOIN election_administrations ea ON l.election_administration_id = ea.id AND ea.results_id = v.results_id",
+                                                          "v.scope = 'election-administrations' AND l.id = $2"),
+  localityPollingLocationsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                                   INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                                   INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
+                                                   INNER JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
+                                                   INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
+                                                   INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id",
+                                                   "v.scope = 'polling-locations' AND l.id = $2"),
+  localityPrecinctSplitsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                                 INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id \
+                                                 INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = v.results_id",
+                                                 "v.scope = 'precinct-splits' AND l.id = $2"),
+  localityPrecinctsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
+                                            INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id",
+                                            "v.scope = 'precincts' AND l.id = $2"),
   localityStreetSegmentsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
                                                  INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id \
                                                  INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.id = v.identifier AND ss.results_id = v.results_id",
