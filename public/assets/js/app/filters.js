@@ -223,4 +223,15 @@ angular.module('vipFilters', []).
         identifier = 'global';
       }
       return "id = " + identifier + " (" + error.error_data + ")";
-    }});
+    }}).
+  filter('errorCompletion', function () {
+    return function(overview) {
+      if (!overview.errors || !overview.info) { return 100; }
+
+      var errors = overview.errors.count;
+      if (errors == 0) { return 100; };
+
+      var complete = overview.info.count - errors;
+      return Math.round(complete / overview.info.count * 100);
+    }
+  });

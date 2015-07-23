@@ -68,8 +68,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     });
 
     $routeProvider.when('/feeds/:vipfeed/election', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-election.html',
-      controller: 'FeedElectionCtrl'
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-source.html',
+      controller: 'FeedSourceCtrl'
     });
 
     $routeProvider.when('/feeds/:vipfeed/election/contests', {
@@ -238,7 +238,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
 
       // overview modules under a specific Locality
       .when('/feeds/:vipfeed/election/state/localities/:locality/overview/earlyvotesites/errors', error)
-      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/electionadministration/errors', error)
+      .when('/feeds/:vipfeed/election/state/localities/:locality/overview/electionadministrations/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/overview/pollinglocations/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precinctsplits/errors', error)
       .when('/feeds/:vipfeed/election/state/localities/:locality/overview/precincts/errors', error)

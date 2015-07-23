@@ -3,16 +3,9 @@
  */
 
 function FeedContestCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
-
   // get the vipfeed param from the route
   var feedid = $scope.vipfeed = $routeParams.vipfeed;  
   var contestid = $routeParams.contest;
-
-  var errorPath = $feedDataPaths.getFeedValidationsErrorCountPath(feedid);
-  $feedDataPaths.getResponse({ path: errorPath,
-                               scope: $rootScope,
-                               key: "errorCount",
-                               errorMessage: "Could not retrieve Feed Error Count."});
   
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid,
                                scope:  $rootScope,

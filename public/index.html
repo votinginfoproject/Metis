@@ -58,6 +58,9 @@
   <!-- Directives -->
   <script src="assets/js/app/directives/directives.js"></script>
 
+  <!-- Aside -->
+  <script src="assets/js/app/controllers/asideController.js"></script>
+
   <!-- Home -->
   <script src="assets/js/app/controllers/homeController.js"></script>
   <script src="assets/js/app/services/homeService.js"></script>
@@ -155,7 +158,7 @@
         </footer><!-- / contentinfo -->
       </div><!-- /.content -->
 
-      <aside class="feed-meta" ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds'&& pageHeader.title!=='Feeds'" ng-include src="'app/partials/aside.html'"></aside>
+      <aside class="feed-meta" ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds' && pageHeader.title!=='Feeds'" ng-controller="AsideCtrl" ng-include src="'app/partials/aside.html'"></aside>
 
     </div><!-- / .wrapper -->
 

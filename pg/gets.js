@@ -23,6 +23,7 @@ module.exports = {
     }
   },
   getResults: util.simpleQueryResponder(queries.results, util.paramExtractor()),
+  getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),
   
   // Feed Contest-related queries
   getFeedContest: util.simpleQueryResponder(queries.contest, util.paramExtractor(['contestid'])),
@@ -56,11 +57,17 @@ module.exports = {
 
   // Feed Locality Overview
   getFeedLocalityOverviewEarlyVoteSites: util.simpleQueryResponder(queries.localityOverviewEarlyVoteSites, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewEarlyVoteSitesErrors: util.simpleQueryResponder(queries.localityOverviewEarlyVoteSitesErrors, util.paramExtractor(['localityid'])),
   getFeedLocalityOverviewElectionAdministrations: util.simpleQueryResponder(queries.localityOverviewElectionAdministrations, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewElectionAdministrationsErrors: util.simpleQueryResponder(queries.localityOverviewElectionAdministrationsErrors, util.paramExtractor(['localityid'])),
   getFeedLocalityOverviewPollingLocations: util.simpleQueryResponder(queries.localityOverviewPollingLocations, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewPollingLocationsErrors: util.simpleQueryResponder(queries.localityOverviewPollingLocationsErrors, util.paramExtractor(['localityid'])),
   getFeedLocalityOverviewPrecinctSplits: util.simpleQueryResponder(queries.localityOverviewPrecinctSplits, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewPrecinctSplitsErrors: util.simpleQueryResponder(queries.localityOverviewPrecinctSplitsErrors, util.paramExtractor(['localityid'])),
   getFeedLocalityOverviewPrecincts: util.simpleQueryResponder(queries.localityOverviewPrecincts, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewPrecinctsErrors: util.simpleQueryResponder(queries.localityOverviewPrecinctsErrors, util.paramExtractor(['localityid'])),
   getFeedLocalityOverviewStreetSegments: util.simpleQueryResponder(queries.localityOverviewStreetSegments, util.paramExtractor(['localityid'])),
+  getFeedLocalityOverviewStreetSegmentsErrors: util.simpleQueryResponder(queries.localityOverviewStreetSegmentsErrors, util.paramExtractor(['localityid'])),
 
   // Feed Precinct-related queries
   getFeedPrecinct: util.simpleQueryResponder(queries.precinct, util.paramExtractor(['precinctid'])),

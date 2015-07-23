@@ -11,5 +11,11 @@ module.exports = {
   getFeedCandidateErrors: errorResponder(queries.candidateErrors, ['candidateid']),
   getFeedContestBallotErrors: errorResponder(queries.contestBallotErrors, ['contestid']),
   getFeedContestErrors: errorResponder(queries.contestErrors, ['contestid']),
+  getFeedLocalityEarlyVoteSitesErrors: errorResponder(queries.localityEarlyVoteSitesErrors, ['localityid']),
+  getFeedLocalityElectionAdministrationsErrors: errorResponder(queries.localityElectionAdministrationsErrors, ['localityid']),
+  getFeedLocalityPollingLocationsErrors: errorResponder(queries.localityPollingLocationsErrors, ['localityid']),
+  getFeedLocalityPrecinctSplitsErrors: errorResponder(queries.localityPrecinctSplitsErrors, ['localityid']),
+  getFeedLocalityPrecinctsErrors: errorResponder(queries.localityPrecinctsErrors, ['localityid']),
+  getFeedLocalityStreetSegmentsErrors: errorResponder(queries.localityStreetSegmentsErrors, ['localityid']),
   getFeedErrors: errorResponder(queries.errors),
 }
