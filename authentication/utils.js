@@ -1,3 +1,10 @@
+ensureAuthentication = function (req, res, next) {
+  if (!req.isAuthenticated())
+    res.send(401);
+  else
+    next();
+};
+
 var groupName = function(group) {
   return group.name;
 }
@@ -22,3 +29,4 @@ var stateGroupNames = function(user) {
 exports.stateGroups = stateGroups;
 exports.stateGroupNames = stateGroupNames;
 exports.isSuperAdmin = isSuperAdmin;
+exports.ensureAuthentication = ensureAuthentication;

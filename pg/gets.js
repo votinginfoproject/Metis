@@ -1,7 +1,7 @@
 var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
-var authorization = require('../authorization.js');
+var authorization = require('../authentication/utils.js');
 
 var overviewTableRow = function(row, type, dbTable, link) {
   return {element_type: type,

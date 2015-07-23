@@ -1,9 +1,5 @@
-/**
- * Created by bantonides on 12/3/13.
- */
 var utils = require('./utils');
 var logger = (require('../logging/vip-winston')).Logger;
-
 
 var currentUser = null;
 
