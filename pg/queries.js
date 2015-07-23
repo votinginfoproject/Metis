@@ -25,7 +25,7 @@ var buildErrorQuery = function(joins, wheres) {
 }
 
 module.exports = {
-  feeds: "SELECT r.public_id, date(r.start_time) AS start_time, \
+  feeds: "SELECT r.public_id, date(r.start_time) AS start_time, date(r.end_time) AS end_time, \
                  CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
                  r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
           FROM results r \
