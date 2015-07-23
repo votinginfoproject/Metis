@@ -33,6 +33,10 @@ module.exports = {
           LEFT JOIN elections e ON e.results_id = r.id \
           ORDER BY r.start_time DESC;",
   results: "SELECT * FROM results WHERE public_id=$1",
+  errorsTotal: "SELECT COUNT(v.*)::int \
+                FROM validations v \
+                INNER JOIN results r ON r.id = v.results_id \
+                WHERE r.public_id = $1",
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \
