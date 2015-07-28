@@ -46,6 +46,16 @@ config.auth = {
   accountStore: process.env.STORMPATH_ACCOUNT_STORE
 }
 
+config.notifications = {
+  exchange: process.env.VIP_DP_RABBITMQ_EXCHANGE,
+  exchangeOptions: { durable: false, autoDelete: true},
+  host: process.env.RABBITMQ_PORT_5672_TCP_ADDR,
+  port: process.env.RABBITMQ_PORT_5672_TCP_PORT,
+  topics: {
+    processingComplete: "processing.complete"
+  }
+}
+
 config.importer = {
   useS3: false,
   s3AccessKeyId: 'FillInAccessKeyHere',
