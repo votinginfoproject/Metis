@@ -9,16 +9,42 @@
 <span ng-if="!feeds" class="is-loading"></span>
 <table id="feedsTable" ng-table="feedTableParams" template-pagination="feedsPagination" class="associations">
   <tr id="feedIndex{{$index}}" ng-repeat="feed in feeds">
-    <td id="date{{$index}}" data-title="'Date'" sortable="'date'" ><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Date"><span class="td-text">{{feed.election_date.slice(0,10) | date}}</span></a>
+    <td id="date{{$index}}" data-title="'Date'" sortable="'date'" >
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Date"><span class="td-text">
+      {{feed.election_date.slice(0,10) | date}}
+      <span ng-if="!feed.election_date">&nbsp;</span>
+      </span></a>
     </td>
-    <td id="state{{$index}}" data-title="'State'" sortable="'state'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="State"><span class="td-text">{{feed.state}}</span></a>
+    <td id="state{{$index}}" data-title="'State'" sortable="'state'">
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="State"><span class="td-text">
+      {{feed.state}}
+      <span ng-if="!feed.state">&nbsp;</span>
+      </span></a>
     </td>
-    <td id="type{{$index}}" data-title="'Type'" sortable="'type'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Type"><span class="td-text">{{feed.election_type}}</span></a>
+    <td id="type{{$index}}" data-title="'Type'" sortable="'type'">
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Type"><span class="td-text">
+      {{feed.election_type}}
+      <span ng-if="!feed.election_type">&nbsp;</span>
+      </span></a>
     </td>
-    <td id="status{{$index}}" data-title="'Status'" sortable="'status'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.failed"></span><i ng-if="feed.failed" class="fi-prohibited"></i> <span ng-if="feed.complete" class="td-text">Complete <small>({{formatDuration(feed.duration)}})</small></span></a>
+    <td id="status{{$index}}" data-title="'Status'" sortable="'status'">
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Status"><span class="is-loading-small" ng-show="!feed.complete && !feed.end_time"></span><i ng-if="feed.failed" class="fi-prohibited"></i>
+      <span ng-if="feed.complete" class="td-text">Complete <small>({{formatDuration(feed.duration)}})</small></span>
+      <span ng-if="!feed.complete && feed.end_time">Processing Failed</span>
+      </a>
     </td>
-    <td data-title="'Due'" sortable="'due'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Due"><span class="td-text">{{feed.due_in}}</span></a></td>
-    <td data-title="'Loaded On'" sortable="'date_loaded'"><a ng-class="{'disabled-row': !feed.complete && !feed.failed, 'disabled-row-failed': !feed.complete && feed.failed}" href="#/feeds/{{feed.public_id}}" data-title-text="Loaded On"><span class="td-text">{{feed.start_time.slice(0,10) | date}}</span></a></td>
+    <td data-title="'Due'" sortable="'due'">
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Due"><span class="td-text">
+      {{feed.due_in}}
+      <span ng-if="!feed.due_in">&nbsp;</span>
+      </span></a>
+    </td>
+    <td data-title="'Loaded On'" sortable="'date_loaded'">
+      <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Loaded On"><span class="td-text">
+      {{feed.start_time.slice(0,10) | date}}
+      <span ng-if="!feed.start_time">&nbsp;</span>
+      </span></a>
+    </td>
   </tr>
   <tr ng-if="feeds.length === 0">
     <td colspan="6"><p style="padding: 1em;">No Feeds Found</p></td>
