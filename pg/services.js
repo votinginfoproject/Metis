@@ -50,7 +50,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/early-vote-sites', pg.getFeedLocalityOverviewEarlyVoteSites);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/early-vote-sites/errors', pg.getFeedLocalityOverviewEarlyVoteSitesErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/election-administrations', pg.getFeedLocalityOverviewElectionAdministrations);
-  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/election-administrations/errors', pg.getFeedLocalityOverviewElectionAdministrations);
+  app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/election-administrations/errors', pg.getFeedLocalityOverviewElectionAdministrationsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/polling-locations', pg.getFeedLocalityOverviewPollingLocations);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/polling-locations/errors', pg.getFeedLocalityOverviewPollingLocationsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/precincts', pg.getFeedLocalityOverviewPrecincts);
