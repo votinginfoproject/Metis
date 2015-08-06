@@ -325,25 +325,40 @@ module.exports = {
                                                   INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id \
                                                   INNER JOIN results r ON r.id = l.results_id \
                                                   WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewPollingLocations: "SELECT COUNT(pl.*)::int AS count \
-                                     FROM localities l \
-                                     INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                                     INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                     LEFT JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
-                                     LEFT JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
-                                     INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id \
-                                     INNER JOIN results r ON r.id = l.results_id \
-                                     WHERE r.public_id=$1 AND l.id=$2;",
-  localityOverviewPollingLocationsErrors: "SELECT COUNT(v.*)::int AS count \
+  localityOverviewPollingLocations: "SELECT (ppl.count + pspl.count) AS count \
+                                     FROM (SELECT COUNT(pl.*)::int AS count \
+                                           FROM localities l \
+                                           INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                           INNER JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
+                                           INNER JOIN polling_locations pl ON pl.id = ppl.polling_location_id AND pl.results_id = l.results_id \
+                                           INNER JOIN results r ON r.id = l.results_id \
+                                           WHERE r.public_id=$1 AND l.id=$2) AS ppl, \
+                                           (SELECT COUNT(pl.*)::int AS count \
                                            FROM localities l \
                                            INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                            INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                           LEFT JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
-                                           LEFT JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
-                                           INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id \
-                                           INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id \
+                                           INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = p.id AND pspl.results_id = l.results_id \
+                                           INNER JOIN polling_locations pl ON pl.id = pspl.polling_location_id AND pl.results_id = l.results_id \
                                            INNER JOIN results r ON r.id = l.results_id \
-                                           WHERE r.public_id=$1 AND l.id=$2;",
+                                           WHERE r.public_id=$1 AND l.id=$2) AS pspl;",
+  localityOverviewPollingLocationsErrors: "SELECT (ppl.count + pspl.count) AS count \
+                                          FROM (SELECT COUNT(v.*)::int AS count \
+                                                FROM localities l \
+                                                INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                                INNER JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
+                                                INNER JOIN polling_locations pl ON pl.id = ppl.polling_location_id AND pl.results_id = l.results_id \
+                                                INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id \
+                                                INNER JOIN results r ON r.id = l.results_id \
+                                                WHERE r.public_id=$1 AND l.id=$2) AS ppl, \
+                                                (SELECT COUNT(v.*)::int AS count \
+                                                FROM localities l \
+                                                INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
+                                                INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
+                                                INNER JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = p.id AND pspl.results_id = l.results_id \
+                                                INNER JOIN polling_locations pl ON pl.id = pspl.polling_location_id AND pl.results_id = l.results_id \
+                                                INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id \
+                                                INNER JOIN results r ON r.id = l.results_id \
+                                                WHERE r.public_id=$1 AND l.id=$2) AS pspl;",
   localityOverviewPrecincts: "SELECT COUNT(p.*)::int AS count \
                               FROM localities l \
                               INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
@@ -533,13 +548,15 @@ module.exports = {
   localityElectionAdministrationsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
                                                           INNER JOIN election_administrations ea ON l.election_administration_id = ea.id AND ea.results_id = v.results_id",
                                                           "v.scope = 'election-administrations' AND l.id = $2"),
-  localityPollingLocationsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
-                                                   INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                                                   INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                                   LEFT JOIN precinct_polling_locations ppl ON ppl.precinct_id = p.id AND ppl.results_id = l.results_id \
-                                                   LEFT JOIN precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
-                                                   INNER JOIN polling_locations pl ON (pl.id = ppl.polling_location_id OR pl.id = pspl.polling_location_id) AND pl.results_id = l.results_id",
-                                                   "v.scope = 'polling-locations' AND v.identifier = pl.id AND l.id = $2"),
+  localityPollingLocationsErrors: buildErrorQuery("LEFT JOIN (SELECT pl.id, pl.results_id, p.locality_id FROM polling_locations pl \
+                                                              INNER JOIN precinct_polling_locations ppl ON ppl.polling_location_id = pl.id AND ppl.results_id = pl.results_id \
+                                                              INNER JOIN precincts p ON p.id = ppl.precinct_id AND p.results_id = pl.results_id) AS ppl ON v.identifier = ppl.id AND ppl.results_id = v.results_id \
+                                                   LEFT JOIN (SELECT pl.id, pl.results_id, p.locality_id FROM polling_locations pl \
+                                                              INNER JOIN precinct_split_polling_locations pspl ON pspl.polling_location_id = pl.id AND pspl.results_id = pl.results_id \
+                                                              INNER JOIN precinct_splits ps ON ps.id = pspl.precinct_split_id AND ps.results_id = pl.results_id \
+                                                              INNER JOIN precincts p ON p.id = ps.precinct_id AND p.results_id = pl.results_id) AS pspl ON v.identifier = pspl.id AND pspl.results_id = v.results_id \
+                                                   INNER JOIN localities l ON l.id = ppl.locality_id OR l.id = pspl.locality_id",
+                                                   "v.scope = 'polling-locations' AND l.id=$2"),
   localityPrecinctSplitsErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
                                                  INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id \
                                                  INNER JOIN precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = v.results_id",
