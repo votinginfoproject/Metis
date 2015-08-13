@@ -33,13 +33,18 @@ config.web = {
   SSLCert: '/vipdata/certs/*_votinginfoproject_org_chained.crt'
 };
 
-config.crowd = {
-  server: 'http://192.168.10.160:8095/crowd/',
-  application: 'votinginfoapp',
-  apppass: 'thisissecret',
-  retrieveGroups: true,
-  uselocalauth: true
-};
+config.auth = {
+  uselocalauth: function() {
+    return !config.auth.apiKey ||
+      !config.auth.apiKeySecret ||
+      !config.auth.accountStore ||
+      !config.auth.appHref;
+  },
+  apiKey: process.env.STORMPATH_API_KEY_ID,
+  apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
+  appHref: process.env.STORMPATH_APP_HREF,
+  accountStore: process.env.STORMPATH_ACCOUNT_STORE
+}
 
 config.importer = {
   useS3: false,
