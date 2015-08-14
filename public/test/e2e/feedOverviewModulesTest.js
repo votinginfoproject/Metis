@@ -136,7 +136,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors2 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-electionofficials-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }
@@ -172,7 +172,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors3 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-localities-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }
@@ -209,7 +209,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors4 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-pollinglocations-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }
@@ -245,7 +245,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors5 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-precinctsplits-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }
@@ -280,7 +280,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors6 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-precincts-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }
@@ -316,7 +316,7 @@ describe('Feed Overview Test', function () {
           element('#pollingLocation-errors7 a').click();
           sleep(testGlobals.sleepTime);
 
-          expect(element("#feeds-overview-streetsegments-errors-content").count()).toBe(1);
+          expect(element("#errorsTable").count()).toBe(1);
 
           errorcount2 = element('#total_errors').attr('errorvalue');
         }

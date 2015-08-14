@@ -10,16 +10,24 @@ describe('Breadcrumbs Test', function () {
     });
   });
 
-
   /* ----------------------------------------
    Feed Overview page breadcrumb
    ------------------------------------------*/
-  describe('Check Feed Overview page breadcrumb', function () {
+  describe('Check Feed Source page breadcrumb', function () {
+    // check the the number of feeds
+    it('Should have 2 breadcrumbs', function () {
+
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1");
+      sleep(testGlobals.sleepTime);
+
+      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb1').count()).toBe(0);
+    });
 
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
 
     });
   });
@@ -31,7 +39,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 2 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/source");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/source");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -42,44 +50,20 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Source & Election");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Source &amp; Election");
 
     });
   });
 
   /* ----------------------------------------
-   Feed Election page breadcrumb
-   ------------------------------------------*/
-  describe('Check Feed Election page breadcrumb', function () {
-    // check the the number of feeds
-    it('Should have 2 breadcrumbs', function () {
-
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election");
-      sleep(testGlobals.sleepTime);
-
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(0);
-    });
-
-    // check the feed breadcrumb values
-    it('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
-
-    });
-  });
-
-  /* ----------------------------------------
-   Feed State page breadcrumb
+   Feed Polling Locations page breadcrumb
    ------------------------------------------*/
   describe('Check Feed State page breadcrumb', function () {
     // check the the number of feeds
     it('Should have 3 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -91,7 +75,7 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
 
@@ -105,7 +89,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 4 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -118,7 +102,7 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
@@ -133,7 +117,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 5 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/101");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -147,43 +131,11 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
-
-    });
-  });
-
-  /* ----------------------------------------
-   Feed Precincts page breadcrumb
-   ------------------------------------------*/
-  describe('Check Feed Precincts page breadcrumb', function () {
-    // check the the number of feeds
-    it('Should have 6 breadcrumbs', function () {
-
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts");
-      sleep(testGlobals.sleepTime);
-
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb5').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb6').count()).toBe(0);
-    });
-
-    // check the feed breadcrumb values
-    it('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("101");
 
     });
   });
@@ -195,7 +147,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 7 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/101/precincts/10101");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -211,13 +163,13 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("101");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("10101");
 
     });
   });
@@ -229,7 +181,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of breadcrumbs
     it('Should have 9 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/streetsegments/errors");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/101/precincts/10101/streetsegments/errors");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -247,52 +199,16 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("101");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("10101");
       expect(element('#pageHeader-breadcrumb7 a').html()).toBe("Street Segments");
       expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Errors");
 
-    });
-  });
-
-  /* ----------------------------------------
-   Feed Precinct Splits page breadcrumb
-   ------------------------------------------*/
-  describe('Check Feed Precinct Splits page breadcrumb', function () {
-    // check the the number of feeds
-    it('Should have 8 breadcrumbs', function () {
-
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits");
-      sleep(testGlobals.sleepTime);
-      sleep(2);
-
-      expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb2').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb4').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb5').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb6').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb7').count()).toBe(1);
-      expect(element('#pageHeader-breadcrumb8').count()).toBe(0);
-    });
-
-    // check the feed breadcrumb values
-    it('Breadcrumb values should be correct', function () {
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("Precinct Splits");
     });
   });
 
@@ -301,12 +217,12 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Contest page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
     });
   });
 
@@ -319,7 +235,7 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
     });
@@ -330,12 +246,12 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Ballot page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function() {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballot");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot");
     });
   });
@@ -345,15 +261,15 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Candidate page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/candidates/1candidate");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballot/candidates/90001");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Candidates");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1candidate");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("90001");
     });
   });
 
@@ -366,10 +282,10 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb6 a').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Candidates");
     });
@@ -380,15 +296,15 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Referendum page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballot/referenda/1referendum");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60006/ballot/referenda/90011");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60006");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Referenda");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1referendum");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("90011");
     });
   });
 
@@ -401,10 +317,10 @@ describe('Breadcrumbs Test', function () {
       element('#pageHeader-breadcrumb6 a').click();
       sleep(testGlobals.sleepTime);
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60006");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Referenda");
     });
@@ -415,12 +331,12 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Contest Result page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/contestresult");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/contestresult");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Contest Result");
     });
   });
@@ -430,14 +346,14 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Ballot Line Result page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults/1ballotlineresult");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballotlineresults/91008");
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot Line Results");
-      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1ballotlineresult");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("91008");
     });
   });
 
@@ -446,14 +362,12 @@ describe('Breadcrumbs Test', function () {
    ------------------------------------------*/
   describe('Check Feed Ballot Line Results page breadcrumb', function() {
     it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/1contest/ballotlineresults");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballotlineresults");
 
-      element('#pageHeader-breadcrumb5 a').click();
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("1contest");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
       expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot Line Results");
     });
   });
@@ -465,7 +379,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 9 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/103/precincts/10302/precinctsplits/111");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -483,16 +397,15 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("Feeds");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("vip-feed1");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("State");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("1local");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("1precinct");
-      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("Precinct Splits");
-      expect(element('#pageHeader-breadcrumb9 a').html()).toBe("1precinctsplit");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
+      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
+      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
+      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("103");
+      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("10302");
+      expect(element('#pageHeader-breadcrumb7 a').html()).toBe("Precinct Splits");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("111");
     });
   });
 
@@ -503,7 +416,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Should have 11 breadcrumbs', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit/streetsegments/errors");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/103/precincts/10302/precinctsplits/111/streetsegments/errors");
       sleep(testGlobals.sleepTime);
 
       expect(element('#pageHeader-breadcrumb0').count()).toBe(1);
@@ -523,15 +436,15 @@ describe('Breadcrumbs Test', function () {
     // check the feed breadcrumb values
     it('Breadcrumb values should be correct', function () {
 
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("vip-feed1");
+      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
       expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
       expect(element('#pageHeader-breadcrumb2 a').html()).toBe("State");
       expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("1local");
+      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("103");
       expect(element('#pageHeader-breadcrumb5 a').html()).toBe("Precincts");
-      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("1precinct");
+      expect(element('#pageHeader-breadcrumb6 a').html()).toBe("10302");
       expect(element('#pageHeader-breadcrumb7 a').html()).toBe("Precinct Splits");
-      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("1precinctsplit");
+      expect(element('#pageHeader-breadcrumb8 a').html()).toBe("111");
       expect(element('#pageHeader-breadcrumb9 a').html()).toBe("Street Segments");
       expect(element('#pageHeader-breadcrumb10 a').html()).toBe("Errors");
     });
@@ -545,7 +458,7 @@ describe('Breadcrumbs Test', function () {
     // check the the number of feeds
     it('Start from the Feed Precinct Split page', function () {
 
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/state/localities/1local/precincts/1precinct/precinctsplits/1precinctsplit");
+      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/state/localities/103/precincts/10302/precinctsplits/111");
       sleep(testGlobals.sleepTime);
     });
 

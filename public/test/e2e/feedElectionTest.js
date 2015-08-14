@@ -21,14 +21,6 @@ describe('Feed Election Test', function () {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-      expect(element('#election-link').count()).toBe(1);
-
-      // click the election link
-      element('#election-link').click();
-      sleep(testGlobals.sleepTime);
-      */
-
       expect(element('#sidebar-source').count()).toBe(1);
 
       // click the source link
@@ -54,33 +46,15 @@ describe('Feed Election Test', function () {
   });
 
   /* ----------------------------------------
-   Feed Election state data
+   Feed Election source data
    ------------------------------------------*/
   describe('Check Feed Election state data', function () {
     // check the the number of items
     it('Should have election state data', function () {
 
-      expect(element('#state-name').count()).toBe(1);
+      expect(element('#source-name').count()).toBe(1);
     });
 
-  });
-
-  /* ----------------------------------------
-   Feed Election Contests
-   ------------------------------------------*/
-  describe('Check Feed Election Contests', function () {
-    // check the the number of items
-    it('Should have contests', function () {
-      expect(element('#contests-id0').count()).toBe(1);
-    });
-
-  });
-
-  describe('Check Feed Error Link', function() {
-    it('Error link works', function() {
-      element('#election-errors').click();
-      expect(element('#feeds-election-errors-content').count()).toBe(1);
-    });
   });
 
   /* ----------------------------------------

@@ -21,58 +21,20 @@ describe('Feed Localities Test', function () {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-      expect(element('#election-link').count()).toBe(1);
-
-      // click the election link
-      element('#election-link').click();
-      sleep(testGlobals.sleepTime);
-      */
-
-      expect(element('#sidebar-contests').count()).toBe(1);
+      expect(element('#locality-id0').count()).toBe(1);
 
       // click the contests link
-      element('#sidebar-contests').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      element('#pageHeader-breadcrumb1').click();
-
-      // should be on the feed election page
-
-      // should have a state link
-      expect(element('#state-id a').count()).toBe(1);
-
-      // click the state link
-      element('#state-id a').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed state page
-      expect(element('#feed-state-content').count()).toBe(1);
-
-      // should have a locality link
-      expect(element('#locality-id0 a').count()).toBe(1);
-
-      // click the locality link
       element('#locality-id0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed locality page
+      // should be on the feed contests page
       expect(element('#feed-locality-content').count()).toBe(1);
-
-      // click the localities link
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("Localities");
+      
+      expect(element('#pageHeader-breadcrumb3').count()).toBe(1);
       element('#pageHeader-breadcrumb3 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed locality page
       expect(element('#feed-localities-content').count()).toBe(1);
-
-
     });
 
   });

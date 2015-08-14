@@ -32,20 +32,20 @@
   <!-- element table directive -->
   
   <section class="data-group data-module">
-    <table class="overview" id="localityOverviewTable" template-pagination="pollingPagination" ng-table="localityOverviewTableParams" class="associations">
-      <tr id="locality-overview{{$index}}" ng-repeat="(elementType, localityOverview) in feedContestOverview">
-        <td data-title="'Element Type'" sortable="'element_type'" id="locality-overview-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{localityOverview.elementType}}</span></td>
-        <td data-title="'Amount'" sortable="'amount'" id="locality-overview-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{localityOverview.count | number}}</span></td>
-        <td data-title="'Completion'" sortable="'completion'" id="locality-overview-complete{{$index}}" class="completion">
+    <table class="overview" id="contestOverviewTable" template-pagination="pollingPagination" ng-table="contestOverviewTableParams" class="associations">
+      <tr id="contestOverview{{$index}}" ng-repeat="(elementType, contestOverview) in feedContestOverview">
+        <td data-title="'Element Type'" sortable="'element_type'" id="contestOverview-element-type{{$index}}" class="element-type"><span data-title-text="Element Type">{{contestOverview.elementType}}</span></td>
+        <td data-title="'Amount'" sortable="'amount'" id="contestOverview-amount{{$index}}" class="numeric amount"><span data-title-text="Amount">{{contestOverview.count | number}}</span></td>
+        <td data-title="'Completion'" sortable="'completion'" id="contestOverview-complete{{$index}}" class="completion">
           <div data-title-text="Completion" class="completeness">
-            <span class="complete-{{localityOverview.completion}}"></span>
-            <div class="counter">{{localityOverview.completion | number}}% <span class="counter-text">complete</span></div>
+            <span class="complete-{{contestOverview.completion}}"></span>
+            <div class="counter">{{contestOverview.completion | number}}% <span class="counter-text">complete</span></div>
           </div>
         </td>
-        <td data-title="'Errors'" sortable="'error_count'" id="locality-overview-errors{{$index}}" class="numeric element-errors">
-          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count==='0'}" href="{{localityOverview.error_count==='0' ? 'javascript: void(0);' : localityOverview.link}}">
-            <div errorvalue="{{localityOverview.error_count}}" ng-class="{none: localityOverview.error_count==='0'}"
-                  class="errors">{{localityOverview.error_count | number}} <span class="error-text" ng-if="localityOverview.error_count==='1'">error</span><span class="error-text" ng-if="localityOverview.error_count!='1'">errors</span> <span ng-if="localityOverview.error_count==='0'"><i class="fi-check"></i></span><span ng-if="localityOverview.error_count!='0'"><i class="fi-alert"></i></span>
+        <td data-title="'Errors'" sortable="'error_count'" id="contestOverview-errors{{$index}}" class="numeric element-errors">
+          <a data-title-text="Errors" title="View the Errors" ng-class="{default_pointer: pollingLocation.error_count==='0'}" href="{{contestOverview.error_count==='0' ? 'javascript: void(0);' : contestOverview.link}}">
+            <div errorvalue="{{contestOverview.error_count}}" ng-class="{none: contestOverview.error_count==='0'}"
+                  class="errors">{{contestOverview.error_count | number}} <span class="error-text" ng-if="contestOverview.error_count==='1'">error</span><span class="error-text" ng-if="contestOverview.error_count!='1'">errors</span> <span ng-if="contestOverview.error_count==='0'"><i class="fi-check"></i></span><span ng-if="contestOverview.error_count!='0'"><i class="fi-alert"></i></span>
             </div>
           </a>
         </td>

@@ -15,47 +15,12 @@ describe('Feed Precinct Split Test', function () {
   describe('Check Feed Precinct Split page', function () {
 
     it('Should go to the Feed Precinct page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then a Precinct Split', function () {
-
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
-      expect(element('#sidebar-contests').count()).toBe(1);
-
-      // click the contests link
-      element('#sidebar-contests').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      element('#pageHeader-breadcrumb1').click();
-
-      // should be on the feed election page
-
-      // should have a state link
-      expect(element('#state-id a').count()).toBe(1);
-
-      // click the state link
-      element('#state-id a').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed state page
-      expect(element('#feed-state-content').count()).toBe(1);
-
-      // should have a locality link
-      expect(element('#locality-id0 a').count()).toBe(1);
+      expect(element('#locality-id0').count()).toBe(1);
 
       // click the locality link
       element('#locality-id0 a').click();
@@ -64,9 +29,6 @@ describe('Feed Precinct Split Test', function () {
       // should be on the feed locality page
       expect(element('#feed-locality-content').count()).toBe(1);
 
-      // should have a precinct link
-      expect(element('#precinct-id0 a').count()).toBe(1);
-
       // click the precinct link
       element('#precinct-id0 a').click();
       sleep(testGlobals.sleepTime);
@@ -74,18 +36,13 @@ describe('Feed Precinct Split Test', function () {
       // should be on the feed precinct page
       expect(element('#feed-precinct-content').count()).toBe(1);
 
-      // should have a precinct split link
-      expect(element('#precinctSplit-id0 a').count()).toBe(1);
-
       // click the precinct split link
       element('#precinctSplit-id0 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precinct split page
       expect(element('#feed-precinctsplit-content').count()).toBe(1);
-
     });
-
   });
 
   /* ----------------------------------------
@@ -114,7 +71,7 @@ describe('Feed Precinct Split Test', function () {
     it('error page works', function() {
       element('#precinctsplit-errors').click();
       expect(element('#feeds-election-state-localities-precincts-precinctsplits-errors-content').count()).toBe(1);
-      element('#pageHeader-breadcrumb9 a').click();
+      element('#pageHeader-breadcrumb8 a').click();
       expect(element('#feed-precinctsplit-content').count()).toBe(1);
     });
   });
@@ -135,7 +92,7 @@ describe('Feed Precinct Split Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the Precinct Electoral District page
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
 
     });
   });
@@ -151,7 +108,7 @@ describe('Feed Precinct Split Test', function () {
       expect(element('#name').count()).toBe(1);
 
       // expect data for the first Contests row
-      expect(element('#contests0').count()).toBe(1);
+      expect(element('#contests').count()).toBe(1);
 
       // expect data for the first Precincts row
       expect(element('#precinct0').count()).toBe(1);
@@ -167,7 +124,7 @@ describe('Feed Precinct Split Test', function () {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb10 a').click();
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
     });
   });
 
@@ -179,15 +136,15 @@ describe('Feed Precinct Split Test', function () {
     it('Click and go to the Electoral Districts page', function () {
 
       // Should have Electoral Districts breadcrumb
-      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
+      expect(element('#pageHeader-breadcrumb8').count()).toBe(1);
 
       // click the link
-      element('#pageHeader-breadcrumb9 a').click();
+      element('#pageHeader-breadcrumb8 a').click();
 
       sleep(testGlobals.sleepTime);
 
       // should be on the Precinct Electoral Districts page
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-electoraldistricts-content').count()).toBe(1);
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
 
     });
   });
@@ -206,28 +163,6 @@ describe('Feed Precinct Split Test', function () {
   });
 
   /* ----------------------------------------
-   Now from the Feed PrecinctSplit Electoral Districts page, click to the PrecinctSplit page via the breadcrumb
-   ------------------------------------------*/
-  describe('Click the Precinct breadcrumb', function () {
-
-    it('Click and go to the Precinct page', function () {
-
-      // Should have Precinct breadcrumb
-      expect(element('#pageHeader-breadcrumb9').count()).toBe(1);
-
-      // click the link
-      element('#pageHeader-breadcrumb9 a').click();
-
-      sleep(testGlobals.sleepTime);
-
-      // should be on the Precinct page
-      expect(element('#feed-precinctsplit-content').count()).toBe(1);
-
-    });
-  });
-
-
-  /* ----------------------------------------
    Feed PrecinctSplit Polling Location page
    ------------------------------------------*/
   describe('Check Feed PrecinctSplit Polling Location page', function () {
@@ -239,7 +174,7 @@ describe('Feed Precinct Split Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed PrecinctSplit Polling Location page
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+      expect(element('#feed-pollinglocation-content').count()).toBe(1);
     });
 
     // if there is data
@@ -265,11 +200,11 @@ describe('Feed Precinct Split Test', function () {
     // if there is data
     it('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
 
-      element('#pageHeader-breadcrumb9 a').click();
+      element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed polling locations page
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content').count()).toBe(1);
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
     });
 
     // if there is data
@@ -287,14 +222,14 @@ describe('Feed Precinct Split Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed polling location page
-      expect(element('#feeds-election-state-localities-precincts-precinctsplits-pollinglocations-content-single').count()).toBe(1);
+      expect(element('#feed-precinctsplit-content').count()).toBe(1);
     });
 
 
     // click to the precinct page
     it('Should be able to click on the breadcrumb and be taken back to the PrecinctSplit page', function () {
 
-      element('#pageHeader-breadcrumb9 a').click();
+      element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed precinctsplit page

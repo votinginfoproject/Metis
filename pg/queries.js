@@ -112,16 +112,18 @@ module.exports = {
                                       INNER JOIN results r ON r.id = c.results_id \
                                       WHERE r.public_id = $1 AND c.id = $2 \
                                       GROUP BY p.id, p.name, p.locality_id;",
-  contestElectoralDistrictPrecinctSplits: "SELECT ps.id, ps.name, p.id AS precinct_id, p.locality_id AS locality_id, COUNT(ss.*) AS street_segments \
+  contestElectoralDistrictPrecinctSplits: "SELECT ps.id, ps.name, p.id AS precinct_id, p.locality_id AS locality_id, \
+                                                  (SELECT COUNT(ss.*) \
+                                                   FROM street_segments ss \
+                                                   WHERE ss.precinct_split_id = ps.id AND ss.results_id = c.results_id) AS street_segments \
                                            FROM contests c \
                                            INNER JOIN electoral_districts ed ON c.electoral_district_id = ed.id AND ed.results_id = c.results_id \
                                            INNER JOIN precinct_split_electoral_districts psed ON psed.electoral_district_id = ed.id AND psed.results_id = c.results_id \
                                            INNER JOIN precinct_splits ps ON ps.id = psed.precinct_split_id AND ps.results_id = c.results_id \
                                            INNER JOIN precincts p ON p.id = ps.precinct_id AND p.results_id = c.results_id \
-                                           INNER JOIN street_segments ss ON ss.precinct_split_id = ps.id AND ss.results_id = c.results_id \
                                            INNER JOIN results r ON r.id = c.results_id \
                                            WHERE r.public_id = $1 AND c.id = $2 \
-                                           GROUP BY ps.id, ps.name, p.id, p.locality_id;",
+                                           GROUP BY ps.id, ps.name, p.id, p.locality_id, c.results_id;",
   contests: "SELECT c.* \
              FROM contests c \
              INNER JOIN results r ON r.id = c.results_id \
@@ -267,7 +269,9 @@ module.exports = {
                            INNER JOIN early_vote_sites evs ON evs.id = levs.early_vote_site_id AND evs.results_id = l.results_id \
                            INNER JOIN results r ON r.id = l.results_id \
                            WHERE r.public_id=$1 AND l.id=$2;",
-  localityElectionAdministration: "SELECT ea.* \
+  localityElectionAdministration: "SELECT ea.*, (SELECT COUNT(v.*) \
+                                                 FROM validations v \
+                                                 WHERE v.results_id = l.results_id AND v.scope = 'election-administrations' AND v.identifier = ea.id) AS error_count \
                                    FROM localities l \
                                    INNER JOIN election_administrations ea ON ea.id = l.election_administration_id AND ea.results_id = l.results_id \
                                    INNER JOIN results r ON r.id = l.results_id \
@@ -516,14 +520,15 @@ module.exports = {
                                INNER JOIN results r ON r.id = ed.results_id \
                                WHERE r.public_id=$1 AND ed.id=$2 \
                                GROUP BY p.id, p.name;",
-  electoralDistrictPrecinctSplits: "SELECT ps.id, ps.name, COUNT(ss.*) AS street_segments \
+  electoralDistrictPrecinctSplits: "SELECT ps.id, ps.name, (SELECT COUNT(ss.*) \
+                                                            FROM street_segments ss \
+                                                            WHERE ss.results_id = ed.results_id AND ss.precinct_split_id = ps.id) as street_segments \
                                     FROM electoral_districts ed \
                                     INNER JOIN precinct_split_electoral_districts psed ON psed.results_id = ed.results_id AND psed.electoral_district_id = ed.id \
                                     INNER JOIN precinct_splits ps ON ps.results_id = ed.results_id AND ps.id = psed.precinct_split_id \
-                                    INNER JOIN street_segments ss ON ss.results_id = ed.results_id AND ss.precinct_split_id = ps.id \
                                     INNER JOIN results r ON r.id = ed.results_id \
                                     WHERE r.public_id=$1 AND ed.id=$2 \
-                                    GROUP BY ps.id, ps.name;",
+                                    GROUP BY ps.id, ps.name, ed.results_id;",
 
   // errors
   overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },

@@ -5,7 +5,7 @@
 <div ng-show="errors.length" ng-error-table errors="errors" errors-table-params="errorsTableParams" toggle-error="toggleError" loading="errors"></div>
 
 <section class="data-group">
-
+  
   <span ng-if="!errors" class="is-loading"></span>
   <table ng-show="errors.length" id="errorsTable" ng-table="errorsTableParams" template-pagination="errorsPagination" class="table-errors">
     <tr id="error{{$index}}" ng-repeat-start="error in errors">

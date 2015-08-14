@@ -20,34 +20,23 @@ describe('Testing Feed Contest Page', function() {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
       expect(element('#sidebar-contests').count()).toBe(1);
+      element('#sidebar-contests').click();
+      sleep(testGlobals.sleepTime);      
+      
+      expect(element('#contests-id0').count()).toBe(1);
 
       // click the contests link
-      element('#sidebar-contests').click();
+      element('#contests-id0 a').click();
       sleep(testGlobals.sleepTime);
 
       // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      element('#contests-id0 a').click();
-
-      expect(element('#pageHeader-alert')).not().toBeDefined();
       expect(element('#feed-contest-content').count()).toBe(1);
     });
 
     it('Has content on the page', function() {
       expect(element('#ballot-id').count()).toBe(1);
       expect(element('#electoraldistrict-id').count()).toBe(1);
-      expect(element('#contestresult-id').count()).toBe(1);
-      expect(element('#ballotlineresult-id0').count()).toBe(1);
     });
 
     it('Contest error page link works', function() {
@@ -74,7 +63,7 @@ describe('Testing Feed Contest Page', function() {
       sleep(testGlobals.sleepTime);
 
       // should be on the Contest Electoral District page
-      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
 
     });
   });
@@ -90,7 +79,7 @@ describe('Testing Feed Contest Page', function() {
       expect(element('#name').count()).toBe(1);
 
       // expect data for the first Contests row
-      expect(element('#contests0').count()).toBe(1);
+      expect(element('#contests').count()).toBe(1);
 
       // expect data for the first Precincts row
       expect(element('#precinct0').count()).toBe(1);
@@ -106,7 +95,7 @@ describe('Testing Feed Contest Page', function() {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-contests-electoraldistrict-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb4 a').click();
-      expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
     });
   });
 
@@ -164,34 +153,11 @@ describe('Testing Feed Contests Page', function() {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
       expect(element('#sidebar-contests').count()).toBe(1);
-
-      // click the contests link
       element('#sidebar-contests').click();
       sleep(testGlobals.sleepTime);
-
-      // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      element('#contests-id0 a').click();
-
-      expect(element('#feed-contest-content').count()).toBe(1);
-
-      element('#pageHeader-breadcrumb3 a').click();
-
-      expect(element('#pageHeader-alert')).not().toBeDefined();
-      expect(element('#feed-contests-content').count()).toBe(1);
-      expect(element('#contestsTable').count()).toBe(1);
-      expect(element('#contestsOverviewTable').count()).toBe(1);
-
+      
+      expect(element('#contests-id0').count()).toBe(1);
     });
 
     it('Has Content on the page', function() {
@@ -199,13 +165,6 @@ describe('Testing Feed Contests Page', function() {
       expect(element('#feedContests-element-type0').count()).toBe(1);
     });
   });
-
-//  describe('Checks if errors are thrown', function() {
-//    it('Navigates to Contests', function() {
-//      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/vip-feed1/election/contests/");
-//      expect(element('#pageHeader-alert').html()).toBeDefined();
-//    });
-//  });
 
   describe('Logs Out', function() {
     it('Logs out', function() {

@@ -15,57 +15,14 @@ describe('Feed Precinct Test', function () {
   describe('Check Feed Precinct page', function () {
 
     it('Should go to the Feed Precinct page after selecting a feed and then Election and then State and then a Locality and then a Precinct', function () {
-
-      // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
-
-      /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
-      expect(element('#sidebar-contests').count()).toBe(1);
-
-      // click the contests link
-      element('#sidebar-contests').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      element('#pageHeader-breadcrumb1').click();
-
-      // should be on the feed election page
-
-      // should have a state link
-      expect(element('#state-id a').count()).toBe(1);
-
-      // click the state link
-      element('#state-id a').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed state page
-      expect(element('#feed-state-content').count()).toBe(1);
-
-      // should have a locality link
-      expect(element('#locality-id0 a').count()).toBe(1);
+      expect(element('#locality-id0').count()).toBe(1);
 
       // click the locality link
       element('#locality-id0 a').click();
       sleep(testGlobals.sleepTime);
-
-      // should be on the feed locality page
-      expect(element('#feed-locality-content').count()).toBe(1);
-
-      // should have a precinct link
-      expect(element('#precinct-id0 a').count()).toBe(1);
 
       // click the precinct link
       element('#precinct-id0 a').click();
@@ -130,11 +87,10 @@ describe('Feed Precinct Test', function () {
 
       // click the link
       element('#electoralDistrict-id0 a').click();
-
       sleep(testGlobals.sleepTime);
 
       // should be on the Precinct Electoral District page
-      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
 
     });
   });
@@ -150,7 +106,7 @@ describe('Feed Precinct Test', function () {
       expect(element('#name').count()).toBe(1);
 
       // expect data for the first Contests row
-      expect(element('#contests0').count()).toBe(1);
+      expect(element('#contests').count()).toBe(1);
 
       // expect data for the first Precincts row
       expect(element('#precinct0').count()).toBe(1);
@@ -166,7 +122,7 @@ describe('Feed Precinct Test', function () {
       element('#electoraldistrict-errors').click();
       expect(element('#feeds-election-state-localities-precincts-electoraldistricts-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb8 a').click();
-      expect(element('#feeds-election-state-localities-precincts-electoraldistricts-content-single').count()).toBe(1);
+      expect(element('#feeds-electoraldistrict-content').count()).toBe(1);
     });
   });
 
@@ -239,7 +195,7 @@ describe('Feed Precinct Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed Precinct early vote site page
-      expect(element('#feeds-election-state-localities-precincts-earlyvotesites-content-single').count()).toBe(1);
+      expect(element('#feed-earlyvotesite-content').count()).toBe(1);
     });
 
     // if there is data
@@ -256,7 +212,7 @@ describe('Feed Precinct Test', function () {
       element('#earlyvotesite-errors').click();
       expect(element('#feeds-election-state-localities-precincts-earlyvotesites-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb8 a').click();
-      expect(element('#feeds-election-state-localities-precincts-earlyvotesites-content-single').count()).toBe(1);
+      expect(element('#feed-earlyvotesite-content').count()).toBe(1);
     });
   });
 
@@ -317,7 +273,7 @@ describe('Feed Precinct Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed Precinct Polling Location page
-      expect(element('#feeds-election-state-localities-precincts-pollinglocations-content-single').count()).toBe(1);
+      expect(element('#feed-pollinglocation-content').count()).toBe(1);
     });
 
     // if there is data
