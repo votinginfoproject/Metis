@@ -1,24 +1,19 @@
 #! /usr/bin/env bash
 
-# Drop the metic mongo DB
-mongo metis --eval "db.dropDatabase()"
+# change the database
+export DB_ENV_POSTGRES_DATABASE="data-dashboard-test"
 
-# Install counties and fips
-mongoimport -d metis -c counties < data/counties.json
-mongoimport -d metis -c statefips < data/statefips.json
+# recreate pg database
+dropdb data-dashboard-test
+createdb data-dashboard-test
 
-# Move to DB folder
-cd feed-processor/
-
-#run processor.js
-node processor.js ../upload/OH_test_feed.xml
-
-# Run the overview process
-node overview/overview-processor.js
+# import database based off of upload file
+psql data-dashboard-test < pg-setup/database-setup.sql
 
 echo "*******************"
 echo "open browser to: http://localhost:4000/test/e2e/runner.html"
+echo "close this window or reset your env variables after finishing"
 echo "*******************"
+
 # Run the webapp
-cd -
 node app.js
