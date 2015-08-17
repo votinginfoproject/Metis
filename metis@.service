@@ -1,0 +1,34 @@
+[Unit]
+Description=metis
+After=docker.service
+Requires=docker.service
+After=consul@%i.service
+Wants=consul@%i.service
+After=rabbitmq@%i.service
+Requires=rabbitmq@%i.service
+
+[Service]
+EnvironmentFile=/etc/environment
+TimeoutStartSec=10m
+TimeoutStopSec=10m
+
+Environment=DOCKER_REPO=quay.io/votinginfoproject/metis
+Environment=VERSION=master
+Environment=CONTAINER=metis
+Environment=HOME=/root
+
+ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
+ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
+ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
+
+ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
+  --link rabbitmq:rabbitmq \
+  --env DB_PORT_5432_TCP_ADDR=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/hostname?raw) \
+  --env DB_PORT_5432_TCP_PORT=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/port?raw) \
+  --env DB_ENV_POSTGRES_USER=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/username?raw) \
+  --env DB_ENV_POSTGRES_PASSWORD=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/password?raw) \
+  --env VIP_DP_RABBITMQ_EXCHANGE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/rabbitmq/exchange?raw) \
+  -p 4000:4000 \
+  ${DOCKER_REPO}:${VERSION}'
+
+ExecStop=/usr/bin/docker stop ${CONTAINER}
