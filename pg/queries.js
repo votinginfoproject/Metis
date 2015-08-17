@@ -565,6 +565,8 @@ module.exports = {
                                                  INNER JOIN precincts p ON p.locality_id = l.id AND p.results_id = v.results_id \
                                                  INNER JOIN street_segments ss ON ss.precinct_id = p.id AND ss.id = v.identifier AND ss.results_id = v.results_id",
                                                  "v.scope = 'street-segments' AND l.id = $2"),
+  electoralDistrictsErrors: buildErrorQuery("INNER JOIN electoral_districts ed ON ed.results_id = v.results_id",
+                                            "v.scope = 'electoral-districts' AND ed.id = $2"),
   precinctSplitsErrors: buildErrorQuery("INNER JOIN precinct_splits ps ON ps.results_id = v.results_id",
                                         "v.scope = 'precinct-splits' AND ps.id = $2"),
   errors: buildErrorQuery("", "")
