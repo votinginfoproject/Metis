@@ -1,6 +1,7 @@
 var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
+var authorization = require('../authentication/utils.js');
 
 var overviewTableRow = function(row, type, dbTable, link) {
   return {element_type: type,
@@ -12,7 +13,15 @@ var overviewTableRow = function(row, type, dbTable, link) {
 
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
-  getFeeds: util.simpleQueryResponder(queries.feeds),
+  getFeeds: function(req, res) {
+    if (authorization.isSuperAdmin(req.user)) {
+      return util.simpleQueryResponder(queries.feeds)(req, res);
+    } else {
+      return util.simpleQueryResponder(queries.feedsForState, function(req) {
+        return [authorization.stateGroupNames(req.user)];
+      })(req, res);
+    }
+  },
   getResults: util.simpleQueryResponder(queries.results, util.paramExtractor()),
   getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),
   
