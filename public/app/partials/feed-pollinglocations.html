@@ -1,13 +1,12 @@
 <i id="{{pageId}}"></i>
 
 <section class="data-group data-module">
-
   <span ng-if="!feedPollingLocations" class="is-loading"></span>
-  <table ng-show="feedPollingLocations.length" id="pollingLocationsTable" ng-table="pollingLocationsTableParams" template-pagination="pollingLocationsPagination" class="associations">
+  <table ng-show="feedPollingLocations.length" id="pollingLocationsTable" ng-table="pollingLocationsTable" template-pagination="pollingLocationsPagination" class="associations">
     <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
-      <td id="pollingLocation-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{pollingLocation.self}}" data-title-text="ID"><span class="td-text">{{pollingLocation.id}}</span></a></td>
-      <td id="pollingLocation-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{pollingLocation.self}}" data-title-text="Name"><span class="td-text">{{pollingLocation.name}}</span></a></td>
-      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{pollingLocation.self}}" data-title-text="Address"><span class="td-text">{{pollingLocation.address}}</span></a></td>
+      <td id="pollingLocation-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/{{pollingLocation.id}}" data-title-text="ID"><span class="td-text">{{pollingLocation.id}}</span></a></td>
+      <td id="pollingLocation-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="{{$location.absUrl()}}/{{pollingLocation.id}}" data-title-text="Name"><span class="td-text">{{pollingLocation.address_location_name}}</span></a></td>
+      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address'"><a href="{{$location.absUrl()}}/{{pollingLocation.id}}" data-title-text="Address"><span class="td-text">{{pollingLocation.address_city}}, {{pollingLocation.address_state}} {{pollingLocation.address_zip}}</span></a></td>
     </tr>
   </table>
 </section>
@@ -16,7 +15,7 @@
   <ul class="pagination ng-cloak">
     <li ng-repeat="page in pages"
         ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingLocationsParams.page()}" ng-click="pollingLocationsTableParams.page(page.number)" href="">{{page.number}}</a>
+      <a id="feedsPage{{$index}}" ng-class="{'is-active': page.number == pollingLocationsParams.page()}" ng-click="pollingLocationsTable.page(page.number)" href="">{{page.number}}</a>
     </li>
   </ul>
 </script>

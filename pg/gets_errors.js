@@ -17,5 +17,7 @@ module.exports = {
   getFeedLocalityPrecinctSplitsErrors: errorResponder(queries.localityPrecinctSplitsErrors, ['localityid']),
   getFeedLocalityPrecinctsErrors: errorResponder(queries.localityPrecinctsErrors, ['localityid']),
   getFeedLocalityStreetSegmentsErrors: errorResponder(queries.localityStreetSegmentsErrors, ['localityid']),
+  getFeedElectoralDistrictsErrors: errorResponder(queries.electoralDistrictsErrors, ['electoraldistrictid']),
+  getFeedPrecinctSplitsErrors: errorResponder(queries.precinctSplitsErrors, ['precinctsplitid']),
   getFeedErrors: errorResponder(queries.errors),
 }

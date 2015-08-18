@@ -8,6 +8,9 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedDataPaths, $feedsSer
   // get the vipfeed param from the route
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
   
+  if ($routeParams['locality']) { $scope.localityid = $routeParams.locality; }
+  if ($routeParams['precinct']) { $scope.precinctid = $routeParams.precinct; }
+
   if ($routeParams['contest']) {
     var rootPath = '/db/feeds/' + feedid + '/contests/' + $routeParams.contest + '/electoral-district';
 

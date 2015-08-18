@@ -99,7 +99,7 @@ describe('Feed Overview Test', function () {
    ------------------------------------------*/
   describe('Check Feed Sidebar', function () {
     // check the the number of items
-    it('Should have results', function () {
+    xit('Should have results', function () {
 
       // feed due date
       expect(element('#feedDueDate').count()).toBe(1);

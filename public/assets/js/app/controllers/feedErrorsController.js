@@ -37,5 +37,11 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
   $feedDataPaths.getResponse({ path: '/db' + $location.path(),
                                scope:  $rootScope,
                                key: 'errors',
-                               errorMessage: 'Cound not retrieve errors' });
+                               errorMessage: 'Cound not retrieve errors' },
+                             function(result) { 
+                              $rootScope.total_errors = 0;
+                              $.each(result, function() {
+                                $rootScope.total_errors += parseInt(this.count);
+                              });
+                             });
 }

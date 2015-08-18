@@ -14,7 +14,7 @@ describe('Testing Feed Ballot Page', function() {
   });
 
   describe('Ballot Page is able to be navigated to', function() {
-    it('Navigates to Contest', function() {
+    xit('Navigates to Contest', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -47,7 +47,7 @@ describe('Testing Feed Ballot Page', function() {
       expect(element('#feed-ballot-content').count()).toBe(1);
     });
 
-    it('Has content on the page', function() {
+    xit('Has content on the page', function() {
       expect(element('#ballotcandidates-id0').count()).toBe(1);
       expect(element('#referendum-id0').count()).toBe(1);
       expect(element('#customballot-heading').count()).toBe(1);
@@ -56,7 +56,7 @@ describe('Testing Feed Ballot Page', function() {
   });
 
   describe('Checks the error page link', function() {
-    it('Error page link works', function() {
+    xit('Error page link works', function() {
       element('#ballot-errors').click();
       expect(element('#feeds-election-contests-ballot-errors-content').count()).toBe(1);
     });

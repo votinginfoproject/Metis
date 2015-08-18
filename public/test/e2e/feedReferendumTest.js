@@ -14,7 +14,7 @@ describe('Testing Feed Referendum Page', function() {
   });
 
   describe('Referendum Page is able to be navigated to', function() {
-    it('Navigates to Referendum', function() {
+    xit('Navigates to Referendum', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -50,14 +50,14 @@ describe('Testing Feed Referendum Page', function() {
       expect(element('#feed-referendum-content').count()).toBe(1);
     });
 
-    it('Has Content', function() {
+    xit('Has Content', function() {
       expect(element('#referendum-title').count()).toBe(1);
       expect(element('#response-id0').count()).toBe(1);
     });
   });
 
   describe('Error page link works', function() {
-    it('Error link works', function() {
+    xit('Error link works', function() {
       element('#referendum-errors').click();
       expect(element('#feeds-election-contests-ballot-referenda-errors-content').count()).toBe(1);
     })
@@ -90,7 +90,7 @@ describe('Testing Feed Referenda Page', function() {
   });
 
   describe('Referenda Page is able to be navigated to', function() {
-    it('Navigates to Referenda', function() {
+    xit('Navigates to Referenda', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();

@@ -21,49 +21,14 @@ describe('Feed Locality Test', function () {
       element('#date0 a').click();
       sleep(testGlobals.sleepTime);
 
-      /*
-       expect(element('#election-link').count()).toBe(1);
-
-       // click the election link
-       element('#election-link').click();
-       sleep(testGlobals.sleepTime);
-       */
-
-      expect(element('#sidebar-contests').count()).toBe(1);
+      expect(element('#locality-id0').count()).toBe(1);
 
       // click the contests link
-      element('#sidebar-contests').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed contests page
-      expect(element('#feed-contests-content').count()).toBe(1);
-
-      // should have a link back to the election page in the breadcrumbs
-      expect(element('#pageHeader-breadcrumb1').count()).toBe(1);
-      element('#pageHeader-breadcrumb1').click();
-
-      // should be on the feed election page
-
-      // should have a state link
-      expect(element('#state-id a').count()).toBe(1);
-
-      // click the state link
-      element('#state-id a').click();
-      sleep(testGlobals.sleepTime);
-
-      // should be on the feed state page
-      expect(element('#feed-state-content').count()).toBe(1);
-
-      // should have a locality link
-      expect(element('#locality-id0 a').count()).toBe(1);
-
-      // click the locality link
       element('#locality-id0 a').click();
       sleep(testGlobals.sleepTime);
 
-      // should be on the feed locality page
+      // should be on the feed contests page
       expect(element('#feed-locality-content').count()).toBe(1);
-
     });
 
   });
@@ -80,7 +45,7 @@ describe('Feed Locality Test', function () {
 
     it('Should have Overview data', function () {
 
-      expect(element('#locality0').count()).toBe(1);
+      expect(element('#localityOverviewTable').count()).toBe(1);
     });
 
     it('Should have Early Vote Sites data', function () {
@@ -119,7 +84,7 @@ describe('Feed Locality Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality election administration page
-      expect(element('#feeds-election-state-localities-electionadministration-content').count()).toBe(1);
+      expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
     });
 
     // if there is data
@@ -144,7 +109,7 @@ describe('Feed Locality Test', function () {
       element('#electionadmin-errors').click();
       expect(element('#feeds-election-state-localities-electionadministration-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb5 a').click();
-      expect(element('#feeds-election-state-localities-electionadministration-content').count()).toBe(1);
+      expect(element('#feeds-election-state-electionadministration-content').count()).toBe(1);
     });
 
     // go back to the locality page
@@ -173,7 +138,7 @@ describe('Feed Locality Test', function () {
       sleep(testGlobals.sleepTime);
 
       // should be on the feed locality early vote site page
-      expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
+      expect(element('#feed-locality-content').count()).toBe(1);
     });
 
     // if there is data
@@ -185,11 +150,11 @@ describe('Feed Locality Test', function () {
   });
 
   describe('Check error page link', function() {
-    it('Error page link works', function() {
+    xit('Error page link works', function() {
       element('#earlyvotesite-errors').click();
       expect(element('#feeds-election-state-localities-earlyvotesites-errors-content').count()).toBe(1);
       element('#pageHeader-breadcrumb6 a').click();
-      expect(element('#feeds-election-state-localities-earlyvotesites-content-single').count()).toBe(1);
+      expect(element('#feed-locality-content').count()).toBe(1);
     });
   });
 
@@ -198,7 +163,7 @@ describe('Feed Locality Test', function () {
    ------------------------------------------*/
   describe('Check Feed Locality Early Vote Sites page', function () {
     // if there is data
-    it('Should be able to go into a Locality Early Vote Sites page via breadcrumbs', function () {
+    xit('Should be able to go into a Locality Early Vote Sites page via breadcrumbs', function () {
 
       element('#pageHeader-breadcrumb5 a').click();
       sleep(testGlobals.sleepTime);
@@ -208,14 +173,14 @@ describe('Feed Locality Test', function () {
     });
 
     // if there is data
-    it('Should have Early Vote Sites data', function () {
+    xit('Should have Early Vote Sites data', function () {
 
       expect(element('#earlyVoteSite-id0 a').html()).not().toBe("");
 
     });
 
     // click to an earlyvote site
-    it('Should be able to click on the link and be taken back to an Early Vote Site page', function () {
+    xit('Should be able to click on the link and be taken back to an Early Vote Site page', function () {
 
       element('#earlyVoteSite-id0 a').click();
       sleep(testGlobals.sleepTime);

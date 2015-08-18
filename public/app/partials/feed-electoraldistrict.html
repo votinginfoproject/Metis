@@ -1,4 +1,4 @@
-<i id="{{pageId}}"></i>
+<i id="feeds-electoraldistrict-content"></i>
 
 <p ng-if="feedElectoralDistrict.error_count !== undefined"><a id="electoraldistrict-errors" class="error-count error-count-{{feedElectoralDistrict.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectoralDistrict.error_count}} Errors in Electoral District ID: {{feedElectoralDistrict.id}}</a></p>
 
@@ -54,12 +54,12 @@
 
 <section class="data-group data-module">
   <h2>{{feedPrecinctSplits.length}} Precinct Splits</h2>
-
+  {{feedPrecinctSplits}}
   <table ng-show="feedPrecinctSplits.length" id="precinctSplitsTable" ng-table="precinctSplitsTable" template-pagination="precinctSplitsPagination" class="associations">
     <tr id="precinctSplit{{$index}}" ng-repeat="precinctSplit in $data">
-      <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="ID"><span class="td-text">{{precinctSplit.id}}</span></a></td>
-      <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Name"><span class="td-text">{{precinctSplit.name}}</span></a></td>
-      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'street_segments'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{precinctSplit.locality_id}}/precincts/{{precinctSplit.precinct_id}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Street Segments"><span class="td-text">{{precinctSplit.street_segments}}</span></a></td>
+      <td id="precinctSplit-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{localityid}}/precincts/{{precinctid}}/precinctsplits/{{precinctSplit.id}}" data-title-text="ID"><span class="td-text">{{precinctSplit.id}}</span></a></td>
+      <td id="precinctSplit-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{localityid}}/precincts/{{precinctid}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Name"><span class="td-text">{{precinctSplit.name}}</span></a></td>
+      <td id="precinctSplit-streetsegments{{$index}}" data-title="'Street Segments'" sortable="'street_segments'"><a href="/#/feeds/{{vipfeed}}/election/state/localities/{{localityid}}/precincts/{{precinctid}}/precinctsplits/{{precinctSplit.id}}" data-title-text="Street Segments"><span class="td-text">{{precinctSplit.street_segments}}</span></a></td>
     </tr>
   </table>
 

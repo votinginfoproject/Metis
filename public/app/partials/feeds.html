@@ -11,7 +11,7 @@
   <tr id="feedIndex{{$index}}" ng-repeat="feed in feeds">
     <td id="date{{$index}}" data-title="'Date'" sortable="'date'" >
       <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Date"><span class="td-text">
-      {{feed.election_date.slice(0,10) | date}}
+      {{feed.election_date.slice(0,10) | date:'longDate'}}
       <span ng-if="!feed.election_date">&nbsp;</span>
       </span></a>
     </td>
@@ -35,13 +35,13 @@
     </td>
     <td data-title="'Due'" sortable="'due'">
       <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Due"><span class="td-text">
-      {{feed.due_in}}
-      <span ng-if="!feed.due_in">&nbsp;</span>
+      {{feed.due_on | date:'longDate'}}
+      <span ng-if="!feed.due_on">&nbsp;</span>
       </span></a>
     </td>
     <td data-title="'Loaded On'" sortable="'date_loaded'">
       <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Loaded On"><span class="td-text">
-      {{feed.start_time.slice(0,10) | date}}
+      {{feed.start_time.slice(0,10) | date:'longDate'}}
       <span ng-if="!feed.start_time">&nbsp;</span>
       </span></a>
     </td>

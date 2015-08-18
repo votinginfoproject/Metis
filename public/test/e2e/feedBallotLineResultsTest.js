@@ -14,7 +14,7 @@ describe('Testing Feed Ballot Line Results Page', function() {
   });
 
   describe('Ballot Line Results Page is able to be navigated to', function() {
-    it('Navigates to Contest', function() {
+    xit('Navigates to Contest', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();

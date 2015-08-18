@@ -1,10 +1,10 @@
-<i id="{{pageId}}"></i>
+<i id="feed-electionadministration-content"></i>
 
-<p ng-if="feedElectionAdministration.error_count !== undefined"><a id="electionadmin-errors" class="error-count error-count-{{feedElectionAdministration.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
+<p ng-if="feedElectionAdministration !== undefined"><a id="electionadmin-errors" class="error-count error-count-{{feedElectionAdministration.error_count}}" href="{{$location.absUrl()}}/errors">{{feedElectionAdministration.error_count}} Errors in Election Administration ID: {{feedElectionAdministration.id}}</a></p>
 
 <span ng-if="!feedElectionAdministration" class="is-loading"></span>
 
-<div class="data-module-full">
+<div id="feeds-election-state-electionadministration-content" class="data-module-full">
   <dl class="attributes">
     <dt class="key">Name:</dt>
     <dd id="name" class="value">{{feedElectionAdministration.name || feedElectionAdministration.physical_address_location_name}}</dd>
