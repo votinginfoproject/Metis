@@ -9,16 +9,8 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
@@ -29,10 +21,6 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
---
--- Name: ballot_candidates; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
-
 CREATE TABLE ballot_candidates (
     results_id bigint NOT NULL,
     ballot_id bigint,
@@ -40,11 +28,7 @@ CREATE TABLE ballot_candidates (
 );
 
 
-ALTER TABLE ballot_candidates OWNER TO wesreid;
-
---
--- Name: ballot_line_results; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE ballot_candidates;
 
 CREATE TABLE ballot_line_results (
     id bigint NOT NULL,
@@ -61,11 +45,7 @@ CREATE TABLE ballot_line_results (
 );
 
 
-ALTER TABLE ballot_line_results OWNER TO wesreid;
-
---
--- Name: ballot_responses; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE ballot_line_results;
 
 CREATE TABLE ballot_responses (
     id bigint NOT NULL,
@@ -75,11 +55,7 @@ CREATE TABLE ballot_responses (
 );
 
 
-ALTER TABLE ballot_responses OWNER TO wesreid;
-
---
--- Name: ballots; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE ballot_responses;
 
 CREATE TABLE ballots (
     id bigint NOT NULL,
@@ -91,11 +67,7 @@ CREATE TABLE ballots (
 );
 
 
-ALTER TABLE ballots OWNER TO wesreid;
-
---
--- Name: candidates; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE ballots;
 
 CREATE TABLE candidates (
     id bigint NOT NULL,
@@ -118,11 +90,7 @@ CREATE TABLE candidates (
 );
 
 
-ALTER TABLE candidates OWNER TO wesreid;
-
---
--- Name: contest_results; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE candidates;
 
 CREATE TABLE contest_results (
     id bigint NOT NULL,
@@ -140,11 +108,7 @@ CREATE TABLE contest_results (
 );
 
 
-ALTER TABLE contest_results OWNER TO wesreid;
-
---
--- Name: contests; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE contest_results;
 
 CREATE TABLE contests (
     id bigint NOT NULL,
@@ -165,11 +129,7 @@ CREATE TABLE contests (
 );
 
 
-ALTER TABLE contests OWNER TO wesreid;
-
---
--- Name: custom_ballot_ballot_responses; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE contests;
 
 CREATE TABLE custom_ballot_ballot_responses (
     results_id bigint NOT NULL,
@@ -179,11 +139,7 @@ CREATE TABLE custom_ballot_ballot_responses (
 );
 
 
-ALTER TABLE custom_ballot_ballot_responses OWNER TO wesreid;
-
---
--- Name: custom_ballots; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE custom_ballot_ballot_responses;
 
 CREATE TABLE custom_ballots (
     id bigint NOT NULL,
@@ -192,11 +148,7 @@ CREATE TABLE custom_ballots (
 );
 
 
-ALTER TABLE custom_ballots OWNER TO wesreid;
-
---
--- Name: early_vote_sites; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE custom_ballots;
 
 CREATE TABLE early_vote_sites (
     id bigint NOT NULL,
@@ -217,11 +169,7 @@ CREATE TABLE early_vote_sites (
 );
 
 
-ALTER TABLE early_vote_sites OWNER TO wesreid;
-
---
--- Name: election_administrations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE early_vote_sites;
 
 CREATE TABLE election_administrations (
     id bigint NOT NULL,
@@ -255,11 +203,7 @@ CREATE TABLE election_administrations (
 );
 
 
-ALTER TABLE election_administrations OWNER TO wesreid;
-
---
--- Name: election_officials; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE election_administrations;
 
 CREATE TABLE election_officials (
     id bigint NOT NULL,
@@ -272,11 +216,7 @@ CREATE TABLE election_officials (
 );
 
 
-ALTER TABLE election_officials OWNER TO wesreid;
-
---
--- Name: elections; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE election_officials;
 
 CREATE TABLE elections (
     id bigint NOT NULL,
@@ -295,11 +235,7 @@ CREATE TABLE elections (
 );
 
 
-ALTER TABLE elections OWNER TO wesreid;
-
---
--- Name: electoral_districts; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE elections;
 
 CREATE TABLE electoral_districts (
     id bigint NOT NULL,
@@ -310,11 +246,7 @@ CREATE TABLE electoral_districts (
 );
 
 
-ALTER TABLE electoral_districts OWNER TO wesreid;
-
---
--- Name: localities; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE electoral_districts;
 
 CREATE TABLE localities (
     id bigint NOT NULL,
@@ -326,11 +258,7 @@ CREATE TABLE localities (
 );
 
 
-ALTER TABLE localities OWNER TO wesreid;
-
---
--- Name: locality_early_vote_sites; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE localities;
 
 CREATE TABLE locality_early_vote_sites (
     results_id bigint NOT NULL,
@@ -339,11 +267,7 @@ CREATE TABLE locality_early_vote_sites (
 );
 
 
-ALTER TABLE locality_early_vote_sites OWNER TO wesreid;
-
---
--- Name: polling_locations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE locality_early_vote_sites;
 
 CREATE TABLE polling_locations (
     id bigint NOT NULL,
@@ -361,11 +285,7 @@ CREATE TABLE polling_locations (
 );
 
 
-ALTER TABLE polling_locations OWNER TO wesreid;
-
---
--- Name: precinct_early_vote_sites; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE polling_locations;
 
 CREATE TABLE precinct_early_vote_sites (
     results_id bigint NOT NULL,
@@ -374,11 +294,7 @@ CREATE TABLE precinct_early_vote_sites (
 );
 
 
-ALTER TABLE precinct_early_vote_sites OWNER TO wesreid;
-
---
--- Name: precinct_electoral_districts; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_early_vote_sites;
 
 CREATE TABLE precinct_electoral_districts (
     results_id bigint NOT NULL,
@@ -387,11 +303,7 @@ CREATE TABLE precinct_electoral_districts (
 );
 
 
-ALTER TABLE precinct_electoral_districts OWNER TO wesreid;
-
---
--- Name: precinct_polling_locations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_electoral_districts;
 
 CREATE TABLE precinct_polling_locations (
     results_id bigint NOT NULL,
@@ -400,11 +312,7 @@ CREATE TABLE precinct_polling_locations (
 );
 
 
-ALTER TABLE precinct_polling_locations OWNER TO wesreid;
-
---
--- Name: precinct_split_electoral_districts; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_polling_locations;
 
 CREATE TABLE precinct_split_electoral_districts (
     results_id bigint NOT NULL,
@@ -413,11 +321,7 @@ CREATE TABLE precinct_split_electoral_districts (
 );
 
 
-ALTER TABLE precinct_split_electoral_districts OWNER TO wesreid;
-
---
--- Name: precinct_split_polling_locations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_split_electoral_districts;
 
 CREATE TABLE precinct_split_polling_locations (
     results_id bigint NOT NULL,
@@ -426,11 +330,7 @@ CREATE TABLE precinct_split_polling_locations (
 );
 
 
-ALTER TABLE precinct_split_polling_locations OWNER TO wesreid;
-
---
--- Name: precinct_splits; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_split_polling_locations;
 
 CREATE TABLE precinct_splits (
     id bigint NOT NULL,
@@ -441,11 +341,7 @@ CREATE TABLE precinct_splits (
 );
 
 
-ALTER TABLE precinct_splits OWNER TO wesreid;
-
---
--- Name: precincts; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precinct_splits;
 
 CREATE TABLE precincts (
     id bigint NOT NULL,
@@ -459,11 +355,7 @@ CREATE TABLE precincts (
 );
 
 
-ALTER TABLE precincts OWNER TO wesreid;
-
---
--- Name: ragtime_migrations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE precincts;
 
 CREATE TABLE ragtime_migrations (
     id character varying(255),
@@ -471,11 +363,7 @@ CREATE TABLE ragtime_migrations (
 );
 
 
-ALTER TABLE ragtime_migrations OWNER TO wesreid;
-
---
--- Name: referendum_ballot_responses; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE ragtime_migrations;
 
 CREATE TABLE referendum_ballot_responses (
     results_id bigint NOT NULL,
@@ -485,11 +373,7 @@ CREATE TABLE referendum_ballot_responses (
 );
 
 
-ALTER TABLE referendum_ballot_responses OWNER TO wesreid;
-
---
--- Name: referendums; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE referendum_ballot_responses;
 
 CREATE TABLE referendums (
     id bigint NOT NULL,
@@ -505,11 +389,7 @@ CREATE TABLE referendums (
 );
 
 
-ALTER TABLE referendums OWNER TO wesreid;
-
---
--- Name: results; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE referendums;
 
 CREATE TABLE results (
     id integer NOT NULL,
@@ -522,11 +402,7 @@ CREATE TABLE results (
 );
 
 
-ALTER TABLE results OWNER TO wesreid;
-
---
--- Name: results_id_seq; Type: SEQUENCE; Schema: public; Owner: wesreid
---
+ALTER TABLE results;
 
 CREATE SEQUENCE results_id_seq
     START WITH 1
@@ -536,18 +412,10 @@ CREATE SEQUENCE results_id_seq
     CACHE 1;
 
 
-ALTER TABLE results_id_seq OWNER TO wesreid;
-
---
--- Name: results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: wesreid
---
+ALTER TABLE results_id_seq;
 
 ALTER SEQUENCE results_id_seq OWNED BY results.id;
 
-
---
--- Name: sources; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
 
 CREATE TABLE sources (
     id bigint NOT NULL,
@@ -562,11 +430,7 @@ CREATE TABLE sources (
 );
 
 
-ALTER TABLE sources OWNER TO wesreid;
-
---
--- Name: state_early_vote_sites; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE sources;
 
 CREATE TABLE state_early_vote_sites (
     results_id bigint NOT NULL,
@@ -575,11 +439,7 @@ CREATE TABLE state_early_vote_sites (
 );
 
 
-ALTER TABLE state_early_vote_sites OWNER TO wesreid;
-
---
--- Name: states; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE state_early_vote_sites;
 
 CREATE TABLE states (
     id bigint NOT NULL,
@@ -589,11 +449,7 @@ CREATE TABLE states (
 );
 
 
-ALTER TABLE states OWNER TO wesreid;
-
---
--- Name: statistics; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE states;
 
 CREATE TABLE statistics (
     id integer NOT NULL,
@@ -658,11 +514,7 @@ CREATE TABLE statistics (
 );
 
 
-ALTER TABLE statistics OWNER TO wesreid;
-
---
--- Name: statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: wesreid
---
+ALTER TABLE statistics;
 
 CREATE SEQUENCE statistics_id_seq
     START WITH 1
@@ -672,18 +524,10 @@ CREATE SEQUENCE statistics_id_seq
     CACHE 1;
 
 
-ALTER TABLE statistics_id_seq OWNER TO wesreid;
-
---
--- Name: statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: wesreid
---
+ALTER TABLE statistics_id_seq;
 
 ALTER SEQUENCE statistics_id_seq OWNED BY statistics.id;
 
-
---
--- Name: street_segments; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
 
 CREATE TABLE street_segments (
     id bigint NOT NULL,
@@ -709,11 +553,7 @@ CREATE TABLE street_segments (
 );
 
 
-ALTER TABLE street_segments OWNER TO wesreid;
-
---
--- Name: validations; Type: TABLE; Schema: public; Owner: wesreid; Tablespace: 
---
+ALTER TABLE street_segments;
 
 CREATE TABLE validations (
     results_id integer,
@@ -725,25 +565,13 @@ CREATE TABLE validations (
 );
 
 
-ALTER TABLE validations OWNER TO wesreid;
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: wesreid
---
+ALTER TABLE validations;
 
 ALTER TABLE ONLY results ALTER COLUMN id SET DEFAULT nextval('results_id_seq'::regclass);
 
 
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY statistics ALTER COLUMN id SET DEFAULT nextval('statistics_id_seq'::regclass);
 
-
---
--- Data for Name: ballot_candidates; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY ballot_candidates (results_id, ballot_id, candidate_id) FROM stdin;
 1	80001	90001
@@ -759,10 +587,6 @@ COPY ballot_candidates (results_id, ballot_id, candidate_id) FROM stdin;
 \.
 
 
---
--- Data for Name: ballot_line_results; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY ballot_line_results (id, results_id, contest_id, jurisdiction_id, entire_district, candidate_id, ballot_response_id, votes, overvotes, victorious, certification) FROM stdin;
 62006	1	60006	10103	f	\N	120001	150	\N	\N	certified
 63006	1	60006	10103	f	\N	120002	100	\N	\N	certified
@@ -771,20 +595,12 @@ COPY ballot_line_results (id, results_id, contest_id, jurisdiction_id, entire_di
 \.
 
 
---
--- Data for Name: ballot_responses; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY ballot_responses (id, results_id, text, sort_order) FROM stdin;
 120001	1	Yes	1
 120002	1	No	2
 120003	1	No	3
 \.
 
-
---
--- Data for Name: ballots; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY ballots (id, results_id, referendum_id, custom_ballot_id, write_in, image_url) FROM stdin;
 80001	1	\N	\N	t	http://www.FakeUrl.com
@@ -796,10 +612,6 @@ COPY ballots (id, results_id, referendum_id, custom_ballot_id, write_in, image_u
 80007	1	\N	\N	f	\N
 \.
 
-
---
--- Data for Name: candidates; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY candidates (id, results_id, name, party, candidate_url, biography, phone, photo_url, filed_mailing_address_location_name, filed_mailing_address_line1, filed_mailing_address_line2, filed_mailing_address_line3, filed_mailing_address_city, filed_mailing_address_state, filed_mailing_address_zip, email, sort_order) FROM stdin;
 90001	1	Daniel Berlin	Democrat	http://www.dberlin.org	Daniel Berlin grew up somewhere	223-456-7890	http://www.dberlin.org/dannyb.jpg	\N	123 Fake St.	\N	\N	Rockville	OH	20852	dberlin@example----com	1
@@ -815,19 +627,11 @@ COPY candidates (id, results_id, name, party, candidate_url, biography, phone, p
 \.
 
 
---
--- Data for Name: contest_results; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY contest_results (id, results_id, contest_id, jurisdiction_id, entire_district, total_votes, total_valid_votes, overvotes, blank_votes, accepted_provisional_votes, rejected_votes, certification) FROM stdin;
 61004	1	60001	70003	t	1002	1000	1	1	1	2	certified
 61006	1	60006	10103	f	250	\N	\N	\N	\N	\N	certified
 \.
 
-
---
--- Data for Name: contests; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY contests (id, results_id, election_id, electoral_district_id, type, partisan, primary_party, electorate_specifications, special, office, filing_closed_date, number_elected, number_voting_for, ballot_id, ballot_placement) FROM stdin;
 60001	1	1	70003	general	f	\N	\N	\N	County Commisioner	\N	\N	\N	80004	4
@@ -840,28 +644,16 @@ COPY contests (id, results_id, election_id, electoral_district_id, type, partisa
 \.
 
 
---
--- Data for Name: custom_ballot_ballot_responses; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY custom_ballot_ballot_responses (results_id, custom_ballot_id, ballot_response_id, sort_order) FROM stdin;
 1	90013	120001	\N
 1	90013	120002	\N
 \.
 
 
---
--- Data for Name: custom_ballots; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY custom_ballots (id, results_id, heading) FROM stdin;
 90013	1	Should Judge Carlton Smith be retained?
 \.
 
-
---
--- Data for Name: early_vote_sites; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY early_vote_sites (id, results_id, name, address_location_name, address_line1, address_line2, address_line3, address_city, address_state, address_zip, directions, voter_services, start_date, end_date, days_times_open) FROM stdin;
 30203	1	Adams Early Vote Center	Adams County Government Center	321 Main St.	Suite 200	\N	Adams	OH	42224-1	Follow signs to early vote	Early voting is available.	2012-10-01 +02:00:00	2012-11-04 +01:00:00	Mon-Fri: 9am - 6pm. Sat. and Sun.: 10am - 7pm.
@@ -870,19 +662,11 @@ COPY early_vote_sites (id, results_id, name, address_location_name, address_line
 \.
 
 
---
--- Data for Name: election_administrations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY election_administrations (id, results_id, name, eo_id, ovc_id, physical_address_location_name, physical_address_line1, physical_address_line2, physical_address_line3, physical_address_city, physical_address_state, physical_address_zip, mailing_address_location_name, mailing_address_line1, mailing_address_line2, mailing_address_line3, mailing_address_city, mailing_address_state, mailing_address_zip, elections_url, registration_url, am_i_registered_url, absentee_url, where_do_i_vote_url, what_is_on_my_ballot_url, rules_url, voter_services, hours) FROM stdin;
 3456	1	Name1	3457	3458	Government Center	12 Chad Ct.	\N	\N	Columbus	OH	33333	\N	P.O. Box 1776	\N	\N	Columbus	OH	3abcdd-3333	http://www.sos.state.oh.us/sos/ElectionsVoter/ohioElections.aspx	http://www.elections.oh.us/register.html	http://www.elections.oh.us/check_reg.html	http://www.elections.oh.us/early_absentee.html	http://www.elections.oh.us/where_vote.html	http://www.elections.oh.us/ballot_guide.html	http://codes.ohio.gov/orc/35	Early voting and absentee ballot request are available beginning October 1. Voter registration is always available.	M-F 9am-6pm Sat 9am-Noon
 3460	1	Name2	3461	3462	2Government Center	12 Chad Ct.	\N	\N	Columbus	OH	33333	\N	2P.O. Box 1776	\N	\N	Columbus	OH	33333xxx	http://www.2sos.state.oh.us/sos/ElectionsVoter/ohioElections.aspx	http://www.2elections.oh.us/register.html	http://www.2elections.oh.us/check_reg.html	http://www.2elections.oh.us/early_absentee.html	http://www.2elections.oh.us/where_vote.html	http://www.2elections.oh.us/ballot_guide.html	http://codes.2ohio.gov/orc/35	2Early voting and absentee ballot request are available beginning October 1. Voter registration is always available.	2M-F 9am-6pm Sat 9am-Noon
 \.
 
-
---
--- Data for Name: election_officials; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY election_officials (id, results_id, name, title, phone, fax, email) FROM stdin;
 3457	1	Robert Smith	A title	(201) 555-1212	(101) 555-1213	rsmith@ohio.gov
@@ -894,18 +678,10 @@ COPY election_officials (id, results_id, name, title, phone, fax, email) FROM st
 \.
 
 
---
--- Data for Name: elections; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY elections (id, results_id, absentee_ballot_info, absentee_request_deadline, date, election_day_registration, election_type, polling_hours, registration_deadline, registration_info, results_url, state_id, statewide) FROM stdin;
 1	1	http://www.sos.state.oh.us/sos/PublicAffairs/VoterInfoGuide.aspx?Section=16	2012-11-01	2014-04-10	f	Federal	7am-8pm	2012-10-01	http://www.sos.state.oh.us/sos/PublicAffairs/VoterInfoGuide.aspx?Section=14	http://www.sos.state.oh.us/sos/ElectionsVoter/electionResults.aspx	39	t
 \.
 
-
---
--- Data for Name: electoral_districts; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY electoral_districts (id, results_id, name, type, number) FROM stdin;
 70001	1	statewide	statewide	\N
@@ -914,10 +690,6 @@ COPY electoral_districts (id, results_id, name, type, number) FROM stdin;
 \.
 
 
---
--- Data for Name: localities; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY localities (id, results_id, name, state_id, type, election_administration_id) FROM stdin;
 101	1	Adams	39	countys	3460
 102	1	Allen	39	county	\N
@@ -925,18 +697,10 @@ COPY localities (id, results_id, name, state_id, type, election_administration_i
 \.
 
 
---
--- Data for Name: locality_early_vote_sites; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY locality_early_vote_sites (results_id, locality_id, early_vote_site_id) FROM stdin;
 1	101	30203
 \.
 
-
---
--- Data for Name: polling_locations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY polling_locations (id, results_id, address_location_name, address_line1, address_line2, address_line3, address_city, address_state, address_zip, directions, polling_hours, photo_url) FROM stdin;
 20121	1	Springfield Elementary	123 Main St.	\N	\N	Fake Twp	OH	33333_error	Enter through gym door.	7:30am-8:30pm	\N
@@ -948,19 +712,11 @@ COPY polling_locations (id, results_id, address_location_name, address_line1, ad
 \.
 
 
---
--- Data for Name: precinct_early_vote_sites; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY precinct_early_vote_sites (results_id, precinct_id, early_vote_site_id) FROM stdin;
 1	10101	30205
 1	10203	30204
 \.
 
-
---
--- Data for Name: precinct_electoral_districts; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY precinct_electoral_districts (results_id, precinct_id, electoral_district_id) FROM stdin;
 1	10101	70001
@@ -983,10 +739,6 @@ COPY precinct_electoral_districts (results_id, precinct_id, electoral_district_i
 \.
 
 
---
--- Data for Name: precinct_polling_locations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY precinct_polling_locations (results_id, precinct_id, polling_location_id) FROM stdin;
 1	10101	20121
 1	10102	20122
@@ -999,10 +751,6 @@ COPY precinct_polling_locations (results_id, precinct_id, polling_location_id) F
 \.
 
 
---
--- Data for Name: precinct_split_electoral_districts; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY precinct_split_electoral_districts (results_id, precinct_split_id, electoral_district_id) FROM stdin;
 1	44	70001
 1	44	70002
@@ -1012,10 +760,6 @@ COPY precinct_split_electoral_districts (results_id, precinct_split_id, electora
 1	30102	70003
 \.
 
-
---
--- Data for Name: precinct_split_polling_locations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY precinct_split_polling_locations (results_id, precinct_split_id, polling_location_id) FROM stdin;
 1	44	20141
@@ -1027,10 +771,6 @@ COPY precinct_split_polling_locations (results_id, precinct_split_id, polling_lo
 \.
 
 
---
--- Data for Name: precinct_splits; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY precinct_splits (id, results_id, name, precinct_id, ballot_style_image_url) FROM stdin;
 44	1	Fake Twp-A	10103	http://www.example.com/precinct_split_101_ballot.pdf
 111	1	Fake 111	10302	\N
@@ -1038,10 +778,6 @@ COPY precinct_splits (id, results_id, name, precinct_id, ballot_style_image_url)
 30102	1	Fake Twp-B	10101	\N
 \.
 
-
---
--- Data for Name: precincts; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY precincts (id, results_id, name, number, locality_id, ward, mail_only, ballot_style_image_url) FROM stdin;
 10101	1	Fake Twp	\N	101	\N	\N	\N
@@ -1054,10 +790,6 @@ COPY precincts (id, results_id, name, number, locality_id, ward, mail_only, ball
 10302	1	1-B	\N	103	\N	\N	\N
 \.
 
-
---
--- Data for Name: ragtime_migrations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY ragtime_migrations (id, created_at) FROM stdin;
 20150211-01-create-results-table	2015-08-06T15:15:32.865
@@ -1099,10 +831,6 @@ COPY ragtime_migrations (id, created_at) FROM stdin;
 \.
 
 
---
--- Data for Name: referendum_ballot_responses; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY referendum_ballot_responses (results_id, referendum_id, ballot_response_id, sort_order) FROM stdin;
 1	90011	120001	\N
 1	90011	120002	\N
@@ -1110,77 +838,41 @@ COPY referendum_ballot_responses (results_id, referendum_id, ballot_response_id,
 \.
 
 
---
--- Data for Name: referendums; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY referendums (id, results_id, title, subtitle, brief, text, pro_statement, con_statement, passage_threshold, effect_of_abstain) FROM stdin;
 90011	1	Proposition 37	A referendum to ban smoking indoors	A yes vote is a vote to ban smoking indoors.	Shall the State of Ohio ... (full text of referendum as it appears on the ballot).	Vote yes please	Vote no please	three-fifths	Abstaining has no effect
 90012	1	Proposition 12	A referendum to...	A yes vote is a vote to...	Shall the State of Ohio ... (full text of referendum as it appears on the ballot).	Vote yes please	Vote no please	three-fifths	Abstaining has no effect
 \.
 
 
---
--- Data for Name: results; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY results (id, public_id, start_time, filename, complete, end_time, exception) FROM stdin;
 1	2014-04-10-Federal-Ohio-1	2015-08-06 09:15:34.841619-04	vipfeed-39-2014-04-10-1438866936555	t	2015-08-06 09:15:36.55717-04	\N
 \.
 
 
---
--- Name: results_id_seq; Type: SEQUENCE SET; Schema: public; Owner: wesreid
---
-
 SELECT pg_catalog.setval('results_id_seq', 1, true);
 
-
---
--- Data for Name: sources; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY sources (id, results_id, name, vip_id, datetime, description, organization_url, feed_contact_id, tou_url) FROM stdin;
 0	1	State of Ohio	39	2012-10-31	The State of Ohio is the official source of eletion information in Ohio. This feed provides information on election dates, districts, offices, candidates, and precinct boundaries.	http://www.sos.state.oh.us/	1555122	http://www.sos.state.oh.us/vipFeed/terms_of_use.html
 \.
 
 
---
--- Data for Name: state_early_vote_sites; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY state_early_vote_sites (results_id, state_id, early_vote_site_id) FROM stdin;
 \.
 
-
---
--- Data for Name: states; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY states (id, results_id, name, election_administration_id) FROM stdin;
 39	1	Ohio	3456
 \.
 
 
---
--- Data for Name: statistics; Type: TABLE DATA; Schema: public; Owner: wesreid
---
-
 COPY statistics (id, results_id, ballots_count, ballots_error_count, ballots_completion, ballot_line_results_count, ballot_line_results_error_count, ballot_line_results_completion, ballot_responses_count, ballot_responses_error_count, ballot_responses_completion, candidates_count, candidates_error_count, candidates_completion, contests_count, contests_error_count, contests_completion, contest_results_count, contest_results_error_count, contest_results_completion, custom_ballots_count, custom_ballots_error_count, custom_ballots_completion, early_vote_sites_count, early_vote_sites_error_count, early_vote_sites_completion, elections_count, elections_error_count, elections_completion, election_administrations_count, election_administrations_error_count, election_administrations_completion, election_officials_count, election_officials_error_count, election_officials_completion, electoral_districts_count, electoral_districts_error_count, electoral_districts_completion, localities_count, localities_error_count, localities_completion, polling_locations_count, polling_locations_error_count, polling_locations_completion, precincts_count, precincts_error_count, precincts_completion, precinct_splits_count, precinct_splits_error_count, precinct_splits_completion, referendums_count, referendums_error_count, referendums_completion, sources_count, sources_error_count, sources_completion, street_segments_count, street_segments_error_count, street_segments_completion) FROM stdin;
 1	1	7	5	29	4	0	100	3	0	100	10	3	70	7	5	29	2	0	100	1	0	100	3	0	100	1	0	100	2	0	100	6	4	33	3	0	100	3	0	100	6	1	83	8	0	100	4	1	75	2	0	100	1	0	100	19	78	0
 \.
 
 
---
--- Name: statistics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: wesreid
---
-
 SELECT pg_catalog.setval('statistics_id_seq', 1, true);
 
-
---
--- Data for Name: street_segments; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY street_segments (id, results_id, start_house_number, end_house_number, odd_even_both, start_apartment_number, end_apartment_number, non_house_address_house_number, non_house_address_house_number_prefix, non_house_address_house_number_suffix, non_house_address_street_direction, non_house_address_street_name, non_house_address_street_suffix, non_house_address_address_direction, non_house_address_apartment, non_house_address_city, non_house_address_state, non_house_address_zip, precinct_id, precinct_split_id) FROM stdin;
 44	1	15	21	odd	\N	\N	\N	\N	\N	\N	Main	\N	\N	\N	2Rural	OH	43320	10103	\N
@@ -1204,10 +896,6 @@ COPY street_segments (id, results_id, start_house_number, end_house_number, odd_
 1210009	1	1	2	both	\N	\N	\N	\N	\N	\N	Main	\N	\N	\N	Rural	OH	43320	10101	\N
 \.
 
-
---
--- Data for Name: validations; Type: TABLE DATA; Schema: public; Owner: wesreid
---
 
 COPY validations (results_id, severity, scope, identifier, error_type, error_data) FROM stdin;
 1	warnings	ballots	80003	duplicate-rows	{:id 80003, :referendum_id nil, :custom_ballot_id nil, :write_in nil, :image_url nil}
@@ -1314,473 +1002,235 @@ COPY validations (results_id, severity, scope, identifier, error_type, error_dat
 \.
 
 
---
--- Name: ballot_line_results_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY ballot_line_results
     ADD CONSTRAINT ballot_line_results_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: ballot_responses_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY ballot_responses
     ADD CONSTRAINT ballot_responses_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: ballots_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY ballots
     ADD CONSTRAINT ballots_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: candidates_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY candidates
     ADD CONSTRAINT candidates_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: contest_results_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY contest_results
     ADD CONSTRAINT contest_results_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: contests_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY contests
     ADD CONSTRAINT contests_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: custom_ballots_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY custom_ballots
     ADD CONSTRAINT custom_ballots_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: early_vote_sites_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY early_vote_sites
     ADD CONSTRAINT early_vote_sites_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: election_administrations_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY election_administrations
     ADD CONSTRAINT election_administrations_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: election_officials_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY election_officials
     ADD CONSTRAINT election_officials_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: elections_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY elections
     ADD CONSTRAINT elections_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: electoral_districts_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY electoral_districts
     ADD CONSTRAINT electoral_districts_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: localities_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY localities
     ADD CONSTRAINT localities_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: polling_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY polling_locations
     ADD CONSTRAINT polling_locations_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: precinct_splits_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY precinct_splits
     ADD CONSTRAINT precinct_splits_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: precincts_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY precincts
     ADD CONSTRAINT precincts_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: referendums_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY referendums
     ADD CONSTRAINT referendums_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: results_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY results
     ADD CONSTRAINT results_pkey PRIMARY KEY (id);
 
 
---
--- Name: results_public_id_key; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY results
     ADD CONSTRAINT results_public_id_key UNIQUE (public_id);
 
-
---
--- Name: sources_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY sources
     ADD CONSTRAINT sources_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: states_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY states
     ADD CONSTRAINT states_pkey PRIMARY KEY (results_id, id);
 
-
---
--- Name: statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
 
 ALTER TABLE ONLY statistics
     ADD CONSTRAINT statistics_pkey PRIMARY KEY (id);
 
 
---
--- Name: street_segments_pkey; Type: CONSTRAINT; Schema: public; Owner: wesreid; Tablespace: 
---
-
 ALTER TABLE ONLY street_segments
     ADD CONSTRAINT street_segments_pkey PRIMARY KEY (results_id, id);
 
 
---
--- Name: street_segments_precinct_id_idx; Type: INDEX; Schema: public; Owner: wesreid; Tablespace: 
---
-
 CREATE INDEX street_segments_precinct_id_idx ON street_segments USING btree (precinct_id);
 
-
---
--- Name: street_segments_precinct_split_id_idx; Type: INDEX; Schema: public; Owner: wesreid; Tablespace: 
---
 
 CREATE INDEX street_segments_precinct_split_id_idx ON street_segments USING btree (precinct_split_id);
 
 
---
--- Name: validations_result_scope_id_idx; Type: INDEX; Schema: public; Owner: wesreid; Tablespace: 
---
-
 CREATE INDEX validations_result_scope_id_idx ON validations USING btree (results_id, scope, identifier);
 
 
---
--- Name: validations_result_scope_type_idx; Type: INDEX; Schema: public; Owner: wesreid; Tablespace: 
---
-
 CREATE INDEX validations_result_scope_type_idx ON validations USING btree (results_id, scope, error_type);
 
-
---
--- Name: ballot_candidates_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY ballot_candidates
     ADD CONSTRAINT ballot_candidates_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: ballot_line_results_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY ballot_line_results
     ADD CONSTRAINT ballot_line_results_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: ballot_responses_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY ballot_responses
     ADD CONSTRAINT ballot_responses_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: ballots_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY ballots
     ADD CONSTRAINT ballots_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: candidates_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY candidates
     ADD CONSTRAINT candidates_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: contest_results_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY contest_results
     ADD CONSTRAINT contest_results_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: contests_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY contests
     ADD CONSTRAINT contests_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: custom_ballot_ballot_responses_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY custom_ballot_ballot_responses
     ADD CONSTRAINT custom_ballot_ballot_responses_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: custom_ballots_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY custom_ballots
     ADD CONSTRAINT custom_ballots_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: early_vote_sites_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY early_vote_sites
     ADD CONSTRAINT early_vote_sites_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: election_administrations_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY election_administrations
     ADD CONSTRAINT election_administrations_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: election_officials_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY election_officials
     ADD CONSTRAINT election_officials_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: elections_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY elections
     ADD CONSTRAINT elections_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: electoral_districts_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY electoral_districts
     ADD CONSTRAINT electoral_districts_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: localities_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY localities
     ADD CONSTRAINT localities_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: locality_early_vote_sites_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY locality_early_vote_sites
     ADD CONSTRAINT locality_early_vote_sites_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: polling_locations_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY polling_locations
     ADD CONSTRAINT polling_locations_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: precinct_early_vote_sites_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY precinct_early_vote_sites
     ADD CONSTRAINT precinct_early_vote_sites_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: precinct_electoral_districts_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY precinct_electoral_districts
     ADD CONSTRAINT precinct_electoral_districts_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: precinct_polling_locations_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY precinct_polling_locations
     ADD CONSTRAINT precinct_polling_locations_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: precinct_split_electoral_districts_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY precinct_split_electoral_districts
     ADD CONSTRAINT precinct_split_electoral_districts_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: precinct_split_polling_locations_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY precinct_split_polling_locations
     ADD CONSTRAINT precinct_split_polling_locations_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: precinct_splits_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY precinct_splits
     ADD CONSTRAINT precinct_splits_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: precincts_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY precincts
     ADD CONSTRAINT precincts_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: referendum_ballot_responses_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY referendum_ballot_responses
     ADD CONSTRAINT referendum_ballot_responses_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: referendums_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY referendums
     ADD CONSTRAINT referendums_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: sources_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY sources
     ADD CONSTRAINT sources_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: state_early_vote_sites_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY state_early_vote_sites
     ADD CONSTRAINT state_early_vote_sites_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: states_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY states
     ADD CONSTRAINT states_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: statistics_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
-
 ALTER TABLE ONLY statistics
     ADD CONSTRAINT statistics_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
-
---
--- Name: street_segments_results_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: wesreid
---
 
 ALTER TABLE ONLY street_segments
     ADD CONSTRAINT street_segments_results_id_fkey FOREIGN KEY (results_id) REFERENCES results(id);
 
 
---
--- Name: public; Type: ACL; Schema: -; Owner: wesreid
---
-
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM wesreid;
-GRANT ALL ON SCHEMA public TO wesreid;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
