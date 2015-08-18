@@ -14,7 +14,7 @@ describe('Feed Precinct Splits Test', function () {
    ------------------------------------------*/
   describe('Check Feed Precinct Splits page', function () {
 
-    it('Should go to the Feed Precinct Splits page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then a Precint Split and then the 2nd to last breadcrumb', function () {
+    xit('Should go to the Feed Precinct Splits page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then a Precint Split and then the 2nd to last breadcrumb', function () {
 
       // expect to start out on the feed index page
       // click the first feed
@@ -101,7 +101,7 @@ describe('Feed Precinct Splits Test', function () {
    ------------------------------------------*/
   describe('Check Feed Precinct Splits data', function () {
 
-    it('Should have Precinct Splits data', function () {
+    xit('Should have Precinct Splits data', function () {
 
       expect(element('#precinctsplit0').count()).toBe(1);
       expect(element('#precinctsplit-id0').count()).toBe(1);

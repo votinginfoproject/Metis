@@ -14,7 +14,7 @@ describe('Testing Feed Contest Results Page', function() {
   });
 
   describe('Contest Results Page is able to be navigated to', function() {
-    it('Navigates to the Contest Result page', function() {
+    xit('Navigates to the Contest Result page', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -47,17 +47,17 @@ describe('Testing Feed Contest Results Page', function() {
       expect(element('#feed-contestresult-content').count()).toBe(1);
     });
 
-    it('Has content on the page', function() {
+    xit('Has content on the page', function() {
       expect(element('#contest-id').count()).toBe(1);
       expect(element('#jurisdiction-id').count()).toBe(1);
     });
 
-    it('Contest link works', function() {
+    xit('Contest link works', function() {
       element('#contest-id a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
     });
 
-    it('Jurisdiction link works', function() {
+    xit('Jurisdiction link works', function() {
       element('#contestresult-id a').click();
       expect(element('#feed-contestresult-content').count()).toBe(1);
       element('#jurisdiction-id a').click();

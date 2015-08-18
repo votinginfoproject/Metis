@@ -14,7 +14,7 @@ describe('Testing Feed Ballot Line Result Page', function() {
   });
 
   describe('Ballot Line Result Page is able to be navigated to', function() {
-    it('Navigates to Contest', function() {
+    xit('Navigates to Contest', function() {
       // expect to start out on the feed index page
       // click the first feed
       element('#date0 a').click();
@@ -47,26 +47,26 @@ describe('Testing Feed Ballot Line Result Page', function() {
       expect(element('#feed-ballotlineresult-content').count()).toBe(1);
     });
 
-    it('Has content on the page', function() {
+    xit('Has content on the page', function() {
       expect(element('#ballotlineresult-votes').count()).toBe(1);
       expect(element('#contest-id').count()).toBe(1);
       expect(element('#jurisdiction-id').count()).toBe(1);
       expect(element('#candidate-id').count()).toBe(1);
     });
 
-    it('Contest Page link works', function() {
+    xit('Contest Page link works', function() {
       element('#contest-id a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
     });
 
-    it('Jurisdiction Link works', function() {
+    xit('Jurisdiction Link works', function() {
       element('#ballotlineresult-id0 a').click();
       expect(element('#feed-ballotlineresult-content').count()).toBe(1);
       element('#jurisdiction-id a').click();
       expect(element('#feeds-election-contests-electoraldistrict-content-single').count()).toBe(1);
     });
 
-    it('Candidate Link works', function() {
+    xit('Candidate Link works', function() {
       element('#pageHeader-breadcrumb3 a').click();
       expect(element('#feed-contest-content').count()).toBe(1);
       element('#ballotlineresult-id0 a').click();

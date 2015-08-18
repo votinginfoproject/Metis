@@ -198,7 +198,7 @@ describe('Feed Precinct Split Test', function () {
    ------------------------------------------*/
   describe('Check Feed PrecinctSplit Polling Locations page', function () {
     // if there is data
-    it('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
+    xit('Should be able to go into a PrecinctSplit Polling Locations page via breadcrumbs', function () {
 
       element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
@@ -208,7 +208,7 @@ describe('Feed Precinct Split Test', function () {
     });
 
     // if there is data
-    it('Should have Polling Locations data', function () {
+    xit('Should have Polling Locations data', function () {
 
       expect(element('#pollingLocation0').count()).toBe(1);
       expect(element('#pollingLocation-id0').count()).toBe(1);
@@ -216,7 +216,7 @@ describe('Feed Precinct Split Test', function () {
     });
 
     // click to a polling location site
-    it('Should be able to click on the link and be taken back to a Polling Location page', function () {
+    xit('Should be able to click on the link and be taken back to a Polling Location page', function () {
 
       element('#pollingLocation-id0 a').click();
       sleep(testGlobals.sleepTime);
@@ -227,7 +227,7 @@ describe('Feed Precinct Split Test', function () {
 
 
     // click to the precinct page
-    it('Should be able to click on the breadcrumb and be taken back to the PrecinctSplit page', function () {
+    xit('Should be able to click on the breadcrumb and be taken back to the PrecinctSplit page', function () {
 
       element('#pageHeader-breadcrumb8 a').click();
       sleep(testGlobals.sleepTime);
@@ -243,7 +243,7 @@ describe('Feed Precinct Split Test', function () {
    ------------------------------------------*/
   describe('Click the Precinct Split StreetSegment error link', function () {
 
-    it('Click and go to the Street Segments error page', function () {
+    xit('Click and go to the Street Segments error page', function () {
 
       // Should have Precinct Split Street Segments errors link
       expect(element('#streetsegments-errors').count()).toBe(1);
@@ -264,7 +264,7 @@ describe('Feed Precinct Split Test', function () {
    ------------------------------------------*/
   describe('Should have Precinct Split Street Segments Error data', function () {
 
-    it('Should have Precinct Split Street Segments Error data', function () {
+    xit('Should have Precinct Split Street Segments Error data', function () {
 
       // Should have Precinct Split Street Segments error data
 

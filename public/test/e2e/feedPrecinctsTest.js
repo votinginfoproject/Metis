@@ -14,7 +14,7 @@ describe('Feed Precincts Test', function () {
    ------------------------------------------*/
   describe('Check Feed Precincts page', function () {
 
-    it('Should go to the Feed Precincts page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then the 2nd to last breadcrumb', function () {
+    xit('Should go to the Feed Precincts page after selecting a feed and then Election and then State and then a Locality and then a Precinct and then the 2nd to last breadcrumb', function () {
 
       // expect to start out on the feed index page
       // click the first feed
@@ -91,7 +91,7 @@ describe('Feed Precincts Test', function () {
    ------------------------------------------*/
   describe('Check Feed Precincts data', function () {
 
-    it('Should have Precincts data', function () {
+    xit('Should have Precincts data', function () {
 
       expect(element('#precinct0').count()).toBe(1);
       expect(element('#precinct-id0').count()).toBe(1);
