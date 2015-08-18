@@ -28,8 +28,6 @@ CREATE TABLE ballot_candidates (
 );
 
 
-ALTER TABLE ballot_candidates;
-
 CREATE TABLE ballot_line_results (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
@@ -45,8 +43,6 @@ CREATE TABLE ballot_line_results (
 );
 
 
-ALTER TABLE ballot_line_results;
-
 CREATE TABLE ballot_responses (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
@@ -54,8 +50,6 @@ CREATE TABLE ballot_responses (
     sort_order integer
 );
 
-
-ALTER TABLE ballot_responses;
 
 CREATE TABLE ballots (
     id bigint NOT NULL,
@@ -66,8 +60,6 @@ CREATE TABLE ballots (
     image_url text
 );
 
-
-ALTER TABLE ballots;
 
 CREATE TABLE candidates (
     id bigint NOT NULL,
@@ -90,8 +82,6 @@ CREATE TABLE candidates (
 );
 
 
-ALTER TABLE candidates;
-
 CREATE TABLE contest_results (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
@@ -107,8 +97,6 @@ CREATE TABLE contest_results (
     certification text
 );
 
-
-ALTER TABLE contest_results;
 
 CREATE TABLE contests (
     id bigint NOT NULL,
@@ -129,8 +117,6 @@ CREATE TABLE contests (
 );
 
 
-ALTER TABLE contests;
-
 CREATE TABLE custom_ballot_ballot_responses (
     results_id bigint NOT NULL,
     custom_ballot_id bigint,
@@ -139,16 +125,12 @@ CREATE TABLE custom_ballot_ballot_responses (
 );
 
 
-ALTER TABLE custom_ballot_ballot_responses;
-
 CREATE TABLE custom_ballots (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
     heading text
 );
 
-
-ALTER TABLE custom_ballots;
 
 CREATE TABLE early_vote_sites (
     id bigint NOT NULL,
@@ -168,8 +150,6 @@ CREATE TABLE early_vote_sites (
     days_times_open text
 );
 
-
-ALTER TABLE early_vote_sites;
 
 CREATE TABLE election_administrations (
     id bigint NOT NULL,
@@ -203,8 +183,6 @@ CREATE TABLE election_administrations (
 );
 
 
-ALTER TABLE election_administrations;
-
 CREATE TABLE election_officials (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
@@ -215,8 +193,6 @@ CREATE TABLE election_officials (
     email text
 );
 
-
-ALTER TABLE election_officials;
 
 CREATE TABLE elections (
     id bigint NOT NULL,
@@ -235,8 +211,6 @@ CREATE TABLE elections (
 );
 
 
-ALTER TABLE elections;
-
 CREATE TABLE electoral_districts (
     id bigint NOT NULL,
     results_id bigint NOT NULL,
@@ -245,8 +219,6 @@ CREATE TABLE electoral_districts (
     number text
 );
 
-
-ALTER TABLE electoral_districts;
 
 CREATE TABLE localities (
     id bigint NOT NULL,
@@ -258,16 +230,12 @@ CREATE TABLE localities (
 );
 
 
-ALTER TABLE localities;
-
 CREATE TABLE locality_early_vote_sites (
     results_id bigint NOT NULL,
     locality_id bigint,
     early_vote_site_id bigint
 );
 
-
-ALTER TABLE locality_early_vote_sites;
 
 CREATE TABLE polling_locations (
     id bigint NOT NULL,
@@ -285,16 +253,12 @@ CREATE TABLE polling_locations (
 );
 
 
-ALTER TABLE polling_locations;
-
 CREATE TABLE precinct_early_vote_sites (
     results_id bigint NOT NULL,
     precinct_id bigint,
     early_vote_site_id bigint
 );
 
-
-ALTER TABLE precinct_early_vote_sites;
 
 CREATE TABLE precinct_electoral_districts (
     results_id bigint NOT NULL,
@@ -303,16 +267,12 @@ CREATE TABLE precinct_electoral_districts (
 );
 
 
-ALTER TABLE precinct_electoral_districts;
-
 CREATE TABLE precinct_polling_locations (
     results_id bigint NOT NULL,
     precinct_id bigint,
     polling_location_id bigint
 );
 
-
-ALTER TABLE precinct_polling_locations;
 
 CREATE TABLE precinct_split_electoral_districts (
     results_id bigint NOT NULL,
@@ -321,16 +281,12 @@ CREATE TABLE precinct_split_electoral_districts (
 );
 
 
-ALTER TABLE precinct_split_electoral_districts;
-
 CREATE TABLE precinct_split_polling_locations (
     results_id bigint NOT NULL,
     precinct_split_id bigint,
     polling_location_id bigint
 );
 
-
-ALTER TABLE precinct_split_polling_locations;
 
 CREATE TABLE precinct_splits (
     id bigint NOT NULL,
@@ -340,8 +296,6 @@ CREATE TABLE precinct_splits (
     ballot_style_image_url text
 );
 
-
-ALTER TABLE precinct_splits;
 
 CREATE TABLE precincts (
     id bigint NOT NULL,
@@ -355,15 +309,11 @@ CREATE TABLE precincts (
 );
 
 
-ALTER TABLE precincts;
-
 CREATE TABLE ragtime_migrations (
     id character varying(255),
     created_at character varying(32)
 );
 
-
-ALTER TABLE ragtime_migrations;
 
 CREATE TABLE referendum_ballot_responses (
     results_id bigint NOT NULL,
@@ -372,8 +322,6 @@ CREATE TABLE referendum_ballot_responses (
     sort_order integer
 );
 
-
-ALTER TABLE referendum_ballot_responses;
 
 CREATE TABLE referendums (
     id bigint NOT NULL,
@@ -389,8 +337,6 @@ CREATE TABLE referendums (
 );
 
 
-ALTER TABLE referendums;
-
 CREATE TABLE results (
     id integer NOT NULL,
     public_id character varying(255),
@@ -402,8 +348,6 @@ CREATE TABLE results (
 );
 
 
-ALTER TABLE results;
-
 CREATE SEQUENCE results_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -411,8 +355,6 @@ CREATE SEQUENCE results_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE results_id_seq;
 
 ALTER SEQUENCE results_id_seq OWNED BY results.id;
 
@@ -430,16 +372,12 @@ CREATE TABLE sources (
 );
 
 
-ALTER TABLE sources;
-
 CREATE TABLE state_early_vote_sites (
     results_id bigint NOT NULL,
     state_id bigint,
     early_vote_site_id bigint
 );
 
-
-ALTER TABLE state_early_vote_sites;
 
 CREATE TABLE states (
     id bigint NOT NULL,
@@ -448,8 +386,6 @@ CREATE TABLE states (
     election_administration_id bigint
 );
 
-
-ALTER TABLE states;
 
 CREATE TABLE statistics (
     id integer NOT NULL,
@@ -514,8 +450,6 @@ CREATE TABLE statistics (
 );
 
 
-ALTER TABLE statistics;
-
 CREATE SEQUENCE statistics_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -523,8 +457,6 @@ CREATE SEQUENCE statistics_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE statistics_id_seq;
 
 ALTER SEQUENCE statistics_id_seq OWNED BY statistics.id;
 
@@ -553,8 +485,6 @@ CREATE TABLE street_segments (
 );
 
 
-ALTER TABLE street_segments;
-
 CREATE TABLE validations (
     results_id integer,
     severity character varying(255),
@@ -564,8 +494,6 @@ CREATE TABLE validations (
     error_data text
 );
 
-
-ALTER TABLE validations;
 
 ALTER TABLE ONLY results ALTER COLUMN id SET DEFAULT nextval('results_id_seq'::regclass);
 
