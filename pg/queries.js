@@ -501,6 +501,10 @@ module.exports = {
                                 INNER JOIN validations v ON v.results_id = ps.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                 INNER JOIN results r ON r.id = ps.results_id \
                                 WHERE r.public_id=$1 AND ps.id=$2;",
+  earlyVoteSites: "SELECT evs.* \
+                  FROM early_vote_sites evs \
+                  INNER JOIN results r ON r.id = evs.results_id \
+                  WHERE r.public_id = $1",
   earlyVoteSite: "SELECT evs.*, \
                          (SELECT COUNT(v.*) \
                           FROM validations v \

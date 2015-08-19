@@ -14,6 +14,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/results', pg.getResults);
   app.get('/db/feeds/:feedid/source', pg.getFeedSource);
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
+  app.get('/db/feeds/:feedid/earlyvotesites', pg.getFeedEarlyVoteSites);
   app.get('/db/feeds/:feedid/earlyvotesites/:earlyvotesiteid', pg.getFeedEarlyVoteSite);
   
   // Polling Location-related routes
