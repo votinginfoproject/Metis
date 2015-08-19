@@ -89,6 +89,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid/errors', pgErrors.getFeedCandidateErrors);
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors', pgErrors.getFeedContestBallotErrors);
   app.get('/db/feeds/:feedid/election/contests/:contestid/errors', pgErrors.getFeedContestErrors);
+  app.get('/db/feeds/:feedid/election/state/earlyvotesites/:earlyvotesiteid/errors', pgErrors.getFeedEarlyVoteSiteErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/earlyvotesites/errors', pgErrors.getFeedLocalityEarlyVoteSitesErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/electionadministrations/errors', pgErrors.getFeedLocalityElectionAdministrationsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/pollinglocations/errors', pgErrors.getFeedLocalityPollingLocationsErrors);
