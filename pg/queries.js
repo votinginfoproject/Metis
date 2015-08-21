@@ -544,6 +544,15 @@ module.exports = {
                                    "v.scope = 'candidates' AND c.id = $2"),
   contestBallotErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.ballot_id AND c.results_id = v.results_id",
                                        "v.scope = 'ballots' AND c.id = $2"),
+  contestCandidatesErrors: buildErrorQuery("INNER JOIN contests c ON c.results_id = v.results_id \
+                                            INNER JOIN ballot_candidates bc ON c.ballot_id = bc.ballot_id AND v.identifier = bc.candidate_id AND bc.results_id = v.results_id",
+                                            "v.scope = 'candidates' AND c.id = $2"),
+  contestElectoralDistrictErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.electoral_district_id AND c.results_id = v.results_id",
+                                                  "v.scope = 'electoral-districts' AND c.id = $2"),
+  contestReferendaErrors: buildErrorQuery("INNER JOIN contests c ON c.results_id = v.results_id \
+                                           INNER JOIN ballots b ON b.id = c.ballot_id AND b.results_id = v.results_id \
+                                           INNER JOIN referendums ref ON b.referendum_id = ref.id AND v.identifier = ref.id AND ref.results_id = v.results_id",
+                                          "v.scope = 'referendums' AND c.id = $2"),
   contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",
                                  "v.scope = 'contests' AND c.id = $2"),
   localityEarlyVoteSitesErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \

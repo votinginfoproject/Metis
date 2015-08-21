@@ -87,6 +87,10 @@ function registerPostgresServices (app) {
   // errors
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/candidates/:candidateid/errors', pgErrors.getFeedCandidateErrors);
   app.get('/db/feeds/:feedid/election/contests/:contestid/ballot/errors', pgErrors.getFeedContestBallotErrors);
+  app.get('/db/feeds/:feedid/election/contests/:contestid/overview/ballot/errors', pgErrors.getFeedContestBallotErrors);
+  app.get('/db/feeds/:feedid/election/contests/:contestid/overview/candidates/errors', pgErrors.getFeedContestCandidatesErrors);
+  app.get('/db/feeds/:feedid/election/contests/:contestid/overview/electoraldistrict/errors', pgErrors.getFeedContestElectoralDistrictErrors);
+  app.get('/db/feeds/:feedid/election/contests/:contestid/overview/referenda/errors', pgErrors.getFeedContestReferendaErrors);
   app.get('/db/feeds/:feedid/election/contests/:contestid/errors', pgErrors.getFeedContestErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/earlyvotesites/errors', pgErrors.getFeedLocalityEarlyVoteSitesErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/electionadministrations/errors', pgErrors.getFeedLocalityElectionAdministrationsErrors);
