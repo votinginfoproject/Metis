@@ -12,14 +12,13 @@ EnvironmentFile=/etc/environment
 TimeoutStartSec=10m
 TimeoutStopSec=10m
 
-Environment=DOCKER_REPO=quay.io/votinginfoproject/metis
-Environment=VERSION=master
+Environment=DOCKER_IMAGE=
 Environment=CONTAINER=metis
 Environment=HOME=/root
 
 ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
 ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
-ExecStartPre=/usr/bin/docker pull ${DOCKER_REPO}:${VERSION}
+ExecStartPre=/usr/bin/docker pull ${DOCKER_IMAGE}
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
   --link rabbitmq:rabbitmq \
@@ -33,6 +32,6 @@ ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
   --env STORMPATH_APP_HREF=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/app-href?raw) \
   --env STORMPATH_ACCOUNT_STORE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/account-store?raw) \
   -p 4000:4000 \
-  ${DOCKER_REPO}:${VERSION}'
+  ${DOCKER_IMAGE}'
 
 ExecStop=/usr/bin/docker stop ${CONTAINER}
