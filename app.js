@@ -6,7 +6,6 @@ var logger = (require('./logging/vip-winston')).Logger;
 var config = require('./config');
 var express = require('express');
 var http = require('http');
-var https = require('https');
 var path = require('path');
 var passport = require('passport');
 var stormpath = require('passport-stormpath');
@@ -26,6 +25,14 @@ logger.info('=========================================================');
 logger.info('VIP App Started');
 logger.info('=========================================================');
 
+var redirectHttps = function(req, res, next) {
+  if (req.header("X-Forwarded-Proto") === "http" && req.path !== "/ping") {
+    res.redirect("https://" + req.headers.host);
+  } else {
+    next();
+  }
+};
+
 // all environments
 app.use(express.favicon(config.web.favicon));
 app.use(express.logger(config.web.loglevel));
@@ -36,6 +43,12 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: config.web.sessionsecret }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Redirect non-https load balanced clients to https
+app.use(redirectHttps);
+// /ping for load balancer health checking
+app.get('/ping', function (req, res, next) { res.send('pong'); });
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/feeds', express.directory(path.join(__dirname, 'feeds')));
@@ -54,20 +67,9 @@ auth.authSetup(config, passport, config.auth.uselocalauth());
 authServices.registerAuthServices(config, app, passport);
 pgServices.registerPostgresServices(app);
 
-if (config.web.enableSSL) {
-  var opts = {
-    key: fs.readFileSync(config.web.SSLKey),
-    cert: fs.readFileSync(config.web.SSLCert)
-  };
-
-  https.createServer(opts, app).listen(config.web.port, function() {
-    logger.info('Express server listening on port ' + config.web.port);
-  });
-} else {
-  http.createServer(app).listen(config.web.port, function () {
-    logger.info('Express server listening on port ' + config.web.port);
-  });
-}
+http.createServer(app).listen(config.web.port, function () {
+  logger.info('Express server listening on port ' + config.web.port);
+});
 
 var pg = require('pg');
 var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER +
