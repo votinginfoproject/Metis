@@ -85,9 +85,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties, $q, $location) 
     getFeedContestResults: function (servicePath) {
       return $http.get(servicePath);
     },
-    getFeedBallotLineResults: function (servicePath) {
-      return $http.get(servicePath);
-    },
 
     // Feed source page
     // ========================================================
@@ -255,12 +252,6 @@ vipApp.factory('$feedsService', function ($http, $appProperties, $q, $location) 
     // Feed Contest Result page
     // ========================================================
     getFeedContestResult: function (servicePath) {
-      return $http.get(servicePath);
-    },
-
-    // Feed Ballot Line Result page
-    // ========================================================
-    getFeedBallotLineResult: function (servicePath) {
       return $http.get(servicePath);
     }
   };

@@ -82,16 +82,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedContestCtrl'
     });
 
-    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresults.html',
-      controller: 'FeedBallotLineResultsCtrl'
-    });
-
-    $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-ballotlineresult.html',
-      controller: 'FeedBallotLineResultCtrl'
-    });
-
     $routeProvider.when('/feeds/:vipfeed/election/contests/:contest/contestresult', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-contestresult.html',
       controller: 'FeedContestResultCtrl'
@@ -204,7 +194,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       .when('/feeds/:vipfeed/election/state/localities/:locality/precincts/:precinct/precinctsplits/:precinctsplit/streetsegments/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/contestresult/errors', error)
-      .when('/feeds/:vipfeed/election/contests/:contest/ballotlineresults/:ballotlineresult/errors', error)
       .when('/feeds/:vipfeed/election/contests/:contest/ballot/candidates/:candidate/errors', error)
       .when('/feeds/:vipfeed/election/contest/:contest/ballot/referenda/:referendum/errors', error)
       .when('/feeds/:vipfeed/election/state/errors', error)
@@ -625,10 +614,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
       if(name === "contestresults"){
         name = "contest results";
-      }
-
-      if(name === "ballotlineresults"){
-        name = "ballot line results";
       }
 
       if(name === "errorindex"){
