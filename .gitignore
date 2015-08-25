@@ -23,3 +23,5 @@ feeds
 
 public/assets/js/lib/*
 !/public/assets/js/lib/leaflet
+
+metis@.service

@@ -1,3 +1,14 @@
 .git
 node_modules
 *.log
+
+script
+
+pids
+logs
+results
+feeds
+upload
+
+node_modules
+feeds
