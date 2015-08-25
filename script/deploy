@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -eo pipefail
+
+SERVICE=metis
+
+if hash buildkite-agent 2>/dev/null ; then
+  echo '--- retrieving service file'
+  buildkite-agent artifact download ${SERVICE}@.service .
+fi
+
+if [[ ! -e ${SERVICE}@.service ]]; then
+  echo "${SERVICE}@.service file is missing. Run script/build to create it."
+  exit 1
+fi
+
+if [[ ! -e $PEM_FILE ]]; then
+  echo "Please provide a .pem file for the fleet"
+  exit 1
+fi
+
+eval "$(ssh-agent -s)"
+ssh-add $PEM_FILE
+
+fleetctl --strict-host-key-checking=false destroy ${SERVICE}@.service
+fleetctl --strict-host-key-checking=false submit ${SERVICE}@.service
+
+echo '--- (re-)starting fleet service instances'
+for i in {1..3}; do
+  fleetctl --strict-host-key-checking=false destroy ${SERVICE}@$i
+  fleetctl --strict-host-key-checking=false start ${SERVICE}@$i
+  # TODO: Use consul to see if ${SERVICE}@$i is healthy yet before moving on
+done
