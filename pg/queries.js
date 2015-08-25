@@ -501,6 +501,10 @@ module.exports = {
                                 INNER JOIN validations v ON v.results_id = ps.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
                                 INNER JOIN results r ON r.id = ps.results_id \
                                 WHERE r.public_id=$1 AND ps.id=$2;",
+  earlyVoteSites: "SELECT evs.* \
+                  FROM early_vote_sites evs \
+                  INNER JOIN results r ON r.id = evs.results_id \
+                  WHERE r.public_id = $1",
   earlyVoteSite: "SELECT evs.*, \
                          (SELECT COUNT(v.*) \
                           FROM validations v \
@@ -546,6 +550,8 @@ module.exports = {
                                        "v.scope = 'ballots' AND c.id = $2"),
   contestErrors: buildErrorQuery("INNER JOIN contests c ON v.identifier = c.id AND c.results_id = v.results_id",
                                  "v.scope = 'contests' AND c.id = $2"),
+  earlyVoteSiteErrors: buildErrorQuery("INNER JOIN early_vote_sites evs ON v.identifier = evs.id AND evs.results_id = v.results_id",
+                                       "v.scope = 'early-vote-sites' AND evs.id = $2"),
   localityEarlyVoteSitesErrors: buildErrorQuery("INNER JOIN localities l ON l.results_id = v.results_id \
                                                  INNER JOIN locality_early_vote_sites levs ON levs.locality_id = l.id AND levs.results_id = v.results_id \
                                                  INNER JOIN early_vote_sites evs ON evs.id = levs.early_vote_site_id AND evs.results_id = v.results_id",

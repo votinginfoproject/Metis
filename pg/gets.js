@@ -99,6 +99,7 @@ module.exports = {
   getFeedElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.electoralDistrictPrecinctSplits, util.paramExtractor(['electoraldistrictid'])),
 
   getFeedContests: util.simpleQueryResponder(queries.contests, util.paramExtractor()),
+  getFeedEarlyVoteSites: util.simpleQueryResponder(queries.earlyVoteSites, util.paramExtractor()),
   getFeedEarlyVoteSite: util.simpleQueryResponder(queries.earlyVoteSite, util.paramExtractor(['earlyvotesiteid'])),
   getFeedElectionAdministrations: util.simpleQueryResponder(queries.electionAdministrations, util.paramExtractor()),
   getFeedElection: util.simpleQueryResponder(queries.election, util.paramExtractor()),
