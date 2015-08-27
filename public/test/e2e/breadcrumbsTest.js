@@ -342,37 +342,6 @@ describe('Breadcrumbs Test', function () {
   });
 
   /* ----------------------------------------
-   Feed Ballot Line Result page breadcrumb
-   ------------------------------------------*/
-  describe('Check Feed Ballot Line Result page breadcrumb', function() {
-    it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballotlineresults/91008");
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot Line Results");
-      expect(element('#pageHeader-breadcrumb5 a').html()).toBe("91008");
-    });
-  });
-
-  /* ----------------------------------------
-   Feed Ballot Line Results page breadcrumb
-   ------------------------------------------*/
-  describe('Check Feed Ballot Line Results page breadcrumb', function() {
-    it('Should have the correct breadcrumbs', function () {
-      browser().navigateTo(testGlobals.appRootUrl + "/#/feeds/2014-04-10-Federal-Ohio-1/election/contests/60001/ballotlineresults");
-
-      expect(element('#pageHeader-breadcrumb0 a').html()).toBe("2014-04-10 Federal Ohio");
-      expect(element('#pageHeader-breadcrumb1 a').html()).toBe("Election");
-      expect(element('#pageHeader-breadcrumb2 a').html()).toBe("Contests");
-      expect(element('#pageHeader-breadcrumb3 a').html()).toBe("60001");
-      expect(element('#pageHeader-breadcrumb4 a').html()).toBe("Ballot Line Results");
-    });
-  });
-
-  /* ----------------------------------------
    Feed Precinct Split page breadcrumb
    ------------------------------------------*/
   describe('Check Feed Precinct Split page breadcrumb', function () {

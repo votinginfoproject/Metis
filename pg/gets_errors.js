@@ -10,7 +10,11 @@ module.exports = {
 
   getFeedCandidateErrors: errorResponder(queries.candidateErrors, ['candidateid']),
   getFeedContestBallotErrors: errorResponder(queries.contestBallotErrors, ['contestid']),
+  getFeedContestCandidatesErrors: errorResponder(queries.contestCandidatesErrors, ['contestid']),
+  getFeedContestElectoralDistrictErrors: errorResponder(queries.contestElectoralDistrictErrors, ['contestid']),
+  getFeedContestReferendaErrors: errorResponder(queries.contestReferendaErrors, ['contestid']),
   getFeedContestErrors: errorResponder(queries.contestErrors, ['contestid']),
+  getFeedEarlyVoteSiteErrors: errorResponder(queries.earlyVoteSiteErrors, ['earlyvotesiteid']),
   getFeedLocalityEarlyVoteSitesErrors: errorResponder(queries.localityEarlyVoteSitesErrors, ['localityid']),
   getFeedLocalityElectionAdministrationsErrors: errorResponder(queries.localityElectionAdministrationsErrors, ['localityid']),
   getFeedLocalityPollingLocationsErrors: errorResponder(queries.localityPollingLocationsErrors, ['localityid']),
