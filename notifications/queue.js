@@ -2,13 +2,10 @@ var logger = (require('../logging/vip-winston')).Logger;
 var ampq = require('amqplib/callback_api');
 var config = require('../config');
 var edn = require("jsedn");
+var sender = require('./sender.js');
 
 var connection = null;
 var attempt = 0;
-
-// on consume callback
-// on message receive callback
-// on channel open callback (to assert queue)
 
 var logAndThrowPossibleError = function(err) {
   if (err !== null) {
@@ -19,6 +16,8 @@ var logAndThrowPossibleError = function(err) {
 
 var processMessage = function(message) {
   logger.info("Received: " + JSON.stringify(edn.toJS(edn.parse(message.content.toString()))));
+  var messageContent = sender.messageOptions.processedFeed('wreid@democracy.works', message);
+  sender.sendMessage(messageContent);
 }
 
 var onChannelOpen = function(err, ch) {
