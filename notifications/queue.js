@@ -15,9 +15,9 @@ var logAndThrowPossibleError = function(err) {
 }
 
 var processMessage = function(message) {
-  var rabbitMessage = JSON.stringify(edn.toJS(edn.parse(message.content.toString())));
-  logger.info("Received: " + rabbitMessage);
-  sender.sendNotifications(JSON.parse(rabbitMessage);
+  var rabbitMessage = edn.toJS(edn.parse(message.content.toString()));
+  logger.info("Received: " + JSON.stringify(rabbitMessage));
+  sender.sendNotifications(rabbitMessage);
 }
 
 var onChannelOpen = function(err, ch) {
