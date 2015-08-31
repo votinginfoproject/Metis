@@ -15,9 +15,9 @@ var logAndThrowPossibleError = function(err) {
 }
 
 var processMessage = function(message) {
-  logger.info("Received: " + JSON.stringify(edn.toJS(edn.parse(message.content.toString()))));
-  var messageContent = sender.messageOptions.processedFeed('wreid@democracy.works', message);
-  sender.sendMessage(messageContent);
+  var rabbitMessage = JSON.stringify(edn.toJS(edn.parse(message.content.toString())));
+  logger.info("Received: " + rabbitMessage);
+  sender.sendNotifications(JSON.parse(rabbitMessage);
 }
 
 var onChannelOpen = function(err, ch) {
