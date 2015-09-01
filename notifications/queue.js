@@ -34,7 +34,8 @@ var onChannelOpen = function(err, ch) {
     var queue = ok.queue;
     ch.bindQueue(queue, ex, processingComplete, {}, logAndThrowPossibleError);
 
-    ch.consume(queue, processMessage, {}, logAndThrowPossibleError);
+    // TODO: Remove `noAck: true` option and only ack messages successfully handled
+    ch.consume(queue, processMessage, {noAck: true}, logAndThrowPossibleError);
   });
 };
 
