@@ -11,6 +11,7 @@ var passport = require('passport');
 var stormpath = require('passport-stormpath');
 var auth = require('./authentication/strategy');
 var fs = require('fs');
+var queue = require('./notifications/queue');
 
 var authServices = require('./authentication/api');
 var pgServices = require('./pg/services');
@@ -20,6 +21,8 @@ if (fs.existsSync('./newrelic.js')) {
 }
 
 var app = express();
+
+queue.connect();
 
 logger.info('=========================================================');
 logger.info('VIP App Started');
