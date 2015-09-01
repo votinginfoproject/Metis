@@ -37,7 +37,7 @@ var messageOptions = {
 
 var sendMessage = function(messageContent) {
   transporter.sendMail(messageContent, function(error, info) {
-    logger.info('Sending error: ' + error) if error;
+     if (error) logger.info('Sending error: ' + error);
   });
 };
 
