@@ -211,15 +211,15 @@ module.exports = {
                                           WHERE v.scope='candidates' AND v.identifier = can.id AND v.results_id = can.results_id) \
                                           AS error_count \
                            FROM contests con \
-                           LEFT JOIN ballot_candidates bc ON bc.ballot_id = con.ballot_id AND bc.results_id = con.results_id \
-                           LEFT JOIN candidates can ON can.id = bc.candidate_id AND bc.results_id = can.results_id \
-                           LEFT JOIN results r ON r.id=con.results_id \
+                           INNER JOIN ballot_candidates bc ON bc.ballot_id = con.ballot_id AND bc.results_id = con.results_id \
+                           INNER JOIN candidates can ON can.id = bc.candidate_id AND bc.results_id = can.results_id \
+                           INNER JOIN results r ON r.id=con.results_id \
                            WHERE r.public_id=$1 AND con.id=$2 AND can.id=$3;",
   contestBallotCandidates: "SELECT can.* \
                            FROM contests con \
-                           LEFT JOIN ballot_candidates bc ON bc.ballot_id = con.ballot_id AND bc.results_id = con.results_id \
-                           LEFT JOIN candidates can ON can.id = bc.candidate_id AND bc.results_id = can.results_id \
-                           LEFT JOIN results r ON r.id=con.results_id \
+                           INNER JOIN ballot_candidates bc ON bc.ballot_id = con.ballot_id AND bc.results_id = con.results_id \
+                           INNER JOIN candidates can ON can.id = bc.candidate_id AND bc.results_id = can.results_id \
+                           INNER JOIN results r ON r.id=con.results_id \
                            WHERE r.public_id=$1 AND con.id=$2;",
   contestOverviewBallot: "SELECT (CASE COUNT(b.*) \
                                   WHEN 0 THEN 100 \
@@ -592,5 +592,8 @@ module.exports = {
                                             "v.scope = 'electoral-districts' AND ed.id = $2"),
   precinctSplitsErrors: buildErrorQuery("INNER JOIN precinct_splits ps ON ps.results_id = v.results_id",
                                         "v.scope = 'precinct-splits' AND ps.id = $2"),
+  precinctStreetSegmentsErrors: buildErrorQuery("INNER JOIN precincts p ON p.results_id = v.results_id \
+                                                 INNER JOIN street_segments ss ON ss.results_id = v.results_id AND ss.precinct_id = p.id",
+                                                "v.scope = 'street-segments' AND p.id = $2"),
   errors: buildErrorQuery("", "")
 }
