@@ -168,7 +168,7 @@ var errorDescriptions = { 'absentee_ballot_info': 'Url must conform to the forma
 
                           'bad-filenames': 'CSV files must be comma-delimited .txt files and be correctly named',
                           'duplicate-ids': 'No duplicated IDs throughout fileset',
-                          'duplicate-rows': 'No duplicate records within file',
+                          'duplicate-rows': 'There should be no duplicate records within the file',
                           'extraneous-headers': 'Extra headers included in a .txt file',
                           'incomplete-mailing-address': 'Election administration addresses must be complete',
                           'incomplete-physical-address': 'Election administration addresses must be complete',
