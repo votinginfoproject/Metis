@@ -28,7 +28,7 @@ var onChannelOpen = function(err, ch) {
   var processingComplete = config.notifications.topics.processingComplete;
 
   ch.assertExchange(ex, "topic", exOptions);
-  ch.assertQueue('metisProcessingCompleteEmail', {}, function(err, ok) {
+  ch.assertQueue('dashboard.notifications.feed_processed', {}, function(err, ok) {
     logAndThrowPossibleError(err);
 
     var queue = ok.queue;
