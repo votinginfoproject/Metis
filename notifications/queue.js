@@ -28,13 +28,14 @@ var onChannelOpen = function(err, ch) {
   var processingComplete = config.notifications.topics.processingComplete;
 
   ch.assertExchange(ex, "topic", exOptions);
-  ch.assertQueue('', {exclusive: true}, function(err, ok) {
+  ch.assertQueue('dashboard.notifications.feed_processed', {}, function(err, ok) {
     logAndThrowPossibleError(err);
 
     var queue = ok.queue;
     ch.bindQueue(queue, ex, processingComplete, {}, logAndThrowPossibleError);
 
-    ch.consume(queue, processMessage, {}, logAndThrowPossibleError);
+    // TODO: Remove `noAck: true` option and only ack messages successfully handled
+    ch.consume(queue, processMessage, {noAck: true}, logAndThrowPossibleError);
   });
 };
 
