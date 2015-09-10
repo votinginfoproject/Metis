@@ -18,8 +18,8 @@
     <dt class="key">Photo Url:</dt> <dd id="candidate-photourl" class="value">{{feedCandidate.photo_url}}</dd>
     <dt class="key">Filed Mailing Address:</dt>
     <dd id="physical_address" class="value">
-    {{feedCandidate.filed_mailing_address_line1}}<span ng-if="feedCandidate.filed_mailing_address_line1">,</span>
-    {{feedCandidate.filed_mailing_address_city}}<span ng-if="feedCandidate.filed_mailing_address_city">,</span>
+    {{feedCandidate.filed_mailing_address_line1 | addComma}}
+    {{feedCandidate.filed_mailing_address_city | addComma}}
     {{feedCandidate.filed_mailing_address_state}} {{feedCandidate.filed_mailing_address_zip}}</dd>
 
     <dt class="key">Email:</dt> <dd id="candidate-email" class="value">{{feedCandidate.email}}</dd>

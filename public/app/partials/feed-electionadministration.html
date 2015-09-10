@@ -10,13 +10,13 @@
     <dd id="name" class="value">{{feedElectionAdministration.name || feedElectionAdministration.physical_address_location_name}}</dd>
     <dt class="key">Physical Address:</dt>
     <dd id="physical_address" class="value">
-      {{feedElectionAdministration.physical_address_line1}},
-      {{feedElectionAdministration.physical_address_city}},
+      {{feedElectionAdministration.physical_address_line1 | addComma}}
+      {{feedElectionAdministration.physical_address_city | addComma}}
       {{feedElectionAdministration.physical_address_state}} {{feedElectionAdministration.physical_address_zip}}</dd>
     <dt class="key">Mailing Address:</dt>
     <dd id="mailing_address" class="value">
-      {{feedElectionAdministration.mailing_address_line1}},
-      {{feedElectionAdministration.mailing_address_city}},
+      {{feedElectionAdministration.mailing_address_line1 | addComma}}
+      {{feedElectionAdministration.mailing_address_city | addComma}}
       {{feedElectionAdministration.mailing_address_state}} {{feedElectionAdministration.mailing_address_zip}}</dd>
     </dd>
     <dt class="key">Elections URL:</dt>

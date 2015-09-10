@@ -234,4 +234,9 @@ angular.module('vipFilters', []).
       var complete = overview.info.count - errors;
       return Math.round(complete / overview.info.count * 100);
     }
+  }).
+  filter('addComma', function() {
+    return function(text) {
+      return (text === null || text === "") ? '' : text + ', ';
+    }
   });
