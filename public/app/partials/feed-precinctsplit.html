@@ -42,7 +42,7 @@
     <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
       <td id="pollingLocation-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="{{$location.absUrl()}}/pollinglocations/{{pollingLocation.id}}" data-title-text="ID"><span class="td-text">{{pollingLocation.id}}</span></a></td>
       <td id="pollingLocation-name{{$index}}" data-title="'Name'" sortable="'address_location_name'"><a href="{{$location.absUrl()}}/pollinglocations/{{pollingLocation.id}}" data-title-text="Name"><span class="td-text">{{pollingLocation.address_location_name}}</span></a></td>
-      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address_city'"><a href="{{$location.absUrl()}}/pollinglocations/{{pollingLocation.id}}" data-title-text="Address"><span class="td-text">{{pollingLocation.address_city}}, {{pollingLocation.address_state}} {{pollingLocation.address_zip}}</span></a></td>
+      <td id="pollingLocation-address{{$index}}" data-title="'Address'" sortable="'address_city'"><a href="{{$location.absUrl()}}/pollinglocations/{{pollingLocation.id}}" data-title-text="Address"><span class="td-text">{{pollingLocation.address_city | addComma}} {{pollingLocation.address_state}} {{pollingLocation.address_zip}}</span></a></td>
     </tr>
   </table>
 </section>

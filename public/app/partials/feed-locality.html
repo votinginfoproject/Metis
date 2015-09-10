@@ -49,7 +49,7 @@
     <tr id="earlyVoteSite{{$index}}" ng-repeat="earlyVoteSite in $data">
       <td id="earlyVoteSite-id{{$index}}" data-title="'ID'" sortable="'id'"><a href="#/feeds/{{vipfeed}}/election/state/earlyvotesites/{{earlyVoteSite.id}}" data-title-text="ID"><span class="td-text">{{earlyVoteSite.id}}</span></a></td>
       <td id="earlyVoteSite-name{{$index}}" data-title="'Name'" sortable="'name'"><a href="#/feeds/{{vipfeed}}/election/state/earlyvotesites/{{earlyVoteSite.id}}" data-title-text="Name"><span class="td-text">{{earlyVoteSite.name}}</span></a></td>
-      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address_city'"><a href="#/feeds/{{vipfeed}}/election/state/earlyvotesites/{{earlyVoteSite.id}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address_city}}, {{earlyVoteSite.address_state}} {{earlyVoteSite.address_zip}}</span></a></td>
+      <td id="earlyVoteSite-address{{$index}}" data-title="'Address'" sortable="'address_city'"><a href="#/feeds/{{vipfeed}}/election/state/earlyvotesites/{{earlyVoteSite.id}}" data-title-text="Address"><span class="td-text">{{earlyVoteSite.address_city | addComma}} {{earlyVoteSite.address_state}} {{earlyVoteSite.address_zip}}</span></a></td>
     </tr>
   </table>
 
@@ -79,7 +79,7 @@
     <tr>
       <td id="locality-administration-id" class="id"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="ID"><span class="td-text">{{feedElectionAdministration.id}}</span></a></td>
       <td id="locality-administration-name" class="name"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="name"><span class="td-text">{{feedElectionAdministration.name}}</span></a></td>
-      <td id="locality-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="address"><span class="td-text">{{feedElectionAdministration.physical_address_city}}, {{feedElectionAdministration.physical_address_state}} {{feedElectionAdministration.physical_address_zip}}</span></a></td>
+      <td id="locality-administration-address" class="address"><a href="{{$location.absUrl()}}/electionadministration" data-title-text="address"><span class="td-text">{{feedElectionAdministration.physical_address_city | addComma}} {{feedElectionAdministration.physical_address_state}} {{feedElectionAdministration.physical_address_zip}}</span></a></td>
     </tr>
     </tbody>
   </table>

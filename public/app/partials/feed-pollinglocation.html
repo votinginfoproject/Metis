@@ -8,8 +8,8 @@
     <dd id="name" class="value">{{feedPollingLocation.address_location_name}}</dd>
     <dt class="key">Address:</dt>
     <dd id="address" class="value">
-      {{feedPollingLocation.address_line1}},
-      {{feedPollingLocation.address_city}},
+      {{feedPollingLocation.address_line1 | addComma}}
+      {{feedPollingLocation.address_city | addComma}}
       {{feedPollingLocation.address_state}} {{feedPollingLocation.address_zip}}</dd>
     </dd>
     <dt class="key">Directions:</dt>
