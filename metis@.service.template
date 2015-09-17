@@ -22,6 +22,7 @@ ExecStartPre=/usr/bin/docker pull ${DOCKER_IMAGE}
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
   --link rabbitmq:rabbitmq \
+  --env NODE_ENV="production" \
   --env DB_PORT_5432_TCP_ADDR=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/hostname?raw) \
   --env DB_PORT_5432_TCP_PORT=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/port?raw) \
   --env DB_ENV_POSTGRES_USER=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/username?raw) \
