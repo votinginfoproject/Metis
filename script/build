@@ -29,6 +29,14 @@ cp ${SERVICE}@.service.template ${SERVICE}@.service
 
 perl -p -i -e "s|^Environment=DOCKER_IMAGE=.*$|Environment=DOCKER_IMAGE=${DOCKER_IMAGE}|" ${SERVICE}@.service
 
+echo '--- creating new relic config file'
+if [ -n "$NEWRELIC_KEY_FRONT_END" ]; then
+  cp newrelic.js.sample newrelic.js
+  perl -p -i -e "s/license_key : 'license key goes here',/license_key : '${NEWRELIC_KEY_FRONT_END}',/" newrelic.js
+else
+  echo '--- error: env variable NEWRELIC_KEY_FRONT_END is not set'
+fi
+
 if [[ $CI = "true" && $BUILDKITE_BRANCH = "master" ]]; then
   echo '--- saving service file'
   buildkite-agent artifact upload ${SERVICE}@.service

@@ -8,11 +8,11 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name : ['Metis'],
+  app_name : ['Data Dashboard - Front-End'],
   /**
    * Your New Relic license key.
    */
-  license_key : 'license key goes here',
+  license_key : process.env.NEW_RELIC_BROWSER_LICENSE_KEY,
   logging : {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing

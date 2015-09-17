@@ -35,6 +35,7 @@ ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
   --env STORMPATH_API_KEY_SECRET=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/api-key-secret?raw) \
   --env STORMPATH_APP_HREF=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/app-href?raw) \
   --env STORMPATH_ACCOUNT_STORE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/account-store?raw) \
+  --env NEW_RELIC_BROWSER_LICENSE_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/browser-key?raw) \
   -p 4000:4000 \
   ${DOCKER_IMAGE}'
 
