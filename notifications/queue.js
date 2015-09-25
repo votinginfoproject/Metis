@@ -55,7 +55,7 @@ var url = 'amqp:' + config.notifications.host + ":" + config.notifications.port;
 var connect = function() {
   attempt += 1;
   if (attempt > 5) {
-    logger.log("failure", "Failed to connect to RabbitMQ!");
+    logger.log("alert", "Failed to connect to RabbitMQ!");
     return;
   }
   logger.info("Attempt " + attempt + " to connect to: " + url);
