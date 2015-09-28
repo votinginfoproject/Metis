@@ -139,11 +139,11 @@
           </ul>
         </nav>
 
-        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0">
+        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0" ng-cloak>
           ERROR: {{pageHeader.error}}
         </div>
 
-      <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0">
+      <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0" ng-cloak>
         NOTE: {{pageHeader.alert}}
       </div>
 
