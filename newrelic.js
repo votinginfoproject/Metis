@@ -21,6 +21,6 @@ exports.config = {
      * production applications.
      */
     level : 'info',
-    filepath : require('path').join(process.cwd(), 'logs', 'newrelic_agent.log')
+    filepath : require('path').join(process.cwd(), 'newrelic_agent.log')
   }
 };
