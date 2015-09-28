@@ -1,26 +1,21 @@
 /**
  * Created by bantonides on 11/21/13.
  */
+var os = require("os");
+
 var config = {};
 
 // Log path is relative (should not start with a slash '/', but requires the end slash '/')
 // Log folder will be created if it doesn't exist.
 // Log level defaults to 'debug' in development, and 'info' in production
 config.log = {
-  logpath: 'logs/',
-  logname: 'vip.log',
-  lognameErrors: 'vip-errors.log',
-  lognameExceptions: 'vip-exceptions.log',
-  lognameSeparateProfile: 'separateProfile.log',
-  logProfileEnabled: false,
   loglevel: 'info',
-  maxsizeMB: 2, // 2MB max log size
-  maxFiles:  3   // 3 log files in rotation
-  // ,papertrail: {
-  //   host: '<<INSERT YOUR PAPERTRAIL HOST URL, ie logs.papertrailapp.com',
-  //   port: <<INSERT YOUR PAPERTRAIL PORT #>>,
-  //   appname: 'metis' //how you want the source identified in papertrail
-  // }
+  syslog: {
+    host: process.env.SYSLOG_PORT_514_UDP_ADDR,
+    port: process.env.SYSLOG_PORT_514_UDP_PORT,
+    app_name: 'DataDashboard',
+    localhost: os.hostname()
+  }
 };
 
 config.web = {
