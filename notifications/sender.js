@@ -17,18 +17,18 @@ var transporter = nodemailer.createTransport(sesTransport({
 }));
 
 var messageOptions = {
-  processedFeed: function(recipient, rabbitMessage) {
+  processedFeed: function(rabbitMessage, recipient, group) {
     return {
       from: config.email.fromAddress,
-      to: recipient,
+      to: recipient.email,
       subject: 'Your Feed Has Been Processed',
-      text: messageContent.processedFeed(rabbitMessage)
+      html: messageContent.processedFeed(rabbitMessage, recipient, group)
     };
   },
-  errorDuringProcessing: function(recipient, rabbitMessage) {
+  errorDuringProcessing: function(rabbitMessage, recipient) {
     return {
       from: config.email.fromAddress,
-      to: recipient,
+      to: recipient.email,
       subject: 'Something Went Wrong with a Feed',
       text: messageContent.errorDuringProcessing(rabbitMessage)
     };
@@ -41,16 +41,17 @@ var sendMessage = function(messageContent) {
   });
 };
 
-var notifyGroup = function(rabbitMessage, group, contentFn) {
-  stormpathRESTClient.getGroups({ name: group }, function(err, groups) {
+var notifyGroup = function(rabbitMessage, vipId, contentFn) {
+  stormpathRESTClient.getGroups({ name: vipId }, function(err, groups) {
     if (err) throw err;
     groups.each(function(group) {
+      
       group.getAccounts(function(err, accounts) {
         if (err) throw err;
 
         for( i = 0; i < accounts.items.length; i++ ) {
-          var email = accounts.items[i].email;
-          var messageContent = contentFn(email, rabbitMessage);
+          var recipient = accounts.items[i];
+          var messageContent = contentFn(rabbitMessage, recipient, group);
 
           sendMessage(messageContent);
         }

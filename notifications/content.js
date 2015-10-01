@@ -1,6 +1,11 @@
 module.exports = {
-  processedFeed: function(message) {
-    return 'Great job! You processed a feed. It has a public id. It\'s: ' + message[":public-id"] + '. Wow. Real cool.';
+  processedFeed: function(message, recipient, group) {
+    return "<p>" + recipient.givenName + ",</p>" +
+           "<p>The data you provided for " + group.description + "'s election is available for you to review on the VIP Data Dashboard.</p>" +
+           "<p>Please click the link below to review your feed.</p>" +
+           "<p><a href='http://dashboard.votinginfoproject.org/#/feeds/" + message[":public-id"] + "'>Go to the Data Dashboard</a></p>" + 
+           "<p>If you have any questions, please contact <a href='mailto:vip@democracy.works'>vip@democracy.works</a>.</p>" +
+           "<p>Thank you!</p>";
   },
   errorDuringProcessing: function(message) {
     return 'It looks like a feed failed during processing. Here\'s the information we got: \
