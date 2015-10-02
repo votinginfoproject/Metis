@@ -41,7 +41,7 @@ var onChannelOpen = function(err, ch) {
 
 var onConnect = function(err, conn) {
   if (err !== null) {
-    logger.warn("Connection to RabbitMQ failed.");
+    logger.warning("Connection to RabbitMQ failed.");
     setTimeout(connect, attempt * 1000);
   } else {
     connection = conn;
