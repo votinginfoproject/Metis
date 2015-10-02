@@ -45,6 +45,11 @@ module.exports = {
                 FROM validations v \
                 INNER JOIN results r ON r.id = v.results_id \
                 WHERE r.public_id = $1",
+  unapprovable: "SELECT EXISTS \
+                        (SELECT 1 \
+                         FROM validations v \
+                         INNER JOIN results r ON r.id = v.results_id \
+                         WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal'));",
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \

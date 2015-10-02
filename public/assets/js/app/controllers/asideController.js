@@ -6,4 +6,10 @@ function AsideCtrl($scope, $rootScope, $feedDataPaths, $routeParams) {
                                key: "errorCount",
                                errorMessage: "Could not retrieve Feed Error Count."},
                              function(result) { $rootScope.errorCount = result[0].count; });
+
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/unapprovable',
+                               scope: $rootScope,
+                               key: 'feedIsApprovable',
+                               errorMessage: 'Could not determine if the feed can be approved.'},
+                             function(result) { $rootScope.feedIsApprovable = !result[0]['exists']; })
 }
