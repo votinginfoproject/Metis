@@ -6,8 +6,12 @@ var messageContent = require('./content');
 var stormpathREST = require('stormpath');
 var pg = require('pg');
 
-var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
-var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });
+if(config.auth.apiKey && config.auth.apiKeySecret) {
+  var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
+  var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });  
+} else {
+  logger.info('Stormpath credentials are not set!');
+}
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -61,6 +65,12 @@ var notifyGroup = function(rabbitMessage, group, contentFn) {
 
 module.exports = {
   sendNotifications: function(rabbitMessage) {    
+    if (!config.auth.apiKey && !config.auth.apiKeySecret) {
+      logger.warning('A message was trying to be sent but cannot be Stormpath \
+                      credentials are not set! Message: ' + 
+                      JSON.stringify(rabbitMessage));
+    }
+    
     var publicId = rabbitMessage[":public-id"];
     if (!publicId) {
       logger.error('No Public ID listed.');
