@@ -1,4 +1,4 @@
-describe('Feed Results Test', function () {
+describe('Feed Home Test', function () {
 
   describe('Log in', function () {
 
@@ -27,6 +27,16 @@ describe('Feed Results Test', function () {
       expect(element('#feed-overview-content').count()).toBe(1);
     });
 
+  });
+
+  /* ----------------------------------------
+   Feed Aside
+   ------------------------------------------*/
+  describe('Check aside', function () {
+    it('Should have a clickable approvable button since there are no critical or fatal errors', function () {
+      // should be on the aside
+      expect(element('.button-approve').count()).toBe(1);
+    });
   });
 
   /* ----------------------------------------
