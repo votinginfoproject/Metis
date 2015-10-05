@@ -1,3 +1,5 @@
+var logger = (require('../logging/vip-winston')).Logger;
+
 //for developmental testing
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -61,7 +63,8 @@ var users = [
 ];
 
 //Strategy for production
-var StormpathStrategy = require('passport-stormpath').Strategy;
+var stormpath = require('stormpath');
+var StormpathStrategy = require('passport-stormpath');
 var _ = require('underscore');
 
 //logged in user profiles
@@ -113,26 +116,41 @@ var setup = function (config, passport, isDevelopment) {
       }
     });
   } else {
-    var strategy = new StormpathStrategy(
-      {apiKeyId: config.auth.apiKey,
-       apiKeySecret: config.auth.apiKeySecret,
-       appHref: config.auth.appHref,
-       accountStore: { href: config.auth.accountStore },
-       expansions: 'groups,customData'},
-      function (userprofile, done) {
-        process.nextTick(function () {
-          var exists = _.any(profiles, function (user) {
-            return user.id == userprofile.id;
+    var spClient, spApp, strategy;
+
+    spClient = new stormpath.Client({
+      apiKey: new stormpath.ApiKey(
+          config.auth.apiKey,
+          config.auth.apiKeySecret
+      )
+    });
+
+    var initStormpath = function(attempt) {
+      spClient.getApplication(config.auth.appHref, function(err, app) {
+        if (err) {
+          if(attempt >= 5) { throw err; }
+          
+          attempt++;
+          logger.info('Retrying connection to Stormpath. Attempt ' +
+                      attempt + ' of 5.');
+          setInterval(initStormpath(attempt), 2000);
+        } else {
+          spApp = app;
+          strategy = new StormpathStrategy({
+            spApp: spApp,
+            spClient: spClient,
+            accountStore: { href: config.auth.accountStore },
+            expansions: 'groups,customData'
           });
-          if (!exists) {
-            profiles.push(userprofile);
-          }
-          return done(null, userprofile);
-        })
-      });
-    passport.use(strategy);
-    passport.serializeUser(strategy.serializeUser);
-    passport.deserializeUser(strategy.deserializeUser);
+          logger.info('Initializing Stormpath.');
+          passport.use(strategy);
+          passport.serializeUser(strategy.serializeUser);
+          passport.deserializeUser(strategy.deserializeUser);  
+        }
+      });  
+    }
+    
+    initStormpath(0);
   }
 };
 
