@@ -6,11 +6,11 @@ var messageContent = require('./content');
 var stormpathREST = require('stormpath');
 var pg = require('pg');
 
-if(config.auth.apiKey && config.auth.apiKeySecret) {
+if(config.auth.uselocalauth()) {
+  logger.info('Stormpath credentials are not set!');
+} else {
   var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
   var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });  
-} else {
-  logger.info('Stormpath credentials are not set!');
 }
 
 var transporter = nodemailer.createTransport(sesTransport({
@@ -65,7 +65,7 @@ var notifyGroup = function(rabbitMessage, group, contentFn) {
 
 module.exports = {
   sendNotifications: function(rabbitMessage) {    
-    if (!config.auth.apiKey && !config.auth.apiKeySecret) {
+    if(config.auth.uselocalauth()) {
       logger.warning('A message was trying to be sent but cannot be Stormpath \
                       credentials are not set! Message: ' + 
                       JSON.stringify(rabbitMessage));
