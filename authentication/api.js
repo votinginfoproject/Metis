@@ -79,7 +79,10 @@ userGET = function(req,res){
   res.json(
     {
       isAuthenticated: req.isAuthenticated(),
-      userName: ((req.user === undefined) ? '' : req.user.givenName + ' ' + req.user.surname)
+      givenName: ((req.user === undefined) ? '' : req.user.givenName),
+      surname: ((req.user === undefined) ? '' : req.user.surname),
+      userName: ((req.user === undefined) ? '' : req.user.givenName + ' ' + req.user.surname),
+      email: ((req.user === undefined) ? '' : req.user.email)
     }
   );
 };
