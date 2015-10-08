@@ -17,7 +17,7 @@ var logAndThrowPossibleError = function(err) {
 var processMessage = function(message) {
   var rabbitMessage = edn.toJS(edn.parse(message.content.toString()));
   logger.info("Received: " + JSON.stringify(rabbitMessage));
-  sender.sendNotifications(rabbitMessage);
+  sender.sendNotifications(rabbitMessage, 'processedFeed');
 }
 
 var onChannelOpen = function(err, ch) {

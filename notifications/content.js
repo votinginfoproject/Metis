@@ -12,5 +12,8 @@ module.exports = {
   errorDuringProcessing: function(message) {
     return 'It looks like a feed failed during processing. Here\'s the information we got: \
             \nMessage we got: ' + JSON.stringify(message);
+  },
+  approveFeed: function(message, recipient) {
+    return 'A feed has been approved!';
   }
 }
