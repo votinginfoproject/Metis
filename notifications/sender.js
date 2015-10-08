@@ -21,6 +21,14 @@ var transporter = nodemailer.createTransport(sesTransport({
 }));
 
 var messageOptions = {
+  approveFeed: function(message, recipient, group) {
+    return {
+      from: config.email.fromAddress,
+      to: recipient.email,
+      subject: "A Feed has been Approved",
+      html: messageContent.approveFeed(message, recipient, group)
+    }
+  },
   processedFeed: function(message, recipient, group) {
     return {
       from: config.email.fromAddress,
@@ -36,14 +44,6 @@ var messageOptions = {
       subject: 'Something Went Wrong with a Feed',
       text: messageContent.errorDuringProcessing(message)
     };
-  },
-  approveFeed: function(message, recipient) {
-    return {
-      from: config.email.fromAddress,
-      to: recipient.email,
-      subject: message[":public-id"] + ' Was Approved',
-      html: messageContent.approveFeed(message, recipient)
-    }
   }
 };
 
