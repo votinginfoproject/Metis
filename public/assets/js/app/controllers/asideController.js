@@ -5,7 +5,7 @@ function AsideCtrl($scope, $rootScope, $feedDataPaths, $routeParams) {
                                scope: $rootScope,
                                key: "errorCount",
                                errorMessage: "Could not retrieve Feed Error Count."},
-                             function(result) { $rootScope.errorCount = result[0].count; });
+                             function(result) { $rootScope.errorCount = result[0]; });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/unapprovable',
                                scope: $rootScope,
