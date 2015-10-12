@@ -611,17 +611,19 @@ aside {
   display: block;
   background: $red;
   color: $white;
-  font-size: 1.125em;
-  font-size: 1.125rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align: center;
   padding: $base-sm;
   margin-bottom: $base;
   border: 2px solid $white;
   border-radius: 15px;
+  text-align: center;
   width: 100%;
 
+  .important-errors {
+    font-size: 1.125em;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
   time {
     display: block;
     color: $red-dark;
