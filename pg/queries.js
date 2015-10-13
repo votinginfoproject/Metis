@@ -42,10 +42,16 @@ module.exports = {
                   WHERE substr(s.vip_id, 0, 3) = ANY ($1) \
                   ORDER BY r.start_time DESC;",
   results: "SELECT * FROM results WHERE public_id=$1",
-  errorsTotal: "SELECT COUNT(v.*)::int \
-                FROM validations v \
-                INNER JOIN results r ON r.id = v.results_id \
-                WHERE r.public_id = $1",
+  errorsTotal: "SELECT (SELECT COUNT(v.*) \
+                        FROM validations v \
+                        WHERE r.id = v.results_id AND (v.severity = 'fatal' \
+                        OR v.severity = 'critical' \
+                        OR v.severity = 'errors')) AS important_error_count, \
+                       (SELECT COUNT(v.*) \
+                        FROM validations v \
+                        WHERE r.id = v.results_id AND v.severity = 'warnings') AS warning_error_count \
+                FROM results r \
+                WHERE r.public_id = $1;",
   unapprovable: "SELECT EXISTS \
                         (SELECT 1 \
                          FROM validations v \
