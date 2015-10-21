@@ -293,7 +293,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     $rootScope.getDueDateText = function(date){
 
       if(date){
-        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
+        var dueDate = moment(date, "YYYY-MM-DD").subtract(23, 'days');
         var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
         return dueDateText;
       } else {
