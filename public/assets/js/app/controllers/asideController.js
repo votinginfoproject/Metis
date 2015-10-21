@@ -1,6 +1,12 @@
 function AsideCtrl($scope, $rootScope, $feedDataPaths, $routeParams) {
   var feedid = $routeParams.vipfeed;
 
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+                               scope: $rootScope,
+                               key: "election",
+                               errorMessage: "Could not retrieve Election."},
+                             function(result) { $rootScope.election = result[0]; });
+
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/error-total-count',
                                scope: $rootScope,
                                key: "errorCount",
