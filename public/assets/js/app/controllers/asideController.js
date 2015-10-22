@@ -2,7 +2,7 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
   var feedid = $routeParams.vipfeed;
 
   function sendEmail(election) {
-    $http.post('/notifications/approve-feed', { 
+    $http.post('/notifications/approve-feed', {
       ":public-id": feedid,
       adminEmail: true,
       election: election,
@@ -21,11 +21,17 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
                               });
   };
 
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+                               scope: $rootScope,
+                               key: "election",
+                               errorMessage: "Could not retrieve Election."},
+                             function(result) { $rootScope.election = result[0]; });
+
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/error-total-count',
                                scope: $rootScope,
                                key: "errorCount",
                                errorMessage: "Could not retrieve Feed Error Count."},
-                             function(result) { $rootScope.errorCount = result[0].count; });
+                             function(result) { $rootScope.errorCount = result[0]; });
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/unapprovable',
                                scope: $rootScope,

@@ -1,21 +1,21 @@
 var conn = require('./conn.js');
+var resp = require('./response.js');
 
 module.exports = {
   simpleQueryResponder: function(sqlQuery, paramsFn) {
     return function(req, res) {
-      var query;
-      var client = conn.openPostgres();
-      if (paramsFn) {
-        query = client.query(sqlQuery, paramsFn(req));
-      } else {
-        query = client.query(sqlQuery);
-      };
 
-      query.on("row", function (row, result) {
-        result.addRow(row);
+      var callback = function(err, result) {
+        resp.writeResponse(result.rows, res);
+      }
+
+      conn.query(function(client) {
+        if (paramsFn) {
+          client.query(sqlQuery, paramsFn(req), callback);
+        } else {
+          client.query(sqlQuery, callback);
+        };
       });
-
-      conn.closePostgres(query, client, res);
     }
   },
   paramExtractor: function(params) {

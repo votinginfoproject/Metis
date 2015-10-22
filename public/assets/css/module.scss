@@ -580,6 +580,7 @@ aside {
   cursor: pointer;
 
   @include bp(c12) {
+    display: none;
     cursor: default;
     padding-top: $base-sm;
   }
@@ -596,9 +597,6 @@ aside {
     position: absolute;
     right: 0;
     top: 0;
-    @include bp(c12) {
-      display: none;
-    }
   }
 }
 
@@ -611,17 +609,19 @@ aside {
   display: block;
   background: $red;
   color: $white;
-  font-size: 1.125em;
-  font-size: 1.125rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align: center;
   padding: $base-sm;
   margin-bottom: $base;
   border: 2px solid $white;
   border-radius: 15px;
+  text-align: center;
   width: 100%;
 
+  .important-errors {
+    font-size: 1.125em;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
   time {
     display: block;
     color: $red-dark;

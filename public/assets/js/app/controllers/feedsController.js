@@ -19,6 +19,4 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
                                 $rootScope.feeds[i]['due_on'] = date.setDate(date.getDate() - 22);
                               }
                             });
-
-  console.log($rootScope.feeds);
 }

@@ -2,6 +2,7 @@ var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
 var authorization = require('../authentication/utils.js');
+var resp = require('./response.js');
 
 var overviewTableRow = function(row, type, dbTable, link) {
   return {element_type: type,
@@ -108,54 +109,54 @@ module.exports = {
   getFeedReferendumBallotResponses: util.simpleQueryResponder(queries.referendumBallotResponses, util.paramExtractor(['referendumid'])),
   getFeedSource: util.simpleQueryResponder(queries.source, util.paramExtractor()),
   getFeedOverview: function(req, res) {
-    var client = conn.openPostgres();
     var feedid = req.params.feedid;
-    var query = client.query("SELECT s.* FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1", [decodeURIComponent(feedid)]);
-
-    query.on("row", function (row, result) {
-      var tables = {
-        pollingLocations: [
-          overviewTableRow(row, 'Early Vote Sites', 'early_vote_sites', '#/feeds/' + feedid + '/overview/earlyvotesites/errors'),
-          overviewTableRow(row, 'Election Administrations', 'election_administrations', '#/feeds/' + feedid + '/overview/electionadministrations/errors'),
-          overviewTableRow(row, 'Election Officials', 'election_officials', '#/feeds/' + feedid + '/overview/electionofficials/errors'),
-          overviewTableRow(row, 'Localities', 'localities', '#/feeds/' + feedid + '/overview/localities/errors'),
-          overviewTableRow(row, 'Polling Locations', 'polling_locations', '#/feeds/' + feedid + '/overview/pollinglocations/errors'),
-          overviewTableRow(row, 'Precinct Splits', 'precinct_splits', '#/feeds/' + feedid + '/overview/precinctsplits/errors'),
-          overviewTableRow(row, 'Precincts', 'precincts', '#/feeds/' + feedid + '/overview/precincts/errors'),
-          overviewTableRow(row, 'Street Segments', 'street_segments', '#/feeds/' + feedid + '/overview/streetsegments/errors')
-        ],
-        contests: [
-          overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
-          overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
-          overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/overview/contests/errors'),
-          overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistricts/errors'),
-          overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
-        ],
-        source: overviewTableRow(row, 'Source', 'sources', '#/feeds/' + feedid + '/source/errors'),
-        election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')
-      };
-      result.addRow(tables);
+    conn.query(function(client) {
+      client.query("SELECT s.* FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1",
+                   [decodeURIComponent(feedid)],
+                   function(err, result) {
+                     var row = result.rows[0]; // there is only one!
+                     var tables = {
+                       pollingLocations: [
+                         overviewTableRow(row, 'Early Vote Sites', 'early_vote_sites', '#/feeds/' + feedid + '/overview/earlyvotesites/errors'),
+                         overviewTableRow(row, 'Election Administrations', 'election_administrations', '#/feeds/' + feedid + '/overview/electionadministrations/errors'),
+                         overviewTableRow(row, 'Election Officials', 'election_officials', '#/feeds/' + feedid + '/overview/electionofficials/errors'),
+                         overviewTableRow(row, 'Localities', 'localities', '#/feeds/' + feedid + '/overview/localities/errors'),
+                         overviewTableRow(row, 'Polling Locations', 'polling_locations', '#/feeds/' + feedid + '/overview/pollinglocations/errors'),
+                         overviewTableRow(row, 'Precinct Splits', 'precinct_splits', '#/feeds/' + feedid + '/overview/precinctsplits/errors'),
+                         overviewTableRow(row, 'Precincts', 'precincts', '#/feeds/' + feedid + '/overview/precincts/errors'),
+                         overviewTableRow(row, 'Street Segments', 'street_segments', '#/feeds/' + feedid + '/overview/streetsegments/errors')
+                       ],
+                       contests: [
+                         overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
+                         overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
+                         overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/overview/contests/errors'),
+                         overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistricts/errors'),
+                         overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
+                       ],
+                       source: overviewTableRow(row, 'Source', 'sources', '#/feeds/' + feedid + '/source/errors'),
+                       election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')
+                     };
+                     resp.writeResponse([tables], res);
+                   });
     });
-
-    conn.closePostgres(query, client, res);
   },
   getFeedContestsOverview: function(req, res) {
-    var client = conn.openPostgres();
     var feedid = req.params.feedid;
-    var query = client.query("SELECT s.ballots_count, s.ballots_error_count, s.ballots_completion, s.candidates_count, s.candidates_error_count, s.candidates_completion, s.contests_count, s.contests_error_count, s.contests_completion, s.electoral_districts_count, s.electoral_districts_error_count, s.electoral_districts_completion, s.referendums_count, s.referendums_error_count, s.referendums_completion FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1", [decodeURIComponent(feedid)]);
-
-    query.on("row", function (row, result) {
-      var tableData = [
-        overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
-        overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
-        overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/election/contests/errors'),
-        overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistrict/errors'),
-        overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
-      ];
-      result.addRow(tableData);
+    conn.query(function(client) {
+      client.query("SELECT s.ballots_count, s.ballots_error_count, s.ballots_completion, s.candidates_count, s.candidates_error_count, s.candidates_completion, s.contests_count, s.contests_error_count, s.contests_completion, s.electoral_districts_count, s.electoral_districts_error_count, s.electoral_districts_completion, s.referendums_count, s.referendums_error_count, s.referendums_completion FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1",
+                   [decodeURIComponent(feedid)],
+                   function(err, result) {
+                     var row = result.rows[0]; // there is only one!
+                     var tableData = [
+                       overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
+                       overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
+                       overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/election/contests/errors'),
+                       overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistrict/errors'),
+                       overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
+                     ];
+                     resp.writeResponse(tableData, res);
+                   });
     });
-
-    conn.closePostgres(query, client, res);
   },
   getValidationsErrorCount: util.simpleQueryResponder("SELECT COUNT(*) AS errorcount FROM validations v INNER JOIN results r ON r.id = v.results_id WHERE r.public_id = $1", function(req) { return [decodeURIComponent(req.params.feedid)]; })
 }

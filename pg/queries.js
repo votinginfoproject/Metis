@@ -25,13 +25,14 @@ var buildErrorQuery = function(joins, wheres) {
 }
 
 module.exports = {
-  feeds: "SELECT r.public_id, date(r.start_time) AS start_time, date(r.end_time) AS end_time, \
+  feeds: "SELECT DISTINCT ON (r.id) \
+                 r.public_id, date(r.start_time) AS start_time, date(r.end_time) AS end_time, \
                  CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
                  r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
           FROM results r \
           LEFT JOIN states s ON s.results_id = r.id \
           LEFT JOIN elections e ON e.results_id = r.id \
-          ORDER BY r.start_time DESC;",
+          ORDER BY r.id DESC;",
   feedsForState: "SELECT r.public_id, date(r.start_time) AS start_time, \
                          CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
                          r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
@@ -41,10 +42,16 @@ module.exports = {
                   WHERE substr(s.vip_id, 0, 3) = ANY ($1) \
                   ORDER BY r.start_time DESC;",
   results: "SELECT * FROM results WHERE public_id=$1",
-  errorsTotal: "SELECT COUNT(v.*)::int \
-                FROM validations v \
-                INNER JOIN results r ON r.id = v.results_id \
-                WHERE r.public_id = $1",
+  errorsTotal: "SELECT (SELECT COUNT(v.*) \
+                        FROM validations v \
+                        WHERE r.id = v.results_id AND (v.severity = 'fatal' \
+                        OR v.severity = 'critical' \
+                        OR v.severity = 'errors')) AS important_error_count, \
+                       (SELECT COUNT(v.*) \
+                        FROM validations v \
+                        WHERE r.id = v.results_id AND v.severity = 'warnings') AS warning_error_count \
+                FROM results r \
+                WHERE r.public_id = $1;",
   unapprovable: "SELECT EXISTS \
                         (SELECT 1 \
                          FROM validations v \
