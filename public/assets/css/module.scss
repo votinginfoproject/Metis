@@ -580,6 +580,7 @@ aside {
   cursor: pointer;
 
   @include bp(c12) {
+    display: none;
     cursor: default;
     padding-top: $base-sm;
   }
@@ -596,9 +597,6 @@ aside {
     position: absolute;
     right: 0;
     top: 0;
-    @include bp(c12) {
-      display: none;
-    }
   }
 }
 
