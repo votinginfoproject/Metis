@@ -1,21 +1,25 @@
-# This starts with clojure-api-supervisor because it needs supervisor
-# and it is easier for us to maintain one Docker inheritance chain rather than
-# three (clojure-api, clojure-api-supervisor, and supervisor). One day Docker
-# will hopefully obviate the need for this with some shiny new INCLUDE command
-# or something similar. - WM 2014-7-29
-FROM node:0.12.2-onbuild
+FROM node:0.12.2
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install Grunt
 RUN npm install -g grunt-cli
 RUN npm install -g bower
-
-# install and compile SCSS
 RUN npm install -g node-sass
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json /usr/src/app/
+RUN npm install
+
+COPY bower.json /usr/src/app/
+COPY .bowerrc /usr/src/app/
+RUN bower --allow-root install
+
+COPY . /usr/src/app
+
 RUN node-sass public/assets/css/app.scss public/assets/css/app.css
 
-# install bower deps (TODO: move this to cached step)
-RUN cd /usr/src/app && bower --allow-root install
-
-# run the app
 EXPOSE 4000 27017 28017
+
+CMD [ "npm", "start" ]
