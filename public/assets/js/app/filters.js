@@ -263,7 +263,7 @@ angular.module('vipFilters', []).
           case 'elections':
             return 'Election type must be one of the following: "Federal", "State", "County", "City", or "Town"';
           case 'electoral-districts':
-            return 'Electoral Districts type must be one of the following: "statewide", "state senate", "state house", "fire district", "congressional district", "school district", or "county"';
+            return 'Electoral Districts type must match the following regular expression: state(wide)?|u\.?s\.? senate|u\.?s\.? (rep(resentative)?|house)|congressional|([a-tv-z][a-tv-z]|ut|state) senate|([a-tv-z][a-rt-z]|ut|state) (rep(resentative)?|house( of delegates)?)|house of delegates|house|county(wide)?|county offices|mayor|municipality|county commission(?:er)?|ward|school|school district|school member district|local school board|prosecutorial district|superior court|town(ship)?|sanitary';
           case 'localities':
             return 'Locality type must be one of the following: "county", "city", "town", "township", "borough", "parish", "village", or "region"';
           default:
