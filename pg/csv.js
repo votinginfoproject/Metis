@@ -36,25 +36,25 @@ var errorReport = function(innerJoins, where, params, scope) {
       " ORDER BY v.scope, v.identifier";
   return function(req, res) {
     var feedid = decodeURIComponent(req.params.feedid);
-    var client = conn.openPostgres();
 
-    var queryParams = ['feedid'].concat(params).map(function(param) { return decodeURIComponent(req.params[param]); });
+    conn.query(function(client) {
+      var queryParams = ['feedid'].concat(params).map(function(param) { return decodeURIComponent(req.params[param]); });
 
-    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, scope));
-    res.setHeader('Content-type', 'text/csv');
-    res.charset = 'UTF-8';
+      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, scope));
+      res.setHeader('Content-type', 'text/csv');
+      res.charset = 'UTF-8';
 
-    res.write(makeCSVRow(header));
+      res.write(makeCSVRow(header));
 
-    var query = client.query(errorQuery, queryParams);
+      var query = client.query(errorQuery, queryParams);
 
-    query.on("row", function(row, result) {
-      res.write(makeCSVRow([feedid, row.severity, row.scope, row.identifier, row.error_type, row.error_data]));
-    });
+      query.on("row", function(row, result) {
+        res.write(makeCSVRow([feedid, row.severity, row.scope, row.identifier, row.error_type, row.error_data]));
+      });
 
-    query.on("end", function(result) {
-      client.end();
-      res.end();
+      query.on("end", function(result) {
+        res.end();
+      });
     });
   }
 }
