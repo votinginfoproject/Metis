@@ -27,7 +27,7 @@
       </ul>
     </nav>
 
-    <a ng-if="feedIsApprovable" ng-click="exportFeedPost(feedData)" class="button-approve">Approve Feed</a>
+    <a ng-if="feedIsApprovable" ng-click="notifyApproveFeed()" class="button-approve">Approve Feed</a>
     <div ng-if="!feedIsApprovable" class="button-errors disabled">Feed Cannot Be Approved</div>
 
     <p align="center" class="helper">Fatal Errors must be resolved before the feed can be approved.</p>

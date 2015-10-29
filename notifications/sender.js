@@ -49,7 +49,10 @@ var messageOptions = {
 
 var sendMessage = function(messageContent) {
   transporter.sendMail(messageContent, function(error, info) {
-     if (error) logger.info('Sending error: ' + error);
+    if (error) {
+      logger.info('Sending error: ' + error);
+      logger.info('Message: ' + JSON.stringify(messageContent));
+    }
   });
 };
 
