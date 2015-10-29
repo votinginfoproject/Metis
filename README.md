@@ -46,6 +46,8 @@ For more information see the [Crowd Admin Guide](https://confluence.atlassian.co
 
 ## Running Karma Unit Tests
 
+WARNING: This is out of date and cannot be run.
+
 1. install karma
 ```
 npm install karma
@@ -62,9 +64,11 @@ Karma is configured to use chrome as the default browser.
 
 ## Running Functional Tests
 
+Be sure to run the Getting Started commands above.
+
 1. Give permissions to public/test/RunFunctional.sh
 ```
-chmod +x RunFunctional.sh
+chmod +x public/test/RunFunctional.sh
 ```
 2. Execute the script
 ```
