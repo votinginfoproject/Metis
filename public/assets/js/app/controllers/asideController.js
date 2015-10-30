@@ -12,13 +12,15 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
   }
 
   $rootScope.notifyApproveFeed = function() {
-    $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
-                                 scope: $rootScope,
-                                 key: "election",
-                                 errorMessage: "Could not send the approve feed email."},
-                               function(result) {
-                                sendEmail(result[0]);
-                              });
+    if(confirm("By approving this feed, you are releasing the data for this election for publication. Do you want to approve this feed?")) {
+      $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+                                   scope: $rootScope,
+                                   key: "election",
+                                   errorMessage: "Could not send the approve feed email."},
+                                 function(result) {
+                                   sendEmail(result[0]);
+                                 });
+    };
   };
 
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',

@@ -10,7 +10,7 @@ if(config.auth.uselocalauth()) {
   logger.info('Stormpath credentials are not set!');
 } else {
   var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
-  var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });  
+  var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });
 }
 
 var transporter = nodemailer.createTransport(sesTransport({
@@ -49,7 +49,10 @@ var messageOptions = {
 
 var sendMessage = function(messageContent) {
   transporter.sendMail(messageContent, function(error, info) {
-     if (error) logger.info('Sending error: ' + error);
+    if (error) {
+      logger.info('Sending error: ' + error);
+      logger.info('Message: ' + JSON.stringify(messageContent));
+    }
   });
 };
 
@@ -58,7 +61,7 @@ var notifyGroup = function(message, groupName, contentFn) {
   stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
     if (err) throw err;
     groups.each(function(group) {
-      
+
       group.getAccounts(function(err, accounts) {
         if (err) throw err;
 
@@ -74,13 +77,13 @@ var notifyGroup = function(message, groupName, contentFn) {
 };
 
 module.exports = {
-  sendNotifications: function(message, messageType) {    
+  sendNotifications: function(message, messageType) {
     if(config.auth.uselocalauth()) {
       logger.warning('A message was trying to be sent but cannot be Stormpath \
-                      credentials are not set! Message: ' + 
+                      credentials are not set! Message: ' +
                       JSON.stringify(message));
     }
-    
+
     var publicId = message[":public-id"];
     if (!publicId) {
       logger.error('No Public ID listed.');
@@ -88,10 +91,10 @@ module.exports = {
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
-        
+
         client.query("SELECT vip_id FROM sources s INNER JOIN results r ON r.id = s.results_id WHERE r.public_id = $1", [publicId], function(err, result) {
           done();
-          
+
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
