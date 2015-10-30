@@ -1,12 +1,20 @@
 var conn = require('./conn.js');
 var resp = require('./response.js');
+var logger = (require('../logging/vip-winston')).Logger;
 
 module.exports = {
   simpleQueryResponder: function(sqlQuery, paramsFn) {
     return function(req, res) {
 
       var callback = function(err, result) {
-        resp.writeResponse(result.rows, res);
+        if(err) {
+          logger.error(err.name + ": " + err.message);
+          res.writeHead(500, {'Content-Type': 'text/plain'});
+          res.write(err.name + ": " + err.message);
+          res.end();
+        } else {
+          resp.writeResponse(result.rows, res);
+        }
       }
 
       conn.query(function(client) {
