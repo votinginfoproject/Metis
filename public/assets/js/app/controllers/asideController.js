@@ -35,9 +35,12 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
                                errorMessage: "Could not retrieve Feed Error Count."},
                              function(result) { $rootScope.errorCount = result[0]; });
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/unapprovable',
+  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/approvable-status',
                                scope: $rootScope,
                                key: 'feedIsApprovable',
                                errorMessage: 'Could not determine if the feed can be approved.'},
-                             function(result) { $rootScope.feedIsApprovable = !result[0]['exists']; })
+                             function(result) {
+                               $rootScope.feedIsApprovable = !result[0]['not_approvable'];
+                               $rootScope.feedIsApproved   = !!result[0]['approved_result_id'];
+                             })
 }

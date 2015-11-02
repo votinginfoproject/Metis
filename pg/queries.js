@@ -52,11 +52,16 @@ module.exports = {
                         WHERE r.id = v.results_id AND v.severity = 'warnings') AS warning_error_count \
                 FROM results r \
                 WHERE r.public_id = $1;",
-  unapprovable: "SELECT EXISTS \
+  approvableStatus: "SELECT EXISTS \
                         (SELECT 1 \
                          FROM validations v \
                          INNER JOIN results r ON r.id = v.results_id \
-                         WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal'));",
+                         WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal')) AS not_approvable, \
+                        ea.approved_result_id \
+                        FROM election_approvals ea \
+                        LEFT JOIN results r \
+                               ON r.election_id = ea.election_id \
+                        WHERE r.public_id = $1;",
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \

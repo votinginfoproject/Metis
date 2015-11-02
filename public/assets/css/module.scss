@@ -718,6 +718,11 @@ aside {
     font-size: 1.25rem;
     margin-bottom: $base-sm;
   }
+
+  &.button-approve-approved {
+    background-color: $green-darker;
+    cursor: auto;
+  }
 }
 
 .vcard {
