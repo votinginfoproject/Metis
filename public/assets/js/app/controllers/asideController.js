@@ -7,10 +7,14 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
         function(result) {
           if(result.data.length === 0) {
             $rootScope.pageHeader.alert = "Feed could not be approved.";
+            $rootScope.feedIsApproved = false;
+          } else {
+            $rootScope.feedIsApproved = true;
           }
         },
         function() {
           $rootScope.pageHeader.error = "An error occurred trying to approve this feed.";
+          $rootScope.feedIsApproved = false;
         });
   }
 
