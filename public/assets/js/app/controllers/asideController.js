@@ -1,6 +1,19 @@
 function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
   var feedid = $routeParams.vipfeed;
 
+  function postApproveFeed() {
+    $http.post('/db/feeds/' + feedid + '/approve', {}).
+      then(
+        function(result) {
+          if(result.data.length === 0) {
+            $rootScope.pageHeader.alert = "Feed could not be approved.";
+          }
+        },
+        function() {
+          $rootScope.pageHeader.error = "An error occurred trying to approve this feed.";
+        });
+  }
+
   function sendEmail(election) {
     $http.post('/notifications/approve-feed', {
       ":public-id": feedid,
@@ -11,8 +24,9 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
             function() { console.log('Notification encountered a problem.') });
   }
 
-  $rootScope.notifyApproveFeed = function() {
+  $rootScope.approveFeed = function() {
     if(confirm("By approving this feed, you are releasing the data for this election for publication. Do you want to approve this feed?")) {
+      postApproveFeed();
       $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
                                    scope: $rootScope,
                                    key: "election",

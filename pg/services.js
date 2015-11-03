@@ -6,6 +6,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds', pg.getFeeds);
   app.get('/db/feeds/:feedid/error-total-count', pg.getErrorsTotal);
   app.get('/db/feeds/:feedid/approvable-status', pg.getApprovableStatus);
+  app.post('/db/feeds/:feedid/approve', pg.approveFeed);
   app.get('/db/feeds/:feedid/election', pg.getFeedElection);
   app.get('/db/feeds/:feedid/election/state', pg.getFeedState);
   app.get('/db/feeds/:feedid/election/state/election-administration', pg.getFeedStateElectionAdministration);

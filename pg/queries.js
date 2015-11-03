@@ -62,6 +62,13 @@ module.exports = {
                         LEFT JOIN results r \
                                ON r.election_id = ea.election_id \
                         WHERE r.public_id = $1;",
+  approveFeed: "UPDATE election_approvals SET approved_result_id = (SELECT id FROM results WHERE public_id = $1) \
+                WHERE election_id = (SELECT election_id FROM results WHERE public_id = $1) AND \
+                NOT EXISTS (SELECT 1 \
+                            FROM validations v \
+                            INNER JOIN results r ON r.id = v.results_id \
+                            WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal')) \
+                RETURNING approved_result_id;",
   contest: "SELECT c.*, \
                    (SELECT COUNT(v.*) \
                     FROM validations v \

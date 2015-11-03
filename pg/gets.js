@@ -26,6 +26,7 @@ module.exports = {
   getResults: util.simpleQueryResponder(queries.results, util.paramExtractor()),
   getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),
   getApprovableStatus: util.simpleQueryResponder(queries.approvableStatus, util.paramExtractor()),
+  approveFeed: util.simpleQueryResponder(queries.approveFeed, util.paramExtractor()),
 
   // Feed Contest-related queries
   getFeedContest: util.simpleQueryResponder(queries.contest, util.paramExtractor(['contestid'])),

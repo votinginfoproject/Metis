@@ -27,7 +27,7 @@
       </ul>
     </nav>
 
-    <a ng-if="feedIsApprovable && !feedIsApproved" ng-click="notifyApproveFeed()" class="button-approve">Approve Feed</a>
+    <a ng-if="feedIsApprovable && !feedIsApproved" ng-click="approveFeed()" class="button-approve">Approve Feed</a>
     <div ng-if="feedIsApproved" class="button-approve button-approve-approved">Approved</div>
     <div ng-if="!feedIsApprovable" class="button-errors disabled">Feed Cannot Be Approved</div>
 
