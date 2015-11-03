@@ -5,7 +5,8 @@ var csv = require('./csv.js');
 function registerPostgresServices (app) {
   app.get('/db/feeds', pg.getFeeds);
   app.get('/db/feeds/:feedid/error-total-count', pg.getErrorsTotal);
-  app.get('/db/feeds/:feedid/unapprovable', pg.getUnapprovable);
+  app.get('/db/feeds/:feedid/approvable-status', pg.getApprovableStatus);
+  app.post('/db/feeds/:feedid/approve', pg.approveFeed);
   app.get('/db/feeds/:feedid/election', pg.getFeedElection);
   app.get('/db/feeds/:feedid/election/state', pg.getFeedState);
   app.get('/db/feeds/:feedid/election/state/election-administration', pg.getFeedStateElectionAdministration);
@@ -17,12 +18,12 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/validations/errorCount', pg.getValidationsErrorCount);
   app.get('/db/feeds/:feedid/earlyvotesites', pg.getFeedEarlyVoteSites);
   app.get('/db/feeds/:feedid/earlyvotesites/:earlyvotesiteid', pg.getFeedEarlyVoteSite);
-  
+
   // Polling Location-related routes
   app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid', pg.getFeedPollingLocation);
   app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precincts', pg.getFeedPollingLocationPrecincts);
   app.get('/db/feeds/:feedid/polling-locations/:pollinglocationid/precinct-splits', pg.getFeedPollingLocationPrecinctSplits);
-  
+
   // Contest-related routes
   app.get('/db/feeds/:feedid/contests', pg.getFeedContests);
   app.get('/db/feeds/:feedid/contests/:contestid', pg.getFeedContest);
@@ -61,7 +62,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/precinct-splits/errors', pg.getFeedLocalityOverviewPrecinctSplitsErrors);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/street-segments', pg.getFeedLocalityOverviewStreetSegments);
   app.get('/db/feeds/:feedid/election/state/localities/:localityid/overview/counts/street-segments/errors', pg.getFeedLocalityOverviewStreetSegmentsErrors);
-  
+
   // Precinct-related routes
   app.get('/db/feeds/:feedid/precinct/:precinctid', pg.getFeedPrecinct);
   app.get('/db/feeds/:feedid/precinct/:precinctid/early-vote-sites', pg.getFeedPrecinctEarlyVoteSites);
@@ -69,7 +70,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/precinct/:precinctid/polling-locations', pg.getFeedPrecinctPollingLocations);
   app.get('/db/feeds/:feedid/precinct/:precinctid/precinct-splits', pg.getFeedPrecinctPrecinctSplits);
   app.get('/db/feeds/:feedid/precinct/:precinctid/street-segments', pg.getFeedPrecinctStreetSegments);
-  
+
   // Precinct Split-related routes
   app.get('/db/feeds/:feedid/precinct-split/:precinctsplitid', pg.getFeedPrecinctSplit);
   app.get('/db/feeds/:feedid/precinct-split/:precinctsplitid/electoral-districts', pg.getFeedPrecinctSplitElectoralDistricts);
