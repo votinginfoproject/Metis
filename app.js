@@ -36,6 +36,10 @@ var redirectHttps = function(req, res, next) {
   }
 };
 
+// FileSession
+var FileStore = require('session-file-store')(express.session);
+var sessionFileStore = new FileStore(config.session);
+
 // all environments
 app.use(express.favicon(config.web.favicon));
 app.use(express.logger(config.web.loglevel));
@@ -43,7 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({ secret: config.web.sessionsecret }));
+app.use(express.session({ store: sessionFileStore, secret: config.web.sessionsecret }));
 app.use(passport.initialize());
 app.use(passport.session());
 

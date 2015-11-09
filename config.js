@@ -28,6 +28,11 @@ config.web = {
   SSLCert: '/vipdata/certs/*_votinginfoproject_org_chained.crt'
 };
 
+config.session = {
+  ttl: 3600,
+  reapInterval: 3600
+}
+
 config.auth = {
   uselocalauth: function() {
     return !config.auth.apiKey ||
