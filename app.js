@@ -14,6 +14,7 @@ var fs = require('fs');
 var queue = require('./notifications/queue');
 
 var authServices = require('./authentication/api');
+var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
 
 if (fs.existsSync('./newrelic.js')) {
@@ -72,6 +73,7 @@ auth.authSetup(config, passport, config.auth.uselocalauth());
 
 //register REST services
 authServices.registerAuthServices(config, app, passport);
+notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
 
 http.createServer(app).listen(config.web.port, function () {
