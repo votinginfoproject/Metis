@@ -58,7 +58,7 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
                                key: 'feedIsApprovable',
                                errorMessage: 'Could not determine if the feed can be approved.'},
                              function(result) {
-                               $rootScope.feedIsApprovable = !result[0]['not_approvable'];
-                               $rootScope.feedIsApproved   = !!result[0]['approved_result_id'];
+                               $rootScope.feedIsApprovable = !!result[0] && !result[0]['not_approvable'];
+                               $rootScope.feedIsApproved   = !!result[0] && !!result[0]['approved_result_id'];
                              })
 }
