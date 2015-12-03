@@ -41,7 +41,7 @@
     </td>
     <td data-title="'Loaded On'" sortable="'date_loaded'">
       <a ng-class="{'disabled-row': !feed.complete && !feed.end_time, 'disabled-row-failed': !feed.complete && feed.end_time}" href="#/feeds/{{feed.public_id}}" data-title-text="Loaded On"><span class="td-text">
-      {{feed.start_time.slice(0,10) | date:'longDate'}}
+      {{feed.start_time | date:'longDate'}} at {{feed.start_time | date:'shortTime'}}
       <span ng-if="!feed.start_time">&nbsp;</span>
       </span></a>
     </td>
