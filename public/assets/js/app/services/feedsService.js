@@ -4,6 +4,14 @@
  *
  * Returning promises, allowing the Controller to handle success and error responses appropriately
  *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * WARNING: This file is almost completely useless. Very few actual
+ * calls are made to functions here, most of which could be replaced
+ * with a simple $http.get. Additionally, getFeedData is broken, due
+ * to its reliance on $appProperties.servicesPath which is itself
+ * wrong. The pages that use getFeedData don't work, of which there
+ * are few, none of which acutal users seem to be hitting.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
 vipApp.factory('$feedsService', function ($http, $appProperties, $q, $location) {
 
