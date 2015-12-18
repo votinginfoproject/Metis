@@ -92,7 +92,8 @@ module.exports = {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
 
-        client.query("SELECT vip_id FROM sources s INNER JOIN results r ON r.id = s.results_id WHERE r.public_id = $1", [publicId], function(err, result) {
+        // TODO: Get the vip_id from either v3_0_sources or v5_0_sources tables, whichever matchces the result
+        client.query("SELECT vip_id FROM v3_0_sources s INNER JOIN results r ON r.id = s.results_id WHERE r.public_id = $1", [publicId], function(err, result) {
           done();
 
           if (err || result.rows.length == 0) {
