@@ -6,29 +6,29 @@
 function FeedStateCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
   // get the vipfeed param from the route
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state',
                                scope: $rootScope,
                                key: 'feedState',
                                errorMessage: 'Cound not retrieve Feed State Data.'},
                              function(result) { $rootScope.feedState = result[0]; });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/election-administration',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/election-administration',
                                scope:  $rootScope,
                                key: 'feedElectionAdministration',
                                errorMessage: 'Cound not retrieve the Election Administration.'},
                              function(result) { $rootScope.feedElectionAdministration = result[0]; });
-  
+
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope: $rootScope,
                                key: 'overviewData',
                                errorMessage: 'Cound not retrieve Feed Overview Data.'},
-                             function(result) { 
+                             function(result) {
                               $rootScope.overviewData = result[0];
                               $scope.pollingLocationsTable = $rootScope.createTableParams(ngTableParams, $filter, result[0].pollingLocations, $appProperties.lowPagination, { element_type: 'asc' });
                              });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/localities ',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/localities ',
                                scope:  $rootScope,
                                key: 'feedLocalities',
                                errorMessage: 'Cound not retrieve Feed Localities.'},

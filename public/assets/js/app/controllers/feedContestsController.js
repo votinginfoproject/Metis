@@ -5,8 +5,8 @@
 
 function FeedContestsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests',
                                scope: $rootScope,
                                key: "feedContests",
                                errorMessage: "Could not retrieve Feed Contests data. "},
@@ -14,7 +14,7 @@ function FeedContestsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                $scope.contestsTable = $rootScope.createTableParams(ngTableParams, $filter, data, $appProperties.highPagination, { id: 'asc' });
                                $rootScope.pageHeader.title = data.length + " Contests";
                              });
-  
+
   $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/overview',
                                scope: $rootScope,
                                key: "feedContestsOverview",

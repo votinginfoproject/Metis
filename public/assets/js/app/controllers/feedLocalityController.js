@@ -7,41 +7,41 @@ function FeedLocalityCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
 
   // get the vipfeed param from the route
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-  
+
   // get the locality param from the route
   var localityid = $routeParams.locality;
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid,
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid,
                                scope: $rootScope,
                                key: 'feedLocality',
                                errorMessage: 'Could not retrieve Locality Data.'},
                              function(result) { $rootScope.feedLocality = result[0]; });
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/early-vote-sites',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/early-vote-sites',
                                scope: $rootScope,
                                key: 'feedEarlyVoteSites',
                                errorMessage: 'Could not retrieve Early Vote Sites Data for Locality ' + localityid + '.'},
                              function(result) { $scope.earlyVoteTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration',
                                scope: $rootScope,
                                key: 'feedElectionAdministration',
                                errorMessage: 'Could not retrieve Locality Data.'},
                              function(result) { $rootScope.feedElectionAdministration = result[0]; });
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/precincts',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/precincts',
                                scope: $rootScope,
                                key: 'feedPrecincts',
                                errorMessage: 'Could not retrieve Precincts Data for Locality ' + localityid + '.'},
                              function(result) { $scope.precinctsTableParams = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.lowPagination, { id: 'asc' }); });
 
-  $rootScope.feedLocalityOverview = { 
+  $rootScope.feedLocalityOverview = {
                                       "earlyVoteSites": {},
                                       "electionAdministrations": {},
                                       "pollingLocations": {},
                                       "precincts": {},
                                       "precinctSplits": {},
-                                      "streetSegments": {} 
+                                      "streetSegments": {}
                                     };
 
   LocalityOverviewTable($feedDataPaths, $rootScope.feedLocalityOverview, feedid, localityid);
@@ -61,7 +61,7 @@ function completionStat(counts) {
 
 function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
   var overviewEarlyVoteSitesLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/earlyvotesites/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/early-vote-sites',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/early-vote-sites',
                                scope: overview.earlyVoteSites,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
@@ -70,8 +70,8 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                               overview.earlyVoteSites.info["elementType"] = "Early Vote Sites";
                               overview.earlyVoteSites.info["link"] = overviewEarlyVoteSitesLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/early-vote-sites/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/early-vote-sites/errors',
                                scope: overview.earlyVoteSites,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -79,19 +79,19 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
                               overview.earlyVoteSites.errors = result[0];
                              });
 
-  
+
   var overviewElectionAdministrationsLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/electionadministrations/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/election-administrations',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/election-administrations',
                                scope: overview.electionAdministrations,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
-                             function(result) { 
-                              overview.electionAdministrations.info = result[0]; 
+                             function(result) {
+                              overview.electionAdministrations.info = result[0];
                               overview.electionAdministrations.info["elementType"] = "Election Administrations";
                               overview.electionAdministrations.info["link"] = overviewElectionAdministrationsLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/election-administrations/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/election-administrations/errors',
                                scope: overview.electionAdministrations,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -101,17 +101,17 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
 
 
   var overviewPollingLocationsLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/pollinglocations/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/polling-locations',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/polling-locations',
                                scope: overview.pollingLocations,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
-                             function(result) { 
-                              overview.pollingLocations.info = result[0]; 
+                             function(result) {
+                              overview.pollingLocations.info = result[0];
                               overview.pollingLocations.info["elementType"] = "Polling Locations";
                               overview.pollingLocations.info["link"] = overviewPollingLocationsLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/polling-locations/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/polling-locations/errors',
                                scope: overview.pollingLocations,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -121,17 +121,17 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
 
 
   var overviewPrecinctsLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precincts/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precincts',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precincts',
                                scope: overview.precincts,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
-                             function(result) { 
-                              overview.precincts.info = result[0]; 
-                              overview.precincts.info["elementType"] = "Precincts"; 
+                             function(result) {
+                              overview.precincts.info = result[0];
+                              overview.precincts.info["elementType"] = "Precincts";
                               overview.precincts.info["link"] = overviewPrecinctsLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precincts/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precincts/errors',
                                scope: overview.precincts,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -141,17 +141,17 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
 
 
   var overviewPrecinctSplitsLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/precinctsplits/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precinct-splits',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precinct-splits',
                                scope: overview.precinctSplits,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
-                             function(result) { 
-                              overview.precinctSplits.info = result[0]; 
+                             function(result) {
+                              overview.precinctSplits.info = result[0];
                               overview.precinctSplits.info["elementType"] = "Precinct Splits";
                               overview.precinctSplits.info["link"] = overviewPrecinctSplitsLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precinct-splits/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/precinct-splits/errors',
                                scope: overview.precinctSplits,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
@@ -161,17 +161,17 @@ function LocalityOverviewTable($feedDataPaths, overview, feedid, localityid) {
 
 
   var overviewStreetSegmentsLink = '#/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/streetsegments/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/street-segments',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/street-segments',
                                scope: overview.streetSegments,
                                key: 'info',
                                errorMessage: 'Could not retrieve Overview Data.'},
-                             function(result) { 
-                              overview.streetSegments.info = result[0]; 
-                              overview.streetSegments.info["elementType"] = "Street Segments"; 
+                             function(result) {
+                              overview.streetSegments.info = result[0];
+                              overview.streetSegments.info["elementType"] = "Street Segments";
                               overview.streetSegments.info["link"] = overviewStreetSegmentsLink;
                             });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/street-segments/errors',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/overview/counts/street-segments/errors',
                                scope: overview.streetSegments,
                                key: 'errors',
                                errorMessage: 'Could not retrieve error count for Overview Data.'},
