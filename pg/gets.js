@@ -28,87 +28,6 @@ module.exports = {
   getApprovableStatus: util.simpleQueryResponder(queries.approvableStatus, util.paramExtractor()),
   approveFeed: util.simpleQueryResponder(queries.approveFeed, util.paramExtractor()),
 
-  // Feed Contest-related queries
-  getFeedContest: util.simpleQueryResponder(queries.contest, util.paramExtractor(['contestid'])),
-  getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.contestElectoralDistrict, util.paramExtractor(['contestid'])),
-  getFeedContestBallot: util.simpleQueryResponder(queries.contestBallot, util.paramExtractor(['contestid'])),
-  getFeedContestBallotReferendum: util.simpleQueryResponder(queries.contestBallotReferendum, util.paramExtractor(['contestid'])),
-  getFeedContestBallotCandidate: util.simpleQueryResponder(queries.contestBallotCandidate, util.paramExtractor(['contestid','candidateid'])),
-  getFeedContestBallotCandidates: util.simpleQueryResponder(queries.contestBallotCandidates, util.paramExtractor(['contestid'])),
-  getFeedContestBallotCustomBallot: util.simpleQueryResponder(queries.contestBallotCustomBallot, util.paramExtractor(['contestid'])),
-  getFeedContestBallotCustomBallotResponses: util.simpleQueryResponder(queries.contestBallotCustomBallotResponses, util.paramExtractor(['contestid'])),
-
-  // Feed Contest Electoral District-related queries
-  getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.contestElectoralDistrict, util.paramExtractor(['contestid'])),
-  getFeedContestElectoralDistrictPrecincts: util.simpleQueryResponder(queries.contestElectoralDistrictPrecincts, util.paramExtractor(['contestid'])),
-  getFeedContestElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.contestElectoralDistrictPrecinctSplits, util.paramExtractor(['contestid'])),
-
-  // Feed Contest Overview
-  getFeedContestOverviewBallot: util.simpleQueryResponder(queries.contestOverviewBallot, util.paramExtractor(['contestid'])),
-  getFeedContestOverviewReferendum: util.simpleQueryResponder(queries.contestOverviewReferendum, util.paramExtractor(['contestid'])),
-  getFeedContestOverviewCandidates: util.simpleQueryResponder(queries.contestOverviewCandidates, util.paramExtractor(['contestid'])),
-  getFeedContestOverviewElectoralDistrict: util.simpleQueryResponder(queries.contestOverviewElectoralDistrict, util.paramExtractor(['contestid'])),
-
-  // Feed Locality-related queries
-  getFeedLocality: util.simpleQueryResponder(queries.locality, util.paramExtractor(['localityid'])),
-  getFeedLocalityPrecincts: util.simpleQueryResponder(queries.localityPrecincts, util.paramExtractor(['localityid'])),
-  getFeedLocalityEarlyVoteSites: util.simpleQueryResponder(queries.localityEarlyVoteSites, util.paramExtractor(['localityid'])),
-  getFeedLocalityElectionAdministration: util.simpleQueryResponder(queries.localityElectionAdministration, util.paramExtractor(['localityid'])),
-  getFeedLocalityElectionAdministrationElectionOfficial: util.simpleQueryResponder(queries.localityElectionAdministrationElectionOfficial, util.paramExtractor(['localityid'])),
-  getFeedLocalityElectionAdministrationOverseasVoterContact: util.simpleQueryResponder(queries.localityElectionAdministrationOverseasVoterContact, util.paramExtractor(['localityid'])),
-  getFeedLocalities: util.simpleQueryResponder(queries.localities, util.paramExtractor()),
-
-  // Feed Locality Overview
-  getFeedLocalityOverviewEarlyVoteSites: util.simpleQueryResponder(queries.localityOverviewEarlyVoteSites, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewEarlyVoteSitesErrors: util.simpleQueryResponder(queries.localityOverviewEarlyVoteSitesErrors, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewElectionAdministrations: util.simpleQueryResponder(queries.localityOverviewElectionAdministrations, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewElectionAdministrationsErrors: util.simpleQueryResponder(queries.localityOverviewElectionAdministrationsErrors, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPollingLocations: util.simpleQueryResponder(queries.localityOverviewPollingLocations, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPollingLocationsErrors: util.simpleQueryResponder(queries.localityOverviewPollingLocationsErrors, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPrecinctSplits: util.simpleQueryResponder(queries.localityOverviewPrecinctSplits, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPrecinctSplitsErrors: util.simpleQueryResponder(queries.localityOverviewPrecinctSplitsErrors, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPrecincts: util.simpleQueryResponder(queries.localityOverviewPrecincts, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewPrecinctsErrors: util.simpleQueryResponder(queries.localityOverviewPrecinctsErrors, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewStreetSegments: util.simpleQueryResponder(queries.localityOverviewStreetSegments, util.paramExtractor(['localityid'])),
-  getFeedLocalityOverviewStreetSegmentsErrors: util.simpleQueryResponder(queries.localityOverviewStreetSegmentsErrors, util.paramExtractor(['localityid'])),
-
-  // Feed Precinct-related queries
-  getFeedPrecinct: util.simpleQueryResponder(queries.precinct, util.paramExtractor(['precinctid'])),
-  getFeedPrecinctEarlyVoteSites: util.simpleQueryResponder(queries.precinctEarlyVoteSites, util.paramExtractor(['precinctid'])),
-  getFeedPrecinctElectoralDistricts: util.simpleQueryResponder(queries.precinctElectoralDistricts, util.paramExtractor(['precinctid'])),
-  getFeedPrecinctPollingLocations: util.simpleQueryResponder(queries.precinctPollingLocations, util.paramExtractor(['precinctid'])),
-  getFeedPrecinctPrecinctSplits: util.simpleQueryResponder(queries.precinctPrecinctSplits, util.paramExtractor(['precinctid'])),
-  getFeedPrecinctStreetSegments: util.simpleQueryResponder(queries.precinctStreetSegments, util.paramExtractor(['precinctid'])),
-
-  // Feed Precinct Splits-related queries
-  getFeedPrecinctSplit: util.simpleQueryResponder(queries.precinctSplit, util.paramExtractor(['precinctsplitid'])),
-  getFeedPrecinctSplitElectoralDistricts: util.simpleQueryResponder(queries.precinctSplitElectoralDistricts, util.paramExtractor(['precinctsplitid'])),
-  getFeedPrecinctSplitPollingLocations: util.simpleQueryResponder(queries.precinctSplitPollingLocations, util.paramExtractor(['precinctsplitid'])),
-  getFeedPrecinctSplitStreetSegments: util.simpleQueryResponder(queries.precinctSplitStreetSegments, util.paramExtractor(['precinctsplitid'])),
-
-  // Feed Polling Location-related queries
-  getFeedPollingLocation: util.simpleQueryResponder(queries.pollingLocation, util.paramExtractor(['pollinglocationid'])),
-  getFeedPollingLocationPrecincts: util.simpleQueryResponder(queries.pollingLocationPrecincts, util.paramExtractor(['pollinglocationid'])),
-  getFeedPollingLocationPrecinctSplits: util.simpleQueryResponder(queries.pollingLocationPrecinctSplits, util.paramExtractor(['pollinglocationid'])),
-
-  // Feed State-related queries
-  getFeedState: util.simpleQueryResponder(queries.state, util.paramExtractor()),
-  getFeedStateElectionAdministration: util.simpleQueryResponder(queries.stateElectionAdministration, util.paramExtractor()),
-
-  // Feed Electoral District-related queries
-  getFeedElectoralDistrict: util.simpleQueryResponder(queries.electoralDistrict, util.paramExtractor(['electoraldistrictid'])),
-  getFeedElectoralDistrictContest: util.simpleQueryResponder(queries.electoralDistrictContest, util.paramExtractor(['electoraldistrictid'])),
-  getFeedElectoralDistrictPrecincts: util.simpleQueryResponder(queries.electoralDistrictPrecincts, util.paramExtractor(['electoraldistrictid'])),
-  getFeedElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.electoralDistrictPrecinctSplits, util.paramExtractor(['electoraldistrictid'])),
-
-  getFeedContests: util.simpleQueryResponder(queries.contests, util.paramExtractor()),
-  getFeedEarlyVoteSites: util.simpleQueryResponder(queries.earlyVoteSites, util.paramExtractor()),
-  getFeedEarlyVoteSite: util.simpleQueryResponder(queries.earlyVoteSite, util.paramExtractor(['earlyvotesiteid'])),
-  getFeedElectionAdministrations: util.simpleQueryResponder(queries.electionAdministrations, util.paramExtractor()),
-  getFeedElection: util.simpleQueryResponder(queries.election, util.paramExtractor()),
-  getFeedReferendum: util.simpleQueryResponder(queries.referendum, util.paramExtractor(['referendumid'])),
-  getFeedReferendumBallotResponses: util.simpleQueryResponder(queries.referendumBallotResponses, util.paramExtractor(['referendumid'])),
-  getFeedSource: util.simpleQueryResponder(queries.source, util.paramExtractor()),
   getFeedOverview: function(req, res) {
     var feedid = req.params.feedid;
     conn.query(function(client) {
@@ -141,23 +60,86 @@ module.exports = {
                    });
     });
   },
-  getFeedContestsOverview: function(req, res) {
-    var feedid = req.params.feedid;
-    conn.query(function(client) {
-      client.query("SELECT s.ballots_count, s.ballots_error_count, s.ballots_completion, s.candidates_count, s.candidates_error_count, s.candidates_completion, s.contests_count, s.contests_error_count, s.contests_completion, s.electoral_districts_count, s.electoral_districts_error_count, s.electoral_districts_completion, s.referendums_count, s.referendums_error_count, s.referendums_completion FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1",
-                   [decodeURIComponent(feedid)],
-                   function(err, result) {
-                     var row = result.rows[0]; // there is only one!
-                     var tableData = [
-                       overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
-                       overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
-                       overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/election/contests/errors'),
-                       overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistrict/errors'),
-                       overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
-                     ];
-                     resp.writeResponse(tableData, res);
-                   });
-    });
-  },
-  getValidationsErrorCount: util.simpleQueryResponder("SELECT COUNT(*) AS errorcount FROM validations v INNER JOIN results r ON r.id = v.results_id WHERE r.public_id = $1", function(req) { return [decodeURIComponent(req.params.feedid)]; })
+  v3: {
+    getFeedContestsOverview: function(req, res) {
+      var feedid = req.params.feedid;
+      conn.query(function(client) {
+        client.query("SELECT s.ballots_count, s.ballots_error_count, s.ballots_completion, s.candidates_count, s.candidates_error_count, s.candidates_completion, s.contests_count, s.contests_error_count, s.contests_completion, s.electoral_districts_count, s.electoral_districts_error_count, s.electoral_districts_completion, s.referendums_count, s.referendums_error_count, s.referendums_completion FROM statistics s INNER JOIN results r ON s.results_id = r.id WHERE r.public_id=$1",
+                     [decodeURIComponent(feedid)],
+                     function(err, result) {
+                       var row = result.rows[0]; // there is only one!
+                       var tableData = [
+                         overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
+                         overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
+                         overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/election/contests/errors'),
+                         overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistrict/errors'),
+                         overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
+                       ];
+                       resp.writeResponse(tableData, res);
+                     });
+      });
+    },
+
+    getFeedContest: util.simpleQueryResponder(queries.v3.contest, util.paramExtractor(['contestid'])),
+    getFeedContestBallot: util.simpleQueryResponder(queries.v3.contestBallot, util.paramExtractor(['contestid'])),
+    getFeedContestBallotCandidate: util.simpleQueryResponder(queries.v3.contestBallotCandidate, util.paramExtractor(['contestid','candidateid'])),
+    getFeedContestBallotCandidates: util.simpleQueryResponder(queries.v3.contestBallotCandidates, util.paramExtractor(['contestid'])),
+    getFeedContestBallotCustomBallot: util.simpleQueryResponder(queries.v3.contestBallotCustomBallot, util.paramExtractor(['contestid'])),
+    getFeedContestBallotCustomBallotResponses: util.simpleQueryResponder(queries.v3.contestBallotCustomBallotResponses, util.paramExtractor(['contestid'])),
+    getFeedContestBallotReferendum: util.simpleQueryResponder(queries.v3.contestBallotReferendum, util.paramExtractor(['contestid'])),
+    getFeedContestElectoralDistrict: util.simpleQueryResponder(queries.v3.contestElectoralDistrict, util.paramExtractor(['contestid'])),
+    getFeedContestElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.v3.contestElectoralDistrictPrecinctSplits, util.paramExtractor(['contestid'])),
+    getFeedContestOverviewBallot: util.simpleQueryResponder(queries.v3.contestOverviewBallot, util.paramExtractor(['contestid'])),
+    getFeedContestElectoralDistrictPrecincts: util.simpleQueryResponder(queries.v3.contestElectoralDistrictPrecincts, util.paramExtractor(['contestid'])),
+    getFeedContestOverviewCandidates: util.simpleQueryResponder(queries.v3.contestOverviewCandidates, util.paramExtractor(['contestid'])),
+    getFeedContestOverviewElectoralDistrict: util.simpleQueryResponder(queries.v3.contestOverviewElectoralDistrict, util.paramExtractor(['contestid'])),
+    getFeedContestOverviewReferendum: util.simpleQueryResponder(queries.v3.contestOverviewReferendum, util.paramExtractor(['contestid'])),
+    getFeedContests: util.simpleQueryResponder(queries.v3.contests, util.paramExtractor()),
+    getFeedEarlyVoteSite: util.simpleQueryResponder(queries.v3.earlyVoteSite, util.paramExtractor(['earlyvotesiteid'])),
+    getFeedEarlyVoteSites: util.simpleQueryResponder(queries.v3.earlyVoteSites, util.paramExtractor()),
+    getFeedElection: util.simpleQueryResponder(queries.v3.election, util.paramExtractor()),
+    getFeedElectionAdministrations: util.simpleQueryResponder(queries.v3.electionAdministrations, util.paramExtractor()),
+    getFeedElectoralDistrict: util.simpleQueryResponder(queries.v3.electoralDistrict, util.paramExtractor(['electoraldistrictid'])),
+    getFeedElectoralDistrictContest: util.simpleQueryResponder(queries.v3.electoralDistrictContest, util.paramExtractor(['electoraldistrictid'])),
+    getFeedElectoralDistrictPrecinctSplits: util.simpleQueryResponder(queries.v3.electoralDistrictPrecinctSplits, util.paramExtractor(['electoraldistrictid'])),
+    getFeedElectoralDistrictPrecincts: util.simpleQueryResponder(queries.v3.electoralDistrictPrecincts, util.paramExtractor(['electoraldistrictid'])),
+    getFeedLocalities: util.simpleQueryResponder(queries.v3.localities, util.paramExtractor()),
+    getFeedLocality: util.simpleQueryResponder(queries.v3.locality, util.paramExtractor(['localityid'])),
+    getFeedLocalityEarlyVoteSites: util.simpleQueryResponder(queries.v3.localityEarlyVoteSites, util.paramExtractor(['localityid'])),
+    getFeedLocalityElectionAdministration: util.simpleQueryResponder(queries.v3.localityElectionAdministration, util.paramExtractor(['localityid'])),
+    getFeedLocalityElectionAdministrationElectionOfficial: util.simpleQueryResponder(queries.v3.localityElectionAdministrationElectionOfficial, util.paramExtractor(['localityid'])),
+    getFeedLocalityElectionAdministrationOverseasVoterContact: util.simpleQueryResponder(queries.v3.localityElectionAdministrationOverseasVoterContact, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewEarlyVoteSites: util.simpleQueryResponder(queries.v3.localityOverviewEarlyVoteSites, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewEarlyVoteSitesErrors: util.simpleQueryResponder(queries.v3.localityOverviewEarlyVoteSitesErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewElectionAdministrations: util.simpleQueryResponder(queries.v3.localityOverviewElectionAdministrations, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewElectionAdministrationsErrors: util.simpleQueryResponder(queries.v3.localityOverviewElectionAdministrationsErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPollingLocations: util.simpleQueryResponder(queries.v3.localityOverviewPollingLocations, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPollingLocationsErrors: util.simpleQueryResponder(queries.v3.localityOverviewPollingLocationsErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPrecinctSplits: util.simpleQueryResponder(queries.v3.localityOverviewPrecinctSplits, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPrecinctSplitsErrors: util.simpleQueryResponder(queries.v3.localityOverviewPrecinctSplitsErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPrecincts: util.simpleQueryResponder(queries.v3.localityOverviewPrecincts, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewPrecinctsErrors: util.simpleQueryResponder(queries.v3.localityOverviewPrecinctsErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewStreetSegments: util.simpleQueryResponder(queries.v3.localityOverviewStreetSegments, util.paramExtractor(['localityid'])),
+    getFeedLocalityOverviewStreetSegmentsErrors: util.simpleQueryResponder(queries.v3.localityOverviewStreetSegmentsErrors, util.paramExtractor(['localityid'])),
+    getFeedLocalityPrecincts: util.simpleQueryResponder(queries.v3.localityPrecincts, util.paramExtractor(['localityid'])),
+    getFeedPollingLocation: util.simpleQueryResponder(queries.v3.pollingLocation, util.paramExtractor(['pollinglocationid'])),
+    getFeedPollingLocationPrecinctSplits: util.simpleQueryResponder(queries.v3.pollingLocationPrecinctSplits, util.paramExtractor(['pollinglocationid'])),
+    getFeedPollingLocationPrecincts: util.simpleQueryResponder(queries.v3.pollingLocationPrecincts, util.paramExtractor(['pollinglocationid'])),
+    getFeedPrecinct: util.simpleQueryResponder(queries.v3.precinct, util.paramExtractor(['precinctid'])),
+    getFeedPrecinctEarlyVoteSites: util.simpleQueryResponder(queries.v3.precinctEarlyVoteSites, util.paramExtractor(['precinctid'])),
+    getFeedPrecinctElectoralDistricts: util.simpleQueryResponder(queries.v3.precinctElectoralDistricts, util.paramExtractor(['precinctid'])),
+    getFeedPrecinctPollingLocations: util.simpleQueryResponder(queries.v3.precinctPollingLocations, util.paramExtractor(['precinctid'])),
+    getFeedPrecinctPrecinctSplits: util.simpleQueryResponder(queries.v3.precinctPrecinctSplits, util.paramExtractor(['precinctid'])),
+    getFeedPrecinctSplit: util.simpleQueryResponder(queries.v3.precinctSplit, util.paramExtractor(['precinctsplitid'])),
+    getFeedPrecinctSplitElectoralDistricts: util.simpleQueryResponder(queries.v3.precinctSplitElectoralDistricts, util.paramExtractor(['precinctsplitid'])),
+    getFeedPrecinctSplitPollingLocations: util.simpleQueryResponder(queries.v3.precinctSplitPollingLocations, util.paramExtractor(['precinctsplitid'])),
+    getFeedPrecinctSplitStreetSegments: util.simpleQueryResponder(queries.v3.precinctSplitStreetSegments, util.paramExtractor(['precinctsplitid'])),
+    getFeedPrecinctStreetSegments: util.simpleQueryResponder(queries.v3.precinctStreetSegments, util.paramExtractor(['precinctid'])),
+    getFeedReferendum: util.simpleQueryResponder(queries.v3.referendum, util.paramExtractor(['referendumid'])),
+    getFeedReferendumBallotResponses: util.simpleQueryResponder(queries.v3.referendumBallotResponses, util.paramExtractor(['referendumid'])),
+    getFeedSource: util.simpleQueryResponder(queries.v3.source, util.paramExtractor()),
+    getFeedState: util.simpleQueryResponder(queries.v3.state, util.paramExtractor()),
+    getFeedStateElectionAdministration: util.simpleQueryResponder(queries.v3.stateElectionAdministration, util.paramExtractor()),
+    getValidationsErrorCount: util.simpleQueryResponder("SELECT COUNT(*) AS errorcount FROM validations v INNER JOIN results r ON r.id = v.results_id WHERE r.public_id = $1", function(req) { return [decodeURIComponent(req.params.feedid)]; }),
+ }
 }

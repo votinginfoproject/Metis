@@ -8,14 +8,14 @@ function FeedEarlyVoteSiteCtrl($scope, $rootScope, $feedDataPaths, $feedsService
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
   var earlyvotesiteid = $routeParams.earlyvotesite;
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/earlyvotesites/' + earlyvotesiteid,
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/earlyvotesites/' + earlyvotesiteid,
                                scope: $rootScope,
                                key: 'feedEarlyVoteSite',
                                errorMessage: 'Could not retrieve Early Vote Site Data.'},
-                             function(result) { 
-                              $rootScope.feedEarlyVoteSite = result[0]; 
+                             function(result) {
+                              $rootScope.feedEarlyVoteSite = result[0];
                               $rootScope.feedEarlyVoteSite["days_times_open"] = $sce.trustAsHtml($rootScope.feedEarlyVoteSite["days_times_open"]);
                             });
-  
+
   $rootScope.setPageHeader("Early Vote Site", $rootScope.getBreadCrumbs(), "feeds", "", null);
 }

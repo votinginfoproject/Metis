@@ -10,9 +10,9 @@ function FeedElectionAdministrationCtrl($scope, $rootScope, $feedDataPaths, $fee
 
   var electionAdministrationPath = function() {
     if (localityid) {
-      return '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration';
+      return '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration';
     } else {
-      return '/db/feeds/' + feedid + '/election/state/election-administration';
+      return '/db/v3/feeds/' + feedid + '/election/state/election-administration';
     }
   }
 
@@ -23,13 +23,13 @@ function FeedElectionAdministrationCtrl($scope, $rootScope, $feedDataPaths, $fee
                              function(result) { $rootScope.feedElectionAdministration = result[0]; });
 
   if (localityid) {
-    $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/election-official',
+    $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/election-official',
                                  scope: $rootScope,
                                  key: 'feedElectionOfficial',
                                  errorMessage: 'Could not retrieve Locality Data.'},
                                function(result) { $rootScope.feedElectionOfficial = result[0]; });
 
-    $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/overseas-voter-contact',
+    $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state/localities/' + localityid + '/election-administration/overseas-voter-contact',
                                  scope: $rootScope,
                                  key: 'feedOverseasVoterContact',
                                  errorMessage: 'Could not retrieve Locality Data.'},

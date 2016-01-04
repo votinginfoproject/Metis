@@ -7,14 +7,14 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedDataPaths, $feedsSer
 
   // get the vipfeed param from the route
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
-  
+
   if ($routeParams['locality']) { $scope.localityid = $routeParams.locality; }
   if ($routeParams['precinct']) { $scope.precinctid = $routeParams.precinct; }
 
   if ($routeParams['contest']) {
-    var rootPath = '/db/feeds/' + feedid + '/contests/' + $routeParams.contest + '/electoral-district';
+    var rootPath = '/db/v3/feeds/' + feedid + '/contests/' + $routeParams.contest + '/electoral-district';
 
-    $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + $routeParams['contest'],
+    $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + $routeParams['contest'],
                                  scope:  $rootScope,
                                  key: 'feedContest',
                                  errorMessage: 'Cound not retrieve Contests.'},
@@ -22,7 +22,7 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedDataPaths, $feedsSer
   }
 
   if ($routeParams['electoraldistrict']) {
-    var rootPath = '/db/feeds/' + feedid + '/electoral-districts/' + $routeParams.electoraldistrict;
+    var rootPath = '/db/v3/feeds/' + feedid + '/electoral-districts/' + $routeParams.electoraldistrict;
 
     $feedDataPaths.getResponse({ path: rootPath + '/contest',
                                  scope:  $rootScope,
@@ -47,7 +47,7 @@ function FeedElectoralDistrictCtrl($scope, $rootScope, $feedDataPaths, $feedsSer
                                scope:  $rootScope,
                                key: 'feedPrecinctSplits',
                                errorMessage: 'Cound not retrieve Precinct Split Data.'},
-                             function(result) { $scope.precinctSplitsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.highPagination, { id: 'asc' }); });    
+                             function(result) { $scope.precinctSplitsTable = $rootScope.createTableParams(ngTableParams, $filter, result, $appProperties.highPagination, { id: 'asc' }); });
 
   // initialize page header variables
   $rootScope.setPageHeader("Electoral District", $rootScope.getBreadCrumbs(), "feeds", "", null);

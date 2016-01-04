@@ -1,5 +1,8 @@
 'use strict';
 
+// TODO: Need to check these pages, since they rely on some kind of
+// mapping from $location.path() to '/db' routes
+
 function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $route, $routeParams, $location, $filter, ngTableParams) {
   // initialize page header variables
   $rootScope.setPageHeader("Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
@@ -38,7 +41,7 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
                                scope:  $rootScope,
                                key: 'errors',
                                errorMessage: 'Cound not retrieve errors' },
-                             function(result) { 
+                             function(result) {
                               $rootScope.total_errors = 0;
                               $.each(result, function() {
                                 $rootScope.total_errors += parseInt(this.count);

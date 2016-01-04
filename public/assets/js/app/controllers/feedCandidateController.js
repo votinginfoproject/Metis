@@ -8,8 +8,8 @@ function FeedCandidateCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $r
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
   var contestid = $routeParams.contest;
   var candidateid = $routeParams.candidate;
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot/candidates/' + candidateid,
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/ballot/candidates/' + candidateid,
                                scope: $rootScope,
                                key: 'feedCandidate',
                                errorMessage: 'Could not retrieve Candidate Data.'},

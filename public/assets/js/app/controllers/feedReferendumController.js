@@ -7,13 +7,13 @@ function FeedReferendumCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $
   var feedid = $scope.vipfeed = $routeParams.vipfeed;
   var referendumid = $routeParams.referendum;
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/referendum/' + referendumid,
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/referendum/' + referendumid,
                                scope: $rootScope,
                                key: 'feedReferendum',
                                errorMessage: 'Could not retrieve Referendum Data.'},
                              function(result) { $rootScope.feedReferendum = result[0]; });
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/referendum/' + referendumid + '/ballot-responses',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/referendum/' + referendumid + '/ballot-responses',
                                scope: $rootScope,
                                key: 'feedBallotResponses',
                                errorMessage: 'Could not retrieve Ballot Response Data for Referendum ' + referendumid + '.'});

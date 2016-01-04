@@ -31,7 +31,7 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
   $rootScope.approveFeed = function() {
     if(confirm("By approving this feed, you are releasing the data for this election for publication. Do you want to approve this feed?")) {
       postApproveFeed();
-      $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+      $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election',
                                    scope: $rootScope,
                                    key: "election",
                                    errorMessage: "Could not send the approve feed email."},
@@ -41,7 +41,7 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
     };
   };
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election',
                                scope: $rootScope,
                                key: "election",
                                errorMessage: "Could not retrieve Election."},
