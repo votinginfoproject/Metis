@@ -9,7 +9,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $rout
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = $routeParams.vipfeed;
 
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election',
                                scope: $rootScope,
                                key: 'feedElection',
                                errorMessage: 'Cound not retrieve Feed Election Data.'},
@@ -17,7 +17,7 @@ function FeedSourceCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $rout
                                $rootScope.feedElection = result[0];
                                $rootScope.feedElection['name'] = $rootScope.getBreadCrumbs()[0].name;
                              });
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/source',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/source',
                                scope: $rootScope,
                                key: 'feedSource',
                                errorMessage: 'Cound not retrieve Feed Source Data.'},

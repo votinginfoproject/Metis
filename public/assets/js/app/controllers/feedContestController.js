@@ -4,27 +4,27 @@
 
 function FeedContestCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $routeParams, $appProperties, $location, $filter, ngTableParams) {
   // get the vipfeed param from the route
-  var feedid = $scope.vipfeed = $routeParams.vipfeed;  
+  var feedid = $scope.vipfeed = $routeParams.vipfeed;
   var contestid = $routeParams.contest;
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid,
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid,
                                scope:  $rootScope,
                                key: 'feedContest',
                                errorMessage: 'Cound not retrieve Contest ' + contestid + ' Data.'},
                              function(result) { $rootScope.feedContest = result[0]; });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/ballot',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/ballot',
                                scope:  $rootScope,
                                key: 'feedContestBallot',
                                errorMessage: 'Cound not retrieve Ballot Data for Contest ' + contestid + '.'},
                              function(result) { $rootScope.feedContestBallot = result[0]; });
-  
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/contest-electoral-district',
+
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/contest-electoral-district',
                                scope:  $rootScope,
                                key: 'feedContestElectoralDistrict',
                                errorMessage: 'Cound not retrieve Electoral District Data for Contest ' + contestid + '.'},
                              function(result) { $rootScope.feedContestElectoralDistrict = result[0]; });
-  
+
   $rootScope.feedContestOverview = {};
   ContestOverviewTable($feedDataPaths, $rootScope.feedContestOverview, feedid, contestid);
 
@@ -34,7 +34,7 @@ function FeedContestCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $rou
 
 function ContestOverviewTable($feedDataPaths, overview, feedid, contestid) {
   var overviewBallotLink = '#/feeds/' + feedid + '/election/contests/' + contestid + '/overview/ballot/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/overview/ballot',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/overview/ballot',
                                scope: overview,
                                key: 'ballot',
                                errorMessage: 'Could not retrieve Overview Data.'},
@@ -45,7 +45,7 @@ function ContestOverviewTable($feedDataPaths, overview, feedid, contestid) {
                             });
 
   var overviewReferendaLink = '#/feeds/' + feedid + '/election/contests/' + contestid + '/overview/referenda/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/overview/referenda',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/overview/referenda',
                                scope: overview,
                                key: 'referenda',
                                errorMessage: 'Could not retrieve Overview Data.'},
@@ -56,7 +56,7 @@ function ContestOverviewTable($feedDataPaths, overview, feedid, contestid) {
                             });
 
   var overviewCandidatesLink = '#/feeds/' + feedid + '/election/contests/' + contestid + '/overview/candidates/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/overview/candidates',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/overview/candidates',
                                scope: overview,
                                key: 'candidates',
                                errorMessage: 'Could not retrieve Overview Data.'},
@@ -67,7 +67,7 @@ function ContestOverviewTable($feedDataPaths, overview, feedid, contestid) {
                             });
 
   var overviewElectoralDistrictLink = '#/feeds/' + feedid + '/election/contests/' + contestid + '/overview/electoraldistrict/errors';
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/contests/' + contestid + '/overview/electoral-districts',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/contests/' + contestid + '/overview/electoral-districts',
                                scope: overview,
                                key: 'electoralDistrict',
                                errorMessage: 'Could not retrieve Overview Data.'},

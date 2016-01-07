@@ -8,7 +8,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
   // get the vipfeed param from the route
   var feedid = $routeParams.vipfeed;
   $scope.vipfeed = feedid;
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election',
                                scope: $rootScope,
                                key: 'feedElection',
                                errorMessage: 'Cound not retrieve Feed Election Data.'},
@@ -16,7 +16,7 @@ function FeedElectionCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $ro
                                $rootScope.feedElection = result[0];
                                $rootScope.feedElection['name'] = $rootScope.getBreadCrumbs()[0].name;
                              });
-  $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/election/state',
+  $feedDataPaths.getResponse({ path: '/db/v3/feeds/' + feedid + '/election/state',
                                scope: $rootScope,
                                key: 'feedState',
                                errorMessage: 'Cound not retrieve Feed State Data.'},
