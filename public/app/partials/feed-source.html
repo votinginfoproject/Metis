@@ -37,7 +37,7 @@
     <dt class="key">Name:</dt>
     <dd id="election-name" class="value">{{feedElection.name}}</dd>
     <dt class="key">Date:</dt>
-    <dd id="election-date" class="value">{{feedElection.date | date}}</dd>
+    <dd id="election-date" class="value">{{feedElection.date.slice(0,10) | date}}</dd>
     <dt class="key">Election Type:</dt>
     <dd id="election-type" class="value">{{feedElection.election_type}}</dd>
     <dt class="key">Statewide</dt>
