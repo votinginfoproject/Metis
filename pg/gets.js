@@ -55,12 +55,13 @@ module.exports = {
                            overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
                          ],
                          source: overviewTableRow(row, 'Source', 'sources', '#/feeds/' + feedid + '/source/errors'),
-                         election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')
-                       } else { var tables = {
-                           pollingLocations: [];
-                           contests: [];
-                           source: {};
-                           election: {};
+                         election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')}
+                       } else {
+                         var tables = {
+                           pollingLocations: [],
+                           contests: [],
+                           source: {},
+                           election: {}
                          }
                        };
                      resp.writeResponse([tables], res);
