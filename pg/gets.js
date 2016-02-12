@@ -35,27 +35,35 @@ module.exports = {
                    [decodeURIComponent(feedid)],
                    function(err, result) {
                      var row = result.rows[0]; // there is only one!
-                     var tables = {
-                       pollingLocations: [
-                         overviewTableRow(row, 'Early Vote Sites', 'early_vote_sites', '#/feeds/' + feedid + '/overview/earlyvotesites/errors'),
-                         overviewTableRow(row, 'Election Administrations', 'election_administrations', '#/feeds/' + feedid + '/overview/electionadministrations/errors'),
-                         overviewTableRow(row, 'Election Officials', 'election_officials', '#/feeds/' + feedid + '/overview/electionofficials/errors'),
-                         overviewTableRow(row, 'Localities', 'localities', '#/feeds/' + feedid + '/overview/localities/errors'),
-                         overviewTableRow(row, 'Polling Locations', 'polling_locations', '#/feeds/' + feedid + '/overview/pollinglocations/errors'),
-                         overviewTableRow(row, 'Precinct Splits', 'precinct_splits', '#/feeds/' + feedid + '/overview/precinctsplits/errors'),
-                         overviewTableRow(row, 'Precincts', 'precincts', '#/feeds/' + feedid + '/overview/precincts/errors'),
-                         overviewTableRow(row, 'Street Segments', 'street_segments', '#/feeds/' + feedid + '/overview/streetsegments/errors')
-                       ],
-                       contests: [
-                         overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
-                         overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
-                         overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/overview/contests/errors'),
-                         overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistricts/errors'),
-                         overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
-                       ],
-                       source: overviewTableRow(row, 'Source', 'sources', '#/feeds/' + feedid + '/source/errors'),
-                       election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')
-                     };
+                     if (row !== undefined){
+                       var tables = {
+                         pollingLocations: [
+                           overviewTableRow(row, 'Early Vote Sites', 'early_vote_sites', '#/feeds/' + feedid + '/overview/earlyvotesites/errors'),
+                           overviewTableRow(row, 'Election Administrations', 'election_administrations', '#/feeds/' + feedid + '/overview/electionadministrations/errors'),
+                           overviewTableRow(row, 'Election Officials', 'election_officials', '#/feeds/' + feedid + '/overview/electionofficials/errors'),
+                           overviewTableRow(row, 'Localities', 'localities', '#/feeds/' + feedid + '/overview/localities/errors'),
+                           overviewTableRow(row, 'Polling Locations', 'polling_locations', '#/feeds/' + feedid + '/overview/pollinglocations/errors'),
+                           overviewTableRow(row, 'Precinct Splits', 'precinct_splits', '#/feeds/' + feedid + '/overview/precinctsplits/errors'),
+                           overviewTableRow(row, 'Precincts', 'precincts', '#/feeds/' + feedid + '/overview/precincts/errors'),
+                           overviewTableRow(row, 'Street Segments', 'street_segments', '#/feeds/' + feedid + '/overview/streetsegments/errors')
+                         ],
+                         contests: [
+                           overviewTableRow(row, 'Ballots', 'ballots', '#/feeds/' + feedid + '/overview/ballots/errors'),
+                           overviewTableRow(row, 'Candidates', 'candidates', '#/feeds/' + feedid + '/overview/candidates/errors'),
+                           overviewTableRow(row, 'Contests', 'contests', '#/feeds/' + feedid + '/overview/contests/errors'),
+                           overviewTableRow(row, 'Electoral Districts', 'electoral_districts', '#/feeds/' + feedid + '/overview/electoraldistricts/errors'),
+                           overviewTableRow(row, 'Referenda', 'referendums', '#/feeds/' + feedid + '/overview/referenda/errors')
+                         ],
+                         source: overviewTableRow(row, 'Source', 'sources', '#/feeds/' + feedid + '/source/errors'),
+                         election: overviewTableRow(row, 'Election', 'elections', '#/feeds/' + feedid + '/election/errors')}
+                       } else {
+                         var tables = {
+                           pollingLocations: [],
+                           contests: [],
+                           source: {},
+                           election: {}
+                         }
+                       };
                      resp.writeResponse([tables], res);
                    });
     });
