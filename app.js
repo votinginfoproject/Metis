@@ -1,6 +1,8 @@
 /**
  * Module dependencies.
  */
+require('dotenv').config();
+
 var logger = (require('./logging/vip-winston')).Logger;
 
 var config = require('./config');
