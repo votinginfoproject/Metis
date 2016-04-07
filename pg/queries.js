@@ -347,7 +347,7 @@ module.exports = {
                                              FROM v3_0_localities l \
                                              INNER JOIN v3_0_precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                              INNER JOIN v3_0_precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                             INNER JOIN v3_0_precinct_split_polling_locations pspl ON pspl.precinct_split_id = p.id AND pspl.results_id = l.results_id \
+                                             INNER JOIN v3_0_precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
                                              INNER JOIN v3_0_polling_locations pl ON pl.id = pspl.polling_location_id AND pl.results_id = l.results_id \
                                              INNER JOIN results r ON r.id = l.results_id \
                                              WHERE r.public_id=$1 AND l.id=$2) AS pspl;",
@@ -364,7 +364,7 @@ module.exports = {
                                                   FROM v3_0_localities l \
                                                   INNER JOIN v3_0_precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
                                                   INNER JOIN v3_0_precinct_splits ps ON ps.precinct_id = p.id AND ps.results_id = l.results_id \
-                                                  INNER JOIN v3_0_precinct_split_polling_locations pspl ON pspl.precinct_split_id = p.id AND pspl.results_id = l.results_id \
+                                                  INNER JOIN v3_0_precinct_split_polling_locations pspl ON pspl.precinct_split_id = ps.id AND pspl.results_id = l.results_id \
                                                   INNER JOIN v3_0_polling_locations pl ON pl.id = pspl.polling_location_id AND pl.results_id = l.results_id \
                                                   INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'polling-locations' AND v.identifier = pl.id \
                                                   INNER JOIN results r ON r.id = l.results_id \
