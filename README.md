@@ -19,6 +19,9 @@ you can run Metis locally to show a dashboard for that data.
     * Intall Bower `npm install bower`
 * [Postgres][postgres]
 * [RabbitMQ][rabbitmq]
+* [Ruby][ruby]
+* [Sass][sass]
+    * Install Sass `gem install sass`
 
 ### Dependencies
 
@@ -35,14 +38,14 @@ Create a `.env` file in the root directory, copy the following into
 it, and provide values for your Postgres database and RabbitMQ server.
 
 ```
-DB_ENV_POSTGRES_DATABASE=
+DB_ENV_POSTGRES_DATABASE=dataprocessor
 DB_ENV_POSTGRES_PASSWORD=
-DB_ENV_POSTGRES_USER=
-DB_PORT_5432_TCP_ADDR=
-DB_PORT_5432_TCP_PORT=
-RABBITMQ_PORT_5672_TCP_ADDR=
-RABBITMQ_PORT_5672_TCP_PORT=
-VIP_DP_RABBITMQ_EXCHANGE=
+DB_ENV_POSTGRES_USER=dataprocessor
+DB_PORT_5432_TCP_ADDR=localhost
+DB_PORT_5432_TCP_PORT=5432
+RABBITMQ_PORT_5672_TCP_ADDR=localhost
+RABBITMQ_PORT_5672_TCP_PORT=5672
+VIP_DP_RABBITMQ_EXCHANGE=data-processor-exchange
 ```
 
 ### Start it up
@@ -71,3 +74,5 @@ super user account is "testuser" and its password is "test".
 [bower]: http://bower.io
 [postgres]: http://www.postgresql.org/
 [rabbitmq]: http://www.rabbitmq.com/
+[ruby]: https://www.ruby-lang.org
+[sass]: http://sass-lang.com
