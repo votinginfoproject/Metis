@@ -46,6 +46,8 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/overview/streetsegments/errors/report', csv.scopedErrorReport("street-segments"));
   app.get('/db/feeds/:feedid/source/errors/report', csv.scopedErrorReport("sources"));
 
+  app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
+
   ///////// Version 3.0 /////////
   app.get('/db/v3/feeds/:feedid/election', pg.v3.getFeedElection);
   app.get('/db/v3/feeds/:feedid/election/state', pg.v3.getFeedState);
