@@ -1,6 +1,10 @@
 /**
  * Module dependencies.
  */
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 var logger = (require('./logging/vip-winston')).Logger;
 
 var config = require('./config');

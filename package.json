@@ -16,6 +16,7 @@
     "async": "~0.2.9",
     "aws-sdk": "~2.0.0-rc13",
     "csv": "~0.4.0",
+    "dotenv": "^2.0.0",
     "express": "3.4.4",
     "session-file-store": "0.0.20",
     "geojson": "~0.1.5",

@@ -27,3 +27,4 @@ public/assets/js/lib/*
 metis@.service
 
 sessions
+/.env
