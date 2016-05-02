@@ -16,10 +16,12 @@ module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getFeeds: function(req, res) {
     if (authorization.isSuperAdmin(req.user)) {
-      return util.simpleQueryResponder(queries.feeds)(req, res);
+      return util.simpleQueryResponder(queries.feeds, function(req) {
+        return [req.query.page];
+      })(req, res);
     } else {
       return util.simpleQueryResponder(queries.feedsForState, function(req) {
-        return [authorization.stateGroupNames(req.user)];
+        return [authorization.stateGroupNames(req.user), req.query.page];
       })(req, res);
     }
   },

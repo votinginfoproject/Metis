@@ -34,7 +34,8 @@ module.exports = {
           FROM results r \
           LEFT JOIN v3_0_states s ON s.results_id = r.id \
           LEFT JOIN v3_0_elections e ON e.results_id = r.id \
-          ORDER BY r.id DESC;",
+          ORDER BY r.id DESC \
+          LIMIT 20 OFFSET ($1 * 20);",
   // TODO: join on v5_0_* tables as well, choosing the state name and
   // election type and date based on which one returned a result
   feedsForState: "SELECT r.public_id, r.start_time, \
@@ -44,7 +45,8 @@ module.exports = {
                   LEFT JOIN v3_0_sources s ON s.results_id = r.id \
                   LEFT JOIN v3_0_elections e ON e.results_id = r.id \
                   WHERE substr(s.vip_id, 0, 3) = ANY ($1) \
-                  ORDER BY r.start_time DESC;",
+                  ORDER BY r.start_time DESC \
+                  LIMIT 20 OFFSET ($2 * 20);",
   results: "SELECT * FROM results WHERE public_id=$1",
   errorsTotal: "SELECT (SELECT COUNT(v.*) \
                         FROM validations v \

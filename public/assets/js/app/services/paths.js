@@ -3,7 +3,7 @@
 vipApp.factory('$feedDataPaths', function ($http) {
   return {
     getResponse: function(options, callback) {
-      $http.get(options['path']).
+      $http.get(options['path'], options['config']).
         success(function (results, status) {
           options['scope'][options['key']] = results;
           if (callback) {
