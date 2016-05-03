@@ -51,6 +51,10 @@
   </tr>
 </table>
 
+<a ng-click="previousPage()" class="button"
+   ng-class="{'disabled': page === 0}">Previous Page</a>
+<a ng-click="nextPage()" class="button">Next Page</a>
+
 <script type="text/ng-template" id="feedsPagination">
   <ul class="pagination ng-cloak">
     <li ng-repeat="page in pages"
