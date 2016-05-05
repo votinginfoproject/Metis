@@ -92,18 +92,19 @@ module.exports = {
                         WHERE r.public_id = $1";
 
     var publicId = message[":public-id"];
+
     if (!publicId) {
-      logger.error('No Public ID listed.');
+      logger.info('[ERROR] No Public ID listed.');
       notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
+        if (err) return logger.info('[ERROR] Could not connect to PostgreSQL. Error fetching client from pool: ', err);
 
         client.query(vip_id_query, [publicId], function(err, result) {
           done();
 
           if (err || result.rows.length == 0) {
-            logger.error('No feed found or connection issue.');
+            logger.info('[ERROR] No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
             notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
