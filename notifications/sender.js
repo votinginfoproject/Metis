@@ -84,6 +84,13 @@ module.exports = {
                       JSON.stringify(message));
     }
 
+    var vip_id_query = "SELECT COALESCE(v3.vip_id, v5.value) AS vip_id \
+                        FROM results r \
+                        LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
+                        LEFT JOIN xml_tree_values v5 ON r.id = v5.results_id \
+                              AND v5.simple_path = 'VipObject.Source.VipId' \
+                        WHERE r.public_id = $1";
+
     var publicId = message[":public-id"];
     if (!publicId) {
       logger.error('No Public ID listed.');
@@ -92,8 +99,7 @@ module.exports = {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
 
-        // TODO: Get the vip_id from either v3_0_sources or v5_0_sources tables, whichever matchces the result
-        client.query("SELECT vip_id FROM v3_0_sources s INNER JOIN results r ON r.id = s.results_id WHERE r.public_id = $1", [publicId], function(err, result) {
+        client.query(vip_id_query, [publicId], function(err, result) {
           done();
 
           if (err || result.rows.length == 0) {
