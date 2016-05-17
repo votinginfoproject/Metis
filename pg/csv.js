@@ -1,4 +1,5 @@
 var conn = require('./conn.js');
+var logger = (require('../logging/vip-winston')).Logger;
 
 var endOfLine = require('os').EOL;
 var delim = ',';
@@ -37,35 +38,43 @@ var errorReport = function(innerJoins, where, params, scope) {
   return function(req, res) {
     var feedid = decodeURIComponent(req.params.feedid);
 
-    conn.query(function(client) {
-      var queryParams = ['feedid'].concat(params).map(function(param) { return decodeURIComponent(req.params[param]); });
+    try {
+      conn.query(function(client) {
+        var queryParams = ['feedid'].concat(params).map(function(param) { return decodeURIComponent(req.params[param]); });
 
-      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, scope));
-      res.setHeader('Content-type', 'text/csv');
-      res.charset = 'UTF-8';
+        res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, scope));
+        res.setHeader('Content-type', 'text/csv');
+        res.charset = 'UTF-8';
 
-      res.write(makeCSVRow(header));
+        res.write(makeCSVRow(header));
 
-      var query = client.query(errorQuery, queryParams);
+        var query = client.query(errorQuery, queryParams);
 
-      query.on("row", function(row, result) {
-        res.write(makeCSVRow([feedid, row.severity, row.scope, row.identifier, row.error_type, row.error_data]));
+        query.on("row", function(row, result) {
+          res.write(makeCSVRow([feedid, row.severity, row.scope, row.identifier, row.error_type, row.error_data]));
+        });
+
+        query.on("end", function(result) {
+          res.end();
+        });
+
+        query.on("error", function(e) {
+          logger.info("[ERROR] Generating an error report for feed '" + feedid + "' caused '" + e +"'");
+          res.end();
+        });
       });
-
-      query.on("end", function(result) {
-        res.end();
-      });
-    });
+    }
+    catch (e) {}
   }
 }
 
 var xmlTreeValidationQuery =
-"SELECT v.severity, v.scope, v.path, x.value AS identifier, \
-        v.error_type, v.error_data \
- FROM xml_tree_validations v \
- LEFT JOIN xml_tree_values x \
-        ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
- WHERE v.results_id = $1";
+    "SELECT v.severity, v.scope, v.path, x.value AS identifier, \
+v.error_type, v.error_data \
+FROM xml_tree_validations v \
+LEFT JOIN xml_tree_values x \
+ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
+WHERE v.results_id = $1";
 
 var xmlTreeValidationErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
