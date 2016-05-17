@@ -14,6 +14,8 @@ EnvironmentFile=/etc/environment
 TimeoutStartSec=10m
 TimeoutStopSec=10m
 
+Restart=on-failure
+
 Environment=DOCKER_IMAGE=
 Environment=CONTAINER=metis
 Environment=HOME=/root
@@ -22,7 +24,7 @@ ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
 ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
 ExecStartPre=/usr/bin/docker pull ${DOCKER_IMAGE}
 
-ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} --restart=always \
+ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \
   --link loggly:syslog \
   --env NODE_ENV="production" \
