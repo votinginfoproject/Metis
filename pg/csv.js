@@ -69,12 +69,13 @@ var errorReport = function(innerJoins, where, params, scope) {
 }
 
 var xmlTreeValidationQuery =
-    "SELECT v.severity, v.scope, v.path, x.value AS identifier, \
-v.error_type, v.error_data \
-FROM xml_tree_validations v \
-LEFT JOIN xml_tree_values x \
-ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
-WHERE v.results_id = $1";
+"SELECT v.severity, v.scope, v.path, x.value AS identifier, \
+        v.error_type, v.error_data \
+ FROM xml_tree_validations v \
+ LEFT JOIN xml_tree_values x \
+        ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
+ INNER JOIN results r ON r.id = v.results_id \
+ WHERE r.public_id = $1";
 
 var xmlTreeValidationErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];

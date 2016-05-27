@@ -37,6 +37,14 @@ var messageOptions = {
       html: messageContent.processedFeed(message, recipient, group)
     };
   },
+  v5processedFeed: function(message, recipient, group) {
+    return {
+      from: config.email.fromAddress,
+      to: recipient.email,
+      subject: 'Your Feed Has Been Processed',
+      html: messageContent.v5processedFeed(message, recipient, group)
+    };
+  },
   errorDuringProcessing: function(message, recipient) {
     return {
       from: config.email.fromAddress,
@@ -84,23 +92,34 @@ module.exports = {
                       JSON.stringify(message));
     }
 
+    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, v5.value AS v5_vip_id \
+                        FROM results r \
+                        LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
+                        LEFT JOIN xml_tree_values v5 ON r.id = v5.results_id \
+                              AND v5.simple_path = 'VipObject.Source.VipId' \
+                        WHERE r.public_id = $1";
+
     var publicId = message[":public-id"];
+
     if (!publicId) {
-      logger.error('No Public ID listed.');
+      logger.info('[ERROR] No Public ID listed.');
       notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
+        if (err) return logger.info('[ERROR] Could not connect to PostgreSQL. Error fetching client from pool: ', err);
 
-        // TODO: Get the vip_id from either v3_0_sources or v5_0_sources tables, whichever matchces the result
-        client.query("SELECT vip_id FROM v3_0_sources s INNER JOIN results r ON r.id = s.results_id WHERE r.public_id = $1", [publicId], function(err, result) {
+        client.query(vip_id_query, [publicId], function(err, result) {
           done();
 
           if (err || result.rows.length == 0) {
-            logger.error('No feed found or connection issue.');
+            logger.info('[ERROR] No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
+            if (result.rows[0].v5_vip_id && messageType === 'processedFeed') {
+              notifyGroup(message, result.rows[0].v5_vip_id, messageOptions['v5processedFeed']);
+            } else {
+              notifyGroup(message, result.rows[0].v3_vip_id || result.rows[0].v5_vip_id, messageOptions[messageType]);
+            }
           }
         });
       });
