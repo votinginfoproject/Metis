@@ -65,7 +65,8 @@ var xmlTreeValidationQuery =
  FROM xml_tree_validations v \
  LEFT JOIN xml_tree_values x \
         ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
- WHERE v.results_id = $1";
+ INNER JOIN results r ON r.id = v.results_id \
+ WHERE r.public_id = $1";
 
 var xmlTreeValidationErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];

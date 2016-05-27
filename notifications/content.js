@@ -15,6 +15,14 @@ module.exports = {
            "<p>If you have any questions, please contact <a href='mailto:vip@democracy.works'>vip@democracy.works</a>.</p>" +
            "<p>Thank you!</p>";
   },
+  v5processedFeed: function(message, recipient, group) {
+    return "<p>" + recipient.givenName + ",</p>" +
+           "<p>The data you provided for " + group.description + "'s election has been processed.</p>" +
+           "<p>Please click the link below for an error report.</p>" +
+           "<p><a href='https://" + baseUrl + "/db/feeds/" + message[":public-id"] + "/xml/errors/report'>Go to the Data Dashboard</a></p>" +
+           "<p>If you have any questions, please contact <a href='mailto:vip@democracy.works'>vip@democracy.works</a>.</p>" +
+           "<p>Thank you!</p>";
+  },
   errorDuringProcessing: function(message) {
     return 'It looks like a feed failed during processing. Here\'s the information we got: \
             \nMessage we got: ' + JSON.stringify(message);

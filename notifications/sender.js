@@ -37,6 +37,14 @@ var messageOptions = {
       html: messageContent.processedFeed(message, recipient, group)
     };
   },
+  v5processedFeed: function(message, recipient, group) {
+    return {
+      from: config.email.fromAddress,
+      to: recipient.email,
+      subject: 'Your Feed Has Been Processed',
+      html: messageContent.v5processedFeed(message, recipient, group)
+    };
+  },
   errorDuringProcessing: function(message, recipient) {
     return {
       from: config.email.fromAddress,
@@ -84,7 +92,7 @@ module.exports = {
                       JSON.stringify(message));
     }
 
-    var vip_id_query = "SELECT COALESCE(v3.vip_id, v5.value) AS vip_id \
+    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, v5.value AS v5_vip_id \
                         FROM results r \
                         LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
                         LEFT JOIN xml_tree_values v5 ON r.id = v5.results_id \
@@ -107,7 +115,11 @@ module.exports = {
             logger.info('[ERROR] No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
+            if (result.rows[0].v5_vip_id && messageType === 'processedFeed') {
+              notifyGroup(message, result.rows[0].v5_vip_id, messageOptions['v5processedFeed']);
+            } else {
+              notifyGroup(message, result.rows[0].v3_vip_id || result.rows[0].v5_vip_id, messageOptions[messageType]);
+            }
           }
         });
       });
