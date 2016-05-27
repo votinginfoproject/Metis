@@ -118,7 +118,7 @@ module.exports = {
             if (result.rows[0].v5_vip_id && messageType === 'processedFeed') {
               notifyGroup(message, result.rows[0].v5_vip_id, messageOptions['v5processedFeed']);
             } else {
-              notifyGroup(message, result.rows[0].v3_vip_id, messageOptions[messageType]);
+              notifyGroup(message, result.rows[0].v3_vip_id || result.rows[0].v5_vip_id, messageOptions[messageType]);
             }
           }
         });
