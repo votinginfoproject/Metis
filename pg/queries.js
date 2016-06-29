@@ -29,8 +29,10 @@ module.exports = {
   // election type and date based on which one returned a result
   feeds: "SELECT DISTINCT ON (r.id) \
                  r.public_id, r.start_time, date(r.end_time) AS end_time, \
-                 CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
-                 r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
+                 CASE WHEN r.end_time IS NOT NULL \
+                      THEN r.end_time - r.start_time END AS duration, \
+                 r.spec_version, r.complete, s.name AS state, e.election_type, \
+                 date(e.date) AS election_date \
           FROM results r \
           LEFT JOIN v3_0_states s ON s.results_id = r.id \
           LEFT JOIN v3_0_elections e ON e.results_id = r.id \
@@ -39,8 +41,10 @@ module.exports = {
   // TODO: join on v5_0_* tables as well, choosing the state name and
   // election type and date based on which one returned a result
   feedsForState: "SELECT r.public_id, r.start_time, \
-                         CASE WHEN r.end_time IS NOT NULL THEN r.end_time - r.start_time END AS duration, \
-                         r.complete, s.name AS state, e.election_type, date(e.date) AS election_date \
+                         CASE WHEN r.end_time IS NOT NULL \
+                              THEN r.end_time - r.start_time END AS duration, \
+                         r.spec_version, r.complete, s.name AS state, e.election_type, \
+                         date(e.date) AS election_date \
                   FROM results r \
                   LEFT JOIN v3_0_sources s ON s.results_id = r.id \
                   LEFT JOIN v3_0_elections e ON e.results_id = r.id \
