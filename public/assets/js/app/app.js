@@ -773,6 +773,14 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     }
   }
 
+  $rootScope.feedPath = function(feed) {
+    if (feed.spec_version === "3.0" || !feed.spec_version) {
+      return "#/feeds/" + feed.public_id;
+    } else {
+      return "#/" + feed.spec_version + "/feeds/" + feed.public_id;
+    }
+  }
+
   $rootScope.urlForFeed = function(path) {
     var baseUrl = "#/feeds/" + $rootScope.feedId();
     return baseUrl + path;
