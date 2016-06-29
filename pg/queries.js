@@ -25,21 +25,29 @@ var buildErrorQuery = function(joins, wheres) {
 }
 
 module.exports = {
-  // TODO: join on v5_0_* tables as well, choosing the state name and
-  // election type and date based on which one returned a result
   feeds: "SELECT DISTINCT ON (r.id) \
                  r.public_id, r.start_time, date(r.end_time) AS end_time, \
                  CASE WHEN r.end_time IS NOT NULL \
                       THEN r.end_time - r.start_time END AS duration, \
-                 r.spec_version, r.complete, s.name AS state, e.election_type, \
-                 date(e.date) AS election_date \
+                 r.spec_version, r.complete, COALESCE(s3.name, xtv_state.value) AS state, \
+                 COALESCE(e3.election_type, xtv_type.value) AS election_type, \
+                 CASE WHEN e3.date IS NOT NULL THEN DATE(e3.date) \
+                      WHEN xtv_date.value IS NOT NULL THEN DATE(xtv_date.value) END \
+                      AS election_date \
           FROM results r \
-          LEFT JOIN v3_0_states s ON s.results_id = r.id \
-          LEFT JOIN v3_0_elections e ON e.results_id = r.id \
+          LEFT JOIN v3_0_states s3 ON s3.results_id = r.id \
+          LEFT JOIN v3_0_elections e3 ON e3.results_id = r.id \
+          LEFT JOIN xml_tree_values xtv_state ON xtv_state.results_id = r.id \
+                                             AND xtv_state.simple_path = 'VipObject.State.Name' \
+          LEFT JOIN xml_tree_values xtv_type ON xtv_type.results_id = r.id \
+                                            AND xtv_type.path ~ 'VipObject.*.Election.*.ElectionType.*.Text.0' \
+          LEFT JOIN xml_tree_values xtv_date ON xtv_date.results_id = r.id \
+                                            AND xtv_date.simple_path = 'VipObject.Election.Date' \
           ORDER BY r.id DESC \
           LIMIT 20 OFFSET ($1 * 20);",
   // TODO: join on v5_0_* tables as well, choosing the state name and
-  // election type and date based on which one returned a result
+  // election type and date based on which one returned a result...
+  // DANGER: the WHERE clause is more than meets the eye
   feedsForState: "SELECT r.public_id, r.start_time, \
                          CASE WHEN r.end_time IS NOT NULL \
                               THEN r.end_time - r.start_time END AS duration, \
