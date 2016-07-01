@@ -1,5 +1,7 @@
 'use strict';
 
 function FeedOverview51Ctrl($scope, $routeParams) {
-  $scope.vipfeed = $routeParams.vipfeed;
+  var publicId = $routeParams.vipfeed;
+  $scope.publicId = publicId;
+  $scope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
 }
