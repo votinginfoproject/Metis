@@ -1,4 +1,5 @@
 var pg = require("./gets.js");
+var pg51 = require("./v5_1_queries.js");
 var pgErrors = require("./gets_errors.js");
 var csv = require('./csv.js');
 
@@ -46,6 +47,8 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/overview/streetsegments/errors/report', csv.scopedErrorReport("street-segments"));
   app.get('/db/feeds/:feedid/source/errors/report', csv.scopedErrorReport("sources"));
 
+  ///////// Version 5.1 /////////
+  app.get('/db/feeds/:feedid/xml/overview', pg51.feedOverview);
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
 
   ///////// Version 3.0 /////////
