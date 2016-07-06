@@ -1,10 +1,15 @@
 var util = require('./util.js');
-var overviewQuery = "select r.id, state.name as state_name, \
-                     elections.election_type as election_type, \
-                     to_char(to_date(elections.date, 'MM/DD/YYYY'), 'YYYY-MM-DD') as election_date \
+var overviewQuery = "select r.id, \
+                     xtv_state.value as state_name, \
+                     xtv_type.value as election_type, \
+                     xtv_date.value as election_date \
                      from results r \
-                     left join v5_1_states state on state.results_id = r.id \
-                     left join v5_1_elections elections on elections.results_id = r.id \
+                     left join xml_tree_values xtv_state on xtv_state.results_id = r.id \
+                                           and xtv_state.simple_path = 'VipObject.State.Name' \
+                     left join xml_tree_values xtv_type on xtv_type.results_id = r.id \
+                                           and xtv_type.path ~ 'VipObject.*.Election.*.ElectionType.*.Text.0' \
+                     left join xml_tree_values xtv_date on xtv_date.results_id = r.id \
+                                           and xtv_date.simple_path = 'VipObject.Election.Date' \
                      where r.public_id = $1;"
 
 module.exports = {
