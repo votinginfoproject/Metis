@@ -1,0 +1,28 @@
+<header class="feed-title" ng-click="toggleAsideFunc()">
+  <div class="wrapper">
+
+    <h2>{{pageTitle}}<i class="fi-minus" ng-class="{'fi-plus': toggleAside}"><span class="move">(open navigation)</span></i></h2>
+
+  </div>
+</header>
+<div id="asideSection" class="details animate-hide" ng-class="{'hidden': mobileDimensions}">
+  <div class="wrapper">
+  <div class="aside-nav">
+    <span class="button-errors">
+      <span class="important-errors">{{errorCount.important_error_count | number}} Total Errors in Feed</span>
+      <br>
+      {{errorCount.warning_error_count | number}} Warnings in Feed
+      <time id="feedDueDate" ng-if="getDueDateText(election.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(election.date)}}</time>
+      <a class="button button-download" href="{{errorReport}}">Download full error report</a>
+
+    </span>
+
+    <nav class="feed-nav">
+      <ul>
+        <li><a id="sidebar-overview" class="is-finished" href="{{v5_utils.feedURL('')}}">Overview</a></li>
+        <li><a id="sidebar-source" class="is-finished" href="{{v5_utils.feedURL('/errors')}}">Errors (coming soon)</a></li>
+      </ul>
+    </nav>
+  </div>
+  </div>
+</div>

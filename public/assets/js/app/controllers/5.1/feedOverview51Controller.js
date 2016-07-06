@@ -2,7 +2,7 @@
 
 function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams, $location, $appProperties, $filter, ngTableParams) {
   var publicId = $scope.publicId = $routeParams.vipfeed;
-  $scope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
+  $rootScope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
 
   $feedDataPaths.getResponse({path: '/db/feeds/' + publicId + '/xml/overview',
                               scope:  $rootScope,
@@ -13,5 +13,7 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams, $l
                                $scope.pageTitle = row.election_date + " " +
                                                   row.election_type + " " +
                                                   row.state_name;
+                               $rootScope.pageTitle = $scope.pageTitle;
+                               $rootScope.setPageHeader($scope.pageTitle, [], 'v5-feeds', null, null);
                              });
 }

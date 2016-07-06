@@ -795,4 +795,20 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     return '/db/feeds/' + $rootScope.feedId() + '/errors/report';
   }
 
+  /*
+   * TODO figure out where this stuff _ACTUALLY_ goes...
+   * TODO perhaps lose these helpers and find a better way to do the thing...
+   */
+  $rootScope.v5_utils = {};
+  $rootScope.v5_utils.feedId = function () {
+    var locationParts = window.location.hash.split("/");
+    if (locationParts[2] === "feeds") {
+      return locationParts[3];
+    }
+  }
+
+  $rootScope.v5_utils.feedURL = function(path) {
+    var baseUrl = "#/5.1/feeds/" + $rootScope.v5_utils.feedId();
+    return baseUrl + path;
+  }
 });
