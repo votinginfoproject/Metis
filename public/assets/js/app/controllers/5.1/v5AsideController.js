@@ -1,3 +1,3 @@
-function v5AsideController($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
+function v5AsideController($routeParams) {
   var feedid = $routeParams.vipfeed;
 }

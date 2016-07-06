@@ -1,6 +1,6 @@
 'use strict';
 
-function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams, $location, $appProperties, $filter, ngTableParams) {
+function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams) {
   var publicId = $scope.publicId = $routeParams.vipfeed;
   $rootScope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
 
