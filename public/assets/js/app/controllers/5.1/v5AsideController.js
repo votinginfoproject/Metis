@@ -1,6 +1,5 @@
-function v5AsideController($scope, $rootScope, $routeParams) {
-  var publicId = $scope.publicId = $routeParams.vipfeed;
+function v5AsideController($scope, $rootScope) {
   $rootScope.feedURL = function(path) {
-    return "#/5.1/feeds/" + $scope.publicId + path;
+    return "#/5.1/feeds/" + $rootScope.publicId + path;
   };
 }

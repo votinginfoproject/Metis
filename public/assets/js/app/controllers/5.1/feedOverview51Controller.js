@@ -1,7 +1,7 @@
 'use strict';
 
 function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams) {
-  var publicId = $scope.publicId = $routeParams.vipfeed;
+  var publicId = $rootScope.publicId = $routeParams.vipfeed;
   $rootScope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
 
   $feedDataPaths.getResponse({path: '/db/feeds/' + publicId + '/xml/overview',
