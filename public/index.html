@@ -119,7 +119,7 @@
 
   <header role="banner">
     <div class="wrapper">
-        <a href="/" class="branding"><span>VIP Dashboard</span></a>
+      <a href="/" class="branding"><span>VIP Dashboard</span></a>
 
       <nav class="main-nav" ng-if="user.isAuthenticated">
         <ul>
@@ -128,46 +128,18 @@
           <li><a id="pageHeader-sign-out" href="/logout"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
-
-    </div><!-- / .wrapper -->
+    </div>
   </header>
 
-  <div class="main" role="main">
-    <div class="wrapper">
+  <div class="main" role="main" ng-switch on="$location.url().split('/')[1]">
+    <div class="wrapper" ng-switch-when="5.1">
+      <div ng-include src="'app/partials/5.1/index-chunk.html'"></div>
+    </div>
 
-      <div class="content" ng-class="{feed: (pageHeader.section === 'feeds' || pageHeader.section === 'v5-feeds') && pageHeader.title !== 'Feeds'}">
-
-        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
-
-        <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
-          <ul>
-            <li id="pageHeader-breadcrumb{{$index}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs"><a href="{{crumb.url}}">{{crumb.name}}</a></li>
-          </ul>
-        </nav>
-
-        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0" ng-cloak>
-          ERROR: {{pageHeader.error}}
-        </div>
-
-      <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0" ng-cloak>
-        NOTE: {{pageHeader.alert}}
-      </div>
-
-
-      <!-- Current Page -->
-      <div ng-view></div>
-
-        <footer role="contentinfo">
-          <small>&copy; Copyright 2014 Voting Information Project.</small>
-        </footer><!-- / contentinfo -->
-      </div><!-- /.content -->
-
-      <aside class="feed-meta" ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds' && pageHeader.title!=='Feeds'" ng-controller="AsideCtrl" ng-include src="'app/partials/aside.html'"></aside>
-      <aside class="feed-meta" ng-if="$location.url() != '/feeds' && pageHeader.section === 'v5-feeds' && pageHeader.title!=='Feeds'" ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
-
-    </div><!-- / .wrapper -->
-
-  </div><!-- / main -->
+    <div class="wrapper" ng-switch-default>
+      <div ng-include src="'app/partials/legacy-index-chunk.html'"></div>
+    </div>
+  </div>
 
 </body>
 </html>
