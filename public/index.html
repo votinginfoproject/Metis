@@ -133,11 +133,45 @@
 
   <div class="main" role="main" ng-switch on="$location.url().split('/')[1]">
     <div class="wrapper" ng-switch-when="5.1">
-      <div ng-include src="'app/partials/5.1/index-chunk.html'"></div>
+      <div class="content feed">
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+        <div ng-view></div>
+
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2014 Voting Information Project.</small>
+        </footer>
+      </div>
+
+      <aside class="feed-meta" ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
     </div>
 
     <div class="wrapper" ng-switch-default>
-      <div ng-include src="'app/partials/legacy-index-chunk.html'"></div>
+      <div class="content" ng-class="{feed: (pageHeader.section === 'feeds' || pageHeader.section === 'v5-feeds') && pageHeader.title !== 'Feeds'}">
+
+        <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
+
+        <nav id="pageHeader-breadcrumbs" class="breadcrumbs" ng-if="pageHeader.breadcrumbs!==null">
+          <ul>
+            <li id="pageHeader-breadcrumb{{$index}}" ng-class="{'is-active': $last || crumb.url==null }" ng-repeat="crumb in pageHeader.breadcrumbs"><a href="{{crumb.url}}">{{crumb.name}}</a></li>
+          </ul>
+        </nav>
+
+        <div id="pageHeader-error" class="alert-box error" ng-if="pageHeader.error!==null && pageHeader.error.length > 0" ng-cloak>
+          ERROR: {{pageHeader.error}}
+        </div>
+
+        <div id="pageHeader-alert" class="alert-box" ng-if="pageHeader.alert!==null && pageHeader.alert.length > 0" ng-cloak>
+          NOTE: {{pageHeader.alert}}
+        </div>
+
+        <div ng-view></div>
+
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2014 Voting Information Project.</small>
+        </footer>
+      </div>
+
+      <aside class="feed-meta" ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds' && pageHeader.title!=='Feeds'" ng-controller="AsideCtrl" ng-include src="'app/partials/aside.html'"></aside>
     </div>
   </div>
 
