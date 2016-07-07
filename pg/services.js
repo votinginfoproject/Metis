@@ -51,6 +51,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/xml/overview', pg51.feedOverview);
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
+  app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
 
   ///////// Version 3.0 /////////
   app.get('/db/v3/feeds/:feedid/election', pg.v3.getFeedElection);

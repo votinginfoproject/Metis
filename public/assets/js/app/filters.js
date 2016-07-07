@@ -283,6 +283,11 @@ angular.module('vipFilters', []).
       }
       return "id = " + identifier + " (" + error.error_data + ")";
     }}).
+  filter('xmlTreeErrorExample', function () {
+    return function(error) {
+      var path = error.path;
+      return "path = " + path + " (" + error.error_data + ")";
+    }}).
   filter('errorCompletion', function () {
     return function(overview) {
       if (!overview.errors || !overview.info) { return 100; }
