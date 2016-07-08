@@ -165,7 +165,7 @@
         </footer>
       </div>
 
-      <span ng-switch on="$location.url().split('/')[1]">
+      <div ng-switch on="$location.url().split('/')[1]">
         <div ng-switch-when="5.1">
           <aside class="feed-meta" ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
         </div>
@@ -175,7 +175,7 @@
                  ng-controller="AsideCtrl"
                  ng-include src="'app/partials/aside.html'"></aside>
         </div>
-      </span>
+      </div>
 
     </div>
   </div>
