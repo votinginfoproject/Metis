@@ -14,6 +14,6 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams) {
                                                   row.election_type + " " +
                                                   row.state_name;
                                $rootScope.pageTitle = $scope.pageTitle;
-                               $rootScope.setPageHeader($scope.pageTitle, [], 'v5-feeds', null, null);
+                               $rootScope.setPageHeader($scope.pageTitle, [], 'feeds', null, null);
                              });
 }

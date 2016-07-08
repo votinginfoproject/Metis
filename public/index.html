@@ -134,7 +134,7 @@
   <div class="main" role="main">
     <div class="wrapper">
       <div class="content"
-           ng-class="{feed: (pageHeader.section === 'feeds' || pageHeader.section === 'v5-feeds') && pageHeader.title !== 'Feeds'}">
+           ng-class="{feed: pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'}">
 
         <h1 id="pageHeader-title">{{pageHeader.title}}</h1>
 
