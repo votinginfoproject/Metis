@@ -91,7 +91,7 @@ partialGetInterceptor = function(req,res,next){
 
   // if on the home page/login screen, continue as normal
   // with the success html status code
-  if(req.path==="/app/partials/home.html"){
+  if(req.path === "/app/partials/home.html" || req.path === "/app/partials/legacy-index-chunk.html"){
     next();
   } else {
     utils.ensureAuthentication(req,res,next);
