@@ -12,6 +12,16 @@ var overviewQuery = "select r.id, \
                                            and xtv_date.simple_path = 'VipObject.Election.Date' \
                      where r.public_id = $1;"
 
+var totalErrorsQuery = "select (select count(v.*) \
+                                from xml_tree_validations v \
+                                where r.id = v.results_id \
+                                  and v.severity in ('fatal', 'critical', 'errors')) as total_errors, \
+                               (select count(v.*) \
+                                from xml_tree_validations v \
+                                where r.id = v.results_id \
+                                  and v.severity = 'warnings') as total_warnings \
+                        from results r where r.public_id = $1;"
 module.exports = {
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
+  totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
 }
