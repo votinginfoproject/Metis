@@ -167,11 +167,13 @@
 
       <div ng-switch on="$location.url().split('/')[1]">
         <div ng-switch-when="5.1">
-          <aside class="feed-meta" ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
+          <aside class="feed-meta"
+                 ng-if="$location.url() !== '/feeds' && pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'"
+                 ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
         </div>
         <div ng-switch-default>
           <aside class="feed-meta"
-                 ng-if="$location.url()!='/feeds' && pageHeader.section==='feeds' && pageHeader.title!=='Feeds'"
+                 ng-if="$location.url() !== '/feeds' && pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'"
                  ng-controller="AsideCtrl"
                  ng-include src="'app/partials/aside.html'"></aside>
         </div>

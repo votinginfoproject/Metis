@@ -9,9 +9,9 @@
   <div class="wrapper">
   <div class="aside-nav">
     <span class="button-errors">
-      <span class="important-errors">{{errorCount.important_error_count | number}} Total Errors in Feed</span>
+      <span class="important-errors">{{errorCount.total_errors | number}} Total Errors in Feed</span>
       <br>
-      {{errorCount.warning_error_count | number}} Warnings in Feed
+      {{errorCount.total_warnings | number}} Warnings in Feed
       <time id="feedDueDate" ng-if="getDueDateText(election.date)" class="due-date"><i class="fi-clock"></i> Final feed due {{getDueDateText(election.date)}}</time>
       <a class="button button-download" href="{{errorReport}}">Download full error report</a>
 
