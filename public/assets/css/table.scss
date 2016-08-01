@@ -51,3 +51,15 @@ th {
     text-align: right;
   }
 }
+
+.fatal-caption {
+  background-color: $red;
+  color: $white;
+  text-align: left;
+}
+
+.errors-caption {
+  background-color: $blue;
+  color: $white;
+  text-align: left;
+}

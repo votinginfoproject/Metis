@@ -9,10 +9,10 @@ function FeedErrors51Ctrl($scope, $rootScope, $routeParams, $feedDataPaths) {
 
   $scope.errors = null;
 
-  $scope._toggleError = function (index) {
-    var obj = jQuery("#errorDetail" + index);
-    var arrowClosed = jQuery("#errorArrowClosed" + index);
-    var arrowOpen = jQuery("#errorArrowOpen" + index);
+  $scope._toggleError = function (prefix, index) {
+    var obj = jQuery("#" + prefix + "ErrorDetail" + index);
+    var arrowClosed = jQuery("#" + prefix + "ErrorArrowClosed" + index);
+    var arrowOpen = jQuery("#" + prefix + "ErrorArrowOpen" + index);
 
     if (obj.is(":visible")) {
       obj.hide();
@@ -29,5 +29,13 @@ function FeedErrors51Ctrl($scope, $rootScope, $routeParams, $feedDataPaths) {
   $feedDataPaths.getResponse({ path: '/db/feeds/' + publicId + '/xml/errors/summary',
                                scope:  $scope,
                                key: 'errors',
-                               errorMessage: 'Cound not retrieve errors' });
+                               errorMessage: 'Cound not retrieve errors' },
+                             function (results) {
+                               $scope.fatalErrors = results.filter(function(row) {
+                                 return row.severity === 'fatal' || row.severity === 'critical';
+                               });
+                               $scope.minorErrors = results.filter(function(row) {
+                                 return row.severity === 'warnings' || row.severity === 'errors';
+                               });
+                             });
 }
