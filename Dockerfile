@@ -1,4 +1,4 @@
-FROM node:0.12.2
+FROM node:0.12.15
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 # install Grunt
