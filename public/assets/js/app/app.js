@@ -35,6 +35,23 @@ var formatVipFeedID = function(name) {
 };
 
 /*
+ * Vip App Directives
+ */
+
+vipApp.directive('vipOverviewTable', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      tableData: '=',
+      table: '=',
+      title: '=',
+      idPrefix: '='
+    },
+    templateUrl: 'app/partials/5.1/overviewTable.html',
+  }
+});
+
+/*
  * VIP App configuration
  *
  * Will setup routing and retrieve reference data for the app before any pages are loaded

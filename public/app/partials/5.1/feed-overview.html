@@ -1,91 +1,16 @@
 <i id="feed-overview-content"></i>
 
 <div class="overview-wrap">
-  <section class="data-group data-module started">
-    <header class="data-group-header">
-      <h2>Voting Locations</h2>
-      <span ng-if="!overviewData" class="more-detail is-loading"></span>
+  <section class="data-group data-module started"
+           ng-show="summaries">
+    <vip-overview-table
+       table="pollingLocationsTable"
+       table-data="summaries.pollingLocations"
+       title="'Voting Locations'"
+       id-prefix="'pollingLocation'">
+    </vip-overview-table>
 
-      <a id="state-link"
-         ng-if="overviewData.pollingLocations"
-         class="more-detail"
-         href="{{$location.absUrl()}}/election/state">More Detail</a>
-    </header>
 
-    <section class="data-group data-module">
-      <div ng-if="!overviewData">
-        <br/>
-        <span class="is-loading"></span>
-      </div>
-
-      <table id="pollingTable"
-             class="overview associations"
-             template-pagination="pollingPagination"
-             ng-show="overviewData"
-             ng-table="pollingLocationsTable">
-
-        <tr id="pollingLocation{{$index}}" ng-repeat="pollingLocation in $data">
-          <td data-title="'Element Type'"
-              sortable="'element_type'"
-              id="pollingLocation-element-type{{$index}}"
-              class="element-type">
-            <span data-title-text="Element Type">{{pollingLocation.element_type}}</span>
-          </td>
-
-          <td data-title="'Amount'"
-              sortable="'count'"
-              id="pollingLocation-amount{{$index}}"
-              class="numeric amount">
-            <span data-title-text="Amount">{{pollingLocation.count | number}}</span></td>
-
-          <td data-title="'Completion'"
-              sortable="'complete_pct'"
-              id="pollingLocation-complete{{$index}}"
-              class="completion">
-            <div data-title-text="Completion" class="completeness">
-              <span class="complete-{{pollingLocation.complete_pct}}"></span>
-              <div class="counter">
-                {{pollingLocation.complete_pct | number}}% <span class="counter-text">complete</span>
-              </div>
-            </div>
-          </td>
-
-          <td data-title="'Errors'"
-              sortable="'error_count'"
-              id="pollingLocation-errors{{$index}}"
-              class="numeric element-errors">
-            <a data-title-text="Errors"
-               title="View the Errors"
-               ng-class="{default_pointer: pollingLocation.error_count === 0}"
-               href="{{pollingLocation.error_count === 0 ? 'javascript: void(0);' : pollingLocation.link}}">
-              <div errorvalue="{{pollingLocation.error_count}}"
-                   ng-class="{none: pollingLocation.error_count===0}"
-                   class="errors">
-                {{pollingLocation.error_count | number}}
-                <span class="error-text" ng-if="pollingLocation.error_count === 1">error</span>
-                <span class="error-text" ng-if="pollingLocation.error_count != 1">errors</span>
-                <span ng-if="pollingLocation.error_count === 0">
-                  <i class="fi-check"></i>
-                </span><span ng-if="pollingLocation.error_count != 0">
-                  <i class="fi-alert"></i>
-                </span>
-              </div>
-            </a>
-          </td>
-        </tr>
-      </table>
-
-      <script type="text/ng-template" id="pollingPagination">
-        <ul class="pagination ng-cloak">
-          <li ng-repeat="page in pages"
-              ng-class="{'ng-hide': page.type == 'prev' || page.type == 'next'}">
-            <a id="feedsPage{{$index}}"
-               ng-class="{'is-active': page.number == pollingLocationsTable.page()}"
-               ng-click="pollingLocationsTable.page(page.number)"
-               href="">{{page.number}}</a>
-          </li>
-        </ul>
-      </script>
     </section>
   </section>
 </div>

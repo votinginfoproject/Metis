@@ -20,16 +20,17 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                  });
 
   $feedDataPaths
-    .getResponse({path: 'db/feeds/' + publicId + '/xml/localityOverview',
-                  scope: $rootScope,
-                  key: 'pollingLocations',
-                  errorMessage: 'Could not get locality data'},
-                 function(result) {
-                   var row = $rootScope.pollingLocationsData = result.shift();
+    .getResponse({path: 'db/feeds/' + $rootScope.publicId + '/xml/overview-summary',
+                  scope: $scope,
+                  key: 'summaries',
+                  errorMessage: 'Could not get summary data'},
+                 function (results) {
                    $scope.pollingLocationsTable =
-                     $rootScope.createTableParams(ngTableParams, $filter,
-                                                  row.pollingLocations,
-                                                  $appProperties.lowPagination,
-                                                  { element_type: 'asc' });
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.pollingLocations,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
                  });
 }
