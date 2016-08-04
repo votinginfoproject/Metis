@@ -12,6 +12,8 @@ vipApp.factory('$feedDataPaths', function ($http) {
         }).
         error(function (results, status) {
           options['scope'][options['key']] = null;
+          options['pageHeader'] = options['pageHeader'] || {};
+          options['pageHeader']['error'] = options['pageHeader']['error'] || '';
           options['pageHeader']['error'] += options['errorMessage'];
         });
     }
