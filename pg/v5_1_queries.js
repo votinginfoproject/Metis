@@ -64,7 +64,11 @@ var getFeedOverviewSummaryData = function(req, res) {
                              overviewTableRow(row, 'Election Administration', 'election_administration', '#/5.1/feeds/' + feedid + '/overview/election_administeations/errors'),
                              overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + feedid + '/overview/departments/errors'),
                              overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + feedid + '/overview/voter_service/errors'),
-                              ]
+                           ],
+                           sourceElection: [
+                             overviewTableRow(row, 'Source', 'source', '#/5.1/feeds/' + feedid + '/overview/source/errors'),
+                             overviewTableRow(row, 'Election', 'election', '#/5.1/feeds/' + feedid + '/overview/election/errors'),
+                           ]
                          };
                        resp.writeResponse(summaries, res);
                      }

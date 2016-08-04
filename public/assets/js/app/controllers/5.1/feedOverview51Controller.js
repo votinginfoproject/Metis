@@ -39,5 +39,12 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                        results.voterResources,
                        $appProperties.lowPagination,
                        { element_type: 'asc' });
+                   $scope.sourceElectionTable =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.sourceElection,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
                  });
 }
