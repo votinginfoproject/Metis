@@ -4,22 +4,22 @@
   <section class="data-group data-module started"
            ng-show="summaries">
     <vip-overview-table
-       table="pollingLocationsTable"
        table-data="summaries.pollingLocations"
+       table-params="tableParams.pollingLocations"
        title="'Voting Locations'"
        id-prefix="'pollingLocation'">
     </vip-overview-table>
 
     <vip-overview-table
-       table="voterResourcesTable"
        table-data="summaries.voterResources"
+       table-params="tableParams.voterResources"
        title="'Voter Resources'"
        id-prefix="'voterResource'">
     </vip-overview-table>
 
     <vip-overview-table
-       table="sourceElectionTable"
        table-data="summaries.sourceElection"
+       table-params="tableParams.sourceElection"
        title="'Source and Election'"
        id-prefix="'sourceElection'">
     </vip-overview-table>

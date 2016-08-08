@@ -25,21 +25,22 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                   key: 'summaries',
                   errorMessage: 'Could not get summary data'},
                  function (results) {
-                   $scope.pollingLocationsTable =
+                   $scope.tableParams = {}
+                   $scope.tableParams.pollingLocations =
                      $rootScope.createTableParams(
                        ngTableParams,
                        $filter,
                        results.pollingLocations,
                        $appProperties.lowPagination,
                        { element_type: 'asc' });
-                   $scope.voterResourcesTable =
+                   $scope.tableParams.voterResources =
                      $rootScope.createTableParams(
                        ngTableParams,
                        $filter,
                        results.voterResources,
                        $appProperties.lowPagination,
                        { element_type: 'asc' });
-                   $scope.sourceElectionTable =
+                   $scope.tableParams.sourceElection =
                      $rootScope.createTableParams(
                        ngTableParams,
                        $filter,
