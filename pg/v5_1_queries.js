@@ -65,6 +65,17 @@ var getFeedOverviewSummaryData = function(req, res) {
                              overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + feedid + '/overview/departments/errors'),
                              overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + feedid + '/overview/voter_service/errors'),
                            ],
+                           contests: [
+                             overviewTableRow(row, 'Candidate Contests', 'candidate_contest', '#/5.1/feeds/' + feedid + '/overview/candidate_contests/errors'),
+                             overviewTableRow(row, 'Candidate Selections', 'candidate_selection', '#/5.1/feeds/' + feedid + '/overview/candidate_selection/errors'),
+                             overviewTableRow(row, 'Ballot Measure Contests', 'ballot_measure_contest', '#/5.1/feeds/' + feedid + '/overview/ballot_measure_contests/errors'),
+                             overviewTableRow(row, 'Ballot Selections', 'ballot_selection', '#/5.1/feeds/' + feedid + '/overview/ballot_selections/errors'),
+                             overviewTableRow(row, 'Retention Contests', 'retention_contest', '#/5.1/feeds/' + feedid + '/overview/retention_contests/errors'),
+                             overviewTableRow(row, 'Party Contests', 'party_contest', '#/5.1/feeds/' + feedid + '/overview/party_contests/errors'),
+                             overviewTableRow(row, 'Electoral Districts', 'electoral_district', '#/5.1/feeds/' + feedid + '/overview/electoral_districts/errors'),
+                             overviewTableRow(row, 'Candidates', 'candidate', '#/5.1/feeds/' + feedid + '/overview/candidates/errors'),
+                             overviewTableRow(row, 'Offices', 'office', '#/5.1/feeds/' + feedid + '/overview/offices/errors'),
+                           ],
                            sourceElection: [
                              overviewTableRow(row, 'Source', 'source', '#/5.1/feeds/' + feedid + '/overview/source/errors'),
                              overviewTableRow(row, 'Election', 'election', '#/5.1/feeds/' + feedid + '/overview/election/errors'),

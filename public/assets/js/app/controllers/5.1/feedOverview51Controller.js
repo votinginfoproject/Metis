@@ -40,6 +40,13 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                        results.voterResources,
                        $appProperties.lowPagination,
                        { element_type: 'asc' });
+                   $scope.tableParams.contests =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.contests,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
                    $scope.tableParams.sourceElection =
                      $rootScope.createTableParams(
                        ngTableParams,
