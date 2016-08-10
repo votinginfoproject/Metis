@@ -12,8 +12,8 @@ vipApp.directive('vipOverviewTable', function () {
     scope: {
       tableData: '=',
       tableParams: '=',
-      title: '=',
-      idPrefix: '='
+      title: '@',
+      idPrefix: '@'
     },
     templateUrl: 'app/partials/5.1/overviewTable.html',
   }
