@@ -1,19 +1,20 @@
 /*
- * A directive that renders out an Overview Table that consists of:
- *  - Element Type
- *  - Amount
- *  - Completion (with custom styling)
- *  - Errors (with custom styling)
- */
-vipApp.directive('ngOverviewtable', function() {
+ * <vip-overview-table> renders an overview table.
+ * Attributes:
+ * - tableData: the data for the rows
+ * - tableParams: the table params from createTableParams()
+ * - title: the title for the table
+ * - id-prefix: a prefix for the ids generated in the table.
+*/
+vipApp.directive('vipOverviewTable', function () {
   return {
-    restrict: 'A',
-    require: '^ngModel',
+    restrict: 'E',
     scope: {
-      ngModel: '=',  // our angular model that we will loop over
-      loading: '=',  // our angular model that used to determine when to show and hide the loading indicator (in most cases will be the same as our ngModel)
-      label: '@'     // a label used when adding in ids to the table cells
+      tableData: '=',
+      tableParams: '=',
+      title: '@',
+      idPrefix: '@'
     },
-    templateUrl: 'assets/js/app/directives/overviewTableTemplate.html'
+    templateUrl: 'app/partials/5.1/overviewTable.html',
   }
 });

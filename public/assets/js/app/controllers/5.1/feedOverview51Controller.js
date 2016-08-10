@@ -20,16 +20,39 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                  });
 
   $feedDataPaths
-    .getResponse({path: 'db/feeds/' + publicId + '/xml/localityOverview',
-                  scope: $rootScope,
-                  key: 'pollingLocations',
-                  errorMessage: 'Could not get locality data'},
-                 function(result) {
-                   var row = $rootScope.pollingLocationsData = result.shift();
-                   $scope.pollingLocationsTable =
-                     $rootScope.createTableParams(ngTableParams, $filter,
-                                                  row.pollingLocations,
-                                                  $appProperties.lowPagination,
-                                                  { element_type: 'asc' });
+    .getResponse({path: 'db/feeds/' + $rootScope.publicId + '/xml/overview-summary',
+                  scope: $scope,
+                  key: 'summaries',
+                  errorMessage: 'Could not get summary data'},
+                 function (results) {
+                   $scope.tableParams = {}
+                   $scope.tableParams.pollingLocations =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.pollingLocations,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
+                   $scope.tableParams.voterResources =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.voterResources,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
+                   $scope.tableParams.contests =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.contests,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
+                   $scope.tableParams.sourceElection =
+                     $rootScope.createTableParams(
+                       ngTableParams,
+                       $filter,
+                       results.sourceElection,
+                       $appProperties.lowPagination,
+                       { element_type: 'asc' });
                  });
 }
