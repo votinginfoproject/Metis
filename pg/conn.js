@@ -3,6 +3,7 @@ var pg = require('pg');
 var logger = (require('../logging/vip-winston')).Logger;
 
 var config = {
+  host: process.env.DB_PORT_5432_TCP_ADDR,
   user: process.env.DB_ENV_POSTGRES_USER,
   database: process.env.DB_ENV_POSTGRES_DATABASE,
   password: process.env.DB_ENV_POSTGRES_PASSWORD,
