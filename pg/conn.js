@@ -16,8 +16,8 @@ var pool = new pg.Pool(config);
 
 var queryFromPool = function(callback) {
   pool.connect(function(err, client, done) {
-    if(err) {
-      return console.error('error fetching client from pool', err);
+    if (err) {
+      logger.crit('error fetching client from pool', err);
     }
     else {
       callback(client);
