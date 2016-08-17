@@ -9,7 +9,7 @@ var config = {
   password: process.env.DB_ENV_POSTGRES_PASSWORD,
   port: process.env.DB_PORT_5432_TCP_PORT,
   max: 10, // clients in the connection pool
-  idleTimeoutMillis: 500000
+  idleTimeoutMillis: 300000
 };
 
 var pool = new pg.Pool(config);
@@ -26,8 +26,8 @@ var queryFromPool = function(callback) {
 });
 
   pool.on('error', function (err, client) {
-    logger.crit('*** WOWZERS *** idle client error', err.message, err.stack);
-    console.error('*** BONKERS *** idle client error', err.message, err.stack);
+    logger.error('idle client error', err.message, err.stack);
+    console.error('idle client error', err.message, err.stack);
   });
 }
 

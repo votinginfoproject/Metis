@@ -97,5 +97,5 @@ pg.connect(connString, function(err, client, done) {
     return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
   }
 
-  logger.info('Connected to PostgreSQL. May your queries terminate before a 5 minute timeout.');
+  logger.info('Connected to PostgreSQL. May your queries terminate before a 3 minute timeout.');
 });
