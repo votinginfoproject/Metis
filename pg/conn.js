@@ -27,7 +27,6 @@ var queryFromPool = function(callback) {
 
   pool.on('error', function (err, client) {
     logger.error('idle client error', err.message, err.stack);
-    console.error('idle client error', err.message, err.stack);
   });
 }
 
