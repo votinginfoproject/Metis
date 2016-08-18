@@ -59,7 +59,9 @@ var errorReport = function(innerJoins, where, params, scope) {
         });
 
         query.on("error", function(e) {
-          logger.info("[ERROR] Generating an error report for feed '" + feedid + "' caused '" + e +"'");
+          logger.error("Generating an error report for '" + feedid + "' caused " + e.message);
+          // If the query doesn't return anything before we hit our connection's
+          // timeout, we'll only have added CSV headers to the response.
           res.end();
         });
       });
