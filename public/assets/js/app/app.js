@@ -62,6 +62,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedOverviewCtrl'
     });
 
+    // 5.1 feeds
     $routeProvider.when('/5.1/feeds/:vipfeed', {
       templateUrl: $appProperties.contextRoot + '/app/partials/5.1/feed-overview.html',
       controller: 'FeedOverview51Ctrl'
@@ -72,6 +73,13 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedErrors51Ctrl'
     });
 
+    var v5_errors = {templateUrl: $appProperties.contextRoot + '/app/partials/5.1/errors.html',
+                     controller: 'FeedErrorOverview51Ctrl' };
+
+    $routeProvider
+      .when('/5.1/feeds/:vipfeed/overview/:type/errors', v5_errors)
+
+    // 3.0 feeds
     $routeProvider.when('/feeds/:vipfeed/source', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-source.html',
       controller: 'FeedSourceCtrl'

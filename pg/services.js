@@ -50,6 +50,12 @@ function registerPostgresServices (app) {
   ///////// Version 5.1 /////////
   app.get('/db/feeds/:feedid/xml/overview', pg51.feedOverview);
   app.get('/db/feeds/:feedid/xml/overview-summary', pg51.feedOverviewSummaryData);
+  app.get('/db/5.1/feeds/:feedid/overview/street_segments/errors', pg51.overviewErrors("street-segment"));
+  app.get('/db/5.1/feeds/:feedid/overview/state/errors', pg51.overviewErrors("state"));
+  app.get('/db/5.1/feeds/:feedid/overview/precincts/errors', pg51.overviewErrors("precinct"));
+  app.get('/db/5.1/feeds/:feedid/overview/polling_locations/errors', pg51.overviewErrors("polling-location"));
+  app.get('/db/5.1/feeds/:feedid/overview/localities/errors', pg51.overviewErrors("locality"));
+  app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', pg51.overviewErrors("hours-open"));
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);

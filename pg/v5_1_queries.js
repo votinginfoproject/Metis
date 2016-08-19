@@ -33,6 +33,32 @@ var errorSummary = "SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
                     WHERE r.public_id = $1 \
                     GROUP BY v.severity, v.scope, v.error_type;"
 
+var errorResponder = function(query, params) {
+  return util.simpleQueryResponder(query, util.paramExtractor(params));
+};
+
+var overallErrorQuery = function(scope) {
+    return buildErrorQuery("", "xtv.scope = '" + scope  +"'");
+};
+
+var buildErrorQuery = function(joins, wheres) {
+  var wherePart = "";
+  if (wheres) {
+    wherePart = "AND " + wheres;
+  }
+
+  return "SELECT DISTINCT ON (xtv.severity, xtv.scope, xtv.error_type) \
+                 COUNT(1), xtv.severity, xtv.scope, xtv.error_type, \
+                 (array_agg(xtv.path))[1] AS path, \
+                 (array_agg(xtv.error_data))[1] AS error_data \
+          FROM xml_tree_validations xtv \
+          INNER JOIN results r ON r.id = xtv.results_id " +
+         joins +
+         " WHERE r.public_id = $1 " + wherePart +
+         " GROUP BY xtv.severity, xtv.scope, xtv.error_type";
+};
+
+
 var overviewTableRow = function(row, type, dbTable, link) {
   return {element_type: type,
           count: row[dbTable + '_count'],
@@ -92,4 +118,5 @@ module.exports = {
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
   feedOverviewSummaryData: getFeedOverviewSummaryData,
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
+  overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); }
 }
