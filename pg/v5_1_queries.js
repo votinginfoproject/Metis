@@ -38,7 +38,7 @@ var errorResponder = function(query, params) {
 };
 
 var overallErrorQuery = function(scope) {
-    return buildErrorQuery("", "xtv.scope = '" + scope  +"'");
+    return buildErrorQuery("", "subpath(xtv.path, 2, 1) = '" + scope  +"'");
 };
 
 var buildErrorQuery = function(joins, wheres) {
