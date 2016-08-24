@@ -26,10 +26,8 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
   }
   $scope.toggleError = $scope._toggleError;
 
-  console.log("5.1 errors controller");
-
   $feedDataPaths.getResponse({ path: '/db' + $location.path(),
-                               scope:  $rootScope,
+                               scope:  $scope,
                                key: 'errors',
                                errorMessage: 'Cound not retrieve errors' },
                              function (results) {
