@@ -56,6 +56,8 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/polling_locations/errors', pg51.overviewErrors("PollingLocation"));
   app.get('/db/5.1/feeds/:feedid/overview/localities/errors', pg51.overviewErrors("Locality"));
   app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', pg51.overviewErrors("HoursOpen"));
+  app.get('/db/5.1/feeds/:feedid/overview/source/errors', pg51.overviewErrors("Source"));
+  app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
