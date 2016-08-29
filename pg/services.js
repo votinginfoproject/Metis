@@ -60,7 +60,7 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', pg51.overviewErrors("HoursOpen"));
 
   // Voter Resources
-  app.get('/db/5.1/feeds/:feedid/overview/election_administration/errors', pg51.overviewErrors("ElectionAdministration"));
+  app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', pg51.overviewErrors("ElectionAdministration"));
   app.get('/db/5.1/feeds/:feedid/overview/departments/errors', pg51.overviewErrors("Department"));
   app.get('/db/5.1/feeds/:feedid/overview/voter_services/errors', pg51.overviewErrors("VoterService"));
 
