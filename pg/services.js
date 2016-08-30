@@ -50,12 +50,35 @@ function registerPostgresServices (app) {
   ///////// Version 5.1 /////////
   app.get('/db/feeds/:feedid/xml/overview', pg51.feedOverview);
   app.get('/db/feeds/:feedid/xml/overview-summary', pg51.feedOverviewSummaryData);
+
+  // Voting locations
   app.get('/db/5.1/feeds/:feedid/overview/street_segments/errors', pg51.overviewErrors("StreetSegment"));
   app.get('/db/5.1/feeds/:feedid/overview/state/errors', pg51.overviewErrors("State"));
   app.get('/db/5.1/feeds/:feedid/overview/precincts/errors', pg51.overviewErrors("Precinct"));
   app.get('/db/5.1/feeds/:feedid/overview/polling_locations/errors', pg51.overviewErrors("PollingLocation"));
   app.get('/db/5.1/feeds/:feedid/overview/localities/errors', pg51.overviewErrors("Locality"));
   app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', pg51.overviewErrors("HoursOpen"));
+
+  // Voter Resources
+  app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', pg51.overviewErrors("ElectionAdministration"));
+  app.get('/db/5.1/feeds/:feedid/overview/departments/errors', pg51.overviewErrors("Department"));
+  app.get('/db/5.1/feeds/:feedid/overview/voter_services/errors', pg51.overviewErrors("VoterService"));
+
+  // Contests table
+  app.get('/db/5.1/feeds/:feedid/overview/candidate_contests/errors', pg51.overviewErrors("CandidateContest"));
+  app.get('/db/5.1/feeds/:feedid/overview/candidate_selection/errors', pg51.overviewErrors("CandidateSelection"));
+  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', pg51.overviewErrors("BallotMeasureContest"));
+  app.get('/db/5.1/feeds/:feedid/overview/ballot_selections/errors', pg51.overviewErrors("BallotSelection"));
+  app.get('/db/5.1/feeds/:feedid/overview/retention_contests/errors', pg51.overviewErrors("RetentionContest"));
+  app.get('/db/5.1/feeds/:feedid/overview/party_contests/errors', pg51.overviewErrors("PartyContest"));
+  app.get('/db/5.1/feeds/:feedid/overview/electoral_districts/errors', pg51.overviewErrors("ElectoralDistrict"));
+  app.get('/db/5.1/feeds/:feedid/overview/candidates/errors', pg51.overviewErrors("Candidate"));
+  app.get('/db/5.1/feeds/:feedid/overview/offices/errors', pg51.overviewErrors("Office"));
+
+  // Source & Elections table
+  app.get('/db/5.1/feeds/:feedid/overview/source/errors', pg51.overviewErrors("Source"));
+  app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
+
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
