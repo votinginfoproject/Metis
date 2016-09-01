@@ -24,7 +24,7 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $erro
   $feedDataPaths.getResponse({ path: '/db' + $location.path(),
                                scope:  $rootScope,
                                key: 'errors',
-                               errorMessage: 'Cound not retrieve errors' },
+                               errorMessage: 'Could not retrieve errors' },
                              function(results) {
                                $rootScope.total_errors = 0;
                                $.each(results, function() {

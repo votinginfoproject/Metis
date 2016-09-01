@@ -14,7 +14,7 @@ function FeedErrors51Ctrl($scope, $rootScope, $routeParams, $errorsService, $fee
   $feedDataPaths.getResponse({ path: '/db/feeds/' + publicId + '/xml/errors/summary',
                                scope:  $scope,
                                key: 'errors',
-                               errorMessage: 'Cound not retrieve errors' },
+                               errorMessage: 'Could not retrieve errors' },
                              function (results) {
                                $errorsService.splitErrors($scope, results);
                              });
