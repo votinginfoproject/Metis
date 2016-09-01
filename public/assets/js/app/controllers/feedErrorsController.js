@@ -20,10 +20,10 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
   $scope.pageId = $rootScope.generatePageId(feedid);
 
   // Toggle showing/hiding each error's detail panel
-  $scope._toggleError = function (index) {
-    var obj = jQuery("#errorDetail" + index);
-    var arrowClosed = jQuery("#errorArrowClosed" + index);
-    var arrowOpen = jQuery("#errorArrowOpen" + index);
+  $scope._toggleError = function (prefix, index) {
+    var obj = jQuery("#" + prefix + "ErrorDetail" + index);
+    var arrowClosed = jQuery("#" + prefix + "ErrorArrowClosed" + index);
+    var arrowOpen = jQuery("#" + prefix + "ErrorArrowOpen" + index);
 
     if (obj.is(":visible")) {
       obj.hide();
@@ -41,10 +41,16 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $rout
                                scope:  $rootScope,
                                key: 'errors',
                                errorMessage: 'Cound not retrieve errors' },
-                             function(result) {
-                              $rootScope.total_errors = 0;
-                              $.each(result, function() {
-                                $rootScope.total_errors += parseInt(this.count);
-                              });
+                             function(results) {
+                               $rootScope.total_errors = 0;
+                               $.each(results, function() {
+                                 $rootScope.total_errors += parseInt(this.count);
+                               });
+                               $scope.fatalErrors = results.filter(function(row) {
+                                 return row.severity === 'fatal' || row.severity === 'critical';
+                               });
+                               $scope.minorErrors = results.filter(function(row) {
+                                 return row.severity === 'warnings' || row.severity === 'errors';
+                               });
                              });
 }
