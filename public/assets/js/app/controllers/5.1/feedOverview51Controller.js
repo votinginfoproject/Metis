@@ -59,12 +59,12 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
     $feedDataPaths.getResponse(
       {
         path: '/db/5.1/feeds/' + publicId + '/localities ',
-        scope:  $scope,
+        scope: $scope,
         key: 'feedLocalities',
         errorMessage: 'Cound not retrieve Feed Localities.'
       },
       function(result) {
         $scope.localitiesTable = $rootScope.createTableParams(ngTableParams, $filter, result,
                                                               $appProperties.lowPagination, { name: 'asc' });
-      });1
+      });
 }
