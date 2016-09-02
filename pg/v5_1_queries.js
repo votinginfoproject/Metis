@@ -29,7 +29,7 @@ var localityOverviewQuery = "WITH precincts AS (SELECT localities.value AS local
                                                                 ORDER BY parent_with_id, element') \
                                                  AS ct(parent_locality ltree, name text, id text) \
                                                  WHERE id IS NOT NULL) \
-                             SELECT localities.id, localities.name, precincts.count as precincts \
+                             SELECT localities.id as identifier, localities.name, precincts.count as precincts \
                              FROM localities \
                              LEFT JOIN precincts ON localities.id = precincts.locality_id \
                              WHERE localities.id IS NOT NULL \

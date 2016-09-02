@@ -29,26 +29,26 @@
         </div>
 
         <table ng-show="feedLocalities.length"
-               id="localTable"
+               id="localitiesTable"
                ng-table="localitiesTable"
                template-pagination="localPagination"
                class="associations">
 
           <tr id="locality{{$index}}" ng-repeat="locality in $data">
-            <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'id'">
-              <a href="/#/5.1/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="ID">
-                <span class="td-text">{{locality.id}}</span>
+            <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'identifier'">
+              <a href="/#/5.1/feeds/{{vipfeed}}/election/state/localities/{{locality.identifier}}" data-title-text="ID">
+                <span class="td-text">{{locality.identifier}}</span>
               </a>
             </td>
 
             <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'">
-              <a href="/#/5.1/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Name">
+              <a href="/#/5.1/feeds/{{vipfeed}}/election/state/localities/{{locality.identifier}}" data-title-text="Name">
                 <span class="td-text">{{locality.name}}</span>
               </a>
             </td>
 
             <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precincts'">
-              <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="Precincts">
+              <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.identifier}}" data-title-text="Precincts">
                 <span class="td-text">{{locality.precincts}}</span>
               </a>
             </td>
@@ -66,7 +66,6 @@
         </script>
       </section>
     </section>
-    <!-- /.data-group -->
 
     <vip-overview-table
        table-data="summaries.voterResources"
