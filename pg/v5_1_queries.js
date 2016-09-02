@@ -3,6 +3,38 @@ var queries = require('./queries.js');
 var resp = require('./response.js');
 var util = require('./util.js');
 
+var localityOverviewQuery = "WITH precincts AS (SELECT localities.value AS locality_id, count(precincts.value) AS count \
+                                                FROM results r \
+                                                LEFT JOIN xml_tree_values localities \
+                                                       ON localities.results_id = r.id \
+                                                      AND localities.simple_path = 'VipObject.Locality.id' \
+                                                LEFT JOIN xml_tree_values precincts \
+                                                       ON precincts.value = localities.value \
+                                                      AND precincts.results_id = r.id \
+                                                WHERE r.public_id = $1 \
+                                                GROUP BY locality_id), \
+                                  localities AS (SELECT parent_locality, name, id \
+                                                 FROM crosstab('SELECT xtv.parent_with_id, \
+                                                                       subpath(xtv.simple_path, -1) as element, \
+                                                                       xtv.value \
+                                                                FROM results r \
+                                                                LEFT JOIN xml_tree_values xtv on r.id = xtv.results_id \
+                                                                WHERE r.public_id = ''' || $1 || '''\
+                                                                  AND path <@ (SELECT array_agg(subpath(xtv.path, 0, -1)) \
+                                                                               FROM results r \
+                                                                               LEFT JOIN xml_tree_values xtv ON r.id = xtv.results_id \
+                                                                                                            AND xtv.simple_path = ''VipObject.Locality.id'' \
+                                                                               WHERE r.public_id = ''' || $1 || ''') \
+                                                                  AND xtv.simple_path in (''VipObject.Locality.id'', ''VipObject.Locality.Name'') \
+                                                                ORDER BY parent_with_id, element') \
+                                                 AS ct(parent_locality ltree, name text, id text) \
+                                                 WHERE id IS NOT NULL) \
+                             SELECT localities.id, localities.name, precincts.count as precincts \
+                             FROM localities \
+                             LEFT JOIN precincts ON localities.id = precincts.locality_id \
+                             WHERE localities.id IS NOT NULL \
+                             ORDER BY localities.name;";
+
 var overviewQuery = "select r.id, \
                      xtv_state.value as state_name, \
                      xtv_type.value as election_type, \
@@ -116,6 +148,7 @@ var getFeedOverviewSummaryData = function(req, res) {
 module.exports = {
   errorSummary: util.simpleQueryResponder(errorSummary, util.paramExtractor()),
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
+  localityOverview: util.simpleQueryResponder(localityOverviewQuery, util.paramExtractor()),
   feedOverviewSummaryData: getFeedOverviewSummaryData,
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); }
