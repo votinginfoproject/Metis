@@ -59,6 +59,9 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/localities/errors', pg51.overviewErrors("Locality"));
   app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', pg51.overviewErrors("HoursOpen"));
 
+  // Localities
+  app.get('/db/5.1/feeds/:feedid/localities', pg51.localityOverview);
+
   // Voter Resources
   app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', pg51.overviewErrors("ElectionAdministration"));
   app.get('/db/5.1/feeds/:feedid/overview/departments/errors', pg51.overviewErrors("Department"));
