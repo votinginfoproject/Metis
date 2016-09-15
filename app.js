@@ -46,6 +46,7 @@ var FileStore = require('session-file-store')(express.session);
 var sessionFileStore = new FileStore(config.session);
 
 // all environments
+app.use(express.compress());
 app.use(express.favicon(config.web.favicon));
 app.use(express.logger(config.web.loglevel));
 app.use(express.json());
