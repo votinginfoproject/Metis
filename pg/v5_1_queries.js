@@ -3,16 +3,18 @@ var queries = require('./queries.js');
 var resp = require('./response.js');
 var util = require('./util.js');
 
-var localityOverviewQuery = "WITH precincts AS (SELECT localities.value AS locality_id, count(precincts.value) AS count \
-                                                FROM results r \
-                                                LEFT JOIN xml_tree_values localities \
-                                                       ON localities.results_id = r.id \
-                                                      AND localities.simple_path = 'VipObject.Locality.id' \
-                                                LEFT JOIN xml_tree_values precincts \
-                                                       ON precincts.value = localities.value \
-                                                      AND precincts.results_id = r.id \
-                                                WHERE r.public_id = $1 \
-                                                GROUP BY locality_id), \
+var localityOverviewQuery =
+    "WITH precincts AS (SELECT localities.value AS locality_id, count(precincts.value) AS count \
+                        FROM results r \
+                        LEFT JOIN xml_tree_values localities \
+                               ON localities.results_id = r.id \
+                              AND localities.simple_path = 'VipObject.Locality.id' \
+                        LEFT JOIN xml_tree_values precincts \
+                               ON precincts.value = localities.value \
+                              AND precincts.simple_path = 'VipObject.Precinct.LocalityId' \
+                              AND precincts.results_id = r.id \
+                        WHERE r.public_id = $1 \
+                        GROUP BY locality_id), \
                                   localities AS (SELECT parent_locality, name, id \
                                                  FROM crosstab('SELECT xtv.parent_with_id, \
                                                                        subpath(xtv.simple_path, -1) as element, \
