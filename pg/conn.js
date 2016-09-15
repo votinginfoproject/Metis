@@ -9,7 +9,8 @@ var config = {
   password: process.env.DB_ENV_POSTGRES_PASSWORD,
   port: process.env.DB_PORT_5432_TCP_PORT,
   max: 10, // clients in the connection pool
-  idleTimeoutMillis: 300000
+  idleTimeoutMillis: 300000,
+  application_name: 'dashboard'
 };
 
 var pool = new pg.Pool(config);
