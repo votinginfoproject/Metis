@@ -46,6 +46,7 @@ var FileStore = require('session-file-store')(express.session);
 var sessionFileStore = new FileStore(config.session);
 
 // all environments
+app.use(express.compress());
 app.use(express.favicon(config.web.favicon));
 app.use(express.logger(config.web.loglevel));
 app.use(express.json());
@@ -89,7 +90,8 @@ var connString = "postgres://" + process.env.DB_ENV_POSTGRES_USER +
                  ":" + process.env.DB_ENV_POSTGRES_PASSWORD +
                  "@" + process.env.DB_PORT_5432_TCP_ADDR +
                  ":" + process.env.DB_PORT_5432_TCP_PORT +
-                 "/" + process.env.DB_ENV_POSTGRES_DATABASE;
+                 "/" + process.env.DB_ENV_POSTGRES_DATABASE +
+                 "?application_name=dashboard";
 process.env.DATABASE_URL = connString;
 
 pg.connect(connString, function(err, client, done) {
