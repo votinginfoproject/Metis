@@ -423,13 +423,22 @@ module.exports = {
                                      INNER JOIN v3_0_street_segments ss ON ss.precinct_id = p.id AND ss.results_id = l.results_id \
                                      INNER JOIN results r ON r.id = l.results_id \
                                      WHERE r.public_id=$1 AND l.id=$2;",
-    localityOverviewStreetSegmentsErrors: "SELECT COUNT(v.*)::int AS count \
-                                           FROM v3_0_localities l \
-                                           INNER JOIN v3_0_precincts p ON p.locality_id = l.id AND p.results_id = l.results_id \
-                                           INNER JOIN v3_0_street_segments ss ON ss.precinct_id = p.id AND ss.results_id = l.results_id \
-                                           INNER JOIN validations v ON v.results_id = l.results_id AND v.scope = 'street-segments' AND v.identifier = ss.id \
-                                           INNER JOIN results r ON r.id = l.results_id \
-                                           WHERE r.public_id=$1 AND l.id=$2;",
+    localityOverviewStreetSegmentsErrors: "with street_segments as (select ss.id \
+                                                                   from results r \
+                                                                   left join v3_0_street_segments ss on ss.results_id = r.id \
+                                                                   where r.public_id = $1 \
+                                                                     and ss.precinct_id in (select ps.id \
+                                                                                            from results r \
+                                                                                            left join v3_0_precincts ps \
+                                                                                                   on ps.results_id = r.id \
+                                                                                                   and ps.locality_id = $2 \
+                                                                                            where r.public_id = $1)) \
+                                          select count(v.results_id)::int as count \
+                                          from results r \
+                                          left join validations v on v.results_id = r.id \
+                                          left join street_segments ss on v.identifier = ss.id \
+                                          where r.public_id = $1 \
+                                            and v.scope = 'street-segments';",
     localityPrecincts: "SELECT p.id, p.name, \
                                (SELECT COUNT(ps.*) \
                                 FROM v3_0_precinct_splits ps \
