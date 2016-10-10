@@ -777,6 +777,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     }
   }
 
+  var versionWithoutPatch = function(version) {
+    return version.replace(/^(\d+\.\d+)\.\d+$/, "$1");
+  }
+
   // Format the duration objects for feeds
   $rootScope.formatDuration = function(duration) {
     return formatDurationNumber(duration.hours) + ":" +
@@ -795,7 +799,7 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     if (feed.spec_version === "3.0" || !feed.spec_version) {
       return "#/feeds/" + feed.public_id;
     } else {
-      return "#/" + feed.spec_version + "/feeds/" + feed.public_id;
+      return "#/" + versionWithoutPatch(feed.spec_version) + "/feeds/" + feed.public_id;
     }
   }
 
