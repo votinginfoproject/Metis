@@ -293,8 +293,8 @@ angular.module('vipFilters', []).
   filter('xmlTreeErrorExample', function () {
     return function(error) {
       return error.error_data + "\n" +
-             "path = " + error.path + "\n" +
-             "id = " + error.identifier;
+             "id = " + error.identifier + "\n" +
+             "path = " + error.path;
     }}).
   filter('errorCompletion', function () {
     return function(overview) {
