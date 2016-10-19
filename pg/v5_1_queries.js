@@ -113,6 +113,40 @@ var overviewTableRow = function(row, type, dbTable, link) {
           link: link};
 };
 
+var getLocalityDetail = function(req, res) {
+  var publicId = req.params.publicId;
+  var localityId = req.params.localityId;
+
+  conn.query(function(client) {
+    client.query("SELECT * from locality_stats($1, $2);",
+                 [decodeURIComponent(publicId),
+                  decodeURIComponent(localityId)],
+                 function(err, result) {
+                   var row = result.rows[0];
+                   if (row !== undefined) {
+                     var summaries = {
+                       locality: {name: row.name,
+                                  type: row.type,
+                                  id:   row.id,
+                                  error_count: row.error_count},
+                       pollingLocations: [
+                         overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + publicId + '/overview/street_segments/errors/nonce'),
+                         overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + publicId + '/overview/precincts/errors/nonce'),
+                         overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + publicId + '/overview/polling_locations/errors/nonce'),
+                         overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + publicId + '/overview/hours_open/errors/nonce')
+                       ],
+                       voterResources: [
+                         overviewTableRow(row, 'Election Administration', 'election_administration', '#/5.1/feeds/' + publicId + '/overview/election_administration/errors'),
+                         overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + publicId + '/overview/departments/errors'),
+                         overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + publicId + '/overview/voter_services/errors'),
+                       ]
+                     };
+                     resp.writeResponse(summaries, res);
+                   }
+                 });
+  });
+};
+
 var getFeedOverviewSummaryData = function(req, res) {
   var feedid = req.params.feedid;
   conn.query(function(client) {
@@ -163,6 +197,7 @@ module.exports = {
   errorSummary: util.simpleQueryResponder(errorSummary, util.paramExtractor()),
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
   localityOverview: util.simpleQueryResponder(localityOverviewQuery, util.paramExtractor()),
+  localityDetail: getLocalityDetail,
   feedOverviewSummaryData: getFeedOverviewSummaryData,
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); }
