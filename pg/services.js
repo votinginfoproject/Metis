@@ -83,6 +83,17 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
 
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
+  app.get('/db/feeds/:feedid/xml/errors/contests/report',
+          csv.scopedXmlTreeValidationErrorReport('Contest',
+                                                 'CandidateContest',
+                                                 'CandidateSelection',
+                                                 'BallotMeasureContest',
+                                                 'BallotSelection',
+                                                 'RetentionContest',
+                                                 'PartyContest',
+                                                 'ElectoralDistrict',
+                                                 'Candidate',
+                                                 'Office'));
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
 

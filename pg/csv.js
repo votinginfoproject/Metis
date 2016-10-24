@@ -79,6 +79,49 @@ var xmlTreeValidationQuery =
  INNER JOIN results r ON r.id = v.results_id \
  WHERE r.public_id = $1";
 
+var scopedXmlTreeValidationQuery = function(elementTypes) {
+  return "SELECT v.severity, v.scope, v.path, x.value AS identifier, \
+        v.error_type, v.error_data \
+ FROM xml_tree_validations v \
+ LEFT JOIN xml_tree_values x \
+        ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
+ INNER JOIN results r ON r.id = v.results_id \
+ WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
+}
+
+var scopedXmlTreeValidationErrorReport = function() {
+  var elementTypes = Array.prototype.slice.call(arguments);
+
+  return function(req, res) {
+    var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
+    var feedid = decodeURIComponent(req.params.feedid);
+
+    conn.query(function(client) {
+      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, elementTypes[0]));
+      res.setHeader('Content-type', 'text/csv');
+      res.charset = 'UTF-8';
+
+      res.write(makeCSVRow(header));
+
+      var query = client.query(scopedXmlTreeValidationQuery(elementTypes), [feedid]);
+
+      query.on("row", function(row, result) {
+        res.write(makeCSVRow([feedid,
+                              row.severity,
+                              row.scope,
+                              row.path,
+                              row.identifier,
+                              row.error_type,
+                              row.error_data]));
+      });
+
+      query.on("end", function(result) {
+        res.end();
+      });
+    });
+  };
+}
+
 var xmlTreeValidationErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
   var feedid = decodeURIComponent(req.params.feedid);
@@ -114,5 +157,6 @@ module.exports = {
   scopedErrorReport: function(scope) {
     return errorReport("", "v.scope = '" + scope + "'", [], scope);
   },
-  xmlTreeValidationErrorReport: xmlTreeValidationErrorReport
+  xmlTreeValidationErrorReport: xmlTreeValidationErrorReport,
+  scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport
 }
