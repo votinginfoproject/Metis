@@ -38,6 +38,11 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
     $scope.scopedErrorType = "Contests";
     $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/contests/report';
     break;
+  case "source":
+  case "election":
+    $scope.scopedErrorType = "Source and Election"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/source_election/report';
+    break;
   };
 
   $scope.toggleError = $scope._toggleError;

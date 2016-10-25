@@ -94,6 +94,8 @@ function registerPostgresServices (app) {
                                                  'ElectoralDistrict',
                                                  'Candidate',
                                                  'Office'));
+  app.get('/db/feeds/:feedid/xml/errors/source_election/report',
+          csv.scopedXmlTreeValidationErrorReport('Source', 'Election'));
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
 
