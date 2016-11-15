@@ -24,6 +24,27 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
       arrowOpen.show();
     }
   }
+
+  switch ($routeParams.type) {
+  case "candidate_contests":
+  case "candidate_selections":
+  case "ballot_measure_contests":
+  case "ballot_selections":
+  case "retention_contests":
+  case "party_contests":
+  case "electoral_districts":
+  case "candidates":
+  case "offices":
+    $scope.scopedErrorType = "Contests";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/contests/report';
+    break;
+  case "source":
+  case "election":
+    $scope.scopedErrorType = "Source and Election"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/source_election/report';
+    break;
+  };
+
   $scope.toggleError = $scope._toggleError;
 
   $feedDataPaths.getResponse({ path: '/db' + $location.path(),
