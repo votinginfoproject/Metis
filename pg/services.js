@@ -82,6 +82,9 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/source/errors', pg51.overviewErrors("Source"));
   app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
 
+  app.get('/db/5.1/feeds/:feedid/source', pg51.source);
+  app.get('/db/5.1/feeds/:feedid/election', pg51.election);
+
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/errors/contests/report',
           csv.scopedXmlTreeValidationErrorReport('Contest',
