@@ -96,6 +96,18 @@ function registerPostgresServices (app) {
                                                  'Office'));
   app.get('/db/feeds/:feedid/xml/errors/source_election/report',
           csv.scopedXmlTreeValidationErrorReport('Source', 'Election'));
+  app.get('/db/feeds/:feedid/xml/errors/street_segments/report',
+          csv.scopedXmlTreeValidationErrorReport('StreetSegment'));
+  app.get('/db/feeds/:feedid/xml/errors/state/report',
+          csv.scopedXmlTreeValidationErrorReport('State'));
+  app.get('/db/feeds/:feedid/xml/errors/precincts/report',
+          csv.scopedXmlTreeValidationErrorReport('Precincts'));
+  app.get('/db/feeds/:feedid/xml/errors/polling_locations/report',
+          csv.scopedXmlTreeValidationErrorReport('PollingLocation'));
+  app.get('/db/feeds/:feedid/xml/errors/localities/report',
+          csv.scopedXmlTreeValidationErrorReport('Locality'));
+  app.get('/db/feeds/:feedid/xml/errors/hours_open/report',
+          csv.scopedXmlTreeValidationErrorReport('HoursOpen'));
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
 

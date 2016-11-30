@@ -43,6 +43,31 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
     $scope.scopedErrorType = "Source and Election"
     $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/source_election/report';
     break;
+  case "street_segments":
+    errorReport('street_segments');
+    // $scope.scopedErrorType = "Street Segments"
+    // $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/street_segments/report';
+    break;
+  case "state":
+    $scope.scopedErrorType = "State"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/state/report';
+    break;
+  case "precincts":
+    $scope.scopedErrorType = "Precincts"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/precincts/report';
+    break;
+  case "polling_locations":
+    $scope.scopedErrorType = "Polling Locations"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/polling_locations/report';
+    break;
+  case "localities":
+    $scope.scopedErrorType = "Localities"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/localities/report';
+    break;
+  case "hours_open":
+    $scope.scopedErrorType = "Hours Open"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/hours_open/report';
+    break;
   };
 
   $scope.toggleError = $scope._toggleError;
