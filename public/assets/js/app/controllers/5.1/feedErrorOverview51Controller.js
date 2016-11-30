@@ -44,9 +44,8 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
     $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/source_election/report';
     break;
   case "street_segments":
-    errorReport('street_segments');
-    // $scope.scopedErrorType = "Street Segments"
-    // $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/street_segments/report';
+    $scope.scopedErrorType = "Street Segments"
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/street_segments/report';
     break;
   case "state":
     $scope.scopedErrorType = "State"
