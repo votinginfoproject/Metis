@@ -67,6 +67,18 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
     $scope.scopedErrorType = "Hours Open"
     $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/hours_open/report';
     break;
+  case "election_administration":
+    $scope.scopedErrorType = "Election Administration";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/election_administration/report';
+    break;
+  case "departments":
+    $scope.scopedErrorType = "Departments";
+    $scope.scopedErrorUrl = "/db/feeds/" + publicId + '/xml/errors/departments/report';
+    break;
+  case "voter_services":
+    $scope.scopedErrorType = "Voter Services";
+    $scope.scopedErrorUrl = "/db/feeds/" + publicId + '/xml/errors/voter_services/report';
+    break;
   };
 
   $scope.toggleError = $scope._toggleError;
