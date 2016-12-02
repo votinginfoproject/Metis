@@ -161,13 +161,13 @@ var getFeedOverviewSummaryData = function(req, res) {
 
 var feedSource = "select s.*, stats.source_errors as error_count \
                   from results r \
-                  left join dashboard.sources s on r.id = s.results_id \
+                  left join v5_dashboard.sources s on r.id = s.results_id \
                   left join v5_statistics stats on r.id = stats.results_id \
                   where public_id = $1;";
 
 var feedElection = "select e.*, stats.election_errors as error_count \
                     from results r \
-                    left join dashboard.elections e on r.id = e.results_id \
+                    left join v5_dashboard.elections e on r.id = e.results_id \
                     left join v5_statistics stats on r.id = stats.results_id \
                     where r.public_id = $1;";
 
