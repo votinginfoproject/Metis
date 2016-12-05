@@ -27,16 +27,40 @@ function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPat
 
   switch ($routeParams.type) {
   case "candidate_contests":
-  case "candidate_selections":
+    $scope.scopedErrorType = "Candidate Contests";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/candidate_contests/report';
+    break
+  case "candidate_selection":
+    $scope.scopedErrorType = "Candidate Selection";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/candidate_selection/report';
+    break
   case "ballot_measure_contests":
+    $scope.scopedErrorType = "Ballot Measure Contests";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/ballot_measure_contests/report';
+    break
   case "ballot_selections":
+    $scope.scopedErrorType = "Ballot Selections";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/ballot_selections/report';
+    break
   case "retention_contests":
+    $scope.scopedErrorType = "Retention Contests";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/retention_contests/report';
+    break
   case "party_contests":
+    $scope.scopedErrorType = "Party Contests";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/party_contests/report';
+    break
   case "electoral_districts":
+    $scope.scopedErrorType = "Electoral Disctricts";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/electoral_districts/report';
+    break
   case "candidates":
+    $scope.scopedErrorType = "Candidates";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/candidates/report';
+    break
   case "offices":
-    $scope.scopedErrorType = "Contests";
-    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/contests/report';
+    $scope.scopedErrorType = "Offices";
+    $scope.scopedErrorUrl = '/db/feeds/' + publicId + '/xml/errors/offices/report';
     break;
   case "source":
   case "election":

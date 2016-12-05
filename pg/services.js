@@ -83,6 +83,15 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
 
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
+  app.get('/db/feeds/:feedid/xml/errors/candidate_selection/report', csv.scopedXmlTreeValidationErrorReport('CandidateSelection'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.scopedXmlTreeValidationErrorReport('BallotMeasureContest'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_selection/report', csv.scopedXmlTreeValidationErrorReport('BallotSelection'));
+  app.get('/db/feeds/:feedid/xml/errors/retention_contests/report', csv.scopedXmlTreeValidationErrorReport('RetentionContest'));
+  app.get('/db/feeds/:feedid/xml/errors/party_contests/report', csv.scopedXmlTreeValidationErrorReport('PartyContest'));
+  app.get('/db/feeds/:feedid/xml/errors/electoral_districts/report', csv.scopedXmlTreeValidationErrorReport('ElectoralDistrict'));
+  app.get('/db/feeds/:feedid/xml/errors/candidates/report', csv.scopedXmlTreeValidationErrorReport('Candidate'));
+  app.get('/db/feeds/:feedid/xml/errors/candidate_contests/report', csv.scopedXmlTreeValidationErrorReport('CandidateContest'));
+  app.get('/db/feeds/:feedid/xml/errors/offices/report', csv.scopedXmlTreeValidationErrorReport('Office'));
   app.get('/db/feeds/:feedid/xml/errors/contests/report',
           csv.scopedXmlTreeValidationErrorReport('Contest',
                                                  'CandidateContest',
