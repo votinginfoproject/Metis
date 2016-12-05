@@ -3,8 +3,7 @@
 function FeedSource51Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
   var publicId = $scope.publicId = $routeParams.vipfeed;
 
-  $scope.pageHeader.title = 'Source & Election';
-  $rootScope.setPageHeader("Source", [], "feeds", "", null);
+  $rootScope.setPageHeader("Source & Election", [], "feeds", "", null);
 
   $feedDataPaths.getResponse({path: '/db/5.1/feeds/' + publicId + '/source',
                               scope:  $scope,
