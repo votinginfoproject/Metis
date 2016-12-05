@@ -92,17 +92,6 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/xml/errors/candidates/report', csv.scopedXmlTreeValidationErrorReport('Candidate'));
   app.get('/db/feeds/:feedid/xml/errors/candidate_contests/report', csv.scopedXmlTreeValidationErrorReport('CandidateContest'));
   app.get('/db/feeds/:feedid/xml/errors/offices/report', csv.scopedXmlTreeValidationErrorReport('Office'));
-  app.get('/db/feeds/:feedid/xml/errors/contests/report',
-          csv.scopedXmlTreeValidationErrorReport('Contest',
-                                                 'CandidateContest',
-                                                 'CandidateSelection',
-                                                 'BallotMeasureContest',
-                                                 'BallotSelection',
-                                                 'RetentionContest',
-                                                 'PartyContest',
-                                                 'ElectoralDistrict',
-                                                 'Candidate',
-                                                 'Office'));
   app.get('/db/feeds/:feedid/xml/errors/source_election/report',
           csv.scopedXmlTreeValidationErrorReport('Source', 'Election'));
   app.get('/db/feeds/:feedid/xml/errors/street_segments/report',
