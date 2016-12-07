@@ -1,0 +1,98 @@
+<p ng-if="source.error_count !== undefined">
+  <a id="source-errors"
+     class="error-count error-count-{{source.error_count}} "
+     ng-class="{default_pointer: source.error_count == 0}"
+     href="{{source.error_count == 0 ? 'javascript: void(0);' : $location.absUrl() + '/errors'}}">
+    {{source.error_count}} Errors in source ID: {{source.id}}
+  </a>
+</p>
+
+
+<span ng-if="!source" class="is-loading"></span>
+
+<section class="data-module" ng-if="source">
+  <dl class="attributes">
+    <dt class="key">Name:</dt>
+    <dd id="source-name" class="value">{{source.name}}</dd>
+
+    <dt class="key">Datetime:</dt>
+    <dd id="source-date" class="value">{{source.datetime | date}}</dd>
+
+    <dt class="key">Description:</dt>
+    <dd id="source-description" class="value">{{source.description}}</dd>
+
+    <dt class="key">Organization URL:</dt>
+    <dd id="source-org_uri" class="value">
+      <a title="Visit this URL" target="_blank"
+         href="{{source.organization_uri}}">{{source.organization_uri}}</a>
+    </dd>
+
+    <dt class="key">VIP ID</dt>
+    <dd id="source-vip_id" class="value">{{source.vip_id}}</dd>
+
+    <dt class="key">Terms of Use:</dt>
+    <dd id="source-tou_uri" class="value"><a title="Visit this URL" target="_blank"
+                                             href="{{source.terms_of_use_uri}}">{{source.terms_of_use_uri}}</a>
+    </dd>
+  </dl>
+</section>
+
+<p ng-if="election.error_count !== undefined">
+  <a id="election-errors"
+     class="error-count error-count-{{election.error_count}}"
+     ng-class="{default_pointer: source.error_count == 0}"
+     href="{{election.error_count == 0 ? 'javascript: void(0);' : $location.absUrl() + '/errors'}}">
+    {{election.error_count}} Errors in election ID: {{election.id}} <!-- Check that this uri is sensible. -->
+  </a>
+</p>
+
+
+<span ng-if="!election" class="is-loading"></span>
+
+<div class="data-module-full">
+  <dl class="attributes" ng-if="election">
+    <dt class="key">Name:</dt>
+    <dd id="election_name" class="value">{{election.name}}</dd>
+
+    <dt class="key">Date:</dt>
+    <dd id="date" class="value">{{election.date.slice(0,10) | date}}</dd>
+
+    <dt class="key">Election Type:</dt>
+    <dd id="type" class="value">{{election.election_type}}</dd>
+
+    <dt class="key">Statewide</dt>
+    <dd id="statewide" class="value">{{election.statewide}}</dd>
+
+    <dt class="key">Registration Info:</dt>
+    <dd id="registration_uri" class="value">
+      <a target="_blank"
+         href="{{election.registration_uri}}">{{election.registration_uri}}</a>
+    </dd>
+
+    <dt class="key">Absentee Ballot Info:</dt>
+    <dd id="absentee_uri" class="value">
+      <a target="_blank"
+         href="{{election.absentee_ballot_uri}}">{{election.absentee_ballot_uri}}</a>
+    </dd>
+
+    <dt class="key">Results URL:</dt>
+    <dd id="election_results_uri" class="value">
+      <a target="_blank" href="{{election.results_uri}}">{{election.results_uri}}</a>
+    </dd>
+
+    <dt class="key">Polling Hours:</dt>
+    <dd id="polling_hours" class="value">{{election.polling_hours}}</dd>
+
+    <dt class="key">Election Day Registration:</dt>
+    <dd id="day_of_registration" class="value">{{election.election_day_registration}}</dd>
+
+    <dt class="key">Registration Deadline:</dt>
+    <dd id="registration_deadline" class="value">{{election.registration_deadline | date}}</dd>
+
+    <dt class="key">Absentee Request Deadline:</dt>
+    <dd id="absentee_deadline" class="value">{{election.absentee_request_deadline | date}}</dd>
+
+    <dt class="key">UOCAVA Mail Deadline:</dt>
+    <dd id="uocava_deadline" class="value">{{election.uocava_mail_deadline | date}}</dd>
+  </dl>
+</div>

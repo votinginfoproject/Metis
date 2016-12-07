@@ -159,11 +159,25 @@ var getFeedOverviewSummaryData = function(req, res) {
   });
 };
 
+var feedSource = "select s.*, stats.source_errors as error_count \
+                  from results r \
+                  left join v5_dashboard.sources s on r.id = s.results_id \
+                  left join v5_statistics stats on r.id = stats.results_id \
+                  where public_id = $1;";
+
+var feedElection = "select e.*, stats.election_errors as error_count \
+                    from results r \
+                    left join v5_dashboard.elections e on r.id = e.results_id \
+                    left join v5_statistics stats on r.id = stats.results_id \
+                    where r.public_id = $1;";
+
 module.exports = {
   errorSummary: util.simpleQueryResponder(errorSummary, util.paramExtractor()),
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
   localityOverview: util.simpleQueryResponder(localityOverviewQuery, util.paramExtractor()),
   feedOverviewSummaryData: getFeedOverviewSummaryData,
+  source: util.simpleQueryResponder(feedSource, util.paramExtractor()),
+  election: util.simpleQueryResponder(feedElection, util.paramExtractor()),
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); }
 }
