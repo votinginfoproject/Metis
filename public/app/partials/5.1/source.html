@@ -2,7 +2,7 @@
   <a id="source-errors"
      class="error-count error-count-{{source.error_count}} "
      ng-class="{default_pointer: source.error_count == 0}"
-     href="{{source.error_count == 0 ? 'javascript: void(0);' : $location.absUrl() + '/errors'}}">
+     href="{{source.error_count == 0 ? 'javascript: void(0);' : feedURL('/overview/source/errors')}}">
     {{source.error_count}} Errors in source ID: {{source.id}}
   </a>
 </p>
@@ -41,7 +41,7 @@
   <a id="election-errors"
      class="error-count error-count-{{election.error_count}}"
      ng-class="{default_pointer: source.error_count == 0}"
-     href="{{election.error_count == 0 ? 'javascript: void(0);' : $location.absUrl() + '/errors'}}">
+     href="{{election.error_count == 0 ? 'javascript: void(0);' : feedURL('/overview/election/errors')}}">
     {{election.error_count}} Errors in election ID: {{election.id}} <!-- Check that this uri is sensible. -->
   </a>
 </p>
