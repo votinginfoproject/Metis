@@ -118,7 +118,10 @@ var getLocalityDetail = function(req, res) {
   var localityId = req.params.localityId;
 
   conn.query(function(client) {
-    client.query("SELECT * from locality_stats($1, $2);",
+    client.query("SELECT l.* \
+                  from results r \
+                  left join v5_dashboard.localities l on r.id = l.results_id \
+                  where r.public_id = $1 and l.id = $2 limit 1;",
                  [decodeURIComponent(publicId),
                   decodeURIComponent(localityId)],
                  function(err, result) {
