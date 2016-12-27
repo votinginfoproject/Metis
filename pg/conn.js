@@ -25,10 +25,6 @@ var queryFromPool = function(callback) {
     }
     done();
 });
-
-  pool.on('error', function (err, client) {
-    logger.error('idle client error', err.message, err.stack);
-  });
 }
 
 module.exports = {
