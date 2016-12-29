@@ -68,6 +68,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedOverview51Ctrl'
     });
 
+    $routeProvider.when('/5.1/feeds/:vipfeed/source', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/source.html',
+      controller: 'FeedSource51Ctrl'
+    });
+
     $routeProvider.when('/5.1/feeds/:vipfeed/errors', {
       templateUrl: $appProperties.contextRoot + '/app/partials/5.1/errors.html',
       controller: 'FeedErrors51Ctrl'

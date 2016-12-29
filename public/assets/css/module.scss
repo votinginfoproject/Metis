@@ -174,7 +174,7 @@
           float: none;
        }
     }
-    
+
     &:before {
       content: attr(data-title-text);
       width: 47%;
@@ -187,7 +187,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       padding-right: 3%;
-    
+
       @include bp(c6) {
         content: '';
       }
@@ -239,7 +239,7 @@
       border-top: $base-border;
       display: table-cell;
     }
-    
+
   }
 
   .admin {
@@ -330,7 +330,7 @@
           text-transform: uppercase;
           letter-spacing: 1px;
           padding-right: 3%;
-        
+
           @include bp(c6) {
             content: '';
           }
@@ -457,7 +457,7 @@
 // ============================================================================
 // Errors
 // ============================================================================
-// 
+//
 
 .accordion {
   margin-top: 1em;
@@ -501,7 +501,7 @@
 // Aside
 // ============================================================================
 aside {
-  color: $gray-medium; 
+  color: $gray-medium;
 
   h2 {
     color: $gray-medium;
@@ -536,7 +536,7 @@ aside {
     .button-errors, .feed-nav, .button-approve, p.helper, {
       float: none;
       width: 100%;
-      margin-left: 0; 
+      margin-left: 0;
     }
   }
 }
@@ -658,7 +658,7 @@ aside {
     > * {
       display: block;
       opacity: 0.4;
-      padding: $base-sm;      
+      padding: $base-sm;
     }
 
     &:first-child {
@@ -680,15 +680,6 @@ aside {
         color: $white;
       }
     }
-  }
-
-  .is-finished {
-  }
-
-  .is-started {
-  }
-
-  .is-unstarted {
   }
 }
 
@@ -914,7 +905,7 @@ form[role="search"] {
 .error-count-0 {
   background-color: $green-dark;
   &:before {
-    content: "\f126"; 
+    content: "\f126";
   }
   &:hover, &:focus {
     background-color: $green;
@@ -949,7 +940,7 @@ form[role="search"] {
   background: $gray-light;
   float: left;
   color: $black;
-  
+
   &.blue {
     background: $blue;
   }

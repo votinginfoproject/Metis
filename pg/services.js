@@ -83,7 +83,39 @@ function registerPostgresServices (app) {
   app.get('/db/5.1/feeds/:feedid/overview/source/errors', pg51.overviewErrors("Source"));
   app.get('/db/5.1/feeds/:feedid/overview/election/errors', pg51.overviewErrors("Election"));
 
+  app.get('/db/5.1/feeds/:feedid/source', pg51.source);
+  app.get('/db/5.1/feeds/:feedid/election', pg51.election);
+
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
+  app.get('/db/feeds/:feedid/xml/errors/candidate_selection/report', csv.scopedXmlTreeValidationErrorReport('CandidateSelection'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.scopedXmlTreeValidationErrorReport('BallotMeasureContest'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_selection/report', csv.scopedXmlTreeValidationErrorReport('BallotSelection'));
+  app.get('/db/feeds/:feedid/xml/errors/retention_contests/report', csv.scopedXmlTreeValidationErrorReport('RetentionContest'));
+  app.get('/db/feeds/:feedid/xml/errors/party_contests/report', csv.scopedXmlTreeValidationErrorReport('PartyContest'));
+  app.get('/db/feeds/:feedid/xml/errors/electoral_districts/report', csv.scopedXmlTreeValidationErrorReport('ElectoralDistrict'));
+  app.get('/db/feeds/:feedid/xml/errors/candidates/report', csv.scopedXmlTreeValidationErrorReport('Candidate'));
+  app.get('/db/feeds/:feedid/xml/errors/candidate_contests/report', csv.scopedXmlTreeValidationErrorReport('CandidateContest'));
+  app.get('/db/feeds/:feedid/xml/errors/offices/report', csv.scopedXmlTreeValidationErrorReport('Office'));
+  app.get('/db/feeds/:feedid/xml/errors/source_election/report',
+          csv.scopedXmlTreeValidationErrorReport('Source', 'Election'));
+  app.get('/db/feeds/:feedid/xml/errors/street_segments/report',
+          csv.scopedXmlTreeValidationErrorReport('StreetSegment'));
+  app.get('/db/feeds/:feedid/xml/errors/state/report',
+          csv.scopedXmlTreeValidationErrorReport('State'));
+  app.get('/db/feeds/:feedid/xml/errors/precincts/report',
+          csv.scopedXmlTreeValidationErrorReport('Precincts'));
+  app.get('/db/feeds/:feedid/xml/errors/polling_locations/report',
+          csv.scopedXmlTreeValidationErrorReport('PollingLocation'));
+  app.get('/db/feeds/:feedid/xml/errors/localities/report',
+          csv.scopedXmlTreeValidationErrorReport('Locality'));
+  app.get('/db/feeds/:feedid/xml/errors/hours_open/report',
+          csv.scopedXmlTreeValidationErrorReport('HoursOpen'));
+  app.get('/db/feeds/:feedid/xml/errors/election_administration/report',
+          csv.scopedXmlTreeValidationErrorReport('ElectionAdministration'));
+  app.get('/db/feeds/:feedid/xml/errors/departments/report',
+          csv.scopedXmlTreeValidationErrorReport('Departments'));
+  app.get('/db/feeds/:feedid/xml/errors/voter_services/report',
+          csv.scopedXmlTreeValidationErrorReport('VoterService'));
   app.get('/db/feeds/:feedid/xml/error-total-count', pg51.totalErrors);
   app.get('/db/feeds/:feedid/xml/errors/summary', pg51.errorSummary);
 
