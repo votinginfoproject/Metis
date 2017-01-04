@@ -29,7 +29,7 @@ module.exports = {
                  r.public_id, r.start_time, date(r.end_time) AS end_time, \
                  CASE WHEN r.end_time IS NOT NULL \
                       THEN r.end_time - r.start_time END AS duration, \
-                 r.spec_version, r.complete, r.state, r.election_type, r.election_date \
+                 r.spec_version, r.complete, r.election_date, r.election_type, r.state\
           FROM results r \
           ORDER BY r.id DESC \
           LIMIT 20 OFFSET ($1 * 20);",
@@ -38,10 +38,7 @@ module.exports = {
                               THEN r.end_time - r.start_time END AS duration, \
                          r.spec_version, r.complete, r.state, r.election_type, r.election_date \
                   FROM results r \
-                  LEFT JOIN v3_0_sources source3 ON source3.results_id = r.id \
-                  LEFT JOIN xml_tree_values xtv_vip_id ON xtv_vip_id.results_id = r.id \
-                                                    AND xtv_vip_id.simple_path = 'VipObject.Source.VipId' \
-                  WHERE substr(COALESCE(source3.vip_id, xtv_vip_id.value), 0, 3) = ANY ($1) \
+                  WHERE substr(r.vip_id, 0, 3) = ANY ($1) \
                   ORDER BY r.start_time DESC \
                   LIMIT 20 OFFSET ($2 * 20);",
   results: "SELECT * FROM results WHERE public_id=$1",
