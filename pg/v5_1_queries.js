@@ -3,39 +3,11 @@ var queries = require('./queries.js');
 var resp = require('./response.js');
 var util = require('./util.js');
 
-var localityOverviewQuery =
-    "WITH precincts AS (SELECT localities.value AS locality_id, count(precincts.value) AS count \
-                        FROM results r \
-                        LEFT JOIN xml_tree_values localities \
-                               ON localities.results_id = r.id \
-                              AND localities.simple_path = 'VipObject.Locality.id' \
-                        LEFT JOIN xml_tree_values precincts \
-                               ON precincts.value = localities.value \
-                              AND precincts.simple_path = 'VipObject.Precinct.LocalityId' \
-                              AND precincts.results_id = r.id \
-                        WHERE r.public_id = $1 \
-                        GROUP BY locality_id), \
-                                  localities AS (SELECT parent_locality, name, id \
-                                                 FROM crosstab('SELECT xtv.parent_with_id, \
-                                                                       subpath(xtv.simple_path, -1) as element, \
-                                                                       xtv.value \
-                                                                FROM results r \
-                                                                LEFT JOIN xml_tree_values xtv on r.id = xtv.results_id \
-                                                                WHERE r.public_id = ''' || $1 || '''\
-                                                                  AND path <@ (SELECT array_agg(subpath(xtv.path, 0, -1)) \
-                                                                               FROM results r \
-                                                                               LEFT JOIN xml_tree_values xtv ON r.id = xtv.results_id \
-                                                                                                            AND xtv.simple_path = ''VipObject.Locality.id'' \
-                                                                               WHERE r.public_id = ''' || $1 || ''') \
-                                                                  AND xtv.simple_path in (''VipObject.Locality.id'', ''VipObject.Locality.Name'') \
-                                                                ORDER BY parent_with_id, element') \
-                                                 AS ct(parent_locality ltree, name text, id text) \
-                                                 WHERE id IS NOT NULL) \
-                             SELECT localities.id as identifier, localities.name, precincts.count as precincts \
-                             FROM localities \
-                             LEFT JOIN precincts ON localities.id = precincts.locality_id \
-                             WHERE localities.id IS NOT NULL \
-                             ORDER BY localities.name;";
+var localityOverviewQuery = "select l.id as identifier, l.name, l.precinct_count as precincts \
+                             FROM results r \
+                             LEFT JOIN v5_dashboard.localities l ON l.results_id = r.id \
+                             WHERE r.public_id = $1 \
+                             ORDER BY l.name;";
 
 var overviewQuery = "select r.id, \
                      xtv_state.value as state_name, \
@@ -113,6 +85,43 @@ var overviewTableRow = function(row, type, dbTable, link) {
           link: link};
 };
 
+var getLocalityDetail = function(req, res) {
+  var publicId = req.params.publicId;
+  var localityId = req.params.localityId;
+
+  conn.query(function(client) {
+    client.query("SELECT l.* \
+                  from results r \
+                  left join v5_dashboard.localities l on r.id = l.results_id \
+                  where r.public_id = $1 and l.id = $2 limit 1;",
+                 [decodeURIComponent(publicId),
+                  decodeURIComponent(localityId)],
+                 function(err, result) {
+                   var row = result.rows[0];
+                   if (row !== undefined) {
+                     var summaries = {
+                       locality: {name: row.name,
+                                  type: row.type,
+                                  id:   row.id,
+                                  error_count: row.error_count},
+                       pollingLocations: [
+                         overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + publicId + '/overview/street_segments/errors/nonce'),
+                         overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + publicId + '/overview/precincts/errors/nonce'),
+                         overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + publicId + '/overview/polling_locations/errors/nonce'),
+                         overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + publicId + '/overview/hours_open/errors/nonce')
+                       ],
+                       voterResources: [
+                         overviewTableRow(row, 'Election Administration', 'election_administration', '#/5.1/feeds/' + publicId + '/overview/election_administration/errors'),
+                         overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + publicId + '/overview/departments/errors'),
+                         overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + publicId + '/overview/voter_services/errors'),
+                       ]
+                     };
+                     resp.writeResponse(summaries, res);
+                   }
+                 });
+  });
+};
+
 var getFeedOverviewSummaryData = function(req, res) {
   var feedid = req.params.feedid;
   conn.query(function(client) {
@@ -175,6 +184,7 @@ module.exports = {
   errorSummary: util.simpleQueryResponder(errorSummary, util.paramExtractor()),
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
   localityOverview: util.simpleQueryResponder(localityOverviewQuery, util.paramExtractor()),
+  localityDetail: getLocalityDetail,
   feedOverviewSummaryData: getFeedOverviewSummaryData,
   source: util.simpleQueryResponder(feedSource, util.paramExtractor()),
   election: util.simpleQueryResponder(feedElection, util.paramExtractor()),

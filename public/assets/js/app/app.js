@@ -84,6 +84,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider
       .when('/5.1/feeds/:vipfeed/overview/:type/errors', v5_errors)
 
+    $routeProvider.when('/5.1/feeds/:vipfeed/election/state/localities/:locality', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/locality-overview.html',
+      controller: 'LocalityOverview51Ctrl'
+    });
+
     // 3.0 feeds
     $routeProvider.when('/feeds/:vipfeed/source', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-source.html',
