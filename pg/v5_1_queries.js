@@ -180,6 +180,8 @@ var feedElection = "select e.*, stats.election_errors as error_count \
                     left join v5_statistics stats on r.id = stats.results_id \
                     where r.public_id = $1;";
 
+var localityErrors = " select * from v5_dashboard.locality_error_report($1, $2)"
+
 module.exports = {
   errorSummary: util.simpleQueryResponder(errorSummary, util.paramExtractor()),
   feedOverview: util.simpleQueryResponder(overviewQuery, util.paramExtractor()),
@@ -189,5 +191,6 @@ module.exports = {
   source: util.simpleQueryResponder(feedSource, util.paramExtractor()),
   election: util.simpleQueryResponder(feedElection, util.paramExtractor()),
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
-  overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); }
+  overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); },
+  localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor())
 }

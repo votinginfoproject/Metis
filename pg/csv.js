@@ -151,7 +151,43 @@ var xmlTreeValidationErrorReport = function(req, res) {
   });
 }
 
+var localityErrorQuery = 'select v5_dashboard.locality_error_report($1, $2)';
+
+var something = function(req, res) {
+  var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
+  var feedid = decodeURIComponent(req.params.publicId);
+  var localityid = decodeURIComponent(req.params.localityId)
+  console.log(feedid);
+  console.log(localityid);
+  conn.query(function(client) {
+
+    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid));
+    res.setHeader('Content-type', 'text/csv');
+    res.charset = 'UTF-8';
+
+    res.write(makeCSVRow(header));
+
+    var query = client.query(localityErrorQuery, [feedid, localityid]);
+
+    query.on("row", function(row, result) {
+      res.write(makeCSVRow([feedid,
+                            row.severity,
+                            row.scope,
+                            row.path,
+                            row.identifier,
+                            row.error_type,
+                            row.error_data]));
+    });
+
+    query.on("end", function(result) {
+      res.end();
+    });
+  });
+
+}
+
 module.exports = {
+  something: something,
   errorReport: errorReport,
   fullErrorReport: errorReport("", "", []),
   scopedErrorReport: function(scope) {
