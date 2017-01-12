@@ -151,9 +151,7 @@ var xmlTreeValidationErrorReport = function(req, res) {
   });
 }
 
-var localityErrorQuery = 'select v5_dashboard.locality_error_report($1, $2)';
-
-var something = function(req, res) {
+var xmlTreeLocalityErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
   var feedid = decodeURIComponent(req.params.publicId);
   var localityid = decodeURIComponent(req.params.localityId)
@@ -167,7 +165,7 @@ var something = function(req, res) {
 
     res.write(makeCSVRow(header));
 
-    var query = client.query(localityErrorQuery, [feedid, localityid]);
+    var query = client.query('select * from v5_dashboard.locality_error_report($1, $2)', [feedid, localityid]);
 
     query.on("row", function(row, result) {
       res.write(makeCSVRow([feedid,
@@ -187,7 +185,7 @@ var something = function(req, res) {
 }
 
 module.exports = {
-  something: something,
+  xmlTreeLocalityErrorReport: xmlTreeLocalityErrorReport,
   errorReport: errorReport,
   fullErrorReport: errorReport("", "", []),
   scopedErrorReport: function(scope) {

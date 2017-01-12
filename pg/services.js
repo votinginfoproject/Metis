@@ -62,7 +62,7 @@ function registerPostgresServices (app) {
   // Localities
   app.get('/db/5.1/feeds/:feedid/localities', pg51.localityOverview);
   app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId', pg51.localityDetail);
-  app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId/errors', csv.something);
+  app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId/errors', csv.xmlTreeLocalityErrorReport);
 
   // Voter Resources
   app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', pg51.overviewErrors("ElectionAdministration"));
