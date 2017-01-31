@@ -62,7 +62,13 @@ function registerPostgresServices (app) {
   // Localities
   app.get('/db/5.1/feeds/:feedid/localities', pg51.localityOverview);
   app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId', pg51.localityDetail);
-  app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId/errors', csv.xmlTreeLocalityErrorReport);
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/precincts/errors', pg51.scopedLocalityErrors("Precinct"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/street_segments/errors', pg51.scopedLocalityErrors("StreetSegment"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/polling_locations/errors', pg51.scopedLocalityErrors("PollingLocation"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/election_administrations/errors', pg51.scopedLocalityErrors("ElectionAdministration"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/departments/errors', pg51.scopedLocalityErrors("Department"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/voter_services/errors', pg51.scopedLocalityErrors("VoterService"));
+  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/errors', csv.xmlTreeLocalityErrorReport);
 
   // Voter Resources
   app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', pg51.overviewErrors("ElectionAdministration"));

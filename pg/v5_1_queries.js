@@ -59,6 +59,19 @@ var overallErrorQuery = function(scope) {
     return buildErrorQuery("", "element_type(xtv.path) = '" + scope + "'");
 };
 
+var getScopedLocalityErrors = function (scope) {
+    return "select distinct on (xtv.severity, xtv.scope, xtv.error_type) \
+                                                count(1), xtv.severity, xtv.scope, \
+                                                xtv.error_type, (array_agg(xtv.path))[1] as path, \
+                                                (array_agg(xtv.error_data))[1] as error_data \
+                            from xml_tree_validations xtv \
+                            inner join results r on r.id = xtv.results_id \
+                            where r.public_id = $1 \
+                              and xtv.path <@ (select paths from v5_dashboard.paths_by_locality \
+                                               where locality_id = $2 and results_id = r.id) \
+                              and element_type(xtv.path) = '" + scope + "' \
+                            group by xtv.severity, xtv.scope, xtv.error_type; "};
+
 var buildErrorQuery = function(joins, wheres) {
   var wherePart = "";
   if (wheres) {
@@ -105,15 +118,15 @@ var getLocalityDetail = function(req, res) {
                                   id:   row.id,
                                   error_count: row.error_count},
                        pollingLocations: [
-                         overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + publicId + '/overview/street_segments/errors/nonce'),
-                         overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + publicId + '/overview/precincts/errors/nonce'),
-                         overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + publicId + '/overview/polling_locations/errors/nonce'),
-                         overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + publicId + '/overview/hours_open/errors/nonce')
+                         overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/street_segments/errors'),
+                         overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/precincts/errors'),
+                         overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/polling_locations/errors'),
+                         overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + publicId + '//election/state/localities/'+ row.id + '/hours_open/errors')
                        ],
                        voterResources: [
-                         overviewTableRow(row, 'Election Administration', 'election_administration', '#/5.1/feeds/' + publicId + '/overview/election_administration/errors'),
-                         overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + publicId + '/overview/departments/errors'),
-                         overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + publicId + '/overview/voter_services/errors'),
+                         overviewTableRow(row, 'Election Administration', 'election_administration', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/election_administration/errors'),
+                         overviewTableRow(row, 'Departments', 'department', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/departments/errors'),
+                         overviewTableRow(row, 'Voter Services', 'voter_service', '#/5.1/feeds/' + publicId + '/election/state/localities/'+ row.id + '/voter_services/errors'),
                        ]
                      };
                      resp.writeResponse(summaries, res);
@@ -192,5 +205,6 @@ module.exports = {
   election: util.simpleQueryResponder(feedElection, util.paramExtractor()),
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); },
-  localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor())
+  localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor()),
+  scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); }
 }
