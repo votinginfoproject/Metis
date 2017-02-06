@@ -155,8 +155,6 @@ var xmlTreeLocalityErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
   var feedid = decodeURIComponent(req.params.publicId);
   var localityid = decodeURIComponent(req.params.localityId)
-  console.log(feedid);
-  console.log(localityid);
   conn.query(function(client) {
 
     res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid));

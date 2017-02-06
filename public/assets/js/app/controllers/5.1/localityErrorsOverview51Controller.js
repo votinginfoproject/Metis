@@ -1,7 +1,6 @@
 'use strict';
 
 function LocalityErrorsOverview51Controller($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
-  console.log("You got to the controller!")
   var publicId = $routeParams.vipfeed;
   var localityId = $routeParams.locality_id;
   $scope.publicId = publicId;
