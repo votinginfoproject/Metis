@@ -3,7 +3,8 @@ var queries = require('./queries.js');
 var resp = require('./response.js');
 var util = require('./util.js');
 
-var localityOverviewQuery = "select l.id as identifier, l.name, l.precinct_count as precincts \
+var localityOverviewQuery = "select l.id as identifier, l.name, l.precinct_count as precincts, \
+                                    l.polling_location_count as polling_locations\
                              FROM results r \
                              LEFT JOIN v5_dashboard.localities l ON l.results_id = r.id \
                              WHERE r.public_id = $1 \
