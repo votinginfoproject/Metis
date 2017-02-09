@@ -296,6 +296,7 @@ module.exports = {
                                  WHERE r.public_id=$1 AND ed.id=$2 \
                                  GROUP BY p.id, p.name;",
     localities: "SELECT l.*, \
+                        3 as polling_locations, \
                         (SELECT COUNT(p.*)::int \
                          FROM v3_0_precincts p \
                          WHERE p.locality_id = l.id AND p.results_id = l.results_id) AS precincts \
