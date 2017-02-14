@@ -67,6 +67,12 @@ super user account is "testuser" and its password is "test".
 1. `docker-compose up`
 1. Then hit [http://localdocker:4000/](http://localdocker:4000/), assuming you have a localdocker host file entry pointing to your docker host. If not, replace localdocker with your docker host IP address.
 
+## Deploying the Project
+
+To deploy you will need the `data-dashboard-staging.pem` key and access to [quay](https://quay.io/) where the docker container images are hosted
+1. run `./script/build` to build the docker image
+2. if you've successfully built the image, you should see output at the end that looks like this: `If you'd like to push this to the Docker repo, run: docker push quay.io/votinginfoproject/metis:master-somehash`; run that command to push the container to quay
+3. run `PEM_FILE=~/.ssh/data-dashboard-staging.pem ./script/deploy` to deploy to production
 
 [data-processor]: https://github.com/votinginfoproject/data-processor
 [node]: http://nodejs.org
