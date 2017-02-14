@@ -4,6 +4,7 @@ function LocalityOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams
                                 $appProperties, $filter, ngTableParams) {
   var publicId = $rootScope.publicId = $routeParams.vipfeed;
   var localityId = $rootScope.localityId = $routeParams.locality;
+  $rootScope.localityErrorReport = "/db/5.1/feeds/" + publicId + "/election/state/localities/" + localityId + "/errors";
 
   $feedDataPaths
     .getResponse({path: 'db/5.1/feeds/' + $rootScope.publicId + '/election/state/localities/' + localityId,
