@@ -19,6 +19,11 @@ if [[ ! -e $PEM_FILE ]]; then
   exit 1
 fi
 
+if [[ ! -e $FLEETCTL_TUNNEL ]]; then
+  echo "FLEETCTL_TUNNEL is unset; please give it an IP address in your cluster"
+  exit 1
+fi
+
 eval "$(ssh-agent -s)"
 ssh-add $PEM_FILE
 
