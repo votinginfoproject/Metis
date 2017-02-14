@@ -49,7 +49,13 @@
 
             <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precincts'">
               <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Precincts">
-                <span class="td-text">{{locality.precincts}}</span>
+                <span class="td-text">{{locality.precincts | number}}</span>
+              </a>
+            </td>
+
+            <td id="locality-polling-locations{{$index}}" class="polling_locations" data-title="'Polling Locations'" sortable="'polling_locations'">
+              <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Polling Locations">
+                <span class="td-text">{{locality.polling_locations | number}}</span>
               </a>
             </td>
           </tr>
