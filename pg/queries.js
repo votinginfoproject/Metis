@@ -297,8 +297,11 @@ module.exports = {
                                  GROUP BY p.id, p.name;",
     localities: "with \
                   precincts as \
-                    (select results_id, id, locality_id \
-                     from v3_0_precincts), \
+                    (select results_id, v3_0_precincts.id, locality_id \
+                     from v3_0_precincts \
+                     left join results r \
+                      on v3_0_precincts.results_id = r.id \
+                     where r.public_id = $1), \
                   precinct_splits as \
                     (select \
                        pl.id, \
