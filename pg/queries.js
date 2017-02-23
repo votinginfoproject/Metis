@@ -268,14 +268,47 @@ module.exports = {
                                  INNER JOIN results r ON r.id = ed.results_id \
                                  WHERE r.public_id=$1 AND ed.id=$2 \
                                  GROUP BY p.id, p.name;",
-    localities: "SELECT l.*, \
-                        (SELECT COUNT(p.*)::int \
-                         FROM v3_0_precincts p \
-                         WHERE p.locality_id = l.id AND p.results_id = l.results_id) AS precincts \
-                 FROM v3_0_localities l \
-                 INNER JOIN results r ON l.results_id = r.id \
-                 WHERE r.public_id = $1 \
-                 GROUP BY l.id, l.results_id;",
+    localities: "with \
+                  precincts as \
+                    (select results_id, v3_0_precincts.id, locality_id \
+                     from v3_0_precincts \
+                     left join results r \
+                      on v3_0_precincts.results_id = r.id \
+                     where r.public_id = $1), \
+                  precinct_splits as \
+                    (select \
+                       pl.id, \
+                       ps.precinct_id \
+                     from precincts p \
+                     left join v3_0_precinct_splits ps \
+                            on ps.precinct_id = p.id \
+                           and ps.results_id = p.results_id \
+                     left join v3_0_precinct_split_polling_locations pspl \
+                             on pspl.precinct_split_id = ps.id \
+                            and pspl.results_id = p.results_id \
+                     left join v3_0_polling_locations pl \
+                             on pl.id = pspl.polling_location_id \
+                            and pl.results_id = p.results_id), \
+                  polling_locations as \
+                    (select \
+                       pl.id, \
+                       ppl.precinct_id \
+                     from precincts p \
+                     left join v3_0_precinct_polling_locations ppl on ppl.precinct_id = p.id and ppl.results_id = p.results_id \
+                     left join v3_0_polling_locations pl on pl.id = ppl.polling_location_id and pl.results_id = p.results_id) \
+                select \
+                  p.locality_id as id, \
+                  l.name,  \
+                  count(distinct p.id) as precincts, \
+                  count(distinct pl.id) as polling_locations, \
+                  count(distinct pspl.id) as split_polling_locations \
+                from results r \
+                left join v3_0_localities l on l.results_id = r.id \
+                left join precincts p on p.locality_id = l.id and p.results_id = r.id \
+                left join polling_locations pl on pl.precinct_id = p.id \
+                left join precinct_splits pspl on pspl.precinct_id = p.id \
+                where r.public_id = $1 \
+                group by p.locality_id, l.name;",
     locality: "SELECT l.*, (SELECT COUNT(v.*) \
                             FROM validations v \
                             WHERE v.results_id = l.results_id AND v.scope = 'precincts' AND v.identifier = l.id) AS error_count \

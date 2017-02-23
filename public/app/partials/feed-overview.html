@@ -74,6 +74,11 @@
             <span class="td-text">{{locality.precincts}}</span>
           </a>
         </td>
+        <td id="locality-polling-locations{{$index}}" class="polling-locations" data-title="'Polling Locations'" sortable="'polling_locations'">
+          <a href="/#/feeds/{{vipfeed}}/election/state/localities/{{locality.id}}" data-title-text="PollingLocations">
+            <span class="td-text">{{locality.polling_locations | number}}</span>
+          </a>
+        </td>
       </tr>
     </table>
 
