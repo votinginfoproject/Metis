@@ -41,6 +41,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/overview/electoraldistricts/errors/report', csv.scopedErrorReport("electoral-districts"));
   app.get('/db/feeds/:feedid/overview/localities/errors/report', csv.scopedErrorReport("localities"));
   app.get('/db/feeds/:feedid/overview/pollinglocations/errors/report', csv.scopedErrorReport("polling-locations"));
+  app.get('/db/feeds/:feedid/overview/pollinglocations/errors/address/report', csv.pollingLocationAddressReport);
   app.get('/db/feeds/:feedid/overview/precincts/errors/report', csv.scopedErrorReport("precincts"));
   app.get('/db/feeds/:feedid/overview/precinctsplits/errors/report', csv.scopedErrorReport("precinct-splits"));
   app.get('/db/feeds/:feedid/overview/referenda/errors/report', csv.scopedErrorReport("referendums"));

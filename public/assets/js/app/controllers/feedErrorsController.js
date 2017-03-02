@@ -8,6 +8,7 @@ function FeedErrorsCtrl($scope, $rootScope, $feedsService, $feedDataPaths, $erro
   $rootScope.setPageHeader("Errors", $rootScope.getBreadCrumbs(), "feeds", "", null);
 
   $rootScope.errorReportPath = "/db" + $location.path() + "/report";
+  $rootScope.pollingLocationReportPath = "/db" + $location.path() + "/address/report";
 
   // clear previous errors (so they don't weirdly show up on the page)
   $rootScope.errors = null;
