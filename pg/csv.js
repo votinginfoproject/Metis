@@ -183,7 +183,7 @@ var xmlTreeLocalityErrorReport = function(req, res) {
 }
 
 var pollingLocationAddressReport = function(req, res) {
-  var header = ["Locality Name", "Precinct Name", "Address Locaiton Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
+  var header = ["Locality Name", "Precinct Name", "Address Location Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
   var feedid = decodeURIComponent(req.params.feedid);
   conn.query(function(client) {
 
