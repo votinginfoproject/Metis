@@ -182,6 +182,39 @@ var xmlTreeLocalityErrorReport = function(req, res) {
 
 }
 
+var pollingLocationAddressReport = function(req, res) {
+  var header = ["Locality Name", "Precinct Name", "Address Location Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
+  var feedid = decodeURIComponent(req.params.feedid);
+  conn.query(function(client) {
+
+    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid));
+    res.setHeader('Content-type', 'text/csv');
+    res.charset = 'UTF-8';
+
+    res.write(makeCSVRow(header));
+
+    var query = client.query('select * from v3_dashboard.polling_location_readable_report($1)', [feedid]);
+
+    query.on("row", function(row, result) {
+      res.write(makeCSVRow([row.locality_name,
+                            row.precinct_name,
+                            row.address_location_name,
+                            row.address_line1,
+                            row.address_line2,
+                            row.address_line3,
+                            row.address_city,
+                            row.address_state,
+                            row.address_zip,
+                            row.polling_location_id]));
+    });
+
+    query.on("end", function(result) {
+      res.end();
+    });
+  });
+
+}
+
 module.exports = {
   xmlTreeLocalityErrorReport: xmlTreeLocalityErrorReport,
   errorReport: errorReport,
@@ -190,5 +223,6 @@ module.exports = {
     return errorReport("", "v.scope = '" + scope + "'", [], scope);
   },
   xmlTreeValidationErrorReport: xmlTreeValidationErrorReport,
-  scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport
+  scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport,
+  pollingLocationAddressReport: pollingLocationAddressReport
 }
