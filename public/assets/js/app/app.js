@@ -161,6 +161,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedLocalityCtrl'
     });
 
+    $routeProvider.when('/feeds/:vipfeed/vit', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/feed-vit.html',
+      controller: 'FeedVITCtrl'
+    });
+
     // for all election administration pages
     $routeProvider
       .when('/feeds/:vipfeed/election/state/electionadministration', { templateUrl: $appProperties.contextRoot + '/app/partials/feed-electionadministration.html', controller: 'FeedElectionAdministrationCtrl' })
