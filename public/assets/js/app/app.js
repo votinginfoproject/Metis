@@ -95,12 +95,6 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'LocalityOverview51Ctrl'
     });
 
-    $routeProvider.when('/5.1/feeds/:vipfeed/vit', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/vit.html',
-      controller: 'FeedVITCtrl' //Uses same controller as 3.0 feeds
-    });
-
-
     // 3.0 feeds
     $routeProvider.when('/feeds/:vipfeed/source', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-source.html',
@@ -165,12 +159,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-locality.html',
       controller: 'FeedLocalityCtrl'
-    });
-
-    $routeProvider.when('/feeds/:vipfeed/vit', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/feed-vit.html',
-      controller: 'FeedVITCtrl'
-    });
+    });;
 
     // for all election administration pages
     $routeProvider
