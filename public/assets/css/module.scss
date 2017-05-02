@@ -672,6 +672,10 @@ aside {
       border-radius: 0 0 15px 15px;
     }
 
+    &:only-child > * {
+     border-radius: 15px 15px 15px 15px;
+    }
+
     a {
       color: $gray-medium;
       background: $blue-darkest;

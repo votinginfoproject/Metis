@@ -2342,6 +2342,8 @@ aside {
         border-radius: 15px 15px 0 0; }
     .feed-nav ul li:last-child > * {
       border-radius: 0 0 15px 15px; }
+    .feed-nav ul li:only-child > * {
+      border-radius: 15px 15px 15px 15px; }
     .feed-nav ul li a {
       color: #b1b3b6;
       background: #01244c;
