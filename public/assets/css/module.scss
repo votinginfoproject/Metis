@@ -522,18 +522,18 @@ aside {
   @include bp(c6) {
     @include clearfix;
 
-    .button-errors, .feed-nav, .button-approve, p.helper, {
+    .button-errors, .left-nav, .button-approve, p.helper, {
       @include span-columns(3 of 6);
     }
 
-    .feed-nav {
+    .left-nav {
       float: left;
       margin-left: 0;
     }
   }
 
   @include bp(c12) {
-    .button-errors, .feed-nav, .button-approve, p.helper, {
+    .button-errors, .left-nav, .button-approve, p.helper, {
       float: none;
       width: 100%;
       margin-left: 0;
@@ -641,7 +641,7 @@ aside {
   margin-top: 1em;
 }
 
-.feed-nav ul {
+.left-nav ul {
   @extend .no-bullet;
   font-size: 1.125em;
   font-size: 1.125rem;
