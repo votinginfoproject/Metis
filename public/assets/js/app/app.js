@@ -164,7 +164,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/feeds/:vipfeed/election/state/localities/:locality', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feed-locality.html',
       controller: 'FeedLocalityCtrl'
-    });;
+    });
 
     // for all election administration pages
     $routeProvider
