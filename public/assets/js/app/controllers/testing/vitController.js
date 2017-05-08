@@ -3,8 +3,23 @@
  * VIT Staging Controller
  *
  */
-function VitCtrl($scope, $rootScope) {
+function VitCtrl($scope, $rootScope, $sce, $configService) {
   var breadcrumbs = null;
   // initialize page header variables
   $rootScope.setPageHeader("VIT Staging Tool", breadcrumbs, "testing", "", null);
-}
+
+  var getApiKey = function () {
+    $configService.getResponse (
+      {path: "/config/vit",
+       scope: $scope,
+       key: "apiKey",
+       config: {}},
+      function (results) {
+	//have to use the trustAsResourceUrl to get it to accept
+	//injecting a value into a href/src field
+        $rootScope.vitUrl =
+	  $sce.trustAsResourceUrl("/vit.html?apiKey=" + results);
+      });
+  };
+ getApiKey();
+};
