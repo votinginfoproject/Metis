@@ -25,23 +25,19 @@ var totalErrorsQuery = "select (select count(v.*) \
                         from results r where r.public_id = $1;"
 
 var errorSummary =
-    "WITH errors AS (SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
-                  v.results_id, \
-                  COUNT(1) AS count, \
-                  v.severity, \
-                  v.scope, \
-                  v.error_type, \
-                  (array_agg(v.path))[1] AS path, \
-                  (array_agg(v.error_data))[1] AS error_data \
-                FROM results r \
-                LEFT JOIN xml_tree_validations v ON v.results_id = r.id \
-                WHERE r.public_id = $1 \
-                GROUP BY v.severity, v.scope, v.error_type, v.results_id) \
-     SELECT errors.*, x.value AS identifier \
-     FROM errors \
-     LEFT JOIN xml_tree_values x  \
-            ON x.path = subpath(errors.path,0,4) || 'id' \
-     AND x.results_id = errors.results_id;";
+    "SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
+                   v.results_id, \
+                   COUNT(1) AS count, \
+                   v.severity, \
+                   v.scope, \
+                   v.error_type, \
+                   (array_agg(v.path))[1] AS path, \
+                   (array_agg(v.error_data))[1] AS error_data, \
+                   v.parent_element_id as identifier \
+                 FROM results r \
+                 LEFT JOIN xml_tree_validations v ON v.results_id = r.id \
+                 WHERE r.public_id = $1 \
+                 GROUP BY v.severity, v.scope, v.error_type, v.results_id, v.parent_element_id;";
 
 var errorResponder = function(query, params) {
   return util.simpleQueryResponder(query, util.paramExtractor(params));

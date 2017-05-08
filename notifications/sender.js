@@ -92,11 +92,9 @@ module.exports = {
                       JSON.stringify(message));
     }
 
-    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, v5.value AS v5_vip_id \
+    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, r.vip_id \
                         FROM results r \
                         LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
-                        LEFT JOIN xml_tree_values v5 ON r.id = v5.results_id \
-                              AND v5.simple_path = 'VipObject.Source.VipId' \
                         WHERE r.public_id = $1";
 
     var publicId = message[":public-id"];
