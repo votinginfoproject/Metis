@@ -44,6 +44,7 @@ ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --env STORMPATH_ACCOUNT_STORE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/account-store?raw) \
   --env NEW_RELIC_LICENSE_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/license-key?raw) \
   --env NEW_RELIC_ENVIRONMENT=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/environment?raw) \
+  --env VIT_API_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/google-civic/api-key?raw) \
   -p 4000:4000 \
   ${DOCKER_IMAGE}'
 
