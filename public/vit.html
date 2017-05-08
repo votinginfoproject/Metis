@@ -7,10 +7,31 @@
 <body>
   <div id="_vit" style="max-width: 1024px; margin: 0 auto;"></div>
   <script type="text/javascript">
-    vit.load({key: 'AIzaSyAXJhmU4YsSC5urZblaWD7-4hufNejy21I',
-            test: false,
-            officialOnly: true,
-            productionDataOnly: false});
+    function getQueryParams(qs) {
+      qs = qs.split("+").join(" ");
+      var params = {}, tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+      while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+      }
+      return params;
+    }
+
+    if(window.location.search) {
+      var params = getQueryParams(window.location.search.substring(1));
+      var apiKey = params['apiKey'];
+      if(apiKey) {
+        vit.load({key: apiKey,
+                  test: false,
+                  officialOnly: true,
+                  productionDataOnly: false});
+      } else {
+        alert("Civic Info API Key missing");
+      }
+    } else {
+      alert("Configuration missing");
+    }
   </script>
 </body>
 </html>
