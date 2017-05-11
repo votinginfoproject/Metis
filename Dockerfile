@@ -4,7 +4,7 @@ MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 # install Grunt
 RUN npm install -g grunt-cli
 RUN npm install -g bower
-RUN npm install -g node-sass
+RUN npm install -g node-sass@3.8.0
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
