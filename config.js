@@ -73,4 +73,8 @@ config.checkSingleHouseStates = function(fipsCode) {
   return fipsCode === 39 || fipsCode === 32;
 }
 
+config.vit = {
+  apiKey: process.env.VIT_API_KEY
+}
+
 module.exports = config;
