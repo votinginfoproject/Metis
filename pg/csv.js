@@ -71,14 +71,14 @@ var errorReport = function(innerJoins, where, params, scope) {
 }
 
 var xmlTreeValidationQuery =
-"SELECT v.severity, v.scope, v.path, v.value AS identifier, \
+"SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
  INNER JOIN results r ON r.id = v.results_id \
  WHERE r.public_id = $1";
 
 var scopedXmlTreeValidationQuery = function(elementTypes) {
-  return "SELECT v.severity, v.scope, v.path, v.value AS identifier, \
+  return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
  INNER JOIN results r ON r.id = v.results_id \
