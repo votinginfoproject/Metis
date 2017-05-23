@@ -20,23 +20,71 @@ var processMessage = function(message) {
   sender.sendNotifications(rabbitMessage, 'processedFeed');
 }
 
-var onChannelOpen = function(err, ch) {
-  logAndThrowPossibleError(err);
-
-  var ex = config.notifications.exchange;
-  var exOptions = config.notifications.exchangeOptions;
+var setupFeedProcessing = function(ch, exchange) {
   var processingComplete = config.notifications.topics.processingComplete;
 
-  ch.assertExchange(ex, "topic", exOptions);
   ch.assertQueue('dashboard.notifications.feed_processed', {}, function(err, ok) {
     logAndThrowPossibleError(err);
 
     var queue = ok.queue;
-    ch.bindQueue(queue, ex, processingComplete, {}, logAndThrowPossibleError);
+    ch.bindQueue(queue, exchange, processingComplete, {}, logAndThrowPossibleError);
 
     // TODO: Remove `noAck: true` option and only ack messages successfully handled
     ch.consume(queue, processMessage, {noAck: true}, logAndThrowPossibleError);
   });
+};
+
+var sendAddressFileMessage = null;
+
+// TODO: replace contents with actual parameters, convert to JSON string
+var submitAddressFile = function(contents) {
+  if (sendAddressFileMessage != null) {
+    sendAddressFileMessage(new Buffer(contents));
+  } else {
+    throw "Not connected to message queue for address file processing."
+  }
+};
+
+var setupAddressFileRequest = function(ch) {
+  ch.assertQueue('batch-address.file.submit', {}, function(err, ok) {
+    logAndThrowPossibleError(err);
+
+    var queue = ok.queue;
+    sendAddressFileMessage = function(contents) {
+      ch.sendToQueue(queue, contents);
+    };
+    logger.info("Connected to batch-address.file.submit queue");
+  });
+};
+
+var processAddressFileResponse = function(msg) {
+  // TODO: replace with actual processing later
+  logger.info(msg.content.toString());
+};
+
+var setupAddressFileResponse = function(ch) {
+  ch.assertQueue('batch-address.file.complete', {}, function(err, ok) {
+    logAndThrowPossibleError(err);
+
+    var queue = ok.queue;
+
+    // TODO: remove noAck and do actual acknowledgement
+    ch.consume(queue, processAddressFileResponse, {noAck: true}, logAndThrowPossibleError);
+    logger.info("Connected to batch-address.file.complete queue");
+  });
+};
+
+
+var onChannelOpen = function(err, ch) {
+  logAndThrowPossibleError(err);
+
+  var exchange = config.notifications.exchange;
+  var exchangeOptions = config.notifications.exchangeOptions;
+
+  ch.assertExchange(exchange, "topic", exchangeOptions);
+  setupFeedProcessing(ch, exchange);
+  setupAddressFileRequest(ch);
+  setupAddressFileResponse(ch);
 };
 
 var onConnect = function(err, conn) {
@@ -64,3 +112,4 @@ var connect = function() {
 };
 
 exports.connect = connect;
+exports.submitAddressFile = submitAddressFile;
