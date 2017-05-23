@@ -52,9 +52,14 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'HomeCtrl'
     });
 
-    $routeProvider.when ('/testing/vit', {
+    $routeProvider.when('/testing/vit', {
       templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
       controller: 'VitCtrl'
+    });
+
+    $routeProvider.when('/testing/addresses',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/testing/addresses.html',
+      controller: 'AddressesCtrl'
     });
 
     $routeProvider.when('/feeds', {

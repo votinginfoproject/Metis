@@ -916,6 +916,22 @@ form[role="search"] {
   }
 }
 
+// ============================================================================
+// Address Test Area
+// ============================================================================
+
+.address-test-description {
+  margin-top: 1em;
+  line-height: 1.25em;
+}
+
+.address-csv-headers {
+  background-color: $white;
+  color: $black;
+  border: 2px solid $black;
+  padding: 0 1em 0 1em;
+  width: 75%;
+}
 
 
 // ============================================================================
