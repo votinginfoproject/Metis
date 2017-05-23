@@ -153,7 +153,7 @@ var xmlTreeValidationErrorReport = function(req, res) {
 
 var xmlTreeLocalityErrorReport = function(req, res) {
   var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
-  var feedid = decodeURIComponent(req.params.publicId);
+  var feedid = decodeURIComponent(req.params.feedid);
   var localityid = decodeURIComponent(req.params.localityId)
   conn.query(function(client) {
 
