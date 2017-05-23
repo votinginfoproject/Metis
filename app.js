@@ -16,7 +16,7 @@ var stormpath = require('passport-stormpath');
 var auth = require('./authentication/strategy');
 var authUtils = require('./authentication/utils');
 var fs = require('fs');
-var queue = require('./notifications/queue');
+var queue = require('./queue');
 
 var authServices = require('./authentication/api');
 var notificationServices = require('./notifications/services');

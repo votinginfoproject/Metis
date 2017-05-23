@@ -3,6 +3,7 @@ var fs = require('fs');
 var multiparty = require('multiparty');
 var authorization = require('../authentication/utils.js');
 var config = require('../config');
+var queue = require('./queue')
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
 
@@ -25,12 +26,16 @@ module.exports = {
       });
       fileStream.on('open', function () {
         var s3 = new AWS.S3();
+        var bucketName = 'address-testing/' + authorization.stateGroupNames(req.user)[0] + '/input';
+        var fileName = files.file.originalFilename;
         s3.putObject({
-          Bucket: 'address-testing/' + authorization.stateGroupNames(req.user)[0] + '/input',
-          Key: files.file.originalFilename,
+          Bucket: bucketName,
+          Key: fileName,
           Body: fileStream
         }, function (err) {
-          if (err) { throw err; }
+          if (err) { throw err; } else {
+            queue.submitAddressFile(bucketName, fileName);
+          }
         });
       });
     });
