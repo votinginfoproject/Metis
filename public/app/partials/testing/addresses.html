@@ -2,19 +2,21 @@
 
 <section class="data-group data-module address-test-description">
   <p>To ensure that polling location data is accurate, please upload a CSV with two columns:</p>
- 
+
   <pre class="address-csv-headers">Test Voter Address, Expected Polling Location Result</pre>
- 
+
   <p>For best results, please include a sample of 300-500 addresses from a variety of participating Jurisdictions.<p>
- 
+
   <p>To get started, download the template test address CSV!</p>
 
   <a class="button" href="https://s3.amazonaws.com/address-verification-sample/batch_address_check_template.csv" download="sample.csv" target="_blank">Download Sample Template</a><br/><br/>
- 
+
   <p>Limitations: This tool is only meant for to test accuracy where a single precinct is linked to a single polling location. If precincts are linked to multiple polling locations (ie. vote centers or early vote sites), this tool will not effectively evaluate accuracy.</p>
- 
+
   <p>When you've created your sample addresss CSV, please upload it here!</p>
 
-  <a class="button" href="">Upload Test Addresses (Coming Soon)</a>
+  <form ng-app="fileUpload" ng-controller="FeedsCtrl" name="form" enctype="multipart/form-data">
+    <div class="button" ngf-select="upload($file)">Upload Test Addresses</div>
+  </form>
 
 </section>
