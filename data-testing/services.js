@@ -1,7 +1,7 @@
-var post = require("./posts.js");
+var aws = require("./aws.js");
 
 function registerDataVerificationServices (app) {
-  app.post('/testing/upload', post.uploadAddressFile);
+  app.post('/testing/upload', aws.uploadAddressFile);
 }
 
 exports.registerDataVerificationServices = registerDataVerificationServices;
