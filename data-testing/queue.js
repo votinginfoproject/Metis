@@ -1,5 +1,6 @@
 var logger = (require('../logging/vip-winston')).Logger;
 var edn = require("jsedn");
+var sender = require ("./sender");
 
 var sendAddressFileMessage = null;
 
@@ -34,6 +35,7 @@ var setupAddressFileRequest = function(ch) {
 var processAddressFileResponse = function(msg) {
   // TODO: replace with actual processing later
   logger.info(msg.content.toString());
+  sender.sendNotifications(msg);
 };
 
 var setupAddressFileResponse = function(ch) {
