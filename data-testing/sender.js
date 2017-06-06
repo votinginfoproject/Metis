@@ -39,17 +39,16 @@ var messageOptions = {
 };
 
 var sendMessage = function(messageContent) {
-//   transporter.sendMail(messageContent, function(error, info) {
-//     if (error) {
-//       logger.info('Sending error: ' + error);
-//       logger.info('Message: ' + JSON.stringify(messageContent));
-//     }
-//   });
+  transporter.sendMail(messageContent, function(error, info) {
+    if (error) {
+      logger.info('Sending error: ' + error);
+      logger.info('Message: ' + JSON.stringify(messageContent));
+    }
+  });
   logger.info("fake sending something!" + messageContent.toString())
 };
 
 var notifyGroup = function(message, groupName, contentFn) {
-  if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
   stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
     if (err) throw err;
     groups.each(function(group) {
@@ -60,7 +59,8 @@ var notifyGroup = function(message, groupName, contentFn) {
         for( i = 0; i < accounts.items.length; i++ ) {
           var recipient = accounts.items[i];
           var messageContent = contentFn(message, recipient);
-
+          logger.info("sending email to:" + JSON.stringify(recipient));
+          logger.info("Content of message:" + JSON.stringify(messageContent));
           sendMessage(messageContent);
         }
       });
@@ -74,16 +74,20 @@ module.exports = {
       logger.warning('A message was trying to be sent but cannot be Stormpath \
                       credentials are not set! Message: ' + message);
     } else {
-      var messageType;
-      if (message['status'] == "ok") {
-        messageType = messageOptions.testingComplete;
+      var messageType  = (message['status'] == "ok") ? messageOptions['testingComplete'] : messageOptions['errorDuringTesting'] ;
+      var groupName = message["groupName"];
+      if (groupName === undefined) {
+        logger.warning("No group in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
+        logger.info(message);
+      } else if (groupName === "undefined") {
+        if (config.email.adminGroup === undefined || config.email.adminGroup === null) {
+          logger.warning("No admin group defined.  Can't send batch address testing finished email notification.");
+          logger.info(message);
+        } else {
+          notifyGroup(message, config.email.adminGroup, messageType);
+        }
       } else {
-        messageType = messageOptions.errorDuringTesting;
-      };
-      if (message['group']) {
-            notifyGroup(message, message['group'], messageType);
-      } else {
-            notifyGroup(message, config.email.adminGroup, messageType);
+        notifyGroup(message, groupName, messageType);
       }
     }
   }
