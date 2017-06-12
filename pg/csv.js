@@ -211,7 +211,7 @@ var pollingLocationAddressReport = function(req, res) {
 }
 
 var earlyVoteSiteAddressReport = function(req, res) {
-  var header = ["Early Vote Site Name", "Address Location Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
+  var header = ["Locality Name", "Early Vote Site Name", "Address Location Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
   var feedid = decodeURIComponent(req.params.feedid);
   conn.query(function(client) {
 
@@ -224,7 +224,8 @@ var earlyVoteSiteAddressReport = function(req, res) {
     var query = client.query('select * from v3_dashboard.early_vote_location_address_report($1)', [feedid]);
 
     query.on("row", function(row, result) {
-      res.write(makeCSVRow([row.early_vote_site_name,
+      res.write(makeCSVRow([row.locality_name,
+                            row.early_vote_site_name,
                             row.address_location_name,
                             row.address_line1,
                             row.address_line2,
