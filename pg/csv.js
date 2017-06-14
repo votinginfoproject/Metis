@@ -183,7 +183,7 @@ var pollingLocationAddressReport = function(req, res) {
   var feedid = decodeURIComponent(req.params.feedid);
   conn.query(function(client) {
 
-    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid));
+    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, 'PollingLocationAddress'));
     res.setHeader('Content-type', 'text/csv');
     res.charset = 'UTF-8';
 
