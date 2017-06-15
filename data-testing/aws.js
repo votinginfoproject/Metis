@@ -64,11 +64,9 @@ module.exports = {
         res.writeHead(500, {'content-type': 'text/plain'});
         res.end();
       } else {
-        console.log(data);
         if (data["Contents"] != []) {
           var params = {Bucket: bucketName, Key: fileName};
           var url = s3.getSignedUrl('getObject', params);
-          console.log('The URL is', url);
           res.writeHead(200, {'content-type': 'text/plain'});
           res.write(url);
           res.end();
