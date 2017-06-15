@@ -38,7 +38,8 @@ module.exports = {
           Body: fileStream
         }, function (err) {
           if (err) {
-            throw err; } else {
+            throw err;
+          } else {
             queue.submitAddressFile(bucketName, fileName, groupName);
           }
         });

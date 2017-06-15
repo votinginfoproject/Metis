@@ -45,7 +45,6 @@ var sendMessage = function(messageContent) {
       logger.info('Message: ' + JSON.stringify(messageContent));
     }
   });
-  logger.info("fake sending something!" + messageContent.toString())
 };
 
 var notifyGroup = function(message, groupName, contentFn) {
