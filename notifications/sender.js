@@ -68,6 +68,7 @@ var notifyGroup = function(message, groupName, contentFn) {
   if ((typeof groupName != "string") ||
        (groupName.length < 2) ||
        (groupName.length > 5)) {
+    logger.info("groupName is bad--sending to admin group");
     groupName = config.email.adminGroup;
   };
   if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
@@ -83,7 +84,7 @@ var notifyGroup = function(message, groupName, contentFn) {
           var messageContent = contentFn(message, recipient, group);
 
           // sendMessage(messageContent);
-          logger.info("I would be sending a message with this content: " + messageContent)
+          logger.info("I would be sending a message to: " + recipient + " with this subject: " + messageContent.subject);
         }
       });
     });
@@ -118,13 +119,9 @@ module.exports = {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            logger.info(result);
-            logger.info(result.rows[0]);
 
             var vip_id = result.rows[0]['vip_id'];
             var spec_version = new String(result.rows[0]['spec_version']);
-            logger.info("vip_id: " + vip_id);
-            logger.info("spec_version: " + spec_version);
             if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
               notifyGroup(message, vip_id, messageOptions['v5processedFeed']);
             } else {
