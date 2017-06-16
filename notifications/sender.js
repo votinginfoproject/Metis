@@ -113,6 +113,8 @@ module.exports = {
 
         client.query(vip_id_query, [publicId], function(err, result) {
           done();
+          logger.info(result);
+          logger.info(result.rows[0]);
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
