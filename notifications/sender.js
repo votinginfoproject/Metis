@@ -84,7 +84,7 @@ var notifyGroup = function(message, groupName, contentFn) {
           var messageContent = contentFn(message, recipient, group);
 
           // sendMessage(messageContent);
-          logger.info("I would be sending a message to: " + recipient + " with this subject: " + messageContent.subject);
+          logger.info("I would be sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
         }
       });
     });
