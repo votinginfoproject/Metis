@@ -113,17 +113,22 @@ module.exports = {
 
         client.query(vip_id_query, [publicId], function(err, result) {
           done();
-          logger.info(result);
-          logger.info(result.rows[0]);
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            if (result.rows[0].vip_id && result.rows[0]['spec_version'] && result.rows[0]['spec_version'].startsWith('5')  && messageType === 'processedFeed') {
-              notifyGroup(message, result.rows[0].vip_id, messageOptions['v5processedFeed']);
+            logger.info(result);
+            logger.info(result.rows[0]);
+
+            var vip_id = result.rows[0]['vip_id'];
+            var spec_version = new String(result.rows[0]['spec_version']);
+            logger.info("vip_id: " + vip_id)
+            logger.info("spec_version: " + spec_version)
+            if (vip_id && spec_version.startsWith('5')  && messageType === 'processedFeed') {
+              notifyGroup(message, vip_id, messageOptions['v5processedFeed']);
             } else {
-              notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
+              notifyGroup(message, vip_id, messageOptions[messageType]);
             }
           }
         });
