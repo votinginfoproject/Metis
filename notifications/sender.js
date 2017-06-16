@@ -83,8 +83,8 @@ var notifyGroup = function(message, groupName, contentFn) {
           var recipient = accounts.items[i];
           var messageContent = contentFn(message, recipient, group);
 
-          // sendMessage(messageContent);
-          logger.info("I would be sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+          sendMessage(messageContent);
+          logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
         }
       });
     });
