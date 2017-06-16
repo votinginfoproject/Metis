@@ -65,6 +65,11 @@ var sendMessage = function(messageContent) {
 };
 
 var notifyGroup = function(message, groupName, contentFn) {
+  if ((typeof groupName != "string") ||
+       (groupName.length < 2) ||
+       (groupName.length > 5)) {
+    groupName = config.email.adminGroup;
+  };
   if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
   stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
     if (err) throw err;
@@ -77,7 +82,8 @@ var notifyGroup = function(message, groupName, contentFn) {
           var recipient = accounts.items[i];
           var messageContent = contentFn(message, recipient, group);
 
-          sendMessage(messageContent);
+          // sendMessage(messageContent);
+          logger.info("I would be sending a message with this content: " + messageContent)
         }
       });
     });
@@ -92,10 +98,9 @@ module.exports = {
                       JSON.stringify(message));
     }
 
-    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, r.vip_id \
-                        FROM results r \
-                        LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
-                        WHERE r.public_id = $1";
+    var vip_id_query = "SELECT vip_id, spec_version \
+                        FROM results \
+                        WHERE public_id = $1";
 
     var publicId = message[":public-id"];
 
@@ -113,10 +118,10 @@ module.exports = {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            if (result.rows[0].v5_vip_id && messageType === 'processedFeed') {
-              notifyGroup(message, result.rows[0].v5_vip_id, messageOptions['v5processedFeed']);
+            if (result.rows[0].vip_id && results.rows[0].spec_version.startsWith('5')  && messageType === 'processedFeed') {
+              notifyGroup(message, result.rows[0].vip_id, messageOptions['v5processedFeed']);
             } else {
-              notifyGroup(message, result.rows[0].v3_vip_id || result.rows[0].v5_vip_id, messageOptions[messageType]);
+              notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
             }
           }
         });
