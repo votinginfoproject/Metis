@@ -118,7 +118,7 @@ module.exports = {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            if (result.rows[0].vip_id && result.rows[0].spec_version.startsWith('5')  && messageType === 'processedFeed') {
+            if (result.rows[0].vip_id && result.rows[0].spec_version && result.rows[0].spec_version.startsWith('5')  && messageType === 'processedFeed') {
               notifyGroup(message, result.rows[0].vip_id, messageOptions['v5processedFeed']);
             } else {
               notifyGroup(message, result.rows[0].vip_id, messageOptions[messageType]);
