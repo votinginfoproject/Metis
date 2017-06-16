@@ -125,7 +125,7 @@ module.exports = {
             var spec_version = new String(result.rows[0]['spec_version']);
             logger.info("vip_id: " + vip_id);
             logger.info("spec_version: " + spec_version);
-            if (vip_id && spec_version.toString().startsWith('5')  && messageType === 'processedFeed') {
+            if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
               notifyGroup(message, vip_id, messageOptions['v5processedFeed']);
             } else {
               notifyGroup(message, vip_id, messageOptions[messageType]);
