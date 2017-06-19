@@ -48,6 +48,13 @@ var sendMessage = function(messageContent) {
 };
 
 var notifyGroup = function(message, groupName, contentFn) {
+  if ((typeof groupName != "string") ||
+       (groupName.length < 2) ||
+       (groupName.length > 5)) {
+    logger.info("groupName is bad--sending to admin group");
+    groupName = config.email.adminGroup;
+  };
+  if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
   stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
     if (err) throw err;
     groups.each(function(group) {
@@ -57,10 +64,10 @@ var notifyGroup = function(message, groupName, contentFn) {
 
         for( i = 0; i < accounts.items.length; i++ ) {
           var recipient = accounts.items[i];
-          var messageContent = contentFn(message, recipient);
-          logger.info("sending email to:" + JSON.stringify(recipient));
-          logger.info("Content of message:" + JSON.stringify(messageContent));
+          var messageContent = contentFn(message, recipient, group);
+
           sendMessage(messageContent);
+          logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
         }
       });
     });
