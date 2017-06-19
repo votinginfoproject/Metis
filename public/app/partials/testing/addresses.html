@@ -19,4 +19,8 @@
     <div class="button" ngf-select="upload($file)">Upload Test Addresses</div>
   </form>
 
+  <div ng-if="latestResultsFileUrl">
+    <p>Download your latest results <a href="{{latestResultsFileUrl}}">here</a>.</p>
+  </div>
+
 </section>
