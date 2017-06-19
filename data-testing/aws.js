@@ -26,15 +26,21 @@ module.exports = {
       });
       fileStream.on('open', function () {
         var s3 = new AWS.S3();
-        var bucketName = 'address-testing/' + authorization.stateGroupNames(req.user)[0] + '/input';
+        var groupName = authorization.stateGroupNames(req.user)[0];
+        if (groupName === undefined) {
+          groupName = "undefined"
+        };
+        var bucketName = 'address-testing/' + groupName + '/input';
         var fileName = files.file.originalFilename;
         s3.putObject({
           Bucket: bucketName,
           Key: fileName,
           Body: fileStream
         }, function (err) {
-          if (err) { throw err; } else {
-            queue.submitAddressFile(bucketName, fileName);
+          if (err) {
+            throw err;
+          } else {
+            queue.submitAddressFile(bucketName, fileName, groupName);
           }
         });
       });
