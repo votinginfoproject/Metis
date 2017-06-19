@@ -61,6 +61,7 @@
   <a class="button" href="{{errorReportPath}}" ng-show="errors.length">Download Error Report</a>
   <div ng-show="total_errors > 50000"><small>(Please be patient for large Error Reports to be prepared and downloaded)</small></div>
   <a class="button" href="{{pollingLocationReportPath}}" ng-show="{{pageId == 'feeds-overview-pollinglocations-errors-content'}}">Download Polling Location Address Error Report</a>
+  <a class="button" href="{{earlyVoteSiteAddressReportPath}}" ng-show="{{pageId == 'feeds-overview-earlyvotesites-errors-content'}}">Download Early Vote Site Address Error Report</a>
 
   <script type="text/ng-template" id="errorsPagination">
     <ul class="pagination ng-cloak">
