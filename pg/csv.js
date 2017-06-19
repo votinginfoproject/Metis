@@ -71,20 +71,16 @@ var errorReport = function(innerJoins, where, params, scope) {
 }
 
 var xmlTreeValidationQuery =
-"SELECT v.severity, v.scope, v.path, x.value AS identifier, \
+"SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
- LEFT JOIN xml_tree_values x \
-        ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
  INNER JOIN results r ON r.id = v.results_id \
  WHERE r.public_id = $1";
 
 var scopedXmlTreeValidationQuery = function(elementTypes) {
-  return "SELECT v.severity, v.scope, v.path, x.value AS identifier, \
+  return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
- LEFT JOIN xml_tree_values x \
-        ON x.path = subpath(v.path,0,4) || 'id' AND x.results_id = v.results_id \
  INNER JOIN results r ON r.id = v.results_id \
  WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
 }
@@ -187,7 +183,7 @@ var pollingLocationAddressReport = function(req, res) {
   var feedid = decodeURIComponent(req.params.feedid);
   conn.query(function(client) {
 
-    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid));
+    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, 'PollingLocationAddress'));
     res.setHeader('Content-type', 'text/csv');
     res.charset = 'UTF-8';
 
@@ -212,7 +208,38 @@ var pollingLocationAddressReport = function(req, res) {
       res.end();
     });
   });
+}
 
+var earlyVoteSiteAddressReport = function(req, res) {
+  var header = ["Locality Name", "Early Vote Site Name", "Address Location Name", "Address Line 1", "Address Line 2", "Address Line 3", "Address City", "Address State",  "Address Zip", "Polling Location Id"];
+  var feedid = decodeURIComponent(req.params.feedid);
+  conn.query(function(client) {
+
+    res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, 'EarlyVoteSiteAddress'));
+    res.setHeader('Content-type', 'text/csv');
+    res.charset = 'UTF-8';
+
+    res.write(makeCSVRow(header));
+
+    var query = client.query('select * from v3_dashboard.early_vote_location_address_report($1)', [feedid]);
+
+    query.on("row", function(row, result) {
+      res.write(makeCSVRow([row.locality_name,
+                            row.early_vote_site_name,
+                            row.address_location_name,
+                            row.address_line1,
+                            row.address_line2,
+                            row.address_line3,
+                            row.address_city,
+                            row.address_state,
+                            row.address_zip,
+                            row.polling_location_id]));
+    });
+
+    query.on("end", function(result) {
+      res.end();
+    });
+  });
 }
 
 module.exports = {
@@ -224,5 +251,6 @@ module.exports = {
   },
   xmlTreeValidationErrorReport: xmlTreeValidationErrorReport,
   scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport,
-  pollingLocationAddressReport: pollingLocationAddressReport
+  pollingLocationAddressReport: pollingLocationAddressReport,
+  earlyVoteSiteAddressReport: earlyVoteSiteAddressReport
 }

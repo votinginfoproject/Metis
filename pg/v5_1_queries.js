@@ -10,17 +10,8 @@ var localityOverviewQuery = "select l.id as identifier, l.name, l.precinct_count
                              WHERE r.public_id = $1 \
                              ORDER BY l.name;";
 
-var overviewQuery = "select r.id, \
-                     xtv_state.value as state_name, \
-                     xtv_type.value as election_type, \
-                     xtv_date.value as election_date \
+var overviewQuery = "select r.id, r.state state_name, r.election_type, r.election_date \
                      from results r \
-                     left join xml_tree_values xtv_state on xtv_state.results_id = r.id \
-                                           and xtv_state.simple_path = 'VipObject.State.Name' \
-                     left join xml_tree_values xtv_type on xtv_type.results_id = r.id \
-                                           and xtv_type.path ~ 'VipObject.*.Election.*.ElectionType.*.Text.0' \
-                     left join xml_tree_values xtv_date on xtv_date.results_id = r.id \
-                                           and xtv_date.simple_path = 'VipObject.Election.Date' \
                      where r.public_id = $1;";
 
 var totalErrorsQuery = "select (select count(v.*) \
@@ -34,23 +25,19 @@ var totalErrorsQuery = "select (select count(v.*) \
                         from results r where r.public_id = $1;"
 
 var errorSummary =
-    "WITH errors AS (SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
-                  v.results_id, \
-                  COUNT(1) AS count, \
-                  v.severity, \
-                  v.scope, \
-                  v.error_type, \
-                  (array_agg(v.path))[1] AS path, \
-                  (array_agg(v.error_data))[1] AS error_data \
-                FROM results r \
-                LEFT JOIN xml_tree_validations v ON v.results_id = r.id \
-                WHERE r.public_id = $1 \
-                GROUP BY v.severity, v.scope, v.error_type, v.results_id) \
-     SELECT errors.*, x.value AS identifier \
-     FROM errors \
-     LEFT JOIN xml_tree_values x  \
-            ON x.path = subpath(errors.path,0,4) || 'id' \
-     AND x.results_id = errors.results_id;";
+    "SELECT DISTINCT ON (v.severity, v.scope, v.error_type) \
+                   v.results_id, \
+                   COUNT(1) AS count, \
+                   v.severity, \
+                   v.scope, \
+                   v.error_type, \
+                   (array_agg(v.path))[1] AS path, \
+                   (array_agg(v.error_data))[1] AS error_data, \
+                   v.parent_element_id as identifier \
+                 FROM results r \
+                 LEFT JOIN xml_tree_validations v ON v.results_id = r.id \
+                 WHERE r.public_id = $1 \
+                 GROUP BY v.severity, v.scope, v.error_type, v.results_id, v.parent_element_id;";
 
 var errorResponder = function(query, params) {
   return util.simpleQueryResponder(query, util.paramExtractor(params));
