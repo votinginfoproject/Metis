@@ -6,8 +6,6 @@ After=consul@%i.service
 Wants=consul@%i.service
 After=rabbitmq@%i.service
 Requires=rabbitmq@%i.service
-After=loggly@%i.service
-Requires=loggly@%i.service
 
 [Service]
 EnvironmentFile=/etc/environment
@@ -26,26 +24,8 @@ ExecStartPre=/usr/bin/docker pull ${DOCKER_IMAGE}
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \
-  --link loggly:syslog \
-  --env NODE_ENV="production" \
-  --env BASE_URI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/base-uri?raw)" \
-  --env DB_PORT_5432_TCP_ADDR=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/hostname?raw) \
-  --env DB_PORT_5432_TCP_PORT=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/port?raw) \
-  --env DB_ENV_POSTGRES_USER=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/username?raw) \
-  --env DB_ENV_POSTGRES_PASSWORD=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/password?raw) \
-  --env DB_ENV_POSTGRES_DATABASE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/database?raw) \
-  --env VIP_DP_RABBITMQ_EXCHANGE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/rabbitmq/exchange?raw) \
-  --env VIP_DP_SES_FROM=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/ses/from-address?raw) \
-  --env VIP_DP_SES_REGION=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/ses/region?raw) \
-  --env STORMPATH_ADMIN_GROUP="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/admin-group?raw)" \
-  --env STORMPATH_API_KEY_ID=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/api-key-id?raw) \
-  --env STORMPATH_API_KEY_SECRET=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/api-key-secret?raw) \
-  --env STORMPATH_APP_HREF=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/app-href?raw) \
-  --env STORMPATH_ACCOUNT_STORE=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/stormpath/account-store?raw) \
-  --env NEW_RELIC_LICENSE_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/license-key?raw) \
-  --env NEW_RELIC_ENVIRONMENT=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/environment?raw) \
-  --env VIT_API_KEY=$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/google-civic/api-key?raw) \
-  -p 4000:4000 \
+  --env-file test.env \
+  -p "4000:4000" \
   ${DOCKER_IMAGE}'
 
 ExecStop=/usr/bin/docker stop ${CONTAINER}
