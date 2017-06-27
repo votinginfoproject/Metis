@@ -71,7 +71,7 @@ module.exports = {
         res.end();
       } else {
         if (data["Contents"] != []) {
-          var params = {Bucket: bucketName, Key: fileName};
+          var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
           var url = s3.getSignedUrl('getObject', params);
           res.writeHead(200, {'content-type': 'text/plain'});
           res.write(url);
