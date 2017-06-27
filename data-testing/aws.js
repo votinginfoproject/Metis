@@ -72,6 +72,7 @@ module.exports = {
         res.writeHead(500, {'content-type': 'text/plain'});
         res.end();
       } else {
+        logger.info(JSON.stringify(data));
         if (data["Contents"] != []) {
           var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
           logger.info("requesting from Amazon with params: " + JSON.stringify(params));
