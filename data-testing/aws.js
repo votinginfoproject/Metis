@@ -73,7 +73,7 @@ module.exports = {
         res.end();
       } else {
         logger.info(JSON.stringify(data));
-        if (data["Contents"] != []) {
+        if (data["Contents"].length > 0) {
           var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
           logger.info("requesting from Amazon with params: " + JSON.stringify(params));
           var url = s3.getSignedUrl('getObject', params);
