@@ -74,7 +74,7 @@ module.exports = {
       } else {
         if (data["Contents"] != []) {
           var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
-          logger.info("requesting from Amazon with params: " + params);
+          logger.info("requesting from Amazon with params: " + JSON.stringify(params));
           var url = s3.getSignedUrl('getObject', params);
           logger.info("generated pre-signed URL " + url);
           res.writeHead(200, {'content-type': 'text/plain'});
