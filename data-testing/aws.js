@@ -30,8 +30,8 @@ module.exports = {
         if (groupName === undefined) {
           groupName = "undefined"
         };
-        var bucketName = 'address-testing/' + groupName + '/input';
-        var fileName = files.file.originalFilename;
+        var bucketName = 'address-testing';
+        var fileName = groupName + '/input/' + files.file.originalFilename;
         s3.putObject({
           Bucket: bucketName,
           Key: fileName,
