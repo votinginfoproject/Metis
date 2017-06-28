@@ -3,7 +3,7 @@
  * Batch Addresses Controller
  *
  */
-function AddressesCtrl($scope, $rootScope, Upload, $configService) {
+function AddressesCtrl($scope, $rootScope, Upload, $configService, $route) {
   var breadcrumbs = null;
   // initialize page header variables
   $scope.setPageHeader("Batch Address Test Tool", breadcrumbs, "testing", "", null);
@@ -15,6 +15,8 @@ function AddressesCtrl($scope, $rootScope, Upload, $configService) {
             data: {file: file, 'username': $scope.username}
         }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            $rootScope.showUploaded = true;
+            $route.reload();
         }, function (resp) {
             console.log('Error status: ' + resp.status);
         }, function (evt) {

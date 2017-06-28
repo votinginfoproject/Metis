@@ -2511,6 +2511,23 @@ form[role="search"] {
   padding: 0 1em 0 1em;
   width: 30em; }
 
+.address-file-uploaded {
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  border: 2px solid #fff;
+  background: #093;
+}
+
 .example {
   *zoom: 1;
   border: 2px solid white;
