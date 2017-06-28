@@ -4,6 +4,7 @@ var multiparty = require('multiparty');
 var authorization = require('../authentication/utils.js');
 var config = require('../config');
 var queue = require('./queue')
+var logger = (require('../logging/vip-winston')).Logger;
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
 
@@ -32,6 +33,7 @@ module.exports = {
         };
         var bucketName = 'address-testing';
         var fileName = groupName + '/input/' + files.file.originalFilename;
+        logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
         s3.putObject({
           Bucket: bucketName,
           Key: fileName,
@@ -66,13 +68,16 @@ module.exports = {
     };
     s3.listObjects(params, function(err, data) {
       if (err) {
-        console.log(err, err.stack);
+        logger.error(err, err.stack);
         res.writeHead(500, {'content-type': 'text/plain'});
         res.end();
       } else {
-        if (data["Contents"] != []) {
-          var params = {Bucket: bucketName, Key: fileName};
+        logger.info(JSON.stringify(data));
+        if (data["Contents"].length > 0) {
+          var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
+          logger.info("requesting from Amazon with params: " + JSON.stringify(params));
           var url = s3.getSignedUrl('getObject', params);
+          logger.info("generated pre-signed URL " + url);
           res.writeHead(200, {'content-type': 'text/plain'});
           res.write(url);
           res.end();
