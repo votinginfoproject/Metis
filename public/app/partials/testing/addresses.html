@@ -1,9 +1,10 @@
 <i id="addresses"></i>
 
 <section class="data-group data-module address-test-description">
+  <p>The Batch Address Test Tool allows you to check and make sure that VIP is returning the correct polling location for a large sample of addresses. Once feed data has been submitted and ingested, you can upload a CSV with a random sample of 100-300 voter addresses and the polling locations they should return, and the tool will check that the API is returning the correct result for each address. Because of the time required for ingestion, data may not be available to review in this tool immediately after submission to the VIP dashboard.</p>
   <p>To ensure that polling location data is accurate, please upload a CSV with two columns:</p>
 
-  <pre class="address-csv-headers">Test Voter Address, Expected Polling Location Result</pre>
+  <pre class="address-csv-headers">voter_address, expected_polling_location</pre>
 
   <p>For best results, please include a sample of 300-500 addresses from a variety of participating Jurisdictions.<p>
 
@@ -15,7 +16,7 @@
 
   <p>When you've created your sample addresss CSV, please upload it here!</p>
 
-  <form ng-app="fileUpload" ng-controller="FeedsCtrl" name="form" enctype="multipart/form-data">
+  <form ng-app="fileUpload" ng-controller="AddressesCtrl" name="form" enctype="multipart/form-data">
     <div class="button" ngf-select="upload($file)">Upload Test Addresses</div>
   </form>
 

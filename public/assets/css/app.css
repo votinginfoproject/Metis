@@ -166,7 +166,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/* 
+/*
  * Foundation Icons v 3.0
  * Made by ZURB 2013 http://zurb.com/playground/foundation-icon-fonts-3
  * MIT License
@@ -2509,7 +2509,7 @@ form[role="search"] {
   color: #000;
   border: 2px solid #000;
   padding: 0 1em 0 1em;
-  width: 75%; }
+  width: 30em; }
 
 .example {
   *zoom: 1;

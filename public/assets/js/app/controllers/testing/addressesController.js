@@ -6,8 +6,9 @@
 function AddressesCtrl($scope, $rootScope, Upload, $configService) {
   var breadcrumbs = null;
   // initialize page header variables
-  $rootScope.setPageHeader("Batch Check Test Addresses", breadcrumbs, "testing", "", null);
+  $scope.setPageHeader("Batch Address Test Tool", breadcrumbs, "testing", "", null);
 
+  $scope.pageHeader.title = 'Batch Address Test Tool';
   $scope.upload = function (file) {
         Upload.upload({
             url: '/testing/upload',
