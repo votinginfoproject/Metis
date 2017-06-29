@@ -14,12 +14,14 @@ var path = require('path');
 var passport = require('passport');
 var stormpath = require('passport-stormpath');
 var auth = require('./authentication/strategy');
+var authUtils = require('./authentication/utils');
 var fs = require('fs');
-var queue = require('./notifications/queue');
+var queue = require('./queue');
 
 var authServices = require('./authentication/api');
 var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
+var dataVerificationServices = require('./data-testing/services');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -80,6 +82,12 @@ auth.authSetup(config, passport, config.auth.uselocalauth());
 authServices.registerAuthServices(config, app, passport);
 notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
+dataVerificationServices.registerDataVerificationServices(app);
+
+app.get ('/config/vit', function (req, res, next) {
+    authUtils.ensureAuthentication(req, res, function (){
+      res.send(config.vit.apiKey);
+    });});
 
 http.createServer(app).listen(config.web.port, function () {
   logger.info('Express server listening on port ' + config.web.port);

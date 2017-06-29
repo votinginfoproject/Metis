@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
@@ -50,6 +50,16 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/', {
       templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
       controller: 'HomeCtrl'
+    });
+
+    $routeProvider.when('/testing/vit', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
+      controller: 'VitCtrl'
+    });
+
+    $routeProvider.when('/testing/addresses',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/testing/addresses.html',
+      controller: 'AddressesCtrl'
     });
 
     $routeProvider.when('/feeds', {
