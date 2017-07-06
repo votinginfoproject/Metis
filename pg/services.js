@@ -112,7 +112,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/xml/errors/state/report',
           csv.scopedXmlTreeValidationErrorReport('State'));
   app.get('/db/feeds/:feedid/xml/errors/precincts/report',
-          csv.scopedXmlTreeValidationErrorReport('Precincts'));
+          csv.scopedXmlTreeValidationErrorReport('Precinct'));
   app.get('/db/feeds/:feedid/xml/errors/polling_locations/report',
           csv.scopedXmlTreeValidationErrorReport('PollingLocation'));
   app.get('/db/feeds/:feedid/xml/errors/localities/report',
