@@ -77,4 +77,8 @@ config.vit = {
   apiKey: process.env.VIT_API_KEY
 }
 
+config.batt = {
+  batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
+}
+
 module.exports = config;
