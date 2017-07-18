@@ -7,7 +7,7 @@ var queue = require('./queue')
 var logger = (require('../logging/vip-winston')).Logger;
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
-var batchAddressBucket = config.batt.batchaAddressBucket;
+var batchAddressBucket = config.batt.batchAddressBucket;
 
 module.exports = {
   uploadAddressFile: function(req, res){
