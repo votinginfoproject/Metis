@@ -121,7 +121,7 @@
   <script src="assets/js/app/controllers/testing/vitController.js"></script>
   <script src="assets/js/app/controllers/testing/addressesController.js"></script>
   <script src="assets/js/app/controllers/testing/asideController.js"></script>
-  
+
   <!-- Shared -->
   <script src="assets/js/app/services/errorsService.js"></script>
   <script src="assets/js/app/services/feedsService.js"></script>
@@ -137,7 +137,9 @@
     <div class="wrapper">
       <a href="/" class="branding"><span>VIP Dashboard</span></a>
 
-      <nav class="main-nav" ng-if="user.isAuthenticated">
+<!--  #TODO-auth need to confirm user is authenticated-->
+      <!-- <nav class="main-nav" ng-if="user.isAuthenticated"> -->
+      <nav class="main-nav" ng-if="true">
         <ul>
           <li><i class="fi-torso"></i> {{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="/" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>

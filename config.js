@@ -33,19 +33,6 @@ config.session = {
   reapInterval: 3600
 }
 
-config.auth = {
-  uselocalauth: function() {
-    return !config.auth.apiKey ||
-      !config.auth.apiKeySecret ||
-      !config.auth.accountStore ||
-      !config.auth.appHref;
-  },
-  apiKey: process.env.STORMPATH_API_KEY_ID,
-  apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
-  appHref: process.env.STORMPATH_APP_HREF,
-  accountStore: process.env.STORMPATH_ACCOUNT_STORE
-}
-
 config.notifications = {
   exchange: process.env.VIP_DP_RABBITMQ_EXCHANGE,
   exchangeOptions: { durable: false, autoDelete: true},

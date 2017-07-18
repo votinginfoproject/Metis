@@ -3,14 +3,6 @@ var logger = (require('../logging/vip-winston')).Logger;
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var messageContent = require('./content');
-var stormpathREST = require('stormpath');
-
-if(config.auth.uselocalauth()) {
-  logger.info('Stormpath credentials are not set!');
-} else {
-  var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
-  var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });
-}
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -55,29 +47,19 @@ var notifyGroup = function(message, groupName, contentFn) {
     groupName = config.email.adminGroup;
   };
   if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
-  stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
-    if (err) throw err;
-    groups.each(function(group) {
+  // #TODO get recipients to email
+  var recipient = accounts.items[i];
+  var messageContent = contentFn(message, recipient, group);
 
-      group.getAccounts(function(err, accounts) {
-        if (err) throw err;
-
-        for( i = 0; i < accounts.items.length; i++ ) {
-          var recipient = accounts.items[i];
-          var messageContent = contentFn(message, recipient, group);
-
-          sendMessage(messageContent);
-          logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
-        }
-      });
-    });
-  });
+  sendMessage(messageContent);
+  logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
 };
 
 module.exports = {
   sendNotifications: function(message) {
+    // #TODO-auth need to confirm connected to authentication source
     if(config.auth.uselocalauth()) {
-      logger.warning('A message was trying to be sent but cannot be Stormpath \
+      logger.warning('A message was trying to be sent but cannot be \
                       credentials are not set! Message: ' + message);
     } else {
       var messageType  = (message['status'] == "ok") ? messageOptions['testingComplete'] : messageOptions['errorDuringTesting'] ;

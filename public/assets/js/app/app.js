@@ -289,35 +289,36 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     /*
      * HTTP Interceptor
      * Will be used to check to see if user is authenticated
+     * #TODO-auth need to check if user is authenticated and redirect
      */
-    $httpProvider.responseInterceptors.push(function ($q, $location, $rootScope) {
-      return function (promise) {
-        return promise.then(
-          // Success: just return the response
-          function (response) {
-
-            // if the user is logged in and going to the home page,
-            // redirect to the feeds page
-            if ($rootScope.user !== null && $rootScope.user.isAuthenticated === true && $location.path() === "/") {
-
-              $location.url('/feeds');
-            }
-
-            return response;
-          },
-          // Error: check the error status for 401
-          // and if so redirect back to homepage
-          function (response) {
-            if (response.status === 401) {
-
-              // nullify the user object
-              $rootScope.user = null;
-              $location.url('/');
-            }
-            return $q.reject(response);
-          });
-      }
-    });
+    // $httpProvider.responseInterceptors.push(function ($q, $location, $rootScope) {
+    //   return function (promise) {
+    //     return promise.then(
+    //       // Success: just return the response
+    //       function (response) {
+    //
+    //         // if the user is logged in and going to the home page,
+    //         // redirect to the feeds page
+    //         if ($rootScope.user !== null && $rootScope.user.isAuthenticated === true && $location.path() === "/") {
+    //
+    //           $location.url('/feeds');
+    //         }
+    //
+    //         return response;
+    //       },
+    //       // Error: check the error status for 401
+    //       // and if so redirect back to homepage
+    //       function (response) {
+    //         if (response.status === 401) {
+    //
+    //           // nullify the user object
+    //           $rootScope.user = null;
+    //           $location.url('/');
+    //         }
+    //         return $q.reject(response);
+    //       });
+    //   }
+    // });
 
   }
 ]);
@@ -449,25 +450,26 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
 
   /*
    * Before we render any pages, see if user is authenticated or not and take appropriate action
+   * #TODO-auth this also checks if the user is authenticated and redirects???
    */
-  $appService.getUser()
-    .success(function (data) {
-
-      // set user object
-      $rootScope.user = data;
-
-      // redirect to home page if not authenticated
-      if (data ===null || data.isAuthenticated === false) {
-        $location.path("/");
-      }
-
-    }).error(function (data) {
-
-      // if we get an error, we could not connect to the server to check to
-      // see if the user is authenticated, this should not happen
-      $rootScope.pageHeader.error = "Server Error";
-      $location.path("/");
-    });
+  // $appService.getUser()
+  //   .success(function (data) {
+  //
+  //     // set user object
+  //     $rootScope.user = data;
+  //
+  //     // redirect to home page if not authenticated
+  //     if (data ===null || data.isAuthenticated === false) {
+  //       $location.path("/");
+  //     }
+  //
+  //   }).error(function (data) {
+  //
+  //     // if we get an error, we could not connect to the server to check to
+  //     // see if the user is authenticated, this should not happen
+  //     $rootScope.pageHeader.error = "Server Error";
+  //     $location.path("/");
+  //   });
 
   /*
    * Set a flag to determine if the screen is in mobile dimensions
