@@ -18,6 +18,7 @@ module.exports = {
       return util.simpleQueryResponder(queries.feeds, function(req) {
         return [req.query.page];
       })(req, res);
+    // #TODO-auth need to get user's state FIPS to filter feeds for display
     // } else {
     //   return util.simpleQueryResponder(queries.feedsForState, function(req) {
     //     return [authorization.stateGroupNames(req.user), req.query.page];
