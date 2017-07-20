@@ -3,12 +3,12 @@
  * Home Controller
  *
  */
-function HomeCtrl($scope, $rootScope, $homeService, $routeParams) {
+function HomeCtrl($scope, $rootScope, $homeService, $routeParams, $authService) {
 
   var breadcrumbs = null;
   // initialize page header variables
   $rootScope.setPageHeader("Welcome", breadcrumbs, "home", "", null);
-  if ($routeParams.badlogin) {
-    $rootScope.pageHeader.error = "Bad Username or Password.";
-  }
+  $scope.login = function() {
+  	$authService.login();
+  };
 }
