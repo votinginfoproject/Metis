@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
@@ -40,8 +40,9 @@ var formatVipFeedID = function(name) {
  * Will setup routing and retrieve reference data for the app before any pages are loaded
  *
  */
-vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider',
-  function ($routeProvider, $appProperties, $httpProvider, $logProvider) {
+vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider', 'angularAuth0Provider',
+  function ($routeProvider, $appProperties, $httpProvider, $logProvider, angularAuth0Provider) {
+
 
     // disable the logProvider's debugging as Ngtable uses it and it crowds out all other logging
     // without any other way to turn it off
@@ -334,7 +335,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Runs after the vipApp.config block above.
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http, $timeout) {
+vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http, $timeout, $authService) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
@@ -453,6 +454,10 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     this.pageHeader.alert = alert;
   };
 
+
+  // Handle the authentication
+  // result in the hash
+  $authService.handleAuthentication();
   /*
    * Before we render any pages, see if user is authenticated or not and take appropriate action
    * #TODO-auth this also checks if the user is authenticated and redirects???
