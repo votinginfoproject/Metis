@@ -1,6 +1,10 @@
 FROM node:0.12.15
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
+RUN apt-get update && \
+    apt-get install -y ruby rubygems-integration inotify-tools && \
+	gem install sass -v 3.3.14
+
 # install Grunt
 RUN npm install -g grunt-cli
 RUN npm install -g bower
@@ -18,8 +22,7 @@ RUN bower --allow-root install
 
 COPY . /usr/src/app
 
-RUN node-sass public/assets/css/app.scss public/assets/css/app.css
-
 EXPOSE 4000 27017 28017
 
-CMD [ "npm", "start" ]
+ENTRYPOINT [ "grunt" ]
+CMD [ "grunt",  "default"]

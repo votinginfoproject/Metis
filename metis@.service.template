@@ -17,6 +17,7 @@ Restart=on-failure
 Environment=DOCKER_IMAGE=
 Environment=CONTAINER=metis
 Environment=HOME=/root
+Environment=RUN_ENV=default
 
 ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
 ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
@@ -37,12 +38,16 @@ ExecStartPre=/bin/bash -c 'echo NEW_RELIC_ENVIRONMENT="$(curl -s http://${COREOS
 ExecStartPre=/bin/bash -c 'echo VIT_API_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/google-civic/api-key?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_DP_AWS_ACCESS_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/access-key?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_DP_AWS_SECRET_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/secret-key?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0_client_id?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0_domain?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0_audience?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_REDIRECT_URI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0_redirect_uri?raw)" >> /tmp/${CONTAINER}--env'
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \
   --env-file /tmp/${CONTAINER}--env \
   -p "4000:4000" \
-  ${DOCKER_IMAGE}'
+  ${DOCKER_IMAGE} grunt ${RUN_ENV}'
 
 ExecStop=/usr/bin/docker stop ${CONTAINER}
 ExecStop=/bin/bash -c 'rm /tmp/${CONTAINER}--env'
