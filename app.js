@@ -11,8 +11,6 @@ var config = require('./config');
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var passport = require('passport');
-var stormpath = require('passport-stormpath');
 var fs = require('fs');
 var queue = require('./queue');
 
@@ -53,8 +51,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({ store: sessionFileStore, secret: config.web.sessionsecret }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Redirect non-https load balanced clients to https
 app.use(redirectHttps);
