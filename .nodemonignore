@@ -2,3 +2,5 @@
 public/**
 .sass-cache/**
 .git/**
+newrelic_agent.log
+sessions/*

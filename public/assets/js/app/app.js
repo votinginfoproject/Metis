@@ -43,6 +43,7 @@ var formatVipFeedID = function(name) {
 vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider', 'angularAuth0Provider',
   function ($routeProvider, $appProperties, $httpProvider, $logProvider, angularAuth0Provider) {
 
+    angularAuth0Provider.init(config.auth0);
 
     // disable the logProvider's debugging as Ngtable uses it and it crowds out all other logging
     // without any other way to turn it off

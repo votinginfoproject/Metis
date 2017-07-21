@@ -60,7 +60,13 @@ module.exports = function(grunt) {
       dev: {
         options: {
           file: 'app.js',
-          ignoredFiles: ['public/**', '.sass-cache/**', '.git/**']
+          ignoredFiles: ['public/**', '.sass-cache/**', '.git/**', 'newrelic_agent.log', 'sessions/*']
+        }
+      },
+      prod_like: {
+        options: {
+          file: 'app.js',
+          ignoredFiles: ['*']
         }
       }
     },
@@ -69,18 +75,54 @@ module.exports = function(grunt) {
         // copy dependent packages from bower.json
       }
     },
+    replace: {
+      auth0: {
+        src: ['public/assets/js/app/config.js.template'],
+        dest: 'public/assets/js/app/config.js',
+        replacements: [{
+          from: 'AUTH0_CLIENT_ID',
+          to: process.env.AUTH0_CLIENT_ID
+        },
+        {
+          from: 'AUTH0_DOMAIN',
+          to: process.env.AUTH0_DOMAIN
+        },
+        {
+          from: 'AUTH0_AUDIENCE',
+          to: process.env.AUTH0_AUDIENCE
+        },
+        {
+          from: 'AUTH0_REDIRECT_URI',
+          to: process.env.AUTH0_REDIRECT_URI
+        }]
+      }
+    },
     // Run blocking grunt tasks concurrently
     concurrent: {
-      dev: {
+      dev_configure: {
         options: {
           logConcurrentOutput: true
         },
-        tasks: ['bower:install', 'watch', 'nodemon:dev']
+        tasks: ['bower:install', 'replace:auth0']
+      },
+      dev_run: {
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ['watch', 'nodemon:dev']
+      },
+      prod_like_configure: {
+        tasks: ['sass', 'replace:auth0']
+      },
+      prod_like_run: {
+        tasks: ['nodemon:prod_like']
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['concurrent:dev']);
+  grunt.registerTask('default', ['concurrent:dev_configure','concurrent:dev_run']);
+  grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
+  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
 };
