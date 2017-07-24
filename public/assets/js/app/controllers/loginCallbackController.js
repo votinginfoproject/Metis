@@ -3,9 +3,10 @@
  * Login Callback Controller
  *
  */
-function LogingCallbackCtrl($scope, $rootScope) {
+function LoginCallbackCtrl($scope, $rootScope, $authService, $http) {
 
   var breadcrumbs = null;
   // initialize page header variables
   $rootScope.setPageHeader("Logging In", breadcrumbs, "", "", null);
+
 }
