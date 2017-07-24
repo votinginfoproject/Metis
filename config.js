@@ -64,4 +64,9 @@ config.vit = {
   apiKey: process.env.VIT_API_KEY
 }
 
+config.auth0 = {
+  domain: process.env.AUTH0_DOMAIN,
+  audience: process.env.AUTH0_AUDIENCE
+}
+
 module.exports = config;

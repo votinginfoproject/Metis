@@ -2,8 +2,10 @@ var pg = require("./gets.js");
 var pg51 = require("./v5_1_queries.js");
 var pgErrors = require("./gets_errors.js");
 var csv = require('./csv.js');
+var auth = require('../authentication/services.js');
 
 function registerPostgresServices (app) {
+  app.all('/db/*', auth.checkJwt);
   ///////// Version-agnostic /////////
   app.get('/db/feeds', pg.getFeeds);
   app.get('/db/feeds/:feedid/error-total-count', pg.getErrorsTotal);
