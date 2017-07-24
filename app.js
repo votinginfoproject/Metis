@@ -17,6 +17,7 @@ var queue = require('./queue');
 var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
 var dataVerificationServices = require('./data-testing/services');
+var authServices = require('./authentication/services.js');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -73,8 +74,7 @@ notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
 dataVerificationServices.registerDataVerificationServices(app);
 
-app.get ('/config/vit', function (req, res, next) {
-  // #TODO-auth authenticate request
+app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
   res.send(config.vit.apiKey);
 });
 
