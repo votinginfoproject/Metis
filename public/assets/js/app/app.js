@@ -336,7 +336,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Runs after the vipApp.config block above.
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http, $timeout, $authService) {
+vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window, $anchorScroll, $http, $timeout, $authService) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
