@@ -59,6 +59,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'LoginCallbackCtrl'
     })
 
+    $routeProvider.when('/logout', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
+      controller: 'LogoutCtrl'
+    })
+
     $routeProvider.when('/testing/vit', {
       templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
       controller: 'VitCtrl'

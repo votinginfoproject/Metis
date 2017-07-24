@@ -70,6 +70,7 @@
   <!-- Auth -->
   <script src="assets/js/app/services/authService.js"></script>
   <script src="assets/js/app/controllers/loginCallbackController.js"></script>
+  <script src="assets/js/app/controllers/logoutController.js"></script>
 
   <!-- Aside -->
   <script src="assets/js/app/controllers/asideController.js"></script>
@@ -153,7 +154,7 @@
           <li><i class="fi-torso"></i> {{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
 	  <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
-          <li><a id="pageHeader-sign-out" href="/logout"><i class="fi-x"></i> Sign Out</a></li>
+          <li><a id="pageHeader-sign-out" href="#/logout"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
     </div>
