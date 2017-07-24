@@ -25,7 +25,6 @@ vipApp.factory('$authService', function ($location, $timeout, $http, angularAuth
 
   function setSession(authResult) {
     // Set the time that the access token will expire at
-    console.log("setSession called with " + authResult);
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('auth0_access_token', authResult.accessToken);
     localStorage.setItem('auth0_id_token', authResult.idToken);
