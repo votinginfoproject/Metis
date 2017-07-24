@@ -34,8 +34,7 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: 'public/**/*.js',
-        tasks: ['gjslint']
+        files: 'public/**/*.js'
       }
 
     },
