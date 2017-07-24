@@ -73,6 +73,7 @@ if ('development' == app.get('env')) {
 notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
 dataVerificationServices.registerDataVerificationServices(app);
+authServices.registerAuthServices(app);
 
 app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
   res.send(config.vit.apiKey);

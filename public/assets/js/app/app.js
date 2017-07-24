@@ -303,13 +303,12 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     /*
      * HTTP Interceptor
      * Will be used to check to see if user is authenticated
-     * #TODO-auth need to check if user is authenticated and redirect
      */
     $httpProvider.responseInterceptors.push(function ($q, $location, $rootScope) {
       return function (promise) {
         return promise.then(
           // Success: just return the response
-          function (response) {   
+          function (response) {
             return response;
           },
           // Error: check the error status for 401
@@ -458,6 +457,33 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
   // result in the hash
   $authService.handleAuthentication();
   $http.defaults.headers.common['Authorization'] = 'Bearer ' + $authService.getIdToken();
+
+  /*
+   * Before we render any pages, see if user is authenticated or not and take appropriate action
+   */
+  $appService.getUser()
+    .success(function (data) {
+      console.log("getUser results: " + data);
+      // set user object
+      $rootScope.user = {isAuthenticated: true,
+                         givenName: "Given",
+                         surName: "Sur",
+                         userName: data["name"],
+                         email: "email"}
+
+      // redirect to home page if not authenticated
+      if (data ===null) {
+        $rootScope.pageHeader.error = "Unauthenticated";
+        $location.path("/");
+      }
+
+    }).error(function (data) {
+
+      // if we get an error, we could not connect to the server to check to
+      // see if the user is authenticated, this should not happen
+      $rootScope.pageHeader.error = "Server Error";
+      $location.path("/");
+    });
 
   /*
    * Set a flag to determine if the screen is in mobile dimensions

@@ -5,13 +5,14 @@
  * Returning promises, allowing the Controller to handle success and error responses appropriately
  *
  */
-vipApp.factory('$appService', function ($http, $appProperties) {
+vipApp.factory('$appService', function ($http, $appProperties, $authService) {
 
     return {
         // gets the User object from the server
         getUser: function () {
             // adding in the timestamp so that IE does not Cache this service
-            return $http.get($appProperties.servicesPath + "/getUser" + vipApp_ns.cacheBuster() );
+            return $http.post($appProperties.servicesPath + "/getUser",
+                              {accessToken: $authService.getAccessToken()});
         }
     };
 });
