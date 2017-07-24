@@ -454,10 +454,10 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
     this.pageHeader.alert = alert;
   };
 
-
   // Handle the authentication
   // result in the hash
   $authService.handleAuthentication();
+  $http.defaults.headers.common['Authorization'] = 'Bearer ' + $authService.getIdToken();  
   /*
    * Before we render any pages, see if user is authenticated or not and take appropriate action
    * #TODO-auth this also checks if the user is authenticated and redirects???
