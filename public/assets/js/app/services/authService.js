@@ -1,7 +1,7 @@
 'use strict';
 
-vipApp.factory('$authService', function ($location, $timeout, $http, angularAuth0) {
-  
+vipApp.factory('$authService', function ($location, $timeout, $http, $appService, angularAuth0) {
+
   function login() {
     angularAuth0.authorize();
   }
@@ -13,6 +13,7 @@ vipApp.factory('$authService', function ($location, $timeout, $http, angularAuth
       if (authResult && authResult.accessToken && authResult.idToken) {
         console.log("handleAuthentication: success");
         setSession(authResult);
+        $appService.getUser(getAccessToken());
         $location.url('/feeds');
       } else if (err) {
         $timeout(function() {
@@ -38,17 +39,18 @@ vipApp.factory('$authService', function ($location, $timeout, $http, angularAuth
     localStorage.removeItem('auth0_id_token');
     localStorage.removeItem('auth0_expires_at');
     $http.defaults.headers.common['Authorization'] = null;
+    $appService.clearUser();
   }
 
   function isAuthenticated() {
-    // Check whether the current time is past the 
+    // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('auth0_expires_at'));
     let authenticated = new Date().getTime() < expiresAt;
     console.log("isAuthenticated: " + authenticated);
     return authenticated;
   }
-  
+
   function getAccessToken() {
     return localStorage.getItem('auth0_access_token');
   }

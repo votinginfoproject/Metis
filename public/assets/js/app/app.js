@@ -461,29 +461,7 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
   /*
    * Before we render any pages, see if user is authenticated or not and take appropriate action
    */
-  $appService.getUser()
-    .success(function (data) {
-      console.log("getUser results: " + data);
-      // set user object
-      $rootScope.user = {isAuthenticated: true,
-                         givenName: "Given",
-                         surName: "Sur",
-                         userName: data["name"],
-                         email: "email"}
-
-      // redirect to home page if not authenticated
-      if (data ===null) {
-        $rootScope.pageHeader.error = "Unauthenticated";
-        $location.path("/");
-      }
-
-    }).error(function (data) {
-
-      // if we get an error, we could not connect to the server to check to
-      // see if the user is authenticated, this should not happen
-      $rootScope.pageHeader.error = "Server Error";
-      $location.path("/");
-    });
+  $appService.getUser($authService.getAccessToken());
 
   /*
    * Set a flag to determine if the screen is in mobile dimensions
