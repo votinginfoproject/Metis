@@ -9,13 +9,6 @@ AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.a
 
 module.exports = {
   uploadAddressFile: function(req, res){
-    // #TODO-auth need to confirm request is authenticated
-    // if (req.isAuthenticated() == false) {
-    //   res.writeHead(403);
-    //   res.write('must be authenticated to submit a file for testing')
-    //   res.end();
-    //   return;
-    // };
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
       res.writeHead(200, {'content-type': 'text/plain'});
