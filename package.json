@@ -52,7 +52,8 @@
     "jsonwebtoken": "~7.4.1",
     "express-jwt": "~5.3.0",
     "jwks-rsa": "~1.2.0",
-    "express-jwt-authz": "~1.0.0"
+    "express-jwt-authz": "~1.0.0",
+    "auth0": "~2.7.0"
   },
   "devDependencies": {
     "closure-linter-wrapper": "~0.2.9",
