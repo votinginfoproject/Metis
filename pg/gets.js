@@ -14,16 +14,15 @@ var overviewTableRow = function(row, type, dbTable, link) {
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getFeeds: function(req, res) {
-    // #TODO check if superuser before responding with all feeds
+    if (req.query.fipsCodes === undefined){
       return util.simpleQueryResponder(queries.feeds, function(req) {
         return [req.query.page];
       })(req, res);
-    // #TODO-auth need to get user's state FIPS to filter feeds for display
-    // } else {
-    //   return util.simpleQueryResponder(queries.feedsForState, function(req) {
-    //     return [authorization.stateGroupNames(req.user), req.query.page];
-    //   })(req, res);
-    // }
+    } else {
+      return util.simpleQueryResponder(queries.feedsForState, function(req) {
+        return [req.query.fipsCodes, req.query.page];
+      })(req, res);
+    }
   },
   getResults: util.simpleQueryResponder(queries.results, util.paramExtractor()),
   getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),

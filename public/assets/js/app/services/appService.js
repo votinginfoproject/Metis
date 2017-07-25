@@ -19,7 +19,8 @@ vipApp.factory('$appService', function ($http, $appProperties, $rootScope, $loca
                                             givenName: "Given",
                                             surName: "Sur",
                                             userName: data["name"],
-                                            email: "email"}
+                                            email: "email",
+                                            fipsCodes: Object.keys(data.app_metadata.fipsCodes)}
 
                          // redirect to home page if not authenticated
                          if (data ===null) {

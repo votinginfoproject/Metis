@@ -1,5 +1,4 @@
 var baseUrl = process.env.BASE_URI || "localdocker:4000";
-var fips = require("../fips_codes.js");
 
 var codes = {
   "admin": "Admin Group",

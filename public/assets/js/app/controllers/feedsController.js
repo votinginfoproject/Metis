@@ -13,7 +13,8 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
   var getFeedResponse = function() {
     $feedDataPaths.getResponse(
       {path: "/db/feeds",
-       config: {'params': {'page': $rootScope.page}},
+       config: {'params': {'page': $rootScope.page,
+                           'fips_codes': ['26', '08']}},
        scope: $rootScope,
        key: "feeds",
        errorMessage: "Could not retrieve Feeds."},
