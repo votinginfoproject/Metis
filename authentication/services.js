@@ -4,6 +4,7 @@ const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const jwtAuthz = require('express-jwt-authz');
 const AuthenticationClient = require('auth0').AuthenticationClient;
+var ManagementClient = require('auth0').ManagementClient;
 
 // Create middleware for checking the JWT
 const checkJwt = jwt({
@@ -27,8 +28,8 @@ function checkAuth(scope_array) {
 
 var authClient = new AuthenticationClient({
   domain:   config.auth0.domain,
-  clientID: config.auth0.clientID,
-  clientSecret: config.auth0.secret
+  clientId:  "",
+  clientSecret: ""
 });
 
 function getUserFromAccessToken(accessToken, cb) {
@@ -53,7 +54,47 @@ function registerAuthServices(app) {
   });
 }
 
+function obtainManagementToken(cb) {
+  try {
+    authClient.clientCredentialsGrant({
+      audience: 'https://' + config.auth0.domain + '/api/v2/',
+      scope: 'read:users read:users_app_metadata read:user_idp_tokens'
+    }, function (err, response) {
+      if (err) {
+        // Handle error.
+        console.log(err);
+      }
+      cb(response.access_token);
+    });
+  } catch (e) {
+    console.log(e);
+  };
+};
+
+function getUsersByFips(fips, cb) {
+  obtainManagementToken(function (token) {
+    var management = new ManagementClient({
+      token: token,
+      domain: config.auth0.domain
+    });
+    var params = {
+      q: "app_metadata.fipsCodes." + fips + ": true"
+    };
+    management.getUsers(params, function(err, users) {
+      if (err !== undefined) {
+        console.log(err);
+      } if (users !== undefined) {
+        console.log(users);
+      }
+      cb(users);
+    })
+  });
+};
+
+
+
 exports.checkJwt = checkJwt;
 exports.checkAuth = checkAuth;
 exports.getUserFromAccessToken = getUserFromAccessToken;
 exports.registerAuthServices = registerAuthServices;
+exports.getUsersByFips = getUsersByFips;
