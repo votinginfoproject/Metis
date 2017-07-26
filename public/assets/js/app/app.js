@@ -456,12 +456,6 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
   // Handle the authentication
   // result in the hash
   $authService.handleAuthentication();
-  $http.defaults.headers.common['Authorization'] = 'Bearer ' + $authService.getIdToken();
-
-  /*
-   * Before we render any pages, see if user is authenticated or not and take appropriate action
-   */
-  $appService.getUser($authService.getAccessToken());
 
   /*
    * Set a flag to determine if the screen is in mobile dimensions

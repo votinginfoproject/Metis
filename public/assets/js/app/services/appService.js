@@ -7,34 +7,40 @@
  */
 vipApp.factory('$appService', function ($http, $appProperties, $rootScope, $location) {
 
+  function userToFips(data) {
+    if (data && data.app_metadata && data.app_metadata.fipsCodes) {
+      return Object.keys(data.app_metadata.fipsCodes);
+    } else {
+      return [];
+    }
+  };
+
+  function userToGivenName(data) {
+    if (data && data.user_metadata && data.user_metadata.givenName) {
+      return data.user_metadata.givenName;
+    } else if (data && data.name) {
+      return data.name;
+    } else if (data && data.nickname) {
+      return data.nickname;
+    } else if (data && data.email) {
+      return data.email;
+    } else {
+      return "User";
+    }
+  }
+
     return {
         // gets the User object from the server and updates root scope
-        getUser: function (accessToken) {
-            $http.post($appProperties.servicesPath + "/getUser",
-                       {accessToken: accessToken})
-                 .success(function (data) {
-                          console.log("getUser results: " + data);
-                         // set user object
-                         $rootScope.user = {isAuthenticated: true,
-                                            givenName: "Given",
-                                            surName: "Sur",
-                                            userName: data["name"],
-                                            email: "email",
-                                            fipsCodes: Object.keys(data.app_metadata.fipsCodes)}
-
-                         // redirect to home page if not authenticated
-                         if (data ===null) {
-                           $rootScope.pageHeader.error = "Unauthenticated";
-                           $location.path("/");
-                         }
-
-                       }).error(function (data) {
-
-                         // if we get an error, we could not connect to the server to check to
-                         // see if the user is authenticated, this should not happen
-                         $rootScope.pageHeader.error = "Server Error";
-                         $location.path("/");
-                       });
+        setUserSuccess: function (data) {
+          $rootScope.user = {isAuthenticated: true,
+                             givenName: userToGivenName(data),
+                             userName: data["name"],
+                             email: data["email"],
+                             fipsCodes: userToFips(data)}
+        },
+        setUserFailure: function (data) {
+          $rootScope.pageHeader.error = "Unauthenticated";
+          $location.path("/");
         },
         clearUser: function() {
           $rootScope.user = null;

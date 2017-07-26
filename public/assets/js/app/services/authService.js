@@ -1,6 +1,6 @@
 'use strict';
 
-vipApp.factory('$authService', function ($location, $timeout, $http, $appService, angularAuth0) {
+vipApp.factory('$authService', function ($location, $timeout, $http, $appService, $appProperties, angularAuth0) {
 
   function login() {
     angularAuth0.authorize();
@@ -9,19 +9,28 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
   function handleAuthentication() {
     console.log("handling Authentication");
     console.log(isAuthenticated());
-    angularAuth0.parseHash(function(err, authResult) {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        console.log("handleAuthentication: success");
-        setSession(authResult);
-        $appService.getUser(getAccessToken());
-        $location.url('/feeds');
-      } else if (err) {
-        $timeout(function() {
-          $location.url('/');
-        });
-        console.log(err);
-      }
-    });
+    if (isAuthenticated()) {
+      setupAuthentication();
+    } else {
+      angularAuth0.parseHash(function(err, authResult) {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          console.log("handleAuthentication: success");
+          setSession(authResult);
+          setupAuthentication();
+          $location.url('/feeds');
+        } else if (err) {
+          $timeout(function() {
+            $location.url('/');
+          });
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  function setupAuthentication() {
+    $http.defaults.headers.common['Authorization'] = 'Bearer ' + getIdToken();
+    getUser($appService.setUserSuccess, $appService.setUserFailure);
   }
 
   function setSession(authResult) {
@@ -30,7 +39,7 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
     localStorage.setItem('auth0_access_token', authResult.accessToken);
     localStorage.setItem('auth0_id_token', authResult.idToken);
     localStorage.setItem('auth0_expires_at', expiresAt);
-    $http.defaults.headers.common['Authorization'] = 'Bearer ' + authResult.idToken;
+
   }
 
   function logout() {
@@ -38,6 +47,7 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
     localStorage.removeItem('auth0_access_token');
     localStorage.removeItem('auth0_id_token');
     localStorage.removeItem('auth0_expires_at');
+    localStorage.removeItem('auth0_user');
     $http.defaults.headers.common['Authorization'] = null;
     $appService.clearUser();
   }
@@ -57,6 +67,21 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
 
   function getIdToken() {
     return localStorage.getItem('auth0_id_token');
+  }
+
+  function getUser(successCallback, failureCallback) {
+    var storedUser = localStorage.getItem('auth0_user');
+    if (storedUser) {
+      successCallback(JSON.parse(storedUser));
+    } else {
+      $http.post($appProperties.servicesPath + "/getUser",
+                {accessToken: getAccessToken()})
+                .success(function(data) {
+                  localStorage.setItem('auth0_user', JSON.stringify(data));
+                  successCallback(data);
+                })
+                .error(failureCallback);
+      }
   }
 
   return {
