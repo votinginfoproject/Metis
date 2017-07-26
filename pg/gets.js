@@ -20,7 +20,13 @@ module.exports = {
       })(req, res);
     } else {
       return util.simpleQueryResponder(queries.feedsForState, function(req) {
-        return [req.query.fipsCodes, req.query.page];
+        var fipsCodes = null;
+        if (typeof req.query.fipsCodes === 'string'){
+          fipsCodes = [req.query.fipsCodes];
+        } else {
+          fipsCodes = req.query.fipsCodes;
+        }
+        return [fipsCodes, req.query.page];
       })(req, res);
     }
   },

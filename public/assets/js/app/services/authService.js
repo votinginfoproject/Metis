@@ -77,12 +77,46 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
       $http.post($appProperties.servicesPath + "/getUser",
                 {accessToken: getAccessToken()})
                 .success(function(data) {
-                  localStorage.setItem('auth0_user', JSON.stringify(data));
-                  successCallback(data);
+                  var user = createUser(data);
+                  localStorage.setItem('auth0_user', JSON.stringify(user));
+                  successCallback(user);
                 })
                 .error(failureCallback);
       }
   }
+
+  function createUser(data) {
+    return {
+            isAuthenticated: true,
+            givenName: userToGivenName(data),
+            userName: data["name"],
+            email: data["email"],
+            fipsCodes: userToFips(data)
+    }
+  };
+
+  function userToFips(data) {
+    if (data && data.app_metadata && data.app_metadata.fipsCodes) {
+      return Object.keys(data.app_metadata.fipsCodes);
+    } else {
+      return [];
+    }
+  };
+
+  function userToGivenName(data) {
+    if (data && data.user_metadata && data.user_metadata.givenName) {
+      return data.user_metadata.givenName;
+    } else if (data && data.name) {
+      return data.name;
+    } else if (data && data.nickname) {
+      return data.nickname;
+    } else if (data && data.email) {
+      return data.email;
+    } else {
+      return "User";
+    }
+  }
+
 
   return {
     login: login,
@@ -91,6 +125,7 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
     logout: logout,
     isAuthenticated: isAuthenticated,
     getAccessToken: getAccessToken,
-    getIdToken: getIdToken
+    getIdToken: getIdToken,
+    getUser: getUser
   }
 });
