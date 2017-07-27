@@ -62,7 +62,7 @@
   </script>
 
   <div ng-show="scopedErrorUrl">
-    <a class="button" href="{{scopedErrorUrl}}">
+    <a class="button" ng-click="authenticatedDownload(scopedErrorUrl)">
       Download {{scopedErrorType}} Error Report
     </a>
   </div>

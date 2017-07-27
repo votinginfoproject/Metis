@@ -1,8 +1,14 @@
 <p ng-if="source.error_count !== undefined">
-  <a id="source-errors"
+  <a ng-if="source.error_count == 0"
+     id="source-errors"
+     class="error-count error-count-0 default_pointer"
+     href="javascript: void(0);">
+    0 Errors in source ID: {{source.id}}
+  </a>
+  <a ng-if="source.error_count > 0"
+     id="source-errors"
      class="error-count error-count-{{source.error_count}} "
-     ng-class="{default_pointer: source.error_count == 0}"
-     href="{{source.error_count == 0 ? 'javascript: void(0);' : feedURL('/overview/source/errors')}}">
+     ng-click="authenticatedDownload(feedURL('/overview/source/errors'))">
     {{source.error_count}} Errors in source ID: {{source.id}}
   </a>
 </p>
@@ -38,11 +44,17 @@
 </section>
 
 <p ng-if="election.error_count !== undefined">
-  <a id="election-errors"
+  <a ng-if="election.error_count == 0"
+     id="election-errors"
+     class="error-count error-count-0 default_pointer"
+     href="javascript: void(0);">
+    0 Errors in election ID: {{election.id}}
+  </a>
+  <a ng-if="election.error_count > 0"
+     id="election-errors"
      class="error-count error-count-{{election.error_count}}"
-     ng-class="{default_pointer: source.error_count == 0}"
-     href="{{election.error_count == 0 ? 'javascript: void(0);' : feedURL('/overview/election/errors')}}">
-    {{election.error_count}} Errors in election ID: {{election.id}} <!-- Check that this uri is sensible. -->
+     ng-click="authenticatedDownload(feedURL('/overview/election/errors'))">
+    {{election.error_count}} Errors in election ID: {{election.id}}
   </a>
 </p>
 

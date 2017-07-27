@@ -1,10 +1,13 @@
 <i id="feed-overview-content"></i>
 
 <p ng-if="locality.error_count !== undefined">
-  <a id="locality-errors"
+  <a ng-if="locality.error_count == 0"
+     class="default_pointer error-count error-count-0 "
+     href="javascript: void(0);">0 Errors in Locality ID: {{locality.id}}</a>
+  <a ng-if="locality.error_count > 0"
+     id="locality-errors"
      class="error-count error-count-{{locality.error_count}} "
-     ng-class="{default_pointer: locality.error_count == 0}"
-     href="{{locality.error_count == 0 ? 'javascript: void(0);' : localityErrorReport}}">
+     ng-click="authenticatedDownload(localityErrorReport)">
     {{locality.error_count}} Errors in Locality ID: {{locality.id}}
   </a>
 </p>

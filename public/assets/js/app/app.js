@@ -457,6 +457,29 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
   // result in the hash
   $authService.handleAuthentication();
 
+  $rootScope.authenticatedDownload = function(url) {
+    console.log("authenticatedDownload called");
+    $http({method: 'GET', url: url}).
+      success(function(data, status, headers, config) {
+        console.log("authenticatedDownload success");
+        var anchor = angular.element('<a/>');
+        //anchor.css({display: 'none'});
+        angular.element(document.body).append(anchor);
+        var cd = headers('Content-Disposition');
+        var filename = cd.split("=")[1];
+        anchor.attr({
+          href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+          target: '_blank',
+          download: filename
+        })[0].click();
+      }).
+      error(function(data, status, headers, config) {
+        console.log("authenticatedDownload error");
+        console.log(status);
+        // handle error
+      });
+  };
+
   /*
    * Set a flag to determine if the screen is in mobile dimensions
    */
