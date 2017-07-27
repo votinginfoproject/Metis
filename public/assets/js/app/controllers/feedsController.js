@@ -4,7 +4,7 @@
  *
  */
 function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location, $filter, ngTableParams, $interval, $timeout, $route, $authService) {
-
+  console.log("at top of FeedsCtrl");
   // initialize page header variables
   $rootScope.setPageHeader("Feeds", $rootScope.getBreadCrumbs(), "feeds", null);
 

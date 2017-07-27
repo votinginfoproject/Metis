@@ -1,10 +1,10 @@
 var config = {};
 
 config.auth0 = {
-  clientID: 'AUTH0_CLIENT_ID',
-  domain: 'AUTH0_DOMAIN',
+  clientID: 'AUTH0_CLIENT_ID_DASHBOARD',
+  domain: 'AUTH0_DOMAIN_DASHBOARD',
   responseType: 'token id_token',
-  audience: 'AUTH0_AUDIENCE',
-  redirectUri: 'AUTH0_REDIRECT_URI',
+  audience: 'AUTH0_AUDIENCE_DASHBOARD',
+  redirectUri: 'AUTH0_REDIRECT_URI_DASHBOARD',
   scope: 'openid'
 };

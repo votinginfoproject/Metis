@@ -65,10 +65,10 @@ config.vit = {
 }
 
 config.auth0 = {
-  domain: process.env.AUTH0_DOMAIN,
-  audience: process.env.AUTH0_AUDIENCE,
-  clientID: process.env.AUTH0_CLIENT_ID,
-  secret: process.env.AUTH0_CLIENT_SECRET
+  domain: process.env.AUTH0_DOMAIN_EXPRESS,
+  audience: process.env.AUTH0_AUDIENCE_EXPRESS,
+  clientID: process.env.AUTH0_CLIENT_ID_EXPRESS,
+  secret: process.env.AUTH0_CLIENT_SECRET_EXPRESS
 }
 
 module.exports = config;

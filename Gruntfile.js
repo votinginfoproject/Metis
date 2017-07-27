@@ -79,20 +79,20 @@ module.exports = function(grunt) {
         src: ['public/assets/js/app/config.js.template'],
         dest: 'public/assets/js/app/config.js',
         replacements: [{
-          from: 'AUTH0_CLIENT_ID',
-          to: process.env.AUTH0_CLIENT_ID
+          from: 'AUTH0_CLIENT_ID_DASHBOARD',
+          to: process.env.AUTH0_CLIENT_ID_DASHBOARD
         },
         {
-          from: 'AUTH0_DOMAIN',
-          to: process.env.AUTH0_DOMAIN
+          from: 'AUTH0_DOMAIN_DASHBOARD',
+          to: process.env.AUTH0_DOMAIN_DASHBOARD
         },
         {
-          from: 'AUTH0_AUDIENCE',
-          to: process.env.AUTH0_AUDIENCE
+          from: 'AUTH0_AUDIENCE_DASHBOARD',
+          to: process.env.AUTH0_AUDIENCE_DASHBOARD
         },
         {
-          from: 'AUTH0_REDIRECT_URI',
-          to: process.env.AUTH0_REDIRECT_URI
+          from: 'AUTH0_REDIRECT_URI_DASHBOARD',
+          to: process.env.AUTH0_REDIRECT_URI_DASHBOARD
         }]
       }
     },

@@ -28,9 +28,10 @@ function checkAuth(scope_array) {
 
 var authClient = new AuthenticationClient({
   domain:   config.auth0.domain,
-  clientId:  "",
-  clientSecret: ""
+  clientId:  config.auth0.clientID,
+  clientSecret: config.auth0.secret
 });
+console.log(config.auth0.secret);
 
 function getUserFromAccessToken(accessToken, cb) {
   console.log("getting user for accessToken: " + accessToken);

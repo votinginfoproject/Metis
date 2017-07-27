@@ -8,7 +8,6 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
 
   function handleAuthentication() {
     console.log("handling Authentication");
-    console.log(isAuthenticated());
     if (isAuthenticated()) {
       setupAuthentication();
     } else {
@@ -29,6 +28,7 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
   }
 
   function setupAuthentication() {
+    console.log("beginning of setupAuthentication");
     $http.defaults.headers.common['Authorization'] = 'Bearer ' + getIdToken();
     getUser($appService.setUserSuccess, $appService.setUserFailure);
   }
