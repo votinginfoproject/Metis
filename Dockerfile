@@ -1,4 +1,4 @@
-FROM node:0.12.15
+FROM node:7.10.0
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 RUN apt-get update && \
