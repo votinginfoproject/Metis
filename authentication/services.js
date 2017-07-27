@@ -31,7 +31,6 @@ var authClient = new AuthenticationClient({
   clientId:  config.auth0.clientID,
   clientSecret: config.auth0.secret
 });
-console.log(config.auth0.secret);
 
 function getUserFromAccessToken(accessToken, cb) {
   console.log("getting user for accessToken: " + accessToken);
