@@ -96,6 +96,16 @@ module.exports = function(grunt) {
         }]
       }
     },
+    run: {
+      staging: {
+        cmd: 'node',
+        args: ['app.js']
+      },
+      production: {
+        cmd: 'node',
+        args: ['app.js']
+      }
+    },
     // Run blocking grunt tasks concurrently
     concurrent: {
       dev_configure: {
@@ -111,10 +121,16 @@ module.exports = function(grunt) {
         tasks: ['watch', 'nodemon:dev']
       },
       prod_like_configure: {
+        options: {
+          logConcurrentOutput: true
+        },
         tasks: ['sass', 'replace:auth0']
       },
       prod_like_run: {
-        tasks: ['nodemon:prod_like']
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ['run:staging']
       }
     }
   });
@@ -123,5 +139,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['concurrent:dev_configure','concurrent:dev_run']);
   grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
-  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
+  grunt.registerTask('production', ['concurrent:prod_like_configure','run:production'])
 };
