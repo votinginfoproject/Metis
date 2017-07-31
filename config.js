@@ -69,6 +69,8 @@ config.auth0 = {
   audience: process.env.AUTH0_AUDIENCE_EXPRESS,
   clientID: process.env.AUTH0_CLIENT_ID_EXPRESS,
   secret: process.env.AUTH0_CLIENT_SECRET_EXPRESS
+}
+
 config.batt = {
   batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
 }
