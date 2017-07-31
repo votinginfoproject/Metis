@@ -25,4 +25,4 @@ COPY . /usr/src/app
 EXPOSE 4000 27017 28017
 
 ENTRYPOINT [ "grunt" ]
-CMD [ "grunt",  "default"]
+CMD [ "default" ]
