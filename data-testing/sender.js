@@ -61,7 +61,6 @@ var notifyGroup = function(message, fips, contentFn) {
 
 module.exports = {
   sendNotifications: function(message) {
-    // #TODO-auth need to confirm connected to authentication source
     var messageType  = (message['status'] == "ok") ? messageOptions['testingComplete'] : messageOptions['errorDuringTesting'] ;
     var groupName = message["groupName"];
     if (groupName === undefined) {

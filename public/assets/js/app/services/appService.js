@@ -7,12 +7,9 @@
  */
 vipApp.factory('$appService', function ($http, $appProperties, $rootScope, $location) {
 
-
-
     return {
         // gets the User object from the server and updates root scope
         setUserSuccess: function (data) {
-          console.log("at top of setUserSuccess");
           $rootScope.user = data
         },
         setUserFailure: function (data) {
