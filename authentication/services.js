@@ -32,24 +32,28 @@ var authClient = new AuthenticationClient({
   clientSecret: config.auth0.secret
 });
 
-function getUserFromAccessToken(accessToken, cb) {
-  console.log("getting user for accessToken: " + accessToken);
+function getUserFromAccessToken(accessToken, successCB, failureCB) {
+  console.log("getUser for accessToken");
   authClient.users.getInfo(accessToken, function(err, user) {
     if (err) {
-      console.log("getUser err");
-      console.log(err);
+      console.log("getUser error");
+      failureCB(err);
     } else {
-      console.log("getUser success?!?");
+      console.log("getUser success");
+      successCB(user);
     }
-    cb(user);
   });
 }
 
 function registerAuthServices(app) {
-  app.post('/services/getUser', function(req, res) {
-    var user = getUserFromAccessToken(req.body.accessToken, function(user){
-      console.log("user is " + user);
+  app.post('/services/getUser', checkJwt, function(req, res) {
+    getUserFromAccessToken(req.body.accessToken,
+    function(user){
       res.status(200).send(user);
+    },
+    function(err) {
+      console.log(err);
+      res.status(401).send("Unauthenticated");
     });
   });
 }
