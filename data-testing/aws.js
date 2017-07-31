@@ -6,6 +6,7 @@ var queue = require('./queue')
 var logger = (require('../logging/vip-winston')).Logger;
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
+var batchAddressBucket = config.batt.batchAddressBucket;
 
 module.exports = {
   uploadAddressFile: function(req, res){
@@ -24,7 +25,7 @@ module.exports = {
         if (fipsCode === undefined) {
           fipsCode = "undefined"
         };
-        var bucketName = 'address-testing';
+        var bucketName = batchAddressBucket;
         var fileName = fipsCode + '/input/' + files.file.originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
         s3.putObject({
@@ -51,7 +52,7 @@ module.exports = {
     if (fipsCode === undefined) {
       fipsCode = "undefined";
     }
-    var bucketName = 'address-testing';
+    var bucketName = batchAddressBucket;
     var fileName  = fipsCode + "/output/results.csv"
 
     var params = {
