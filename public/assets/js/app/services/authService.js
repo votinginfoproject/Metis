@@ -1,6 +1,6 @@
 'use strict';
 
-vipApp.factory('$authService', function ($location, $timeout, $http, $appService, $appProperties, angularAuth0) {
+vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http, $appService, $appProperties, angularAuth0) {
 
   function login() {
     angularAuth0.authorize();
@@ -27,10 +27,20 @@ vipApp.factory('$authService', function ($location, $timeout, $http, $appService
     }
   }
 
+  function createLogoutUrl() {
+    var returnTo = encodeURIComponent($location.absUrl().split('#')[0] + "#/logout");
+    return "https://" + config.auth0.domain +"/v2/logout?returnTo=" + returnTo +
+     "&client_id=" + config.auth0.clientID;
+  }
+
   function setupAuthentication() {
     console.log("beginning of setupAuthentication");
     $http.defaults.headers.common['Authorization'] = 'Bearer ' + getIdToken();
     getUser($appService.setUserSuccess, $appService.setUserFailure);
+    $rootScope.logoutUrl = createLogoutUrl();
+    if($location.url() === "/" || $location.url() === "") {
+      $location.url("/feeds");
+    }
   }
 
   function setSession(authResult) {
