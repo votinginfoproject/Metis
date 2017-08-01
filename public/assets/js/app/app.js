@@ -403,8 +403,6 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
       return hours + ":" + minutes + ":" + seconds;
     }
 
-    $rootScope.forgotPasswordEmail = $rootScope.$appProperties.forgotPasswordEmail;
-
   });
 
   // read the properties file from the server "map.properties"
