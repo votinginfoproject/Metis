@@ -318,6 +318,10 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
               console.log("AUTH DENIED!");
               // nullify the user object
               $rootScope.user = null;
+              localStorage.removeItem('auth0_access_token');
+              localStorage.removeItem('auth0_id_token');
+              localStorage.removeItem('auth0_expires_at');
+              localStorage.removeItem('auth0_user');
               $location.url('/');
             }
             return $q.reject(response);
