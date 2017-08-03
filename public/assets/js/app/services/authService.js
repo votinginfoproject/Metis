@@ -16,7 +16,6 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
           console.log("handleAuthentication: success");
           setSession(authResult);
           setupAuthentication();
-          $location.url('/feeds');
         } else if (err) {
           $timeout(function() {
             $location.url('/');
@@ -38,7 +37,8 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     $http.defaults.headers.common['Authorization'] = 'Bearer ' + getIdToken();
     getUser($appService.setUserSuccess, $appService.setUserFailure);
     $rootScope.logoutUrl = createLogoutUrl();
-    if($location.url() === "/" || $location.url() === "") {
+    if($location.url() === "/" || $location.url() === "" ||
+       $location.url() === "/login-callback") {
       $location.url("/feeds");
     }
   }
@@ -49,7 +49,6 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     localStorage.setItem('auth0_access_token', authResult.accessToken);
     localStorage.setItem('auth0_id_token', authResult.idToken);
     localStorage.setItem('auth0_expires_at', expiresAt);
-
   }
 
   function logout() {
