@@ -1,23 +1,18 @@
 var AWS = require('aws-sdk');
 var fs = require('fs');
 var multiparty = require('multiparty');
-var authorization = require('../authentication/utils.js');
 var config = require('../config');
 var queue = require('./queue')
 var logger = (require('../logging/vip-winston')).Logger;
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
+var batchAddressBucket = config.batt.batchAddressBucket;
 
 module.exports = {
   uploadAddressFile: function(req, res){
-    if (req.isAuthenticated() == false) {
-      res.writeHead(403);
-      res.write('must be authenticated to submit a file for testing')
-      res.end();
-      return;
-    };
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
+      var fipsCode = fields["fipsCode"];
       res.writeHead(200, {'content-type': 'text/plain'});
       res.write('received upload:\n\n');
       res.end(JSON.stringify(files));
@@ -27,12 +22,11 @@ module.exports = {
       });
       fileStream.on('open', function () {
         var s3 = new AWS.S3();
-        var groupName = authorization.stateGroupNames(req.user)[0];
-        if (groupName === undefined) {
-          groupName = "undefined"
+        if (fipsCode === undefined) {
+          fipsCode = "undefined"
         };
-        var bucketName = 'address-testing';
-        var fileName = groupName + '/input/' + files.file.originalFilename;
+        var bucketName = batchAddressBucket;
+        var fileName = fipsCode + '/input/' + files.file.originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
         s3.putObject({
           Bucket: bucketName,
@@ -42,7 +36,7 @@ module.exports = {
           if (err) {
             throw err;
           } else {
-            queue.submitAddressFile(bucketName, fileName, groupName);
+            queue.submitAddressFile(bucketName, fileName, fipsCode);
           }
         });
       });
@@ -54,12 +48,12 @@ module.exports = {
   },
   getLatestResultsFile: function(req, res){
     var s3 = new AWS.S3();
-    var groupName = authorization.stateGroupNames(req.user)[0];
-    if (groupName === undefined) {
-      groupName = "undefined";
+    var fipsCode = req.query.fipsCode;
+    if (fipsCode === undefined) {
+      fipsCode = "undefined";
     }
-    var bucketName = 'address-testing';
-    var fileName  = groupName + "/output/results.csv"
+    var bucketName = batchAddressBucket;
+    var fileName  = fipsCode + "/output/results.csv"
 
     var params = {
       Bucket: bucketName,

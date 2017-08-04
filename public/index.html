@@ -49,6 +49,10 @@
   <!-- ng-file-upload -->
   <script src="assets/js/lib/ng-file-upload/ng-file-upload.min.js"></script>
 
+  <!-- angular auth0 -->
+  <script src="assets/js/lib/auth0.js/build/auth0.js"></script>
+  <script src="assets/js/lib/angular-auth0/dist/angular-auth0.js"></script>
+
   <!-- ======================================= -->
 
   <!-- VIP App -->
@@ -56,11 +60,17 @@
 
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
   <link href="assets/css/app.css" rel="stylesheet">
+  <script src="assets/js/app/config.js"></script>
   <script src="assets/js/app/app.js"></script>
   <script src="assets/js/app/services/appService.js"></script>
 
   <!-- Directives -->
   <script src="assets/js/app/directives/directives.js"></script>
+
+  <!-- Auth -->
+  <script src="assets/js/app/services/authService.js"></script>
+  <script src="assets/js/app/controllers/loginCallbackController.js"></script>
+  <script src="assets/js/app/controllers/logoutController.js"></script>
 
   <!-- Aside -->
   <script src="assets/js/app/controllers/asideController.js"></script>
@@ -121,7 +131,7 @@
   <script src="assets/js/app/controllers/testing/vitController.js"></script>
   <script src="assets/js/app/controllers/testing/addressesController.js"></script>
   <script src="assets/js/app/controllers/testing/asideController.js"></script>
-  
+
   <!-- Shared -->
   <script src="assets/js/app/services/errorsService.js"></script>
   <script src="assets/js/app/services/feedsService.js"></script>
@@ -137,12 +147,14 @@
     <div class="wrapper">
       <a href="/" class="branding"><span>VIP Dashboard</span></a>
 
+<!--  #TODO-auth need to confirm user is authenticated-->
+      <!-- <nav class="main-nav" ng-if="user.isAuthenticated"> -->
       <nav class="main-nav" ng-if="user.isAuthenticated">
         <ul>
           <li><i class="fi-torso"></i> {{user.userName}}</li>
-          <li><a id="pageHeader-feedsLink" href="/" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
+          <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
 	  <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
-          <li><a id="pageHeader-sign-out" href="/logout"><i class="fi-x"></i> Sign Out</a></li>
+          <li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
     </div>

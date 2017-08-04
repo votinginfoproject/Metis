@@ -12,7 +12,9 @@ function AddressesCtrl($scope, $rootScope, Upload, $configService, $route) {
   $scope.upload = function (file) {
         Upload.upload({
             url: '/testing/upload',
-            data: {file: file, 'username': $scope.username}
+            data: {file: file,
+                   'username': $scope.username,
+                   'fipsCode': $rootScope.user.fipsCodes[0]}
         }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
             $rootScope.showUploaded = true;
@@ -25,6 +27,6 @@ function AddressesCtrl($scope, $rootScope, Upload, $configService, $route) {
         });
     };
 
-    $configService.getResponse({ path: '/testing/latest-results-file'},
+    $configService.getResponse({path: '/testing/latest-results-file', config: {params: {'fipsCode': $rootScope.user.fipsCodes[0]}}},
                                function(result) { $scope.latestResultsFileUrl = result; });
 };

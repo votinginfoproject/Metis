@@ -33,19 +33,6 @@ config.session = {
   reapInterval: 3600
 }
 
-config.auth = {
-  uselocalauth: function() {
-    return !config.auth.apiKey ||
-      !config.auth.apiKeySecret ||
-      !config.auth.accountStore ||
-      !config.auth.appHref;
-  },
-  apiKey: process.env.STORMPATH_API_KEY_ID,
-  apiKeySecret: process.env.STORMPATH_API_KEY_SECRET,
-  appHref: process.env.STORMPATH_APP_HREF,
-  accountStore: process.env.STORMPATH_ACCOUNT_STORE
-}
-
 config.notifications = {
   exchange: process.env.VIP_DP_RABBITMQ_EXCHANGE,
   exchangeOptions: { durable: false, autoDelete: true},
@@ -75,6 +62,17 @@ config.checkSingleHouseStates = function(fipsCode) {
 
 config.vit = {
   apiKey: process.env.VIT_API_KEY
+}
+
+config.auth0 = {
+  domain: process.env.AUTH0_DOMAIN_EXPRESS,
+  audience: process.env.AUTH0_AUDIENCE_EXPRESS,
+  clientID: process.env.AUTH0_CLIENT_ID_EXPRESS,
+  secret: process.env.AUTH0_CLIENT_SECRET_EXPRESS
+}
+
+config.batt = {
+  batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
 }
 
 module.exports = config;
