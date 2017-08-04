@@ -1,7 +1,6 @@
 var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
-var authorization = require('../authentication/utils.js');
 var resp = require('./response.js');
 
 var overviewTableRow = function(row, type, dbTable, link) {
@@ -15,13 +14,19 @@ var overviewTableRow = function(row, type, dbTable, link) {
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getFeeds: function(req, res) {
-    if (authorization.isSuperAdmin(req.user)) {
+    if (req.query.fipsCodes === undefined){
       return util.simpleQueryResponder(queries.feeds, function(req) {
         return [req.query.page];
       })(req, res);
     } else {
       return util.simpleQueryResponder(queries.feedsForState, function(req) {
-        return [authorization.stateGroupNames(req.user), req.query.page];
+        var fipsCodes = null;
+        if (typeof req.query.fipsCodes === 'string'){
+          fipsCodes = [req.query.fipsCodes];
+        } else {
+          fipsCodes = req.query.fipsCodes;
+        }
+        return [fipsCodes, req.query.page];
       })(req, res);
     }
   },

@@ -3,15 +3,8 @@ var logger = (require('../logging/vip-winston')).Logger;
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var messageContent = require('./content');
-var stormpathREST = require('stormpath');
 var pg = require('pg');
-
-if(config.auth.uselocalauth()) {
-  logger.info('Stormpath credentials are not set!');
-} else {
-  var stormpathRESTApiKey = new stormpathREST.ApiKey(config.auth.apiKey, config.auth.apiKeySecret);
-  var stormpathRESTClient = new stormpathREST.Client({ apiKey: stormpathRESTApiKey });
-}
+var authService = require("../authentication/services");
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -64,40 +57,30 @@ var sendMessage = function(messageContent) {
   });
 };
 
-var notifyGroup = function(message, groupName, contentFn) {
-  if (message["adminEmail"] == true) { groupName = config.email.adminGroup; }
-  stormpathRESTClient.getGroups({ name: groupName }, function(err, groups) {
-    if (err) throw err;
-    groups.each(function(group) {
+var notifyGroup = function(message, fips, contentFn) {
+  if ((typeof fips != "string") ||
+       (fips.length < 2) ||
+       (fips.length > 5)) {
+    logger.info("fips is bad--sending to admin group");
+    fips = "admin";
+  };
+  if (message["adminEmail"] == true) { fips = "admin"; }
+  authService.getUsersByFips(fips, function (users) {
+    for (var i = 0; i < users.length; i++) {
+      var recipient = users[i];
+      var messageContent = contentFn(message, recipient, fips);
 
-      group.getAccounts(function(err, accounts) {
-        if (err) throw err;
-
-        for( i = 0; i < accounts.items.length; i++ ) {
-          var recipient = accounts.items[i];
-          var messageContent = contentFn(message, recipient, group);
-
-          sendMessage(messageContent);
-        }
-      });
-    });
+      sendMessage(messageContent);
+      logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+    };
   });
 };
 
 module.exports = {
   sendNotifications: function(message, messageType) {
-    if(config.auth.uselocalauth()) {
-      logger.warning('A message was trying to be sent but cannot be Stormpath \
-                      credentials are not set! Message: ' +
-                      JSON.stringify(message));
-    }
-
-    var vip_id_query = "SELECT v3.vip_id AS v3_vip_id, v5.value AS v5_vip_id \
-                        FROM results r \
-                        LEFT JOIN v3_0_sources v3 ON r.id = v3.results_id \
-                        LEFT JOIN xml_tree_values v5 ON r.id = v5.results_id \
-                              AND v5.simple_path = 'VipObject.Source.VipId' \
-                        WHERE r.public_id = $1";
+    var vip_id_query = "SELECT vip_id, spec_version \
+                        FROM results \
+                        WHERE public_id = $1";
 
     var publicId = message[":public-id"];
 
@@ -115,10 +98,13 @@ module.exports = {
             logger.error('No feed found or connection issue.');
             notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
-            if (result.rows[0].v5_vip_id && messageType === 'processedFeed') {
-              notifyGroup(message, result.rows[0].v5_vip_id, messageOptions['v5processedFeed']);
+
+            var vip_id = result.rows[0]['vip_id'];
+            var spec_version = new String(result.rows[0]['spec_version']);
+            if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
+              notifyGroup(message, vip_id, messageOptions['v5processedFeed']);
             } else {
-              notifyGroup(message, result.rows[0].v3_vip_id || result.rows[0].v5_vip_id, messageOptions[messageType]);
+              notifyGroup(message, vip_id, messageOptions[messageType]);
             }
           }
         });

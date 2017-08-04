@@ -11,15 +11,13 @@ var config = require('./config');
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var passport = require('passport');
-var stormpath = require('passport-stormpath');
-var auth = require('./authentication/strategy');
 var fs = require('fs');
-var queue = require('./notifications/queue');
+var queue = require('./queue');
 
-var authServices = require('./authentication/api');
 var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
+var dataVerificationServices = require('./data-testing/services');
+var authServices = require('./authentication/services.js');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -54,8 +52,6 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({ store: sessionFileStore, secret: config.web.sessionsecret }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Redirect non-https load balanced clients to https
 app.use(redirectHttps);
@@ -73,13 +69,15 @@ if ('development' == app.get('env')) {
   logger.info('Running in Development Mode.');
 }
 
-//user authentication
-auth.authSetup(config, passport, config.auth.uselocalauth());
-
 //register REST services
-authServices.registerAuthServices(config, app, passport);
 notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
+dataVerificationServices.registerDataVerificationServices(app);
+authServices.registerAuthServices(app);
+
+app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
+  res.send(config.vit.apiKey);
+});
 
 http.createServer(app).listen(config.web.port, function () {
   logger.info('Express server listening on port ' + config.web.port);

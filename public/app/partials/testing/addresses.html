@@ -1,0 +1,28 @@
+<i id="addresses"></i>
+
+  <div ng-if="showUploaded" class="address-file-uploaded">Your file has been uploaded--check for an email shortly or come back to this page to download your latest results.</div>
+
+<section class="data-group data-module address-test-description">
+  <p>The Batch Address Test Tool allows you to check and make sure that VIP is returning the correct polling location for a large sample of addresses. Once feed data has been submitted and ingested, you can upload a CSV with a random sample of 100-300 voter addresses and the polling locations they should return, and the tool will check that the API is returning the correct result for each address. Because of the time required for ingestion, data may not be available to review in this tool immediately after submission to the VIP dashboard.</p>
+  <p>To ensure that polling location data is accurate, please upload a CSV with two columns:</p>
+
+  <pre class="address-csv-headers">voter_address, expected_polling_location</pre>
+
+  <p>For best results, please include a sample of 100-300 addresses from a variety of participating Jurisdictions.<p>
+
+  <p>To get started, download the template test address CSV!</p>
+
+  <a class="button" href="https://s3.amazonaws.com/address-verification-sample/batch_address_check_template.csv" download="sample.csv" target="_blank">Download Sample Template</a><br/><br/>
+
+  <p>Limitations: This tool is only meant for to test accuracy where a single precinct is linked to a single polling location. If precincts are linked to multiple polling locations (ie. vote centers or early vote sites), this tool will not effectively evaluate accuracy.</p>
+
+  <p>When you've created your sample addresss CSV, please upload it here!</p>
+
+
+  <form ng-app="fileUpload" ng-controller="AddressesCtrl" name="form" enctype="multipart/form-data">
+    <div class="button" ngf-select="upload($file)">Upload Test Addresses</div>
+  </form>
+
+  <div ng-if="latestResultsFileUrl"><a class="button" href="{{latestResultsFileUrl}}">Download your latest results</a></div>
+
+</section>

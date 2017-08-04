@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
@@ -40,8 +40,10 @@ var formatVipFeedID = function(name) {
  * Will setup routing and retrieve reference data for the app before any pages are loaded
  *
  */
-vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider',
-  function ($routeProvider, $appProperties, $httpProvider, $logProvider) {
+vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvider', 'angularAuth0Provider',
+  function ($routeProvider, $appProperties, $httpProvider, $logProvider, angularAuth0Provider) {
+
+    angularAuth0Provider.init(config.auth0);
 
     // disable the logProvider's debugging as Ngtable uses it and it crowds out all other logging
     // without any other way to turn it off
@@ -50,6 +52,26 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/', {
       templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
       controller: 'HomeCtrl'
+    });
+
+    $routeProvider.when('/login-callback', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/loginCallback.html',
+      controller: 'LoginCallbackCtrl'
+    })
+
+    $routeProvider.when('/logout', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/home.html',
+      controller: 'LogoutCtrl'
+    })
+
+    $routeProvider.when('/testing/vit', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
+      controller: 'VitCtrl'
+    });
+
+    $routeProvider.when('/testing/addresses',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/testing/addresses.html',
+      controller: 'AddressesCtrl'
     });
 
     $routeProvider.when('/feeds', {
@@ -276,6 +298,8 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     // default when no path specified
     $routeProvider.otherwise({redirectTo: '/'});
 
+
+
     /*
      * HTTP Interceptor
      * Will be used to check to see if user is authenticated
@@ -285,23 +309,19 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
         return promise.then(
           // Success: just return the response
           function (response) {
-
-            // if the user is logged in and going to the home page,
-            // redirect to the feeds page
-            if ($rootScope.user !== null && $rootScope.user.isAuthenticated === true && $location.path() === "/") {
-
-              $location.url('/feeds');
-            }
-
             return response;
           },
           // Error: check the error status for 401
           // and if so redirect back to homepage
           function (response) {
             if (response.status === 401) {
-
+              console.log("AUTH DENIED!");
               // nullify the user object
               $rootScope.user = null;
+              localStorage.removeItem('auth0_access_token');
+              localStorage.removeItem('auth0_id_token');
+              localStorage.removeItem('auth0_expires_at');
+              localStorage.removeItem('auth0_user');
               $location.url('/');
             }
             return $q.reject(response);
@@ -318,7 +338,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  * Runs after the vipApp.config block above.
  *
  */
-vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appProperties, $window, $anchorScroll, $http, $timeout) {
+vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window, $anchorScroll, $http, $timeout, $authService) {
 
   // read the properties file from the server "vip.properties"
   $http.get('vip.properties').then(function (response) {
@@ -387,8 +407,6 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
       return hours + ":" + minutes + ":" + seconds;
     }
 
-    $rootScope.forgotPasswordEmail = $rootScope.$appProperties.forgotPasswordEmail;
-
   });
 
   // read the properties file from the server "map.properties"
@@ -437,27 +455,9 @@ vipApp.run(function ($rootScope, $appService, $location, $httpBackend, $appPrope
     this.pageHeader.alert = alert;
   };
 
-  /*
-   * Before we render any pages, see if user is authenticated or not and take appropriate action
-   */
-  $appService.getUser()
-    .success(function (data) {
-
-      // set user object
-      $rootScope.user = data;
-
-      // redirect to home page if not authenticated
-      if (data ===null || data.isAuthenticated === false) {
-        $location.path("/");
-      }
-
-    }).error(function (data) {
-
-      // if we get an error, we could not connect to the server to check to
-      // see if the user is authenticated, this should not happen
-      $rootScope.pageHeader.error = "Server Error";
-      $location.path("/");
-    });
+  // Handle the authentication
+  // result in the hash
+  $authService.handleAuthentication();
 
   /*
    * Set a flag to determine if the screen is in mobile dimensions

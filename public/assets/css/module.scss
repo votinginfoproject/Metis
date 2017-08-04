@@ -522,18 +522,18 @@ aside {
   @include bp(c6) {
     @include clearfix;
 
-    .button-errors, .feed-nav, .button-approve, p.helper, {
+    .button-errors, .left-nav, .button-approve, p.helper, {
       @include span-columns(3 of 6);
     }
 
-    .feed-nav {
+    .left-nav {
       float: left;
       margin-left: 0;
     }
   }
 
   @include bp(c12) {
-    .button-errors, .feed-nav, .button-approve, p.helper, {
+    .button-errors, .left-nav, .button-approve, p.helper, {
       float: none;
       width: 100%;
       margin-left: 0;
@@ -641,7 +641,7 @@ aside {
   margin-top: 1em;
 }
 
-.feed-nav ul {
+.left-nav ul {
   @extend .no-bullet;
   font-size: 1.125em;
   font-size: 1.125rem;
@@ -670,6 +670,10 @@ aside {
 
     &:last-child > * {
       border-radius: 0 0 15px 15px;
+    }
+
+    &:only-child > * {
+     border-radius: 15px 15px 15px 15px;
     }
 
     a {
@@ -912,7 +916,39 @@ form[role="search"] {
   }
 }
 
+// ============================================================================
+// Address Test Area
+// ============================================================================
 
+.address-test-description {
+  margin-top: 1em;
+  line-height: 1.25em;
+}
+
+.address-csv-headers {
+  background-color: $white;
+  color: $black;
+  border: 2px solid $black;
+  padding: 0 1em 0 1em;
+  width: 75%;
+}
+
+.address-file-uploaded {
+    font-size: 1.125em;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 15px;
+    border: 2px solid #fff;
+    background: #093;
+}
 
 // ============================================================================
 // Page Specific
