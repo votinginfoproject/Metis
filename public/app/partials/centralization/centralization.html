@@ -1,0 +1,20 @@
+<i id="centralization"></i>
+
+  <div ng-if="showUploaded" class="address-file-uploaded">Your file has been uploaded--check for an email shortly or come back to this page to download your latest results.</div>
+
+<section class="data-group data-module">
+  <p>Welcome to the Voting Information Project (VIP) data centralizer.</p>
+  <br>
+  <p>Please upload files from your voter registration systems to include streets, polling locations, and precincts and/or election management system (EMS) or other database exports that provides ballot and contest information.</p>
+  <br>
+  <p>For questions or problems with using this tool contact questions@votinginfoproject.org.</p>
+
+
+
+  <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
+    <div class="button" ngf-select="upload($file)">Upload Data</div>
+  </form>
+
+  <div ng-if="latestResultsFileUrl"><a class="button" href="{{latestResultsFileUrl}}">Download your latest results</a></div>
+
+</section>

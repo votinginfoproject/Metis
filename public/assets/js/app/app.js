@@ -74,6 +74,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'AddressesCtrl'
     });
 
+    $routeProvider.when('/centralization',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/centralization/centralization.html',
+      controller: 'CentralizationCtrl'
+    });
+
     $routeProvider.when('/feeds', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feeds.html',
       controller: 'FeedsCtrl'
