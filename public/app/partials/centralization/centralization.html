@@ -11,9 +11,9 @@
   <p>Please Select Election Date</p>
 
   <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
-    <input id="date" type="text" name="name">
-    <div class="button" ngf-select>Select a file</div>
-    <div class="button" ngf-select="submit()">Submit</div>
+    <input id="date" type="text" ng-model="date" name="date">
+    <div class="button" ngf-select ng-model="file">Select a file</div>
+    <div class="button" ng-disabled="cannotSubmit()" ng-click="submit()">Submit</div>
   </form>
 
 </section>

@@ -8,9 +8,19 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
   // initialize page header variables
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
 
+  $scope.cannotSubmit = function() {
+    if ($scope.file && $scope.date) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   $scope.submit = function() {
     // check that we have a date and a file
-    $scope.upload($scope.form);
+    if(!$scope.cannotSubmit()) {
+      $scope.upload($scope.form);
+    }
   };
   $scope.upload = function (form) {
         console.log(form);

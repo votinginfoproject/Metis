@@ -28,6 +28,11 @@ form > div, fieldset > div {
     background: #628eb7;
     color: $white;
   }
+
+  &[disabled] {
+    background: $gray-medium;
+    color: $gray-light;
+  }
 }
 
 %button-primary {
