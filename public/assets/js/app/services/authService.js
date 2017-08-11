@@ -34,7 +34,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
 
   function setupAuthentication() {
     console.log("beginning of setupAuthentication");
-    $http.defaults.headers.common['Authorization'] = 'Bearer ' + getIdToken();
+    $http.defaults.headers.common['Authorization'] = 'Bearer ' + getAccessToken();
     getUser($appService.setUserSuccess, $appService.setUserFailure);
     $rootScope.logoutUrl = createLogoutUrl();
     if($location.url() === "/" || $location.url() === "" ||
