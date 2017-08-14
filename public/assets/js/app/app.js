@@ -74,7 +74,7 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'AddressesCtrl'
     });
 
-    $routeProvider.when('/centralization',{
+    $routeProvider.when('/county-data/centralization',{
       templateUrl: $appProperties.contextRoot + '/app/partials/centralization/centralization.html',
       controller: 'CentralizationCtrl'
     });

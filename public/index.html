@@ -156,7 +156,8 @@
         <ul>
           <li><i class="fi-torso"></i> {{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
-	  <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
+          <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
+          <li ng-if="true"><a id="pageHeader-county-data" href="#/county-data/centralization"><i class="fi-upload"></i> County Data Uploads</a></li>
           <li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
@@ -203,10 +204,10 @@
                  ng-if="$location.url() !== '/feeds' && pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'"
                  ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
         </div>
-	<div ng-switch-when="testing">
+	      <div ng-switch-when="testing">
           <aside class="feed-meta"
                  ng-controller="TestingAsideCtrl"
-		 ng-include src="'app/partials/testing/aside.html'"></aside>
+		             ng-include src="'app/partials/testing/aside.html'"></aside>
         </div>
         <div ng-switch-default>
           <aside class="feed-meta"
