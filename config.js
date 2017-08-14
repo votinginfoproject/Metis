@@ -75,4 +75,8 @@ config.batt = {
   batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
 }
 
+config.dataCentralization = {
+  centralizationBucket: process.env.DATA_CENTRALIZATION_BUCKET_NAME
+}
+
 module.exports = config;
