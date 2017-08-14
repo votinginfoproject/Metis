@@ -69,7 +69,7 @@ RABBITMQ_PORT_5672_TCP_PORT=5672
 VIP_DP_RABBITMQ_EXCHANGE=data-processor-exchange
 AUTH0_CLIENT_ID_EXPRESS=some-client-id
 AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
-AUTH0_AUDIENCE_EXPRESS=some-audience
+AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 ```
 
@@ -85,7 +85,8 @@ You have a couple of options to run locally. You can use node directly, or you c
 * It monitors changes in html/sass/js files and restarts the node app
 * Most importantly, it builds an config.js file for the Angular app to facilitate logging into Auth0. However, you need to put all the same AUTH0 env vars above into your local environment, or put them at the front of the command. An easy way to run it is with a `run-local` script that puts your env vars before the command, like this:
 ```
-AUTH0_DOMAIN_DASHBOARD=<auth0_domain> AUTH0_CLIENT_ID_DASHBOARD=<auth0_client_id>  AUTH0_REDIRECT_URI_DASHBOARD="http://localhost:4000/#/login-callback" ./node_modules/.bin/grunt default
+AUTH0_DOMAIN_DASHBOARD=<auth0_domain> AUTH0_CLIENT_ID_DASHBOARD=<auth0_client_id>  AUTH0_REDIRECT_URI_DASHBOARD="http://localhost:4000/#/login-callback"
+AUTH0_AUDIENCE_DASHBOARD="some-audience-uri" ./node_modules/.bin/grunt default
 ```
 
 Grunt:
