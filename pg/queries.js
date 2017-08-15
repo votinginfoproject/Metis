@@ -33,12 +33,12 @@ module.exports = {
           FROM results r \
           ORDER BY r.id DESC \
           LIMIT 20 OFFSET ($1 * 20);",
-  feedsForState: "SELECT r.public_id, r.start_time, date(r.end_time) AS end_time, \
-                         CASE WHEN r.end_time IS NOT NULL \
-                              THEN r.end_time - r.start_time END AS duration, \
-                         r.spec_version, r.complete, r.state, r.election_type, r.election_date \
+  feedsForFipsCodes: "SELECT r.public_id, r.start_time, date(r.end_time) AS end_time, \
+                             CASE WHEN r.end_time IS NOT NULL \
+                                  THEN r.end_time - r.start_time END AS duration, \
+                             r.spec_version, r.complete, r.state, r.election_type, r.election_date \
                   FROM results r \
-                  WHERE substr(r.vip_id, 0, 3) = ANY ($1) \
+                  WHERE r.vip_id LIKE ANY ($1) \
                   ORDER BY r.start_time DESC \
                   LIMIT 20 OFFSET ($2 * 20);",
   results: "SELECT * FROM results WHERE public_id=$1",
