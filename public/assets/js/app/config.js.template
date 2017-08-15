@@ -6,5 +6,5 @@ config.auth0 = {
   responseType: 'token id_token',
   audience: 'AUTH0_AUDIENCE_DASHBOARD',
   redirectUri: 'AUTH0_REDIRECT_URI_DASHBOARD',
-  scope: 'openid'
+  scope: 'openid profile'
 };
