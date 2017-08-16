@@ -12,6 +12,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
 
   var getFeedResponse = function() {
     $authService.getUser(function (user){
+      console.log("loading feeds for " + user.fipsCodes);
       $feedDataPaths.getResponse(
         {path: "/db/feeds",
          config: {'params': {'page': $rootScope.page,

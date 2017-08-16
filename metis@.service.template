@@ -42,11 +42,13 @@ ExecStartPre=/bin/bash -c 'echo VIP_DP_AWS_SECRET_KEY="$(curl -s http://${COREOS
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_REDIRECT_URI_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/redirect-uri?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/audience?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_SECRET_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-secret?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-addres-test-tool/address-testing-bucket?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DATA_CENTRALIZATION_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/data-centralization/centralization-bucket?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/audience?raw)" >> /tmp/${CONTAINER}--env'
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \

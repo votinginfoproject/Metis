@@ -89,6 +89,10 @@ module.exports = function(grunt) {
         {
           from: 'AUTH0_REDIRECT_URI_DASHBOARD',
           to: process.env.AUTH0_REDIRECT_URI_DASHBOARD
+        },
+        {
+          from: 'AUTH0_AUDIENCE_DASHBOARD',
+          to: process.env.AUTH0_AUDIENCE_DASHBOARD
         }]
       }
     },

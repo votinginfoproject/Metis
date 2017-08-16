@@ -53,7 +53,7 @@ var codes = {
   "56": "Wyoming"}
 
 function codeToDescription (code) {
-  return fips.code;
+  return codes.code;
 };
 
 var getGivenName = function(recipient) {

@@ -32,29 +32,14 @@ var authClient = new AuthenticationClient({
   clientSecret: config.auth0.secret
 });
 
-function getUserFromAccessToken(accessToken, successCB, failureCB) {
-  console.log("getUser for accessToken");
-  authClient.users.getInfo(accessToken, function(err, user) {
-    if (err) {
-      console.log("getUser error");
-      failureCB(err);
-    } else {
-      console.log("getUser success");
-      successCB(user);
-    }
-  });
-}
-
 function registerAuthServices(app) {
-  app.post('/services/getUser', checkJwt, function(req, res) {
-    getUserFromAccessToken(req.body.accessToken,
-    function(user){
-      res.status(200).send(user);
-    },
-    function(err) {
-      console.log(err);
-      res.status(401).send("Unauthenticated");
-    });
+  app.post('/services/getMetadata', checkJwt, function(req, res) {
+    console.log(JSON.stringify(req.user));
+    var metadata = {"user_metadata":
+                    {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"]},
+                    "app_metadata":
+                    {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"]}}
+    res.status(200).send(metadata);
   });
 }
 
@@ -99,6 +84,5 @@ function getUsersByFips(fips, cb) {
 
 exports.checkJwt = checkJwt;
 exports.checkAuth = checkAuth;
-exports.getUserFromAccessToken = getUserFromAccessToken;
 exports.registerAuthServices = registerAuthServices;
 exports.getUsersByFips = getUsersByFips;
