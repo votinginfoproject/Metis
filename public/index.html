@@ -53,6 +53,13 @@
   <script src="assets/js/lib/auth0.js/build/auth0.js"></script>
   <script src="assets/js/lib/angular-auth0/dist/angular-auth0.js"></script>
 
+  <!-- angular-ui-date -->
+  <link rel="stylesheet" href="assets/js/lib/jquery-ui/themes/smoothness/jquery-ui.css"/>
+  <script type="text/javascript" src="assets/js/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="assets/js/lib/angular/angular.js"></script>
+<script type="text/javascript" src="assets/js/lib/angular-ui-date/dist/date.js"></script>
+
   <!-- ======================================= -->
 
   <!-- VIP App -->
@@ -142,6 +149,20 @@
   <script src="assets/js/app/services/configService.js"></script>
 
   <script src="assets/js/app/filters.js"></script>
+
+  <script>
+  function getDateValue() {
+    var dateVal = document.getElementById('datepicker').value;
+    return dateVal;
+    // var dateValEl = document.getElementById('date');
+    // dateValEl.innerHTML = dateVal;
+    // dateValEl['value'] = dateVal;
+  };
+
+  function missingValue(message) {
+    alert(message);
+  };
+  </script>
 
 </head>
 <body role="application">

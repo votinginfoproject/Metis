@@ -9,6 +9,7 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
 
   $scope.cannotSubmit = function() {
+    $scope.date = getDateValue();
     if ($scope.file && $scope.date) {
       return false;
     } else {
@@ -17,13 +18,15 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
   };
 
   $scope.submit = function() {
+    $scope.date = getDateValue();
     // check that we have a date and a file
     if(!$scope.cannotSubmit()) {
       $scope.upload($scope.form);
+    } else {
+      missingValue("both an election date and file are required for uploading");
     }
   };
   $scope.upload = function (form) {
-        console.log("uploading form");
         Upload.upload({
             url: '/centralization/upload',
             data: {file: $scope.file,

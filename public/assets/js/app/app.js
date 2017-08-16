@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0', 'ui.date']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
