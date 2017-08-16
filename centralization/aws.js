@@ -28,7 +28,8 @@ module.exports = {
         if (fipsCode === undefined) {
           fipsCode = "undefined"
         };
-        var fileName = fipsCode + '/' + date + '/' + files.file.originalFilename;
+        fips2 = fipsCode.slice(0, 2);
+        var fileName = fips2+ '/' + fipsCode + '/' + date + '/' + files.file.originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + centralizationBucket + "'");
         s3.putObject({
           Bucket: centralizationBucket,
