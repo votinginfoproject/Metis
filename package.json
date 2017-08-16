@@ -35,6 +35,7 @@
     "grunt-nodemon": "~0.1.2",
     "grunt-text-replace": "~0.4.0",
     "grunt-shell": "~0.6.1",
+    "grunt-cli": "1.2.0",
     "load-grunt-tasks": "~0.2.0",
     "grunt-run": "0.6.0",
     "jsonwebtoken": "~7.4.1",
