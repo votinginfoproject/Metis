@@ -1,6 +1,6 @@
 <i id="centralization"></i>
 
-  <!-- <div ng-if="showUploaded" class="centralization-file-uploaded">Your file has been uploaded.</div> -->
+  <div ng-if="showUploaded" class="file-uploaded">Your file has been uploaded.</div>
 
 <section class="data-group data-module">
   <p>Welcome to the Voting Information Project (VIP) data centralizer.</p>
@@ -8,11 +8,13 @@
   <br>
   <p>For questions or problems with using this tool contact <a href="mailto:questions@votinginfoproject.org">questions@votinginfoproject.org</a>.</p>
   <br>
-  <p>Please Select Election Date</p>
 
   <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
-    <input ui-date id="datepicker" name="datepicker">
+    <label for="datepicker">Please Select Election Date:</label>
+    <div><input ui-date id="datepicker" name="datepicker"></div>
+    <label for="file">Please Select a File to Upload:</label>
     <div class="button" ngf-select ng-model="file">Select a file</div>
+    <br>
     <div class="button" ng-click="submit()">Submit</div>
   </form>
 
