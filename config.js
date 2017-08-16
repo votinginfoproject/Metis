@@ -22,7 +22,6 @@ config.web = {
   port: process.env.PORT || 4000,
   favicon: 'public/assets/images/favicon.ico',
   loglevel: 'dev',
-  sessionsecret: 'ssshh!!',
   enableSSL: false,
   SSLKey: '/vipdata/certs/*_votinginfoproject_org.key',
   SSLCert: '/vipdata/certs/*_votinginfoproject_org_chained.crt'
