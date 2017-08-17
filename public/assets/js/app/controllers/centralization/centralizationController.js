@@ -9,6 +9,10 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
 
   $scope.cannotSubmit = function() {
+    // the ui-date that is allowing the user to select their date via a calendar
+    // is not fully compatible with angular 1.2.1, so this calls to a function
+    // defined in public/index.html to get the value from the date picker
+    // since it can't bind properly to an ng-model
     $scope.date = getDateValue();
     if ($scope.file && $scope.date) {
       return false;
@@ -27,7 +31,6 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
   };
   $scope.upload = function (form) {
     $scope.date = getDateValue().split("/").join("-");
-    console.log($scope.date);
     Upload.upload({
         url: '/centralization/upload',
         data: {file: $scope.file,
