@@ -1709,6 +1709,12 @@ input[type="submit"] {
   input[type="submit"]:hover {
     background: #628eb7;
     color: #fff; }
+  .button[disabled],
+  [disabled].disabled,
+  button[disabled],
+  input[disabled][type="submit"] {
+    background: #b1b3b6;
+    color: #ebebeb; }
 
 .disabled {
   background: #b1b3b6;
@@ -2511,7 +2517,7 @@ form[role="search"] {
   padding: 0 1em 0 1em;
   width: 75%; }
 
-.address-file-uploaded {
+.file-uploaded {
   font-size: 1.125em;
   font-size: 1.125rem;
   font-weight: bold;

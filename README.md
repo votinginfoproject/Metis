@@ -71,6 +71,7 @@ AUTH0_CLIENT_ID_EXPRESS=some-client-id
 AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
 AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
+DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application

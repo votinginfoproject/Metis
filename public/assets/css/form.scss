@@ -28,24 +28,17 @@ form > div, fieldset > div {
     background: #628eb7;
     color: $white;
   }
+
+  &[disabled] {
+    background: $gray-medium;
+    color: $gray-light;
+  }
 }
 
 %button-primary {
   @extend %button;
   background: red;
 
-}
-
-.disabled {
-  @extend %button;
-  background: $gray-medium;
-  color: $gray-light;
-
-  &:hover {
-    background: $gray-medium;
-    color: $gray-light;
-    cursor: default;
-  }
 }
 
 .disabled-row {
