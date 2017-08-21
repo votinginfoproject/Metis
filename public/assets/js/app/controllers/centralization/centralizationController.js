@@ -47,4 +47,6 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
     });
   };
+  $configService.getResponse({path: '/centralization/submitted-files', config: {params: {'fipsCode': $rootScope.user.fipsCodes[0]}}},
+                             function(result) { $scope.submittedFiles = result; });
 };

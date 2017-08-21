@@ -45,5 +45,37 @@ module.exports = {
       });
     });
     return;
+  },
+
+  getSubmittedFiles: function(req, res){
+    console.log("in getSubmittedFiles");
+    var s3 = new AWS.S3();
+    var fipsCode = req.query.fipsCode;
+    if (fipsCode === undefined) {
+      fipsCode = "undefined";
+    }
+    var bucketName = centralizationBucket;
+    console.log("bucketName = " + bucketName);
+    fips2 = fipsCode.slice(0, 2);
+    var prefix = fips2 + '/' + fipsCode;
+    console.log("prefix = " + prefix);
+
+    var params = {
+      Bucket: bucketName,
+      Prefix: prefix
+    };
+    s3.listObjects(params, function(err, data) {
+      console.log("in listObjects");
+      if (err) {
+        logger.error(err, err.stack);
+        res.writeHead(500, {'content-type': 'text/plain'});
+        res.end();
+      } else {
+        logger.info(JSON.stringify(data));
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.write(JSON.stringify(data));
+        res.end();
+      }
+    });
   }
 };
