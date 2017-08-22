@@ -30,7 +30,7 @@
         <th>Last modified</th>
       </tr>
       <tr ng-repeat="file in submittedFiles">
-        <td ng-if="hasRole('super-admin')">{{file.state}}</td>
+        <td ng-if="hasRole('super-admin')">{{getStateFromFips(file.state)}}</td>
         <td ng-if="hasRole('super-admin') || hasRole('state-admin')">{{file.county}}</td>
         <td>{{file.fileName}}</td>
         <td>{{file.electionDate}}</td>
