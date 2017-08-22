@@ -18,16 +18,18 @@
     <div class="button" ng-click="submit()">Submit</div>
   </form>
 
-  <table>
-    <tr>
-      <th>File name</th>
-      <th>Election date</th>
-      <th>Last modified</th>
-    </tr>
-    <tr ng-repeat="file in submittedFiles">
-      <td>{{file.fileName}}</td>
-      <td>{{file.electionDate}}</td>
-      <td>{{file.lastModified}}</td>
-    </tr>
-  </table>
+  <div ng-if="submittedFiles.length > 0">
+    <table>
+      <tr>
+        <th>File name</th>
+        <th>Election date</th>
+        <th>Last modified</th>
+      </tr>
+      <tr ng-repeat="file in submittedFiles">
+        <td>{{file.fileName}}</td>
+        <td>{{file.electionDate}}</td>
+        <td>{{file.lastModified}}</td>
+      </tr>
+    </table>
+  </div>
 </section>
