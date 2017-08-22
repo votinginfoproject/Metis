@@ -50,12 +50,18 @@ module.exports = {
   getSubmittedFiles: function(req, res){
     var s3 = new AWS.S3();
     var fipsCode = req.query.fipsCode;
+    var roles = req.query.roles;
     if (fipsCode === undefined) {
       fipsCode = "undefined";
     }
     var bucketName = centralizationBucket;
-    fips2 = fipsCode.slice(0, 2);
-    var prefix = fips2 + '/' + fipsCode;
+
+    if (roles.indexOf("super-admin") >= 0){
+      prefix = "";
+    } else {
+      fips2 = fipsCode.slice(0, 2);
+      var prefix = fips2 + '/' + fipsCode;
+    };
 
     var params = {
       Bucket: bucketName,
@@ -68,16 +74,19 @@ module.exports = {
         var key = files[i]["Key"];
         var lastModified = files[i]["LastModified"];
         var keyParts = key.split('/');
-        var fileName = keyParts[keyParts.length - 1]
-        var electionDate = keyParts[keyParts.length - 2]
+        var state = keyParts[0];
+        var county = keyParts[1];
+        var electionDate = keyParts[2];
+        var fileName = keyParts[3];
         if (fileName && electionDate) {
           var file = {"electionDate": electionDate,
                       "fileName": fileName,
-                      "lastModified": lastModified}
+                      "lastModified": lastModified,
+                      "state": state,
+                      "county": county}
           returnData.push(file);
         }
       };
-      console.log(returnData);
       if (err) {
         logger.error(err, err.stack);
         res.writeHead(500, {'content-type': 'text/plain'});

@@ -3,10 +3,12 @@
  * Data Centralization Controller
  *
  */
-function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) {
+function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, $authService) {
   var breadcrumbs = null;
   // initialize page header variables
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
+
+  $rootScope.hasRole = $authService.hasRole;
 
   $scope.cannotSubmit = function() {
     // the ui-date that is allowing the user to select their date via a calendar
@@ -47,6 +49,6 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route) 
         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
     });
   };
-  $configService.getResponse({path: '/centralization/submitted-files', config: {params: {'fipsCode': $rootScope.user.fipsCodes[0]}}},
+  $configService.getResponse({path: '/centralization/submitted-files', config: {params: {'fipsCode': $rootScope.user.fipsCodes[0], 'roles': $rootScope.user.roles}}},
                              function(result) { $scope.submittedFiles = result; });
 };

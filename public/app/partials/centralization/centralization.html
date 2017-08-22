@@ -18,17 +18,23 @@
     <div class="button" ng-click="submit()">Submit</div>
   </form>
 
+  <br>
   <div ng-if="submittedFiles.length > 0">
+  <label>Previously submitted files:</label>
     <table>
       <tr>
+        <th ng-if="hasRole('super-admin')">State</th>
+        <th ng-if="hasRole('super-admin') || hasRole('state-admin')">County</th>
         <th>File name</th>
         <th>Election date</th>
         <th>Last modified</th>
       </tr>
       <tr ng-repeat="file in submittedFiles">
+        <td ng-if="hasRole('super-admin')">{{file.state}}</td>
+        <td ng-if="hasRole('super-admin') || hasRole('state-admin')">{{file.county}}</td>
         <td>{{file.fileName}}</td>
         <td>{{file.electionDate}}</td>
-        <td>{{file.lastModified}}</td>
+        <td>{{file.lastModified | date:'yyyy-MM-dd HH:mm:ss'}}</td>
       </tr>
     </table>
   </div>
