@@ -74,16 +74,16 @@ module.exports = {
         var key = files[i]["Key"];
         var lastModified = files[i]["LastModified"];
         var keyParts = key.split('/');
-        var state = keyParts[0];
-        var county = keyParts[1];
+        var stateFips = keyParts[0];
+        var countyFips = keyParts[1];
         var electionDate = keyParts[2];
         var fileName = keyParts[3];
         if (fileName && electionDate) {
           var file = {"electionDate": electionDate,
                       "fileName": fileName,
                       "lastModified": lastModified,
-                      "state": state,
-                      "county": county}
+                      "stateFips": stateFips,
+                      "countyFips": countyFips}
           returnData.push(file);
         }
       };
