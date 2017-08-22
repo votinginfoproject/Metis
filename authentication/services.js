@@ -38,7 +38,8 @@ function registerAuthServices(app) {
     var metadata = {"user_metadata":
                     {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"]},
                     "app_metadata":
-                    {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"]}}
+                    {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
+                     "roles": req.user["https://dashboard.votinginfoproject.org/roles"]}}
     res.status(200).send(metadata);
   });
 }
