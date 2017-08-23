@@ -67,7 +67,7 @@ module.exports = {
       Bucket: bucketName,
       Prefix: prefix
     };
-    s3.listObjects(params, function(err, data) {
+    s3.listObjectsV2(params, function(err, data) {
       var files = data["Contents"];
       var returnData = []
       for (var i = 0; i < files.length; i++) {

@@ -7,20 +7,24 @@
   <p>Please upload files from your voter registration systems to include streets, polling locations, and precincts and/or election management system (EMS) or other database exports that provides ballot and contest information.</p>
   <br>
   <p>For questions or problems with using this tool contact <a href="mailto:questions@votinginfoproject.org">questions@votinginfoproject.org</a>.</p>
-  <br>
 
-  <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
-    <label for="datepicker">Please Select Election Date:</label>
-    <div><input ui-date id="datepicker" name="datepicker"></div>
-    <label for="file">Please Select a File to Upload:</label>
-    <div class="button" ngf-select ng-model="file">Select a file</div>
+  <div ng-if="hasRole('data-centralization')" >
     <br>
-    <div class="button" ng-click="submit()">Submit</div>
-  </form>
+    <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
+      <label for="datepicker">Please Select Election Date:</label>
+      <div><input ui-date id="datepicker" name="datepicker"></div>
+      <label for="file">Please Select a File to Upload:</label>
+      <div class="button" ngf-select ng-model="file">Select a file</div>
+      <br>
+      <div class="button" ng-click="submit()">Submit</div>
+    </form>
+  </div>
 
   <br>
   <div ng-if="submittedFiles.length > 0">
-  <label>Previously submitted files:</label>
+  <label ng-if="hasRole('data-centralization')">Your previously submitted files:</label>
+  <label ng-if="hasRole('state-admin')">Files submitted by counties in your state:</label>
+  <label ng-if="hasRole('super-admin')">Files submitted by all users:</label>
     <table>
       <tr>
         <th ng-if="hasRole('super-admin')">State</th>
