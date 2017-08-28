@@ -33,11 +33,11 @@ var errorSummary =
                    v.error_type, \
                    (array_agg(v.path))[1] AS path, \
                    (array_agg(v.error_data))[1] AS error_data, \
-                   v.parent_element_id as identifier \
+                   (array_agg(v.parent_element_id))[1] as identifier \
                  FROM results r \
                  LEFT JOIN xml_tree_validations v ON v.results_id = r.id \
                  WHERE r.public_id = $1 \
-                 GROUP BY v.severity, v.scope, v.error_type, v.results_id, v.parent_element_id;";
+                 GROUP BY v.severity, v.scope, v.error_type, v.results_id;";
 
 var errorResponder = function(query, params) {
   return util.simpleQueryResponder(query, util.paramExtractor(params));
