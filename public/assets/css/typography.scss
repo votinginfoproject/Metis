@@ -177,6 +177,7 @@ dl {
 
 a {
   @include transition(all 0.15s linear);
+  color: $white;
   text-decoration: underline;
 
 
