@@ -177,8 +177,8 @@ dl {
 
 a {
   @include transition(all 0.15s linear);
-  color: $base-link-color;
-  text-decoration: none;
+  text-decoration: underline;
+
 
   &:hover {
     color: $hover-link-color;
