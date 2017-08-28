@@ -19,14 +19,15 @@ module.exports = {
         return [req.query.page];
       })(req, res);
     } else {
-      return util.simpleQueryResponder(queries.feedsForState, function(req) {
+      return util.simpleQueryResponder(queries.feedsForFipsCodes, function(req) {
         var fipsCodes = null;
         if (typeof req.query.fipsCodes === 'string'){
           fipsCodes = [req.query.fipsCodes];
         } else {
           fipsCodes = req.query.fipsCodes;
         }
-        return [fipsCodes, req.query.page];
+        likeFipsCodes = fipsCodes.map(function (code) { return code + "%"});
+        return [likeFipsCodes, req.query.page];
       })(req, res);
     }
   },
