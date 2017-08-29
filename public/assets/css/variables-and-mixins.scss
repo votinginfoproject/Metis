@@ -68,8 +68,8 @@ $base-accent-color: $blue-dark;
 
 // Text Link Colors
 // ----------------------------------------------------------------------------
-$base-link-color: $white;
-$hover-link-color: $gray-medium-dark;
+$base-link-color: $base-accent-color;
+$hover-link-color: darken($base-accent-color, 15);
 
 // Border color
 // ----------------------------------------------------------------------------
