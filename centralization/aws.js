@@ -92,6 +92,10 @@ module.exports = {
         res.writeHead(500, {'content-type': 'text/plain'});
         res.end();
       } else {
+        // sort returned data
+        returnData.sort(function (a, b) {
+          return b.lastModified - a.lastModified
+        });
         res.writeHead(200, {'content-type': 'text/plain'});
         res.write(JSON.stringify(returnData));
         res.end();
