@@ -85,6 +85,48 @@ var scopedXmlTreeValidationQuery = function(elementTypes) {
  WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
 }
 
+var ballotMeasureContestScopedXmlTreeValidationQuery = function(elementTypes, scope) {
+  return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
+        v.error_type, v.error_data \
+ FROM xml_tree_validations v \
+ INNER JOIN results r ON r.id = v.results_id \
+ WHERE r.public_id = $1 AND (v.path ~ 'VipObject.0.BallotMeasureContest.*' or v.scope like 'ballot-measure-contest%')";
+}
+
+var ballotMeasureContestScopedXmlTreeValidationErrorReport = function() {
+  var elementTypes = Array.prototype.slice.call(arguments);
+
+  return function(req, res) {
+    var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
+    var feedid = decodeURIComponent(req.params.feedid);
+
+    conn.query(function(client) {
+      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, elementTypes[0]));
+      res.setHeader('Content-type', 'text/csv');
+      res.charset = 'UTF-8';
+
+      res.write(makeCSVRow(header));
+      // res.end();
+
+      var query = client.query(ballotMeasureContestScopedXmlTreeValidationQuery(elementTypes, "ballot-measure-contest"), [feedid]);
+
+      query.on("row", function(row, result) {
+        res.write(makeCSVRow([feedid,
+                              row.severity,
+                              row.scope,
+                              row.path,
+                              row.identifier,
+                              row.error_type,
+                              row.error_data]));
+      });
+
+      query.on("end", function(result) {
+        res.end();
+      });
+    });
+  };
+}
+
 var scopedXmlTreeValidationErrorReport = function() {
   var elementTypes = Array.prototype.slice.call(arguments);
 
@@ -252,5 +294,6 @@ module.exports = {
   xmlTreeValidationErrorReport: xmlTreeValidationErrorReport,
   scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport,
   pollingLocationAddressReport: pollingLocationAddressReport,
-  earlyVoteSiteAddressReport: earlyVoteSiteAddressReport
+  earlyVoteSiteAddressReport: earlyVoteSiteAddressReport,
+  ballotMeasureContestScopedXmlTreeValidationErrorReport: ballotMeasureContestScopedXmlTreeValidationErrorReport
 }
