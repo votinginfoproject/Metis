@@ -16,4 +16,5 @@ function HomeCtrl($scope, $rootScope, $homeService, $location, $routeParams, $au
   $scope.login = function() {
   	$authService.login();
   };
+  $rootScope.hasRole = $authService.hasRole;
 }

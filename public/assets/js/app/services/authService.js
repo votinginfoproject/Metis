@@ -80,6 +80,15 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     return localStorage.getItem('auth0_id_token');
   }
 
+  function getLocalUser(){
+    var storedUser = localStorage.getItem('auth0_user');
+    if (storedUser) {
+      return JSON.parse(storedUser);
+    } else {
+      return null;
+    }
+  };
+
   function getUser(successCallback, failureCallback) {
     var storedUser = localStorage.getItem('auth0_user');
     if (storedUser) {
@@ -103,7 +112,8 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
             givenName: userToGivenName(metadata.user_metadata, profile),
             userName: profile["name"],
             email: profile["email"],
-            fipsCodes: userToFips(metadata.app_metadata)
+            fipsCodes: userToFips(metadata.app_metadata),
+            roles: userToRoles(metadata.app_metadata)
     }
   };
 
@@ -111,6 +121,15 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     if (metadata && metadata.fipsCodes) {
       return Object.keys(metadata.fipsCodes);
     } else {
+      return [];
+    }
+  };
+
+  function userToRoles(metadata) {
+    if (metadata && metadata.roles) {
+      return metadata.roles;
+    } else {
+      console.log("no roles in metadata");
       return [];
     }
   };
@@ -129,6 +148,16 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     }
   }
 
+  function hasRole (roleName) {
+    var user = getLocalUser();
+    if (user) {
+      var roles = user.roles;
+      if (roles.indexOf(roleName) >= 0) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return {
     login: login,
@@ -138,6 +167,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     isAuthenticated: isAuthenticated,
     getAccessToken: getAccessToken,
     getIdToken: getIdToken,
-    getUser: getUser
+    getUser: getUser,
+    hasRole: hasRole
   }
 });

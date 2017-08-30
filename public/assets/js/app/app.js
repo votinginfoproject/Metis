@@ -11,7 +11,7 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0']);
+var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0', 'ui.date']);
 
 // Constants - will be added to with the properties from the external properties files
 // "vip.properties" and "map.properties"
@@ -72,6 +72,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/testing/addresses',{
       templateUrl: $appProperties.contextRoot + '/app/partials/testing/addresses.html',
       controller: 'AddressesCtrl'
+    });
+
+    $routeProvider.when('/county-data/centralization',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/centralization/centralization.html',
+      controller: 'CentralizationCtrl'
     });
 
     $routeProvider.when('/feeds', {

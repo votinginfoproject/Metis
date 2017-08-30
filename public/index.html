@@ -53,6 +53,11 @@
   <script src="assets/js/lib/auth0.js/build/auth0.js"></script>
   <script src="assets/js/lib/angular-auth0/dist/angular-auth0.js"></script>
 
+  <!-- angular-ui-date -->
+  <link rel="stylesheet" href="assets/js/lib/jquery-ui/themes/smoothness/jquery-ui.css"/>
+  <script type="text/javascript" src="assets/js/lib/jquery-ui/jquery-ui.js"></script>
+  <script type="text/javascript" src="assets/js/lib/angular-ui-date/dist/date.js"></script>
+
   <!-- ======================================= -->
 
   <!-- VIP App -->
@@ -132,6 +137,9 @@
   <script src="assets/js/app/controllers/testing/addressesController.js"></script>
   <script src="assets/js/app/controllers/testing/asideController.js"></script>
 
+  <!-- Centralization -->
+  <script src="assets/js/app/controllers/centralization/centralizationController.js"></script>
+
   <!-- Shared -->
   <script src="assets/js/app/services/errorsService.js"></script>
   <script src="assets/js/app/services/feedsService.js"></script>
@@ -139,6 +147,23 @@
   <script src="assets/js/app/services/configService.js"></script>
 
   <script src="assets/js/app/filters.js"></script>
+
+  <script>
+  // the ui-date library we're using to get a datepicker onto the page is not compatible
+  // with our current version of angular, so this function lets us make a call from
+  // the controller to get the data out of the datepicker element.  if any other
+  // pages require a datepicker, this same setup can be used; for more details see
+  // the template at public/app/partials/centralization/centralization.html and
+  // the controller at public/assets/js/app/controllers/centralization/centralizationController.js
+  function getDateValue() {
+    var dateVal = document.getElementById('datepicker').value;
+    return dateVal;
+  };
+
+  function missingValue(message) {
+    alert(message);
+  };
+  </script>
 
 </head>
 <body role="application">
@@ -153,7 +178,8 @@
         <ul>
           <li><i class="fi-torso"></i> {{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
-	  <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
+          <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
+          <li ng-if="hasRole('data-centralization') || hasRole('state-admin') || hasRole('super-admin')"><a id="pageHeader-county-data" href="#/county-data/centralization"><i class="fi-upload"></i> County Data Uploads</a></li>
           <li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
       </nav>
@@ -200,10 +226,10 @@
                  ng-if="$location.url() !== '/feeds' && pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'"
                  ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
         </div>
-	<div ng-switch-when="testing">
+	      <div ng-switch-when="testing">
           <aside class="feed-meta"
                  ng-controller="TestingAsideCtrl"
-		 ng-include src="'app/partials/testing/aside.html'"></aside>
+		             ng-include src="'app/partials/testing/aside.html'"></aside>
         </div>
         <div ng-switch-default>
           <aside class="feed-meta"
