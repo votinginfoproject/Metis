@@ -22,9 +22,7 @@
 
   <br>
   <div ng-if="submittedFiles.length > 0">
-  <label ng-if="hasRole('data-centralization')">Your previously submitted files:</label>
-  <label ng-if="hasRole('state-admin')">Files submitted by counties in your state:</label>
-  <label ng-if="hasRole('super-admin')">Files submitted by all users:</label>
+  <label>Previously submitted files:</label>
     <table>
       <tr>
         <th ng-if="hasRole('super-admin')">State</th>
