@@ -149,6 +149,12 @@
   <script src="assets/js/app/filters.js"></script>
 
   <script>
+  // the ui-date library we're using to get a datepicker onto the page is not compatible
+  // with our current version of angular, so this function lets us make a call from
+  // the controller to get the data out of the datepicker element.  if any other
+  // pages require a datepicker, this same setup can be used; for more details see
+  // the template at public/app/partials/centralization/centralization.html and
+  // the controller at public/assets/js/app/controllers/centralization/centralizationController.js
   function getDateValue() {
     var dateVal = document.getElementById('datepicker').value;
     return dateVal;
