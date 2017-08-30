@@ -60,7 +60,7 @@ module.exports = {
       MaxKeys: 1,
       Prefix: fileName
     };
-    s3.listObjects(params, function(err, data) {
+    s3.listObjectsV2(params, function(err, data) {
       if (err) {
         logger.error(err, err.stack);
         res.writeHead(500, {'content-type': 'text/plain'});

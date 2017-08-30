@@ -45,5 +45,61 @@ module.exports = {
       });
     });
     return;
+  },
+
+  getSubmittedFiles: function(req, res){
+    var s3 = new AWS.S3();
+    var fipsCode = req.query.fipsCode;
+    var roles = req.query.roles;
+    if (fipsCode === undefined) {
+      fipsCode = "undefined";
+    }
+    var bucketName = centralizationBucket;
+
+    if (roles.indexOf("super-admin") >= 0){
+      prefix = "";
+    } else {
+      fips2 = fipsCode.slice(0, 2);
+      var prefix = fips2 + '/' + fipsCode;
+    };
+
+    var params = {
+      Bucket: bucketName,
+      Prefix: prefix
+    };
+    s3.listObjectsV2(params, function(err, data) {
+      var files = data["Contents"];
+      var returnData = []
+      for (var i = 0; i < files.length; i++) {
+        var key = files[i]["Key"];
+        var lastModified = files[i]["LastModified"];
+        var keyParts = key.split('/');
+        var stateFips = keyParts[0];
+        var countyFips = keyParts[1];
+        var electionDate = keyParts[2];
+        var fileName = keyParts[3];
+        if (fileName && electionDate) {
+          var file = {"electionDate": electionDate,
+                      "fileName": fileName,
+                      "lastModified": lastModified,
+                      "stateFips": stateFips,
+                      "countyFips": countyFips}
+          returnData.push(file);
+        }
+      };
+      if (err) {
+        logger.error(err, err.stack);
+        res.writeHead(500, {'content-type': 'text/plain'});
+        res.end();
+      } else {
+        // sort returned data
+        returnData.sort(function (a, b) {
+          return b.lastModified - a.lastModified
+        });
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.write(JSON.stringify(returnData));
+        res.end();
+      }
+    });
   }
 };

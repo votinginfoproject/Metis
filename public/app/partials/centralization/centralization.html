@@ -6,16 +6,38 @@
   <p>Welcome to the Voting Information Project (VIP) data centralizer.</p>
   <p>Please upload files from your voter registration systems to include streets, polling locations, and precincts and/or election management system (EMS) or other database exports that provides ballot and contest information.</p>
   <br>
-  <p>For questions or problems with using this tool contact <a href="mailto:questions@votinginfoproject.org">questions@votinginfoproject.org</a>.</p>
-  <br>
+  <p>For questions or problems with using this tool contact <a style="text-decoration: underline; color: white" href="mailto:questions@votinginfoproject.org">questions@votinginfoproject.org</a>.</p>
 
-  <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
-    <label for="datepicker">Please Select Election Date:</label>
-    <div><input ui-date id="datepicker" name="datepicker"></div>
-    <label for="file">Please Select a File to Upload:</label>
-    <div class="button" ngf-select ng-model="file">Select a file</div>
+  <div ng-if="hasRole('data-centralization')" >
     <br>
-    <div class="button" ng-click="submit()">Submit</div>
-  </form>
+    <form ng-app="fileUpload" ng-controller="CentralizationCtrl" name="form" enctype="multipart/form-data">
+      <label for="datepicker">Please Select Election Date:</label>
+      <div><input ui-date id="datepicker" name="datepicker"></div>
+      <label for="file">Please Select a File to Upload:</label>
+      <div class="button" ngf-select ng-model="file">Select a file</div>
+      <br>
+      <div class="button" ng-click="submit()">Submit</div>
+    </form>
+  </div>
 
+  <br>
+  <div ng-if="submittedFiles.length > 0">
+  <label>Previously submitted files:</label>
+    <table>
+      <tr>
+        <th ng-if="hasRole('super-admin')">State</th>
+        <th ng-if="hasRole('super-admin') || hasRole('state-admin')">County</th>
+        <th>File name</th>
+        <th>Election date</th>
+        <th>Last modified</th>
+      </tr>
+      <tr ng-repeat="file in submittedFiles">
+        <td ng-if="hasRole('super-admin')">{{getStateFromFips(file.stateFips)}}</td>
+        <td ng-if="hasRole('super-admin') || hasRole('state-admin')">{{file.countyFips}}</td>
+        <td>{{file.fileName}}</td>
+        <td>{{file.electionDate}}</td>
+        <td>{{file.lastModified | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      </tr>
+    </table>
+  </div>
 </section>
