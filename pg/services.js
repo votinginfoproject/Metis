@@ -98,8 +98,7 @@ function registerPostgresServices (app) {
 
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/errors/candidate_selection/report', csv.scopedXmlTreeValidationErrorReport('CandidateSelection'));
-  // app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.test(['BallotMeasureContest']  ));
-  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.ballotMeasureContestScopedXmlTreeValidationErrorReport('BallotMeasureContest', 'ballot-measure-contest'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.ballotMeasureContestScopedXmlTreeValidationErrorReport('BallotMeasureContest'));
   app.get('/db/feeds/:feedid/xml/errors/ballot_selection/report', csv.scopedXmlTreeValidationErrorReport('BallotSelection'));
   app.get('/db/feeds/:feedid/xml/errors/retention_contests/report', csv.scopedXmlTreeValidationErrorReport('RetentionContest'));
   app.get('/db/feeds/:feedid/xml/errors/party_contests/report', csv.scopedXmlTreeValidationErrorReport('PartyContest'));
