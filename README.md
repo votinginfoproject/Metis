@@ -121,7 +121,7 @@ To deploy you will need the ssh key for the environment you are deploying to, ac
 
 1. set the environment variable `FLEETCTL_TUNNEL` to the IP address of the cluster you're deploying to (`export FLEETCTL_TUNNEL=<ip_address>`)
 1. run `docker login quay.io` to login to quay
-2. run `./script/build` to build the docker image
+2. run `./script/build staging|production` to build the docker image (use either `staging` or `production` depending on the environment you are deploying to.
 2. if you've successfully built the image, you should see output at the end that looks like this: `If you'd like to push this to the Docker repo, run: docker push quay.io/votinginfoproject/metis:master-somehash`; run that command to push the container to quay
 3. run `PEM_FILE=<path_to_pem_file> ./script/deploy` to deploy
 
