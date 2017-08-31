@@ -4,6 +4,7 @@ var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var messageContent = require('./content');
 var authService = require("../../authentication/services");
+var notify = require("../sender.js")
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -40,24 +41,24 @@ var sendMessage = function(messageContent) {
   });
 };
 
-var notifyGroup = function(message, fips, contentFn) {
-  if ((typeof fips != "string") ||
-       (fips.length < 2) ||
-       (fips.length > 5)) {
-    logger.info("fips is bad--sending to admin group");
-    fips = "admin";
-  };
-  if (message["adminEmail"] == true) { fips = "admin"; }
-  authService.getUsersByFips(fips, function (users) {
-    for (var i = 0; i < users.length; i++) {
-      var recipient = users[i];
-      var messageContent = contentFn(message, recipient, fips);
-
-      sendMessage(messageContent);
-      logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
-    };
-  });
-};
+// var notifyGroup = function(message, fips, contentFn) {
+//   if ((typeof fips != "string") ||
+//        (fips.length < 2) ||
+//        (fips.length > 5)) {
+//     logger.info("fips is bad--sending to admin group");
+//     fips = "admin";
+//   };
+//   if (message["adminEmail"] == true) { fips = "admin"; }
+//   authService.getUsersByFips(fips, function (users) {
+//     for (var i = 0; i < users.length; i++) {
+//       var recipient = users[i];
+//       var messageContent = contentFn(message, recipient, fips);
+//
+//       sendMessage(messageContent);
+//       logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+//     };
+//   });
+// };
 
 module.exports = {
   sendNotifications: function(message) {
@@ -71,10 +72,10 @@ module.exports = {
         logger.warning("No admin group defined.  Can't send batch address testing finished email notification.");
         logger.info(message);
       } else {
-        notifyGroup(message, config.email.adminGroup, messageType);
+        notify.sendEmail(message, config.email.adminGroup, messageType);
       }
     } else {
-      notifyGroup(message, groupName, messageType);
+      notify.sendEmail(message, groupName, messageType);
     }
   }
 };

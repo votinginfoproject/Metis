@@ -5,6 +5,7 @@ var sesTransport = require('nodemailer-ses-transport');
 var messageContent = require('./content');
 var pg = require('pg');
 var authService = require("../../authentication/services");
+var notify = require("../sender.js")
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -57,24 +58,24 @@ var sendMessage = function(messageContent) {
   });
 };
 
-var notifyGroup = function(message, fips, contentFn) {
-  if ((typeof fips != "string") ||
-       (fips.length < 2) ||
-       (fips.length > 5)) {
-    logger.info("fips is bad--sending to admin group");
-    fips = "admin";
-  };
-  if (message["adminEmail"] == true) { fips = "admin"; }
-  authService.getUsersByFips(fips, function (users) {
-    for (var i = 0; i < users.length; i++) {
-      var recipient = users[i];
-      var messageContent = contentFn(message, recipient, fips);
-
-      sendMessage(messageContent);
-      logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
-    };
-  });
-};
+// var notifyGroup = function(message, fips, contentFn) {
+//   if ((typeof fips != "string") ||
+//        (fips.length < 2) ||
+//        (fips.length > 5)) {
+//     logger.info("fips is bad--sending to admin group");
+//     fips = "admin";
+//   };
+//   if (message["adminEmail"] == true) { fips = "admin"; }
+//   authService.getUsersByFips(fips, function (users) {
+//     for (var i = 0; i < users.length; i++) {
+//       var recipient = users[i];
+//       var messageContent = contentFn(message, recipient, fips);
+//
+//       sendMessage(messageContent);
+//       logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+//     };
+//   });
+// };
 
 module.exports = {
   sendNotifications: function(message, messageType) {
@@ -86,7 +87,7 @@ module.exports = {
 
     if (!publicId) {
       logger.error('No Public ID listed.');
-      notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+      notify.sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
@@ -96,15 +97,15 @@ module.exports = {
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
-            notifyGroup(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+            notify.sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
 
             var vip_id = result.rows[0]['vip_id'];
             var spec_version = new String(result.rows[0]['spec_version']);
             if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
-              notifyGroup(message, vip_id, messageOptions['v5processedFeed']);
+              notify.sendEmail(message, vip_id, messageOptions['v5processedFeed']);
             } else {
-              notifyGroup(message, vip_id, messageOptions[messageType]);
+              notify.sendEmail(message, vip_id, messageOptions[messageType]);
             }
           }
         });
