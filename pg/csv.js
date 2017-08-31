@@ -85,7 +85,7 @@ var scopedXmlTreeValidationQuery = function(elementTypes) {
  WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
 }
 
-var ballotMeasureContestScopedXmlTreeValidationQuery = function(elementTypes, scope) {
+var ballotMeasureContestScopedXmlTreeValidationQuery = function() {
   return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
@@ -108,7 +108,7 @@ var ballotMeasureContestScopedXmlTreeValidationErrorReport = function() {
       res.write(makeCSVRow(header));
       // res.end();
 
-      var query = client.query(ballotMeasureContestScopedXmlTreeValidationQuery(elementTypes, "ballot-measure-contest"), [feedid]);
+      var query = client.query(ballotMeasureContestScopedXmlTreeValidationQuery(), [feedid]);
 
       query.on("row", function(row, result) {
         res.write(makeCSVRow([feedid,
