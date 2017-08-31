@@ -85,7 +85,7 @@ var scopedXmlTreeValidationQuery = function(elementTypes) {
  WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
 }
 
-var ballotMeasureContestScopedXmlTreeValidationQuery = function() {
+var elementTypeAndScopeXmlTreeValidationQuery = function(elementTypes, scope) {
   return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
@@ -93,22 +93,22 @@ var ballotMeasureContestScopedXmlTreeValidationQuery = function() {
  WHERE r.public_id = $1 AND (v.path ~ 'VipObject.0.BallotMeasureContest.*' or v.scope like 'ballot-measure-contest%')";
 }
 
-var ballotMeasureContestScopedXmlTreeValidationErrorReport = function() {
-  var elementTypes = Array.prototype.slice.call(arguments);
+var elementTypeAndScopeXmlTreeValidationErrorReport = function(elementType, scope) {
+  // var elementTypes = Array.prototype.slice.call(arguments);
 
   return function(req, res) {
     var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
     var feedid = decodeURIComponent(req.params.feedid);
 
     conn.query(function(client) {
-      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, elementTypes[0]));
+      res.header("Content-Disposition", "attachment; filename=" + csvFilename(feedid, elementType));
       res.setHeader('Content-type', 'text/csv');
       res.charset = 'UTF-8';
 
       res.write(makeCSVRow(header));
       // res.end();
 
-      var query = client.query(ballotMeasureContestScopedXmlTreeValidationQuery(), [feedid]);
+      var query = client.query(elementTypeAndScopeXmlTreeValidationQuery(elementType, scope), [feedid]);
 
       query.on("row", function(row, result) {
         res.write(makeCSVRow([feedid,
@@ -295,5 +295,5 @@ module.exports = {
   scopedXmlTreeValidationErrorReport: scopedXmlTreeValidationErrorReport,
   pollingLocationAddressReport: pollingLocationAddressReport,
   earlyVoteSiteAddressReport: earlyVoteSiteAddressReport,
-  ballotMeasureContestScopedXmlTreeValidationErrorReport: ballotMeasureContestScopedXmlTreeValidationErrorReport
+  elementTypeAndScopeXmlTreeValidationErrorReport: elementTypeAndScopeXmlTreeValidationErrorReport
 }
