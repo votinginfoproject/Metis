@@ -85,12 +85,12 @@ var scopedXmlTreeValidationQuery = function(elementTypes) {
  WHERE r.public_id = $1 AND v.path ~ 'VipObject.0." + elementTypes.join("|") + ".*'";
 }
 
-var elementTypeAndScopeXmlTreeValidationQuery = function(elementTypes, scope) {
+var elementTypeAndScopeXmlTreeValidationQuery = function(elementType, scope) {
   return "SELECT v.severity, v.scope, v.path, v.parent_element_id AS identifier, \
         v.error_type, v.error_data \
  FROM xml_tree_validations v \
  INNER JOIN results r ON r.id = v.results_id \
- WHERE r.public_id = $1 AND (v.path ~ 'VipObject.0.BallotMeasureContest.*' or v.scope like 'ballot-measure-contest%')";
+ WHERE r.public_id = $1 AND (v.path ~ 'VipObject.0."+ elementType + ".*' or v.scope like '" + scope + "%')";
 }
 
 var elementTypeAndScopeXmlTreeValidationErrorReport = function(elementType, scope) {
