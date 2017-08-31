@@ -1,4 +1,4 @@
-var logger = (require('../logging/vip-winston')).Logger;
+var logger = (require('../../logging/vip-winston')).Logger;
 var edn = require("jsedn");
 var sender = require ("./sender");
 

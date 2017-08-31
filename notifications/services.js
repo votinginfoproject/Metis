@@ -1,4 +1,4 @@
-var sender = require('./sender');
+var sender = require('./feed-processing/sender');
 
 function registerNotificationServices (app) {
   app.post('/notifications/approve-feed', function(req, res) {

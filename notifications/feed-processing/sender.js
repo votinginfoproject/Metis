@@ -1,10 +1,10 @@
-var config = require('../config');
-var logger = (require('../logging/vip-winston')).Logger;
+var config = require('../../config');
+var logger = (require('../../logging/vip-winston')).Logger;
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var messageContent = require('./content');
 var pg = require('pg');
-var authService = require("../authentication/services");
+var authService = require("../../authentication/services");
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,

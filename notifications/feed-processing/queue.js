@@ -1,5 +1,5 @@
-var logger = (require('../logging/vip-winston')).Logger;
-var config = require('../config');
+var logger = (require('../../logging/vip-winston')).Logger;
+var config = require('../../config');
 var edn = require("jsedn");
 var sender = require('./sender');
 
