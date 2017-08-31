@@ -47,7 +47,7 @@ var overallErrorQuery = function(scope) {
     return buildErrorQuery("", "element_type(xtv.path) = '" + scope + "'");
 };
 
-var ballotMeasureOverallErrorQuery = function(element_type, scope) {
+var elementTypeAndScopeOverallErrorQuery = function(element_type, scope) {
   var wheres = "(element_type(xtv.path) = '" + element_type + "' or xtv.scope like '" + scope + "%')"
   return buildErrorQuery("", wheres)
 };
@@ -200,5 +200,5 @@ module.exports = {
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); },
   localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor()),
   scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); },
-  ballotMeasureOverallErrorQuery: function(element_type, scope) { return errorResponder(ballotMeasureOverallErrorQuery(element_type, scope)); }
+  elementTypeAndScopeOverallErrorQuery: function(element_type, scope) { return errorResponder(elementTypeAndScopeOverallErrorQuery(element_type, scope)); }
 }

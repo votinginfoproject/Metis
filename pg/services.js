@@ -81,7 +81,7 @@ function registerPostgresServices (app) {
   // Contests table
   app.get('/db/5.1/feeds/:feedid/overview/candidate_contests/errors', auth.checkJwt, pg51.overviewErrors("CandidateContest"));
   app.get('/db/5.1/feeds/:feedid/overview/candidate_selection/errors', auth.checkJwt, pg51.overviewErrors("CandidateSelection"));
-  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg51.ballotMeasureOverallErrorQuery("BallotMeasureContest", 'ballot-measure-contest'));
+  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg51.elementTypeAndScopeOverallErrorQuery("BallotMeasureContest", 'ballot-measure-contest'));
   app.get('/db/5.1/feeds/:feedid/overview/ballot_selections/errors', auth.checkJwt, pg51.overviewErrors("BallotSelection"));
   app.get('/db/5.1/feeds/:feedid/overview/retention_contests/errors', auth.checkJwt, pg51.overviewErrors("RetentionContest"));
   app.get('/db/5.1/feeds/:feedid/overview/party_contests/errors', auth.checkJwt, pg51.overviewErrors("PartyContest"));
