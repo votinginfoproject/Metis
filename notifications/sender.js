@@ -34,28 +34,28 @@ var messageOptions = {
   },
 
   // feed-processing message options
-  approveFeed: function(message, recipient, group) {
+  approveFeed: function(message, recipient, fipsCode) {
     return {
       from: config.email.fromAddress,
       to: recipient.email,
       subject: "A Feed has been Approved",
-      html: feedProcessingMessageContent.approveFeed(message, recipient, group)
+      html: feedProcessingMessageContent.approveFeed(message, recipient, fipsCode)
     }
   },
-  processedFeed: function(message, recipient, group) {
+  processedFeed: function(message, recipient, fipsCode) {
     return {
       from: config.email.fromAddress,
       to: recipient.email,
       subject: 'Your Feed Has Been Processed',
-      html: feedProcessingMessageContent.processedFeed(message, recipient, group)
+      html: feedProcessingMessageContent.processedFeed(message, recipient, fipsCode)
     };
   },
-  v5processedFeed: function(message, recipient, group) {
+  v5processedFeed: function(message, recipient, fipsCode) {
     return {
       from: config.email.fromAddress,
       to: recipient.email,
       subject: 'Your Feed Has Been Processed',
-      html: feedProcessingMessageContent.v5processedFeed(message, recipient, group)
+      html: feedProcessingMessageContent.v5processedFeed(message, recipient, fipsCode)
     };
   },
   errorDuringProcessing: function(message, recipient) {
@@ -106,7 +106,7 @@ module.exports = {
 
     if (!publicId) {
       logger.error('No Public ID listed.');
-      notify.sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+      sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
@@ -116,15 +116,15 @@ module.exports = {
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
-            notify.sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+          sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
 
             var vip_id = result.rows[0]['vip_id'];
             var spec_version = new String(result.rows[0]['spec_version']);
             if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
-              notify.sendEmail(message, vip_id, messageOptions['v5processedFeed']);
+              sendEmail(message, vip_id, messageOptions['v5processedFeed']);
             } else {
-              notify.sendEmail(message, vip_id, messageOptions[messageType]);
+              sendEmail(message, vip_id, messageOptions[messageType]);
             }
           }
         });
@@ -133,19 +133,19 @@ module.exports = {
   },
   sendDataTestingNotifications: function(message) {
     var messageType  = (message['status'] == "ok") ? messageOptions['testingComplete'] : messageOptions['errorDuringTesting'] ;
-    var groupName = message["groupName"];
-    if (groupName === undefined) {
-      logger.warning("No group in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
+    var fipsCode = message["fipsCode"];
+    if (fipsCode === undefined) {
+      logger.warning("No fips code in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
       logger.info(message);
-    } else if (groupName === "undefined") {
+    } else if (fipsCode === "undefined") {
       if (config.email.adminGroup === undefined || config.email.adminGroup === null) {
         logger.warning("No admin group defined.  Can't send batch address testing finished email notification.");
         logger.info(message);
       } else {
-        notify.sendEmail(message, config.email.adminGroup, messageType);
+        sendEmail(message, config.email.adminGroup, messageType);
       }
     } else {
-      notify.sendEmail(message, groupName, messageType);
+      sendEmail(message, fipsCode, messageType);
     }
   }
 };

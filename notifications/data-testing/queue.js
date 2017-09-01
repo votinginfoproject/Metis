@@ -20,13 +20,13 @@ var generatePseudoRandomRequestID = function() {
   });
 };
 
-var submitAddressFile = function(bucketName, fileName, groupName) {
+var submitAddressFile = function(bucketName, fileName, fipsCode) {
   var transactionId = generatePseudoRandomRequestID();
   console.log(transactionId);
   if (sendAddressFileMessage != null) {
     sendAddressFileMessage(new Buffer(edn.encode({"bucketName": bucketName,
                                                   "fileName": fileName,
-                                                  "groupName": groupName,
+                                                  "fipsCode": fipsCode,
                                                   "transactionId": transactionId})));
   } else {
     throw "Not connected to message queue for address file processing."
