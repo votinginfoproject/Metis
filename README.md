@@ -115,7 +115,7 @@ the Angular config file, you can return to using `node app.js` if you like.
 
 1. `docker-compose build`
 1. `docker-compose up`
-1. Then hit [http://localdocker:4000/](http://localdocker:4000/), assuming you have a localdocker host file entry pointing to your docker host. If not, replace localdocker with your docker host IP address.
+1. Then hit [http://localhost:4000/](http://localhost:4000/)
 
 ## Deploying the Project
 

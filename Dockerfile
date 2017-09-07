@@ -1,14 +1,14 @@
-FROM node:7.10.0
+FROM quay.io/democracyworks/clojure-and-node:lein-2.7.1-node-8.4.0
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 RUN apt-get update && \
-    apt-get install -y ruby rubygems-integration inotify-tools && \
+    apt-get install -y ruby rubygems-integration inotify-tools build-essential && \
 	gem install sass -v 3.3.14
 
 # install Grunt
 RUN npm install -g grunt-cli
 RUN npm install -g bower
-RUN npm install -g node-sass@3.8.0
+RUN npm install node-sass@3.8.0
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
