@@ -94,7 +94,6 @@ var elementTypeAndScopeXmlTreeValidationQuery = function(elementType, scope) {
 }
 
 var elementTypeAndScopeXmlTreeValidationErrorReport = function(elementType, scope) {
-  // var elementTypes = Array.prototype.slice.call(arguments);
 
   return function(req, res) {
     var header = ["Feed", "Severity", "Scope", "Path", "ID", "Error Type", "Error Data"];
@@ -106,7 +105,6 @@ var elementTypeAndScopeXmlTreeValidationErrorReport = function(elementType, scop
       res.charset = 'UTF-8';
 
       res.write(makeCSVRow(header));
-      // res.end();
 
       var query = client.query(elementTypeAndScopeXmlTreeValidationQuery(elementType, scope), [feedid]);
 
