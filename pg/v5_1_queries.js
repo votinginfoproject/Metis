@@ -138,7 +138,9 @@ var getFeedOverviewSummaryData = function(req, res) {
                              overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + feedid + '/overview/street_segments/errors'),
                              overviewTableRow(row, 'State', 'state', '#/5.1/feeds/' + feedid + '/overview/state/errors'),
                              overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + feedid + '/overview/precincts/errors'),
-                             overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Polling Locations', 'polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Drop Box Polling Locations', 'db_polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Early Vote Site Polling Locations', 'ev_polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
                              overviewTableRow(row, 'Localities', 'locality', '#/5.1/feeds/' + feedid + '/overview/localities/errors'),
                              overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + feedid + '/overview/hours_open/errors')
                            ],
