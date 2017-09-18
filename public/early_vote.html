@@ -3,12 +3,34 @@
   <head>
     <meta charset='utf-8'>
     <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/css/pikaday.css" rel="stylesheet">
 
   </head>
   <body>
-    <a href="/#/county-data/centralization">go back</a>
-    <div id="app"></div>
-    <script src="assets/js/compiled/early_vote.js"></script>
-    <script>early_vote_site.core.init();</script>
+
+    <header role="banner">
+      <div class="wrapper">
+        <a href="/" class="branding"><span>VIP Dashboard</span></a>
+        <nav class="main-nav" ng-if="user.isAuthenticated">
+          <ul>
+            <li><a id="pageHeader-go-back" href="/#/county-data/centralization"><i class="fi-x"></i> Go Back</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="main" role="main">
+      <div class="wrapper">
+        <div class="content">
+
+          <div id="app"></div>
+          <script src="assets/js/compiled/early_vote.js"></script>
+          <script>early_vote_site.core.init();</script>
+        </div>
+        <footer role="contentinfo">
+          <small>&copy; Copyright 2014 Voting Information Project.</small>
+        </footer>
+      </div>
+    </div>
   </body>
 </html>
