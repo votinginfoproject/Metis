@@ -47,6 +47,11 @@ var overallErrorQuery = function(scope) {
     return buildErrorQuery("", "element_type(xtv.path) = '" + scope + "'");
 };
 
+var elementTypeAndScopeOverallErrorQuery = function(element_type, scope) {
+  var wheres = "(element_type(xtv.path) = '" + element_type + "' or xtv.scope like '" + scope + "%')"
+  return buildErrorQuery("", wheres)
+};
+
 var getScopedLocalityErrors = function (scope) {
     return "select distinct on (xtv.severity, xtv.scope, xtv.error_type) \
                                                 count(1), xtv.severity, xtv.scope, \
@@ -194,5 +199,6 @@ module.exports = {
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); },
   localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor()),
-  scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); }
+  scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); },
+  elementTypeAndScopeOverallErrorQuery: function(element_type, scope) { return errorResponder(elementTypeAndScopeOverallErrorQuery(element_type, scope)); }
 }
