@@ -6,15 +6,17 @@
 (defonce the-date (reagent/atom (js/Date.)))
 
 (def form
-  [:form {:name "create-election-form"}
-   [:label {:for "state"} "State"]
-   [:select {:id "state" :type "text"}
-    [:option {:value "pa"} "Pennsylvania"]
-    [:option {:value "co"} "Colorado"]
-    [:option {:value "ny"} "New York"]]
-   [:label {:for "date"} "Date"]
-   [pikaday/date-selector {:date-atom the-date}]
-   [:div {:class "button"} "Submit"]])
+  [:form {:name "create-election-form" :class "form-inline"}
+   [:div {:class "form-group mx-sm-3"}
+    [:label {:for "state" :style {:padding-right 10}} "State"]
+    [:select {:id "state" :type "text" :class "form-control"}
+     [:option {:value "pa"} "Pennsylvania"]
+     [:option {:value "co"} "Colorado"]
+     [:option {:value "ny"} "New York"]]]
+   [:div {:class "form-group mx-sm-3"}
+    [:label {:for "date" :style {:padding-right 10}} "Date"]
+    [pikaday/date-selector {:date-atom the-date :class "form-control"}]]
+   [:button {:class "button"} "add"]])
 
 (def election-list
   [:table {:name "election-list"}
