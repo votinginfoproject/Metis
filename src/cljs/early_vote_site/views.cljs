@@ -1,18 +1,21 @@
 (ns early-vote-site.views
   (:require [re-frame.core :as re-frame]
             [cljs-pikaday.reagent :as pikaday]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [early-vote-site.constants :as constants]))
 
 (defonce the-date (reagent/atom (js/Date.)))
+
+(defn state-select-row
+  [state]
+  [:option {:value (:fips-code state)} (:state-name state)])
 
 (def form
   [:form {:name "create-election-form" :class "form-inline"}
    [:div {:class "form-group mx-sm-3"}
     [:label {:for "state" :style {:padding-right 10}} "State"]
     [:select {:id "state" :type "text" :class "form-control"}
-     [:option {:value "pa"} "Pennsylvania"]
-     [:option {:value "co"} "Colorado"]
-     [:option {:value "ny"} "New York"]]]
+     (map #(state-select-row %) constants/states)]]
    [:div {:class "form-group mx-sm-3"}
     [:label {:for "date" :style {:padding-right 10}} "Date"]
     [pikaday/date-selector {:date-atom the-date :class "form-control"}]]
