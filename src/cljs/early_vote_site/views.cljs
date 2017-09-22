@@ -8,7 +8,7 @@
 
 (defn state-select-row
   [state]
-  [:option {:value (:fips-code state)} (:state-name state)])
+  [:option {:value (:fips-code state) :key (:fips-code state)} (:state-name state)])
 
 (def form
   [:form {:name "create-election-form" :class "form-inline"}
