@@ -2,4 +2,4 @@
 
 (def default-db
   {:state ""
-   :date (js/Date.)})
+   :date nil})

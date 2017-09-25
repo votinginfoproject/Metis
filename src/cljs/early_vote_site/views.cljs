@@ -25,8 +25,8 @@
                                :date-atom date
                                :on-change #(re-frame/dispatch [:date-selected (-> % .-target .-value)])}]]
       [:button.button "add"]]
-     [:p @state]
-     [:p @date]]))
+      [:p @state]
+      [:p (some-> @date (js/Date.) .toString)]]))
 
 (def election-list
   [:table {:name "election-list"}
