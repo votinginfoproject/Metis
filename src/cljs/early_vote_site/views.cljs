@@ -2,6 +2,7 @@
   (:require [re-frame.core :as re-frame]
             [cljs-pikaday.reagent :as pikaday]
             [reagent.core :as reagent]
+            [reagent.ratom :as ratom]
             [early-vote-site.constants :as constants]))
 
 (defn state-select-row
@@ -22,8 +23,9 @@
       [:div {:class "form-group mx-sm-3"}
        [:label {:for "date" :style {:padding-right 10}} "Date"]
        [pikaday/date-selector {:class "form-control"
-                               :date-atom date
-                               :on-change #(re-frame/dispatch [:date-selected (-> % .-target .-value)])}]]
+                               :date-atom (ratom/atom (some-> @date js/Date.))
+                               :pikaday-attrs
+                               {:on-select #(re-frame/dispatch [:date-selected %])}}]]
       [:button.button "add"]]
       [:p @state]
       [:p (some-> @date (js/Date.) .toString)]]))
