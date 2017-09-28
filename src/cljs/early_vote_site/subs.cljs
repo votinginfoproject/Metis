@@ -1,12 +1,8 @@
-(ns early-vote-site.subs
-  (:require [re-frame.core :as re-frame]))
+(ns early-vote-site.election.subs
+  (:require [re-frame.core :as re-frame]
+            [early-vote-site.election.subs]))
 
 (re-frame/reg-sub
- :state
+ :active-panel
  (fn [db]
-   (:state db)))
-
-(re-frame/reg-sub
- :date
- (fn [db]
-   (some-> db :date .getTime)))
+   (:active-panel db)))

@@ -1,5 +1,7 @@
 (ns early-vote-site.db)
 
 (def default-db
-  {:state ""
-   :date nil})
+  {:active-panel :election/main
+   :elections {:list []
+               :form {:state ""
+                      :date nil}}})
