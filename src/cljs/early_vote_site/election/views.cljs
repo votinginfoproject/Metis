@@ -1,7 +1,6 @@
 (ns early-vote-site.election.views
   (:require [re-frame.core :as re-frame]
             [cljs-pikaday.reagent :as pikaday]
-            [reagent.core :as reagent]
             [reagent.ratom :as ratom]
             [early-vote-site.constants :as constants]))
 
@@ -13,14 +12,16 @@
   (let [state (re-frame/subscribe [:election-form/state])
         date (re-frame/subscribe [:election-form/date])]
     [:div
-     [:form {:name "create-election-form" :class "form-inline"}
+     [:div {:name "create-election-form" :class "form-inline"}
       [:div {:class "form-group mx-sm-3"}
        [:label {:for "state" :style {:padding-right 10}} "State"]
        [:select {:id "state" :type "text" :class "form-control"
                  :value @state
                  :on-change #(re-frame/dispatch [:election-form/state-selected
                                                  (-> % .-target .-value)])}
-        (map #(state-select-row %) constants/states)]]
+        (map #(state-select-row %)
+             (concat [{:fips-code "" :state-name "Select a State"}]
+                     constants/states))]]
       [:div {:class "form-group mx-sm-3"}
        [:label {:for "date" :style {:padding-right 10}} "Date"]
        [pikaday/date-selector {:class "form-control"
@@ -28,7 +29,8 @@
                                :pikaday-attrs
                                {:on-select #(re-frame/dispatch
                                              [:election-form/date-selected %])}}]]
-      [:button.button "add"]]
+      [:button.button {:on-click #(re-frame/dispatch [:election-form/save])}
+       "add"]]
       [:p @state]
       [:p (some-> @date (js/Date.) .toString)]]))
 
