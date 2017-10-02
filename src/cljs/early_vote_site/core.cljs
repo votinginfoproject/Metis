@@ -1,6 +1,7 @@
 (ns early-vote-site.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
+            [day8.re-frame.http-fx]
             [early-vote-site.events]
             [early-vote-site.subs]
             [early-vote-site.views :as views]

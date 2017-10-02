@@ -1,9 +1,11 @@
 (defproject early-vote-site "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.908"]
-                 [reagent "0.7.0"]
+                 [cljs-ajax "0.7.2"]
+                 [cljs-pikaday "0.1.4"]
+                 [day8.re-frame/http-fx "0.1.4"]
                  [re-frame "0.10.1"]
-                 [cljs-pikaday "0.1.4"]]
+                 [reagent "0.7.0"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]]
 
