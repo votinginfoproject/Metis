@@ -31,6 +31,7 @@ you can run Metis locally to show a dashboard for that data.
 ### Setup
 
 * Compile SASS: `./node_modules/.bin/grunt sass`
+* Create databases: `create db dataprocessor`, `create db earlyvote`
 
 ### Configuration
 
@@ -73,6 +74,12 @@ AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
 DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
+EV_DB_ENV_POSTGRES_DATABASE=earlyvote
+EV_DB_ENV_POSTGRES_PASSWORD=
+EV_DB_ENV_POSTGRES_USER=dataprocessor
+EV_DB_PORT_5432_TCP_ADDR=localhost
+EV_DB_PORT_5432_TCP_PORT=5432
+DATABASE_URL=postgres://dataprocessor@localhost/earlyvote
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
