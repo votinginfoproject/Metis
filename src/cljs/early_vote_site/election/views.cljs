@@ -8,6 +8,8 @@
   [state]
   [:option {:value (:fips-code state) :key (:fips-code state)} (:state-name state)])
 
+(def today (ratom/atom (js/Date.)))
+
 (defn form []
   (let [state (re-frame/subscribe [:election-form/state])
         date (re-frame/subscribe [:election-form/date])]
@@ -25,10 +27,10 @@
       [:div {:class "form-group mx-sm-3"}
        [:label {:for "date" :style {:padding-right 10}} "Date"]
        [pikaday/date-selector {:class "form-control"
-                               :date-atom (ratom/atom (some-> @date js/Date.))
+                               :min-date-atom today
+                               :date-atom date
                                :pikaday-attrs
-                               {:on-select #(re-frame/dispatch
-                                             [:election-form/date-selected %])}}]]
+                               {:min-date today}}]]
       [:button.button {:on-click #(re-frame/dispatch [:election-form/save])
                        :disabled @(re-frame/subscribe [:create-disabled?])}
        "add"]]
