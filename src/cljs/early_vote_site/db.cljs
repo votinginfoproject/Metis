@@ -2,6 +2,7 @@
 
 (def default-db
   {:active-panel :election/main
+   :flash {}
    :elections {:list []
                :form {:state ""
                       :date nil}}})
