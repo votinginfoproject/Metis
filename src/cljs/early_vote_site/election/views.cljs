@@ -29,7 +29,8 @@
                                :pikaday-attrs
                                {:on-select #(re-frame/dispatch
                                              [:election-form/date-selected %])}}]]
-      [:button.button {:on-click #(re-frame/dispatch [:election-form/save])}
+      [:button.button {:on-click #(re-frame/dispatch [:election-form/save])
+                       :disabled @(re-frame/subscribe [:create-disabled?])}
        "add"]]
       [:p @state]
       [:p (some-> @date (js/Date.) .toString)]]))

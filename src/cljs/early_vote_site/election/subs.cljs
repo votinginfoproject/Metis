@@ -12,3 +12,9 @@
    (some-> db
            (get-in [:elections :form :date])
            .getTime)))
+
+(re-frame/reg-sub
+ :create-disabled?
+ (fn [db]
+   (or (= nil (get-in db [:elections :form :date]))
+       (= "" (get-in db [:elections :form :state])))))
