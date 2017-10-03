@@ -11,11 +11,11 @@
 (re-frame/reg-event-db
  :election-form/date-selected
  (fn [db [_ new-date-selected]]
-   (update-in db [:elections :form  :date] reset! new-date-selected)))
+   (assoc-in db [:elections :form  :date] new-date-selected)))
 
 (defn create-params [db]
   {:state_fips (get-in db [:elections :form :state])
-   :election_date @(get-in db [:elections :form :date])})
+   :election_date (get-in db [:elections :form :date])})
 
 (re-frame/reg-event-fx
  :election-form/save

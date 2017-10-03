@@ -1,9 +1,8 @@
-(ns early-vote-site.db
-  (:require [reagent.ratom :as ratom]))
+(ns early-vote-site.db)
 
 (def default-db
   {:active-panel :election/main
    :flash {}
    :elections {:list []
                :form {:state ""
-                      :date (ratom/atom nil)}}})
+                      :date nil}}})

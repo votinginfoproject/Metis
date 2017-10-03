@@ -27,7 +27,9 @@
        [pikaday/date-selector {:class "form-control"
                                :date-atom date
                                :pikaday-attrs
-                               {:min-date (js/Date.)}}]]
+                               {:min-date (js/Date.)
+                                :on-select #(re-frame/dispatch
+                                              [:election-form/date-selected %])}}]]
       [:button.button {:on-click #(re-frame/dispatch [:election-form/save])
                        :disabled @(re-frame/subscribe [:create-disabled?])}
        "add"]]

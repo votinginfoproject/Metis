@@ -11,7 +11,6 @@
  (fn [db]
    (some-> db
            (get-in [:elections :form :date])
-           deref
            .getTime)))
 
 (re-frame/reg-sub
