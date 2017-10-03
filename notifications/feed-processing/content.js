@@ -3,6 +3,8 @@ var baseUrl = process.env.BASE_URI || "localdocker:4000";
 var codes = {
   "admin": "Admin Group",
   "01": "Alabama",
+  "02": "Alaska",
+  "04": "Arizona",
   "05": "Arkansas",
   "06": "California",
   "08": "Colorado",

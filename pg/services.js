@@ -81,7 +81,7 @@ function registerPostgresServices (app) {
   // Contests table
   app.get('/db/5.1/feeds/:feedid/overview/candidate_contests/errors', auth.checkJwt, pg51.overviewErrors("CandidateContest"));
   app.get('/db/5.1/feeds/:feedid/overview/candidate_selection/errors', auth.checkJwt, pg51.overviewErrors("CandidateSelection"));
-  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg51.overviewErrors("BallotMeasureContest"));
+  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg51.elementTypeAndScopeOverallErrorQuery("BallotMeasureContest", 'ballot-measure-contest'));
   app.get('/db/5.1/feeds/:feedid/overview/ballot_selections/errors', auth.checkJwt, pg51.overviewErrors("BallotSelection"));
   app.get('/db/5.1/feeds/:feedid/overview/retention_contests/errors', auth.checkJwt, pg51.overviewErrors("RetentionContest"));
   app.get('/db/5.1/feeds/:feedid/overview/party_contests/errors', auth.checkJwt, pg51.overviewErrors("PartyContest"));
@@ -98,7 +98,7 @@ function registerPostgresServices (app) {
 
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/errors/candidate_selection/report', csv.scopedXmlTreeValidationErrorReport('CandidateSelection'));
-  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.scopedXmlTreeValidationErrorReport('BallotMeasureContest'));
+  app.get('/db/feeds/:feedid/xml/errors/ballot_measure_contests/report', csv.elementTypeAndScopeXmlTreeValidationErrorReport('BallotMeasureContest', 'ballot-measure-contest'));
   app.get('/db/feeds/:feedid/xml/errors/ballot_selection/report', csv.scopedXmlTreeValidationErrorReport('BallotSelection'));
   app.get('/db/feeds/:feedid/xml/errors/retention_contests/report', csv.scopedXmlTreeValidationErrorReport('RetentionContest'));
   app.get('/db/feeds/:feedid/xml/errors/party_contests/report', csv.scopedXmlTreeValidationErrorReport('PartyContest'));

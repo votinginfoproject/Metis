@@ -361,6 +361,8 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
 
     }
 
+    $rootScope.hasRole = $authService.hasRole;
+
     $rootScope.getDueDateTextDays = function(date, now){
 
       var dueIn = "N/A"
