@@ -42,5 +42,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
     }
   };
 
+  $rootScope.hasRole = $authService.hasRole;
+
   getFeedResponse();
 }
