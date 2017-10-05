@@ -18,3 +18,8 @@
  (fn [db]
    (or (= nil (get-in db [:elections :form :date]))
        (= "" (get-in db [:elections :form :state])))))
+
+(re-frame/reg-sub
+ :elections/list
+ (fn [db]
+   (get-in db [:elections :list])))
