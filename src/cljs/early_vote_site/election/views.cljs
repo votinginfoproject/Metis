@@ -36,34 +36,28 @@
       [:p @state]
       [:p (some-> @date (js/Date.) .toString)]]))
 
-(def election-list
-  [:table {:name "election-list"}
-   [:thead
-    [:tr
-     [:th {:name "election-state"} "State"]
-     [:th {:name "election-date"} "Date"]]]
-   [:tbody
-     [:tr
-      [:td {:name "election-state"} "Pennsylvania"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]
-     [:tr
-      [:td {:name "election-state"} "New York"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]
-     [:tr
-      [:td {:name "election-state"} "Colorado"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]]])
-
 (defn election-list-row
-  ; this will need to take in data from the database to construct the list of elections
-  ; what's the best entry point for this?  do we put something in db.cljs that
-  ; can pull things from the Postgres database?
   [election]
-  [:tr
-   [:td {:name "election-state"} (str (:state election))]
-   [:td {:name "election-date"} (:date election)]])
+  (let [id (get election "id")
+        fips (get election "state_fips")
+        state-name (get constants/states-by-fips fips)
+        date (get election "election_date")]
+    [:tr {:key id}
+     [:td {:name "election-state"} state-name]
+     [:td {:name "election-date"} date]]))
+
+(defn election-list
+  [elections]
+  [:table {:name "election-list"}
+     [:thead
+      [:tr {:key "elections-list-header"}
+       [:th {:name "election-state"} "State"]
+       [:th {:name "election-date"} "Date"]]]
+     [:tbody (map election-list-row elections)]])
 
 (defn main-panel []
   (fn []
-    [:div
-     election-list
-     [form]]))
+    (let [elections (re-frame/subscribe [:elections/list])]
+      [:div
+       (election-list @elections)
+       [form]])))
