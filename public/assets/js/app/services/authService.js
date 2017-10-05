@@ -3,7 +3,12 @@
 vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http, $appService, $appProperties, angularAuth0) {
 
   function login() {
-    angularAuth0.authorize();
+    var opts = {};
+    if (window.crypto === undefined) {
+      console.log("setting up local nonce");
+      opts = {nonce: this.getNonce()};
+    }
+    angularAuth0.authorize(opts);
   }
 
   function handleAuthentication() {
@@ -11,7 +16,12 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     if (isAuthenticated()) {
       setupAuthentication();
     } else {
-      angularAuth0.parseHash(function(err, authResult) {
+      var opts = {};
+      if (window.crypto === undefined) {
+        console.log("getting local nonce");
+        opts = {nonce: this.getNonce()};
+      }
+      angularAuth0.parseHash(opts, function(err, authResult) {
         if (authResult && authResult.accessToken && authResult.idToken) {
           console.log("handleAuthentication: success");
           setSession(authResult);
@@ -59,6 +69,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     localStorage.removeItem('auth0_id_token_payload');
     localStorage.removeItem('auth0_expires_at');
     localStorage.removeItem('auth0_user');
+    localStorage.removeItem('auth0_nonce');
     $http.defaults.headers.common['Authorization'] = null;
     $appService.clearUser();
   }
@@ -88,6 +99,15 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
       return null;
     }
   };
+
+  function getNonce() {
+    var nonce = localStorage.getItem('auth0_nonce');
+    if (nonce == null) {
+      nonce = new Date().getTime().toString();
+      localStorage.setItem('auth0_nonce', nonce);
+    }
+    return nonce;
+  }
 
   function getUser(successCallback, failureCallback) {
     var storedUser = localStorage.getItem('auth0_user');
