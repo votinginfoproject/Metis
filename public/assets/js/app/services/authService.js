@@ -100,10 +100,20 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     }
   };
 
+  function bin2string(array){
+    var result = "";
+    for(var i = 0; i < array.length; ++i){
+      result+= (String.fromCharCode(array[i]));
+    }
+    return result;
+  }
+
   function getNonce() {
     var nonce = localStorage.getItem('auth0_nonce');
     if (nonce == null) {
-      nonce = new Date().getTime().toString();
+      var words = sjcl.random.randomWords(8,0);
+      nonce = bin2string(words);
+      console.log("nonce: " + nonce);
       localStorage.setItem('auth0_nonce', nonce);
     }
     return nonce;
