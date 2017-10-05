@@ -35,6 +35,7 @@
  :election-xhr/saved
  (fn [db [_ result]]
    (re-frame/dispatch [:flash/message "Election saved"])
+   (re-frame/dispatch [:elections-list/load])
    (-> db
        (assoc-in [:elections :form] {:state "" :date nil}))))
 
