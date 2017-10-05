@@ -6,7 +6,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     var opts = {};
     if (window.crypto === undefined) {
       console.log("setting up local nonce");
-      opts = {nonce: this.getNonce()};
+      opts = {nonce: getNonce()};
     }
     angularAuth0.authorize(opts);
   }
@@ -19,7 +19,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
       var opts = {};
       if (window.crypto === undefined) {
         console.log("getting local nonce");
-        opts = {nonce: this.getNonce()};
+        opts = {nonce: getNonce()};
       }
       angularAuth0.parseHash(opts, function(err, authResult) {
         if (authResult && authResult.accessToken && authResult.idToken) {
