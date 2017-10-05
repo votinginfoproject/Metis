@@ -42,3 +42,26 @@
  :election-xhr/failed
  (fn [db [_ result]]
    (re-frame/dispatch [:flash/error "Error saving election"])))
+
+(re-frame/reg-event-fx
+ :elections-list/load
+ (fn [{:keys [db]} _]
+   {:db (assoc db :xhr-spinner true)
+    :http-xhrio {:method          :get
+                 :uri             "/earlyvote/elections"
+                 :timeout         8000
+                 :format          (ajax/json-request-format)
+                 :response-format (ajax/json-response-format)
+                 :on-success [:elections-list/loaded]
+                 :on-failure [:elections-list/load-failed]}}))
+
+(re-frame/reg-event-db
+ :elections-list/loaded
+ (fn [db [_ result]]
+   (assoc-in db [:elections :list] result)))
+
+(re-frame/reg-event-db
+ :elections-list/load-failed
+ (fn [db [_ result]]
+   (re-frame/dispatch [:flash/error (str "Error loading elections"
+                                         (pr-str result))])))
