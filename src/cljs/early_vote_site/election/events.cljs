@@ -21,9 +21,9 @@
  :election-form/save
  (fn [{:keys [db]} _]
    (let [data (create-params db)]
-     {:db (assoc db :xhr-spinner true)
+     {:db db
       :http-xhrio {:method          :post
-                   :uri             "http://localhost:4000/earlyvote/elections"
+                   :uri             "/earlyvote/elections"
                    :params          data
                    :timeout         8000
                    :format          (ajax/json-request-format)
@@ -36,12 +36,9 @@
  (fn [db [_ result]]
    (re-frame/dispatch [:flash/message "Election saved"])
    (-> db
-       (assoc-in [:elections :form] {:state "" :date nil})
-       (dissoc db :xhr-spinner))))
+       (assoc-in [:elections :form] {:state "" :date nil}))))
 
 (re-frame/reg-event-db
  :election-xhr/failed
  (fn [db [_ result]]
-   (re-frame/dispatch [:flash/error (str "Error saving election"
-                                         (pr-str result))])
-   (dissoc db :xhr-spinner)))
+   (re-frame/dispatch [:flash/error "Error saving election"])))
