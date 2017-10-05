@@ -45,7 +45,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
 
   function setSession(authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    var expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('auth0_access_token', authResult.accessToken);
     localStorage.setItem('auth0_id_token', authResult.idToken);
     localStorage.setItem('auth0_id_token_payload', JSON.stringify(authResult.idTokenPayload));
@@ -66,8 +66,8 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
   function isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('auth0_expires_at'));
-    let authenticated = new Date().getTime() < expiresAt;
+    var expiresAt = JSON.parse(localStorage.getItem('auth0_expires_at'));
+    var authenticated = new Date().getTime() < expiresAt;
     console.log("isAuthenticated: " + authenticated);
     return authenticated;
   }
