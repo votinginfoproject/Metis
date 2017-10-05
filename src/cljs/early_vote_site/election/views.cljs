@@ -56,6 +56,7 @@
      [:tbody (map election-list-row elections)]])
 
 (defn main-panel []
+  (re-frame/dispatch [:elections-list/load])
   (fn []
     (let [elections (re-frame/subscribe [:elections/list])]
       [:div
