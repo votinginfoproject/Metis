@@ -52,3 +52,7 @@
    {:fips-code "54" :state-name "West Virginia"},
    {:fips-code "55" :state-name "Wisconsin"},
    {:fips-code "56" :state-name "Wyoming"}])
+
+(def states-by-fips
+  (into {} (map (fn [{:keys [fips-code state-name]}]
+                  [fips-code state-name]) states)))
