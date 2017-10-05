@@ -113,7 +113,6 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     if (nonce == null) {
       var words = sjcl.random.randomWords(8,0);
       nonce = bin2string(words);
-      console.log("nonce: " + nonce);
       localStorage.setItem('auth0_nonce', nonce);
     }
     return nonce;
