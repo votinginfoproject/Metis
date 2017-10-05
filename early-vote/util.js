@@ -1,5 +1,6 @@
 var conn = require('./conn.js')
 var logger = (require('../logging/vip-winston')).Logger;
+var resp = require('../pg/response.js');
 var uuidv4 = require('uuid/v4');
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
           res.write(err.name + ": " + err.message);
           res.end();
         } else {
-          res.writeResponse(result.rows, res);
+          resp.writeResponse(result.rows, res);
         }
       }
 
@@ -26,7 +27,7 @@ module.exports = {
       });
     }
   },
-  simpleCommandResponser: function(sqlCommand, paramsFn) {
+  simpleCommandResponder: function(sqlCommand, paramsFn) {
     return function(req, res) {
       var callback = function(err, result) {
         if(err) {
