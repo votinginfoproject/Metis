@@ -1,19 +1,22 @@
 var conn = require('./conn.js')
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
+var resp = require('./response.js');
 
 module.exports = {
   simpleQueryResponder: function(sqlQuery, paramsFn) {
     return function(req, res) {
 
       var callback = function(err, result) {
+        console.log(result);
+        console.log(sqlQuery);
         if(err) {
           logger.error(err.name + ": " + err.message);
           res.writeHead(500, {'Content-Type': 'text/plain'});
           res.write(err.name + ": " + err.message);
           res.end();
         } else {
-          res.writeResponse(result.rows, res);
+          resp.writeResponse(result.rows, res);
         }
       }
 
@@ -21,12 +24,13 @@ module.exports = {
         if (paramsFn) {
           client.query(sqlQuery, paramsFn(req), callback);
         } else {
+          console.log(sqlQuery);
           client.query(sqlQuery, callback);
         };
       });
     }
   },
-  simpleCommandResponser: function(sqlCommand, paramsFn) {
+  simpleComandResponder: function(sqlCommand, paramsFn) {
     return function(req, res) {
       var callback = function(err, result) {
         if(err) {
@@ -64,6 +68,11 @@ module.exports = {
       logger.info(req.params);
       logger.info(ret);
       return ret;
+    }
+  },
+  queryParamExtractor: function() {
+    return function(req) {
+      return [decodeURIComponent(req.query.fips)];
     }
   }
 }

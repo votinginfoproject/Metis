@@ -11,11 +11,24 @@ var createElectionsParamFn = function(req) {
   params.push(decodeURIComponent(req.body['election_date']));
   return params;
 }
-var createElection = util.simpleCommandResponser(createSql, createElectionsParamFn);
+var createElection = util.simpleComandResponder(createSql, createElectionsParamFn);
+
+// the code below doesn't work; you end up getting an empty list as the response
+// var getElectionsQuery = function(req) {
+//   var fips = util.queryParamExtractor();
+//   if (fips !== null) {
+//     return "select * from elections where state_fips = $1;"
+//   } else {
+//     return "select * from elections;"
+//   }
+// }
+var getElectionsQuery = "select * from elections;"
+var getElections = util.simpleQueryResponder(getElectionsQuery);
 
 function registerElectionServices (app) {
   //app.all('/evs/elections/*', auth.checkJwt);
   app.post('/earlyvote/elections', createElection);
+  app.get('/earlyvote/getelections', getElections);
 }
 
 exports.registerElectionServices = registerElectionServices;
