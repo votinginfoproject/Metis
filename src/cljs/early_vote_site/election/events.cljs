@@ -45,3 +45,8 @@
    (re-frame/dispatch [:flash/error (str "Error saving election"
                                          (pr-str result))])
    (dissoc db :xhr-spinner)))
+
+(re-frame/reg-event-db
+ :election-list/get
+ (fn [db [_ result]]
+   (assoc db [:elections-list] result)))

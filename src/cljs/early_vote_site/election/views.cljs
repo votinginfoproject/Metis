@@ -53,17 +53,28 @@
       [:td {:name "election-state"} "Colorado"]
       [:td {:name "election-date"} "Nov 7, 2017"]]]])
 
+
+  ; (let [election-list-items (re-frame/subscribe [:election-list-data])])
+
 (defn election-list-row
-  ; this will need to take in data from the database to construct the list of elections
-  ; what's the best entry point for this?  do we put something in db.cljs that
-  ; can pull things from the Postgres database?
   [election]
   [:tr
-   [:td {:name "election-state"} (str (:state election))]
-   [:td {:name "election-date"} (:date election)]])
+   [:td {:name "election-state"} (str (:state_fips election))]
+   [:td {:name "election-date"} (:election_date election)]])
+
+(defn election-table []
+  (let [election-list-items (re-frame/subscribe [:election-list-data])]
+    [:p (js->clj @election-list-items)]))
+    ; [:table {:name "election-list"}
+    ;  [:thead
+    ;   [:tr
+    ;    [:th {:name "election-state"} "State"]
+    ;    [:th {:name "election-date"} "Date"]]]
+    ;  [:tbody
+    ;   (map election-list-row (js->clj election-list-items))]]))
 
 (defn main-panel []
   (fn []
     [:div
-     election-list
+     [election-table]
      [form]]))
