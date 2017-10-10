@@ -8,8 +8,6 @@ module.exports = {
     return function(req, res) {
 
       var callback = function(err, result) {
-        console.log(result);
-        console.log(sqlQuery);
         if(err) {
           logger.error(err.name + ": " + err.message);
           res.writeHead(500, {'Content-Type': 'text/plain'});

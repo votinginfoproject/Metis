@@ -13,17 +13,14 @@ var createElectionsParamFn = function(req) {
 }
 var createElection = util.simpleComandResponder(createSql, createElectionsParamFn);
 
-// the code below doesn't work; you end up getting an empty list as the response
-// var getElectionsQuery = function(req) {
-//   var fips = util.queryParamExtractor();
-//   if (fips !== null) {
-//     return "select * from elections where state_fips = $1;"
-//   } else {
-//     return "select * from elections;"
-//   }
-// }
-var getElectionsQuery = "select * from elections;"
-var getElections = util.simpleQueryResponder(getElectionsQuery);
+var getElectionsQuery = "select * from elections where ($1 = 'undefined') or (state_fips = $1);"
+var getElectionsParamFn = function(req) {
+  var params = [];
+  params.push(decodeURIComponent(req.query['fips']));
+  return params;
+}
+
+var getElections = util.simpleQueryResponder(getElectionsQuery, getElectionsParamFn);
 
 function registerElectionServices (app) {
   //app.all('/evs/elections/*', auth.checkJwt);
