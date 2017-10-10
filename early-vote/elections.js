@@ -1,5 +1,6 @@
 var conn = require('./conn.js');
 var util = require('./util.js');
+var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var uuidv4 = require('uuid/v4');
 
@@ -11,7 +12,7 @@ var createElectionsParamFn = function(req) {
   params.push(decodeURIComponent(req.body['election_date']));
   return params;
 }
-var createElection = util.simpleComandResponder(createSql, createElectionsParamFn);
+var createElection = util.simpleCommandResponder(createSql, createElectionsParamFn);
 
 var getElectionsQuery = "select * from elections where ($1 = 'undefined') or (state_fips = $1);"
 var getElectionsParamFn = function(req) {
@@ -25,7 +26,7 @@ var getElections = util.simpleQueryResponder(getElectionsQuery, getElectionsPara
 function registerElectionServices (app) {
   //app.all('/evs/elections/*', auth.checkJwt);
   app.post('/earlyvote/elections', createElection);
-  app.get('/earlyvote/getelections', getElections);
+  app.get('/earlyvote/elections', getElections);
 }
 
 exports.registerElectionServices = registerElectionServices;

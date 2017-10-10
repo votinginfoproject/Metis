@@ -36,42 +36,24 @@
       [:p @state]
       [:p (some-> @date (js/Date.) .toString)]]))
 
-(def election-list
-  [:table {:name "election-list"}
-   [:thead
-    [:tr
-     [:th {:name "election-state"} "State"]
-     [:th {:name "election-date"} "Date"]]]
-   [:tbody
-     [:tr
-      [:td {:name "election-state"} "Pennsylvania"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]
-     [:tr
-      [:td {:name "election-state"} "New York"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]
-     [:tr
-      [:td {:name "election-state"} "Colorado"]
-      [:td {:name "election-date"} "Nov 7, 2017"]]]])
-
-
-  ; (let [election-list-items (re-frame/subscribe [:election-list-data])])
-
 (defn election-list-row
   [election]
-  [:tr
-   [:td {:name "election-state"} (str (:state_fips election))]
-   [:td {:name "election-date"} (:election_date election)]])
+  [:tr {:key (get election "id")}
+   [:td {:name "election-state"} (str (get election "state_fips"))]
+   [:td {:name "election-date"} (get election "election_date")]])
 
 (defn election-table []
-  (let [election-list-items (re-frame/subscribe [:election-list-data])]
-    [:p (js->clj @election-list-items)]))
-    ; [:table {:name "election-list"}
-    ;  [:thead
-    ;   [:tr
-    ;    [:th {:name "election-state"} "State"]
-    ;    [:th {:name "election-date"} "Date"]]]
-    ;  [:tbody
-    ;   (map election-list-row (js->clj election-list-items))]]))
+  (let [election-list-items @(re-frame/subscribe [:election-list-data])]
+    [:table {:name "election-list"}
+     [:thead
+      [:tr {:key "elections-head-row"}
+       [:th {:name "election-state"} "State"]
+       [:th {:name "election-date"} "Date"]]]
+     (if (seq election-list-items)
+       [:tbody
+        (map election-list-row (js->clj election-list-items))]
+       [:tbody
+        [:tr [:td "No Elections"]]])]))
 
 (defn main-panel []
   (fn []

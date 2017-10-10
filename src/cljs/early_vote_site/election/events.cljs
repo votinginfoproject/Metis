@@ -46,7 +46,8 @@
                                          (pr-str result))])
    (dissoc db :xhr-spinner)))
 
+
 (re-frame/reg-event-db
  :election-list/get
- (fn [db [_ result]]
-   (assoc db [:elections-list] result)))
+ (fn [db [_ {:keys [query-id result]}]]
+   (assoc-in db [:election-list query-id] result)))

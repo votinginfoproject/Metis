@@ -28,7 +28,7 @@ module.exports = {
       });
     }
   },
-  simpleComandResponder: function(sqlCommand, paramsFn) {
+  simpleCommandResponder: function(sqlCommand, paramsFn) {
     return function(req, res) {
       var callback = function(err, result) {
         if(err) {
