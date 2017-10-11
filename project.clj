@@ -3,6 +3,7 @@
                  [org.clojure/clojurescript "1.9.908"]
                  [cljs-ajax "0.7.2"]
                  [cljs-pikaday "0.1.4"]
+                 [com.andrewmcveigh/cljs-time "0.5.0"]
                  [day8.re-frame/http-fx "0.1.4"]
                  [re-frame "0.10.1"]
                  [reagent "0.7.0"]]

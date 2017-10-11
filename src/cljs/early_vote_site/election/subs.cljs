@@ -21,25 +21,7 @@
    (or (= nil (get-in db [:elections :form :date]))
        (= "" (get-in db [:elections :form :state])))))
 
-(def elections-query-id (atom 0))
-
-(defn issue-elections-query! []
-  (let [query-id (swap! elections-query-id inc)]
-    (GET
-     "http://localhost:4000/earlyvote/elections"
-     {:handler #(re-frame/dispatch
-                 [:election-list/get {:query-id query-id
-                                      :result %1}])})
-    query-id))
-
 (re-frame/reg-sub
- :election-list
+ :elections/list
  (fn [db]
-   (:election-list db)))
-
-(re-frame/reg-sub-raw
- :election-list-data
- (fn [app-db [_ type]]
-   (let [query-id (issue-elections-query!)]
-     (reagent.ratom/reaction
-      (get @(re-frame/subscribe [:election-list]) query-id)))))
+   (get-in db [:elections :list])))
