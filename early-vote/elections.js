@@ -1,5 +1,5 @@
-var conn = require('./conn.js');
-var util = require('./util.js');
+var conn = require('../dashboard/conn.js');
+var util = require('../dashboard/util.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var uuidv4 = require('uuid/v4');

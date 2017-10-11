@@ -2,11 +2,11 @@ var pg = require('pg');
 var logger = (require('../logging/vip-winston')).Logger;
 
 var config = {
-  host: process.env.EV_DB_PORT_5432_TCP_ADDR,
-  user: process.env.EV_DB_ENV_POSTGRES_USER,
-  database: process.env.EV_DB_ENV_POSTGRES_DATABASE,
-  password: process.env.EV_DB_ENV_POSTGRES_PASSWORD,
-  port: process.env.EV_DB_PORT_5432_TCP_PORT,
+  host: process.env.DASHBOARD_DB_PORT_5432_TCP_ADDR,
+  user: process.env.DASHBOARD_DB_ENV_POSTGRES_USER,
+  database: process.env.DASHBOARD_DB_ENV_POSTGRES_DATABASE,
+  password: process.env.DASHBOARD_DB_ENV_POSTGRES_PASSWORD,
+  port: process.env.DASHBOARD_DB_PORT_5432_TCP_PORT,
   max: 10, // clients in the connection pool
   idleTimeoutMillis: 300000,
   application_name: 'early-vote'
