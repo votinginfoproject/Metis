@@ -8,13 +8,15 @@ var createSql = "INSERT INTO elections VALUES ($1, $2, $3);"
 var createElectionsParamFn = function(req) {
   var params = [];
   params.push(uuidv4());
-  params.push(decodeURIComponent(req.body['state_fips']));
-  params.push(decodeURIComponent(req.body['election_date']));
+  params.push(req.body['state_fips']);
+  params.push(req.body['election_date']);
   return params;
 }
 var createElection = util.simpleCommandResponder(createSql, createElectionsParamFn);
 
-var getElectionsQuery = "select * from elections where ($1 = 'undefined') or (state_fips = $1);"
+var getElectionsQuery =
+  "select * from elections where election_date >= current_date AND " +
+  "(($1 = 'undefined') or (state_fips = $1)) order by election_date asc;"
 var getElectionsParamFn = function(req) {
   var params = [];
   params.push(decodeURIComponent(req.query['fips']));
