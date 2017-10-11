@@ -10,7 +10,6 @@
   (let [active-panel (re-frame/subscribe [:active-panel])]
     (fn []
       [:div
-       [:div "Active panel: " (pr-str @active-panel)]
        (flash/message)
        (flash/error)
        (panel :election/main)])))
