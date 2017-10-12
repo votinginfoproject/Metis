@@ -1,7 +1,8 @@
 (ns early-vote-site.election.events
   (:require [ajax.core :as ajax]
-            [re-frame.core :as re-frame]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [early-vote-site.server :as server]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-event-db
  :election-form/state-selected
@@ -23,7 +24,7 @@
    (let [data (create-params db)]
      {:db (assoc db :xhr-spinner true)
       :http-xhrio {:method          :post
-                   :uri             "http://localhost:4000/earlyvote/elections"
+                   :uri             (server/url "/earlyvote/elections")
                    :params          data
                    :timeout         8000
                    :format          (ajax/json-request-format)
