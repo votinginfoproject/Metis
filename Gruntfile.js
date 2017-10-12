@@ -144,6 +144,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
 
   grunt.registerTask('default', ['concurrent:dev_configure', 'concurrent:migrate', 'concurrent:dev_run']);
-  grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
-  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
+  grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:migrate','concurrent:prod_like_run'])
+  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:migrate','concurrent:prod_like_run'])
 };
