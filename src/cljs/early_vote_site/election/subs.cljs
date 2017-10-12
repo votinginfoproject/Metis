@@ -1,5 +1,6 @@
 (ns early-vote-site.election.subs
-  (:require [re-frame.core :as re-frame]))
+  (:require [clojure.string :as string]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
  :election-form/state
@@ -16,5 +17,5 @@
 (re-frame/reg-sub
  :create-disabled?
  (fn [db]
-   (or (= nil (get-in db [:elections :form :date]))
-       (= "" (get-in db [:elections :form :state])))))
+   (or (string/blank? (get-in db [:elections :form :date]))
+       (string/blank? (get-in db [:elections :form :state])))))
