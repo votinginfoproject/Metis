@@ -2,6 +2,7 @@
   (:require [re-frame.core :as re-frame]
             [early-vote-site.db :as db]
             [early-vote-site.election.events]
+            [early-vote-site.election-detail.events]
             [early-vote-site.flash.events]))
 
 (re-frame/reg-event-db

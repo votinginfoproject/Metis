@@ -57,7 +57,8 @@
    [:td {:name "election-state"} (-> election :state-fips format-fips)]
    [:td {:name "election-date"} (-> election :election-date format-date)]
    [:td
-    [:button.button "edit"]]])
+    [:button.button "edit"]]
+   [:td [:button.button {:on-click #(re-frame/dispatch [:election-form/election-selected])} "test"]]])
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])]
