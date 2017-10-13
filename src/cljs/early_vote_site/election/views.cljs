@@ -55,7 +55,8 @@
   [election]
   [:tr {:key (:id election)}
    [:td {:name "election-state"} (-> election :state-fips format-fips)]
-   [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected])} (-> election :election-date format-date)]
+   [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected])}
+    [:div {:class "btn-link"} (-> election :election-date format-date)]]
    [:td
     [:button.button "edit"]]])
 
