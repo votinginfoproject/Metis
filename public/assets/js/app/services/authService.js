@@ -22,6 +22,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
         opts = {nonce: getNonce()};
       }
       angularAuth0.parseHash(opts, function(err, authResult) {
+        clearLocalState();
         if (authResult && authResult.accessToken && authResult.idToken) {
           console.log("handleAuthentication: success");
           setSession(authResult);
@@ -62,7 +63,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     localStorage.setItem('auth0_expires_at', expiresAt);
   }
 
-  function logout() {
+  function clearLocalState() {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('auth0_access_token');
     localStorage.removeItem('auth0_id_token');
@@ -72,6 +73,10 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     localStorage.removeItem('auth0_nonce');
     $http.defaults.headers.common['Authorization'] = null;
     $appService.clearUser();
+  }
+
+  function logout() {
+    clearLocalState();
   }
 
   function isAuthenticated() {
