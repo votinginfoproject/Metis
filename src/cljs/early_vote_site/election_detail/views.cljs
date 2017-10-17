@@ -6,7 +6,7 @@
             [reagent.ratom :as ratom]))
 
 (defn main-panel []
-  ; (re-frame/dispatch [:elections/list-get])
+  (re-frame/dispatch :election-detail/get-election)
   (let [election-id @(re-frame/subscribe [:selected-election])]
     (fn []
       [:div
