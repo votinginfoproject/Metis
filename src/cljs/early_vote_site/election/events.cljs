@@ -15,8 +15,10 @@
 
 (re-frame/reg-event-db
  :election-form/election-selected
- (fn [db [_]]
-   (assoc-in db [:active-panel] :election/detail)))
+ (fn [db [_ election-id]]
+   (-> db
+       (assoc-in [:selected-election] election-id)
+       (assoc-in [:active-panel] :election/detail))))
 
 (defn create-params [db]
   {:state_fips (get-in db [:elections :form :state])

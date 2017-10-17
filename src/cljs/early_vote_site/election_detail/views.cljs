@@ -7,7 +7,9 @@
 
 (defn main-panel []
   ; (re-frame/dispatch [:elections/list-get])
-  (fn []
-    [:div
-     [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "test"]
-     [:p "on the election-detail page"]]))
+  (let [election-id @(re-frame/subscribe [:selected-election])]
+    (fn []
+      [:div
+       [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "test"]
+       [:p election-id]
+       [:p "on the election-detail page"]])))

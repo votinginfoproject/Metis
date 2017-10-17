@@ -34,8 +34,8 @@
       [:button.button {:on-click #(re-frame/dispatch [:election-form/save])
                        :disabled @(re-frame/subscribe [:create-disabled?])}
        "add"]]
-      [:p @state]
-      [:p (some-> @date (js/Date.) .toString)]]))
+     [:p @state]
+     [:p (some-> @date (js/Date.) .toString)]]))
 
 (defn format-date
   "Translates from a long date string format (ie 2017-10-10T13:23:34.00Z)
@@ -55,7 +55,7 @@
   [election]
   [:tr {:key (:id election)}
    [:td {:name "election-state"} (-> election :state-fips format-fips)]
-   [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected])}
+   [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected (:id election)])}
     [:div {:class "btn-link"} (-> election :election-date format-date)]]
    [:td
     [:button.button "edit"]]])
