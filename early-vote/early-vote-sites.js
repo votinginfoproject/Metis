@@ -29,6 +29,23 @@ var createParamsFn =
 var createHandler =
   util.simpleCommandResponder(createSql, createParamsFn);
 
+//update early vote site, updates all values so values that remain constant
+//must still be passed in, values that are not present will be set to null
+var updateSql = "UPDATE early_vote_sites SET county_fips = $1, type = $2, " +
+  "name = $3, address_1 = $4, address_2 = $5, address_3 = $6, city = $7, " +
+  "state = $8, zip = $9, directions = $10, voter_services = $11 " +
+  "WHERE id = $12;"
+
+var updateParamsFn =
+  util.compoundParamExtractor([util.bodyParamExtractor(['county_fips','type',
+                                                        'name','address_1','address_2',
+                                                        'address_3','city','state',
+                                                        'zip','directions',
+                                                        'voter_services']),
+                                util.pathParamExtractor(['earlyvotesiteid'])]);
+var updateHandler =
+  util.simpleCommandResponder(updateSql, updateParamsFn);
+
 //delete early vote site
 var deleteSql = "delete from early_vote_sites where id = $1;"
 var deleteHandler = util.simpleCommandResponder(deleteSql,
@@ -39,6 +56,7 @@ function registerEarlyVoteSiteServices (app) {
   app.get('/earlyvote/elections/:electionid/earlyvotesites', listHandler);
   app.get('/earlyvote/earlyvotesites/:earlyvotesiteid', getHandler);
   app.delete('/earlyvote/earlyvotesites/:earlyvotesiteid', deleteHandler);
+  app.put('/earlyvote/earlyvotesites/:earlyvotesiteid', updateHandler);
 }
 
 exports.registerEarlyVoteSiteServices = registerEarlyVoteSiteServices;
