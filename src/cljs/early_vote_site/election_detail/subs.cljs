@@ -6,3 +6,8 @@
  :selected-election
  (fn [db]
    (get-in db [:selected-election])))
+
+(re-frame/reg-sub
+ :election-detail/get
+ (fn [db]
+   (get-in db [:election-detail :detail])))
