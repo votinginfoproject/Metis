@@ -70,7 +70,54 @@ module.exports = {
   },
   queryParamExtractor: function() {
     return function(req) {
-      return [decodeURIComponent(req.query.fips)];
+      var ret = [];
+      if (params) {
+        for (var i = 0; i < params.length; i++) {
+          ret.push(decodeURIComponent(req.query[params[i]]));
+        }
+      }
+      return ret;
+    }
+  },
+  pathParamExtractor: function(params) {
+    return function(req) {
+      var ret = [];
+      if (params) {
+        for (var i = 0; i < params.length; i++) {
+          ret.push(decodeURIComponent(req.params[params[i]]));
+        }
+      }
+      return ret;
+    }
+  },
+  bodyParamExtractor: function(params) {
+    return function(req) {
+      var ret = [];
+      if (params) {
+        for (var i = 0; i < params.length; i++) {
+          ret.push(req.body[params[i]]);
+        }
+      }
+      return ret;
+    }
+  },
+  compoundParamExtractor: function(paramFns) {
+    return function(req) {
+      var ret = [];
+        for (var i = 0; i < paramFns.length; i++) {
+          var params = paramFns[i](req);
+          if (params) {
+            for (var j = 0; j < params.length; j++) {
+              ret.push(params[j]);
+            }
+          }
+        }
+      return ret;
+    }
+  },
+  uuidGenerator: function() {
+    return function (req) {
+      return [uuidv4()];
     }
   }
 }
