@@ -5,15 +5,7 @@ exports.up = function(db, callback) {
   db.createTable("schedules", {
     columns: {id: {type: 'uuid', primaryKey: true},
               election_id: {type: 'uuid',
-                            notNull: true,
-                            foreignKey: {
-                              name: 'schedules_election_id_fk',
-                              table: 'elections',
-                              rules: {
-                                onDelete: 'CASCADE'
-                              },
-                              mapping: 'id'
-                            }},
+                            notNull: true},
               start_date: {type: 'date', notNull: true},
               end_date: {type: 'date', notNull: true},
               start_time: {type: 'time without time zone', notNull: true},
