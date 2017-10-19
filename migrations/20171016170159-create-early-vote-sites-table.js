@@ -5,15 +5,7 @@ exports.up = function(db, callback) {
   db.createTable("early_vote_sites", {
     columns: {id: {type: 'uuid', primaryKey: true},
               election_id: {type: 'uuid',
-                            notNull: true,
-                            foreignKey: {
-                              name: 'early_vote_sites_election_id_fk',
-                              table: 'elections',
-                              rules: {
-                                onDelete: 'CASCADE'
-                              },
-                              mapping: 'id'
-                            }},
+                            notNull: true},
               county_fips: {type: 'string', notNull: true},
               type : {type: 'early_vote_site_type', notNull: true},
               name: {type: 'string', notNull: true},

@@ -1,0 +1,4 @@
+alter table early_vote_sites drop constraint early_vote_site_election_id_fk;
+alter table schedules drop constraint schedule_election_id_fk;
+alter table assignments drop constraint assignment_early_vote_site_id_fk;
+alter table assignments drop constraint assignment_schedule_id_fk;

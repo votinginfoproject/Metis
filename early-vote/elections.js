@@ -6,25 +6,16 @@ var uuidv4 = require('uuid/v4');
 
 //create election
 var createSql = "INSERT INTO elections VALUES ($1, $2, $3);"
-var createElectionsParamFn = function(req) {
-  var params = [];
-  params.push(uuidv4());
-  params.push(req.body['state_fips']);
-  params.push(req.body['election_date']);
-  return params;
-}
+var createElectionsParamFn =
+  util.compoundParamExtractor([util.uuidGenerator(),
+                               util.bodyParamExtractor(['state_fips', 'election_date'])]);
 var createElection = util.simpleCommandResponder(createSql, createElectionsParamFn);
 
 //list elections
 var getElectionsQuery =
   "select * from elections where election_date >= current_date AND " +
   "(($1 = 'undefined') or (state_fips = $1)) order by election_date asc;"
-var getElectionsParamFn = function(req) {
-  var params = [];
-  params.push(decodeURIComponent(req.query['fips']));
-  return params;
-}
-var getElections = util.simpleQueryResponder(getElectionsQuery, getElectionsParamFn);
+var getElections = util.simpleQueryResponder(getElectionsQuery, util.queryParamExtractor(['fips']));
 
 //get single election
 var getElectionQuery =
