@@ -1,7 +1,7 @@
 (ns early-vote-site.election.views
   (:require [cljs-pikaday.reagent :as pikaday]
-            [cljs-time.format :as format]
             [early-vote-site.constants :as constants]
+            [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]
             [reagent.ratom :as ratom]))
 
@@ -37,26 +37,12 @@
      [:p @state]
      [:p (some-> @date (js/Date.) .toString)]]))
 
-(defn format-date
-  "Translates from a long date string format (ie 2017-10-10T13:23:34.00Z)
-   to a short format (2017-10-10)."
-  [date-str]
-  (let [full-format (format/formatters :date-time)
-        short-format (format/formatters :date)
-        parsed (format/parse full-format date-str)]
-    (format/unparse short-format parsed)))
-
-(defn format-fips
-  "Translates a fips code to state name."
-  [fips]
-  (get constants/states-by-fips fips))
-
 (defn election-list-row
   [election]
   [:tr {:key (:id election)}
-   [:td {:name "election-state"} (-> election :state-fips format-fips)]
+   [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
    [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected (:id election)])}
-    [:div {:class "btn-link"} (-> election :election-date format-date)]]
+    [:div {:class "btn-link"} (-> election :election-date utils/format-date)]]
    [:td
     [:button.button "edit"]]])
 
