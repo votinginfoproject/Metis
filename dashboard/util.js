@@ -68,7 +68,7 @@ module.exports = {
       return ret;
     }
   },
-  queryParamExtractor: function() {
+  queryParamExtractor: function(params) {
     return function(req) {
       var ret = [];
       if (params) {
