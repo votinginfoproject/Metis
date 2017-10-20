@@ -1,6 +1,7 @@
 (ns early-vote-site.election-detail.views
   (:require [cljs-pikaday.reagent :as pikaday]
             [early-vote-site.utils :as utils]
+            [early-vote-site.early-vote-sites.views :as site-views]
             [re-frame.core :as re-frame]
             [reagent.ratom :as ratom]))
 
@@ -22,11 +23,10 @@
 
 (defn main-panel []
   (re-frame/dispatch [:election-detail/get-election])
-  (let [election-id @(re-frame/subscribe [:selected-election])]
+  (let [site-list (re-frame/subscribe [:early-vote-site-list])]
     (fn []
       [:div
        [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "go back to all elections"]
        [election-details]
-       early-vote-sites
-       schedules
-       [:p election-id]])))
+       [site-views/early-vote-sites-table site-list]
+       schedules])))

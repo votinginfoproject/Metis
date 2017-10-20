@@ -4,7 +4,7 @@ var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
 //list early vote sites for election
-var listSql = "select * from early_vote_sites where election_id = $1;";
+var listSql = "select * from early_vote_sites where election_id = $1 order by city desc;";
 var listHandler =
   util.simpleQueryResponder(listSql, util.pathParamExtractor(['electionid']));
 
