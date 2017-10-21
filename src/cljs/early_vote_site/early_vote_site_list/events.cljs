@@ -1,16 +1,11 @@
 (ns early-vote-site.early-vote-site-list.events
   (:require [ajax.core :as ajax]
+            [early-vote-site.server :as server]
             [re-frame.core :as re-frame]))
-
-;;todo move this to server namespace when merged in
-(defn early-vote-site-base-uri [db]
-  (str "http://localhost:4000/earlyvote/elections/"
-       (:selected-election db)
-       "/earlyvotesites/"))
 
 (defn list-early-vote-sites
   [{:keys [db]} _]
-  (let [list-uri (early-vote-site-base-uri db)]
+  (let [list-uri (server/election-early-vote-sites-url db)]
     {:db db
      :http-xhrio {:method            :get
                   :uri               list-uri

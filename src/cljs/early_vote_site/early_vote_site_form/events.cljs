@@ -1,7 +1,8 @@
 (ns early-vote-site.early-vote-site-form.events
   (:require [ajax.core :as ajax]
             [early-vote-site.constants :as constants]
-            [early-vote-site.db :as db]))
+            [early-vote-site.db :as db]
+            [early-vote-site.server :as server]))
 
 (defn navigate
   [{:keys [db]} [_ id]]
@@ -29,16 +30,10 @@
         state (get constants/state-abbreviations-by-fips fips)]
     (merge form {:state state})))
 
-;;todo move this to server namespace when merged in
-(defn early-vote-site-base-uri [db]
-  (str "http://localhost:4000/earlyvote/elections/"
-       (:selected-election db)
-       "/earlyvotesites/"))
-
 (defn form-submit
   [{:keys [db]} _]
   (let [params (create-params db)
-        create-uri (early-vote-site-base-uri db)]
+        create-uri (server/election-early-vote-sites-url db)]
     {:db db
      :http-xhrio {:method              :post
                   :uri                 create-uri
