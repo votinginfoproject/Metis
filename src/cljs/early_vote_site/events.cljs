@@ -3,7 +3,7 @@
             [early-vote-site.db :as db]
             [early-vote-site.election.events]
             [early-vote-site.election-detail.events]
-            [early-vote-site.early-vote-sites.events :as early-vote-sites]
+            [early-vote-site.early-vote-site-list.events :as early-vote-list]
             [early-vote-site.flash.events]))
 
 (re-frame/reg-event-db

@@ -1,4 +1,4 @@
-(ns early-vote-site.early-vote-sites.events
+(ns early-vote-site.early-vote-site-list.events
   (:require [ajax.core :as ajax]
             [early-vote-site.db :as db]))
 

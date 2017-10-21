@@ -1,6 +1,3 @@
-(ns early-vote-site.early-vote-sites.views
-  (:require [early-vote-site.constants :as constants]
-            [re-frame.core :as re-frame]))
 
 (defn form []
   (let [form @(re-frame/subscribe [:early-vote-site-form])]
@@ -56,6 +53,8 @@
       [:button.button
        {:on-click #(re-frame/dispatch [:early-vote-site-form/save])}
        "Save Early Vote Site"]]]))
+(ns early-vote-site.early-vote-site-list.views
+  (:require [re-frame.core :as re-frame]))
 
 (defn site->row [site]
   [:tr {:key (:id site)}
@@ -66,7 +65,7 @@
    [:td (:city site)]
    [:td "Buttons here"]])
 
-(defn early-vote-sites-table [site-list]
+(defn early-vote-sites-list [site-list]
   [:div
    [:table {:name "early-vote-sites-list"}
     [:thead
