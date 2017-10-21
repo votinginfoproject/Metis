@@ -1,8 +1,9 @@
 (ns early-vote-site.subs
-  (:require-macros [reagent.ratom :refer [reaction]])
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [early-vote-site.election.subs]
+            [early-vote-site.flash.subs]))
 
 (re-frame/reg-sub
- :name
+ :active-panel
  (fn [db]
-   (:name db)))
+   (:active-panel db)))

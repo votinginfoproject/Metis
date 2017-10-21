@@ -36,3 +36,5 @@ script/run-local
 /*-init.clj
 out
 public/assets/js/compiled/
+.nrepl-port
+.lein-repl-history

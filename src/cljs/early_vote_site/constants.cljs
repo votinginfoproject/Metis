@@ -1,7 +1,7 @@
 (ns early-vote-site.constants)
 
 (def states
-  (list{:fips-code "01" :state-name "Alabama"},
+  [{:fips-code "01" :state-name "Alabama"},
    {:fips-code "02" :state-name "Alaska"}
    {:fips-code "04" :state-name "Arizona"}
    {:fips-code "05" :state-name "Arkansas"},
@@ -51,4 +51,4 @@
    {:fips-code "53" :state-name "Washington"},
    {:fips-code "54" :state-name "West Virginia"},
    {:fips-code "55" :state-name "Wisconsin"},
-   {:fips-code "56" :state-name "Wyoming"}))
+   {:fips-code "56" :state-name "Wyoming"}])

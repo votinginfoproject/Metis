@@ -100,6 +100,10 @@ module.exports = function(grunt) {
       production: {
         cmd: 'node',
         args: ['app.js']
+      },
+      migrate: {
+        cmd: 'node_modules/.bin/db-migrate',
+        args: ['up']
       }
     },
     // Run blocking grunt tasks concurrently
@@ -115,6 +119,12 @@ module.exports = function(grunt) {
           logConcurrentOutput: true
         },
         tasks: ['watch', 'nodemon:dev']
+      },
+      migrate: {
+        options: {
+          logConcurrentOutput: true
+        },
+        tasks: ['run:migrate']
       },
       prod_like_configure: {
         options: {
@@ -133,7 +143,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['concurrent:dev_configure','concurrent:dev_run']);
-  grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
-  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:prod_like_run'])
+  grunt.registerTask('default', ['concurrent:dev_configure', 'concurrent:migrate', 'concurrent:dev_run']);
+  grunt.registerTask('staging', ['concurrent:prod_like_configure','concurrent:migrate','concurrent:prod_like_run'])
+  grunt.registerTask('production', ['concurrent:prod_like_configure','concurrent:migrate','concurrent:prod_like_run'])
 };
