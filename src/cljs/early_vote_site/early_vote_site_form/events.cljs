@@ -44,8 +44,8 @@
                   :on-success          [:early-vote-site-save/success]
                   :on-failure          [:early-vote-site-save/failure]}}))
 
-(defn save-success [{:keys [db]} [_ result]]
-  {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
+(defn save-success [{:keys [db]} _]
+  {:db (merge db db/fresh-early-vote-site-form)
    :dispatch-n [[:flash/message "Early Vote Site saved"]
                 [:navigate/election-detail]]})
 
