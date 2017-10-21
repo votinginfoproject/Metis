@@ -2,7 +2,8 @@
   (:require [re-frame.core :as re-frame]
             [early-vote-site.db :as db]
             [early-vote-site.election.events]
-            [early-vote-site.election-detail.events]
+            [early-vote-site.election-detail.events :as ed]
+            [early-vote-site.early-vote-site-form.events :as early-vote-form]
             [early-vote-site.early-vote-site-list.events :as early-vote-list]
             [early-vote-site.flash.events]))
 
@@ -10,14 +11,39 @@
  :initialize-db
  (fn  [_ _]
    db/default-db))
+
+(re-frame/reg-event-fx
+ :navigate/early-vote-form
+ early-vote-form/navigate)
+
+(re-frame/reg-event-db
+ :early-vote-site-form/update
+ early-vote-form/form-update)
+
+(re-frame/reg-event-fx
+ :early-vote-site-form/save
+ early-vote-form/form-submit)
+
+(re-frame/reg-event-fx
+ :early-vote-site-save/success
+ early-vote-form/save-success)
+
+(re-frame/reg-event-fx
+ :early-vote-site-save/failure
+ early-vote-form/save-failure)
+
 (re-frame/reg-event-fx
  :early-vote-site-list/get
- early-vote-sites/list-early-vote-sites)
+ early-vote-list/list-early-vote-sites)
 
 (re-frame/reg-event-db
  :early-vote-site-list/success
- early-vote-sites/list-success)
+ early-vote-list/list-success)
 
 (re-frame/reg-event-fx
  :early-vote-site-list/failure
- early-vote-sites/list-failure)
+ early-vote-list/list-failure)
+
+(re-frame/reg-event-fx
+ :navigate/election-detail
+ ed/navigate)

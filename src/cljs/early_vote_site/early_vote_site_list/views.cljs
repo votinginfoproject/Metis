@@ -1,58 +1,3 @@
-
-(defn form []
-  (let [form @(re-frame/subscribe [:early-vote-site-form])]
-    [:div
-     [:div {:name "create-early-vote-site-form" :class "form-inline"}
-      [:div {:class "form-group mx-sm-3"}
-       [:label {:for "county-fips" :style {:padding-right 10}} "County FIPS"]
-       [:input {:id "county-fips" :type "text" :class "form-control"
-                :value (:county-fips form)
-                :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                :county-fips
-                                                (-> % .-target .-value)])}]]
-
-      [:div {:class "form-group mx-sm-3"}
-       [:label {:for "type" :style {:padding-right 10}} "Type"]
-       [:select {:id "type" :type "text" :class "form-control"
-                 :value (if-let [type (:type form)] type "")
-                 :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                 :type
-                                                 (-> % .-target .-value)])}
-        [:option {:value "" :key "empty"} "Select Type"]
-        [:option {:value "polling_location" :key "polling_location"}
-         "Polling Location"]
-        [:option {:value "early_vote_site" :key "early_vote_site"}
-         "Early Vote Site"]
-        [:option {:value "drop_box" :key "drop_box"}
-         "Drop Box"]]]
-
-      [:div {:class "form-group mx-sm-3"}
-       [:label {:for "name" :style {:padding-right 10}} "Name"]
-       [:input {:id "name" :type "text" :class "form-control"
-                :value (:name form)
-                :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                :name
-                                                (-> % .-target .-value)])}]]
-
-      [:div {:class "form-group mx-sm-3"}
-       [:label {:for "address-1" :style {:padding-right 10}} "Address Line 1"]
-       [:input {:id "address-1" :type "text" :class "form-control"
-                :value (:address-1 form)
-                :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                :address-1
-                                                (-> % .-target .-value)])}]]
-
-      [:div {:class "form-group mx-sm-3"}
-       [:label {:for "city" :style {:padding-right 10}} "City"]
-       [:input {:id "city" :type "text" :class "form-control"
-                :value (:city form)
-                :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                :city
-                                                (-> % .-target .-value)])}]]
-
-      [:button.button
-       {:on-click #(re-frame/dispatch [:early-vote-site-form/save])}
-       "Save Early Vote Site"]]]))
 (ns early-vote-site.early-vote-site-list.views
   (:require [re-frame.core :as re-frame]))
 
@@ -80,4 +25,6 @@
       [:tbody
        (map site->row @site-list)]
       [:tbody
-       [:tr [:td {:colSpan 5} "No Early Vote Sites"]]])]])
+       [:tr [:td {:colSpan 6} "No Early Vote Sites"]]])]
+   [:button.button {:on-click #(re-frame/dispatch [:navigate/early-vote-form])}
+    "Create an Early Vote Site"]])

@@ -14,4 +14,4 @@
 (defn format-fips
   "Translates a fips code to state name."
   [fips]
-  (get constants/states-by-fips fips))
+  (get constants/state-names-by-fips fips))

@@ -3,6 +3,12 @@
             [re-frame.core :as re-frame]
             [clojure.string :as str]))
 
+(defn navigate
+  [{:keys [db]} _]
+  {:db (assoc db :active-panel :election/detail)
+   :dispatch-n [[:election-detail/get-election]
+                [:early-vote-site-list/get]]})
+
 (re-frame/reg-event-db
  :election-detail/go-back
  (fn [db [_]]
