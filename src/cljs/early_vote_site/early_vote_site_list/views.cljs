@@ -1,10 +1,15 @@
 (ns early-vote-site.early-vote-site-list.views
   (:require [re-frame.core :as re-frame]))
 
+(def type-to-name
+  {"polling_location" "Polling Location"
+   "early_vote_site" "Early Vote Site"
+   "drop_box" "Drop Box"})
+
 (defn site->row [site]
   [:tr {:key (:id site)}
    [:td (:county-fips site)]
-   [:td (:type site)]
+   [:td (get type-to-name (:type site))]
    [:td (:name site)]
    [:td (:address-1 site)]
    [:td (:city site)]
