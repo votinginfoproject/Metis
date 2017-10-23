@@ -1,7 +1,7 @@
 (ns early-vote-site.events
   (:require [re-frame.core :as re-frame]
             [early-vote-site.db :as db]
-            [early-vote-site.election.events]
+            [early-vote-site.election.events :as elections]
             [early-vote-site.election-detail.events :as ed]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
             [early-vote-site.early-vote-site-list.events :as early-vote-list]
@@ -11,10 +11,6 @@
  :initialize-db
  (fn  [_ _]
    db/default-db))
-
-(re-frame/reg-event-fx
- :navigate/early-vote-form
- early-vote-form/navigate)
 
 (re-frame/reg-event-db
  :early-vote-site-form/update
@@ -47,3 +43,11 @@
 (re-frame/reg-event-fx
  :navigate/election-detail
  ed/navigate)
+
+(re-frame/reg-event-fx
+ :navigate/early-vote-form
+ early-vote-form/navigate)
+
+(re-frame/reg-event-fx
+ :navigate/elections
+ elections/navigate)
