@@ -9,8 +9,16 @@
       [:th {:name "schedules-start-time"} "Start Time"]
       [:th {:name "schedules-end-time"} "End Time"]]])
 
+(defn schedule->row
+  [schedule]
+  [:tr {:key (:id schedule)}
+   [:td (:start-date schedule)]
+   [:td (:end-date schedule)]
+   [:td (:start-time schedule)]
+   [:td (:end-time schedule)]])
+
 (defn schedules-list []
-  (let [schedules @(re-frame/subscribe [:schedules])]
+  (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
     [:table {:name "schedules-list"}
       schedules-header
       [:tbody

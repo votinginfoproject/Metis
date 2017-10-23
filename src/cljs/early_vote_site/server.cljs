@@ -9,3 +9,10 @@
   (str "http://localhost:4000/earlyvote/elections/"
        (:selected-election db)
        "/earlyvotesites/"))
+
+(defn election-early-vote-site-schedules-url [db]
+  (str "http://localhost:4000/earlyvote/elections/"
+       (:selected-election db)
+       "/earlyvotesites/"
+       (:selected-early-vote-site-id db)
+       "/schedules"))

@@ -5,7 +5,7 @@
             [early-vote-site.election-detail.events :as ed]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
             [early-vote-site.early-vote-site-list.events :as early-vote-list]
-            [early-vote-site.early-vote-site-detail.events :as early-vote-detail]
+            [early-vote-site.early-vote-site-detail.events :as early-vote-site-detail]
             [early-vote-site.flash.events]))
 
 (re-frame/reg-event-db
@@ -55,4 +55,16 @@
 
 (re-frame/reg-event-fx
  :navigate/early-vote-site-detail
- early-vote-detail/navigate)
+ early-vote-site-detail/navigate)
+
+(re-frame/reg-event-db
+ :schedules-list/success
+ early-vote-site-detail/load-schedules-success)
+
+(re-frame/reg-event-fx
+ :schedules-list/failure
+ early-vote-site-detail/load-schedules-failure)
+
+(re-frame/reg-event-fx
+ :schedules-list/get
+ early-vote-site-detail/list-schedules)

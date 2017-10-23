@@ -4,9 +4,21 @@ var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
 //list schedules for election
-var listSql = "select * from schedules where election_id = $1 order by start_date, start_time;";
+var listSql = "select s.id as id, \
+                      s.election_id, \
+                      s.start_date, \
+                      s.end_date, \
+                      s.start_time, \
+                      s.end_time, \
+                      a.early_vote_site_id \
+ from schedules s \
+  left outer join assignments a \
+  on s.id = a.schedule_id \
+  and a.early_vote_site_id = $2\
+  where s.election_id = $1 \
+  order by s.start_date, s.start_time;"
 var listHandler =
-  util.simpleQueryResponder(listSql, util.pathParamExtractor(['electionid']));
+  util.simpleQueryResponder(listSql, util.pathParamExtractor(['electionid', 'earlyvotesiteid']));
 
 //retrieve schedule by id
 var getSql = "select * from schedules where id = $1";
@@ -44,7 +56,7 @@ var deleteHandler = util.simpleCommandResponder(deleteSql,
 
 function registerScheduleServices (app) {
   app.post('/earlyvote/elections/:electionid/schedules', createHandler);
-  app.get('/earlyvote/elections/:electionid/schedules', listHandler);
+  app.get('/earlyvote/elections/:electionid/earlyvotesites/:earlyvotesiteid/schedules', listHandler);
   app.get('/earlyvote/schedules/:scheduleid', getHandler);
   app.delete('/earlyvote/schedules/:scheduleid', deleteHandler);
   app.put('/earlyvote/schedules/:scheduleid', updateHandler);

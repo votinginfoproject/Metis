@@ -8,3 +8,6 @@
 
 (defn selected-early-vote-site [db]
   (:selected-early-vote-site db))
+
+(defn selected-early-vote-site-schedules [db]
+  (:selected-early-vote-site-schedules db))

@@ -31,3 +31,7 @@
  (re-frame/reg-sub
   :selected-early-vote-site
   evs.detail/selected-early-vote-site)
+
+(re-frame/reg-sub
+ :selected-early-vote-site-schedules
+ evs.detail/selected-early-vote-site-schedules)
