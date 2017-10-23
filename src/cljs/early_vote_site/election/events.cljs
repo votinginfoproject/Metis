@@ -14,12 +14,11 @@
  (fn [db [_ new-date-selected]]
    (assoc-in db [:elections :form  :date] new-date-selected)))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
  :election-form/election-selected
- (fn [db [_ election-id]]
-   (-> db
-       (assoc-in [:selected-election] election-id)
-       (assoc-in [:active-panel] :election/detail))))
+ (fn [{:keys [db]} [_ election-id]]
+   {:db (assoc-in db [:selected-election] election-id)
+    :dispatch [:navigate/election-detail]}))
 
 (defn create-params [db]
   {:state_fips (get-in db [:elections :form :state])

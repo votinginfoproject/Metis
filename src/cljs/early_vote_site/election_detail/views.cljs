@@ -22,7 +22,6 @@
      [:th {:name "schedules-end-time"} "End Time"]]]])
 
 (defn main-panel []
-  (re-frame/dispatch [:election-detail/get-election])
   (fn []
     [:div
      [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "go back to all elections"]
