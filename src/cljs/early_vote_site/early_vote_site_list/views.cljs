@@ -9,7 +9,9 @@
 (defn site->row [site]
   [:tr {:key (:id site)}
    [:td (:county-fips site)]
-   [:td (get type-to-name (:type site))]
+   [:td [:div {:class "btn-link"
+               :on-click #(re-frame/dispatch [:navigate/early-vote-site-detail (:id site)])}
+               (get type-to-name (:type site))]]
    [:td (:name site)]
    [:td (:address-1 site)]
    [:td (:city site)]

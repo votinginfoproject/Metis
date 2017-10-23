@@ -12,15 +12,6 @@
        [:h1 (-> election :state-fips utils/format-fips)]
        [:h2 (-> election :election-date utils/format-date)]])))
 
-(def schedules
-  [:table {:name "schedules-list"}
-   [:thead
-    [:tr {:key "schedules-list-head-row"}
-     [:th {:name "schedules-start-date"} "Start Date"]
-     [:th {:name "schedules-end-date"} "End Date"]
-     [:th {:name "schedules-start-time"} "Start Time"]
-     [:th {:name "schedules-end-time"} "End Time"]]]])
-
 (defn main-panel []
   (fn []
     [:div
