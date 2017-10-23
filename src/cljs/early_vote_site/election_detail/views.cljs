@@ -24,6 +24,6 @@
 (defn main-panel []
   (fn []
     [:div
-     [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "go back to all elections"]
+     [:button.button {:on-click #(re-frame/dispatch [:navigate/elections])} "go back to all elections"]
      [election-details]
      [evs.list/early-vote-sites-list]]))

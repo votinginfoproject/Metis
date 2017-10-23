@@ -4,6 +4,11 @@
             [early-vote-site.server :as server]
             [re-frame.core :as re-frame]))
 
+(defn navigate
+  [{:keys [db]} [_]]
+  {:db (assoc db :active-panel :election/main)
+   :dispatch [:elections/list-get]})
+
 (re-frame/reg-event-db
  :election-form/state-selected
  (fn [db [_ new-state-selected]]

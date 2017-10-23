@@ -9,11 +9,6 @@
    :dispatch-n [[:election-detail/get-election]
                 [:early-vote-site-list/get]]})
 
-(re-frame/reg-event-db
- :election-detail/go-back
- (fn [db [_]]
-   (assoc-in db [:active-panel] :election/main)))
-
 (defn get-elections-params
   ; need to flesh this bit out
   [db]

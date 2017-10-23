@@ -60,7 +60,6 @@
         [:tr [:td {:col-span 2} "No Elections"]]])]))
 
 (defn main-panel []
-  (re-frame/dispatch [:elections/list-get])
   (fn []
     [:div
      [election-table]
