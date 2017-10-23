@@ -23,10 +23,9 @@
 
 (defn main-panel []
   (re-frame/dispatch [:election-detail/get-election])
-  (let [site-list (re-frame/subscribe [:early-vote-site-list])]
-    (fn []
-      [:div
-       [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "go back to all elections"]
-       [election-details]
-       [evs.list/early-vote-sites-list site-list]
-       schedules])))
+  (fn []
+    [:div
+     [:button.button {:on-click #(re-frame/dispatch [:election-detail/go-back])} "go back to all elections"]
+     [election-details]
+     [evs.list/early-vote-sites-list]
+     schedules]))
