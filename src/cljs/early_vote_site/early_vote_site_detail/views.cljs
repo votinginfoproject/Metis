@@ -32,7 +32,7 @@
       [:tbody
         (if (seq schedules)
           (map schedule->row schedules)
-          [:tr [:td {:colSpan 4} "No Schedules"]])]]))
+          [:tr [:td {:colSpan 5} "No Schedules"]])]]))
 
 (defn main-panel []
   (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])]
