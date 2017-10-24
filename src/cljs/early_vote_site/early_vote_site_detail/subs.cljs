@@ -1,13 +1,8 @@
 (ns early-vote-site.early-vote-site-detail.subs)
 
-(defn schedules [db]
-  (:schedules db))
-
-(defn selected-early-vote-site-id [db]
-  (:selected-early-vote-site-id db))
-
-(defn selected-early-vote-site [db]
-  (:selected-early-vote-site db))
-
-(defn selected-early-vote-site-schedules [db]
-  (:selected-early-vote-site-schedules db))
+(def subscriptions
+  {:schedules [:schedules]
+   :selected-early-vote-site-id [:selected-early-vote-site-id]
+   :selected-early-vote-site [:selected-early-vote-site]
+   :selected-early-vote-site-schedules [:selected-early-vote-site-schedules]
+   :schedule-form/start-date (fn [_] (js/Date.))})

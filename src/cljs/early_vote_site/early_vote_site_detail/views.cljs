@@ -1,5 +1,6 @@
 (ns early-vote-site.early-vote-site-detail.views
   (:require [re-frame.core :as re-frame]
+            [cljs-pikaday.reagent :as pikaday]
             [early-vote-site.utils :as utils]))
 
 (def schedules-header
@@ -25,19 +26,30 @@
                               (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
                               (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
 
+(defn schedule-form []
+  (let [start-date (re-frame/subscribe [:schedule-form/start-date])]
+    [:tr {:key "schedule-form"}
+     [:td [pikaday/date-selector {:class "form-control"
+                                  :date-atom start-date
+                                  :pikaday-attrs
+                                  {:min-date (js/Date.)
+                                   :on-select #(re-frame/dispatch [:flash/message %])}}]]
+     [:td {:colSpan 4} "rest goes here"]]))
+
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
     [:table {:name "schedules-list"}
       schedules-header
       [:tbody
-        (if (seq schedules)
-          (map schedule->row schedules)
-          [:tr [:td {:colSpan 5} "No Schedules"]])]]))
+       (if (seq schedules)
+         (map schedule->row schedules)
+         [:tr [:td {:colSpan 5} "No Schedules"]])
+       [schedule-form]]]))
 
 (defn main-panel []
   (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])]
     [:div
      [:button.button {:on-click #(re-frame/dispatch [:navigate/election-detail])} "go back to election"]
-      (when (seq early-vote-site)
-        [:div "Name" (:name early-vote-site)])
-      [schedules-list]]))
+     (when early-vote-site
+       [:div "Name" (:name early-vote-site)])
+     [schedules-list]]))

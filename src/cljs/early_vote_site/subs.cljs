@@ -20,18 +20,22 @@
  :early-vote-site-list
  evs.list/early-vote-site-list)
 
-(re-frame/reg-sub
- :schedules
- evs.detail/schedules)
+(defn create-keypath-sub
+  [keyword keypath]
+  (re-frame/reg-sub
+   keyword
+   (fn [db] (get-in db keypath))))
 
-(re-frame/reg-sub
- :selected-early-vote-site-id
- evs.detail/selected-early-vote-site-id)
+(defn create-fn-sub
+  [keyword sub-fn]
+  (re-frame/reg-sub
+   keyword
+   sub-fn))
 
- (re-frame/reg-sub
-  :selected-early-vote-site
-  evs.detail/selected-early-vote-site)
+(defn create-sub
+  [[keyword sub]]
+  (if (sequential? sub)
+    (create-keypath-sub keyword sub)
+    (create-fn-sub keyword sub)))
 
-(re-frame/reg-sub
- :selected-early-vote-site-schedules
- evs.detail/selected-early-vote-site-schedules)
+(dorun (map create-sub evs.detail/subscriptions))

@@ -15,3 +15,9 @@
   "Translates a fips code to state name."
   [fips]
   (get constants/state-names-by-fips fips))
+
+(defn flash-error-with-results
+  [message]
+  (fn [{:keys [db]} [_ result]]
+    {:db db
+     :dispatch [:flash/error (str message (pr-str result))]}))

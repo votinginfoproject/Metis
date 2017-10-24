@@ -1,14 +1,33 @@
 (ns early-vote-site.early-vote-site-detail.events
   (:require [ajax.core :as ajax]
-            [early-vote-site.server :as server]))
+            [early-vote-site.server :as server]
+            [early-vote-site.utils :as utils]
+            [early-vote-site.early-vote-site-list.events :as list-events]))
 
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
   {:db (-> db
         (assoc :selected-early-vote-site-id early-vote-site-id)
         (assoc :active-panel :early-vote-site/detail))
-   :dispatch [:schedules-list/get]})
+   :dispatch-n [[:early-vote-site/get]
+                [:schedules-list/get]]})
 
+(defn get-early-vote-site
+  [{:keys [db]} _]
+  (let [early-vote-site-uri (server/early-vote-site-url db)]
+    {:db db
+     :http-xhrio {:method            :get
+                  :uri               early-vote-site-uri
+                  :timeout           8000
+                  :format            (ajax/json-request-format)
+                  :response-format   (ajax/json-response-format)
+                  :on-success        [:get-early-vote-site/success]
+                  :on-failure        [:get-early-vote-site/failure]}}))
+
+(defn get-early-vote-site-success
+  [db [_ result]]
+  (assoc db :selected-early-vote-site
+         (first (map list-events/early-vote-site-json->clj result))))
 
 (defn list-schedules
   [{:keys [db]} _]
@@ -59,11 +78,6 @@
   {:db db
    :dispatch [:schedules-list/get]})
 
-(defn unassign-schedule-failure
-  [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:flash/error (str "Error unassigning schedule" (pr-str result))]})
-
 (defn assign-schedule
   [{:keys [db]} [_ schedule-id]]
   (enable-console-print!)
@@ -83,19 +97,24 @@
   {:db db
    :dispatch [:schedules-list/get]})
 
-(defn assign-schedule-failure
-  [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:flash/error (str "Error assigning schedule" (pr-str result))]})
-
 (def events
-  {:db {:schedules-list/success load-schedules-success}
+  {:db {:schedules-list/success load-schedules-success
+        :get-early-vote-site/success get-early-vote-site-success}
    :fx {:unassign-schedule unassign-schedule
         :assign-schedule assign-schedule
         :unassign-schedule/success unassign-schedule-success
-        :unassign-schedule/failure unassign-schedule-failure
+
+        :unassign-schedule/failure
+        (utils/flash-error-with-results "Error unassigning schedule")
+
         :assign-schedule/success assign-schedule-success
-        :assign-schedule/failure assign-schedule-failure
+
+        :assign-schedule/failure
+        (utils/flash-error-with-results "Error assigning schedule")
+
         :navigate/early-vote-site-detail navigate
         :schedules-list/failure load-schedules-failure
-        :schedules-list/get list-schedules}})
+        :schedules-list/get list-schedules
+        :early-vote-site/get get-early-vote-site
+        :get-early-vote-site/failure
+        (utils/flash-error-with-results "Error getting Early Vote Site")}})
