@@ -53,21 +53,11 @@
  :navigate/elections
  elections/navigate)
 
-(re-frame/reg-event-fx
- :navigate/early-vote-site-detail
- early-vote-site-detail/navigate)
-
-(re-frame/reg-event-db
- :schedules-list/success
- early-vote-site-detail/load-schedules-success)
-
-(re-frame/reg-event-fx
- :schedules-list/failure
- early-vote-site-detail/load-schedules-failure)
-
-(re-frame/reg-event-fx
- :schedules-list/get
- early-vote-site-detail/list-schedules)
+(defn create-db-event
+  [[keyword handler-fn]]
+  (re-frame/reg-event-db
+   keyword
+   handler-fn))
 
 (defn create-fx-event
   [[keyword handler-fn]]
@@ -77,6 +67,7 @@
 
 (defn reg-events
   [events-map]
+  (dorun (map create-db-event (:db events-map)))
   (dorun (map create-fx-event (:fx events-map))))
 
 (reg-events early-vote-site-detail/events)

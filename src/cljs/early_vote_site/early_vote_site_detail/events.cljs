@@ -89,9 +89,13 @@
    :dispatch [:flash/error (str "Error assigning schedule" (pr-str result))]})
 
 (def events
-   {:fx {:unassign-schedule unassign-schedule
-         :assign-schedule assign-schedule
-         :unassign-schedule/success unassign-schedule-success
-         :unassign-schedule/failure unassign-schedule-failure
-         :assign-schedule/success assign-schedule-success
-         :assign-schedule/failure assign-schedule-failure}})
+  {:db {:schedules-list/success load-schedules-success}
+   :fx {:unassign-schedule unassign-schedule
+        :assign-schedule assign-schedule
+        :unassign-schedule/success unassign-schedule-success
+        :unassign-schedule/failure unassign-schedule-failure
+        :assign-schedule/success assign-schedule-success
+        :assign-schedule/failure assign-schedule-failure
+        :navigate/early-vote-site-detail navigate
+        :schedules-list/failure load-schedules-failure
+        :schedules-list/get list-schedules}})
