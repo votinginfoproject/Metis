@@ -27,17 +27,21 @@
                               (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
 
 (defn schedule-form []
-  (let [start-date (re-frame/subscribe [:schedule-form/start-date])]
+  (let [start-date (re-frame/subscribe [:schedule-form/start-date])
+        end-date (re-frame/subscribe [:schedule-form/end-date])]
     [:tr {:key "schedule-form"}
      [:td [pikaday/date-selector {:class "form-control"
                                   :date-atom start-date
+                                  :max-date-atom end-date
                                   :pikaday-attrs
                                   {:min-date (js/Date.)
+                                   :max-date @end-date
                                    :on-select #(re-frame/dispatch [:schedule-form/start-date-selected %])}}]]
      [:td [pikaday/date-selector {:class "form-control"
-                                  :date-atom start-date
+                                  :date-atom end-date
+                                  :min-date-atom start-date
                                   :pikaday-attrs
-                                  {:min-date (js/Date.)
+                                  {:min-date (or @start-date (js/Date.))
                                    :on-select #(re-frame/dispatch [:schedule-form/end-date-selected %])}}]]
      [:td]
      [:td]

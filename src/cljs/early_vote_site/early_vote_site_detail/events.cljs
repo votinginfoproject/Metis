@@ -99,16 +99,21 @@
                   :on-success       [:assign-schedule/success]
                   :on-failure       [:assign-schedule/failure]}}))
 
+(defn new-schedule-params
+  [db]
+  {:start_date (get-in db [:schedules :form  :start-date])
+   :end_date (get-in db [:schedules :form  :end-date])
+   :start_time "08:00"
+   :end_time "16:00"})
+
 (defn save-new-schedule
   [{:keys [db]} [_ early-vote-site-id]]
-  (let [save-new-schedule-uri (server/save-new-schedule-uri db)]
+  (let [save-new-schedule-uri (server/save-new-schedule-uri db)
+        params (new-schedule-params db)]
     {:db db
      :http-xhrio {:method           :post
                   :uri              save-new-schedule-uri
-                  :params           {:start_date "2017-11-01"
-                                     :end_date "2017-11-08"
-                                     :start_time "08:00"
-                                     :end_time "16:00"}
+                  :params           params
                   :timeout          8000
                   :format           (ajax/json-request-format)
                   :response-format  (ajax/text-response-format)
