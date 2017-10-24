@@ -1,5 +1,6 @@
 (ns early-vote-site.early-vote-site-detail.views
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [early-vote-site.utils :as utils]))
 
 (def schedules-header
   [:thead
@@ -11,13 +12,15 @@
       [:th {:name "assigned"} "Assigned to this Early Vote Site"]]])
 
 (defn schedule->row
-  [schedule selected-early-vote-site-id]
+  [schedule]
   [:tr {:key (:id schedule)}
-   [:td (:start-date schedule)]
-   [:td (:end-date schedule)]
+   [:td (utils/format-date (:start-date schedule))]
+   [:td (utils/format-date (:end-date schedule))]
    [:td (:start-time schedule)]
    [:td (:end-time schedule)]
-   [:td [:input {:type "checkbox" :checked (not= selected-early-vote-site-id (:early-vote-site-id schedule))}]]])
+   [:td [:input {:type "checkbox"
+                 :checked (not (nil? (:assignment-id schedule)))
+                 :value (:id schedule)}]]])
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
@@ -31,6 +34,7 @@
 (defn main-panel []
   (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])]
     [:div
-      (if (seq early-vote-site)
+     [:button.button {:on-click #(re-frame/dispatch [:navigate/election-detail])} "go back to election"]
+      (when (seq early-vote-site)
         [:div "Name" (:name early-vote-site)])
-        [schedules-list early-vote-site]]))
+      [schedules-list]]))

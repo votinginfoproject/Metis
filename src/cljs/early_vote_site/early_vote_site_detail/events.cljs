@@ -29,7 +29,7 @@
    :end-date (get schedule "end_date")
    :start-time (get schedule "start_time")
    :end-time (get schedule "end_time")
-   :early-vote-site-id (get schedule "early_vote_site_id")})
+   :assignment-id (get schedule "assignment_id")})
 
 
 (defn load-schedules-success
