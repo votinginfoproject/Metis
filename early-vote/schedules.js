@@ -35,7 +35,7 @@ var createParamsFn =
                                util.bodyParamExtractor(['start_date','end_date',
                                                         'start_time','end_time'])]);
 var createHandler =
-  util.simpleCommandResponder(createSql, createParamsFn);
+  util.simpleCommandResponder(createSql, createParamsFn, function (params) {return params[1];});
 
 //update schedule, updates all values so values that remain constant
 //must still be passed in, values that are not present will be set to null

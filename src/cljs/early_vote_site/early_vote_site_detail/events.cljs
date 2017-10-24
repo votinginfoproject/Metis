@@ -55,6 +55,14 @@
   [db [_ result]]
   (assoc-in db [:selected-early-vote-site-schedules] (map schedule-json->clj result)))
 
+(defn start-date-selected
+  [db [_ new-date-selected]]
+  (assoc-in db [:schedules :form  :start-date] new-date-selected))
+
+(defn end-date-selected
+  [db [_ new-date-selected]]
+  (assoc-in db [:schedules :form  :end-date] new-date-selected))
+
 (defn load-schedules-failure
   [{:keys [db]} [_ result]]
   {:db db
@@ -80,17 +88,32 @@
 
 (defn assign-schedule
   [{:keys [db]} [_ schedule-id]]
-  (enable-console-print!)
   (let [assign-schedule-uri (server/assign-schedule-uri db)]
     {:db db
      :http-xhrio {:method           :post
                   :uri              assign-schedule-uri
                   :params           {:schedule_id schedule-id}
                   :timeout          8000
-                  :format   (ajax/json-request-format)
+                  :format           (ajax/json-request-format)
                   :response-format  (ajax/json-response-format)
                   :on-success       [:assign-schedule/success]
                   :on-failure       [:assign-schedule/failure]}}))
+
+(defn save-new-schedule
+  [{:keys [db]} [_ early-vote-site-id]]
+  (let [save-new-schedule-uri (server/save-new-schedule-uri db)]
+    {:db db
+     :http-xhrio {:method           :post
+                  :uri              save-new-schedule-uri
+                  :params           {:start_date "2017-11-01"
+                                     :end_date "2017-11-08"
+                                     :start_time "08:00"
+                                     :end_time "16:00"}
+                  :timeout          8000
+                  :format           (ajax/json-request-format)
+                  :response-format  (ajax/text-response-format)
+                  :on-success       [:save-schedule/success]
+                  :on-failure       [:save-schedule/failure]}}))
 
 (defn assign-schedule-success
   [{:keys [db]} [_ result]]
@@ -99,7 +122,9 @@
 
 (def events
   {:db {:schedules-list/success load-schedules-success
-        :get-early-vote-site/success get-early-vote-site-success}
+        :get-early-vote-site/success get-early-vote-site-success
+        :schedule-form/start-date-selected start-date-selected
+        :schedule-form/end-date-selected end-date-selected}
    :fx {:unassign-schedule unassign-schedule
         :assign-schedule assign-schedule
         :unassign-schedule/success unassign-schedule-success
@@ -117,4 +142,8 @@
         :schedules-list/get list-schedules
         :early-vote-site/get get-early-vote-site
         :get-early-vote-site/failure
-        (utils/flash-error-with-results "Error getting Early Vote Site")}})
+        (utils/flash-error-with-results "Error getting Early Vote Site")
+        :schedule-form/save save-new-schedule
+        :save-schedule/success assign-schedule
+        :save-schedule/failure
+        (utils/flash-error-with-results "Error saving new schedule")}})

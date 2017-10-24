@@ -29,3 +29,8 @@
 (defn unassign-schedule-uri [assignment-id]
   (str "http://localhost:4000/earlyvote/assignments/"
        assignment-id))
+
+(defn save-new-schedule-uri [db]
+  (str "http://localhost:4000/earlyvote/elections/"
+       (:selected-election db)
+       "/schedules"))

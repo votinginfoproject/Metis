@@ -33,8 +33,15 @@
                                   :date-atom start-date
                                   :pikaday-attrs
                                   {:min-date (js/Date.)
-                                   :on-select #(re-frame/dispatch [:flash/message %])}}]]
-     [:td {:colSpan 4} "rest goes here"]]))
+                                   :on-select #(re-frame/dispatch [:schedule-form/start-date-selected %])}}]]
+     [:td [pikaday/date-selector {:class "form-control"
+                                  :date-atom start-date
+                                  :pikaday-attrs
+                                  {:min-date (js/Date.)
+                                   :on-select #(re-frame/dispatch [:schedule-form/end-date-selected %])}}]]
+     [:td]
+     [:td]
+     [:td [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save])} "save new schedule"]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
