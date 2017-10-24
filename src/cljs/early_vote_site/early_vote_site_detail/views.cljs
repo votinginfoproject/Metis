@@ -20,7 +20,10 @@
    [:td (:end-time schedule)]
    [:td [:input {:type "checkbox"
                  :checked (not (nil? (:assignment-id schedule)))
-                 :value (:id schedule)}]]])
+                 :value (:id schedule)
+                 :on-change #(if (not (nil? (:assignment-id schedule)))
+                              (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
+                              (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]

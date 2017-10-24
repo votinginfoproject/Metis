@@ -10,7 +10,7 @@ var listSql = "select s.id as id, \
                       s.end_date, \
                       s.start_time, \
                       s.end_time, \
-                      a.early_vote_site_id \
+                      a.id as assignment_id \
  from schedules s \
   left outer join assignments a \
   on s.id = a.schedule_id \

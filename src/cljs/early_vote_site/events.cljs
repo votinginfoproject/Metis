@@ -68,3 +68,15 @@
 (re-frame/reg-event-fx
  :schedules-list/get
  early-vote-site-detail/list-schedules)
+
+(defn create-fx-event
+  [[keyword handler-fn]]
+  (re-frame/reg-event-fx
+   keyword
+   handler-fn))
+
+(defn reg-events
+  [events-map]
+  (dorun (map create-fx-event (:fx events-map))))
+
+(reg-events early-vote-site-detail/events)
