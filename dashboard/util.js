@@ -28,8 +28,9 @@ module.exports = {
       });
     }
   },
-  simpleCommandResponder: function(sqlCommand, paramsFn) {
+  simpleCommandResponder: function(sqlCommand, paramsFn, idFn) {
     return function(req, res) {
+      var params = null;
       var callback = function(err, result) {
         if(err) {
           logger.error(err.name + ": " + err.message);
@@ -38,7 +39,11 @@ module.exports = {
           res.end();
         } else {
           res.writeHead(201, {'Content-Type': 'application/json'});
-          res.write("{}");
+          if (idFn) {
+            res.write(idFn(params));
+          } else {
+            res.write("{}");
+          }
           res.end();
         }
       }
@@ -48,7 +53,7 @@ module.exports = {
         if (paramsFn) {
           params = paramsFn(req);
           logger.info("params: " + params);
-          client.query(sqlCommand, paramsFn(req), callback);
+          client.query(sqlCommand, params, callback);
         } else {
           client.query(sqlCommand, callback);
         };
