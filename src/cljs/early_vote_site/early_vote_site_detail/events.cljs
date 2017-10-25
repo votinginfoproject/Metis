@@ -63,6 +63,16 @@
   [db [_ new-date-selected]]
   (assoc-in db [:schedules :form  :end-date] new-date-selected))
 
+(defn start-time-selected
+  [db [_ new-time-selected]]
+  (enable-console-print!)
+  (println (pr-str new-time-selected))
+  (assoc-in db [:schedules :form  :start-time] new-time-selected))
+
+(defn end-time-selected
+  [db [_ new-time-selected]]
+  (assoc-in db [:schedules :form  :end-time] new-time-selected))
+
 (defn load-schedules-failure
   [{:keys [db]} [_ result]]
   {:db db
@@ -103,11 +113,17 @@
   [db]
   {:start_date (get-in db [:schedules :form  :start-date])
    :end_date (get-in db [:schedules :form  :end-date])
-   :start_time "08:00"
-   :end_time "16:00"})
+   :start_time (get-in db [:schedules :form  :start-time])
+   :end_time (get-in db [:schedules :form  :end-time])})
 
 (defn save-new-schedule
-  [{:keys [db]} [_ early-vote-site-id]]
+  [{:keys [db]} [_ start-date-atom end-date-atom start-time-atom end-time-atom]]
+  ; TODO these resets should happen on success and not just when this is called
+  ; fix this later
+  (reset! start-date-atom (js/Date.))
+  (reset! end-date-atom nil)
+  (reset! start-time-atom nil)
+  (reset! end-time-atom nil)
   (let [save-new-schedule-uri (server/save-new-schedule-uri db)
         params (new-schedule-params db)]
     {:db db
@@ -129,7 +145,9 @@
   {:db {:schedules-list/success load-schedules-success
         :get-early-vote-site/success get-early-vote-site-success
         :schedule-form/start-date-selected start-date-selected
-        :schedule-form/end-date-selected end-date-selected}
+        :schedule-form/end-date-selected end-date-selected
+        :schedule-form/start-time-selected start-time-selected
+        :schedule-form/end-time-selected end-time-selected}
    :fx {:unassign-schedule unassign-schedule
         :assign-schedule assign-schedule
         :unassign-schedule/success unassign-schedule-success

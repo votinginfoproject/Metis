@@ -29,16 +29,22 @@
                               (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
                               (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
 
-(defn update-date
+(defn update-value
   [key _ _ newvalue]
   (re-frame/dispatch [key newvalue]))
 
 (defn schedule-form []
   (let [start-date (r/atom (js/Date.))
-        end-date (r/atom nil)]
-    (add-watch start-date :schedule-form/start-date-selected update-date)
-    (add-watch end-date :schedule-form/end-date-selected update-date)
+        end-date (r/atom nil)
+        start-time (r/atom nil)
+        end-time (r/atom nil)]
+    (add-watch start-date :schedule-form/start-date-selected update-value)
+    (add-watch end-date :schedule-form/end-date-selected update-value)
+    (add-watch start-time :schedule-form/start-time-selected update-value)
+    (add-watch end-time :schedule-form/end-time-selected update-value)
     (fn []
+      (let [start-time @(re-frame/subscribe [:schedule-form/start-time])
+            end-time @(re-frame/subscribe [:schedule-form/end-time])])
       [:tr {:key "schedule-form"}
        [:td [pikaday/date-selector {:class "form-control"
                                     :date-atom start-date
@@ -51,9 +57,15 @@
                                     :min-date-atom start-date
                                     :pikaday-attrs
                                     {:min-date (or @start-date (js/Date.))}}]]
-       [:td]
-       [:td]
-       [:td [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save])} "save new schedule"]]])))
+       [:td [:input {:type "time"
+                     :class "form-control"
+                     :value @start-time
+                     :on-change #(reset! start-time (-> % .-target .-value))}]]
+       [:td [:input {:type "time"
+                     :class "form-control"
+                     :value @end-time
+                     :on-change #(reset! end-time (-> % .-target .-value))}]]
+       [:td [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save start-date end-date start-time end-time])} "save new schedule"]]])))
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
