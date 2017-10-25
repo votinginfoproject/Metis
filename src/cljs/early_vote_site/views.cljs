@@ -13,9 +13,11 @@
 (defmethod panel :early-vote-site/detail [] [evs.detail/main-panel])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [:active-panel])]
+  (let [active-panel (re-frame/subscribe [:active-panel])
+        username (re-frame/subscribe [:username])]
     (fn []
-      [:div
-       (flash/message)
-       (flash/error)
-       (panel @active-panel)])))
+      [:div [:span "Hello " @username]
+        [:div
+        (flash/message)
+        (flash/error)
+        (panel @active-panel)]])))

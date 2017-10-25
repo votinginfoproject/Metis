@@ -13,6 +13,16 @@
  (fn  [_ _]
    db/default-db))
 
+(enable-console-print!)
+(re-frame/reg-event-db
+  :load-user
+  (fn [db _]
+    (if-let [user-json (.getItem js/localStorage "auth0_user")]
+      (let [user (js->clj (.parse js/JSON user-json) :keywordize-keys true)]
+        (println "clojurified user: " (pr-str user))
+        (assoc db :user user))
+      db)))
+
 (re-frame/reg-event-db
  :early-vote-site-form/update
  early-vote-form/form-update)

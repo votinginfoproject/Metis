@@ -13,6 +13,21 @@
    (:active-panel db)))
 
 (re-frame/reg-sub
+  :username
+  (fn [db]
+    (get-in db [:user :userName])))
+
+(re-frame/reg-sub
+  :fips-codes
+  (fn [db]
+    (get-in db [:user :fipsCodes])))
+
+(re-frame/reg-sub
+  :roles
+  (fn [db]
+    (get-in db [:user :roles])))
+
+(re-frame/reg-sub
  :early-vote-site-form
  evs.form/form)
 
