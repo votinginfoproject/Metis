@@ -1,7 +1,10 @@
 (ns early-vote-site.early-vote-site-detail.views
   (:require [re-frame.core :as re-frame]
+            [reagent.ratom :as r]
             [cljs-pikaday.reagent :as pikaday]
             [early-vote-site.utils :as utils]))
+
+(enable-console-print!)
 
 (def schedules-header
   [:thead
@@ -26,26 +29,31 @@
                               (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
                               (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
 
+(defn update-date
+  [key _ _ newvalue]
+  (re-frame/dispatch [key newvalue]))
+
 (defn schedule-form []
-  (let [start-date (re-frame/subscribe [:schedule-form/start-date])
-        end-date (re-frame/subscribe [:schedule-form/end-date])]
-    [:tr {:key "schedule-form"}
-     [:td [pikaday/date-selector {:class "form-control"
-                                  :date-atom start-date
-                                  :max-date-atom end-date
-                                  :pikaday-attrs
-                                  {:min-date (js/Date.)
-                                   :max-date @end-date
-                                   :on-select #(re-frame/dispatch [:schedule-form/start-date-selected %])}}]]
-     [:td [pikaday/date-selector {:class "form-control"
-                                  :date-atom end-date
-                                  :min-date-atom start-date
-                                  :pikaday-attrs
-                                  {:min-date (or @start-date (js/Date.))
-                                   :on-select #(re-frame/dispatch [:schedule-form/end-date-selected %])}}]]
-     [:td]
-     [:td]
-     [:td [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save])} "save new schedule"]]]))
+  (let [start-date (r/atom (js/Date.))
+        end-date (r/atom nil)]
+    (add-watch start-date :schedule-form/start-date-selected update-date)
+    (add-watch end-date :schedule-form/end-date-selected update-date)
+    (fn []
+      [:tr {:key "schedule-form"}
+       [:td [pikaday/date-selector {:class "form-control"
+                                    :date-atom start-date
+                                    :max-date-atom end-date
+                                    :pikaday-attrs
+                                    {:min-date (js/Date.)
+                                     :max-date @end-date}}]]
+       [:td [pikaday/date-selector {:class "form-control"
+                                    :date-atom end-date
+                                    :min-date-atom start-date
+                                    :pikaday-attrs
+                                    {:min-date (or @start-date (js/Date.))}}]]
+       [:td]
+       [:td]
+       [:td [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save])} "save new schedule"]]])))
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
