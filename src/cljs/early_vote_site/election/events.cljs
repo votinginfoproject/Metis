@@ -68,7 +68,7 @@
    (let [data (list-elections-params db)]
      {:db db
       :http-xhrio {:method          :get
-                   :uri             "http://localhost:4000/earlyvote/elections"
+                   :uri             (server/election-url db)
                    :params          data
                    :timeout         8000
                    :format          (ajax/json-request-format)

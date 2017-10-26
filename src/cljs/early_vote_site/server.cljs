@@ -5,6 +5,14 @@
   [path]
   (-> js/window .-location .-origin (str path)))
 
+(defn election-url
+  [db]
+  (let [roles (get-in db [:user :roles])
+        fips-codes (get-in db [:user :fipsCodes])]
+    (if (contains? roles "super-admin")
+      (str "http://localhost:4000/earlyvote/elections")
+      (str "http://localhost:4000/earlyvote/elections?fips=" (first fips-codes)))))
+
 (defn election-early-vote-sites-url [db]
   (str "http://localhost:4000/earlyvote/elections/"
        (:selected-election db)
