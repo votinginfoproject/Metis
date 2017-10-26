@@ -24,4 +24,3 @@
  :elections/list
  (fn [db]
    (get-in db [:elections :list])))
-

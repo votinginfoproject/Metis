@@ -9,7 +9,7 @@
   [db]
   (let [roles (get-in db [:user :roles])
         fips-code (first (get-in db [:user :fipsCodes]))]
-    (if (contains? roles "super-admin")
+    (if (some #{"super-admin"} roles)
       (str "http://localhost:4000/earlyvote/elections")
       (str "http://localhost:4000/earlyvote/elections?fips=" (str (first fips-code) (second fips-code))))))
 

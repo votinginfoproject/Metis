@@ -39,12 +39,13 @@
 
 (defn election-list-row
   [election]
-  [:tr {:key (:id election)}
-   [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
-   [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected (:id election)])}
-    [:div {:class "btn-link"} (-> election :election-date utils/format-date)]]
-   [:td
-    [:button.button "edit"]]])
+  (let [roles @(re-frame/subscribe [:roles])]
+    [:tr {:key (:id election)}
+     [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
+     [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected (:id election)])}
+      [:div {:class "btn-link"} (-> election :election-date utils/format-date)]]
+     [:td
+      [:button.button {:style {:display (if (not (some #{"data-centralization"} roles)) "inline" "none")}} "edit"]]]))
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])]
@@ -55,7 +56,7 @@
        [:th {:name "election-date"} "Date"]]]
      (if (seq election-list-items)
        [:tbody
-        (map election-list-row election-list-items)]
+        (doall (map election-list-row election-list-items))]
        [:tbody
         [:tr [:td {:col-span 2} "No Elections"]]])]))
 
