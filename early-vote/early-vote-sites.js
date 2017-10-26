@@ -4,9 +4,14 @@ var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
 //list early vote sites for election
-var listSql = "select * from early_vote_sites where election_id = $1 order by city desc;";
+var listSql = "select * from early_vote_sites where election_id = $1  \
+               and (($2 = 'undefined') or (county_fips ~ $2))  \
+               order by city desc;";
+var listParamsFn =
+  util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
+                               util.queryParamExtractor(['fips'])]);
 var listHandler =
-  util.simpleQueryResponder(listSql, util.pathParamExtractor(['electionid']));
+  util.simpleQueryResponder(listSql, listParamsFn);
 
 //retrieve early vote site by id
 var getSql = "select * from early_vote_sites where id = $1";
