@@ -13,10 +13,12 @@
       (str "http://localhost:4000/earlyvote/elections")
       (str "http://localhost:4000/earlyvote/elections?fips=" (str (first fips-code) (second fips-code))))))
 
-(defn election-early-vote-sites-url [db]
-  (str "http://localhost:4000/earlyvote/elections/"
-       (:selected-election db)
-       "/earlyvotesites/"))
+(defn election-early-vote-sites-url
+  [db]
+  (let [fips-code (first (get-in db [:user :fipsCodes]))]
+    (str "http://localhost:4000/earlyvote/elections/"
+         (:selected-election db)
+         "/earlyvotesites?fips=" fips-code)))
 
 (defn early-vote-site-url [db]
   (str "http://localhost:4000/earlyvote/earlyvotesites/"
