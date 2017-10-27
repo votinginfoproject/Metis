@@ -13,7 +13,7 @@
       [:th {:name "schedules-end-date"} "End Date"]
       [:th {:name "schedules-start-time"} "Start Time"]
       [:th {:name "schedules-end-time"} "End Time"]
-      [:th {:name "assigned"} "Assigned to this Early Vote Site"]]])
+      [:th {:name "assigned"} "Assigned"]]])
 
 (defn schedule->row
   [schedule]
@@ -27,7 +27,9 @@
                  :value (:id schedule)
                  :on-change #(if (not (nil? (:assignment-id schedule)))
                               (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
-                              (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]])
+                              (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]
+   [:td
+    [:button.button "edit"]]])
 
 (defn update-value
   [key _ _ newvalue]

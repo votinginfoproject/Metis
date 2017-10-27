@@ -15,7 +15,8 @@
    [:td (:name site)]
    [:td (:address-1 site)]
    [:td (:city site)]
-   [:td "Buttons here"]])
+   [:td
+    [:button.button "edit"]]])
 
 (defn early-vote-sites-list []
   (let [site-list (re-frame/subscribe [:early-vote-site-list])]

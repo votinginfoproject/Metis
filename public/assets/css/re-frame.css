@@ -128,6 +128,9 @@ input[type="submit"] {
 button[disabled],
 html input[disabled] {
   cursor: default; }
+button {
+  margin-right: 10px
+}
 
 input[type="checkbox"],
 input[type="radio"] {
