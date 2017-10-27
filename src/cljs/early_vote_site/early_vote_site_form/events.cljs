@@ -8,6 +8,16 @@
   [{:keys [db]} [_ id]]
   {:db (assoc db :active-panel :early-vote-site/form)})
 
+(defn navigate
+  [{:keys [db]} [_ id]]
+  (let [roles (get-in db [:user :roles])
+        fips (first (get-in db [:user :fipsCodes]))]
+    {:db
+      (if (some #{"data-centralization"} roles)
+        (-> db (assoc :active-panel :early-vote-site/form)
+               (assoc-in [:early-vote-site-form :county-fips] fips))
+        (assoc db :active-panel :early-vote-site/form))}))
+
 (defn form-update
   [db [_ field new-value]]
   (assoc-in db [:early-vote-site-form field] new-value))

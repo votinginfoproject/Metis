@@ -1,12 +1,20 @@
 (ns early-vote-site.early-vote-site-form.views
   (:require [early-vote-site.constants :as constants]
+            [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
 (defn main-panel []
-  (let [form @(re-frame/subscribe [:early-vote-site-form])]
+  (let [form @(re-frame/subscribe [:early-vote-site-form])
+        election @(re-frame/subscribe [:election-detail/get])
+        roles @(re-frame/subscribe [:roles])
+        fips (first @(re-frame/subscribe [:fips-codes]))]
     [:div
+     [:h1 (-> election :state-fips utils/format-fips)]
+     [:h2 (-> election :election-date utils/format-date)]
      [:div {:name "create-early-vote-site-form"}
-      [:div {:class "form-group row mx-sm-3"}
+      [:div {:class "form-group row mx-sm-3"
+             :style
+              {:display (if (not (some #{"data-centralization"} roles)) "inline" "none")}}
        [:label {:for "county-fips" :class "col-2 col-form-label" :style {:padding-right 10}} "County FIPS*:"]
        [:div {:class "col-10"}
          [:input {:id "county-fips" :type "text" :class "form-control col-md-6"
