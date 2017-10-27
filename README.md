@@ -80,6 +80,7 @@ DASHBOARD_DB_ENV_POSTGRES_USER=dataprocessor
 DASHBOARD_DB_PORT_5432_TCP_ADDR=localhost
 DASHBOARD_DB_PORT_5432_TCP_PORT=5432
 DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
+EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
