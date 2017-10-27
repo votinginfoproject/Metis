@@ -40,6 +40,15 @@
  early-vote-form/save-failure)
 
 (re-frame/reg-event-fx
+ :get-early-vote-site-data/success
+ early-vote-site-form/get-evs-data-success)
+
+
+(re-frame/reg-event-fx
+ :get-early-vote-site-data/failure
+ early-vote-site-form/get-evs-data-failure)
+
+(re-frame/reg-event-fx
  :early-vote-site-list/get
  early-vote-list/list-early-vote-sites)
 
@@ -57,6 +66,10 @@
 
 (re-frame/reg-event-fx
  :navigate/early-vote-form
+ early-vote-form/navigate)
+
+(re-frame/reg-event-fx
+ :navigate/edit-early-vote-form
  early-vote-form/navigate)
 
 (re-frame/reg-event-fx

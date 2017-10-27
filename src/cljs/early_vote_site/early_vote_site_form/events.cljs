@@ -4,12 +4,35 @@
             [early-vote-site.db :as db]
             [early-vote-site.server :as server]))
 
-(defn navigate
+; make request for evs data using id
+(defn navigate-edit
   [{:keys [db]} [_ id]]
-  {:db (assoc db :active-panel :early-vote-site/form)})
+  (let [get-uri (server/early-vote-site-url-by-id id)]
+    {:db db
+     :http-xhrio {:method              :get
+                  :uri                 get-uri
+                  :params              params
+                  :timeout             8000
+                  :format              (ajax/json-request-format)
+                  :response-format     (ajax/json-response-format)
+                  :on-success          [:get-early-vote-site-data/success]
+                  :on-failure          [:get-early-vote-site-data/failure]}}))
+; populate data into form values in db
+; will have an id that's not in the normal form
+; have button event check if id is populate to change request type
+
+; change active panel on success
+(defn get-evs-data-success [{:keys [db]} _]
+  {:db (merge db db/fresh-early-vote-site-form)
+   :dispatch [:navigate/early-vote-site-form]})
+
+(defn get-evs-data-failure [{:keys [db]} [_ result]]
+  {:db db
+   :dispatch [:flash/error (str "Failed to save retrieve Early Vote Site: "
+                                (pr-str result))]})
 
 (defn navigate
-  [{:keys [db]} [_ id]]
+  [{:keys [db]} _]
   (let [roles (get-in db [:user :roles])
         fips (first (get-in db [:user :fipsCodes]))]
     {:db
