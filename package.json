@@ -57,7 +57,9 @@
     "express-jwt-authz": "~1.0.0",
     "auth0": "~2.7.0",
     "db-migrate": "~0.9.26",
-    "uuid": "~3.1.0"
+    "uuid": "~3.1.0",
+    "tmp": "0.0.33",
+    "csv-writer": "0.0.3"
   },
   "devDependencies": {
     "closure-linter-wrapper": "~0.2.9",
