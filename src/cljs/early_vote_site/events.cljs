@@ -1,11 +1,13 @@
 (ns early-vote-site.events
-  (:require [re-frame.core :as re-frame]
+  (:require [early-vote-site.authentication :as auth]
             [early-vote-site.db :as db]
             [early-vote-site.election.events :as election]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
-            [early-vote-site.early-vote-site-detail.events :as early-vote-site-detail]
-            [early-vote-site.flash.events :as flash]))
+            [early-vote-site.early-vote-site-detail.events
+             :as early-vote-site-detail]
+            [early-vote-site.flash.events :as flash]
+            [re-frame.core :as re-frame]))
 
 (defn initialize-db
   [_ _]
@@ -32,6 +34,8 @@
   [[keyword handler-fn]]
   (re-frame/reg-event-fx
    keyword
+   [(re-frame/inject-cofx :auth0-access-token)
+    auth/auth-interceptor]
    handler-fn))
 
 (defn reg-events
