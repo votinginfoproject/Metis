@@ -78,7 +78,15 @@
              [:option {:value "EST"} "EST"]
              [:option {:value "EDT"} "EDT"]
              [:option {:value "CST"} "CST"]
-             [:option {:value "CDT"} "CDT"]]]
+             [:option {:value "CDT"} "CDT"]
+             [:option {:value "MST"} "MST"]
+             [:option {:value "MDT"} "MDT"]
+             [:option {:value "PST"} "PST"]
+             [:option {:value "PDT"} "PDT"]
+             [:option {:value "AKST"} "AKST"]
+             [:option {:value "AKDT"} "AKDT"]
+             [:option {:value "HST"} "HST"]
+             [:option {:value "HDT"} "HDT"]]]
 
        [:td {:colSpan 2}
         [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save start-date end-date start-time end-time timezone])} "save schedule"]]])))
