@@ -1,39 +1,17 @@
 (ns early-vote-site.subs
   (:require [re-frame.core :as re-frame]
-            [early-vote-site.election.subs]
-            [early-vote-site.election-detail.subs]
-            [early-vote-site.flash.subs]
-            [early-vote-site.early-vote-site-form.subs :as evs.form]
-            [early-vote-site.early-vote-site-list.subs :as evs.list]
-            [early-vote-site.early-vote-site-detail.subs :as evs.detail]))
+            [early-vote-site.election.subs :as election]
+            [early-vote-site.election-detail.subs :as election-detail]
+            [early-vote-site.flash.subs :as flash]
+            [early-vote-site.early-vote-site-form.subs :as early-vote-site-form]
+            [early-vote-site.early-vote-site-detail.subs
+             :as early-vote-site-detail]))
 
-(re-frame/reg-sub
- :active-panel
- (fn [db]
-   (:active-panel db)))
-
-(re-frame/reg-sub
-  :username
-  (fn [db]
-    (get-in db [:user :userName])))
-
-(re-frame/reg-sub
-  :fips-codes
-  (fn [db]
-    (get-in db [:user :fipsCodes])))
-
-(re-frame/reg-sub
-  :roles
-  (fn [db]
-    (get-in db [:user :roles])))
-
-(re-frame/reg-sub
- :early-vote-site-form
- evs.form/form)
-
-(re-frame/reg-sub
- :early-vote-site-list
- evs.list/early-vote-site-list)
+(def global-subscriptions
+  {:active-panel [:active-panel]
+   :username [:user :userName]
+   :fips-codes [:user :fipsCodes]
+   :roles [:user :roles]})
 
 (defn create-keypath-sub
   [keyword keypath]
@@ -57,5 +35,9 @@
   [subscription-map]
   (dorun (map create-sub subscription-map)))
 
+(create-subscriptions global-subscriptions)
 (create-subscriptions election/subscriptions)
+(create-subscriptions election-detail/subscriptions)
+(create-subscriptions early-vote-site-form/subscriptions)
+(create-subscriptions early-vote-site-detail/subscriptions)
 (create-subscriptions flash/subscriptions)
