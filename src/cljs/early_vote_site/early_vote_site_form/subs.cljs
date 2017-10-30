@@ -1,4 +1,4 @@
 (ns early-vote-site.early-vote-site-form.subs)
 
-(defn form [db]
-  (:early-vote-site-form db))
+(def subscriptions
+  {:early-vote-site-form [:early-vote-site-form]})

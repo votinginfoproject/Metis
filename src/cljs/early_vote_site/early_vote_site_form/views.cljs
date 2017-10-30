@@ -5,7 +5,7 @@
 
 (defn main-panel []
   (let [form @(re-frame/subscribe [:early-vote-site-form])
-        election @(re-frame/subscribe [:election-detail/get])
+        election @(re-frame/subscribe [:election-detail/election])
         roles @(re-frame/subscribe [:roles])
         fips (first @(re-frame/subscribe [:fips-codes]))]
     [:div

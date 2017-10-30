@@ -2,7 +2,8 @@
   (:require [ajax.core :as ajax]
             [early-vote-site.constants :as constants]
             [early-vote-site.db :as db]
-            [early-vote-site.server :as server]))
+            [early-vote-site.server :as server]
+            [early-vote-site.utils :as utils]))
 
 ; make request for evs data using id
 (defn navigate-edit
@@ -11,7 +12,7 @@
     {:db db
      :http-xhrio {:method              :get
                   :uri                 get-uri
-                  :params              params
+                  :params              {}
                   :timeout             8000
                   :format              (ajax/json-request-format)
                   :response-format     (ajax/json-response-format)
@@ -26,20 +27,14 @@
   {:db (merge db db/fresh-early-vote-site-form)
    :dispatch [:navigate/early-vote-site-form]})
 
-(defn get-evs-data-failure [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:flash/error (str "Failed to save retrieve Early Vote Site: "
-                                (pr-str result))]})
-
 (defn navigate
-  [{:keys [db]} _]
+  [db _]
   (let [roles (get-in db [:user :roles])
         fips (first (get-in db [:user :fipsCodes]))]
-    {:db
-      (if (some #{"data-centralization"} roles)
-        (-> db (assoc :active-panel :early-vote-site/form)
-               (assoc-in [:early-vote-site-form :county-fips] fips))
-        (assoc db :active-panel :early-vote-site/form))}))
+    (if (some #{"data-centralization"} roles)
+      (-> db (assoc :active-panel :early-vote-site-form/main)
+          (assoc-in [:early-vote-site-form :county-fips] fips))
+      (assoc db :active-panel :early-vote-site-form/main))))
 
 (defn form-update
   [db [_ field new-value]]
@@ -82,7 +77,14 @@
    :dispatch-n [[:flash/message "Early Vote Site saved"]
                 [:navigate/election-detail]]})
 
-(defn save-failure [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:flash/error (str "Failed to save Early Vote Site: "
-                                (pr-str result))]})
+(def events
+  {:db {:early-vote-site-form/update form-update
+        :navigate/early-vote-site-form navigate}
+   :fx {:navigate/edit-early-vote-form navigate-edit
+        :early-vote-site-form/save form-submit
+        :early-vote-site-save/success save-success
+        :get-early-vote-site-data/success get-evs-data-success
+        :get-early-vote-site-data/failure
+        (utils/flash-error-with-results "Error retrieving early vote site")
+        :early-vote-site-save/failure
+        (utils/flash-error-with-results "Error saving early vote site")}})

@@ -77,7 +77,7 @@
           fx (events/save-success {:db db} [])]
       (testing "cleared the form"
         (let [db-after (:db fx)]
-          (is (= {} (:early-vote-site-form db-after)))))
+          (is (= {:type "early_vote_site"} (:early-vote-site-form db-after)))))
       (testing "dispatches flash"
         (is (>= (.indexOf (:dispatch-n fx)
                           [:flash/message "Early Vote Site saved"])
