@@ -8,11 +8,7 @@
 
 (defn election-url
   [db]
-  (let [roles (get-in db [:user :roles])
-        fips-code (first (get-in db [:user :fipsCodes]))]
-    (if (some #{"super-admin"} roles)
-      (url "/earlyvote/elections")
-      (url "/earlyvote/elections?fips=" (first fips-code) (second fips-code)))))
+  (url "/earlyvote/elections"))
 
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))
@@ -42,7 +38,7 @@
         "/assignments/"))
 
 (defn unassign-schedule-uri [assignment-id]
-  (str "http://localhost:4000/earlyvote/assignments/" assignment-id))
+  (url "/earlyvote/assignments/" assignment-id))
 
 (defn save-new-schedule-uri [db]
   (url "/earlyvote/elections/" (:selected-election-id db) "/schedules"))

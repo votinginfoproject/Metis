@@ -43,8 +43,11 @@
 
 (defn list-elections-params
   [db]
-  ; eventually we'll check for a state/county level user and return fips code
-  {})
+  (let [roles (get-in db [:user :roles])
+        fips-code (first (get-in db [:user :fipsCodes]))]
+    (if (some #{"super-admin"} roles)
+      {}
+      {:fips (subs fips-code 0 2)})))
 
 (defn get-elections-list
   [{:keys [db]} _]

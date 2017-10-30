@@ -18,7 +18,7 @@
    [:td (:city site)]
    [:td
     [:button.button
-     {:on-click #(re-frame/dispatch [:navigate/early-vote-form (:id site)])}
+     {:on-click #(re-frame/dispatch [:navigate/edit-early-vote-site-form (:id site)])}
      "edit"]]])
 
 (defn early-vote-sites-list []

@@ -10,8 +10,7 @@
 
 (defn flash-error
   [{:keys [db]} [_ message result]]
-  (println (pr-str result))
-  {:db (assoc-in db [:flash :error] message)
+  {:db (assoc-in db [:flash :error] (str message (pr-str result)))
    :dispatch-later [{:ms 5000 :dispatch [:flash/clear-error]}]})
 
 (defn clear-message
