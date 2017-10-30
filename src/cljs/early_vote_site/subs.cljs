@@ -58,3 +58,4 @@
   (dorun (map create-sub subscription-map)))
 
 (create-subscriptions election/subscriptions)
+(create-subscriptions flash/subscriptions)

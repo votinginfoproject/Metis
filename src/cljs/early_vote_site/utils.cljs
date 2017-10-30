@@ -20,4 +20,4 @@
   [message]
   (fn [{:keys [db]} [_ result]]
     {:db db
-     :dispatch [:flash/error (str message (pr-str result))]}))
+     :dispatch [:flash/error message result]}))

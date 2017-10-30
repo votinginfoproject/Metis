@@ -80,3 +80,4 @@
 (reg-events election/events)
 (reg-events election-detail/events)
 (reg-events early-vote-site-detail/events)
+(reg-events flash/events)
