@@ -1,14 +1,14 @@
 (ns early-vote-site.early-vote-site-detail.events
   (:require [ajax.core :as ajax]
+            [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.server :as server]
-            [early-vote-site.utils :as utils]
-            [early-vote-site.early-vote-site-list.events :as list-events]))
+            [early-vote-site.utils :as utils]))
 
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
   {:db (-> db
         (assoc :selected-early-vote-site-id early-vote-site-id)
-        (assoc :active-panel :early-vote-site/detail))
+        (assoc :active-panel :early-vote-site-detail/main))
    :dispatch-n [[:early-vote-site/get]
                 [:schedules-list/get]]})
 
@@ -27,7 +27,7 @@
 (defn get-early-vote-site-success
   [db [_ result]]
   (assoc db :selected-early-vote-site
-         (first (map list-events/early-vote-site-json->clj result))))
+         (first (map election-detail/early-vote-site-json->clj result))))
 
 (defn list-schedules
   [{:keys [db]} _]
