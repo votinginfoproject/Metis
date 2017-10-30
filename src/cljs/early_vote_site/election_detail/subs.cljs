@@ -2,12 +2,6 @@
   (:require [ajax.core :as ajax]
             [re-frame.core :as re-frame]))
 
-(re-frame/reg-sub
- :selected-election
- (fn [db]
-   (get-in db [:selected-election])))
-
-(re-frame/reg-sub
- :election-detail/get
- (fn [db]
-   (get-in db [:election-detail :detail])))
+(def subscriptions
+  {:election-detail/early-vote-site-list [:election-detail :early-vote-site-list]
+   :election-detail/election [:election-detail :election]})

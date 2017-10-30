@@ -4,7 +4,6 @@
             [early-vote-site.election.events :as elections]
             [early-vote-site.election-detail.events :as ed]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
-            [early-vote-site.early-vote-site-list.events :as early-vote-list]
             [early-vote-site.early-vote-site-detail.events :as early-vote-site-detail]
             [early-vote-site.flash.events]))
 
@@ -48,17 +47,6 @@
  :get-early-vote-site-data/failure
  early-vote-site-form/get-evs-data-failure)
 
-(re-frame/reg-event-fx
- :early-vote-site-list/get
- early-vote-list/list-early-vote-sites)
-
-(re-frame/reg-event-db
- :early-vote-site-list/success
- early-vote-list/list-success)
-
-(re-frame/reg-event-fx
- :early-vote-site-list/failure
- early-vote-list/list-failure)
 
 (re-frame/reg-event-fx
  :navigate/election-detail
@@ -93,4 +81,5 @@
   (dorun (map create-db-event (:db events-map)))
   (dorun (map create-fx-event (:fx events-map))))
 
+(reg-events election-detail/events)
 (reg-events early-vote-site-detail/events)
