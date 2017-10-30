@@ -18,7 +18,7 @@
       (is (= {:id            "fake-id"
               :state-fips    "08"
               :election-date "2017-10-31"}
-             (election-detail-json->clj json))))))
+             (events/election-detail-json->clj json))))))
 
 (deftest early-vote-site-json->clj-test
   (testing "json converts to clj"

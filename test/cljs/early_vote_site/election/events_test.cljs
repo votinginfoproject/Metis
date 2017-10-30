@@ -6,8 +6,8 @@
   (testing "formats create params"
     (is (= {:state_fips "08"
             :election_date "2017-10-31"}
-           (create-params {:elections {:form {:state "08"
-                                              :date "2017-10-31"}}})))))
+           (events/create-params {:elections {:form {:state "08"
+                                                     :date "2017-10-31"}}})))))
 
 (deftest election-json->clj
   (testing "converts a json style map to clojure style"
@@ -23,9 +23,9 @@
   (testing "params are empty for super-admin even with fipsCodes set"
     (let [db {:user {:roles ["super-admin"]
                      :fipsCodes {"08" true}}}]
-      (is (= {} (list-elections-params db)))))
+      (is (= {} (events/list-elections-params db)))))
   (testing "params include fips when not super-admin"
     (let [db {:user {:roles ["county-data-user"]
                      :fipsCodes {"08005" true}}}]
       (is (= {:fips "08"}
-             (list-elections-params db))))))
+             (events/list-elections-params db))))))
