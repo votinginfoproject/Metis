@@ -73,11 +73,6 @@
   [db [_ new-time-selected]]
   (assoc-in db [:schedules :form  :end-time] new-time-selected))
 
-(defn load-schedules-failure
-  [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:flash/error (str "Error loading schedules" (pr-str result))]})
-
 (defn unassign-schedule
   [{:keys [db]} [_ assignment-id]]
   (let [unassign-schedule-uri (server/unassign-schedule-uri assignment-id)]
@@ -161,7 +156,9 @@
         (utils/flash-error-with-results "Error assigning schedule")
 
         :navigate/early-vote-site-detail navigate
-        :schedules-list/failure load-schedules-failure
+        :schedules-list/failure
+        (utils/flash-error-with-results "Error loading schedules")
+
         :schedules-list/get list-schedules
         :early-vote-site/get get-early-vote-site
         :get-early-vote-site/failure
