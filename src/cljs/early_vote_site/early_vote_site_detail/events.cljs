@@ -4,6 +4,8 @@
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]))
 
+(enable-console-print!)
+
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
   {:db (-> db
@@ -48,6 +50,7 @@
    :end-date (get schedule "end_date")
    :start-time (get schedule "start_time")
    :end-time (get schedule "end_time")
+   :timezone (get schedule "timezone")
    :assignment-id (get schedule "assignment_id")})
 
 
@@ -65,13 +68,15 @@
 
 (defn start-time-selected
   [db [_ new-time-selected]]
-  (enable-console-print!)
-  (println (pr-str new-time-selected))
   (assoc-in db [:schedules :form  :start-time] new-time-selected))
 
 (defn end-time-selected
   [db [_ new-time-selected]]
   (assoc-in db [:schedules :form  :end-time] new-time-selected))
+
+(defn timezone-selected
+  [db [_ tz]]
+  (assoc-in db [:schedules :form :timezone] tz))
 
 (defn unassign-schedule
   [{:keys [db]} [_ assignment-id]]
@@ -109,7 +114,8 @@
   {:start_date (get-in db [:schedules :form  :start-date])
    :end_date (get-in db [:schedules :form  :end-date])
    :start_time (get-in db [:schedules :form  :start-time])
-   :end_time (get-in db [:schedules :form  :end-time])})
+   :end_time (get-in db [:schedules :form  :end-time])
+   :timezone (get-in db [:schedules :form :timezone])})
 
 (defn save-new-schedule
   [{:keys [db]} [_ start-date-atom end-date-atom start-time-atom end-time-atom]]
@@ -142,7 +148,8 @@
         :schedule-form/start-date-selected start-date-selected
         :schedule-form/end-date-selected end-date-selected
         :schedule-form/start-time-selected start-time-selected
-        :schedule-form/end-time-selected end-time-selected}
+        :schedule-form/end-time-selected end-time-selected
+        :schedule-form/timezone-selected timezone-selected}
    :fx {:unassign-schedule unassign-schedule
         :assign-schedule assign-schedule
         :unassign-schedule/success unassign-schedule-success
