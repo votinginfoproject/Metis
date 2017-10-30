@@ -1,80 +1,63 @@
 (ns early-vote-site.election.events
   (:require [ajax.core :as ajax]
             [clojure.string :as str]
+            [early-vote-site.db :as db]
             [early-vote-site.server :as server]
+            [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
 (defn navigate
   [{:keys [db]} [_]]
   {:db (assoc db :active-panel :election/main)
-   :dispatch [:elections/list-get]})
+   :dispatch [:elections-list/get]})
 
-(re-frame/reg-event-db
- :election-form/state-selected
- (fn [db [_ new-state-selected]]
-   (assoc-in db [:elections :form :state] new-state-selected)))
+(defn update-form [db [_ keyword newval]]
+  (assoc-in db [:elections :form keyword] newval))
 
-(re-frame/reg-event-db
- :election-form/date-selected
- (fn [db [_ new-date-selected]]
-   (assoc-in db [:elections :form  :date] new-date-selected)))
-
-(re-frame/reg-event-fx
- :election-form/election-selected
- (fn [{:keys [db]} [_ election-id]]
-   {:db (assoc-in db [:selected-election] election-id)
-    :dispatch [:navigate/election-detail]}))
+(defn select-election [{:keys [db]} [_ election-id]]
+  {:db (assoc-in db [:selected-election-id] election-id)
+   :dispatch [:navigate/election-detail]})
 
 (defn create-params [db]
   {:state_fips (get-in db [:elections :form :state])
    :election_date (get-in db [:elections :form :date])})
 
-(re-frame/reg-event-fx
- :election-form/save
- (fn [{:keys [db]} _]
-   (let [data (create-params db)]
-     {:db db
-      :http-xhrio {:method          :post
-                   :uri             (server/url "/earlyvote/elections")
-                   :params          data
-                   :timeout         8000
-                   :format          (ajax/json-request-format)
-                   :response-format (ajax/json-response-format)
-                   :on-success [:election-xhr/saved]
-                   :on-failure [:election-xhr/failed]}})))
+(defn save-election
+  [{:keys [db]} _]
+  (let [data (create-params db)]
+    {:db db
+     :http-xhrio {:method          :post
+                  :uri             (server/url "/earlyvote/elections")
+                  :params          data
+                  :timeout         8000
+                  :format          (ajax/json-request-format)
+                  :response-format (ajax/json-response-format)
+                  :on-success [:election-save/success]
+                  :on-failure [:election-save/failure]}}))
 
-(re-frame/reg-event-db
- :election-xhr/saved
- (fn [db [_ result]]
-   (re-frame/dispatch [:flash/message "Election saved"])
-   (re-frame/dispatch [:elections/list-get])
-   (-> db
-       (assoc-in [:elections :form] {:state "" :date nil}))))
-
-(re-frame/reg-event-db
- :election-xhr/failed
- (fn [db [_ result]]
-   (re-frame/dispatch [:flash/error (str "Error saving election"
-                                         (pr-str result))])))
+(defn save-election-success
+  [{:keys [db]} [_ result]]
+  {:db (assoc-in db [:elections :form] db/fresh-election-form)
+   :dispatch-n [[:flash/message "Election saved"]
+                [:elections-list/get]]})
 
 (defn list-elections-params
   [db]
   ; eventually we'll check for a state/county level user and return fips code
   {})
 
-(re-frame/reg-event-fx
- :elections/list-get
- (fn [{:keys [db]} _]
-   (let [data (list-elections-params db)]
-     {:db db
-      :http-xhrio {:method          :get
-                   :uri             (server/election-url db)
-                   :params          data
-                   :timeout         8000
-                   :format          (ajax/json-request-format)
-                   :response-format (ajax/json-response-format)
-                   :on-success [:elections/list-success]
-                   :on-failure [:elections/list-fail]}})))
+(defn get-elections-list
+  [{:keys [db]} _]
+  (let [data (list-elections-params db)]
+    {:db db
+     :http-xhrio {:method          :get
+                  :uri             (server/election-url db)
+                  :params          data
+                  :timeout         8000
+                  :format          (ajax/json-request-format)
+                  :response-format (ajax/json-response-format)
+                  :on-success [:elections-list-get/success]
+                  :on-failure [:elections-list-get/failure]}}))
 
 (defn election-json->clj
   [json]
@@ -82,14 +65,22 @@
    :state-fips (get json "state_fips")
    :election-date (get json "election_date")})
 
-(re-frame/reg-event-db
- :elections/list-success
- (fn [db [_ result]]
-   (assoc-in db [:elections :list]
-             (map election-json->clj result))))
+(defn get-elections-list-success
+  [db [_ result]]
+  (assoc-in db [:elections :list]
+            (map election-json->clj result)))
 
-(re-frame/reg-event-db
- :elections/list-fail
- (fn [db [_ result]]
-   (re-frame/dispatch [:flash/error "Could not contact server for elections"])
-   db))
+(def events
+  {:db {:election-form/update update-form
+        :elections-list-get/success get-elections-list-success}
+   :fx {:navigate/elections navigate
+        :election-list/election-selected select-election
+        :election-form/save save-election
+        :election-save/success save-election-success
+        :elections-list/get get-elections-list
+
+        :election-save/failure
+        (utils/flash-error-with-results "Error saving election")
+
+        :elections-list-get/failure
+        (utils/flash-error-with-results "Error loading election list")}})

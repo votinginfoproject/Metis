@@ -18,19 +18,21 @@
        [:label {:for "state" :style {:padding-right 10}} "State"]
        [:select {:id "state" :type "text" :class "form-control"
                  :value @state
-                 :on-change #(re-frame/dispatch [:election-form/state-selected
+                 :on-change #(re-frame/dispatch [:election-form/update
+                                                 :state
                                                  (-> % .-target .-value)])}
         (map #(state-select-row %)
              (concat [{:fips-code "" :state-name "Select a State"}]
                      constants/states))]]
       [:div {:class "form-group mx-sm-3"}
        [:label {:for "date" :style {:padding-right 10}} "Date"]
-       [pikaday/date-selector {:class "form-control"
-                               :date-atom date
-                               :pikaday-attrs
-                               {:min-date (js/Date.)
-                                :on-select #(re-frame/dispatch
-                                              [:election-form/date-selected %])}}]]
+       [pikaday/date-selector
+        {:class "form-control"
+         :date-atom date
+         :pikaday-attrs
+         {:min-date (js/Date.)
+          :on-select #(re-frame/dispatch
+                       [:election-form/update :date %])}}]]
       [:button.button {:on-click #(re-frame/dispatch [:election-form/save])
                        :disabled @(re-frame/subscribe [:create-disabled?])}
        "add"]]
@@ -42,7 +44,7 @@
   (let [roles @(re-frame/subscribe [:roles])]
     [:tr {:key (:id election)}
      [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
-     [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-form/election-selected (:id election)])}
+     [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
       [:div {:class "btn-link"} (-> election :election-date utils/format-date)]]
      [:td
       [:button.button {:style {:display (if (not (some #{"data-centralization"} roles)) "inline" "none")}} "edit"]]]))
@@ -61,7 +63,6 @@
         [:tr [:td {:col-span 2} "No Elections"]]])]))
 
 (defn main-panel []
-  (fn []
-    [:div
-     [election-table]
-     [form]]))
+  [:div
+   [election-table]
+   [form]])

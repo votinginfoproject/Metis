@@ -53,4 +53,8 @@
     (create-keypath-sub keyword sub)
     (create-fn-sub keyword sub)))
 
-(dorun (map create-sub evs.detail/subscriptions))
+(defn create-subscriptions
+  [subscription-map]
+  (dorun (map create-sub subscription-map)))
+
+(create-subscriptions election/subscriptions)

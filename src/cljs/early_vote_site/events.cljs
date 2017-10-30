@@ -1,8 +1,8 @@
 (ns early-vote-site.events
   (:require [re-frame.core :as re-frame]
             [early-vote-site.db :as db]
-            [early-vote-site.election.events :as elections]
             [early-vote-site.election-detail.events :as ed]
+            [early-vote-site.election.events :as election]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
             [early-vote-site.early-vote-site-detail.events :as early-vote-site-detail]
             [early-vote-site.flash.events]))
@@ -60,10 +60,6 @@
  :navigate/edit-early-vote-form
  early-vote-form/navigate)
 
-(re-frame/reg-event-fx
- :navigate/elections
- elections/navigate)
-
 (defn create-db-event
   [[keyword handler-fn]]
   (re-frame/reg-event-db
@@ -81,5 +77,6 @@
   (dorun (map create-db-event (:db events-map)))
   (dorun (map create-fx-event (:fx events-map))))
 
+(reg-events election/events)
 (reg-events election-detail/events)
 (reg-events early-vote-site-detail/events)
