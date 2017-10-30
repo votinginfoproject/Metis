@@ -1,7 +1,6 @@
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
 var logger = (require('../logging/vip-winston')).Logger;
-var auth = require('../authentication/services.js');
 var uuidv4 = require('uuid/v4');
 
 //create election
@@ -23,7 +22,6 @@ var getElectionQuery =
 var getElection = util.simpleQueryResponder(getElectionQuery, util.pathParamExtractor(['electionid']));
 
 function registerElectionServices (app) {
-  //app.all('/evs/elections/*', auth.checkJwt);
   app.post('/earlyvote/elections', createElection);
   app.get('/earlyvote/elections', getElections);
   app.get('/earlyvote/elections/:electionid', getElection);
