@@ -54,7 +54,7 @@
 
 (defn create-params [db]
   (let [form (form->params (:early-vote-site-form db))
-        fips (get-in db [:election-detail :detail :state-fips])
+        fips (get-in db [:election-detail :election :state-fips])
         state (get constants/state-abbreviations-by-fips fips)]
     (merge form {:state state})))
 
