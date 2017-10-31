@@ -10,7 +10,7 @@
         fips (first @(re-frame/subscribe [:fips-codes]))]
     [:div
      [:h1 (-> election :state-fips utils/format-fips)]
-     [:h2 (-> election :election-date utils/format-date)]
+     [:h2 (-> election :election-date utils/format-date-string)]
      [:div {:name "create-early-vote-site-form"}
       [:div {:class "form-group row mx-sm-3"
              :style
