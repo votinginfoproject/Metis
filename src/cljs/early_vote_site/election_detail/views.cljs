@@ -41,7 +41,7 @@
      [:button.button {:on-click #(re-frame/dispatch [:navigate/early-vote-site-form])}
       "Create an Early Vote Site"]]))
 
-(defn election-details []
+(defn election-details [election]
   (when election
     [:div
      [:h1 (-> election :state-fips utils/format-fips)]
