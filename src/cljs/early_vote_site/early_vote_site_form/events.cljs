@@ -30,10 +30,11 @@
 
 ; change active panel on success
 (defn get-evs-data-success
-  [{:keys [db]} [_ result]]
+  [db [_ result]]
   (let [form (early-vote-site-json->form (first result))]
-    {:db (assoc db :early-vote-site-form form)
-     :dispatch [:navigate/early-vote-site-form]}))
+    (-> db
+        (assoc :early-vote-site-form form)
+        (assoc :active-panel :early-vote-site-form/main))))
 
 (defn navigate
   [db _]
@@ -96,11 +97,11 @@
 
 (def events
   {:db {:early-vote-site-form/update form-update
-        :navigate/early-vote-site-form navigate}
+        :navigate/early-vote-site-form navigate
+        :get-early-vote-site-data/success get-evs-data-success}
    :fx {:navigate/edit-early-vote-site-form navigate-edit
         :early-vote-site-form/save form-submit
         :early-vote-site-save/success save-success
-        :get-early-vote-site-data/success get-evs-data-success
         :get-early-vote-site-data/failure
         (utils/flash-error-with-results "Error retrieving early vote site")
         :early-vote-site-save/failure
