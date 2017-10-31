@@ -46,7 +46,7 @@
     (when election
       [:div
        [:h1 (-> election :state-fips utils/format-fips)]
-       [:h2 (-> election :election-date utils/format-date)]])))
+       [:h2 (-> election :election-date utils/format-date-string)]])))
 
 (defn main-panel []
   (fn []
