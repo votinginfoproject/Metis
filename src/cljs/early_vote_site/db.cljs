@@ -14,7 +14,8 @@
     :selected-election-id nil
     :selected-early-vote-site-id nil
     :elections {:list nil
-                :form fresh-election-form}
+                :editing #{}
+                :forms {:new fresh-election-form}}
     :election-detail {:early-vote-site-list nil
                       :election nil}
     :early-vote-site-form fresh-early-vote-site-form}))

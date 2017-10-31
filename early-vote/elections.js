@@ -22,11 +22,19 @@ var getElectionQuery =
   "select * from elections where id = $1";
 var getElection = util.simpleQueryResponder(getElectionQuery, util.pathParamExtractor(['electionid']));
 
+//update election
+var updateSql = "UPDATE elections set state_fips = $2, election_date = $3 where id = $1;"
+var updateElectionsParamFn =
+  util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
+                               util.bodyParamExtractor(['state_fips', 'election_date'])]);
+var updateElection = util.simpleCommandResponder(updateSql, updateElectionsParamFn);
+
 function registerElectionServices (app) {
   //app.all('/evs/elections/*', auth.checkJwt);
   app.post('/earlyvote/elections', createElection);
   app.get('/earlyvote/elections', getElections);
   app.get('/earlyvote/elections/:electionid', getElection);
+  app.put('/earlyvote/elections/:electionid', updateElection);
 }
 
 exports.registerElectionServices = registerElectionServices;

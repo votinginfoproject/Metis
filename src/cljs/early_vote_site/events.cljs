@@ -14,8 +14,10 @@
 (defn load-user
   [db _]
   (if-let [user-json (.getItem js/localStorage "auth0_user")]
-    (let [user (js->clj (.parse js/JSON user-json) :keywordize-keys true)]
-      (assoc db :user user))
+    (let [user (js->clj (.parse js/JSON user-json) :keywordize-keys true)
+          role-set (into #{} (:roles user))
+          user-with-roles (assoc user :roles role-set)]
+      (assoc db :user user-with-roles))
     db))
 
 (def global-events

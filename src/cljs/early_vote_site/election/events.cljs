@@ -11,42 +11,53 @@
   {:db (assoc db :active-panel :election/main)
    :dispatch [:elections-list/get]})
 
-(defn update-form [db [_ keyword newval]]
-  (assoc-in db [:elections :form keyword] newval))
+(defn update-form [db [_ id keyword newval]]
+  (assoc-in db [:elections :forms id keyword] newval))
 
 (defn select-election [{:keys [db]} [_ election-id]]
   {:db (assoc-in db [:selected-election-id] election-id)
    :dispatch [:navigate/election-detail]})
 
-(defn create-params [db]
-  {:state_fips (get-in db [:elections :form :state])
-   :election_date (get-in db [:elections :form :date])})
+(defn create-params [db id]
+  {:state_fips (get-in db [:elections :forms id :state])
+   :election_date (get-in db [:elections :forms id :date])})
+
+(defn save-url
+  [db id]
+  (if (= :new id)
+    (server/election-url db)
+    (server/election-with-id-url id)))
+
+(defn save-method [id]
+  (if (= :new id)
+    :post
+    :put))
 
 (defn save-election
-  [{:keys [db]} _]
-  (let [data (create-params db)]
+  [{:keys [db]} [_ id]]
+  (let [data (create-params db id)]
     {:db db
-     :http-xhrio {:method          :post
-                  :uri             (server/url "/earlyvote/elections")
+     :http-xhrio {:method          (save-method id)
+                  :uri             (save-url db id)
                   :params          data
                   :timeout         8000
                   :format          (ajax/json-request-format)
                   :response-format (ajax/json-response-format)
-                  :on-success [:election-save/success]
+                  :on-success [:election-save/success id]
                   :on-failure [:election-save/failure]}}))
 
 (defn save-election-success
-  [{:keys [db]} [_ result]]
-  {:db (assoc-in db [:elections :form] db/fresh-election-form)
+  [{:keys [db]} [_ id result]]
+  {:db (assoc-in db [:elections :forms id] db/fresh-election-form)
    :dispatch-n [[:flash/message "Election saved"]
-                [:elections-list/get]]})
+                [:elections-list/get]
+                [:elections/end-edit id]]})
 
 (defn list-elections-params
   [db]
   (let [roles (get-in db [:user :roles])
         fips-code (first (get-in db [:user :fipsCodes]))]
-    (if (some #{"super-admin"} roles)
-      {}
+    (when-not (contains? roles "super-admin")
       {:fips (subs fips-code 0 2)})))
 
 (defn get-elections-list
@@ -73,9 +84,31 @@
   (assoc-in db [:elections :list]
             (map election-json->clj result)))
 
+(defn election->form
+  [election]
+  {:id (:id election)
+   :state (:state-fips election)
+   :date (utils/parse-date (:election-date election))})
+
+(defn start-edit
+  [db [_ election]]
+  (let [id (:id election)]
+    (-> db
+      (update-in [:elections :editing] conj id)
+      (assoc-in [:elections :forms id] (election->form election)))))
+
+(defn end-edit
+  [db [_ id]]
+  (println "end-edit on " id)
+  (-> db
+    (update-in [:elections :editing] disj id)
+    (update-in [:elections :forms] dissoc id)))
+
 (def events
   {:db {:election-form/update update-form
-        :elections-list-get/success get-elections-list-success}
+        :elections-list-get/success get-elections-list-success
+        :elections/start-edit start-edit
+        :elections/end-edit end-edit}
    :fx {:navigate/elections navigate
         :election-list/election-selected select-election
         :election-form/save save-election

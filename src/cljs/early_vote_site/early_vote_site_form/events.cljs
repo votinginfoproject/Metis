@@ -39,7 +39,7 @@
   [db _]
   (let [roles (get-in db [:user :roles])
         fips (first (get-in db [:user :fipsCodes]))]
-    (if (some #{"data-centralization"} roles)
+    (if (contains? roles "data-centralization")
       (-> db (assoc :active-panel :early-vote-site-form/main)
           (assoc-in [:early-vote-site-form :county-fips] fips))
       (assoc db :active-panel :early-vote-site-form/main))))

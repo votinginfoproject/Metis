@@ -20,8 +20,8 @@
 (defn schedule->row
   [schedule]
   [:tr {:key (:id schedule)}
-   [:td (utils/format-date (:start-date schedule))]
-   [:td (utils/format-date (:end-date schedule))]
+   [:td (utils/format-date-string (:start-date schedule))]
+   [:td (utils/format-date-string (:end-date schedule))]
    [:td (:start-time schedule)]
    [:td (:end-time schedule)]
    [:td (:timezone schedule)]

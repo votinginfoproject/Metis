@@ -10,6 +10,10 @@
   [db]
   (url "/earlyvote/elections"))
 
+(defn election-with-id-url
+  [id]
+  (url "/earlyvote/elections/" id))
+
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))
 

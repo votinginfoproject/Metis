@@ -14,7 +14,7 @@
      [:div {:name "create-early-vote-site-form"}
       [:div {:class "form-group row mx-sm-3"
              :style
-              {:visibility (if (not (some #{"data-centralization"} roles)) "visible" "hidden")}}
+              {:visibility (if (not (contains? roles "data-centralization")) "visible" "hidden")}}
        [:label {:for "county-fips" :class "col-2 col-form-label" :style {:padding-right 10}} "County FIPS*:"]
        [:div {:class "col-10"}
          [:input {:id "county-fips" :type "text" :class "form-control col-md-6"
