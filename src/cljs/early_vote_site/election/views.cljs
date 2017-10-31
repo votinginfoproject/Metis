@@ -32,14 +32,16 @@
          {:min-date (js/Date.)
           :on-select #(re-frame/dispatch
                        [:election-form/update id :date %])}}]]
-      [:td
-       [:button.button
-        {:on-click #(re-frame/dispatch [:election-form/save id])
+      [:td {:class "button-group"}
+       [:span
+        {:class "btn-link"
+         :on-click #(re-frame/dispatch [:election-form/save id])
          :disabled @(re-frame/subscribe [:create-disabled?])}
         "save"]
        (when-not (= :new id)
-         [:button.button
-          {:on-click #(re-frame/dispatch [:elections/end-edit id])
+         [:span
+          {:class "btn-link"
+           :on-click #(re-frame/dispatch [:elections/end-edit id])
            :disabled @(re-frame/subscribe [:create-disabled?])}
           "cancel"])]]))
 
@@ -51,15 +53,19 @@
       [form (:id election)]
       [:tr {:key (str "viewing-" (:id election))}
        [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
-       [:td {:name "election-date" :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
-        [:div {:class "btn-link"} (-> election :election-date utils/format-date-string)]]
-       [:td
-        [:button.button {:style {:visibility
-                                 (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
-                                   "visible"
-                                   "hidden")}
-                         :on-click #(re-frame/dispatch [:elections/start-edit election])}
-                        "edit"]]])))
+       [:td {:name "election-date"} (-> election :election-date utils/format-date-string)]
+       [:td {:class "button-group"}
+        [:span {:class "btn-link"
+                :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
+              "early vote sites"]
+        [:span {:class "btn-link"
+                :style {:padding-left "5px"
+                        :visibility
+                         (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
+                            "visible"
+                            "hidden")}
+                :on-click #(re-frame/dispatch [:elections/start-edit election])}
+              "edit"]]])))
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])
@@ -69,7 +75,7 @@
       [:tr {:key "elections-head-row"}
        [:th {:name "election-state"} "State"]
        [:th {:name "election-date"} "Date"]
-       [:th {:name "action"}]]]
+       [:th {:name "action"} "Actions"]]]
      [:tbody
       (if (seq election-list-items)
         (doall (map election-list-row election-list-items))

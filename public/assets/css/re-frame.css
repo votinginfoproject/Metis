@@ -3154,4 +3154,17 @@ section.data-module {
   h3 {
     page-break-after: avoid; } }
 
+/** Early Vote Site customizations */
+
+.button-group .btn-link:before {
+  content: "|";
+  padding-right: ".5rem";
+  margin-left: ".5rem";
+}
+
+.button-group .btn-link:before:first-child {
+  content: "";
+  padding-left: "0rem"
+}
+
 /*# sourceMappingURL=app.css.map */
