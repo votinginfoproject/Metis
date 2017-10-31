@@ -43,5 +43,8 @@
 (defn unassign-schedule-uri [assignment-id]
   (url "/earlyvote/assignments/" assignment-id))
 
+(defn update-schedule-uri [id]
+  (url "/earlyvote/schedules/" id))
+
 (defn save-new-schedule-uri [db]
   (url "/earlyvote/elections/" (:selected-election-id db) "/schedules"))

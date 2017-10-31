@@ -4,8 +4,6 @@
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]))
 
-(enable-console-print!)
-
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
   {:db (-> db
@@ -28,7 +26,7 @@
 
 (defn get-early-vote-site-success
   [db [_ result]]
-  (assoc db :selected-early-vote-site
+  (assoc-in db [:early-vote-site-detail :early-vote-site]
          (first (map election-detail/early-vote-site-json->clj result))))
 
 (defn list-schedules
@@ -54,29 +52,68 @@
    :assignment-id (get schedule "assignment_id")})
 
 
-(defn load-schedules-success
+(defn list-schedules-success
   [db [_ result]]
-  (assoc-in db [:selected-early-vote-site-schedules] (map schedule-json->clj result)))
+  (assoc-in db [:early-vote-site-detail :schedules]
+            (map schedule-json->clj result)))
 
-(defn start-date-selected
-  [db [_ new-date-selected]]
-  (assoc-in db [:schedules :form  :start-date] new-date-selected))
+(defn save-schedule-params
+  [{:keys [start-date-atom end-date-atom start-time-atom
+           end-time-atom timezone-atom]}]
+  {:start_date @start-date-atom
+   :end_date @end-date-atom
+   :start_time @start-time-atom
+   :end_time @end-time-atom
+   :timezone @timezone-atom})
 
-(defn end-date-selected
-  [db [_ new-date-selected]]
-  (assoc-in db [:schedules :form  :end-date] new-date-selected))
+(defn save-schedule-uri [db id]
+  (if id
+    (server/update-schedule-uri id)
+    (server/save-new-schedule-uri db)))
 
-(defn start-time-selected
-  [db [_ new-time-selected]]
-  (assoc-in db [:schedules :form  :start-time] new-time-selected))
+(defn save-schedule
+  [{:keys [db]} [_ {:keys [id] :as form}]]
+  {:db db
+   :http-xhrio {:method           (if id :put :post)
+                :uri              (save-schedule-uri db id)
+                :params           (save-schedule-params form)
+                :timeout          8000
+                :format           (ajax/json-request-format)
+                :response-format  (ajax/text-response-format)
+                :on-success       [:save-schedule/success form]
+                :on-failure       [:save-schedule/failure]}})
 
-(defn end-time-selected
-  [db [_ new-time-selected]]
-  (assoc-in db [:schedules :form  :end-time] new-time-selected))
+(defn save-success
+  [{:keys [db]} [_ form result]]
+  (reset! (:start-date-atom form) (js/Date.))
+  (reset! (:end-date-atom form) nil)
+  (reset! (:start-time-atom form) nil)
+  (reset! (:end-time-atom form) nil)
+  (reset! (:timezone-atom form) nil)
+  (if (nil? (:id form))
+    {:db db
+     :dispatch [:assign-schedule result]}
+    {:db db
+     :dispatch-n [[:schedule/end-edit (:id form)]
+                  [:schedules-list/get]]}))
 
-(defn timezone-selected
-  [db [_ tz]]
-  (assoc-in db [:schedules :form :timezone] tz))
+(defn assign-schedule
+  [{:keys [db]} [_ schedule-id]]
+  (let [assign-schedule-uri (server/assign-schedule-uri db)]
+    {:db db
+     :http-xhrio {:method           :post
+                  :uri              assign-schedule-uri
+                  :params           {:schedule_id schedule-id}
+                  :timeout          8000
+                  :format           (ajax/json-request-format)
+                  :response-format  (ajax/json-response-format)
+                  :on-success       [:assign-schedule/success]
+                  :on-failure       [:assign-schedule/failure]}}))
+
+(defn assign-schedule-success
+  [{:keys [db]} [_ result]]
+  {:db db
+   :dispatch [:schedules-list/get]})
 
 (defn unassign-schedule
   [{:keys [db]} [_ assignment-id]]
@@ -96,81 +133,40 @@
   {:db db
    :dispatch [:schedules-list/get]})
 
-(defn assign-schedule
-  [{:keys [db]} [_ schedule-id]]
-  (let [assign-schedule-uri (server/assign-schedule-uri db)]
-    {:db db
-     :http-xhrio {:method           :post
-                  :uri              assign-schedule-uri
-                  :params           {:schedule_id schedule-id}
-                  :timeout          8000
-                  :format           (ajax/json-request-format)
-                  :response-format  (ajax/json-response-format)
-                  :on-success       [:assign-schedule/success]
-                  :on-failure       [:assign-schedule/failure]}}))
+(defn start-edit
+  [db [_ id]]
+  (update-in db [:early-vote-site-detail :editing] conj id))
 
-(defn new-schedule-params
-  [db]
-  {:start_date (get-in db [:schedules :form  :start-date])
-   :end_date (get-in db [:schedules :form  :end-date])
-   :start_time (get-in db [:schedules :form  :start-time])
-   :end_time (get-in db [:schedules :form  :end-time])
-   :timezone (get-in db [:schedules :form :timezone])})
-
-(defn save-new-schedule
-  [{:keys [db]} [_ start-date-atom end-date-atom start-time-atom end-time-atom]]
-  ; TODO these resets should happen on success and not just when this is called
-  ; fix this later
-  (reset! start-date-atom (js/Date.))
-  (reset! end-date-atom nil)
-  (reset! start-time-atom nil)
-  (reset! end-time-atom nil)
-  (let [save-new-schedule-uri (server/save-new-schedule-uri db)
-        params (new-schedule-params db)]
-    {:db db
-     :http-xhrio {:method           :post
-                  :uri              save-new-schedule-uri
-                  :params           params
-                  :timeout          8000
-                  :format           (ajax/json-request-format)
-                  :response-format  (ajax/text-response-format)
-                  :on-success       [:save-schedule/success]
-                  :on-failure       [:save-schedule/failure]}}))
-
-(defn assign-schedule-success
-  [{:keys [db]} [_ result]]
-  {:db db
-   :dispatch [:schedules-list/get]})
+(defn end-edit
+  [db [_ id]]
+  (update-in db [:early-vote-site-detail :editing] disj id))
 
 (def events
-  {:db {:schedules-list/success load-schedules-success
-        :get-early-vote-site/success get-early-vote-site-success
-        :schedule-form/start-date-selected start-date-selected
-        :schedule-form/end-date-selected end-date-selected
-        :schedule-form/start-time-selected start-time-selected
-        :schedule-form/end-time-selected end-time-selected
-        :schedule-form/timezone-selected timezone-selected}
-   :fx {:unassign-schedule unassign-schedule
-        :assign-schedule assign-schedule
-        :unassign-schedule/success unassign-schedule-success
+  {:db {:get-early-vote-site/success get-early-vote-site-success
+        :schedules-list/success list-schedules-success
+        :schedule/start-edit start-edit
+        :schedule/end-edit end-edit}
+   :fx {:navigate/early-vote-site-detail navigate
 
-        :unassign-schedule/failure
-        (utils/flash-error-with-results "Error unassigning schedule")
-
-        :assign-schedule/success assign-schedule-success
-
-        :assign-schedule/failure
-        (utils/flash-error-with-results "Error assigning schedule")
-
-        :navigate/early-vote-site-detail navigate
-        :schedules-list/failure
-        (utils/flash-error-with-results "Error loading schedules")
-
-        :schedules-list/get list-schedules
         :early-vote-site/get get-early-vote-site
         :get-early-vote-site/failure
         (utils/flash-error-with-results "Error getting Early Vote Site")
-        :schedule-form/save save-new-schedule
-        :save-schedule/success assign-schedule
+
+        :schedules-list/get list-schedules
+        :schedules-list/failure
+        (utils/flash-error-with-results "Error loading schedules")
+
+        :schedule-form/save save-schedule
+        :save-schedule/success save-success
         :save-schedule/failure
-        (utils/flash-error-with-results "Error saving new schedule")}})
+        (utils/flash-error-with-results "Error saving new schedule")
+
+        :assign-schedule assign-schedule
+        :assign-schedule/success assign-schedule-success
+        :assign-schedule/failure
+        (utils/flash-error-with-results "Error assigning schedule")
+
+        :unassign-schedule unassign-schedule
+        :unassign-schedule/success unassign-schedule-success
+        :unassign-schedule/failure
+        (utils/flash-error-with-results "Error unassigning schedule")}})

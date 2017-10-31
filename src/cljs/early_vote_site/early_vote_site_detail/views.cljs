@@ -4,76 +4,60 @@
             [cljs-pikaday.reagent :as pikaday]
             [early-vote-site.utils :as utils]))
 
-(enable-console-print!)
+(defn early-vote-site-detail
+  [early-vote-site]
+  (when early-vote-site
+    [:h2 (:name early-vote-site)]))
 
-(def schedules-header
-  [:thead
-    [:tr {:key "schedules-list-head-row"}
-      [:th {:name "schedules-start-date"} "Start Date"]
-      [:th {:name "schedules-end-date"} "End Date"]
-      [:th {:name "schedules-start-time"} "Start Time"]
-      [:th {:name "schedules-end-time"} "End Time"]
-      [:th {:name "schedules-timezone"} "Time Zone"]
-      [:th {:name "assigned"} "Assigned"]
-      [:th {:name "actions"} "Actions"]]])
+(defn new-form []
+  {:start-date-atom (r/atom (js/Date.))
+   :end-date-atom (r/atom nil)
+   :start-time-atom (r/atom nil)
+   :end-time-atom (r/atom nil)
+   :timezone-atom (r/atom nil)})
 
-(defn schedule->row
-  [schedule]
-  [:tr {:key (:id schedule)}
-   [:td (utils/format-date-string (:start-date schedule))]
-   [:td (utils/format-date-string (:end-date schedule))]
-   [:td (:start-time schedule)]
-   [:td (:end-time schedule)]
-   [:td (:timezone schedule)]
-   [:td [:input {:type "checkbox"
-                 :checked (not (nil? (:assignment-id schedule)))
-                 :value (:id schedule)
-                 :on-change #(if (not (nil? (:assignment-id schedule)))
-                              (re-frame/dispatch [:unassign-schedule (:assignment-id schedule)])
-                              (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]
-   [:td
-    [:button.button "edit"]]])
+(defn edit-form [schedule]
+  {:id (:id schedule)
+   :start-date-atom (r/atom (utils/parse-date (:start-date schedule)))
+   :end-date-atom (r/atom (utils/parse-date (:end-date schedule)))
+   :start-time-atom (r/atom (:start-time schedule))
+   :end-time-atom (r/atom (:end-time schedule))
+   :timezone-atom (r/atom (:timezone schedule))})
 
-(defn update-value
-  [key _ _ newvalue]
-  (re-frame/dispatch [key newvalue]))
-
-(defn schedule-form []
-  (let [start-date (r/atom (js/Date.))
-        end-date (r/atom nil)
-        start-time (r/atom nil)
-        end-time (r/atom nil)
-        timezone (r/atom nil)]
-    (add-watch start-date :schedule-form/start-date-selected update-value)
-    (add-watch end-date :schedule-form/end-date-selected update-value)
-    (add-watch start-time :schedule-form/start-time-selected update-value)
-    (add-watch end-time :schedule-form/end-time-selected update-value)
-    (add-watch timezone :schedule-form/timezone-selected update-value)
+(defn schedule-form [& schedule]
+  (let [editing? (seq schedule)
+        form (if editing?
+               (edit-form (first schedule))
+               (new-form))]
     (fn []
-      [:tr {:key "schedule-form"}
+      [:tr
        [:td [pikaday/date-selector {:class "form-control"
-                                    :date-atom start-date
-                                    :max-date-atom end-date
+                                    :date-atom (:start-date-atom form)
+                                    :max-date-atom (:end-date-atom form)
                                     :pikaday-attrs
                                     {:min-date (js/Date.)
-                                     :max-date @end-date}}]]
+                                     :max-date @(:end-date-atom form)}}]]
        [:td [pikaday/date-selector {:class "form-control"
-                                    :date-atom end-date
-                                    :min-date-atom start-date
+                                    :date-atom (:end-date-atom form)
+                                    :min-date-atom (:start-date-atom form)
                                     :pikaday-attrs
-                                    {:min-date (or @start-date (js/Date.))}}]]
+                                    {:min-date (or @(:start-date-atom form)
+                                                   (js/Date.))}}]]
        [:td [:input {:type "time"
                      :class "form-control"
-                     :value @start-time
-                     :on-change #(reset! start-time (-> % .-target .-value))}]]
+                     :value @(:start-time-atom form)
+                     :on-change #(reset! (:start-time-atom form)
+                                         (-> % .-target .-value))}]]
        [:td [:input {:type "time"
                      :class "form-control"
-                     :value @end-time
-                     :on-change #(reset! end-time (-> % .-target .-value))}]]
+                     :value @(:end-time-atom form)
+                     :on-change #(reset! (:end-time-atom form)
+                                         (-> % .-target .-value))}]]
        [:td [:select {:type "text"
                       :class "form-control"
-                      :value (or @timezone "")
-                      :on-change #(reset! timezone (-> % .-target .-value))}
+                      :value (or @(:timezone-atom form) "")
+                      :on-change #(reset! (:timezone-atom form)
+                                          (-> % .-target .-value))}
              [:option {:value ""} "Select"]
              [:option {:value "EST"} "EST"]
              [:option {:value "EDT"} "EDT"]
@@ -87,24 +71,63 @@
              [:option {:value "AKDT"} "AKDT"]
              [:option {:value "HST"} "HST"]
              [:option {:value "HDT"} "HDT"]]]
+       ;; this is gross, but I couldn't get CSS to display buttons inline
+       [:td (if-not editing? {:colSpan 2} {})
+        [:button.button {:on-click #(re-frame/dispatch
+                                     [:schedule-form/save form])}
+         "save"]]
+       (when editing?
+         [:td
+          [:button.button {:on-click #(re-frame/dispatch
+                                       [:schedule/end-edit (:id form)])}
+           "cancel"]])])))
 
-       [:td {:colSpan 2}
-        [:button.button {:on-click #(re-frame/dispatch [:schedule-form/save start-date end-date start-time end-time timezone])} "save schedule"]]])))
+(defn schedule->row
+  [editing schedule]
+  (if (contains? editing (:id schedule))
+    [schedule-form schedule]
+    [:tr {:key (str "schedule-" (:id schedule))}
+     [:td (utils/format-date-string (:start-date schedule))]
+     [:td (utils/format-date-string (:end-date schedule))]
+     [:td (:start-time schedule)]
+     [:td (:end-time schedule)]
+     [:td (:timezone schedule)]
+     [:td [:input {:type "checkbox"
+                   :checked (not (nil? (:assignment-id schedule)))
+                   :value (:id schedule)
+                   :on-change
+                   #(if (not (nil? (:assignment-id schedule)))
+                      (re-frame/dispatch [:unassign-schedule
+                                          (:assignment-id schedule)])
+                      (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]
+     [:td
+      [:button.button
+       {:on-click #(re-frame/dispatch [:schedule/start-edit (:id schedule)])}
+       "edit"]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
-  (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])]
+  (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])
+        editing @(re-frame/subscribe [:schedules/editing])]
     [:table {:name "schedules-list"}
-      schedules-header
-      [:tbody
-       (if (seq schedules)
-         (map schedule->row schedules)
-         [:tr [:td {:colSpan 7} "No Schedules"]])
-       [schedule-form]]]))
+     [:thead
+      [:tr {:key "schedules-list-head-row"}
+       [:th {:name "schedules-start-date"} "Start Date"]
+       [:th {:name "schedules-end-date"} "End Date"]
+       [:th {:name "schedules-start-time"} "Start Time"]
+       [:th {:name "schedules-end-time"} "End Time"]
+       [:th {:name "schedules-timezone"} "Time Zone"]
+       [:th {:name "assigned"} "Assigned"]
+       [:th {:name "actions"} "Actions"]]]
+     [:tbody
+      (if (seq schedules)
+        (map (partial schedule->row editing) schedules)
+        [:tr [:td {:colSpan 7} "No Schedules"]])
+      [schedule-form]]]))
 
 (defn main-panel []
   (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])]
     [:div
-     [:button.button {:on-click #(re-frame/dispatch [:navigate/election-detail])} "go back to election"]
-     (when early-vote-site
-       [:div "Name" (:name early-vote-site)])
+     [:button.button {:on-click #(re-frame/dispatch [:navigate/election-detail])}
+      "go back to election"]
+     [early-vote-site-detail early-vote-site]
      [schedules-list]]))
