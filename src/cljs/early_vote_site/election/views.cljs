@@ -77,7 +77,14 @@
       (when (contains? roles "super-admin")
         [form :new])]]))
 
+(defn breadcrumb []
+  [:nav {:aria-label "breadcrumb"
+         :role "navigation"}
+   [:ol {:class "breadcrumb"}
+    [:li {:class "breadcrumb-item active"}
+      "Elections"]]])
 
 (defn main-panel []
   [:div
+   [breadcrumb]
    [election-table]])

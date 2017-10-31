@@ -124,10 +124,25 @@
         [:tr [:td {:colSpan 7} "No Schedules"]])
       [schedule-form]]]))
 
+(defn breadcrumb [election early-vote-site]
+  [:nav {:aria-label "breadcrumb"
+         :role "navigation"}
+   [:ol {:class "breadcrumb"}
+     [:li {:class "breadcrumb-item"}
+          [:a {:href "#"
+               :on-click #(re-frame/dispatch [:navigate/elections])}
+           "Elections"]]
+     [:li {:class "breadcrumb-item"}
+          [:a {:href "#"
+               :on-click #(re-frame/dispatch [:navigate/election-detail])}
+           (utils/format-date-string (:election-date election))]]
+     [:li {:class "breadcrumb-item active"} [:span (:name early-vote-site)]]]])
+
+
 (defn main-panel []
-  (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])]
+  (let [early-vote-site @(re-frame/subscribe [:selected-early-vote-site])
+        election @(re-frame/subscribe [:election-detail/election])]
     [:div
-     [:button.button {:on-click #(re-frame/dispatch [:navigate/election-detail])}
-      "go back to election"]
+     [breadcrumb election early-vote-site]
      [early-vote-site-detail early-vote-site]
      [schedules-list]]))

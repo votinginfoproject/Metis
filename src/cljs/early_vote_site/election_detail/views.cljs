@@ -42,16 +42,25 @@
       "Create an Early Vote Site"]]))
 
 (defn election-details []
-  (let [election @(re-frame/subscribe [:election-detail/election])]
-    (when election
-      [:div
-       [:h1 (-> election :state-fips utils/format-fips)]
-       [:h2 (-> election :election-date utils/format-date-string)]])))
+  (when election
+    [:div
+     [:h1 (-> election :state-fips utils/format-fips)]
+     [:h2 (-> election :election-date utils/format-date-string)]]))
+
+(defn breadcrumb [election]
+  [:nav {:aria-label "breadcrumb"
+         :role "navigation"}
+   [:ol {:class "breadcrumb"}
+    [:li {:class "breadcrumb-item"}
+         [:a {:href "#"
+              :on-click #(re-frame/dispatch [:navigate/elections])}
+          "Elections"]]
+    [:li {:class "breadcrumb-item active"}
+      (utils/format-date-string (:election-date election))]]])
 
 (defn main-panel []
-  (fn []
+  (let [election @(re-frame/subscribe [:election-detail/election])]
     [:div
-     [:button.button {:on-click #(re-frame/dispatch [:navigate/elections])}
-      "go back to all elections"]
-     [election-details]
-     [early-vote-sites-list]]))
+      [breadcrumb election]
+      [election-details election]
+      [early-vote-sites-list]]))
