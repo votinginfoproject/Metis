@@ -18,10 +18,9 @@
   (url "/earlyvote/elections/" (:selected-election-id db)))
 
 (defn election-early-vote-sites-url [db]
-  (let [fips-code (first (get-in db [:user :fipsCodes]))]
-    (url "/earlyvote/elections/"
-         (:selected-election-id db)
-         "/earlyvotesites?fips=" fips-code)))
+  (url "/earlyvote/elections/"
+       (:selected-election-id db)
+       "/earlyvotesites"))
 
 (defn early-vote-site-url [db]
   (url "/earlyvote/earlyvotesites/" (:selected-early-vote-site-id db)))

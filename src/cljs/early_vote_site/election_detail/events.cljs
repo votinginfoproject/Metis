@@ -1,5 +1,6 @@
 (ns early-vote-site.election-detail.events
   (:require [ajax.core :as ajax]
+            [clojure.set :as set]
             [clojure.string :as str]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]))
@@ -32,11 +33,19 @@
                 :on-success [:get-election/success]
                 :on-failure [:get-election/failure]}})
 
+(defn early-vote-site-list-params
+  [db]
+  (let [fips-codes (get-in db [:user :fipsCodes])
+        roles (get-in db [:user :roles])]
+    (when-not (seq (set/intersection roles #{"state-admin" "super-admin"}))
+      {:fips (first fips-codes)})))
+
 (defn get-early-vote-site-list
   [{:keys [db]} _]
   {:db db
    :http-xhrio {:method            :get
                 :uri               (server/election-early-vote-sites-url db)
+                :params            (early-vote-site-list-params db)
                 :timeout           8000
                 :request-format    (ajax/json-request-format)
                 :response-format   (ajax/json-response-format)
