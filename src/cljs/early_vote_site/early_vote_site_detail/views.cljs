@@ -1,8 +1,9 @@
 (ns early-vote-site.early-vote-site-detail.views
-  (:require [re-frame.core :as re-frame]
-            [reagent.ratom :as r]
-            [cljs-pikaday.reagent :as pikaday]
-            [early-vote-site.utils :as utils]))
+  (:require [cljs-pikaday.reagent :as pikaday]
+            [early-vote-site.utils :as utils]
+            [clojure.string :as str]
+            [re-frame.core :as re-frame]
+            [reagent.ratom :as r]))
 
 (defn early-vote-site-detail
   [early-vote-site]
@@ -23,6 +24,16 @@
    :start-time-atom (r/atom (:start-time schedule))
    :end-time-atom (r/atom (:end-time schedule))
    :timezone-atom (r/atom (:timezone schedule))})
+
+(def not-nil? (complement nil?))
+(def not-blank? (complement str/blank?))
+
+(defn valid-schedule-form? [form]
+  (and (not-nil? @(:start-date-atom form))
+       (not-nil? @(:end-date-atom form))
+       (not-blank? @(:start-time-atom form))
+       (not-blank? @(:end-time-atom form))
+       (not-blank? @(:timezone-atom form))))
 
 (defn schedule-form [& schedule]
   (let [editing? (seq schedule)
@@ -72,15 +83,17 @@
              [:option {:value "HST"} "HST"]
              [:option {:value "HDT"} "HDT"]]]
        ;; this is gross, but I couldn't get CSS to display buttons inline
-       [:td (if-not editing? {:colSpan 2} {})
-        [:button.button {:on-click #(re-frame/dispatch
-                                     [:schedule-form/save form])}
-         "save"]]
-       (when editing?
-         [:td
-          [:button.button {:on-click #(re-frame/dispatch
-                                       [:schedule/end-edit (:id form)])}
-           "cancel"]])])))
+       [:td]
+       [:td
+        [:ul {:class "link-group"}
+         [:li {:class "btn-link"
+               :on-click #(re-frame/dispatch [:schedule-form/save form])}
+          "Save"]
+         (when editing?
+           [:li {:class "btn-link"
+                 :on-click #(re-frame/dispatch
+                             [:schedule/end-edit (:id form)])}
+            "Cancel"])]]])))
 
 (defn schedule->row
   [editing schedule]
@@ -101,9 +114,10 @@
                                           (:assignment-id schedule)])
                       (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]
      [:td
-      [:button.button
-       {:on-click #(re-frame/dispatch [:schedule/start-edit (:id schedule)])}
-       "edit"]]]))
+      [:span
+       {:class "btn-link"
+        :on-click #(re-frame/dispatch [:schedule/start-edit (:id schedule)])}
+       "Edit"]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])

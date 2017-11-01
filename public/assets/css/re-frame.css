@@ -3156,10 +3156,19 @@ section.data-module {
 
 /** Early Vote Site customizations */
 
-.button-group .btn-link:before {
-  content: "|";
-  padding-right: ".5rem";
-  margin-left: ".5rem";
+ul.link-group {
+    padding: 0px 10px 0px 0px;
+    list-style: none;
+}
+
+ul.link-group li {
+    display: inline;
+}
+
+ul.link-group li+li:before {
+    padding: 10px;
+    color: black;
+    content: "|";
 }
 
 .button-group .btn-link:before:first-child {

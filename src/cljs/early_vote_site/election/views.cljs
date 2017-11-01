@@ -13,37 +13,39 @@
 (defn form [id]
   (let [all-forms @(re-frame/subscribe [:election-forms])
         state (get-in all-forms [id :state])
-        date (get-in all-forms [id :date])]
+        date (get-in all-forms [id :date])
+        editing? (not= :new id)]
     [:tr {:key (str "editing-" id)}
-      [:td
-       [:select {:id "state" :type "text" :class "form-control"
-                 :value state
-                 :on-change #(re-frame/dispatch [:election-form/update
-                                                 id :state
-                                                 (-> % .-target .-value)])}
-        (map #(state-select-row %)
-             (concat [{:fips-code "" :state-name "Select a State"}]
-                     constants/states))]]
-      [:td
-       [pikaday/date-selector
-        {:class "form-control"
-         :date-atom (ratom/atom date)
-         :pikaday-attrs
-         {:min-date (js/Date.)
-          :on-select #(re-frame/dispatch
-                       [:election-form/update id :date %])}}]]
-      [:td {:class "button-group"}
-       [:span
+     [:td
+      [:select {:id "state" :type "text" :class "form-control"
+                :value state
+                :on-change #(re-frame/dispatch [:election-form/update
+                                                id :state
+                                                (-> % .-target .-value)])}
+       (map #(state-select-row %)
+            (concat [{:fips-code "" :state-name "Select a State"}]
+                    constants/states))]]
+     [:td
+      [pikaday/date-selector
+       {:class "form-control"
+        :date-atom (ratom/atom date)
+        :pikaday-attrs
+        {:min-date (js/Date.)
+         :on-select #(re-frame/dispatch
+                      [:election-form/update id :date %])}}]]
+     [:td
+      [:ul {:class "link-group"}
+       [:li
         {:class "btn-link"
          :on-click #(re-frame/dispatch [:election-form/save id])
          :disabled @(re-frame/subscribe [:create-disabled?])}
-        "save"]
-       (when-not (= :new id)
-         [:span
+        (if editing? "Save" "Add New Election")]
+       (when editing?
+         [:li
           {:class "btn-link"
            :on-click #(re-frame/dispatch [:elections/end-edit id])
            :disabled @(re-frame/subscribe [:create-disabled?])}
-          "cancel"])]]))
+          "Cancel"])]]]))
 
 (defn election-list-row
   [election]
@@ -54,18 +56,19 @@
       [:tr {:key (str "viewing-" (:id election))}
        [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
        [:td {:name "election-date"} (-> election :election-date utils/format-date-string)]
-       [:td {:class "button-group"}
-        [:span {:class "btn-link"
-                :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
-              "early vote sites"]
-        [:span {:class "btn-link"
-                :style {:padding-left "5px"
-                        :visibility
-                         (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
-                            "visible"
-                            "hidden")}
-                :on-click #(re-frame/dispatch [:elections/start-edit election])}
-              "edit"]]])))
+       [:td
+        [:ul {:class "link-group"}
+         [:li {:class "btn-link"
+               :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
+          "To Early Vote Sites"]
+         [:li {:class "btn-link"
+               :style {:padding-left "5px"
+                       :visibility
+                       (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
+                         "visible"
+                         "hidden")}
+               :on-click #(re-frame/dispatch [:elections/start-edit election])}
+          "Edit"]]]])))
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])
