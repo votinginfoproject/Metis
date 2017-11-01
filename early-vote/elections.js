@@ -29,12 +29,18 @@ var updateElectionsParamFn =
                                util.bodyParamExtractor(['state_fips', 'election_date'])]);
 var updateElection = util.simpleCommandResponder(updateSql, updateElectionsParamFn);
 
+//delete election
+var deleteSql = "delete from elections where id = $1;"
+var deleteElection = util.simpleCommandResponder(deleteSql,
+                                                 util.pathParamExtractor(['electionid']));
+
 function registerElectionServices (app) {
   //app.all('/evs/elections/*', auth.checkJwt);
   app.post('/earlyvote/elections', createElection);
   app.get('/earlyvote/elections', getElections);
   app.get('/earlyvote/elections/:electionid', getElection);
   app.put('/earlyvote/elections/:electionid', updateElection);
+  app.delete('/earlyvote/elections/:electionid', deleteElection);
 }
 
 exports.registerElectionServices = registerElectionServices;
