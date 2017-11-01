@@ -144,18 +144,19 @@
       [schedule-form]]]))
 
 (defn breadcrumb [election early-vote-site]
-  [:nav {:aria-label "breadcrumb"
-         :role "navigation"}
-   [:ol {:class "breadcrumb"}
-     [:li {:class "breadcrumb-item"}
-          [:a {:href "#"
-               :on-click #(re-frame/dispatch [:navigate/elections])}
-           "Elections"]]
-     [:li {:class "breadcrumb-item"}
-          [:a {:href "#"
-               :on-click #(re-frame/dispatch [:navigate/election-detail])}
-           (utils/format-date-string (:election-date election))]]
-     [:li {:class "breadcrumb-item active"} [:span (:name early-vote-site)]]]])
+  (when early-vote-site
+    [:nav {:aria-label "breadcrumb"
+           :role "navigation"}
+     [:ol {:class "breadcrumb"}
+       [:li {:class "breadcrumb-item"}
+            [:a {:href "#"
+                 :on-click #(re-frame/dispatch [:navigate/elections])}
+             "Elections"]]
+       [:li {:class "breadcrumb-item"}
+            [:a {:href "#"
+                 :on-click #(re-frame/dispatch [:navigate/election-detail])}
+             (utils/format-date-string (:election-date election))]]
+       [:li {:class "breadcrumb-item active"} [:span (:name early-vote-site)]]]]))
 
 
 (defn main-panel []

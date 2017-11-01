@@ -59,15 +59,16 @@
      [:h2 (-> election :election-date utils/format-date-string)]]))
 
 (defn breadcrumb [election]
-  [:nav {:aria-label "breadcrumb"
-         :role "navigation"}
-   [:ol {:class "breadcrumb"}
-    [:li {:class "breadcrumb-item"}
-         [:a {:href "#"
-              :on-click #(re-frame/dispatch [:navigate/elections])}
-          "Elections"]]
-    [:li {:class "breadcrumb-item active"}
-      (utils/format-date-string (:election-date election))]]])
+  (when election
+    [:nav {:aria-label "breadcrumb"
+           :role "navigation"}
+     [:ol {:class "breadcrumb"}
+      [:li {:class "breadcrumb-item"}
+           [:a {:href "#"
+                :on-click #(re-frame/dispatch [:navigate/elections])}
+            "Elections"]]
+      [:li {:class "breadcrumb-item active"}
+        (utils/format-date-string (:election-date election))]]]))
 
 (defn main-panel []
   (let [election @(re-frame/subscribe [:election-detail/election])]
