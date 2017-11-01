@@ -3171,9 +3171,8 @@ ul.link-group li+li:before {
     content: "|";
 }
 
-.button-group .btn-link:before:first-child {
-  content: "";
-  padding-left: "0rem"
+.error-highlight {
+    border: 1px solid red;
 }
 
 /*# sourceMappingURL=app.css.map */

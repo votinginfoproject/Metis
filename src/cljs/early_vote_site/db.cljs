@@ -15,6 +15,7 @@
     :selected-early-vote-site-id nil
     :elections {:list nil
                 :editing #{}
+                :errors {}
                 :forms {:new fresh-election-form}}
     :election-detail {:early-vote-site-list nil
                       :election nil}

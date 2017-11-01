@@ -12,7 +12,9 @@
    :dispatch [:elections-list/get]})
 
 (defn update-form [db [_ id keyword newval]]
-  (assoc-in db [:elections :forms id keyword] newval))
+  (-> db
+    (assoc-in [:elections :forms id keyword] newval)
+    (update-in [:elections :errors id] dissoc keyword)))
 
 (defn select-election [{:keys [db]} [_ election-id]]
   {:db (assoc-in db [:selected-election-id] election-id)
@@ -21,6 +23,13 @@
 (defn create-params [db id]
   {:state_fips (get-in db [:elections :forms id :state])
    :election_date (get-in db [:elections :forms id :date])})
+
+(defn form-errors [db id]
+  (merge
+   (when (str/blank? (get-in db [:elections :forms id :state]))
+     {:state true})
+   (when (str/blank? (get-in db [:elections :forms id :date]))
+     {:date true})))
 
 (defn save-url
   [db id]
@@ -35,20 +44,24 @@
 
 (defn save-election
   [{:keys [db]} [_ id]]
-  (let [data (create-params db id)]
-    {:db db
-     :http-xhrio {:method          (save-method id)
-                  :uri             (save-url db id)
-                  :params          data
-                  :timeout         8000
-                  :format          (ajax/json-request-format)
-                  :response-format (ajax/json-response-format)
-                  :on-success [:election-save/success id]
-                  :on-failure [:election-save/failure]}}))
+  (if-let [errors (form-errors db id)]
+    {:db (assoc-in db [:elections :errors id] errors)}
+    (let [data (create-params db id)]
+      {:db db
+       :http-xhrio {:method          (save-method id)
+                    :uri             (save-url db id)
+                    :params          data
+                    :timeout         8000
+                    :format          (ajax/json-request-format)
+                    :response-format (ajax/json-response-format)
+                    :on-success [:election-save/success id]
+                    :on-failure [:election-save/failure]}})))
 
 (defn save-election-success
   [{:keys [db]} [_ id result]]
-  {:db (assoc-in db [:elections :forms id] db/fresh-election-form)
+  {:db (-> db
+           (assoc-in [:elections :forms id] db/fresh-election-form)
+           (update-in [:elections :errors] dissoc id))
    :dispatch-n [[:flash/message "Election saved"]
                 [:elections-list/get]
                 [:elections/end-edit id]]})

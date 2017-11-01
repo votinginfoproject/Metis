@@ -12,12 +12,17 @@
 
 (defn form [id]
   (let [all-forms @(re-frame/subscribe [:election-forms])
+        all-errors @(re-frame/subscribe [:elections/errors])
+        form-errors (get all-errors id {})
         state (get-in all-forms [id :state])
         date (get-in all-forms [id :date])
         editing? (not= :new id)]
     [:tr {:key (str "editing-" id)}
      [:td
-      [:select {:id "state" :type "text" :class "form-control"
+      [:select {:id "state" :type "text"
+                :class (str "form-control"
+                            (when (contains? form-errors :state)
+                              " error-highlight"))
                 :value state
                 :on-change #(re-frame/dispatch [:election-form/update
                                                 id :state
@@ -27,8 +32,11 @@
                     constants/states))]]
      [:td
       [pikaday/date-selector
-       {:class "form-control"
-        :date-atom (ratom/atom date)
+       {:date-atom (ratom/atom date)
+        :input-attrs
+        {:class (str "form-control"
+                     (when (contains? form-errors :date)
+                       " error-highlight"))}
         :pikaday-attrs
         {:min-date (js/Date.)
          :on-select #(re-frame/dispatch

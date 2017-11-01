@@ -12,4 +12,5 @@
   {:election-forms [:elections :forms]
    :create-disabled? create-disabled?
    :elections/list [:elections :list]
-   :elections/editing [:elections :editing]})
+   :elections/editing [:elections :editing]
+   :elections/errors [:elections :errors]})
