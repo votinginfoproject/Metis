@@ -42,6 +42,17 @@
     :post
     :put))
 
+(defn delete-election
+  [{:keys [db]} [_ id]]
+  {:db db
+   :http-xhrio {:method          :delete
+                :uri             (server/delete-election-url id)
+                :timeout         8000
+                :format          (ajax/text-request-format)
+                :response-format (ajax/json-response-format)
+                :on-success [:election-delete/success]
+                :on-failure [:election-delete/failure]}})
+
 (defn save-election
   [{:keys [db]} [_ id]]
   (if-let [errors (form-errors db id)]
@@ -117,16 +128,26 @@
     (update-in [:elections :editing] disj id)
     (update-in [:elections :forms] dissoc id)))
 
+(defn election-delete-success
+  [{:keys [db]} [_ id result]]
+  {:db db
+   :dispatch-n [[:flash/message "Election deleted"]
+                [:elections-list/get]]})
+
 (def events
   {:db {:election-form/update update-form
         :elections-list-get/success get-elections-list-success
         :elections/start-edit start-edit
         :elections/end-edit end-edit}
    :fx {:navigate/elections navigate
+        :election-delete/success election-delete-success
+        :elections/delete-election delete-election
         :election-list/election-selected select-election
         :election-form/save save-election
         :election-save/success save-election-success
         :elections-list/get get-elections-list
+        :election-delete/failure
+        (utils/flash-error-with-results "Error deleting election")
 
         :election-save/failure
         (utils/flash-error-with-results "Error saving election")

@@ -17,6 +17,9 @@
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))
 
+(defn delete-election-url [id]
+  (url "/earlyvote/elections/" id))
+
 (defn election-early-vote-sites-url [db]
   (url "/earlyvote/elections/"
        (:selected-election-id db)

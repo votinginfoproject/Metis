@@ -76,7 +76,15 @@
                          "visible"
                          "hidden")}
                :on-click #(re-frame/dispatch [:elections/start-edit election])}
-          "Edit"]]]])))
+          "Edit"]
+         [:li {:class "btn-link"
+                :style {:padding-left "5px"
+                        :visibility
+                        (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
+                          "visible"
+                          "hidden")}
+                :on-click #(re-frame/dispatch [:elections/delete-election (:id election)])}
+           "Delete"]]]])))
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])
