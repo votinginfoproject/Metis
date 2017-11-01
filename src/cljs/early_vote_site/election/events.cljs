@@ -46,7 +46,7 @@
   [{:keys [db]} [_ id]]
   {:db db
    :http-xhrio {:method          :delete
-                :uri             (server/delete-election-url id)
+                :uri             (server/election-with-id-url id)
                 :timeout         8000
                 :format          (ajax/text-request-format)
                 :response-format (ajax/json-response-format)

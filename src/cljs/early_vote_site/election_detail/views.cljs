@@ -23,7 +23,11 @@
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:navigate/edit-early-vote-site-form (:id site)])}
-      "Edit"]]]])
+      "Edit"]
+     [:li {:class "btn-link"
+           :on-click #(re-frame/dispatch
+                       [:early-vote-site/delete (:id site)])}
+      "Delete"]]]])
 
 (defn early-vote-sites-list []
   (let [site-list (re-frame/subscribe [:election-detail/early-vote-site-list])]

@@ -73,12 +73,35 @@
   (assoc-in db [:election-detail :early-vote-site-list]
             (map early-vote-site-json->clj result)))
 
+(defn delete-early-vote-site
+  [{:keys [db]} [_ id]]
+  {:db db
+   :http-xhrio {:method          :delete
+                :uri             (server/early-vote-site-url-by-id id)
+                :timeout         8000
+                :format          (ajax/text-request-format)
+                :response-format (ajax/json-response-format)
+                :on-success [:early-vote-site-delete/success]
+                :on-failure [:early-vote-site-delete/failure]}})
+
+(defn early-vote-site-delete-success
+  [{:keys [db]} _]
+  {:db (assoc db :active-panel :election-detail/main)
+   :dispatch-n [[:flash/message "Early vote site deleted"]
+                [:election-detail/get]
+                [:early-vote-site-list/get]]})
+
+
 (def events
   {:db {:get-election/success get-election-success
         :get-early-vote-site-list/success get-early-vote-site-list-success}
    :fx {:navigate/election-detail navigate
         :election-detail/get get-election-detail
         :early-vote-site-list/get get-early-vote-site-list
+        :early-vote-site/delete delete-early-vote-site
+        :early-vote-site-delete/success early-vote-site-delete-success
+        :early-vote-site-delete/failure
+        (utils/flash-error-with-results "Error deleting early vote site")
 
         :get-early-vote-site-list/failure
         (utils/flash-error-with-results "Error getting early vote sites")
