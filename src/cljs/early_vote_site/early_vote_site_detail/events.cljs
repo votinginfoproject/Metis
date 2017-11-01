@@ -141,6 +141,24 @@
   [db [_ id]]
   (update-in db [:early-vote-site-detail :editing] disj id))
 
+(defn delete-schedule
+  [{:keys [db]} [_ id]]
+  {:db db
+   :http-xhrio {:method          :delete
+                :uri             (server/update-schedule-uri id)
+                :timeout         8000
+                :format          (ajax/text-request-format)
+                :response-format (ajax/json-response-format)
+                :on-success [:schedule-delete/success]
+                :on-failure [:schedule-delete/failure]}})
+
+(defn delete-schedule-success
+  [{:keys [db]} [_ early-vote-site-id]]
+  {:db db
+   :dispatch-n [[:flash/message "Early vote site deleted"]
+                [:early-vote-site/get]
+                [:schedules-list/get]]})
+
 (def events
   {:db {:get-early-vote-site/success get-early-vote-site-success
         :schedules-list/success list-schedules-success
@@ -169,4 +187,9 @@
         :unassign-schedule unassign-schedule
         :unassign-schedule/success unassign-schedule-success
         :unassign-schedule/failure
-        (utils/flash-error-with-results "Error unassigning schedule")}})
+        (utils/flash-error-with-results "Error unassigning schedule")
+
+        :schedule/delete-schedule delete-schedule
+        :schedule-delete/success delete-schedule-success
+        :schedule-delete/failure
+        (utils/flash-error-with-results "Error deleting schedule")}})
