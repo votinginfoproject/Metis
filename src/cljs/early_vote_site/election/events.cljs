@@ -6,6 +6,8 @@
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
+(enable-console-print!)
+
 (defn navigate
   [{:keys [db]} [_]]
   {:db (assoc db :active-panel :election/main)
@@ -41,6 +43,14 @@
   (if (= :new id)
     :post
     :put))
+
+(defn initiate-delete
+  [db [_ election]]
+  (println "initiate-delete")
+  (assoc db :modal {:title "Delete Election?"
+                    :message (str "Do you really want to delete the Election" (:state-fips election))
+                    :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
+                    :on-cancel #(re-frame/dispatch [:close-modal])}))
 
 (defn delete-election
   [{:keys [db]} [_ id]]
@@ -132,13 +142,15 @@
   [{:keys [db]} [_ id result]]
   {:db db
    :dispatch-n [[:flash/message "Election deleted"]
+                [:close-modal]
                 [:elections-list/get]]})
 
 (def events
   {:db {:election-form/update update-form
         :elections-list-get/success get-elections-list-success
         :elections/start-edit start-edit
-        :elections/end-edit end-edit}
+        :elections/end-edit end-edit
+        :elections/initiate-delete initiate-delete}
    :fx {:navigate/elections navigate
         :election-delete/success election-delete-success
         :elections/delete-election delete-election

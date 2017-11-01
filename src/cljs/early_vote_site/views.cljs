@@ -16,10 +16,30 @@
 
 (enable-console-print!)
 
+(defn render-modal
+  [{:keys [title message on-confirm on-cancel]}]
+  [:div {:class "modal modal-sm" :style {:display "block" :text-color "#000"} :role "dialog" :id "myModal"}
+   [:div {:class "modal-dialog"}
+    [:div {:class "modal-content"}
+     [:div {:class "modal-header"}
+      [:h4 {:class "modal-title"} title]]
+     [:div {:class "modal-body"}
+      [:p message]]
+     [:div {:class "modal-footer"}
+      [:button {:type "button" :class "btn btn-default"
+                :on-click on-cancel}
+              "No"]
+      [:button {:type "button" :class "btn btn-default"
+                :on-click on-confirm}
+               "Yes"]]]]])
+
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [:active-panel])]
-    (println "changing active panel: " @active-panel)
+  (let [active-panel (re-frame/subscribe [:active-panel])
+        modal @(re-frame/subscribe [:modal])]
     [:div
+     (when (seq modal)
+      (println "modal:" (pr-str modal))
+      [render-modal modal])
      (flash/message)
      (flash/error)
      (panel @active-panel)]))

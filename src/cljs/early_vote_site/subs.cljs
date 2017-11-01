@@ -11,7 +11,8 @@
   {:active-panel [:active-panel]
    :username [:user :userName]
    :fips-codes [:user :fipsCodes]
-   :roles [:user :roles]})
+   :roles [:user :roles]
+   :modal [:modal]})
 
 (defn create-keypath-sub
   [keyword keypath]

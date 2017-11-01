@@ -45,14 +45,12 @@
       [:ul {:class "link-group"}
        [:li
         {:class "btn-link"
-         :on-click #(re-frame/dispatch [:election-form/save id])
-         :disabled @(re-frame/subscribe [:create-disabled?])}
+         :on-click #(re-frame/dispatch [:election-form/save id])}
         (if editing? "Save" "Add New Election")]
        (when editing?
          [:li
           {:class "btn-link"
-           :on-click #(re-frame/dispatch [:elections/end-edit id])
-           :disabled @(re-frame/subscribe [:create-disabled?])}
+           :on-click #(re-frame/dispatch [:elections/end-edit id])}
           "Cancel"])]]]))
 
 (defn election-list-row
@@ -83,7 +81,7 @@
                         (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
                           "visible"
                           "hidden")}
-                :on-click #(re-frame/dispatch [:elections/delete-election (:id election)])}
+                :on-click #(re-frame/dispatch [:elections/initiate-delete election])}
            "Delete"]]]])))
 
 (defn election-table []

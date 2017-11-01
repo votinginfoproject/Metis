@@ -20,9 +20,14 @@
       (assoc db :user user-with-roles))
     db))
 
+(defn close-modal
+  [db _]
+  (dissoc db :modal))
+
 (def global-events
   {:db {:initialize-db initialize-db
-        :load-user load-user}})
+        :load-user load-user
+        :close-modal close-modal}})
 
 (defn create-db-event
   [[keyword handler-fn]]

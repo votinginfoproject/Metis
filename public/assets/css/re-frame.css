@@ -3175,4 +3175,12 @@ ul.link-group li+li:before {
     border: 1px solid red;
 }
 
+.modal-title {
+  color: black;
+}
+
+.modal-body {
+  color: black;
+}
+
 /*# sourceMappingURL=app.css.map */
