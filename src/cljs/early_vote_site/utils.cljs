@@ -36,3 +36,18 @@
   (fn [{:keys [db]} [_ result]]
     {:db db
      :dispatch [:flash/error message result]}))
+
+(defn schedule->string
+  [schedule]
+  (str
+    (->> (:start-date schedule)
+      (format/parse full-format)
+      (format/unparse (format/formatter "MM-dd")))
+    " - "
+    (->> (:end-date schedule)
+      (format/parse full-format)
+      (format/unparse (format/formatter "MM-dd")))
+    " "
+    (:start-time schedule)
+    " - "
+    (:end-time schedule)))

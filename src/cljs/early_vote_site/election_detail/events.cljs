@@ -77,7 +77,7 @@
 (defn initiate-delete
   [db [_ early-vote-site]]
   (assoc db :modal {:title "Delete Early Vote Site?"
-                    :message (str "Do you really want to delete the early vote site " (:name early-vote-site))
+                    :message (str "Do you really want to delete the early vote site " (:name early-vote-site) "?")
                     :on-confirm #(re-frame/dispatch [:early-vote-site/delete (:id early-vote-site)])
                     :on-cancel #(re-frame/dispatch [:close-modal])}))
 

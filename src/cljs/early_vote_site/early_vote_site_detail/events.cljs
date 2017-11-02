@@ -145,7 +145,7 @@
 (defn initiate-delete
   [db [_ schedule]]
   (assoc db :modal {:title "Delete Schedule?"
-                    :message (str "Do you really want to delete the schedule " (:start-date schedule))
+                    :message (str "Do you really want to delete the schedule " (utils/schedule->string schedule) "?")
                     :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
                     :on-cancel #(re-frame/dispatch [:close-modal])}))
 

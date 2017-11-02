@@ -47,7 +47,7 @@
 (defn initiate-delete
   [db [_ election]]
   (assoc db :modal {:title "Delete Election?"
-                    :message (str "Do you really want to delete the Election" (:state-fips election))
+                    :message (str "Do you really want to delete the Election in " (utils/format-fips (:state-fips election)) "?")
                     :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
                     :on-cancel #(re-frame/dispatch [:close-modal])}))
 
