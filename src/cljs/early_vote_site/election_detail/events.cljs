@@ -94,8 +94,9 @@
 
 (defn early-vote-site-delete-success
   [{:keys [db]} _]
-  {:db (assoc db :active-panel :election-detail/main)
+  {:db db
    :dispatch-n [[:flash/message "Early vote site deleted"]
+                [:close-modal]
                 [:election-detail/get]
                 [:early-vote-site-list/get]]})
 

@@ -164,6 +164,7 @@
   [{:keys [db]} [_ early-vote-site-id]]
   {:db db
    :dispatch-n [[:flash/message "Early vote site deleted"]
+                [:close-modal]
                 [:early-vote-site/get]
                 [:schedules-list/get]]})
 

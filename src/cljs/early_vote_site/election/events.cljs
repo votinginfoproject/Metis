@@ -84,8 +84,7 @@
            (assoc-in [:elections :forms id] db/fresh-election-form)
            (update-in [:elections :errors] dissoc id))
    :dispatch-n [[:flash/message "Election saved"]
-                [:elections-list/get]
-                [:elections/end-edit id]]})
+                [:elections-list/get]]})
 
 (defn list-elections-params
   [db]

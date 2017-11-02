@@ -121,7 +121,7 @@
      [:td
       [:span
        {:class "btn-link"
-        :on-click #(re-frame/dispatch [:schedule/initiate-delete (:id schedule)])}
+        :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule])}
        "Delete"]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
