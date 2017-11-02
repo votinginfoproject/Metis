@@ -2,7 +2,8 @@
   (:require [ajax.core :as ajax]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.server :as server]
-            [early-vote-site.utils :as utils]))
+            [early-vote-site.utils :as utils]
+            [re-frame.core :as re-frame]))
 
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
@@ -141,6 +142,13 @@
   [db [_ id]]
   (update-in db [:early-vote-site-detail :editing] disj id))
 
+(defn initiate-delete
+  [db [_ schedule]]
+  (assoc db :modal {:title "Delete Schedule?"
+                    :message (str "Do you really want to delete the schedule " (:start-date schedule))
+                    :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
+                    :on-cancel #(re-frame/dispatch [:close-modal])}))
+
 (defn delete-schedule
   [{:keys [db]} [_ id]]
   {:db db
@@ -163,7 +171,8 @@
   {:db {:get-early-vote-site/success get-early-vote-site-success
         :schedules-list/success list-schedules-success
         :schedule/start-edit start-edit
-        :schedule/end-edit end-edit}
+        :schedule/end-edit end-edit
+        :schedule/initiate-delete initiate-delete}
    :fx {:navigate/early-vote-site-detail navigate
 
         :early-vote-site/get get-early-vote-site
