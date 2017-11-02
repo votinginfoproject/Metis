@@ -46,7 +46,6 @@
 
 (defn initiate-delete
   [db [_ election]]
-  (println "initiate-delete")
   (assoc db :modal {:title "Delete Election?"
                     :message (str "Do you really want to delete the Election" (:state-fips election))
                     :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
@@ -132,7 +131,6 @@
 
 (defn end-edit
   [db [_ id]]
-  (println "end-edit on " id)
   (-> db
     (update-in [:elections :editing] disj id)
     (update-in [:elections :forms] dissoc id)))
