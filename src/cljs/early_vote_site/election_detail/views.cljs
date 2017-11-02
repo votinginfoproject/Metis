@@ -26,7 +26,7 @@
       "Edit"]
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
-                       [:early-vote-site/delete (:id site)])}
+                       [:early-vote-site/initiate-delete (:id site)])}
       "Delete"]]]])
 
 (defn early-vote-sites-list []

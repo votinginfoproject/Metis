@@ -3,7 +3,8 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [early-vote-site.server :as server]
-            [early-vote-site.utils :as utils]))
+            [early-vote-site.utils :as utils]
+            [re-frame.core :as re-frame]))
 
 (defn navigate
   [{:keys [db]} _]
@@ -73,6 +74,13 @@
   (assoc-in db [:election-detail :early-vote-site-list]
             (map early-vote-site-json->clj result)))
 
+(defn initiate-delete
+  [db [_ early-vote-site]]
+  (assoc db :modal {:title "Delete Early Vote Site?"
+                    :message (str "Do you really want to delete the early vote site " (:name early-vote-site))
+                    :on-confirm #(re-frame/dispatch [:early-vote-site/delete (:id early-vote-site)])
+                    :on-cancel #(re-frame/dispatch [:close-modal])}))
+
 (defn delete-early-vote-site
   [{:keys [db]} [_ id]]
   {:db db
@@ -94,7 +102,8 @@
 
 (def events
   {:db {:get-election/success get-election-success
-        :get-early-vote-site-list/success get-early-vote-site-list-success}
+        :get-early-vote-site-list/success get-early-vote-site-list-success
+        :early-vote-site/initiate-delete initiate-delete}
    :fx {:navigate/election-detail navigate
         :election-detail/get get-election-detail
         :early-vote-site-list/get get-early-vote-site-list
