@@ -114,15 +114,15 @@
                                           (:assignment-id schedule)])
                       (re-frame/dispatch [:assign-schedule (:id schedule)]))}]]
      [:td
-      [:span
-       {:class "btn-link"
-        :on-click #(re-frame/dispatch [:schedule/start-edit (:id schedule)])}
-       "Edit"]]
-     [:td
-      [:span
-       {:class "btn-link"
-        :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule])}
-       "Delete"]]]))
+      [:ul {:class "link-group"}
+        [:li
+         {:class "btn-link"
+          :on-click #(re-frame/dispatch [:schedule/start-edit (:id schedule)])}
+         "Edit"]
+        [:li
+         {:class "btn-link"
+          :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule])}
+         "Delete"]]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
   (let [schedules @(re-frame/subscribe [:selected-early-vote-site-schedules])
