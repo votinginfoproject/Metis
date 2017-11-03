@@ -58,7 +58,7 @@
     {:id           "min"
      :source-paths ["src/cljs"]
      :compiler     {:main            early-vote-site.core
-                    :output-to       "public/assets/js/compiled/early_vote_min.js"
+                    :output-to       "public/assets/js/compiled/early_vote.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}]}

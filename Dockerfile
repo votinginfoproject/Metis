@@ -22,6 +22,8 @@ RUN bower --allow-root install
 
 COPY . /usr/src/app
 
+RUN lein cljsbuild once min
+
 EXPOSE 4000 27017 28017
 
 ENTRYPOINT [ "grunt" ]
