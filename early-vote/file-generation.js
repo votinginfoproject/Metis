@@ -57,8 +57,8 @@ var getEarlyVoteSites = function(election, res) {
 
 var getSchedules = function(earlyVoteSites, election, res) {
   var election_id = election["id"];
-  util.simpleQueryCallback("SELECT id, start_date, end_date, start_time, end_time " +
-                           "FROM schedules WHERE election_id = $1",
+  util.simpleQueryCallback("SELECT id, start_date, end_date, start_time, end_time, " +
+                           "timezone FROM schedules WHERE election_id = $1",
     [election_id],
     function(err, result) {
       if (err) {
@@ -173,6 +173,25 @@ var formatDate = function(date) {
   return asMoment.format('YYYY-MM-DD');
 }
 
+var timezoneToOffset = {
+  "EST": "-05:00",
+  "EDT": "-04:00",
+  "CST": "-06:00",
+  "CDT": "-05:00",
+  "MST": "-07:00",
+  "MDT": "-06:00",
+  "PST": "-08:00",
+  "PDT": "-07:00",
+  "AKST": "-09:00",
+  "AKDT": "-08:00",
+  "HST": "-11:00",
+  "HDT": "-10:00"
+}
+
+var formatTime = function(time, timezone) {
+  return time + timezoneToOffset[timezone];
+}
+
 var scheduleFields = ["start_time","end_time","is_only_by_appointment",
                       "is_or_by_appointment","is_subject_to_change",
                       "start_date","end_date","hours_open_id","id"];
@@ -186,8 +205,8 @@ var scheduleFields = ["start_time","end_time","is_only_by_appointment",
 var scheduleToCsv = function(schedule, hoursOpenId, idGenerator) {
   //TODO: format start/end time with TZ offsets when we add them to schedules
   return {
-    "start_time": schedule["start_time"],
-    "end_time": schedule["end_time"],
+    "start_time": formatTime(schedule["start_time"], schedule["timezone"]),
+    "end_time": formatTime(schedule["end_time"], schedule["timezone"]),
     "is_only_by_appointment": "",
     "is_or_by_appointment": "",
     "is_subject_to_change": "",

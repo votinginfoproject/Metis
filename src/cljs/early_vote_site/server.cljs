@@ -21,6 +21,9 @@
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))
 
+(defn file-generate-url [id]
+  (url "/earlyvote/elections/" id "/generate"))
+
 (defn election-early-vote-sites-url [db]
   (url "/earlyvote/elections/"
        (:selected-election-id db)

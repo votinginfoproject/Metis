@@ -9,7 +9,8 @@ exports.up = function(db, callback) {
               start_date: {type: 'date', notNull: true},
               end_date: {type: 'date', notNull: true},
               start_time: {type: 'time without time zone', notNull: true},
-              end_time: {type: 'time without time zone', notNull: true}},
+              end_time: {type: 'time without time zone', notNull: true},
+              timezone: {type: 'string', notNull: true}},
     ifNotExists: true
   }, callback);
 };

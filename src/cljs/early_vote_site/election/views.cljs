@@ -56,6 +56,7 @@
 (defn election-list-row
   [election]
   (let [roles @(re-frame/subscribe [:roles])
+        admin? (seq (set/intersection roles #{"super-admin" "state-admin"}))
         editing @(re-frame/subscribe [:elections/editing])]
     (if (contains? editing (:id election))
       [form (:id election)]
@@ -67,22 +68,18 @@
          [:li {:class "btn-link"
                :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
           "To Early Vote Sites"]
-         [:li {:class "btn-link"
-               :style {:padding-left "5px"
-                       :visibility
-                       (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
-                         "visible"
-                         "hidden")}
-               :on-click #(re-frame/dispatch [:elections/start-edit election])}
-          "Edit"]
-         [:li {:class "btn-link"
-                :style {:padding-left "5px"
-                        :visibility
-                        (if (seq (set/intersection roles #{"super-admin" "state-admin"}))
-                          "visible"
-                          "hidden")}
-                :on-click #(re-frame/dispatch [:elections/initiate-delete election])}
-           "Delete"]]]])))
+         (when admin?
+           [:li {:class "btn-link"
+                 :on-click #(re-frame/dispatch [:elections/start-edit election])}
+            "Edit"])
+         (when admin?
+           [:li {:class "btn-link"
+                 :on-click #(re-frame/dispatch [:elections/initiate-delete election])}
+            "Delete"])
+         (when admin?
+           [:li {:class "btn-link"
+                 :on-click #(re-frame/dispatch [:file/generate (:id election)])}
+            "Generate Files"])]]])))
 
 (defn election-table []
   (let [election-list-items @(re-frame/subscribe [:elections/list])

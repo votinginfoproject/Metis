@@ -144,6 +144,17 @@
                 [:close-modal]
                 [:elections-list/get]]})
 
+(defn file-generation
+  [{:keys [db]} [_ election-id]]
+  {:db db
+   :http-xhrio {:method          :post
+                :uri             (server/file-generate-url election-id)
+                :timeout         8000
+                :format          (ajax/text-request-format)
+                :response-format (ajax/text-response-format)
+                :on-success [:flash/message "Files have been generated"]
+                :on-failure [:authorization/check [:file-generation/failure]]}})
+
 (def events
   {:db {:election-form/update update-form
         :elections-list-get/success get-elections-list-success
@@ -157,6 +168,7 @@
         :election-form/save save-election
         :election-save/success save-election-success
         :elections-list/get get-elections-list
+        :file/generate file-generation
         :election-delete/failure
         (utils/flash-error-with-results "Error deleting election")
 
@@ -164,4 +176,7 @@
         (utils/flash-error-with-results "Error saving election")
 
         :elections-list-get/failure
-        (utils/flash-error-with-results "Error loading election list")}})
+        (utils/flash-error-with-results "Error loading election list")
+
+        :file-generation/failure
+        (utils/flash-error-with-results "File generation failed, check logs")}})
