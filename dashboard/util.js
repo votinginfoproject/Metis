@@ -4,6 +4,11 @@ var uuidv4 = require('uuid/v4');
 var resp = require('./response.js');
 
 module.exports = {
+  simpleQueryCallback: function(sqlQuery, params, callback) {
+    conn.query(function(client) {
+      client.query(sqlQuery, params, callback);
+    });
+  },
   simpleQueryResponder: function(sqlQuery, paramsFn) {
     return function(req, res) {
 
