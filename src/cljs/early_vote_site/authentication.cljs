@@ -35,3 +35,18 @@
   (re-frame/->interceptor
    :id :auth0-auth-interceptor
    :after add-authorization-header))
+
+(defn check-authorization
+  "An fx handler that checks the result for a 401, and if found,
+   dispatches a :navigate/login event, otherwise dispatches the
+   original on-error event"
+  [{:keys [db]} [_ on-failure result]]
+  (if (= 401 (:status result))
+    {:db db
+     :dispatch [:navigate/login]}
+    {:db db
+     :dispatch (conj on-failure result)}))
+
+(def events
+  {:db {}
+   :fx {:authorization/check check-authorization}})

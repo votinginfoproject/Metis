@@ -7,6 +7,8 @@
             [early-vote-site.early-vote-site-detail.events
              :as early-vote-site-detail]
             [early-vote-site.flash.events :as flash]
+            [early-vote-site.redirect]
+            [early-vote-site.server :as server]
             [re-frame.core :as re-frame]))
 
 (defn initialize-db
@@ -20,9 +22,15 @@
       (assoc db :user user))
     db))
 
+(defn redirect-to-login
+  [{:keys [db]} _]
+  {:db db
+   :redirect (server/origin)})
+
 (def global-events
   {:db {:initialize-db initialize-db
-        :load-user load-user}})
+        :load-user load-user}
+   :fx {:navigate/login redirect-to-login}})
 
 (defn create-db-event
   [[keyword handler-fn]]
@@ -49,3 +57,4 @@
 (reg-events early-vote-site-detail/events)
 (reg-events early-vote-form/events)
 (reg-events flash/events)
+(reg-events auth/events)
