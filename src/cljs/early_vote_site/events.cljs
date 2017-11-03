@@ -1,11 +1,15 @@
 (ns early-vote-site.events
-  (:require [re-frame.core :as re-frame]
+  (:require [early-vote-site.authentication :as auth]
             [early-vote-site.db :as db]
             [early-vote-site.election.events :as election]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
-            [early-vote-site.early-vote-site-detail.events :as early-vote-site-detail]
-            [early-vote-site.flash.events :as flash]))
+            [early-vote-site.early-vote-site-detail.events
+             :as early-vote-site-detail]
+            [early-vote-site.flash.events :as flash]
+            [early-vote-site.redirect]
+            [early-vote-site.server :as server]
+            [re-frame.core :as re-frame]))
 
 (defn initialize-db
   [_ _]
@@ -20,6 +24,11 @@
       (assoc db :user user-with-roles))
     db))
 
+(defn redirect-to-login
+  [{:keys [db]} _]
+  {:db db
+   :redirect (server/origin)})
+
 (defn close-modal
   [db _]
   (dissoc db :modal))
@@ -27,7 +36,8 @@
 (def global-events
   {:db {:initialize-db initialize-db
         :load-user load-user
-        :close-modal close-modal}})
+        :close-modal close-modal}
+   :fx {:navigate/login redirect-to-login}})
 
 (defn create-db-event
   [[keyword handler-fn]]
@@ -39,6 +49,8 @@
   [[keyword handler-fn]]
   (re-frame/reg-event-fx
    keyword
+   [(re-frame/inject-cofx :auth0-access-token)
+    auth/auth-interceptor]
    handler-fn))
 
 (defn reg-events
@@ -52,3 +64,4 @@
 (reg-events early-vote-site-detail/events)
 (reg-events early-vote-form/events)
 (reg-events flash/events)
+(reg-events auth/events)

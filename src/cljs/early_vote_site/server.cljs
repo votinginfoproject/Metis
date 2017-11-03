@@ -1,10 +1,14 @@
 (ns early-vote-site.server)
 
+(defn origin []
+  (-> js/window .-location .-origin))
+
 (defn url
   "Constructs a url back to the server with the given path"
   [& url-components]
-  (let [path (apply str url-components)]
-    (-> js/window .-location .-origin (str path))))
+  (let [protocol-and-domain (origin)
+        path (apply str url-components)]
+    (str protocol-and-domain path)))
 
 (defn election-url
   [db]

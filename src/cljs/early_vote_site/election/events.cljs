@@ -75,7 +75,7 @@
                     :format          (ajax/json-request-format)
                     :response-format (ajax/json-response-format)
                     :on-success [:election-save/success id]
-                    :on-failure [:election-save/failure]}})))
+                    :on-failure [:authorization/check [:election-save/failure]]}})))
 
 (defn save-election-success
   [{:keys [db]} [_ id result]]
@@ -88,9 +88,11 @@
 (defn list-elections-params
   [db]
   (let [roles (get-in db [:user :roles])
-        fips-code (first (get-in db [:user :fipsCodes]))]
+        state-fips (some-> (get-in db [:user :fipsCodes])
+                           first
+                           (subs 0 2))]
     (when-not (contains? roles "super-admin")
-      {:fips (subs fips-code 0 2)})))
+      {:fips state-fips})))
 
 (defn get-elections-list
   [{:keys [db]} _]
@@ -103,7 +105,7 @@
                   :format          (ajax/json-request-format)
                   :response-format (ajax/json-response-format)
                   :on-success [:elections-list-get/success]
-                  :on-failure [:elections-list-get/failure]}}))
+                  :on-failure [:authorization/check [:elections-list-get/failure]]}}))
 
 (defn election-json->clj
   [json]
