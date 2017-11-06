@@ -25,75 +25,82 @@
    :end-time-atom (r/atom (:end-time schedule))
    :timezone-atom (r/atom (:timezone schedule))})
 
-(def not-nil? (complement nil?))
-(def not-blank? (complement str/blank?))
-
-(defn valid-schedule-form? [form]
-  (and (not-nil? @(:start-date-atom form))
-       (not-nil? @(:end-date-atom form))
-       (not-blank? @(:start-time-atom form))
-       (not-blank? @(:end-time-atom form))
-       (not-blank? @(:timezone-atom form))))
-
-(defn schedule-form [& schedule]
+(defn schedule-form [schedule]
   (let [editing? (seq schedule)
         form (if editing?
-               (edit-form (first schedule))
+               (edit-form schedule)
                (new-form))]
     (fn []
-      [:tr
-       [:td [pikaday/date-selector {:class "form-control"
-                                    :date-atom (:start-date-atom form)
-                                    :max-date-atom (:end-date-atom form)
-                                    :pikaday-attrs
-                                    {:min-date (js/Date.)
-                                     :max-date @(:end-date-atom form)}}]]
-       [:td [pikaday/date-selector {:class "form-control"
-                                    :date-atom (:end-date-atom form)
-                                    :min-date-atom (:start-date-atom form)
-                                    :pikaday-attrs
-                                    {:min-date (or @(:start-date-atom form)
-                                                   (js/Date.))}}]]
-       [:td [:input {:type "time"
-                     :class "form-control"
-                     :value @(:start-time-atom form)
-                     :on-change #(reset! (:start-time-atom form)
-                                         (-> % .-target .-value))}]]
-       [:td [:input {:type "time"
-                     :class "form-control"
-                     :value @(:end-time-atom form)
-                     :on-change #(reset! (:end-time-atom form)
-                                         (-> % .-target .-value))}]]
-       [:td [:select {:type "text"
-                      :class "form-control"
-                      :value (or @(:timezone-atom form) "")
-                      :on-change #(reset! (:timezone-atom form)
-                                          (-> % .-target .-value))}
-             [:option {:value ""} "Select"]
-             [:option {:value "EST"} "EST"]
-             [:option {:value "EDT"} "EDT"]
-             [:option {:value "CST"} "CST"]
-             [:option {:value "CDT"} "CDT"]
-             [:option {:value "MST"} "MST"]
-             [:option {:value "MDT"} "MDT"]
-             [:option {:value "PST"} "PST"]
-             [:option {:value "PDT"} "PDT"]
-             [:option {:value "AKST"} "AKST"]
-             [:option {:value "AKDT"} "AKDT"]
-             [:option {:value "HST"} "HST"]
-             [:option {:value "HDT"} "HDT"]]]
-       ;; this is gross, but I couldn't get CSS to display buttons inline
-       [:td]
-       [:td
-        [:ul {:class "link-group"}
-         [:li {:class "btn-link"
-               :on-click #(re-frame/dispatch [:schedule-form/save form])}
-          "Save"]
-         (when editing?
+      (let [all-errors @(re-frame/subscribe [:schedules/errors])
+            form-errors (if editing?
+                          (get all-errors (:id schedule) {})
+                          (get all-errors :new {}))]
+        [:tr
+         [:td [pikaday/date-selector
+               {:input-attrs
+                {:class (str "form-control"
+                             (when (contains? form-errors :start-date)
+                               " error-highlight"))}
+                :date-atom (:start-date-atom form)
+                :max-date-atom (:end-date-atom form)
+                :pikaday-attrs
+                {:min-date (js/Date.)
+                 :max-date @(:end-date-atom form)}}]]
+         [:td [pikaday/date-selector
+               {:input-attrs
+                {:class (str "form-control"
+                             (when (contains? form-errors :end-date)
+                               " error-highlight"))}
+                :date-atom (:end-date-atom form)
+                :min-date-atom (:start-date-atom form)
+                :pikaday-attrs
+                {:min-date (or @(:start-date-atom form)
+                               (js/Date.))}}]]
+         [:td [:input {:type "time"
+                       :class (str "form-control"
+                                   (when (contains? form-errors :start-time)
+                                     " error-highlight"))
+                       :value @(:start-time-atom form)
+                       :on-change #(reset! (:start-time-atom form)
+                                           (-> % .-target .-value))}]]
+         [:td [:input {:type "time"
+                       :class (str "form-control"
+                                   (when (contains? form-errors :end-time)
+                                     " error-highlight"))
+                       :value @(:end-time-atom form)
+                       :on-change #(reset! (:end-time-atom form)
+                                           (-> % .-target .-value))}]]
+         [:td [:select {:type "text"
+                        :class (str "form-control"
+                                    (when (contains? form-errors :timezone)
+                                      " error-highlight"))
+                        :value (or @(:timezone-atom form) "")
+                        :on-change #(reset! (:timezone-atom form)
+                                            (-> % .-target .-value))}
+               [:option {:value ""} "Select"]
+               [:option {:value "EST"} "EST"]
+               [:option {:value "EDT"} "EDT"]
+               [:option {:value "CST"} "CST"]
+               [:option {:value "CDT"} "CDT"]
+               [:option {:value "MST"} "MST"]
+               [:option {:value "MDT"} "MDT"]
+               [:option {:value "PST"} "PST"]
+               [:option {:value "PDT"} "PDT"]
+               [:option {:value "AKST"} "AKST"]
+               [:option {:value "AKDT"} "AKDT"]
+               [:option {:value "HST"} "HST"]
+               [:option {:value "HDT"} "HDT"]]]
+         [:td]
+         [:td
+          [:ul {:class "link-group"}
            [:li {:class "btn-link"
-                 :on-click #(re-frame/dispatch
-                             [:schedule/end-edit (:id form)])}
-            "Cancel"])]]])))
+                 :on-click #(re-frame/dispatch [:schedule-form/save form])}
+            "Save"]
+           (when editing?
+             [:li {:class "btn-link"
+                   :on-click #(re-frame/dispatch
+                               [:schedule/end-edit (:id form)])}
+              "Cancel"])]]]))))
 
 (defn schedule->row
   [editing schedule]
@@ -141,7 +148,7 @@
       (if (seq schedules)
         (map (partial schedule->row editing) schedules)
         [:tr [:td {:colSpan 7} "No Schedules"]])
-      [schedule-form]]]))
+      [schedule-form nil]]]))
 
 (defn breadcrumb [election early-vote-site]
   (when early-vote-site

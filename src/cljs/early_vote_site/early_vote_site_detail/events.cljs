@@ -1,5 +1,6 @@
 (ns early-vote-site.early-vote-site-detail.events
   (:require [ajax.core :as ajax]
+            [clojure.string :as str]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]
@@ -58,6 +59,18 @@
   (assoc-in db [:early-vote-site-detail :schedules]
             (map schedule-json->clj result)))
 
+(defn form-errors [form]
+  (merge (when (str/blank? @(:start-date-atom form))
+           {:start-date true})
+         (when (str/blank? @(:end-date-atom form))
+           {:end-date true})
+         (when (str/blank? @(:start-time-atom form))
+           {:start-time true})
+         (when (str/blank? @(:end-time-atom form))
+           {:end-time true})
+         (when (str/blank? @(:timezone-atom form))
+           {:timezone true})))
+
 (defn save-schedule-params
   [{:keys [start-date-atom end-date-atom start-time-atom
            end-time-atom timezone-atom]}]
@@ -74,15 +87,17 @@
 
 (defn save-schedule
   [{:keys [db]} [_ {:keys [id] :as form}]]
-  {:db db
-   :http-xhrio {:method           (if id :put :post)
-                :uri              (save-schedule-uri db id)
-                :params           (save-schedule-params form)
-                :timeout          8000
-                :format           (ajax/json-request-format)
-                :response-format  (ajax/text-response-format)
-                :on-success       [:save-schedule/success form]
-                :on-failure       [:save-schedule/failure]}})
+  (if-let [errors (form-errors form)]
+    {:db (assoc-in db [:early-vote-site-detail :errors (or id :new)] errors)}
+    {:db db
+     :http-xhrio {:method           (if id :put :post)
+                  :uri              (save-schedule-uri db id)
+                  :params           (save-schedule-params form)
+                  :timeout          8000
+                  :format           (ajax/json-request-format)
+                  :response-format  (ajax/text-response-format)
+                  :on-success       [:save-schedule/success form]
+                  :on-failure       [:save-schedule/failure]}}))
 
 (defn save-success
   [{:keys [db]} [_ form result]]
@@ -92,9 +107,9 @@
   (reset! (:end-time-atom form) nil)
   (reset! (:timezone-atom form) nil)
   (if (nil? (:id form))
-    {:db db
+    {:db (update-in db [:early-vote-site-detail :errors] dissoc :new)
      :dispatch [:assign-schedule result]}
-    {:db db
+    {:db (update-in db [:early-vote-site-detail :errors] dissoc (:id form))
      :dispatch-n [[:schedule/end-edit (:id form)]
                   [:schedules-list/get]]}))
 
