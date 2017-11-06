@@ -1,17 +1,20 @@
 (ns early-vote-site.flash.events
-  (:require [re-frame.core :as re-frame]))
+  (:require [early-vote-site.config :as config]
+            [re-frame.core :as re-frame]))
 
 (defn flash-message
   [{:keys [db]} [_ message]]
   {:db (assoc-in db [:flash :message] message)
    :dispatch-later [{:ms 2000 :dispatch [:flash/clear-message]}]})
 
-(enable-console-print!)
-
 (defn flash-error
   [{:keys [db]} [_ message result]]
-  {:db (assoc-in db [:flash :error] (str message (pr-str result)))
-   :dispatch-later [{:ms 5000 :dispatch [:flash/clear-error]}]})
+  (let [msg (if config/debug?
+              (str message (pr-str result))
+              message)
+        close-delay (if config/debug? 10000 4000)]
+    {:db (assoc-in db [:flash :error] msg)
+     :dispatch-later [{:ms close-delay :dispatch [:flash/clear-error]}]}))
 
 (defn clear-message
   [db _]
