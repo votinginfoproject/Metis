@@ -1,7 +1,7 @@
-var logger = (require('../logging/vip-winston')).Logger;
-var config = require('../config');
+var logger = (require('../../logging/vip-winston')).Logger;
+var config = require('../../config');
 var edn = require("jsedn");
-var sender = require('./sender');
+var sender = require('./../sender');
 
 var logAndThrowPossibleError = function(err) {
   if (err !== null) {
@@ -13,7 +13,7 @@ var logAndThrowPossibleError = function(err) {
 var processMessage = function(message) {
   var rabbitMessage = edn.toJS(edn.parse(message.content.toString()));
   logger.info("Received: " + JSON.stringify(rabbitMessage));
-  sender.sendNotifications(rabbitMessage, 'processedFeed');
+  sender.sendFeedProcessingNotifications(rabbitMessage, 'processedFeed');
 }
 
 var setupFeedProcessing = function(ch, exchange) {

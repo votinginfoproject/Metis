@@ -47,6 +47,11 @@ var overallErrorQuery = function(scope) {
     return buildErrorQuery("", "element_type(xtv.path) = '" + scope + "'");
 };
 
+var elementTypeAndScopeOverallErrorQuery = function(element_type, scope) {
+  var wheres = "(element_type(xtv.path) = '" + element_type + "' or xtv.scope like '" + scope + "%')"
+  return buildErrorQuery("", wheres)
+};
+
 var getScopedLocalityErrors = function (scope) {
     return "select distinct on (xtv.severity, xtv.scope, xtv.error_type) \
                                                 count(1), xtv.severity, xtv.scope, \
@@ -138,7 +143,9 @@ var getFeedOverviewSummaryData = function(req, res) {
                              overviewTableRow(row, 'Street Segments', 'street_segment', '#/5.1/feeds/' + feedid + '/overview/street_segments/errors'),
                              overviewTableRow(row, 'State', 'state', '#/5.1/feeds/' + feedid + '/overview/state/errors'),
                              overviewTableRow(row, 'Precincts', 'precinct', '#/5.1/feeds/' + feedid + '/overview/precincts/errors'),
-                             overviewTableRow(row, 'Polling Location', 'polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Polling Locations', 'polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Drop Box Polling Locations', 'db_polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
+                             overviewTableRow(row, 'Early Vote Site Polling Locations', 'ev_polling_location', '#/5.1/feeds/' + feedid + '/overview/polling_locations/errors'),
                              overviewTableRow(row, 'Localities', 'locality', '#/5.1/feeds/' + feedid + '/overview/localities/errors'),
                              overviewTableRow(row, 'Hours Open', 'hours_open', '#/5.1/feeds/' + feedid + '/overview/hours_open/errors')
                            ],
@@ -194,5 +201,6 @@ module.exports = {
   totalErrors: util.simpleQueryResponder(totalErrorsQuery, util.paramExtractor()),
   overviewErrors: function(scope) { return errorResponder(overallErrorQuery(scope)); },
   localityErrorsReport: util.simpleQueryResponder(localityErrors, util.paramExtractor()),
-  scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); }
+  scopedLocalityErrors: function(scope) { return errorResponder(getScopedLocalityErrors(scope), ['localityId']); },
+  elementTypeAndScopeOverallErrorQuery: function(element_type, scope) { return errorResponder(elementTypeAndScopeOverallErrorQuery(element_type, scope)); }
 }

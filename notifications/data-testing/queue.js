@@ -1,6 +1,6 @@
-var logger = (require('../logging/vip-winston')).Logger;
+var logger = (require('../../logging/vip-winston')).Logger;
 var edn = require("jsedn");
-var sender = require ("./sender");
+var sender = require ("./../sender");
 
 var sendAddressFileMessage = null;
 
@@ -20,13 +20,13 @@ var generatePseudoRandomRequestID = function() {
   });
 };
 
-var submitAddressFile = function(bucketName, fileName, groupName) {
+var submitAddressFile = function(bucketName, fileName, fipsCode) {
   var transactionId = generatePseudoRandomRequestID();
   console.log(transactionId);
   if (sendAddressFileMessage != null) {
     sendAddressFileMessage(new Buffer(edn.encode({"bucketName": bucketName,
                                                   "fileName": fileName,
-                                                  "groupName": groupName,
+                                                  "fipsCode": fipsCode,
                                                   "transactionId": transactionId})));
   } else {
     throw "Not connected to message queue for address file processing."
@@ -48,7 +48,7 @@ var setupAddressFileRequest = function(ch) {
 var processAddressFileResponse = function(msg) {
   var message = edn.toJS(edn.parse(msg.content.toString()));
   logger.info(message);
-  sender.sendNotifications(message);
+  sender.sendDataTestingNotifications(message);
 };
 
 var setupAddressFileResponse = function(ch) {
