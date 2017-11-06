@@ -13,9 +13,9 @@
                                            :county-fips
                                            "01234"]))))))
 
-(deftest create-params-test
+(deftest params-test
   (testing "pulls together form and merges state abbreviation"
-    (let [db {:election-detail {:detail {:state-fips "08"}}
+    (let [db {:election-detail {:election {:state-fips "08"}}
               :early-vote-site-form {:county-fips "55555"
                                      :type "polling_location"
                                      :name "Test Location"
@@ -35,12 +35,12 @@
               :zip "80487"
               :directions nil
               :voter_services nil}
-             (events/create-params db))))))
+             (events/params db))))))
 
 (deftest form-submit-test
   (testing "constructs the full fx map"
-    (let [db {:selected-election "fake-election-id"
-              :election-detail {:detail {:state-fips "08"}}
+    (let [db {:selected-election-id "fake-election-id"
+              :election-detail {:election {:state-fips "08"}}
               :early-vote-site-form {:county-fips "55555"
                                      :type "polling_location"
                                      :name "Test Location"
@@ -50,7 +50,7 @@
           fx (events/form-submit {:db db} [:early-vote-site-form/save])
           url (get-in fx [:http-xhrio :uri])
           params (get-in fx [:http-xhrio :params])]
-      (is (str/ends-with? url "/earlyvote/elections/fake-election-id/earlyvotesites/"))
+      (is (str/ends-with? url "/earlyvote/elections/fake-election-id/earlyvotesites"))
       (is (= {:county_fips "55555"
               :type "polling_location"
               :name "Test Location"

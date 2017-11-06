@@ -5,16 +5,16 @@
 
 (deftest get-early-vote-site-list-test
   (testing "constructs uri with election-id"
-    (let [db {:selected-election "fake-election-id"}
+    (let [db {:selected-election-id "fake-election-id"}
           fx (events/get-early-vote-site-list {:db db} [])
           uri (get-in fx [:http-xhrio :uri])]
-      (is (str/ends-with? uri "/earlyvote/elections/fake-election-id/earlyvotesites/")))))
+      (is (str/ends-with? uri "/earlyvote/elections/fake-election-id/earlyvotesites")))))
 
 (deftest election-detail-json->clj-test
   (testing "json converts to clj"
     (let [json {"id"            "fake-id"
                 "state_fips"    "08"
-                "election_date" "2017-10-13"}]
+                "election_date" "2017-10-31"}]
       (is (= {:id            "fake-id"
               :state-fips    "08"
               :election-date "2017-10-31"}
