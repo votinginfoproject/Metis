@@ -7,8 +7,10 @@
             [reagent.ratom :as ratom]))
 
 (defn state-select-row
-  [state]
-  [:option {:value (:fips-code state) :key (:fips-code state)} (:state-name state)])
+  [id state]
+  [:option {:value (:fips-code state)
+            :key (str id "-" (:fips-code state))}
+   (:state-name state)])
 
 (defn form [id]
   (let [all-forms @(re-frame/subscribe [:elections/forms])
@@ -19,7 +21,8 @@
         editing? (not= :new id)]
     [:tr {:key (str "editing-" id)}
      [:td
-      [:select {:id "state" :type "text"
+      [:select {:id "state"
+                :type "text"
                 :class (str "form-control"
                             (when (contains? form-errors :state)
                               " error-highlight"))
@@ -27,7 +30,7 @@
                 :on-change #(re-frame/dispatch [:election-form/update
                                                 id :state
                                                 (-> % .-target .-value)])}
-       (map #(state-select-row %)
+       (map #(state-select-row id %)
             (concat [{:fips-code "" :state-name "Select a State"}]
                     constants/states))]]
      [:td
