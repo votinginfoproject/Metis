@@ -7,6 +7,8 @@
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
+;; Navigation
+
 (defn navigate
   [{:keys [db]} [_ early-vote-site-id]]
   {:db (-> db
@@ -14,6 +16,8 @@
         (assoc :active-panel :early-vote-site-detail/main))
    :dispatch-n [[:early-vote-site/get]
                 [:schedules-list/get]]})
+
+;; Early Vote Site Details
 
 (defn get-early-vote-site
   [{:keys [db]} _]
@@ -31,6 +35,8 @@
   [db [_ result]]
   (assoc-in db [:early-vote-site-detail :early-vote-site]
          (first (map election-detail/early-vote-site-json->clj result))))
+
+;; List Schedules
 
 (defn list-schedules
   [{:keys [db]} _]
@@ -59,6 +65,8 @@
   [db [_ result]]
   (assoc-in db [:early-vote-site-detail :schedules]
             (map schedule-json->clj result)))
+
+;; Edit/Create Form
 
 (defn form-errors [form]
   (merge (when (str/blank? @(:start-date-atom form))
@@ -114,6 +122,8 @@
      :dispatch-n [[:schedule/end-edit (:id form)]
                   [:schedules-list/get]]}))
 
+;; Assign Schedule
+
 (defn assign-schedule
   [{:keys [db]} [_ schedule-id]]
   (let [assign-schedule-uri (server/assign-schedule-uri db)]
@@ -131,6 +141,8 @@
   [{:keys [db]} [_ result]]
   {:db db
    :dispatch [:schedules-list/get]})
+
+;; Unassign Schedule
 
 (defn unassign-schedule
   [{:keys [db]} [_ assignment-id]]
@@ -150,6 +162,8 @@
   {:db db
    :dispatch [:schedules-list/get]})
 
+;; Edit Mode
+
 (defn start-edit
   [db [_ id]]
   (update-in db [:early-vote-site-detail :editing] conj id))
@@ -157,6 +171,8 @@
 (defn end-edit
   [db [_ id]]
   (update-in db [:early-vote-site-detail :editing] disj id))
+
+;; Delete Schedule
 
 (defn initiate-delete
   [db [_ schedule]]
@@ -170,6 +186,7 @@
 (defn delete-schedule
   [{:keys [db]} [_ id]]
   {:db db
+   :dispatch   [:close-modal]
    :http-xhrio {:method          :delete
                 :uri             (server/update-schedule-uri id)
                 :timeout         8000
@@ -182,8 +199,6 @@
   [{:keys [db]} [_ early-vote-site-id]]
   {:db db
    :dispatch-n [[:flash/message "Early vote site deleted"]
-                [:close-modal]
-                [:early-vote-site/get]
                 [:schedules-list/get]]})
 
 (def events
