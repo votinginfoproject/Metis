@@ -7,23 +7,25 @@
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
-(enable-console-print!)
+;; Navigation
 
 (defn navigate
   [{:keys [db]} [_]]
   {:db (assoc db :active-panel :elections/main)
    :dispatch [:elections-list/get]})
 
+(defn select-election [{:keys [db]} [_ election-id]]
+  {:db (assoc-in db [:selected-election-id] election-id)
+   :dispatch [:navigate/election-detail]})
+
+;; Create/Edit Forms
+
 (defn update-form [db [_ id keyword newval]]
   (-> db
     (assoc-in [:elections :forms id keyword] newval)
     (update-in [:elections :errors id] dissoc keyword)))
 
-(defn select-election [{:keys [db]} [_ election-id]]
-  {:db (assoc-in db [:selected-election-id] election-id)
-   :dispatch [:navigate/election-detail]})
-
-(defn create-params [db id]
+(defn election-params [db id]
   {:state_fips (get-in db [:elections :forms id :state])
    :election_date (get-in db [:elections :forms id :date])})
 
@@ -44,6 +46,31 @@
   (if (= :new id)
     :post
     :put))
+
+(defn save-election
+  [{:keys [db]} [_ id]]
+  (if-let [errors (form-errors db id)]
+    {:db (assoc-in db [:elections :errors id] errors)}
+    (let [data (election-params db id)]
+      {:db db
+       :http-xhrio {:method          (save-method id)
+                    :uri             (save-url db id)
+                    :params          data
+                    :timeout         8000
+                    :format          (ajax/json-request-format)
+                    :response-format (ajax/json-response-format)
+                    :on-success [:election-save/success id]
+                    :on-failure [:authorization/check [:election-save/failure]]}})))
+
+(defn save-election-success
+  [{:keys [db]} [_ id result]]
+  {:db (-> db
+           (assoc-in [:elections :forms id] db/fresh-election-form)
+           (update-in [:elections :errors] dissoc id))
+   :dispatch-n [[:flash/message "Election saved"]
+                [:elections-list/get]]})
+
+;; Delete Election
 
 (defn initiate-delete
   [db [_ election]]
@@ -66,28 +93,14 @@
                 :on-success [:election-delete/success]
                 :on-failure [:election-delete/failure]}})
 
-(defn save-election
-  [{:keys [db]} [_ id]]
-  (if-let [errors (form-errors db id)]
-    {:db (assoc-in db [:elections :errors id] errors)}
-    (let [data (create-params db id)]
-      {:db db
-       :http-xhrio {:method          (save-method id)
-                    :uri             (save-url db id)
-                    :params          data
-                    :timeout         8000
-                    :format          (ajax/json-request-format)
-                    :response-format (ajax/json-response-format)
-                    :on-success [:election-save/success id]
-                    :on-failure [:authorization/check [:election-save/failure]]}})))
-
-(defn save-election-success
+(defn election-delete-success
   [{:keys [db]} [_ id result]]
-  {:db (-> db
-           (assoc-in [:elections :forms id] db/fresh-election-form)
-           (update-in [:elections :errors] dissoc id))
-   :dispatch-n [[:flash/message "Election saved"]
+  {:db db
+   :dispatch-n [[:flash/message "Election deleted"]
+                [:close-modal]
                 [:elections-list/get]]})
+
+;; Elections List
 
 (defn list-elections-params
   [db]
@@ -122,6 +135,8 @@
   (assoc-in db [:elections :list]
             (map election-json->clj result)))
 
+;; Edit Mode
+
 (defn election->form
   [election]
   {:id (:id election)
@@ -141,12 +156,7 @@
     (update-in [:elections :editing] disj id)
     (update-in [:elections :forms] dissoc id)))
 
-(defn election-delete-success
-  [{:keys [db]} [_ id result]]
-  {:db db
-   :dispatch-n [[:flash/message "Election deleted"]
-                [:close-modal]
-                [:elections-list/get]]})
+;; File Generation
 
 (defn file-generation
   [{:keys [db]} [_ election-id]]
