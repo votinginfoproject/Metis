@@ -7,11 +7,15 @@
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
+;; Navigation
+
 (defn navigate
   [{:keys [db]} _]
   {:db (assoc db :active-panel :election-detail/main)
    :dispatch-n [[:election-detail/get]
                 [:early-vote-site-list/get]]})
+
+;; Election Detail
 
 (defn election-detail-json->clj
   [json]
@@ -34,6 +38,8 @@
                 :response-format (ajax/json-response-format)
                 :on-success [:get-election/success]
                 :on-failure [:get-election/failure]}})
+
+;; Early Vote Site List
 
 (defn early-vote-site-list-params
   [db]
@@ -75,6 +81,8 @@
   (assoc-in db [:election-detail :early-vote-site-list]
             (map early-vote-site-json->clj result)))
 
+;; Early Vote Site Delete
+
 (defn initiate-delete
   [db [_ {:keys [name id] :as early-vote-site}]]
   (modal/add-modal
@@ -88,6 +96,7 @@
 (defn delete-early-vote-site
   [{:keys [db]} [_ id]]
   {:db db
+   :dispatch   [:close-modal]
    :http-xhrio {:method          :delete
                 :uri             (server/early-vote-site-url-by-id id)
                 :timeout         8000
@@ -100,10 +109,7 @@
   [{:keys [db]} _]
   {:db db
    :dispatch-n [[:flash/message "Early vote site deleted"]
-                [:close-modal]
-                [:election-detail/get]
                 [:early-vote-site-list/get]]})
-
 
 (def events
   {:db {:get-election/success get-election-success

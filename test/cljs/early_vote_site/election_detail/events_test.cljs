@@ -4,11 +4,25 @@
             [early-vote-site.election-detail.events :as events]))
 
 (deftest get-early-vote-site-list-test
-  (testing "constructs uri with election-id"
-    (let [db {:selected-election-id "fake-election-id"}
+  (testing "super-admin role"
+    (let [db {:selected-election-id "fake-election-id"
+              :user {:roles #{"super-admin"}}}
           fx (events/get-early-vote-site-list {:db db} [])
-          uri (get-in fx [:http-xhrio :uri])]
-      (is (str/ends-with? uri "/earlyvote/elections/fake-election-id/earlyvotesites")))))
+          uri (get-in fx [:http-xhrio :uri])
+          params (get-in fx [:http-xhrio :params])]
+      (is (str/ends-with?
+           uri "/earlyvote/elections/fake-election-id/earlyvotesites"))
+      (is (empty? params))))
+  (testing "county user only sees early vote sites for county fips"
+    (let [db {:selected-election-id "fake-election-id"
+              :user {:roles #{"data-centralization"}
+                     :fipsCodes ["08005"]}}
+          fx (events/get-early-vote-site-list {:db db} [])
+          uri (get-in fx [:http-xhrio :uri])
+          params (get-in fx [:http-xhrio :params])]
+      (is (str/ends-with?
+           uri "/earlyvote/elections/fake-election-id/earlyvotesites"))
+      (is (= {:fips "08005"} params)))))
 
 (deftest election-detail-json->clj-test
   (testing "json converts to clj"
