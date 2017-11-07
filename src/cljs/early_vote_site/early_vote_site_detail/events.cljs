@@ -2,6 +2,7 @@
   (:require [ajax.core :as ajax]
             [clojure.string :as str]
             [early-vote-site.election-detail.events :as election-detail]
+            [early-vote-site.modal :as modal]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
@@ -159,10 +160,12 @@
 
 (defn initiate-delete
   [db [_ schedule]]
-  (assoc db :modal {:title "Delete Schedule?"
-                    :message (str "Do you really want to delete the schedule " (utils/schedule->string schedule) "?")
-                    :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
-                    :on-cancel #(re-frame/dispatch [:close-modal])}))
+  (modal/add-modal db
+   {:title "Delete Schedule?"
+    :message (str "Do you really want to delete the schedule "
+                  (utils/schedule->string schedule) "?")
+    :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
+    :on-cancel #(re-frame/dispatch [:close-modal])}))
 
 (defn delete-schedule
   [{:keys [db]} [_ id]]

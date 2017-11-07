@@ -2,6 +2,7 @@
   (:require [ajax.core :as ajax]
             [clojure.string :as str]
             [early-vote-site.db :as db]
+            [early-vote-site.modal :as modal]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
@@ -46,10 +47,13 @@
 
 (defn initiate-delete
   [db [_ election]]
-  (assoc db :modal {:title "Delete Election?"
-                    :message (str "Do you really want to delete the Election in " (utils/format-fips (:state-fips election)) "?")
-                    :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
-                    :on-cancel #(re-frame/dispatch [:close-modal])}))
+  (modal/add-modal
+   db
+   {:title "Delete Election?"
+    :message (str "Do you really want to delete the Election in "
+                  (utils/format-fips (:state-fips election)) "?")
+    :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
+    :on-cancel #(re-frame/dispatch [:close-modal])}))
 
 (defn delete-election
   [{:keys [db]} [_ id]]

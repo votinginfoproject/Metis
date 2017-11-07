@@ -5,14 +5,14 @@
             [early-vote-site.flash.subs :as flash]
             [early-vote-site.early-vote-site-form.subs :as early-vote-site-form]
             [early-vote-site.early-vote-site-detail.subs
-             :as early-vote-site-detail]))
+             :as early-vote-site-detail]
+            [early-vote-site.modal :as modal]))
 
 (def global-subscriptions
   {:active-panel [:active-panel]
    :username [:user :userName]
    :fips-codes [:user :fipsCodes]
-   :roles [:user :roles]
-   :modal [:modal]})
+   :roles [:user :roles]})
 
 (defn create-keypath-sub
   [keyword keypath]
@@ -42,3 +42,4 @@
 (create-subscriptions early-vote-site-form/subscriptions)
 (create-subscriptions early-vote-site-detail/subscriptions)
 (create-subscriptions flash/subscriptions)
+(create-subscriptions modal/subscriptions)

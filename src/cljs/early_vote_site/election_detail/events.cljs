@@ -2,6 +2,7 @@
   (:require [ajax.core :as ajax]
             [clojure.set :as set]
             [clojure.string :as str]
+            [early-vote-site.modal :as modal]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
@@ -75,11 +76,14 @@
             (map early-vote-site-json->clj result)))
 
 (defn initiate-delete
-  [db [_ early-vote-site]]
-  (assoc db :modal {:title "Delete Early Vote Site?"
-                    :message (str "Do you really want to delete the early vote site " (:name early-vote-site) "?")
-                    :on-confirm #(re-frame/dispatch [:early-vote-site/delete (:id early-vote-site)])
-                    :on-cancel #(re-frame/dispatch [:close-modal])}))
+  [db [_ {:keys [name id] :as early-vote-site}]]
+  (modal/add-modal
+   db
+   {:title "Delete Early Vote Site?"
+    :message (str "Do you really want to delete the early vote site "
+                  name "?")
+    :on-confirm #(re-frame/dispatch [:early-vote-site/delete id])
+    :on-cancel #(re-frame/dispatch [:close-modal])}))
 
 (defn delete-early-vote-site
   [{:keys [db]} [_ id]]
