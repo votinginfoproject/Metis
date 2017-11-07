@@ -35,10 +35,10 @@
               :zip "80487"
               :directions nil
               :voter_services nil}
-             (events/params db))))))
+             (events/params (:early-vote-site-form db) db))))))
 
 (deftest form-submit-test
-  (testing "constructs the full fx map"
+  (testing "new early vote site"
     (let [db {:selected-election-id "fake-election-id"
               :election-detail {:election {:state-fips "08"}}
               :early-vote-site-form {:county-fips "55555"
@@ -49,8 +49,38 @@
                                      :zip "80487"}}
           fx (events/form-submit {:db db} [:early-vote-site-form/save])
           url (get-in fx [:http-xhrio :uri])
-          params (get-in fx [:http-xhrio :params])]
+          params (get-in fx [:http-xhrio :params])
+          method (get-in fx [:http-xhrio :method])]
+      (is (= :post method))
       (is (str/ends-with? url "/earlyvote/elections/fake-election-id/earlyvotesites"))
+      (is (= {:county_fips "55555"
+              :type "polling_location"
+              :name "Test Location"
+              :address_1 "123 Main St"
+              :address_2 nil
+              :address_3 nil
+              :city "Steamboat Springs"
+              :state "CO"
+              :zip "80487"
+              :directions nil
+              :voter_services nil}
+             params))))
+  (testing "editing existing early vote site"
+    (let [db {:selected-election-id "fake-election-id"
+              :election-detail {:election {:state-fips "08"}}
+              :early-vote-site-form {:id 123
+                                     :county-fips "55555"
+                                     :type "polling_location"
+                                     :name "Test Location"
+                                     :address-1 "123 Main St"
+                                     :city "Steamboat Springs"
+                                     :zip "80487"}}
+          fx (events/form-submit {:db db} [:early-vote-site-form/save])
+          url (get-in fx [:http-xhrio :uri])
+          params (get-in fx [:http-xhrio :params])
+          method (get-in fx [:http-xhrio :method])]
+      (is (= :put method))
+      (is (str/ends-with? url "/earlyvote/earlyvotesites/123"))
       (is (= {:county_fips "55555"
               :type "polling_location"
               :name "Test Location"
