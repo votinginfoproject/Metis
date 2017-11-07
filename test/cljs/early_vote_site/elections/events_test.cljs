@@ -1,6 +1,6 @@
-(ns early-vote-site.election.events-test
+(ns early-vote-site.elections.events-test
   (:require [cljs.test :refer-macros [deftest is testing]]
-            [early-vote-site.election.events :as events]))
+            [early-vote-site.elections.events :as events]))
 
 (deftest create-params-test
   (testing "formats create params"

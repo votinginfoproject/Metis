@@ -1,4 +1,4 @@
-(ns early-vote-site.election.views
+(ns early-vote-site.elections.views
   (:require [cljs-pikaday.reagent :as pikaday]
             [clojure.set :as set]
             [early-vote-site.constants :as constants]
@@ -11,7 +11,7 @@
   [:option {:value (:fips-code state) :key (:fips-code state)} (:state-name state)])
 
 (defn form [id]
-  (let [all-forms @(re-frame/subscribe [:election-forms])
+  (let [all-forms @(re-frame/subscribe [:elections/forms])
         all-errors @(re-frame/subscribe [:elections/errors])
         form-errors (get all-errors id {})
         state (get-in all-forms [id :state])

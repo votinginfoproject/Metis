@@ -1,6 +1,6 @@
 (ns early-vote-site.subs
   (:require [re-frame.core :as re-frame]
-            [early-vote-site.election.subs :as election]
+            [early-vote-site.elections.subs :as elections]
             [early-vote-site.election-detail.subs :as election-detail]
             [early-vote-site.flash.subs :as flash]
             [early-vote-site.early-vote-site-form.subs :as early-vote-site-form]
@@ -37,7 +37,7 @@
   (dorun (map create-sub subscription-map)))
 
 (create-subscriptions global-subscriptions)
-(create-subscriptions election/subscriptions)
+(create-subscriptions elections/subscriptions)
 (create-subscriptions election-detail/subscriptions)
 (create-subscriptions early-vote-site-form/subscriptions)
 (create-subscriptions early-vote-site-detail/subscriptions)

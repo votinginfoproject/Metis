@@ -1,4 +1,4 @@
-(ns early-vote-site.election.events
+(ns early-vote-site.elections.events
   (:require [ajax.core :as ajax]
             [clojure.string :as str]
             [early-vote-site.db :as db]
@@ -11,7 +11,7 @@
 
 (defn navigate
   [{:keys [db]} [_]]
-  {:db (assoc db :active-panel :election/main)
+  {:db (assoc db :active-panel :elections/main)
    :dispatch [:elections-list/get]})
 
 (defn update-form [db [_ id keyword newval]]

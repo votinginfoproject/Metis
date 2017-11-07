@@ -2,7 +2,7 @@
   (:require [early-vote-site.authentication :as auth]
             [early-vote-site.config :as config]
             [early-vote-site.db :as db]
-            [early-vote-site.election.events :as election]
+            [early-vote-site.elections.events :as elections]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.early-vote-site-form.events :as early-vote-form]
             [early-vote-site.early-vote-site-detail.events
@@ -58,7 +58,7 @@
   (dorun (map create-fx-event (:fx events-map))))
 
 (reg-events global-events)
-(reg-events election/events)
+(reg-events elections/events)
 (reg-events election-detail/events)
 (reg-events early-vote-site-detail/events)
 (reg-events early-vote-form/events)

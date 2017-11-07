@@ -9,7 +9,7 @@
 (def default-db
   (merge
    fresh-early-vote-site-form
-   {:active-panel :election/main
+   {:active-panel :elections/main
     :flash {}
     :selected-election-id nil
     :selected-early-vote-site-id nil
