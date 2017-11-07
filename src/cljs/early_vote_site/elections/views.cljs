@@ -84,7 +84,7 @@
                  :on-click #(re-frame/dispatch [:file/generate (:id election)])}
             "Generate Files"])]]])))
 
-(defn election-table []
+(defn elections-list []
   (let [election-list-items @(re-frame/subscribe [:elections/list])
         roles @(re-frame/subscribe [:roles])]
     [:table {:name "election-list"}
@@ -110,4 +110,4 @@
 (defn main-panel []
   [:div
    [breadcrumb]
-   [election-table]])
+   [elections-list]])
