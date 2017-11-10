@@ -22,6 +22,14 @@ RUN bower --allow-root install
 
 COPY . /usr/src/app
 
+ENV PHANTOMJS_VERSION 2.1.1
+
+COPY script/download-phantomjs /usr/local/bin/download-phantomjs
+RUN chmod +x /usr/local/bin/download-phantomjs
+RUN download-phantomjs $PHANTOMJS_VERSION
+
+RUN lein test
+
 RUN lein cljsbuild once min
 
 EXPOSE 4000 27017 28017
