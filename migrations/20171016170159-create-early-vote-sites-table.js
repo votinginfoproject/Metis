@@ -12,7 +12,7 @@ exports.up = function(db, callback) {
               address_1: {type: 'string'},
               address_2: {type: 'string'},
               address_3: {type: 'string'},
-              city: {type: 'string'},
+              city: {type: 'string', notNull: true},
               state: {type: 'string', notNull: true},
               zip: {type: 'string'},
               directions: {type: 'string'},
