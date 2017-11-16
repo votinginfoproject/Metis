@@ -70,7 +70,7 @@
         [:ul {:class "link-group"}
          [:li {:class "btn-link"
                :on-click #(re-frame/dispatch [:election-list/election-selected (:id election)])}
-          "To Early Vote Sites"]
+          "Manage Early Vote Sites"]
          (when admin?
            [:li {:class "btn-link"
                  :on-click #(re-frame/dispatch [:elections/start-edit election])}
