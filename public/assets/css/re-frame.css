@@ -1,4 +1,4 @@
-/* variables-and-mixins.scss */
+breadcrumb/* variables-and-mixins.scss */
 /* normalize.css v2.1.2 | MIT License | git.io/normalize */
 article,
 aside,
@@ -2307,35 +2307,38 @@ aside {
     .map {
       min-height: 480px; } }
 
-.breadcrumbs {
+.breadcrumb {
   display: none;
-  margin: 0 0 1.5em; }
+  margin: 0 0 1.5em;
+  background-color: transparent;
+  padding: 0em;
+  margin: 0em}
   @media (min-width: 600px) {
-    .breadcrumbs {
+    .breadcrumb {
       display: block; } }
-  .breadcrumbs ul {
+  .breadcrumb ul {
     padding: 0;
     margin: 0; }
-  .breadcrumbs li {
+  .breadcrumb li {
     list-style: none;
     display: inline;
     margin: 0; }
-    .breadcrumbs li:before {
+    .breadcrumb li:before {
       color: #b1b3b6;
       content: "/";
       margin: 0 0.25em; }
-    .breadcrumbs li:first-child:before {
+    .breadcrumb li:first-child:before {
       content: " ";
       margin: 0; }
-  .breadcrumbs a {
+  .breadcrumb a {
     line-height: 1.25;
     color: #b1b3b6;
     text-decoration: none;
     border-bottom: 1px solid #3c5f87;
     display: inline-block; }
-    .breadcrumbs a:hover, .breadcrumbs a:focus {
+    .breadcrumb a:hover, .breadcrumb a:focus {
       color: #fff; }
-  .breadcrumbs .is-active a {
+  .breadcrumb .active {
     color: #fff;
     border: none;
     cursor: default; }
