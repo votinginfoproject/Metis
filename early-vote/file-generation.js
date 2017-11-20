@@ -96,30 +96,28 @@ var getAssignments = function(schedules, earlyVoteSites, election, res) {
  * Given an array of schedules, creates a map where the schedules are
  * keyed by id for easy lookup.
  */
-var schedulesById = function(schedules) {
-  var byId = {};
-  schedules.forEach(function(schedule) {
-    byId[schedule["id"]] = schedule;
-  });
-  return byId;
-}
+var schedulesById =
+  (schedules) =>
+    schedules.reduce((accumulator, schedule) =>
+                      {accumulator[schedule["id"]] = schedule;
+                       return accumulator},
+                     {});
 
 /**
  * Given an array of assignments, returns a map of early_vote_site_id to
  * array of schedule_ids that are assigned to the given earlyVoteSite.
  */
-var earlyVoteSiteSchedules = function(assignments) {
-  byEarlyVoteSiteId = {};
-  assignments.forEach(function(assignment) {
-    if(assignment["early_vote_site_id"] in byEarlyVoteSiteId) {
-      byEarlyVoteSiteId[assignment["early_vote_site_id"]].push(assignment["schedule_id"]);
-    } else {
-      byEarlyVoteSiteId[assignment["early_vote_site_id"]] = [assignment["schedule_id"]];
-    }
-  });
-  return byEarlyVoteSiteId;
-};
-
+var earlyVoteSiteSchedules =
+  (assignments) =>
+    assignments.reduce((accumulator, assignment) =>
+                        {if(assignment["early_vote_site_id"] in accumulator) {
+                           accumulator[assignment["early_vote_site_id"]].push(assignment["schedule_id"]);
+                           return accumulator;
+                         } else {
+                           accumulator[assignment["early_vote_site_id"]] = [assignment["schedule_id"]];
+                           return accumulator;
+                         }},
+                       {});
 
 /**
  * Formats an earlyVoteSite address into a single space delimited line
@@ -134,12 +132,7 @@ var formatEarlyVoteSiteAddress = function(earlyVoteSite){
                  earlyVoteSite["city"],
                  earlyVoteSite["state"],
                  earlyVoteSite["zip"]];
-  address.forEach(function(val){
-    if (val) { //checks for null, undefined, empty string
-      addressComponents.push(val);
-    }
-  });
-  return addressComponents.join(" ");
+  return address.filter((val) => {if(val) {return true;} else {return false}}).join(" ");
 }
 
 var pollingLocationFields = ["name","address_line","directions","hours","photo_uri",
@@ -151,8 +144,8 @@ var pollingLocationFields = ["name","address_line","directions","hours","photo_u
  * called. hoursOpenIf is an ID that will join the earlyVoteSite to all assigned
  * schedules.
  */
-var earlyVoteSiteToCsv = function(earlyVoteSite, hoursOpenId, idGenerator) {
-  return {
+var earlyVoteSiteToCsv = (earlyVoteSite, hoursOpenId, idGenerator) =>
+  ({
     "name": earlyVoteSite["name"],
     "address_line": formatEarlyVoteSiteAddress(earlyVoteSite),
     "directions": earlyVoteSite["directions"],
@@ -165,13 +158,9 @@ var earlyVoteSiteToCsv = function(earlyVoteSite, hoursOpenId, idGenerator) {
     "longitude": "",
     "latlng_source": "",
     "id": idGenerator("evs_pl_")
-  }
-}
+  });
 
-var formatDate = function(date) {
-  var asMoment = moment(date);
-  return asMoment.format('YYYY-MM-DD');
-}
+var formatDate = (date) => {moment(date).format('YYYY-MM-DD')};
 
 var timezoneToOffset = {
   "EST": "-05:00",
@@ -202,10 +191,8 @@ var scheduleFields = ["start_time","end_time","is_only_by_appointment",
  * should match the hoursOpenId used for the earlyVoteSite to associate it with
  * this (and any other) schedules.
  */
-var scheduleToCsv = function(schedule, hoursOpenId, idGenerator) {
-  //TODO: format start/end time with TZ offsets when we add them to schedules
-  return {
-    "start_time": formatTime(schedule["start_time"], schedule["timezone"]),
+var scheduleToCsv = (schedule, hoursOpenId, idGenerator) =>
+  ({"start_time": formatTime(schedule["start_time"], schedule["timezone"]),
     "end_time": formatTime(schedule["end_time"], schedule["timezone"]),
     "is_only_by_appointment": "",
     "is_or_by_appointment": "",
@@ -213,17 +200,9 @@ var scheduleToCsv = function(schedule, hoursOpenId, idGenerator) {
     "start_date": formatDate(schedule["start_date"]),
     "end_date": formatDate(schedule["end_date"]),
     "hours_open_id": hoursOpenId,
-    "id": idGenerator("evs_sch_")
-  }
-}
+    "id": idGenerator("evs_sch_")});
 
-var fieldsToHeaders = function(fields) {
-  var headers = [];
-  fields.forEach(function(val){
-    headers.push({id: val, title: val});
-  })
-  return headers;
-}
+var fieldsToHeaders = (fields) => fields.map((val) => ({id: val, title: val}));
 
 /**
  * Writes the data to a CSV file, using fields as the headers.
