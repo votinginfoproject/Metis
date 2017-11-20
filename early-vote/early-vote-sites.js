@@ -4,9 +4,9 @@ var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
 //list early vote sites for election
-var listSql = "select * from early_vote_sites where election_id = $1  \
-               and (($2 = 'undefined') or (county_fips ~ $2))  \
-               order by city desc;";
+var listSql = `select * from early_vote_sites where election_id = $1
+               and (($2 = 'undefined') or (county_fips ~ $2))
+               order by city desc;`
 var listParamsFn =
   util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
                                util.queryParamExtractor(['fips'])]);
@@ -19,9 +19,9 @@ var getHandler = util.simpleQueryResponder(getSql,
                                            util.pathParamExtractor(['earlyvotesiteid']));
 
 //create early vote site
-var createSql = "INSERT into early_vote_sites(election_id, id, county_fips, type, " +
-  "name, address_1, address_2, address_3, city, state, zip, directions, voter_services) values " +
-  "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);"
+var createSql = `insert into early_vote_sites(election_id, id, county_fips, type,
+   name, address_1, address_2, address_3, city, state, zip, directions, voter_services) values
+   ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);`
 
 var createParamsFn =
   util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
@@ -36,10 +36,10 @@ var createHandler =
 
 //update early vote site, updates all values so values that remain constant
 //must still be passed in, values that are not present will be set to null
-var updateSql = "UPDATE early_vote_sites SET county_fips = $1, type = $2, " +
-  "name = $3, address_1 = $4, address_2 = $5, address_3 = $6, city = $7, " +
-  "state = $8, zip = $9, directions = $10, voter_services = $11 " +
-  "WHERE id = $12;"
+var updateSql = `UPDATE early_vote_sites SET county_fips = $1, type = $2,
+  name = $3, address_1 = $4, address_2 = $5, address_3 = $6, city = $7,
+  state = $8, zip = $9, directions = $10, voter_services = $11
+  WHERE id = $12;`
 
 var updateParamsFn =
   util.compoundParamExtractor([util.bodyParamExtractor(['county_fips','type',

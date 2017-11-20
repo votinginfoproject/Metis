@@ -4,20 +4,20 @@ var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
 //list schedules for election
-var listSql = "select s.id as id, \
-                      s.election_id, \
-                      s.start_date, \
-                      s.end_date, \
-                      s.start_time, \
-                      s.end_time, \
-                      s.timezone, \
-                      a.id as assignment_id \
- from schedules s \
-  left outer join assignments a \
-  on s.id = a.schedule_id \
-  and a.early_vote_site_id = $2\
-  where s.election_id = $1 \
-  order by s.start_date, s.start_time;"
+var listSql = `select s.id as id,
+                      s.election_id,
+                      s.start_date,
+                      s.end_date,
+                      s.start_time,
+                      s.end_time,
+                      s.timezone,
+                      a.id as assignment_id
+ from schedules s
+  left outer join assignments a
+  on s.id = a.schedule_id
+  and a.early_vote_site_id = $2
+  where s.election_id = $1
+  order by s.start_date, s.start_time;`
 var listHandler =
   util.simpleQueryResponder(listSql, util.pathParamExtractor(['electionid', 'earlyvotesiteid']));
 
@@ -27,8 +27,8 @@ var getHandler = util.simpleQueryResponder(getSql,
                                            util.pathParamExtractor(['scheduleid']));
 
 //create schedule
-var createSql = "INSERT into schedules(election_id, id, start_date, end_date, " +
-  "start_time, end_time, timezone) values ($1, $2, $3, $4, $5, $6, $7);"
+var createSql = `INSERT into schedules(election_id, id, start_date, end_date,
+                 start_time, end_time, timezone) values ($1, $2, $3, $4, $5, $6, $7);`
 
 var createParamsFn =
   util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
@@ -41,8 +41,8 @@ var createHandler =
 
 //update schedule, updates all values so values that remain constant
 //must still be passed in, values that are not present will be set to null
-var updateSql = "UPDATE schedules SET start_date = $1, end_date = $2, " +
-  "start_time = $3, end_time = $4, timezone = $5 WHERE id = $6;"
+var updateSql = `UPDATE schedules SET start_date = $1, end_date = $2,
+                 start_time = $3, end_time = $4, timezone = $5 WHERE id = $6;`
 
 var updateParamsFn =
   util.compoundParamExtractor([util.bodyParamExtractor(['start_date','end_date',

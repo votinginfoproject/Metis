@@ -14,8 +14,8 @@ var getHandler = util.simpleQueryResponder(getSql,
                                            util.pathParamExtractor(['assignmentid']));
 
 //create assignment
-var createSql = "INSERT into assignments(id, early_vote_site_id, schedule_id) " +
-  "values ($1, $2, $3);"
+var createSql = `insert into assignments(id, early_vote_site_id, schedule_id)
+                 values ($1, $2, $3);`
 
 var createParamsFn =
   util.compoundParamExtractor([util.uuidGenerator(),

@@ -12,8 +12,8 @@ var createElection = util.simpleCommandResponder(createSql, createElectionsParam
 
 //list elections
 var getElectionsQuery =
-  "select * from elections where election_date >= current_date AND " +
-  "(($1 = 'undefined') or (state_fips = $1)) order by election_date asc;"
+  `select * from elections where election_date >= current_date AND
+   (($1 = 'undefined') or (state_fips = $1)) order by election_date asc;`
 var getElections = util.simpleQueryResponder(getElectionsQuery, util.queryParamExtractor(['fips']));
 
 //get single election
