@@ -65,69 +65,9 @@ module.exports = {
       });
     }
   },
-  newIdParamFn: function(params) {
-    return function(req) {
-      var ret = [uuidv4()];
-      if (params) {
-        for (var i = 0; i < params.length; i++) {
-          ret.push(decodeURIComponent(req.params[params[i]]));
-        }
-      }
-      logger.info(req.params);
-      logger.info(ret);
-      return ret;
-    }
-  },
-  queryParamExtractor: function(params) {
-    return function(req) {
-      var ret = [];
-      if (params) {
-        for (var i = 0; i < params.length; i++) {
-          ret.push(decodeURIComponent(req.query[params[i]]));
-        }
-      }
-      return ret;
-    }
-  },
-  pathParamExtractor: function(params) {
-    return function(req) {
-      var ret = [];
-      if (params) {
-        for (var i = 0; i < params.length; i++) {
-          ret.push(decodeURIComponent(req.params[params[i]]));
-        }
-      }
-      return ret;
-    }
-  },
-  bodyParamExtractor: function(params) {
-    return function(req) {
-      var ret = [];
-      if (params) {
-        for (var i = 0; i < params.length; i++) {
-          ret.push(req.body[params[i]]);
-        }
-      }
-      return ret;
-    }
-  },
-  compoundParamExtractor: function(paramFns) {
-    return function(req) {
-      var ret = [];
-        for (var i = 0; i < paramFns.length; i++) {
-          var params = paramFns[i](req);
-          if (params) {
-            for (var j = 0; j < params.length; j++) {
-              ret.push(params[j]);
-            }
-          }
-        }
-      return ret;
-    }
-  },
-  uuidGenerator: function() {
-    return function (req) {
-      return [uuidv4()];
-    }
-  }
+  queryParamExtractor: params => req => params.map(param => decodeURIComponent(req.query[param])),
+  pathParamExtractor: params => req => params.map(param => decodeURIComponent(req.params[param])),
+  bodyParamExtractor: params => req => params.map(param => req.body[param]),
+  compoundParamExtractor: paramFns => req => paramFns.reduce((allParams, paramFn) => allParams.concat(paramFn(req)), []),
+  uuidGenerator: () => req => ([uuidv4()])
 }
