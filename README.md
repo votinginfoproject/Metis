@@ -137,13 +137,19 @@ the Angular config file, you can return to using `node app.js` if you like.
 
 ## Deploying the Project
 
+### Automatic
+
+Merges to `master` branch will be deployed to production automatically.
+
+### Manual
+
 To deploy you will need the ssh key for the environment you are deploying to, access to [quay](https://quay.io/) where the docker container images are hosted, and the IP address for the cluster you wish to deploy to
 
-1. set the environment variable `FLEETCTL_TUNNEL` to the IP address of the cluster you're deploying to (`export FLEETCTL_TUNNEL=<ip_address>`)
+1. set the environment variable `FLEETCTL_TUNNEL` to the IP address of the cluster you're deploying to (`export FLEETCTL_TUNNEL=<ip_address>`), and if needed, add the ssh key to your agent, e.g. `ssh-add ~/.ssh/key.pem` where `key.pem` is the appropriate key for the environment you are deploying to.
 1. run `docker login quay.io` to login to quay
 2. run `./script/build staging|production` to build the docker image (use either `staging` or `production` depending on the environment you are deploying to.
 2. if you've successfully built the image, you should see output at the end that looks like this: `If you'd like to push this to the Docker repo, run: docker push quay.io/votinginfoproject/metis:master-somehash`; run that command to push the container to quay
-3. run `PEM_FILE=<path_to_pem_file> ./script/deploy` to deploy
+3. run `./script/deploy` to deploy
 
 [data-processor]: https://github.com/votinginfoproject/data-processor
 [node]: http://nodejs.org
