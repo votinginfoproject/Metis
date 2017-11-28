@@ -3,14 +3,38 @@
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
+(defn breadcrumb [election form]
+  (println form)
+  (when election
+    [:nav {:aria-label "breadcrumb"
+           :role "navigation"}
+     [:ol {:class "breadcrumb"}
+      [:li {:class "breadcrumb-item"}
+           [:a {:href "#"
+                :on-click #(re-frame/dispatch [:navigate/elections])}
+            "Elections"]]
+      [:li {:class "breadcrumb-item"}
+           [:a {:href "#"
+                :on-click #(re-frame/dispatch [:navigate/election-detail])}
+            (utils/format-date-string (:election-date election))]]
+      [:li {:class "breadcrumb-item active"}
+           (if (:election-id form) "Edit an early vote site" "Create an early vote site")]]]))
+
 (defn main-panel []
   (let [form @(re-frame/subscribe [:early-vote-site-form])
         election @(re-frame/subscribe [:election-detail/election])
         roles @(re-frame/subscribe [:roles])
         fips (first @(re-frame/subscribe [:fips-codes]))]
     [:div
-     [:h1 (-> election :state-fips utils/format-fips)]
-     [:h2 (-> election :election-date utils/format-date-string)]
+     [breadcrumb election form]
+     [:h1 (if (:election-id form) "Edit an Early Vote Site" "Create an Early Vote Site")]
+     [:p (if (:election-id form) "To edit an early vote site, fill in the form below. Fields marked
+          with an asterisk (*) are required. When you are finished, click on
+          'Save Early Vote Site'." "To create an early vote site, fill in the form below. Fields marked
+               with an asterisk (*) are required. When you are finished, click on
+               'Save Early Vote Site'.")]
+     [:h3 (-> election :state-fips utils/format-fips)]
+     [:h4 (-> election :election-date utils/format-date-string)]
      [:div {:name "create-early-vote-site-form"}
       [:div {:class "form-group row mx-sm-3"
              :style

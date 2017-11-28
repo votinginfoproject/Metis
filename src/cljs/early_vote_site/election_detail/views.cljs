@@ -55,8 +55,8 @@
 (defn election-details [election]
   (when election
     [:div
-     [:h1 (-> election :state-fips utils/format-fips)]
-     [:h2 (-> election :election-date utils/format-date-string)]]))
+     [:h3 (-> election :state-fips utils/format-fips)]
+     [:h4 (-> election :election-date utils/format-date-string)]]))
 
 (defn breadcrumb [election]
   (when election
@@ -74,5 +74,11 @@
   (let [election @(re-frame/subscribe [:election-detail/election])]
     [:div
       [breadcrumb election]
+      [:h1 "Manage Early Vote Sites"]
+      [:p "This page allows you to create early vote sites and schedules for
+           when the sites will be open. To get started, click “Add Early Vote Site”
+           and enter information in the required fields. Once an Early Vote Site
+           has been created, click “Add Schedule” to specify the days and hours
+           the site will be open."]
       [election-details election]
       [early-vote-sites-list]]))

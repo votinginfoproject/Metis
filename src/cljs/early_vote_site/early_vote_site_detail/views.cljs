@@ -171,5 +171,10 @@
         election @(re-frame/subscribe [:election-detail/election])]
     [:div
      [breadcrumb election early-vote-site]
+     [:h1 "Manage Schedules"]
+     [:p "To create a schedule, enter the start and end dates and times.
+          You can create multiple schedules for the same site. To associate
+          a schedule you previously created with an early vote site, simply
+          check the box under 'Assigned.'"]
      [early-vote-site-detail early-vote-site]
      [schedules-list]]))

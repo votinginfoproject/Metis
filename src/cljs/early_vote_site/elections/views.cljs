@@ -110,4 +110,7 @@
 (defn main-panel []
   [:div
    [breadcrumb]
+   [:h1 "Vip Early Vote Site Tool"]
+   [:p "Welcome to the Voting Information Project’s Early Vote Site Upload Tool.
+        Select an election to create and manage early vote sites."]
    [elections-list]])
