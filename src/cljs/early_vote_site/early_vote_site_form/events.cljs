@@ -14,9 +14,9 @@
         fips (first (get-in db [:user :fipsCodes]))]
     (if (contains? roles "data-centralization")
       (-> db (assoc :active-panel :early-vote-site-form/main)
-          (assoc :early-vote-site-form {:county-fips fips}))
+          (assoc :early-vote-site-form {:county-fips fips :type "early_vote_site"}))
       (-> db (assoc :active-panel :early-vote-site-form/main)
-             (assoc :early-vote-site-form {})))))
+             (assoc :early-vote-site-form {:type "early_vote_site"})))))
 
 (defn navigate-edit
   [{:keys [db]} [_ id]]
