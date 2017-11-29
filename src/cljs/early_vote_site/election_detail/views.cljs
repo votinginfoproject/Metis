@@ -75,10 +75,9 @@
     [:div
       [breadcrumb election]
       [:h1 "Manage Early Vote Sites"]
-      [:p "This page allows you to create early vote sites and schedules for
-           when the sites will be open. To get started, click “Add Early Vote Site”
-           and enter information in the required fields. Once an Early Vote Site
-           has been created, click “Add Schedule” to specify the days and hours
+      [:p "To get started, click “Create an Early Vote Site” and enter
+           information in the required fields. Once an Early Vote Site has
+           been created, click “Add Schedules” to specify the days and hours
            the site will be open."]
       [election-details election]
       [early-vote-sites-list]]))
