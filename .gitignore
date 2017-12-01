@@ -30,3 +30,12 @@ sessions
 /.env
 public/assets/js/app/config.js
 script/run-local
+
+/*.log
+/target
+/*-init.clj
+out
+public/assets/js/compiled/
+.nrepl-port
+.lein-repl-history
+resources/test/

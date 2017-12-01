@@ -19,6 +19,7 @@ var pgServices = require('./pg/services');
 var dataVerificationServices = require('./aws/services');
 var authServices = require('./authentication/services');
 var centralizationServices = require('./aws/services');
+var earlyVoteServices = require('./early-vote/services');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -76,6 +77,7 @@ pgServices.registerPostgresServices(app);
 dataVerificationServices.registerDataVerificationServices(app);
 authServices.registerAuthServices(app);
 centralizationServices.registerCentralizationServices(app);
+earlyVoteServices.registerEarlyVoteServices(app);
 
 app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
   res.send(config.vit.apiKey);

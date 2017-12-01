@@ -31,6 +31,7 @@ you can run Metis locally to show a dashboard for that data.
 ### Setup
 
 * Compile SASS: `./node_modules/.bin/grunt sass`
+* Create databases: `create db dataprocessor`, `create db datadashboard`
 
 ### Configuration
 
@@ -73,11 +74,28 @@ AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
 DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
+DASHBOARD_DB_ENV_POSTGRES_DATABASE=datadashboard
+DASHBOARD_DB_ENV_POSTGRES_PASSWORD=
+DASHBOARD_DB_ENV_POSTGRES_USER=dataprocessor
+DASHBOARD_DB_PORT_5432_TCP_ADDR=localhost
+DASHBOARD_DB_PORT_5432_TCP_PORT=5432
+DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
+EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
 and that's for the Dashboard. The other is a non-interactive client, and that's for
 the Express API. So pull you actual env vars from the proper clients.
+
+### Testing - Early Vote Site
+
+Early Vote Site has Clojurescript tests that are run by the `doo` plugin, and the command has been aliased to:
+
+`lein test`
+
+It will compile the Clojurescript to JS and run the tests as specified in `early-vote-site.test-runner` namespace.
+If you create a new test namespace in another file, simply require it in the `test-runner` and it will be run so
+long as it is in a namespace that starts with `early-vote-site`.
 
 ### Start it up
 

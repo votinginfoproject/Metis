@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# PhantomJS fails to download A LOT. So this silly script exists to make it
+# easier to try a few times before failing a build.
+
+try_download () {
+  version=$1
+  curl -L https://github.com/Medium/phantomjs/releases/download/v${version}/phantomjs-${version}-linux-x86_64.tar.bz2 \
+       -o /tmp/phantomjs.tar.bz2 && \
+  tar -xjf /tmp/phantomjs.tar.bz2 -C /tmp && \
+  mv /tmp/phantomjs-${version}-linux-x86_64/bin/phantomjs /bin/ && \
+  rm -rf /tmp/phantomjs*
+}
+
+exit_success () {
+  exit 0
+}
+
+for i in {1..10}; do
+  try_download $1 && exit_success || sleep 1
+done
+
+exit 1
