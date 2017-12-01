@@ -8,8 +8,6 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
   // initialize page header variables
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
 
-  $rootScope.hasRole = $authService.hasRole;
-
   $scope.cannotSubmit = function() {
     // the ui-date that is allowing the user to select their date via a calendar
     // is not fully compatible with angular 1.2.1, so this calls to a function

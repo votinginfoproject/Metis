@@ -16,9 +16,9 @@ var queue = require('./queue');
 
 var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
-var dataVerificationServices = require('./data-testing/services');
+var dataVerificationServices = require('./aws/services');
 var authServices = require('./authentication/services');
-var centralizationServices = require('./centralization/services');
+var centralizationServices = require('./aws/services');
 var earlyVoteServices = require('./early-vote/services');
 
 if (fs.existsSync('./newrelic.js')) {

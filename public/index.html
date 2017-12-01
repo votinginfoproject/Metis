@@ -18,6 +18,9 @@
   <script src="assets/js/lib/json3/lib/json3.min.js"></script>
   <![endif]-->
 
+  <!-- random number generator -->
+  <script src="assets/js/lib-static/sjcl/sjcl.js"></script>
+
   <!-- Modernizr lib -->
   <script src="assets/js/lib/modernizr/modernizr.js"></script>
 
@@ -175,13 +178,15 @@
 <!--  #TODO-auth need to confirm user is authenticated-->
       <!-- <nav class="main-nav" ng-if="user.isAuthenticated"> -->
       <nav class="main-nav" ng-if="user.isAuthenticated">
-        <ul>
+        <ul style="padding:5px; float: right">
           <li><i class="fi-torso"></i> {{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
+          <li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
+        </ul>
+        <ul>
           <li><a id="pageHeader-testing" href="#/testing/vit"><i class="fi-clipboard-pencil"></i> Staging Data Review</a></li>
           <li ng-if="hasRole('data-centralization') || hasRole('state-admin') || hasRole('super-admin')"><a id="pageHeader-county-data" href="#/county-data/centralization"><i class="fi-upload"></i> County Data Uploads</a></li>
-          <li ng-if="hasRole('state-admin') || hasRole('super-admin')"><a id="pageHeader-county-data" href="/early_vote.html"><i class="fi-upload"></i> Early Vote Sites</a></li>
-          <li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
+          <li ng-if="hasRole('data-centralization') || hasRole('state-admin') || hasRole('super-admin')"><a id="pageHeader-county-data" href="/early_vote.html"><i class="fi-upload"></i> Early Vote Sites</a></li>
         </ul>
       </nav>
     </div>

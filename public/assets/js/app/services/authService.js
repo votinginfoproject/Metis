@@ -3,7 +3,12 @@
 vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http, $appService, $appProperties, angularAuth0) {
 
   function login() {
-    angularAuth0.authorize();
+    var opts = {};
+    if (window.crypto === undefined) {
+      console.log("setting up local nonce");
+      opts = {nonce: getNonce()};
+    }
+    angularAuth0.authorize(opts);
   }
 
   function handleAuthentication() {
@@ -11,7 +16,13 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     if (isAuthenticated()) {
       setupAuthentication();
     } else {
-      angularAuth0.parseHash(function(err, authResult) {
+      var opts = {};
+      if (window.crypto === undefined) {
+        console.log("getting local nonce");
+        opts = {nonce: getNonce()};
+      }
+      angularAuth0.parseHash(opts, function(err, authResult) {
+        clearLocalState();
         if (authResult && authResult.accessToken && authResult.idToken) {
           console.log("handleAuthentication: success");
           setSession(authResult);
@@ -45,29 +56,34 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
 
   function setSession(authResult) {
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    var expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('auth0_access_token', authResult.accessToken);
     localStorage.setItem('auth0_id_token', authResult.idToken);
     localStorage.setItem('auth0_id_token_payload', JSON.stringify(authResult.idTokenPayload));
     localStorage.setItem('auth0_expires_at', expiresAt);
   }
 
-  function logout() {
+  function clearLocalState() {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('auth0_access_token');
     localStorage.removeItem('auth0_id_token');
     localStorage.removeItem('auth0_id_token_payload');
     localStorage.removeItem('auth0_expires_at');
     localStorage.removeItem('auth0_user');
+    localStorage.removeItem('auth0_nonce');
     $http.defaults.headers.common['Authorization'] = null;
     $appService.clearUser();
+  }
+
+  function logout() {
+    clearLocalState();
   }
 
   function isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('auth0_expires_at'));
-    let authenticated = new Date().getTime() < expiresAt;
+    var expiresAt = JSON.parse(localStorage.getItem('auth0_expires_at'));
+    var authenticated = new Date().getTime() < expiresAt;
     console.log("isAuthenticated: " + authenticated);
     return authenticated;
   }
@@ -88,6 +104,24 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
       return null;
     }
   };
+
+  function bin2string(array){
+    var result = "";
+    for(var i = 0; i < array.length; ++i){
+      result+= (String.fromCharCode(array[i]));
+    }
+    return result;
+  }
+
+  function getNonce() {
+    var nonce = localStorage.getItem('auth0_nonce');
+    if (nonce == null) {
+      var words = sjcl.random.randomWords(8,0);
+      nonce = bin2string(words);
+      localStorage.setItem('auth0_nonce', nonce);
+    }
+    return nonce;
+  }
 
   function getUser(successCallback, failureCallback) {
     var storedUser = localStorage.getItem('auth0_user');

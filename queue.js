@@ -1,8 +1,8 @@
 var logger = (require('./logging/vip-winston')).Logger;
 var ampq = require('amqplib/callback_api');
 var config = require('./config');
-var notificationsQueue = require('./notifications/queue');
-var dataTestingQueue = require('./data-testing/queue');
+var notificationsQueue = require('./notifications/feed-processing/queue');
+var dataTestingQueue = require('./notifications/data-testing/queue');
 
 var connection = null;
 var attempt = 0;

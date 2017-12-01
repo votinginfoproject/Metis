@@ -128,6 +128,9 @@ input[type="submit"] {
 button[disabled],
 html input[disabled] {
   cursor: default; }
+button {
+  margin-right: 10px
+}
 
 input[type="checkbox"],
 input[type="radio"] {
@@ -2304,35 +2307,38 @@ aside {
     .map {
       min-height: 480px; } }
 
-.breadcrumbs {
+.breadcrumb {
   display: none;
-  margin: 0 0 1.5em; }
+  margin: 0 0 1.5em;
+  background-color: transparent;
+  padding: 0em;
+  margin: 0em}
   @media (min-width: 600px) {
-    .breadcrumbs {
+    .breadcrumb {
       display: block; } }
-  .breadcrumbs ul {
+  .breadcrumb ul {
     padding: 0;
     margin: 0; }
-  .breadcrumbs li {
+  .breadcrumb li {
     list-style: none;
     display: inline;
     margin: 0; }
-    .breadcrumbs li:before {
+    .breadcrumb li:before {
       color: #b1b3b6;
       content: "/";
       margin: 0 0.25em; }
-    .breadcrumbs li:first-child:before {
+    .breadcrumb li:first-child:before {
       content: " ";
       margin: 0; }
-  .breadcrumbs a {
+  .breadcrumb a {
     line-height: 1.25;
     color: #b1b3b6;
     text-decoration: none;
     border-bottom: 1px solid #3c5f87;
     display: inline-block; }
-    .breadcrumbs a:hover, .breadcrumbs a:focus {
+    .breadcrumb a:hover, .breadcrumb a:focus {
       color: #fff; }
-  .breadcrumbs .is-active a {
+  .breadcrumb .active {
     color: #fff;
     border: none;
     cursor: default; }
@@ -3150,5 +3156,52 @@ section.data-module {
   h2,
   h3 {
     page-break-after: avoid; } }
+
+/** Early Vote Site customizations */
+
+ul.link-group {
+    padding: 0px 10px 0px 0px;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+ul.link-group li {
+    display: inline;
+}
+
+ul.link-group li+li:before {
+    padding: 10px;
+    color: black;
+    content: "|";
+}
+
+.error-highlight {
+    border: 1px solid red;
+}
+
+.modal-title {
+  color: black;
+}
+
+.modal-body {
+  color: black;
+}
+
+.modal {
+  position: fixed;
+    top: 50%;
+    left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5); /*dim the background*/
+}
 
 /*# sourceMappingURL=app.css.map */

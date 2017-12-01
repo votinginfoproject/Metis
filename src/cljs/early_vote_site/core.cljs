@@ -20,5 +20,7 @@
 
 (defn ^:export init []
   (re-frame/dispatch-sync [:initialize-db])
+  (re-frame/dispatch-sync [:load-user])
+  (re-frame/dispatch [:navigate/elections])
   (dev-setup)
   (mount-root))

@@ -79,4 +79,8 @@ config.dataCentralization = {
   centralizationBucket: process.env.DATA_CENTRALIZATION_BUCKET_NAME
 }
 
+config.earlyVoteSites = {
+  bucket: process.env.EARLY_VOTE_SITES_BUCKET_NAME
+}
+
 module.exports = config;

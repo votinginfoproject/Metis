@@ -74,17 +74,28 @@ AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
 DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
-EV_DB_ENV_POSTGRES_DATABASE=datadashboard
-EV_DB_ENV_POSTGRES_PASSWORD=
-EV_DB_ENV_POSTGRES_USER=dataprocessor
-EV_DB_PORT_5432_TCP_ADDR=localhost
-EV_DB_PORT_5432_TCP_PORT=5432
+DASHBOARD_DB_ENV_POSTGRES_DATABASE=datadashboard
+DASHBOARD_DB_ENV_POSTGRES_PASSWORD=
+DASHBOARD_DB_ENV_POSTGRES_USER=dataprocessor
+DASHBOARD_DB_PORT_5432_TCP_ADDR=localhost
+DASHBOARD_DB_PORT_5432_TCP_PORT=5432
 DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
+EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
 and that's for the Dashboard. The other is a non-interactive client, and that's for
 the Express API. So pull you actual env vars from the proper clients.
+
+### Testing - Early Vote Site
+
+Early Vote Site has Clojurescript tests that are run by the `doo` plugin, and the command has been aliased to:
+
+`lein test`
+
+It will compile the Clojurescript to JS and run the tests as specified in `early-vote-site.test-runner` namespace.
+If you create a new test namespace in another file, simply require it in the `test-runner` and it will be run so
+long as it is in a namespace that starts with `early-vote-site`.
 
 ### Start it up
 
@@ -126,13 +137,19 @@ the Angular config file, you can return to using `node app.js` if you like.
 
 ## Deploying the Project
 
+### Automatic
+
+Merges to `master` branch will be deployed to production automatically.
+
+### Manual
+
 To deploy you will need the ssh key for the environment you are deploying to, access to [quay](https://quay.io/) where the docker container images are hosted, and the IP address for the cluster you wish to deploy to
 
-1. set the environment variable `FLEETCTL_TUNNEL` to the IP address of the cluster you're deploying to (`export FLEETCTL_TUNNEL=<ip_address>`)
+1. set the environment variable `FLEETCTL_TUNNEL` to the IP address of the cluster you're deploying to (`export FLEETCTL_TUNNEL=<ip_address>`), and if needed, add the ssh key to your agent, e.g. `ssh-add ~/.ssh/key.pem` where `key.pem` is the appropriate key for the environment you are deploying to.
 1. run `docker login quay.io` to login to quay
 2. run `./script/build staging|production` to build the docker image (use either `staging` or `production` depending on the environment you are deploying to.
 2. if you've successfully built the image, you should see output at the end that looks like this: `If you'd like to push this to the Docker repo, run: docker push quay.io/votinginfoproject/metis:master-somehash`; run that command to push the container to quay
-3. run `PEM_FILE=<path_to_pem_file> ./script/deploy` to deploy
+3. run `./script/deploy` to deploy
 
 [data-processor]: https://github.com/votinginfoproject/data-processor
 [node]: http://nodejs.org
