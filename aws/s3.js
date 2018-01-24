@@ -87,38 +87,45 @@ module.exports = {
   uploadCentralizationFile: function(req, res){
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
-      console.log(fields.date);
-      console.log(files.file.path);
-      console.log(fields.fipsCode);
-      var date = fields["date"];
-      var fipsCode = fields["fipsCode"];
-      res.writeHead(200, {'content-type': 'text/plain'});
-      res.write('received upload:\n\n');
-      res.end(JSON.stringify(files));
-      var fileStream = fs.createReadStream(files.file.path);
-      fileStream.on('error', function (err) {
-        if (err) { throw err; }
-      });
-      fileStream.on('open', function () {
-        var s3 = new AWS.S3();
-        if (fipsCode === undefined) {
-          fipsCode = "undefined"
-        };
-        fips2 = fipsCode.slice(0, 2);
-        var fileName = fips2+ '/' + fipsCode + '/' + date + '/' + files.file.originalFilename;
-        logger.info("putting file with name '" + fileName + "' into bucket '" + centralizationBucket + "'");
-        s3.putObject({
-          Bucket: centralizationBucket,
-          Key: fileName,
-          Body: fileStream
-        }, function (err) {
-          if (err) {
-            console.log("Error uploading centralization data file:");
-            console.log(err);
-            throw err;
-          }
+      if (err) {
+        logger.error("Error uploading centralization file: ", err);
+        //change this status code when we know more about what we're dealing with
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.end();
+      } else {
+        logger.info(fields.date);
+        logger.info(files.file.path);
+        logger.info(fields.fipsCode);
+        var date = fields["date"];
+        var fipsCode = fields["fipsCode"];
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.write('received upload:\n\n');
+        res.end(JSON.stringify(files));
+        var fileStream = fs.createReadStream(files.file.path);
+        fileStream.on('error', function (err) {
+          if (err) { throw err; }
         });
-      });
+        fileStream.on('open', function () {
+          var s3 = new AWS.S3();
+          if (fipsCode === undefined) {
+            fipsCode = "undefined"
+          };
+          fips2 = fipsCode.slice(0, 2);
+          var fileName = fips2+ '/' + fipsCode + '/' + date + '/' + files.file.originalFilename;
+          logger.info("putting file with name '" + fileName + "' into bucket '" + centralizationBucket + "'");
+          s3.putObject({
+            Bucket: centralizationBucket,
+            Key: fileName,
+            Body: fileStream
+          }, function (err) {
+            if (err) {
+              console.log("Error uploading centralization data file:");
+              console.log(err);
+              throw err;
+            }
+          });
+        });
+      }
     });
     return;
   },
