@@ -160,7 +160,7 @@ var earlyVoteSiteToCsv = (earlyVoteSite, hoursOpenId, idGenerator) =>
     "id": idGenerator("evs_pl_")
   });
 
-var formatDate = (date) => {moment(date).format('YYYY-MM-DD')};
+var formatDate = (date) => {return moment(date).format('YYYY-MM-DD')};
 
 var timezoneToOffset = {
   "EST": "-05:00",
