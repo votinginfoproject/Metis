@@ -14,6 +14,11 @@ var transporter = nodemailer.createTransport(sesTransport({
   region: config.aws.region
 }));
 
+var dataCentralizationOnly = function(user) {
+  return user.app_metadata.roles.length == 1 &&
+         user.app_metadata.roles[0] == 'data-centralization';
+};
+
 var messageOptions = {
   // data-testing message options
   testingComplete: function(message, recipient) {
@@ -35,36 +40,52 @@ var messageOptions = {
 
   // feed-processing message options
   approveFeed: function(message, recipient, fipsCode) {
-    return {
-      from: config.email.fromAddress,
-      to: recipient.email,
-      subject: "A Feed has been Approved",
-      html: feedProcessingMessageContent.approveFeed(message, recipient, fipsCode)
+    if (dataCentralizationOnly(recipient)) {
+      return null;
+    } else {
+      return {
+        from: config.email.fromAddress,
+        to: recipient.email,
+        subject: "A Feed has been Approved",
+        html: feedProcessingMessageContent.approveFeed(message, recipient, fipsCode)
+      }
     }
   },
   processedFeed: function(message, recipient, fipsCode) {
-    return {
-      from: config.email.fromAddress,
-      to: recipient.email,
-      subject: 'Your Feed Has Been Processed',
-      html: feedProcessingMessageContent.processedFeed(message, recipient, fipsCode)
-    };
+    if (dataCentralizationOnly(recipient)) {
+      return null;
+    } else {
+      return {
+        from: config.email.fromAddress,
+        to: recipient.email,
+        subject: 'Your Feed Has Been Processed',
+        html: feedProcessingMessageContent.processedFeed(message, recipient, fipsCode)
+      };
+    }
   },
   v5processedFeed: function(message, recipient, fipsCode) {
-    return {
-      from: config.email.fromAddress,
-      to: recipient.email,
-      subject: 'Your Feed Has Been Processed',
-      html: feedProcessingMessageContent.v5processedFeed(message, recipient, fipsCode)
-    };
+    if (dataCentralizationOnly(recipient)){
+      return null;
+    } else {
+      return {
+        from: config.email.fromAddress,
+        to: recipient.email,
+        subject: 'Your Feed Has Been Processed',
+        html: feedProcessingMessageContent.v5processedFeed(message, recipient, fipsCode)
+      };
+    }
   },
   errorDuringProcessing: function(message, recipient) {
-    return {
-      from: config.email.fromAddress,
-      to: recipient.email,
-      subject: 'Something Went Wrong with a Feed',
-      text: feedProcessingMessageContent.errorDuringProcessing(message)
-    };
+    if (dataCentralizationOnly(recipient)) {
+      return null;
+    } else {
+      return {
+        from: config.email.fromAddress,
+        to: recipient.email,
+        subject: 'Something Went Wrong with a Feed',
+        text: feedProcessingMessageContent.errorDuringProcessing(message)
+      };
+    }
   }
 };
 
@@ -90,8 +111,10 @@ var sendEmail = function(message, fips, contentFn) {
       var recipient = users[i];
       var messageContent = contentFn(message, recipient, fips);
 
-      sendMessage(messageContent);
-      logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+      if (messageContent != null) {
+        sendMessage(messageContent);
+        logger.info("Sending a message to: " + messageContent.to + " with this subject: " + messageContent.subject);
+      }
     };
   });
 };
@@ -116,7 +139,7 @@ module.exports = {
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
-          sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+            sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
           } else {
 
             var vip_id = result.rows[0]['vip_id'];
