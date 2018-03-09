@@ -41,10 +41,6 @@ var redirectHttps = function(req, res, next) {
   }
 };
 
-// FileSession
-var FileStore = require('session-file-store')(express.session);
-var sessionFileStore = new FileStore(config.session);
-
 // all environments
 app.use(express.compress());
 app.use(express.favicon(config.web.favicon));
@@ -53,7 +49,6 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({ store: sessionFileStore, secret: config.web.sessionsecret }));
 
 // Redirect non-https load balanced clients to https
 app.use(redirectHttps);
