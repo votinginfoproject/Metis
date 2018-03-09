@@ -13,12 +13,11 @@
 // VIP app module with its dependencies
 var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0', 'ui.date']);
 
-// Constants - will be added to with the properties from the external properties files
-// "vip.properties" and "map.properties"
-// the properties that should not be configurable will be placed here beforehand
 vipApp.constant('$appProperties', {
   contextRoot: '',
-  servicesPath: '/services'
+  servicesPath: '/services',
+  lowPagination: 10,
+  highPagination: 30
 });
 
 var formatVipFeedID = function(name) {
@@ -345,81 +344,17 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
  */
 vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window, $anchorScroll, $http, $timeout, $authService) {
 
-  // read the properties file from the server "vip.properties"
-  $http.get('vip.properties').then(function (response) {
-    vipApp_ns.parseAndAddProperties(response.data, $appProperties);
-
-    $rootScope.getDueDateText = function(date){
-
-      if(date){
-        var dueDate = moment(date, "YYYY-MM-DD").subtract(23, 'days');
-        var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
-        return dueDateText;
-      } else {
-        return "N/A";
-      }
-
+  $rootScope.getDueDateText = function(date){
+    if(date){
+      var dueDate = moment(date, "YYYY-MM-DD").subtract(23, 'days');
+      var dueDateText = moment(dueDate).utc().format('YYYY-MM-DD');
+      return dueDateText;
+    } else {
+      return "N/A";
     }
+  };
 
-    $rootScope.hasRole = $authService.hasRole;
-
-    $rootScope.getDueDateTextDays = function(date, now){
-
-      var dueIn = "N/A"
-      if(date){
-        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
-        var nowDate = moment(now).utc().format('YYYY-MM-DD');
-        dueIn = dueDate.diff(nowDate, 'days');
-
-        if(dueIn < 0){
-          dueIn = Math.abs(dueIn) + " days ago";
-        } else {
-          dueIn = dueIn + " days";
-        }
-      }
-
-      return dueIn;
-    }
-
-    $rootScope.getLoadingTime = function(date){
-
-      var dueIn = "N/A"
-      if(date){
-        var dueDate = moment(date, "YYYY-MM-DD").subtract($rootScope.$appProperties.electionDueDateWeeksInAdvance, 'weeks');
-        var nowDate = moment(now).utc();
-        dueIn = dueDate.diff(nowDate, 'days');
-
-        if(dueIn < 0){
-          dueIn = Math.abs(dueIn) + " days ago";
-        } else {
-          dueIn = dueIn + " days";
-        }
-      }
-
-      return dueIn;
-    }
-
-    $rootScope.secondsToClockText = function(totalSec){
-
-      var hours = parseInt( totalSec / 3600 ) % 24;
-      var minutes = parseInt( totalSec / 60 ) % 60;
-      if(minutes<10){
-        minutes = "0" + minutes;
-      }
-      var seconds = totalSec % 60;
-      if(seconds<10){
-        seconds = "0" + seconds;
-      }
-
-      return hours + ":" + minutes + ":" + seconds;
-    }
-
-  });
-
-  // read the properties file from the server "map.properties"
-  $http.get('map.properties').then(function (response) {
-    vipApp_ns.parseAndAddProperties(response.data, $appProperties);
-  });
+  $rootScope.hasRole = $authService.hasRole;
 
   $rootScope.$appProperties = $appProperties;
 
