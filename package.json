@@ -17,7 +17,7 @@
     "csv": "~0.4.0",
     "dotenv": "^2.0.0",
     "express": "3.4.4",
-    "moment": "~2.4.0",
+    "moment": "~2.21.0",
     "multiparty": "~2.2.0",
     "newrelic": "~1.7.5",
     "nodemailer": "^1.4.0",
