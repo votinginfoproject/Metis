@@ -38,7 +38,7 @@ var exportElection = function(election_id, res) {
 
 var getEarlyVoteSites = function(election, res) {
   var election_id = election["id"];
-  util.simpleQueryCallback("SELECT id, type, name, address_1, address_2, address_3, " +
+  util.simpleQueryCallback("SELECT id, county_fips, type, name, address_1, address_2, address_3, " +
                            "city, state, zip, directions, voter_services FROM " +
                            "early_vote_sites WHERE election_id = $1",
     [election_id],
@@ -205,6 +205,168 @@ var scheduleToCsv = (schedule, hoursOpenId, idGenerator) =>
 var fieldsToHeaders = (fields) => fields.map((val) => ({id: val, title: val}));
 
 /**
+ * Takes a date and formats it like Month Day, i.e. March 9. Date could be a date
+ * object or date parsable string, anything moment can convert natively.
+ */
+var formatDateV3 = (date) => {return moment(date).format('MMMM D')};
+
+/**
+ * Returns a human readable string of the date(s) of this schedule.
+ * If start and end dates are the same, just returns that date in a human
+ * readable format, otherwise puts a " to " between them.
+ * E.G.
+ * March 19
+ * March 20 to March 24
+ */
+var scheduleToDates = function(schedule) {
+  if (schedule["start_date"] == schedule["end_date"]) {
+    return formatDateV3(schedule["start_date"]);
+  } else {
+    var dateString = formatDateV3(schedule["start_date"]);
+    dateString += " to ";
+    dateString += formatDateV3(schedule["end_date"]);
+    return dateString;
+  }
+}
+
+/**
+ * Takes a time in "10:30:00" and puts out "10:30am",
+ * or "14:00:00" and puts out "2pm".
+ */
+var formatTimeV3 = function(timeString) {
+  var timeParts = timeString.split(":");
+  var hours = parseInt(timeParts[0]);
+  var minutes = parseInt(timeParts[1]);
+  var meridiem = "am";
+  if (hours > 12) {
+    meridiem = "pm";
+    hours -= 12;
+  }
+  var timeString = "" + hours;
+  if(minutes > 0) {
+    timeString += ":" + timeParts[1];
+  }
+  timeString += meridiem;
+  return timeString;
+}
+
+/**
+ * Formats a days_times_open string for the given schedule, prefixing
+ * the date(s) only if includeDate is set to true.
+ * Example outputs would look like:
+ * 8am to 4pm (includeDate false)
+ * March 9, 8:45am to 5pm.
+ * March 20 to March 25, 8am to 4pm.
+ */
+var scheduleToDaysTimesOpen = function(schedule, includeDate) {
+  var str = "";
+  if (includeDate) {
+    str += scheduleToDates(schedule) + ", ";
+  }
+  str += formatTimeV3(schedule["start_time"]) + " to ";
+  str += formatTimeV3(schedule["end_time"]);
+  return str;
+}
+
+/**
+ * Given schedules, figures out the earliest start and latest end dates.
+ */
+var findStartAndEndDates = function(schedules) {
+  var startDates = schedules.map(s => moment(s["start_date"]));
+  var endDates = schedules.map(s => moment(s["end_date"]));
+  return {"start": moment.min(startDates),
+          "end": moment.max(endDates)};
+}
+
+/**
+ * Compares two schedules based on their start dates.
+ */
+var startDateComparator = function(a, b) {
+  var aMoment = moment(a["start_date"]);
+  var bMoment = moment(b["start_date"]);
+  if (aMoment.isBefore(bMoment)) {
+    return -1;
+  } else if (aMoment.isSame(bMoment)) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+/**
+ * Creates a string of the days and times open for all the schedules,
+ * including the dates since this is intended for use when there are more than 1
+ * schedules. Will sort the schedules by start date first.
+ */
+var schedulesToDaysTimesOpenString = function(schedules) {
+  schedules.sort(startDateComparator);
+
+  var reducer = (a, s) => a + scheduleToDaysTimesOpen(s, true) + ". ";
+
+  return schedules.reduce(reducer, "").trim();
+}
+
+/**
+ * Given 0, 1 or more schedules, we need to generate a start date, end date, and
+ * a text description of hours open. If there's a single schedule, it's simple,
+ * if there are more, start and end dates have to be computed as min and max, and
+ * hours open has to be a list of dates + times.
+ */
+var schedulesToV3 = function(schedules) {
+  if (schedules.length == 0) {
+    return {"start_date": "",
+            "end_date": "",
+            "days_times_open": ""};
+  } else if(schedules.length == 1) {
+    return {"start_date": formatDate(schedules[0]["start_date"]),
+            "end_date": formatDate(schedules[0]["end_date"]),
+            "days_times_open": scheduleToDaysTimesOpen(schedules[0], false)};
+  } else {
+
+    var startEnd = findStartAndEndDates(schedules);
+    var daysTimesOpenString = schedulesToDaysTimesOpenString(schedules);
+
+    return {"start_date": formatDate(startEnd["start"]),
+            "end_date": formatDate(startEnd["end"]),
+            "days_times_open": daysTimesOpenString};
+  }
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ */
+var getRandomInt = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var earlyVoteSiteFields = ["name","address_location_name","address_line1",
+  "address_line2","address_line3","address_city","address_state","address_zip",
+  "directions","voter_services","start_date","end_date","days_times_open","id"];
+
+/**
+ * Given an Early Vote Site and 1 or more schedules, generates a CSV compatible
+ * hash with all the fields needed for a 3.0 early_vote_site file.
+ */
+var earlyVoteSiteAndSchedulesToCsv = function(earlyVoteSite, schedules, idGenerator) {
+  var v3Schedule = schedulesToV3(schedules);
+  var idPrefix = earlyVoteSite["county_fips"] + getRandomInt(10000,99999);
+  return {"name": "",
+          "address_location_name": earlyVoteSite["name"],
+          "address_line1": earlyVoteSite["address_1"],
+          "address_line2": earlyVoteSite["address_2"],
+          "address_line3": earlyVoteSite["address_3"],
+          "address_city": earlyVoteSite["city"],
+          "address_state": earlyVoteSite["state"],
+          "address_zip": earlyVoteSite["zip"],
+          "directions": earlyVoteSite["directions"],
+          "voter_services": earlyVoteSite["voter_services"],
+          "start_date": v3Schedule["start_date"],
+          "end_date": v3Schedule["end_date"],
+          "days_times_open": v3Schedule["days_times_open"],
+          "id": idGenerator(idPrefix)};
+}
+
+/**
  * Writes the data to a CSV file, using fields as the headers.
  * When it is done, calls the callback, the file will be complete,
  * and any actions that need to wait for the file to be written can
@@ -252,26 +414,34 @@ var compileFiles = function(assignments, schedules, earlyVoteSites, election, re
 
   var earlyVoteSiteRows = [];
   var scheduleRows = [];
+  var v3Rows = [];
 
   //convert the DB data into CSV friendly format
   earlyVoteSites.forEach(function(site) {
     var hoursOpenId = idGenerator('evs_hours_');
     earlyVoteSiteRows.push(earlyVoteSiteToCsv(site, hoursOpenId, idGenerator));
-    var schedules = earlyVoteSchedulesMap[site["id"]];
-    if (schedules) {
-      schedules.forEach(function(scheduleId) {
+    var scheduleIds = earlyVoteSchedulesMap[site["id"]];
+    if (scheduleIds) {
+      var schedules = [];
+      scheduleIds.forEach(function(scheduleId) {
         var schedule = scheduleMap[scheduleId];
+        schedules.push(schedule);
         scheduleRows.push(scheduleToCsv(schedule, hoursOpenId, idGenerator));
       });
+      v3Rows.push(earlyVoteSiteAndSchedulesToCsv(site, schedules, idGenerator));
+    } else {
+      v3Rows.push(earlyVoteSiteAndSchedulesToCsv(site, [], idGenerator));
     }
   });
 
   //construct and upload CSV files
   buildAndSendFile(scheduleRows, scheduleFields, election, "schedule.txt", function() {
     buildAndSendFile(earlyVoteSiteRows, pollingLocationFields, election, "polling_place.txt", function() {
-      res.writeHead(200, {'Content-Type': 'application/text'});
-      res.write("Files have been created and uploaded.");
-      res.end();
+      buildAndSendFile(v3Rows, earlyVoteSiteFields, election, "early_vote_site.txt", function() {
+        res.writeHead(200, {'Content-Type': 'application/text'});
+        res.write("Files have been created and uploaded.");
+        res.end();
+      });
     });
   });
 }
