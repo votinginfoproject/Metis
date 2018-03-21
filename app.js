@@ -78,6 +78,15 @@ app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
   res.send(config.vit.apiKey);
 });
 
+//catch any errors and don't throw out of process forcing a restart
+app.use(function (err, req, res, next) {
+  if (res.headersSent) {
+    return next(err)
+  }
+  logger.error('Caught a top level exception: ', err);
+  res.status(500)
+});
+
 http.createServer(app).listen(config.web.port, function () {
   logger.info('Express server listening on port ' + config.web.port);
 });
