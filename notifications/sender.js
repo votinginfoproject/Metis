@@ -6,6 +6,7 @@ var sesTransport = require('nodemailer-ses-transport');
 var dataTestingMessageContent = require('./data-testing/content');
 var feedProcessingMessageContent = require('./feed-processing/content');
 var pg = require('pg');
+var slack = require('./slack');
 
 var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
@@ -99,14 +100,17 @@ var sendMessage = function(messageContent) {
   });
 };
 
-var sendEmail = function(message, fips, contentFn) {
+var badFips = function(fips) {
   if ((typeof fips != "string") ||
        (fips.length < 2) ||
        (fips.length > 5)) {
-    logger.info("fips is bad--sending to admin group");
-    fips = "admin";
-  };
-  if (message["adminEmail"] == true) { fips = "admin"; }
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var sendEmail = function(message, fips, contentFn) {
   authService.getUsersByFips(fips, function (users) {
     for (var i = 0; i < users.length; i++) {
       var recipient = users[i];
@@ -130,7 +134,8 @@ module.exports = {
 
     if (!publicId) {
       logger.error('No Public ID listed.');
-      sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+      slack.message("ERROR: Feed processed but no public id found (message folows):\n" +
+                    JSON.stringify(message));
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
@@ -140,15 +145,29 @@ module.exports = {
 
           if (err || result.rows.length == 0) {
             logger.error('No feed found or connection issue.');
-            sendEmail(message, config.email.adminGroup, messageOptions.errorDuringProcessing);
+            slack.message("ERROR: No feed found matching public_id in database (message follows):\n" +
+                          JSON.stringify(message));
           } else {
 
-            var vip_id = result.rows[0]['vip_id'];
+            var fips = result.rows[0]['vip_id'];
             var spec_version = new String(result.rows[0]['spec_version']);
-            if (vip_id && spec_version[0] == '5'  && messageType === 'processedFeed') {
-              sendEmail(message, vip_id, messageOptions['v5processedFeed']);
+            if (badFips(fips)) {
+              slack.message("ERROR: Feed processed but FIPS was bad, no notifications sent: " + fips);
             } else {
-              sendEmail(message, vip_id, messageOptions[messageType]);
+              if (message[":exception"]) {
+                slack.message("EXCEPTION: Feed processed with errors for FIPS " + fips +
+                              "\nVIP Spec Version " + spec_version +
+                              "\nProcessed Message " + JSON.stringify(message));
+
+              } else {
+                slack.message("SUCCESS: Feed processed for FIPS " + fips +
+                              "\nVIP Spec Version " + spec_version);
+              }
+              if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
+                sendEmail(message, fips, messageOptions['v5processedFeed']);
+              } else {
+                sendEmail(message, fips, messageOptions[messageType]);
+              }
             }
           }
         });
@@ -156,20 +175,30 @@ module.exports = {
     }
   },
   sendDataTestingNotifications: function(message) {
-    var messageType  = (message['status'] == "ok") ? messageOptions['testingComplete'] : messageOptions['errorDuringTesting'] ;
     var fipsCode = message["fipsCode"];
     if (fipsCode === undefined) {
       logger.warning("No fips code in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
-      logger.info(message);
+      slack.message("ERROR: Batch Address sent a message we don't understand: " +
+                    JSON.stringify(message));
     } else if (fipsCode === "undefined") {
-      if (config.email.adminGroup === undefined || config.email.adminGroup === null) {
-        logger.warning("No admin group defined.  Can't send batch address testing finished email notification.");
-        logger.info(message);
+      if (message['status'] == "ok") {
+        slack.message("SUCCESS: Batch Address file processed successfully for admin user: " + message["url"]);
       } else {
-        sendEmail(message, config.email.adminGroup, messageType);
+        slack.message("ERROR: Batch Address file FAILED (message follows):\n" +
+                      JSON.stringify(message));
       }
+    } else if (badFips(fipsCode)) {
+      slack.message("ERROR: Batch Address file processed but fips was bad, no emails sent (message follows)\n" +
+                    JSON.stringify(message));
     } else {
-      sendEmail(message, fipsCode, messageType);
+      if (message['status'] == "ok") {
+        slack.message("SUCCESS: Batch Address file processed for fips " + fipsCode);
+        sendEmail(message, fipsCode, messageOptions['testingComplete']);
+      } else {
+        slack.message("ERROR: Batch Address file failed (message follows)\n" +
+                      JSON.stringify(message));
+        sendEmail(message, fipsCode, messageOptions['errorDuringTesting']);
+      }
     }
   }
 };
