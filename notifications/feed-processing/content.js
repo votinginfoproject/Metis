@@ -54,8 +54,8 @@ var codes = {
   "55": "Wisconsin",
   "56": "Wyoming"}
 
-function codeToDescription (code) {
-  return codes.code;
+var codeToDescription = function(code) {
+  return codes[code];
 };
 
 var getGivenName = function(recipient) {
@@ -94,5 +94,6 @@ module.exports = {
   errorDuringProcessing: function(message) {
     return 'It looks like a feed failed during processing. Here\'s the information we got: \
             \nMessage we got: ' + JSON.stringify(message);
-  }
+  },
+  codeToDescription: codeToDescription
 }

@@ -154,13 +154,16 @@ module.exports = {
             if (badFips(fips)) {
               slack.message("ERROR: Feed processed but FIPS was bad, no notifications sent: " + fips);
             } else {
+              var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
               if (message[":exception"]) {
                 slack.message("EXCEPTION: Feed processed with errors for FIPS " + fips +
+                              "\nState Name " + stateName +
                               "\nVIP Spec Version " + spec_version +
                               "\nProcessed Message " + JSON.stringify(message));
 
               } else {
                 slack.message("SUCCESS: Feed processed for FIPS " + fips +
+                              "\nState Name " + stateName +
                               "\nVIP Spec Version " + spec_version);
               }
               if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
