@@ -56,6 +56,10 @@ ExecStartPre=/bin/bash -c 'echo DASHBOARD_DB_ENV_POSTGRES_PASSWORD="$(curl -s ht
 ExecStartPre=/bin/bash -c 'echo DASHBOARD_DB_ENV_POSTGRES_DATABASE="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dashboard/postgres/database?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DATABASE_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dashboard/postgres/database-url?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo EARLY_VOTE_SITES_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/early-vote-sites/bucket?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo SLACK_WEBHOOK="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/webhook?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo SLACK_NOTIFICATION_CHANNEL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/notification-channel?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo SLACK_BOT_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-name?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo SLACK_BOT_EMOJI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-emoji?raw)" >> /tmp/${CONTAINER}--env'
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \
