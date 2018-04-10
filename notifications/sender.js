@@ -15,7 +15,8 @@ var transporter = nodemailer.createTransport(sesTransport({
 }));
 
 var dataCentralizationOnly = function(user) {
-  return user.app_metadata.roles.length == 1 &&
+  return user.app_metadata.roles &&
+         user.app_metadata.roles.length == 1 &&
          user.app_metadata.roles[0] == 'data-centralization';
 };
 
