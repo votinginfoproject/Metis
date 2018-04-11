@@ -79,4 +79,12 @@ config.earlyVoteSites = {
   bucket: process.env.EARLY_VOTE_SITES_BUCKET_NAME
 }
 
+config.slack = {
+  webhook: process.env.SLACK_WEBHOOK,
+  payload: {channel: process.env.SLACK_NOTIFICATION_CHANNEL,
+            username: process.env.SLACK_BOT_NAME,
+            link_names: true,
+            icon_emoji: process.env.SLACK_BOT_EMOJI}
+}
+
 module.exports = config;
