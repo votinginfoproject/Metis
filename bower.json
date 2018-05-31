@@ -2,14 +2,14 @@
   "name": "VotingInfoApp",
   "version": "0.0.1",
   "dependencies": {
-    "jquery": "1.10.2",
+    "jquery": "3.3.1",
     "javascript-debug": "v0.4",
-    "angular": "1.2.1",
-    "angular-cookies": "1.2.1",
-    "angular-mocks": "1.2.1",
-    "angular-route": "1.2.1",
-    "angular-scenario": "1.2.1",
-    "angular-resource": "1.2.1",
+    "angular": "1.6.10",
+    "angular-cookies": "1.6.10",
+    "angular-mocks": "1.6.10",
+    "angular-route": "1.6.10",
+    "angular-scenario": "1.6.10",
+    "angular-resource": "1.6.10",
     "ng-table": "0.3.1",
     "modernizr": "2.7.1",
     "json3": "3.2.6",
@@ -20,14 +20,14 @@
   },
   "ignoredByBower": {
     "quickCopyAndPasteOfPotentialAngularDependencies": {
-      "angular-animate": "1.2.1",
-      "angular-loader": "1.2.1",
-      "angular-sanitize": "1.2.1",
-      "angular-touch": "1.2.1"
+      "angular-animate": "1.6.10",
+      "angular-loader": "1.6.10",
+      "angular-sanitize": "1.6.10",
+      "angular-touch": "1.6.10"
     },
     "otherComment": ""
   },
   "resolutions": {
-    "angular": "1.2.1"
+    "angular": "1.6.10"
   }
 }
