@@ -38,37 +38,6 @@ module.exports = function(grunt) {
       }
 
     },
-    gjslint: {
-      options: {
-        flags: [
-          '--disable 220', //ignore error code 220 from gjslint
-          '--max_line_length 120'//,
-          //'--jslint_error all'
-        ],
-        reporter: {
-          name: 'console'
-        }
-      },
-      all: {
-        src: ['*.js',
-          'public/assets/js/app/**/*.js']
-      }
-    },
-    // start the app, instead of typing `node app.js`
-    nodemon: {
-      dev: {
-        options: {
-          file: 'app.js',
-          ignoredFiles: ['public/**', '.sass-cache/**', '.git/**', 'newrelic_agent.log', 'sessions/*']
-        }
-      },
-      prod_like: {
-        options: {
-          file: 'app.js',
-          ignoredFiles: ['*']
-        }
-      }
-    },
     bower: {
       install: {
         // copy dependent packages from bower.json
@@ -113,12 +82,6 @@ module.exports = function(grunt) {
           logConcurrentOutput: true
         },
         tasks: ['bower:install', 'replace:auth0']
-      },
-      dev_run: {
-        options: {
-          logConcurrentOutput: true
-        },
-        tasks: ['watch', 'nodemon:dev']
       },
       migrate: {
         options: {
