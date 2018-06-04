@@ -129,15 +129,15 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
       successCallback(JSON.parse(storedUser));
     } else {
       $http.post($appProperties.servicesPath + "/getMetadata")
-                .success(function(metadata) {
-                  var user = createUser(JSON.parse(localStorage.getItem("auth0_id_token_payload")),
-                                        metadata);
-                  console.log("Storing and returning user: " + JSON.stringify(user));
-                  localStorage.setItem('auth0_user', JSON.stringify(user));
-                  successCallback(user);
-                })
-                .error(failureCallback);
-      }
+        .then(function onSuccess(response) {
+          var metadata = response.data;
+          var user = createUser(JSON.parse(localStorage.getItem("auth0_id_token_payload")),
+                                metadata);
+          console.log("Storing and returning user: " + JSON.stringify(user));
+          localStorage.setItem('auth0_user', JSON.stringify(user));
+          successCallback(user);
+        }, function onError(response) {})
+    }
   }
 
   function createUser(profile, metadata) {

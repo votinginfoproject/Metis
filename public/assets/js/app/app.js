@@ -42,6 +42,14 @@ var formatVipFeedID = function(name) {
 };
 
 /*
+ * https://github.com/angular/angular.js/commit/aa077e81129c740041438688dff2e8d20c3d7b52
+ *
+ */
+vipApp.config(['$locationProvider', function($locationProvider) {
+  $locationProvider.hashPrefix("");
+}]);
+
+/*
  * VIP App configuration
  *
  * Will setup routing and retrieve reference data for the app before any pages are loaded
@@ -630,8 +638,13 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
 
   $rootScope.exportFeedPost = function(feedData) {
 
+    /*
+     * https://github.com/angular/angular.js/blob/master/CHANGELOG.md#http-due-to
+     *
+     */
     $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.fips_code })
-      .success(function(data, status) {
+      .then(function onSuccess(response) {
+        var data = response.data;
         feedData.is_exporting = true;
 
         // change the path that data represents to a absolute path
@@ -647,8 +660,7 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
 
         feedData.export_success = true;
         feedData.export_status = fullPath;
-      })
-      .error(function(data, status) {
+      }, function onError(response) {
         feedData.export_success = false;
         feedData.export_status = "Error in export";
         feedData.is_exporting = true;
