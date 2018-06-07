@@ -1,4 +1,4 @@
-FROM quay.io/democracyworks/clojure-and-node:lein-2.7.1-node-8.11.2
+FROM quay.io/democracyworks/clojure-and-node:lein-2.8.1-node-8.11.2
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 RUN apt-get update && \
