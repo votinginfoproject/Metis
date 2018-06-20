@@ -137,7 +137,7 @@ var formatEarlyVoteSiteAddress = function(earlyVoteSite){
 
 var pollingLocationFields = ["name","address_line","directions","hours","photo_uri",
                              "hours_open_id","is_drop_box","is_early_voting","latitude",
-                             "longitude","latlng_source","id"];
+                             "longitude","latlng_source","id","county_fips"];
 /**
  * Converts an earlyVoteSite into a csv friendly format.
  * idGenerator is a function that will return a new ID with a unique suffix when
@@ -157,7 +157,8 @@ var earlyVoteSiteToCsv = (earlyVoteSite, hoursOpenId, idGenerator) =>
     "latitude": "",
     "longitude": "",
     "latlng_source": "",
-    "id": idGenerator("evs_pl_")
+    "id": idGenerator("evs_pl_"),
+		"county_fips": earlyVoteSite["county_fips"]
   });
 
 var formatDate = (date) => {return moment(date).format('YYYY-MM-DD')};
@@ -341,7 +342,7 @@ var getRandomInt = function(min, max) {
 
 var earlyVoteSiteFields = ["name","address_location_name","address_line1",
   "address_line2","address_line3","address_city","address_state","address_zip",
-  "directions","voter_services","start_date","end_date","days_times_open","id"];
+  "directions","voter_services","start_date","end_date","days_times_open","id","county_fips"];
 
 /**
  * Given an Early Vote Site and 1 or more schedules, generates a CSV compatible
@@ -363,7 +364,8 @@ var earlyVoteSiteAndSchedulesToCsv = function(earlyVoteSite, schedules, idGenera
           "start_date": v3Schedule["start_date"],
           "end_date": v3Schedule["end_date"],
           "days_times_open": v3Schedule["days_times_open"],
-          "id": idGenerator(idPrefix)};
+          "id": idGenerator(idPrefix),
+					"county_fips": earlyVoteSite["county_fips"]};
 }
 
 /**
