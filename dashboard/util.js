@@ -16,7 +16,6 @@ module.exports = {
         if(err) {
           logger.error(err.name + ": " + err.message);
           res.writeHead(500, {'Content-Type': 'text/plain'});
-          res.write(err.name + ": " + err.message);
           res.end();
         } else {
           resp.writeResponse(result.rows, res);
@@ -40,7 +39,6 @@ module.exports = {
         if(err) {
           logger.error(err.name + ": " + err.message);
           res.writeHead(500, {'Content-Type': 'text/plain'});
-          res.write(err.name + ": " + err.message);
           res.end();
         } else {
           res.writeHead(201, {'Content-Type': 'application/json'});
