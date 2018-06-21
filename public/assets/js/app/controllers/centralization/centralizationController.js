@@ -3,7 +3,12 @@
  * Data Centralization Controller
  *
  */
-function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, $authService) {
+function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, $authService, $location) {
+
+  if (!$authService.isAuthenticated()) {
+    $location.url('/');
+  }
+
   var breadcrumbs = null;
   // initialize page header variables
   $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
@@ -29,6 +34,7 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
       missingValue("both an election date and file are required for uploading");
     }
   };
+
   $scope.upload = function (form) {
     $scope.date = getDateValue().split("/").join("-");
     Upload.upload({
