@@ -53,7 +53,8 @@ var redirectHttps = function(req, res, next) {
 // all environments
 app.use(compress());
 app.use(favicon(config.web.favicon));
-//app.use(morgan(config.web.loglevel));
+// Do we need to configure the log-level for morgan? This got reset to
+// the default after we bumped dependencies in June 2018.
 app.use(morgan());
 app.use(express.json());
 app.use(express.urlencoded());
@@ -65,7 +66,6 @@ app.use(redirectHttps);
 // /ping for load balancer health checking
 app.get('/ping', function (req, res, next) { res.send('pong'); });
 
-//app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/feeds', serveIndex(path.join(__dirname, 'feeds')));
 app.use('/feeds', express.static(path.join(__dirname, 'feeds')));
