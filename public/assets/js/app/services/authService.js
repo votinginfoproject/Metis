@@ -32,6 +32,10 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
             $location.url('/');
           });
           console.log(err);
+        } else {
+          $timeout(function() {
+            $location.url('/');
+          });
         }
       });
     }
