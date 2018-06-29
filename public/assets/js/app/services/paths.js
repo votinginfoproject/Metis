@@ -4,13 +4,13 @@ vipApp.factory('$feedDataPaths', function ($http) {
   return {
     getResponse: function(options, callback) {
       $http.get(options['path'], options['config']).
-        success(function (results, status) {
+        then(function onSuccess(response) {
+          var results = response.data;
           options['scope'][options['key']] = results;
           if (callback) {
             callback(results);
           }
-        }).
-        error(function (results, status) {
+        }, function onError(response) {
           options['scope'][options['key']] = null;
           options['pageHeader'] = options['pageHeader'] || {};
           options['pageHeader']['error'] = options['pageHeader']['error'] || '';

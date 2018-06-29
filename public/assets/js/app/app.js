@@ -11,7 +11,15 @@
 // ========================================================================
 
 // VIP app module with its dependencies
-var vipApp = angular.module('vipApp', ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters', 'ngFileUpload', 'auth0.auth0', 'ui.date']);
+var vipApp =
+    angular
+    .module('vipApp',
+            ['ngTable', 'ngRoute', 'ngCookies', 'vipFilters',
+             'ngFileUpload', 'auth0.auth0', 'ui.date'])
+    .config(['$controllerProvider',
+             function($controllerProvider) {
+               $controllerProvider.allowGlobals();
+             }]);
 
 vipApp.constant('$appProperties', {
   contextRoot: '',
@@ -32,6 +40,14 @@ var formatVipFeedID = function(name) {
     return electionDate.join("-") + " " + electionName.join(" ");
   }
 };
+
+/*
+ * https://github.com/angular/angular.js/commit/aa077e81129c740041438688dff2e8d20c3d7b52
+ *
+ */
+vipApp.config(['$locationProvider', function($locationProvider) {
+  $locationProvider.hashPrefix("");
+}]);
 
 /*
  * VIP App configuration
@@ -303,38 +319,40 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.otherwise({redirectTo: '/'});
 
 
-
     /*
      * HTTP Interceptor
      * Will be used to check to see if user is authenticated
      */
-    $httpProvider.responseInterceptors.push(function ($q, $location, $rootScope) {
-      return function (promise) {
-        return promise.then(
-          // Success: just return the response
-          function (response) {
-            return response;
-          },
-          // Error: check the error status for 401
-          // and if so redirect back to homepage
-          function (response) {
-            if (response.status === 401) {
-              console.log("AUTH DENIED!");
-              // nullify the user object
-              $rootScope.user = null;
-              localStorage.removeItem('auth0_access_token');
-              localStorage.removeItem('auth0_id_token');
-              localStorage.removeItem('auth0_expires_at');
-              localStorage.removeItem('auth0_user');
-              $location.url('/');
-            }
-            return $q.reject(response);
-          });
+    $httpProvider.interceptors.push(function ($q, $location, $rootScope) {
+      return {
+        response: function(response) {
+          // do something on success
+          return response;
+        },
+        responseError: function(response) {
+          // do something on error
+
+          if (response.status === 401) {
+            console.log("AUTH DENIED!");
+            // nullify the user object
+            $rootScope.user = null;
+            localStorage.removeItem('auth0_access_token');
+            localStorage.removeItem('auth0_id_token');
+            localStorage.removeItem('auth0_expires_at');
+            localStorage.removeItem('auth0_user');
+            $location.url('/');
+          }
+
+          if (canRecover(response)) {
+            return responseOrNewPromise
+          }
+          return $q.reject(response);
+        }
       }
     });
 
-  }
-]);
+  }]); // vipApp.config
+
 
 /*
  * Static initialization block
@@ -620,8 +638,13 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
 
   $rootScope.exportFeedPost = function(feedData) {
 
+    /*
+     * https://github.com/angular/angular.js/blob/master/CHANGELOG.md#http-due-to
+     *
+     */
     $http.post("/services/feeds/" + feedData.id, { feedName : feedData.feed_name, feedFolder: feedData.fips_code })
-      .success(function(data, status) {
+      .then(function onSuccess(response) {
+        var data = response.data;
         feedData.is_exporting = true;
 
         // change the path that data represents to a absolute path
@@ -637,8 +660,7 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
 
         feedData.export_success = true;
         feedData.export_status = fullPath;
-      })
-      .error(function(data, status) {
+      }, function onError(response) {
         feedData.export_success = false;
         feedData.export_status = "Error in export";
         feedData.is_exporting = true;
