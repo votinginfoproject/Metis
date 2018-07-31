@@ -32,14 +32,33 @@ var authClient = new AuthenticationClient({
   clientSecret: config.auth0.secret
 });
 
+function getUserFromRequest(req) {
+	return {"user_metadata":
+				   {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"]},
+					"app_metadata":
+					 {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
+						"roles": req.user["https://dashboard.votinginfoproject.org/roles"]}};
+};
+
+function getUserFipsCodes(req) {
+	var user = getUserFromRequest(req);
+	return Object.keys(user["app_metadata"]["fipsCodes"]);
+};
+
+function getUserRoles(req) {
+	var user = getUserFromRequest(req);
+	return user["app_metadata"]["roles"];
+}
+
+function isSuperAdmin(req) {
+	var roles = getUserRoles(req);
+	return roles.indexOf("super-admin") >= 0;
+}
+
 function registerAuthServices(app) {
   app.post('/services/getMetadata', checkJwt, function(req, res) {
     console.log(JSON.stringify(req.user));
-    var metadata = {"user_metadata":
-                    {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"]},
-                    "app_metadata":
-                    {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
-                     "roles": req.user["https://dashboard.votinginfoproject.org/roles"]}}
+    var metadata = getUserFromRequest(req);
     res.status(200).send(metadata);
   });
 }
@@ -82,7 +101,10 @@ function getUsersByFips(fips, cb) {
 };
 
 
-
+exports.getUserFromRequest = getUserFromRequest;
+exports.getUserFipsCodes = getUserFipsCodes;
+exports.isSuperAdmin = isSuperAdmin;
+exports.getUserRoles = getUserRoles;
 exports.checkJwt = checkJwt;
 exports.checkAuth = checkAuth;
 exports.registerAuthServices = registerAuthServices;
