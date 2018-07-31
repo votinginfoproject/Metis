@@ -2,6 +2,7 @@ var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
 var resp = require('./response.js');
+var auth = require('../authentication/services.js');
 
 var overviewTableRow = function(row, type, dbTable, link) {
   return {element_type: type,
@@ -14,18 +15,14 @@ var overviewTableRow = function(row, type, dbTable, link) {
 module.exports = {
   // Functions below return arrays for the various queries with the requirement of an ID.
   getFeeds: function(req, res) {
-    if (req.query.fipsCodes === undefined){
+		var roles = auth.getUserRoles(req);
+    if (auth.isSuperAdmin(req)){
       return util.simpleQueryResponder(queries.feeds, function(req) {
         return [req.query.page];
       })(req, res);
     } else {
       return util.simpleQueryResponder(queries.feedsForFipsCodes, function(req) {
-        var fipsCodes = null;
-        if (typeof req.query.fipsCodes === 'string'){
-          fipsCodes = [req.query.fipsCodes];
-        } else {
-          fipsCodes = req.query.fipsCodes;
-        }
+        var fipsCodes = auth.getUserFipsCodes(req);
         likeFipsCodes = fipsCodes.map(function (code) { return code + "%"});
         return [likeFipsCodes, req.query.page];
       })(req, res);
