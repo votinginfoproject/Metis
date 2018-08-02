@@ -1,5 +1,6 @@
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
+var access = require('./access.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
@@ -58,11 +59,17 @@ var deleteHandler = util.simpleCommandResponder(deleteSql,
                                                 util.pathParamExtractor(['scheduleid']));
 
 function registerScheduleServices (app) {
-  app.post('/earlyvote/elections/:electionid/schedules', createHandler);
-  app.get('/earlyvote/elections/:electionid/earlyvotesites/:earlyvotesiteid/schedules', listHandler);
-  app.get('/earlyvote/schedules/:scheduleid', getHandler);
-  app.delete('/earlyvote/schedules/:scheduleid', deleteHandler);
-  app.put('/earlyvote/schedules/:scheduleid', updateHandler);
+	//verify admin or matching election fips
+  app.post('/earlyvote/elections/:electionid/schedules', access.verifyElection, createHandler);
+	//verify admin or matching election fips
+  app.get('/earlyvote/elections/:electionid/earlyvotesites/:earlyvotesiteid/schedules',
+	  access.verifyElection, access.verifyEVSCounty, listHandler);
+	//verify admin or matching election fips schedule
+  app.get('/earlyvote/schedules/:scheduleid', access.verifySchedule, getHandler);
+	//verify admin or matching election fips schedule
+  app.delete('/earlyvote/schedules/:scheduleid', access.verifySchedule, access.protectSchedule, deleteHandler);
+	//verify admin or matching election fips schedule
+  app.put('/earlyvote/schedules/:scheduleid', access.verifySchedule, access.protectSchedule, updateHandler);
 }
 
 exports.registerScheduleServices = registerScheduleServices;

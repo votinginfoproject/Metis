@@ -1,5 +1,6 @@
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
+var access = require('./access.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
@@ -57,11 +58,16 @@ var deleteHandler = util.simpleCommandResponder(deleteSql,
                                                 util.pathParamExtractor(['earlyvotesiteid']));
 
 function registerEarlyVoteSiteServices (app) {
-  app.post('/earlyvote/elections/:electionid/earlyvotesites', createHandler);
-  app.get('/earlyvote/elections/:electionid/earlyvotesites', listHandler);
-  app.get('/earlyvote/earlyvotesites/:earlyvotesiteid', getHandler);
-  app.delete('/earlyvote/earlyvotesites/:earlyvotesiteid', deleteHandler);
-  app.put('/earlyvote/earlyvotesites/:earlyvotesiteid', updateHandler);
+	//verify admin or matching election fips
+  app.post('/earlyvote/elections/:electionid/earlyvotesites', access.verifyElection, createHandler);
+	//verify admin or matching election fips
+  app.get('/earlyvote/elections/:electionid/earlyvotesites', access.verifyElection, listHandler);
+	//verify admin or matching election fips through early vote site
+  app.get('/earlyvote/earlyvotesites/:earlyvotesiteid', access.verifyEVSElection, access.verifyEVSCounty, getHandler);
+	//verify admin or matching election fips through early vote site
+  app.delete('/earlyvote/earlyvotesites/:earlyvotesiteid', access.verifyEVSElection, access.verifyEVSCounty, deleteHandler);
+	//verify admin or matching election fips through early vote site
+  app.put('/earlyvote/earlyvotesites/:earlyvotesiteid', access.verifyEVSElection, access.verifyEVSCounty, updateHandler);
 }
 
 exports.registerEarlyVoteSiteServices = registerEarlyVoteSiteServices;
