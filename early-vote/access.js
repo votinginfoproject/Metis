@@ -24,16 +24,16 @@ function stateFipsExtractor(){
 }
 
 /**
- * Similar to `fipsExtractor`, only if the user has a SuperAdmin role, it will
+ * Similar to `stateFipsExtractor`, only if the user has a SuperAdmin role, it will
  * return 'super-admin' which will work with certain filtering queries that
  * will either load only items that match the fips OR all items for SuperAdmins.
  */
 function adminFipsExtractor() {
 	return function(req) {
 		if (auth.isSuperAdmin(req)) {
-			return ['super-admin']
+			return ['super-admin'];
 		} else {
-			return [auth.getUserFipsCodes(req)[0]]
+			return auth.getUserFipsCodes(req).map(fips => fips.substring(0,2));
 		}
 	}
 }
@@ -72,7 +72,7 @@ function simpleRowCheckValidation(sqlCommand, params, successFn, failureFn) {
  			logger.error(err.name + ": " + err.message);
  			failureFn();
  		} else {
- 			if(result.rows.length = 0) {
+ 			if(result.rows.length === 0) {
  				successFn();
  			} else {
  				failureFn();
@@ -100,6 +100,7 @@ function verifyElection(req, res, next) {
 		simpleRowCheckValidation(verifyElectionSql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	}
@@ -122,6 +123,7 @@ function verifyEVSElection(req, res, next) {
 		simpleRowCheckValidation(verifyEVSElectionSql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	}
@@ -143,6 +145,7 @@ function verifyEVSCounty(req, res, next) {
 		simpleRowCheckValidation(verifyEVSCountySql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	}
@@ -164,14 +167,15 @@ function verifySchedule(req, res, next) {
 		simpleRowCheckValidation(verifyScheduleSql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	}
 }
 
 var protectScheduleSql =
-	`select * from early_vote_sites evs left join assignments as on evs.id = as.early_vote_site_id
-	  join schedules s on as.schedule_id = s.id where s.id = $1 and evs.county_fips not in ($2);`
+	`select * from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
+	  join schedules s on ass.schedule_id = s.id where s.id = $1 and evs.county_fips not in ($2);`
 var protectScheduleParamFn = util.compoundParamExtractor([util.pathParamExtractor(['scheduleid']),
 																													fipsExtractor()]);
 /**
@@ -187,6 +191,7 @@ function protectSchedule(req, res, next) {
 		invertedRowCheckValidation(protectScheduleSql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Schedule is shared with other counties, unassign and/or create a new Schedule");
 				res.end();
 			});
 	}
@@ -195,12 +200,12 @@ function protectSchedule(req, res, next) {
 var verifyAssignmentStateSql =
 	`select * from elections e left join schedules s on e.id = s.election_id
 	 left join assignments as on s.id = as.schedule_id where as.id = $1 and e.state_fips in ($2);`
-var verifyAssignmentStateParamFn = util.compoundParamExtractor([util.pathParamExtractor(['scheduleid']),
+var verifyAssignmentStateParamFn = util.compoundParamExtractor([util.pathParamExtractor(['assignmentid']),
 																												 				stateFipsExtractor()]);
 var verifyAssignmentCountySql =
-	`select * from early_vote_sites evs left join assignments as on evs.id = as.early_vote_site_id
-	 where as.id = $1 and evs.county_fips in ($2);`
-var verifyAssignmentCountyParamFn = util.compoundParamExtractor([util.pathParamExtractor(['scheduleid']),
+	`select * from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
+	 where ass.id = $1 and evs.county_fips in ($2);`
+var verifyAssignmentCountyParamFn = util.compoundParamExtractor([util.pathParamExtractor(['assignmentid']),
 																												 				fipsExtractor()]);
  /**
   * Express middleware that checks if the user is super admin or a state admin and
@@ -215,6 +220,7 @@ function verifyAssignment(req, res, next) {
 		simpleRowCheckValidation(verifyAssignmentStateSql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	} else {
@@ -222,6 +228,7 @@ function verifyAssignment(req, res, next) {
 		simpleRowCheckValidation(verifyAssignmentCountySql, params, next,
 			function() {
 				res.writeHead(403, {'Content-Type': 'text/plain'});
+				res.write("Access Denied");
 				res.end();
 			});
 	}
@@ -237,6 +244,7 @@ function verifyAdmin(req, res, next) {
 		next();
 	} else {
 		res.writeHead(403, {'Content-Type': 'text/plain'});
+		res.write("Access Denied");
 		res.end();
 	}
 }

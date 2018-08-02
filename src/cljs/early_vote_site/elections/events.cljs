@@ -101,28 +101,16 @@
                 [:elections-list/get]]})
 
 ;; Elections List
-
-(defn list-elections-params
-  [db]
-  (let [roles (get-in db [:user :roles])
-        state-fips (some-> (get-in db [:user :fipsCodes])
-                           first
-                           (subs 0 2))]
-    (when-not (contains? roles "super-admin")
-      {:fips state-fips})))
-
 (defn get-elections-list
   [{:keys [db]} _]
-  (let [data (list-elections-params db)]
-    {:db db
-     :http-xhrio {:method          :get
-                  :uri             (server/election-url db)
-                  :params          data
-                  :timeout         8000
-                  :format          (ajax/json-request-format)
-                  :response-format (ajax/json-response-format)
-                  :on-success [:elections-list-get/success]
-                  :on-failure [:authorization/check [:elections-list-get/failure]]}}))
+  {:db db
+   :http-xhrio {:method          :get
+                :uri             (server/election-url db)
+                :timeout         8000
+                :format          (ajax/json-request-format)
+                :response-format (ajax/json-response-format)
+                :on-success [:elections-list-get/success]
+                :on-failure [:authorization/check [:elections-list-get/failure]]}})
 
 (defn election-json->clj
   [json]
