@@ -85,7 +85,7 @@ function simpleRowCheckValidation(sqlCommand, params, successFn, failureFn) {
  	});
  }
 
-var verifyElectionSql = `select * from elections where id = $1 AND state_fips in ($2);`
+var verifyElectionSql = `select id from elections where id = $1 AND state_fips in ($2);`
 var verifyElectionParamFn = util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
 																								 		 		 stateFipsExtractor()]);
 /**
@@ -107,7 +107,7 @@ function verifyElection(req, res, next) {
 }
 
 var verifyEVSElectionSql =
-	`select * from elections e left join early_vote_sites evs on e.id = evs.election_id
+	`select e.id from elections e left join early_vote_sites evs on e.id = evs.election_id
  	 where evs.id = $1 AND e.state_fips in ($2);`
 var verifyEVSParamFn = util.compoundParamExtractor([util.pathParamExtractor(['earlyvotesiteid']),
 																			 						  stateFipsExtractor()]);
@@ -130,7 +130,7 @@ function verifyEVSElection(req, res, next) {
 }
 
 var verifyEVSCountySql =
-	`select * from early_vote_sites where id = $1 and county_fips in ($2);`
+	`select id from early_vote_sites where id = $1 and county_fips in ($2);`
 var verifyEVSCountyParamFn = util.compoundParamExtractor([util.pathParamExtractor(['earlyvotesiteid']),
 																			 						  			fipsExtractor()]);
 /**
@@ -152,7 +152,7 @@ function verifyEVSCounty(req, res, next) {
 }
 
 var verifyScheduleSql =
-	`select * from elections e left join schedules s on e.id = s.election_id where s.id = $1 and e.state_fips in ($2);`
+	`select e.id from elections e left join schedules s on e.id = s.election_id where s.id = $1 and e.state_fips in ($2);`
 var verifyScheduleParamFn = util.compoundParamExtractor([util.pathParamExtractor(['scheduleid']),
 																												 stateFipsExtractor()]);
  /**
@@ -174,7 +174,7 @@ function verifySchedule(req, res, next) {
 }
 
 var protectScheduleSql =
-	`select * from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
+	`select evs.id from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
 	  join schedules s on ass.schedule_id = s.id where s.id = $1 and evs.county_fips not in ($2);`
 var protectScheduleParamFn = util.compoundParamExtractor([util.pathParamExtractor(['scheduleid']),
 																													fipsExtractor()]);
@@ -198,12 +198,12 @@ function protectSchedule(req, res, next) {
 }
 
 var verifyAssignmentStateSql =
-	`select * from elections e left join schedules s on e.id = s.election_id
+	`select e.id from elections e left join schedules s on e.id = s.election_id
 	 left join assignments as on s.id = as.schedule_id where as.id = $1 and e.state_fips in ($2);`
 var verifyAssignmentStateParamFn = util.compoundParamExtractor([util.pathParamExtractor(['assignmentid']),
 																												 				stateFipsExtractor()]);
 var verifyAssignmentCountySql =
-	`select * from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
+	`select evs.id from early_vote_sites evs left join assignments ass on evs.id = ass.early_vote_site_id
 	 where ass.id = $1 and evs.county_fips in ($2);`
 var verifyAssignmentCountyParamFn = util.compoundParamExtractor([util.pathParamExtractor(['assignmentid']),
 																												 				fipsExtractor()]);
