@@ -4,6 +4,7 @@ var multiparty = require('multiparty');
 var config = require('../config');
 var queue = require('../notifications/data-testing/queue')
 var logger = (require('../logging/vip-winston')).Logger;
+var auth = require('../authentication/services.js')
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
 var batchAddressBucket = config.batt.batchAddressBucket;
@@ -13,7 +14,13 @@ module.exports = {
   uploadBatchAddressTestFile: function(req, res){
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
-      var fipsCode = fields["fipsCode"];
+			var fipsCodes = auth.getUserFipsCodes(req);
+      var fipsCode = null;
+			if (fipsCodes === undefined || fipsCodes[0] === undefined) {
+	      fipsCode = "undefined";
+	    } else {
+				fipsCode = fipsCodes[0];
+			}
       res.writeHead(200, {'content-type': 'text/plain'});
       res.write('received upload:\n\n');
       res.end(JSON.stringify(files));
@@ -23,9 +30,6 @@ module.exports = {
       });
       fileStream.on('open', function () {
         var s3 = new AWS.S3();
-        if (fipsCode === undefined) {
-          fipsCode = "undefined"
-        };
         var bucketName = batchAddressBucket;
         var fileName = fipsCode + '/input/' + files.file.originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
@@ -49,10 +53,13 @@ module.exports = {
   },
   getLatestBatchAddressTestResultsFile: function(req, res){
     var s3 = new AWS.S3();
-    var fipsCode = req.query.fipsCode;
-    if (fipsCode === undefined) {
+		var fipsCodes = auth.getUserFipsCodes(req);
+		var fipsCode = null;
+    if (fipsCodes === undefined || fipsCodes[0] === undefined) {
       fipsCode = "undefined";
-    }
+    } else {
+			fipsCode = fipsCodes[0];
+		}
     var bucketName = batchAddressBucket;
     var fileName  = fipsCode + "/output/results.csv"
 
@@ -70,9 +77,7 @@ module.exports = {
         logger.info(JSON.stringify(data));
         if (data["Contents"].length > 0) {
           var params = {Bucket: bucketName, Key: fileName, Expires: 3600};
-          logger.info("requesting from Amazon with params: " + JSON.stringify(params));
           var url = s3.getSignedUrl('getObject', params);
-          logger.info("generated pre-signed URL " + url);
           res.writeHead(200, {'content-type': 'text/plain'});
           res.write(url);
           res.end();
@@ -93,11 +98,9 @@ module.exports = {
         res.writeHead(200, {'content-type': 'text/plain'});
         res.end();
       } else {
-        logger.info(fields.date);
-        logger.info(files.file.path);
-        logger.info(fields.fipsCode);
-        var date = fields["date"];
-        var fipsCode = fields["fipsCode"];
+				var fipsCodes = auth.getUserFipsCodes(req);
+				var fipsCode = fipsCodes[0];
+				var date = fields["date"];
         res.writeHead(200, {'content-type': 'text/plain'});
         res.write('received upload:\n\n');
         res.end(JSON.stringify(files));
@@ -132,14 +135,14 @@ module.exports = {
 
   getSubmittedCentralizationFiles: function(req, res){
     var s3 = new AWS.S3();
-    var fipsCode = req.query.fipsCode;
-    var roles = req.query.roles;
-    if (fipsCode === undefined) {
+		var fipsCodes = auth.getUserFipsCodes(req);
+		var fipsCode = fipsCodes[0];
+    if (fipsCodes === undefined || fipsCode === undefined) {
       fipsCode = "undefined";
     }
     var bucketName = centralizationBucket;
 
-    if (roles.indexOf("super-admin") >= 0){
+    if (auth.isSuperAdmin(req)){
       prefix = "";
     } else {
       fips2 = fipsCode.slice(0, 2);

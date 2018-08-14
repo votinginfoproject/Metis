@@ -1,6 +1,7 @@
 var aws = require('./aws.js');
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
+var access = require('./access.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var uuidv4 = require('uuid/v4');
@@ -454,7 +455,7 @@ var generate = function(req, res) {
 }
 
 function registerFileGenerationServices(app) {
-  app.post("/earlyvote/elections/:electionid/generate", generate);
+  app.post("/earlyvote/elections/:electionid/generate", access.verifyAdmin, generate);
 }
 
 exports.registerFileGenerationServices = registerFileGenerationServices;

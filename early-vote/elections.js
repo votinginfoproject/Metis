@@ -1,7 +1,9 @@
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
+var access = require('./access.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
+var auth = require('../authentication/services.js');
 
 //create election
 var createSql = "INSERT INTO elections VALUES ($1, $2, $3);"
@@ -13,8 +15,8 @@ var createElection = util.simpleCommandResponder(createSql, createElectionsParam
 //list elections
 var getElectionsQuery =
   `select * from elections where election_date >= current_date AND
-   (($1 = 'undefined') or (state_fips = $1)) order by election_date asc;`
-var getElections = util.simpleQueryResponder(getElectionsQuery, util.queryParamExtractor(['fips']));
+   (($1 = 'super-admin') or (state_fips = $1)) order by election_date asc;`
+var getElections = util.simpleQueryResponder(getElectionsQuery, access.adminFipsExtractor());
 
 //get single election
 var getElectionQuery =
@@ -34,11 +36,16 @@ var deleteElection = util.simpleCommandResponder(deleteSql,
                                                  util.pathParamExtractor(['electionid']));
 
 function registerElectionServices (app) {
-  app.post('/earlyvote/elections', createElection);
+	// only admin
+  app.post('/earlyvote/elections', access.verifyAdmin, createElection);
+	// all users, admins can see all elections, others only matching state component of fips
   app.get('/earlyvote/elections', getElections);
-  app.get('/earlyvote/elections/:electionid', getElection);
-  app.put('/earlyvote/elections/:electionid', updateElection);
-  app.delete('/earlyvote/elections/:electionid', deleteElection);
+	// admin user or election state_fips must match user state_fips
+  app.get('/earlyvote/elections/:electionid', access.verifyElection, getElection);
+	// only admin
+  app.put('/earlyvote/elections/:electionid', access.verifyAdmin, updateElection);
+	// only admin
+  app.delete('/earlyvote/elections/:electionid', access.verifyAdmin, deleteElection);
 }
 
 exports.registerElectionServices = registerElectionServices;
