@@ -1,7 +1,8 @@
-var conn = require('./conn.js')
+var conn = require('./conn.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 var resp = require('./response.js');
+var auth = require('../authentication/services.js');
 
 module.exports = {
   simpleQueryCallback: function(sqlQuery, params, callback) {

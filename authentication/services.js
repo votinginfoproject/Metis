@@ -55,6 +55,11 @@ function isSuperAdmin(req) {
 	return roles.indexOf("super-admin") >= 0;
 }
 
+function isStateAdmin(req) {
+	var roles = getUserRoles(req);
+	return roles.indexOf("state-admin") >= 0;
+}
+
 function registerAuthServices(app) {
   app.post('/services/getMetadata', checkJwt, function(req, res) {
     console.log(JSON.stringify(req.user));
@@ -104,6 +109,7 @@ function getUsersByFips(fips, cb) {
 exports.getUserFromRequest = getUserFromRequest;
 exports.getUserFipsCodes = getUserFipsCodes;
 exports.isSuperAdmin = isSuperAdmin;
+exports.isStateAdmin = isStateAdmin;
 exports.getUserRoles = getUserRoles;
 exports.checkJwt = checkJwt;
 exports.checkAuth = checkAuth;

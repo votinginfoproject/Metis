@@ -82,17 +82,6 @@
              "state_fips" "08"
              "election_date" "2017-10-10T06:00:00.00Z"})))))
 
-(deftest list-elections-params-test
-  (testing "params are empty for super-admin even with fipsCodes set"
-    (let [db {:user {:roles #{"super-admin"}
-                     :fipsCodes ["08"]}}]
-      (is (empty? (events/list-elections-params db)))))
-  (testing "params include fips when not super-admin"
-    (let [db {:user {:roles #{"county-data-user"}
-                     :fipsCodes ["08005"]}}]
-      (is (= {:fips "08"}
-             (events/list-elections-params db))))))
-
 (deftest start-edit-test
   (let [election {:id 456
                   :state-fips "08"

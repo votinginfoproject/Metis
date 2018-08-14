@@ -1,5 +1,6 @@
 var conn = require('../dashboard/conn.js');
 var util = require('../dashboard/util.js');
+var access = require('./access.js');
 var logger = (require('../logging/vip-winston')).Logger;
 var uuidv4 = require('uuid/v4');
 
@@ -30,10 +31,10 @@ var deleteHandler = util.simpleCommandResponder(deleteSql,
                                                 util.pathParamExtractor(['assignmentid']));
 
 function registerAssignmentServices (app) {
-  app.post('/earlyvote/earlyvotesites/:earlyvotesiteid/assignments', createHandler);
-  app.get('/earlyvote/earlyvotesites/:earlyvotesiteid/assignments', listHandler);
-  app.get('/earlyvote/assignments/:assignmentid', getHandler);
-  app.delete('/earlyvote/assignments/:assignmentid', deleteHandler);
+  app.post('/earlyvote/earlyvotesites/:earlyvotesiteid/assignments', access.verifyEVSElection, createHandler);
+  app.get('/earlyvote/earlyvotesites/:earlyvotesiteid/assignments', access.verifyEVSElection, listHandler);
+  app.get('/earlyvote/assignments/:assignmentid', access.verifyAssignment, getHandler);
+  app.delete('/earlyvote/assignments/:assignmentid', access.verifyAssignment, deleteHandler);
 }
 
 exports.registerAssignmentServices = registerAssignmentServices;
