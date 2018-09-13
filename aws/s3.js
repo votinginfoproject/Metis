@@ -143,7 +143,11 @@ module.exports = {
     var bucketName = centralizationBucket;
 
     if (auth.isSuperAdmin(req)){
-      prefix = "";
+      if (req.query['prefix']) {
+        prefix = req.query['prefix'];
+      } else {
+        prefix = "";
+      }
     } else {
       fips2 = fipsCode.slice(0, 2);
       var prefix = fips2 + '/' + fipsCode;

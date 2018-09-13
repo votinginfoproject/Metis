@@ -20,6 +20,12 @@
     </form>
   </div>
 
+  <div ng-if="hasRole('super-admin')">
+    <label>Filter By State</label>
+    <select ng-model="selectedState" ng-options="x.state for x in states" ng-change="getFiles(selectedState)">
+    </select>
+  </div>
+
   <br>
   <div ng-if="submittedFiles.length > 0">
   <label>Previously submitted files:</label>
