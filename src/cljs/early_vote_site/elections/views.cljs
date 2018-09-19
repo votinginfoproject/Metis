@@ -59,7 +59,7 @@
 (defn election-list-row
   [election]
   (let [roles @(re-frame/subscribe [:roles])
-        admin? (seq (set/intersection roles #{"super-admin" "state-admin"}))
+        admin? (seq (set/intersection roles #{"super-admin"}))
         editing @(re-frame/subscribe [:elections/editing])]
     (if (contains? editing (:id election))
       [form (:id election)]
