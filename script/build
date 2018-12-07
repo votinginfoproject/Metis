@@ -24,7 +24,7 @@ docker build -t $DOCKER_IMAGE .
 
 if [ $CI = "true" ]; then
     echo '--- pushing docker image to registry'
-    docker login -e="." -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
+    docker login -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
     docker push $DOCKER_IMAGE
 else
     echo "If you'd like to push this to the Docker repo, run: docker push ${DOCKER_IMAGE}"
