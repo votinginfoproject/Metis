@@ -157,12 +157,6 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     }
   };
 
-	function updateApiKey(newApiKey) {
-		var currentUser = JSON.parse(localStorage.getItem('auth0_user'));
-		currentUser['apiKey'] = newApiKey;
-		localStorage.setItem('auth0_user', JSON.stringify(currentUser));
-	}
-
   function userToFips(metadata) {
     if (metadata && metadata.fipsCodes) {
       return Object.keys(metadata.fipsCodes);
@@ -224,7 +218,6 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     getAccessToken: getAccessToken,
     getIdToken: getIdToken,
     getUser: getUser,
-    hasRole: hasRole,
-		updateApiKey: updateApiKey
+    hasRole: hasRole
   }
 });
