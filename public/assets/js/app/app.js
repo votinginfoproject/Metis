@@ -79,6 +79,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'LogoutCtrl'
     })
 
+		$routeProvider.when('/profile', {
+			templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
+			controller: 'ProfileCtrl'
+		})
+
     $routeProvider.when('/testing/vit', {
       templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
       controller: 'VitCtrl'
