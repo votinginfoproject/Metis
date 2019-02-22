@@ -88,7 +88,7 @@ config.slack = {
 }
 
 config.dasher = {
-	domain: 'localhost:3000'
+	domain: process.env.DASHER_DOMAIN
 }
 
 module.exports = config;
