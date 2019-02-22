@@ -151,9 +151,17 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
             userName: profile["name"],
             email: profile["email"],
             fipsCodes: userToFips(metadata.app_metadata),
-            roles: userToRoles(metadata.app_metadata)
+            roles: userToRoles(metadata.app_metadata),
+						id: profile["sub"],
+						apiKey: userToApiKey(metadata.user_metadata)
     }
   };
+
+	function updateApiKey(newApiKey) {
+		var currentUser = JSON.parse(localStorage.getItem('auth0_user'));
+		currentUser['apiKey'] = newApiKey;
+		localStorage.setItem('auth0_user', JSON.stringify(currentUser));
+	}
 
   function userToFips(metadata) {
     if (metadata && metadata.fipsCodes) {
@@ -184,7 +192,17 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     } else {
       return "User";
     }
-  }
+  };
+
+	function userToApiKey(metadata) {
+		if (metadata && metadata["api-key"]) {
+			return metadata["api-key"];
+		} else {
+			console.log("no api-key in metadata");
+			return "";
+		}
+	};
+
 
   function hasRole (roleName) {
     var user = getLocalUser();
@@ -206,6 +224,7 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     getAccessToken: getAccessToken,
     getIdToken: getIdToken,
     getUser: getUser,
-    hasRole: hasRole
+    hasRole: hasRole,
+		updateApiKey: updateApiKey
   }
 });

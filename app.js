@@ -29,6 +29,7 @@ var dataVerificationServices = require('./aws/services');
 var authServices = require('./authentication/services');
 var centralizationServices = require('./aws/services');
 var earlyVoteServices = require('./early-vote/services');
+var dasherServices = require('./dasher/services');
 
 if (fs.existsSync('./newrelic.js')) {
   require('newrelic');
@@ -83,6 +84,7 @@ dataVerificationServices.registerDataVerificationServices(app);
 authServices.registerAuthServices(app);
 centralizationServices.registerCentralizationServices(app);
 earlyVoteServices.registerEarlyVoteServices(app);
+dasherServices.registerDasherServices(app);
 
 app.get ('/config/vit', authServices.checkJwt, function (req, res, next) {
   res.send(config.vit.apiKey);

@@ -2,7 +2,6 @@ var config = require('../config');
 
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
-const jwtAuthz = require('express-jwt-authz');
 const AuthenticationClient = require('auth0').AuthenticationClient;
 var ManagementClient = require('auth0').ManagementClient;
 
@@ -22,10 +21,6 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-function checkAuth(scope_array) {
-  return jwtAuthz(scope_array);
-}
-
 var authClient = new AuthenticationClient({
   domain:   config.auth0.domain,
   clientId:  config.auth0.clientID,
@@ -34,7 +29,8 @@ var authClient = new AuthenticationClient({
 
 function getUserFromRequest(req) {
 	return {"user_metadata":
-				   {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"]},
+				   {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"],
+				    "api-key": req.user["https://dashboard.votinginfoproject.org/api-key"]},
 					"app_metadata":
 					 {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
 						"roles": req.user["https://dashboard.votinginfoproject.org/roles"]}};
@@ -105,13 +101,11 @@ function getUsersByFips(fips, cb) {
   });
 };
 
-
 exports.getUserFromRequest = getUserFromRequest;
 exports.getUserFipsCodes = getUserFipsCodes;
 exports.isSuperAdmin = isSuperAdmin;
 exports.isStateAdmin = isStateAdmin;
 exports.getUserRoles = getUserRoles;
 exports.checkJwt = checkJwt;
-exports.checkAuth = checkAuth;
 exports.registerAuthServices = registerAuthServices;
 exports.getUsersByFips = getUsersByFips;

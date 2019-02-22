@@ -87,4 +87,8 @@ config.slack = {
             icon_emoji: process.env.SLACK_BOT_EMOJI}
 }
 
+config.dasher = {
+	domain: 'localhost:3000'
+}
+
 module.exports = config;
