@@ -32,6 +32,9 @@ RUN lein test
 
 RUN lein cljsbuild once min
 
+RUN addgroup --system metis && adduser --system --ingroup metis metis
+USER metis
+
 EXPOSE 4000 27017 28017
 
 ENTRYPOINT [ "grunt" ]
