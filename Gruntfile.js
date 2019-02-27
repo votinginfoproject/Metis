@@ -99,7 +99,7 @@ module.exports = function(grunt) {
     run: {
       production: {
         cmd: 'node',
-        args: ['app.js']
+        args: ['-u', '"node"', 'app.js']
       },
       migrate: {
         cmd: 'node_modules/.bin/db-migrate',
