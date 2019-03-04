@@ -152,8 +152,8 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
             email: profile["email"],
             fipsCodes: userToFips(metadata.app_metadata),
             roles: userToRoles(metadata.app_metadata),
-						id: profile["sub"],
-						apiKey: userToApiKey(metadata.user_metadata)
+            id: profile["sub"],
+            apiKey: userToApiKey(metadata.user_metadata)
     }
   };
 
@@ -188,14 +188,14 @@ vipApp.factory('$authService', function ($rootScope, $location, $timeout, $http,
     }
   };
 
-	function userToApiKey(metadata) {
-		if (metadata && metadata["api-key"]) {
-			return metadata["api-key"];
-		} else {
-			console.log("no api-key in metadata");
-			return "";
-		}
-	};
+  function userToApiKey(metadata) {
+  if (metadata && metadata["api-key"]) {
+    return metadata["api-key"];
+  } else {
+    console.log("no api-key in metadata");
+    return "";
+  }
+};
 
 
   function hasRole (roleName) {

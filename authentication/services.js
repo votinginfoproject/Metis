@@ -28,32 +28,32 @@ var authClient = new AuthenticationClient({
 });
 
 function getUserFromRequest(req) {
-	return {"user_metadata":
-				   {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"],
-				    "api-key": req.user["https://dashboard.votinginfoproject.org/api-key"]},
-					"app_metadata":
-					 {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
-						"roles": req.user["https://dashboard.votinginfoproject.org/roles"]}};
+  return {"user_metadata":
+           {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"],
+            "api-key": req.user["https://dashboard.votinginfoproject.org/api-key"]},
+          "app_metadata":
+          {"fipsCodes": req.user["https://dashboard.votinginfoproject.org/fipsCodes"],
+           "roles": req.user["https://dashboard.votinginfoproject.org/roles"]}};
 };
 
 function getUserFipsCodes(req) {
-	var user = getUserFromRequest(req);
-	return Object.keys(user["app_metadata"]["fipsCodes"]);
+  var user = getUserFromRequest(req);
+  return Object.keys(user["app_metadata"]["fipsCodes"]);
 };
 
 function getUserRoles(req) {
-	var user = getUserFromRequest(req);
-	return user["app_metadata"]["roles"];
+  var user = getUserFromRequest(req);
+  return user["app_metadata"]["roles"];
 }
 
 function isSuperAdmin(req) {
-	var roles = getUserRoles(req);
-	return roles.indexOf("super-admin") >= 0;
+  var roles = getUserRoles(req);
+  return roles.indexOf("super-admin") >= 0;
 }
 
 function isStateAdmin(req) {
-	var roles = getUserRoles(req);
-	return roles.indexOf("state-admin") >= 0;
+  var roles = getUserRoles(req);
+  return roles.indexOf("state-admin") >= 0;
 }
 
 function registerAuthServices(app) {
