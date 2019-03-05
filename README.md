@@ -81,6 +81,7 @@ DASHBOARD_DB_PORT_5432_TCP_ADDR=localhost
 DASHBOARD_DB_PORT_5432_TCP_PORT=5432
 DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
 EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
+DASHER_DOMAIN=localhost:3000
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
@@ -126,7 +127,7 @@ super user account is "testuser" and its password is "test".
 If you don't like running with Grunt, then after you've run it once to create
 the Angular config file, you can return to using `node app.js` if you like.
 
-## Running in Docker
+### Running in Docker
 
 > To run in docker, the simplest way is to have [docker-compose](https://docs.docker.com/compose/)
 > installed (`brew install docker-compose`).
@@ -134,6 +135,20 @@ the Angular config file, you can return to using `node app.js` if you like.
 1. `docker-compose build`
 1. `docker-compose up`
 1. Then hit [http://localdocker:4000/](http://localdocker:4000/), assuming you have a localdocker host file entry pointing to your docker host. If not, replace localdocker with your docker host IP address.
+
+## Dasher Integration
+
+As we start to move new functionality over to `dasher`, there will be functions
+we'll expose here in `Metis` but pass over to `dasher` for actual execution. To
+do this we configure `DASHER_DOMAIN` to point to where `dasher` is running.
+
+In order for this to work, `dasher` is also set up to do JWT authentication and
+is sharing the client id/client secret so that the authentication is seemless.
+
+Currently the following features are being sent through the Node Express server
+over to `dasher`:
+
+* Generate New API Key (on the Profile page)
 
 ## Deploying the Project
 
