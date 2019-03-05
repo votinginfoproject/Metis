@@ -99,6 +99,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'CentralizationCtrl'
     });
 
+    $routeProvider.when('/data-upload/upload',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/data-upload/upload.html',
+      controller: 'DataUploadCtrl'
+    });
+
     $routeProvider.when('/feeds', {
       templateUrl: $appProperties.contextRoot + '/app/partials/feeds.html',
       controller: 'FeedsCtrl'
