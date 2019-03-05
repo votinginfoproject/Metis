@@ -3,7 +3,7 @@
  * Data Centralization Controller
  *
  */
-function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, $authService, $location) {
+function CentralizationCtrl($scope, $rootScope, Upload, $backendService, $route, $authService, $location) {
 
   if (!$authService.isAuthenticated()) {
     $location.url('/');
@@ -112,7 +112,7 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
 		if (selectedState) {
 			cfg = {params: {prefix: selectedState.fipsCode}};
 		}
-    $configService.getResponse({path: '/centralization/submitted-files', config: cfg},
+    $backendService.getResponse({path: '/centralization/submitted-files', config: cfg},
                                function(result) { $scope.submittedFiles = result; });
 	}
 
