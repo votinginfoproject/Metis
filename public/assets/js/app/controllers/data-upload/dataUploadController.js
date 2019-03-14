@@ -92,14 +92,13 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   $scope.upload = function () {
     var uploadDate = getDateValue().split("/").join("-");
     Upload.upload({
-        url: '/centralization/upload',
+        url: '/dasher/upload',
         data: {'file': $scope.file,
                'date': uploadDate,
                'type': $scope.type}
     }).then(function (resp) {
         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         $rootScope.showUploaded = true;
-        $route.reload();
     }, function (resp) {
         console.log('Error status: ' + resp.status);
     }, function (evt) {
@@ -108,12 +107,16 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
     });
   };
 
+  $scope.closeMessage = function(){
+    $rootScope.showUploaded = false;
+  }
+
 	$scope.getFiles = function(selectedState) {
 		var cfg = {};
 		if (selectedState) {
 			cfg = {params: {prefix: selectedState.fipsCode}};
 		}
-    $backendService.getResponse({path: '/centralization/submitted-files', config: cfg},
+    $backendService.getResponse({path: '/data-upload/submitted-files', config: cfg},
                                function(result) { $scope.submittedFiles = result; });
 	}
 

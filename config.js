@@ -71,8 +71,8 @@ config.batt = {
   batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
 }
 
-config.dataCentralization = {
-  centralizationBucket: process.env.DATA_CENTRALIZATION_BUCKET_NAME
+config.dataUpload = {
+  bucket: process.env.DATA_UPLOAD_BUCKET_NAME
 }
 
 config.earlyVoteSites = {

@@ -28,7 +28,8 @@ var authClient = new AuthenticationClient({
 });
 
 function getUserFromRequest(req) {
-  return {"user_metadata":
+  return {"id": req.user["sub"],
+          "user_metadata":
            {"givenName": req.user["https://dashboard.votinginfoproject.org/givenName"],
             "api-key": req.user["https://dashboard.votinginfoproject.org/api-key"]},
           "app_metadata":

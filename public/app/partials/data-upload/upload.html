@@ -1,6 +1,7 @@
 <i id="data-uploader"></i>
 
-  <div ng-if="showUploaded" class="file-uploaded">Your file has been uploaded.</div>
+<div ng-if="showUploaded" class="file-uploaded" ng-click="closeMessage()">Your file has been uploaded. <i class="fi-x"></i></div>
+
 
 <section class="data-group data-module">
   <p>Welcome to the Voting Information Project (VIP) data uploader.</p>
@@ -36,13 +37,15 @@
         <th ng-if="hasRole('super-admin')">State</th>
         <th ng-if="hasRole('super-admin') || hasRole('state-admin')">County</th>
         <th>File name</th>
+        <th>Is Feed?</th>
         <th>Election date</th>
         <th>Last modified</th>
       </tr>
       <tr ng-repeat="file in submittedFiles">
-        <td ng-if="hasRole('super-admin')">{{getStateFromFips(file.stateFips)}}</td>
+        <td ng-if="hasRole('super-admin')">{{file.stateName}}</td>
         <td ng-if="hasRole('super-admin') || hasRole('state-admin')">{{file.countyFips}}</td>
         <td>{{file.fileName}}</td>
+        <td>{{file.isFeed}}</td>
         <td>{{file.electionDate}}</td>
         <td>{{file.lastModified | date:'yyyy-MM-dd HH:mm:ss'}}</td>
       </tr>

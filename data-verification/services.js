@@ -1,11 +1,5 @@
-var aws = require("./s3.js");
+var aws = require("../aws/s3.js");
 var auth = require('../authentication/services.js');
-
-function registerCentralizationServices (app) {
-  app.all('/centralization/*', auth.checkJwt);
-  app.post('/centralization/upload', aws.uploadCentralizationFile);
-  app.get('/centralization/submitted-files', aws.getSubmittedCentralizationFiles);
-}
 
 function registerDataVerificationServices (app) {
   app.all('/testing/*', auth.checkJwt);
@@ -13,5 +7,4 @@ function registerDataVerificationServices (app) {
   app.get('/testing/latest-results-file', aws.getLatestBatchAddressTestResultsFile);
 }
 
-exports.registerCentralizationServices = registerCentralizationServices;
 exports.registerDataVerificationServices = registerDataVerificationServices;

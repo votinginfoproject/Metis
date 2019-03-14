@@ -141,9 +141,6 @@
   <script src="assets/js/app/controllers/testing/addressesController.js"></script>
   <script src="assets/js/app/controllers/testing/asideController.js"></script>
 
-  <!-- Centralization -->
-  <script src="assets/js/app/controllers/centralization/centralizationController.js"></script>
-
   <!-- DataUpload -->
   <script src="assets/js/app/controllers/data-upload/dataUploadController.js"></script>
 
@@ -181,9 +178,9 @@
 
       <nav class="main-nav" ng-if="user.isAuthenticated">
         <ul style="padding:5px; float: right">
-          <li><i class="fi-torso"></i> {{user.userName}}</li>
+          <li>{{user.userName}}</li>
           <li><a id="pageHeader-feedsLink" href="#/feeds" alert-box error ng-class="{'is-active': pageHeader.section=='feeds'}"><i class="fi-list"></i> Feeds</a></li>
-					<li><a id="pageHeader-profileLink" href="#/profile" alert-box error ng-class="{'is-active': pageHeader.section=='profile'}"><i class="fi-list"></i> User Profile</a></li>
+					<li><a id="pageHeader-profileLink" href="#/profile" alert-box error ng-class="{'is-active': pageHeader.section=='profile'}"><i class="fi-torso"></i> User Profile</a></li>
 					<li><a id="pageHeader-sign-out" href="{{logoutUrl}}"><i class="fi-x"></i> Sign Out</a></li>
         </ul>
         <ul>
