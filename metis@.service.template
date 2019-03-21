@@ -60,6 +60,7 @@ ExecStartPre=/bin/bash -c 'echo SLACK_WEBHOOK="$(curl -s http://${COREOS_PRIVATE
 ExecStartPre=/bin/bash -c 'echo SLACK_NOTIFICATION_CHANNEL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/notification-channel?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo SLACK_BOT_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-name?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo SLACK_BOT_EMOJI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-emoji?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo DASHER_DOMAIN="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dasher/domain?raw)" >> /tmp/${CONTAINER}--env'
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
   --link rabbitmq:rabbitmq \
