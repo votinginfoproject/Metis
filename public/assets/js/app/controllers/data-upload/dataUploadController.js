@@ -1,9 +1,9 @@
 'use strict';
 /*
- * Data Centralization Controller
+ * Data Upload Controller
  *
  */
-function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, $authService, $location) {
+function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $authService, $location) {
 
   if (!$authService.isAuthenticated()) {
     $location.url('/');
@@ -11,7 +11,7 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
 
   var breadcrumbs = null;
   // initialize page header variables
-  $scope.setPageHeader("VIP County Data Centralization Upload", breadcrumbs, "centralization", "", null);
+  $scope.setPageHeader("VIP Data Upload", breadcrumbs, "data-upload", "", null);
 
   $scope.cannotSubmit = function() {
     // the ui-date that is allowing the user to select their date via a calendar
@@ -83,22 +83,22 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
   $scope.submit = function() {
     // check that we have a date and a file
     if(!$scope.cannotSubmit()) {
-      $scope.upload($scope.form);
+      $scope.upload();
     } else {
       missingValue("both an election date and file are required for uploading");
     }
   };
 
-  $scope.upload = function (form) {
-    $scope.date = getDateValue().split("/").join("-");
+  $scope.upload = function () {
+    var uploadDate = getDateValue().split("/").join("-");
     Upload.upload({
-        url: '/centralization/upload',
-        data: {file: $scope.file,
-               'date': $scope.date}
+        url: '/dasher/upload',
+        data: {'file': $scope.file,
+               'date': uploadDate,
+               'type': $scope.type}
     }).then(function (resp) {
         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         $rootScope.showUploaded = true;
-        $route.reload();
     }, function (resp) {
         console.log('Error status: ' + resp.status);
     }, function (evt) {
@@ -107,12 +107,16 @@ function CentralizationCtrl($scope, $rootScope, Upload, $configService, $route, 
     });
   };
 
+  $scope.closeMessage = function(){
+    $rootScope.showUploaded = false;
+  }
+
 	$scope.getFiles = function(selectedState) {
 		var cfg = {};
 		if (selectedState) {
 			cfg = {params: {prefix: selectedState.fipsCode}};
 		}
-    $configService.getResponse({path: '/centralization/submitted-files', config: cfg},
+    $backendService.getResponse({path: '/data-upload/submitted-files', config: cfg},
                                function(result) { $scope.submittedFiles = result; });
 	}
 

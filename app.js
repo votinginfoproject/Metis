@@ -25,9 +25,9 @@ var queue = require('./queue');
 
 var notificationServices = require('./notifications/services');
 var pgServices = require('./pg/services');
-var dataVerificationServices = require('./aws/services');
+var dataVerificationServices = require('./data-verification/services');
 var authServices = require('./authentication/services');
-var centralizationServices = require('./aws/services');
+var dataUploadServices = require('./data-upload/services');
 var earlyVoteServices = require('./early-vote/services');
 var dasherServices = require('./dasher/services');
 
@@ -82,7 +82,8 @@ notificationServices.registerNotificationServices(app);
 pgServices.registerPostgresServices(app);
 dataVerificationServices.registerDataVerificationServices(app);
 authServices.registerAuthServices(app);
-centralizationServices.registerCentralizationServices(app);
+dataUploadServices.registerDataUploadServices(app);
+dataVerificationServices.registerDataVerificationServices(app);
 earlyVoteServices.registerEarlyVoteServices(app);
 dasherServices.registerDasherServices(app);
 

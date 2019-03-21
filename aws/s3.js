@@ -4,11 +4,12 @@ var multiparty = require('multiparty');
 var config = require('../config');
 var queue = require('../notifications/data-testing/queue')
 var logger = (require('../logging/vip-winston')).Logger;
-var auth = require('../authentication/services.js')
+var auth = require('../authentication/services.js');
+var states = require('../utils/states.js');
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
 var batchAddressBucket = config.batt.batchAddressBucket;
-var centralizationBucket = config.dataCentralization.centralizationBucket;
+var dataUploadBucket = config.dataUpload.bucket;
 
 module.exports = {
   uploadBatchAddressTestFile: function(req, res){
@@ -46,10 +47,7 @@ module.exports = {
         });
       });
     });
-
-
     return;
-
   },
   getLatestBatchAddressTestResultsFile: function(req, res){
     var s3 = new AWS.S3();
@@ -89,58 +87,14 @@ module.exports = {
     });
   },
 
-  uploadCentralizationFile: function(req, res){
-    var form = new multiparty.Form();
-    form.parse(req, function(err, fields, files) {
-      if (err) {
-        logger.error("Error uploading centralization file: ", err);
-        //change this status code when we know more about what we're dealing with
-        res.writeHead(200, {'content-type': 'text/plain'});
-        res.end();
-      } else {
-				var fipsCodes = auth.getUserFipsCodes(req);
-				var fipsCode = fipsCodes[0];
-				var date = fields["date"];
-        res.writeHead(200, {'content-type': 'text/plain'});
-        res.write('received upload:\n\n');
-        res.end(JSON.stringify(files));
-        var fileStream = fs.createReadStream(files.file.path);
-        fileStream.on('error', function (err) {
-          if (err) { throw err; }
-        });
-        fileStream.on('open', function () {
-          var s3 = new AWS.S3();
-          if (fipsCode === undefined) {
-            fipsCode = "undefined"
-          };
-          fips2 = fipsCode.slice(0, 2);
-          var fileName = fips2+ '/' + fipsCode + '/' + date + '/' + files.file.originalFilename;
-          logger.info("putting file with name '" + fileName + "' into bucket '" + centralizationBucket + "'");
-          s3.putObject({
-            Bucket: centralizationBucket,
-            Key: fileName,
-            Body: fileStream
-          }, function (err) {
-            if (err) {
-              console.log("Error uploading centralization data file:");
-              console.log(err);
-              throw err;
-            }
-          });
-        });
-      }
-    });
-    return;
-  },
-
-  getSubmittedCentralizationFiles: function(req, res){
+  getDataUploadFiles: function(req, res){
     var s3 = new AWS.S3();
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = fipsCodes[0];
     if (fipsCodes === undefined || fipsCode === undefined) {
       fipsCode = "undefined";
     }
-    var bucketName = centralizationBucket;
+    var bucketName = dataUploadBucket;
 
     if (auth.isSuperAdmin(req)){
       if (req.query['prefix']) {
@@ -163,17 +117,19 @@ module.exports = {
       for (var i = 0; i < files.length; i++) {
         var key = files[i]["Key"];
         var lastModified = files[i]["LastModified"];
-        var keyParts = key.split('/');
-        var stateFips = keyParts[0];
-        var countyFips = keyParts[1];
-        var electionDate = keyParts[2];
-        var fileName = keyParts[3];
-        if (fileName && electionDate) {
-          var file = {"electionDate": electionDate,
+        var stateFips = key.match(/(\d{2})\//);
+        var countyFips = key.match(/\/(\d{3})\//);
+        var electionDate = key.match(/\/(\d{4}-\d{1,2}-\d{1,2})\//);
+        var feed = key.match(/\/feeds\//);
+        var fileName = key.split("/").slice(-1)[0];
+        if (fileName) {
+          var file = {"electionDate": electionDate ? electionDate[1] : "",
                       "fileName": fileName,
                       "lastModified": lastModified,
-                      "stateFips": stateFips,
-                      "countyFips": countyFips}
+                      "stateFips": stateFips ? stateFips[1] : "",
+                      "stateName": stateFips ? states.stateName(stateFips[1]) : "",
+                      "countyFips": countyFips ? countyFips[1] : "",
+                      "isFeed": feed ? true : false}
           returnData.push(file);
         }
       };

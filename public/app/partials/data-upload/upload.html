@@ -1,0 +1,54 @@
+<i id="data-uploader"></i>
+
+<div ng-if="showUploaded" class="file-uploaded" ng-click="closeMessage()">Your file has been uploaded. <i class="fi-x"></i></div>
+
+
+<section class="data-group data-module">
+  <p>Welcome to the Voting Information Project (VIP) data uploader.</p>
+  <p>You can upload VIP feed formatted files for processing here, or other files from you voter registration systems to include streets, polling locations, and precincts and/or election management system (EMS) or other database exports that provides ballot and contest information.</p>
+  <br>
+  <p>For questions or problems with using this tool contact <a style="text-decoration: underline; color: white" href="mailto:questions@votinginfoproject.org">questions@votinginfoproject.org</a>.</p>
+
+  <br>
+  <form ng-app="fileUpload" ng-controller="DataUploadCtrl" name="form" enctype="multipart/form-data">
+    <label for="datepicker">Please Select Election Date:</label>
+    <div><input ui-date id="datepicker" name="datepicker"></div>
+    <label for="file">Please Select a File to Upload:</label>
+    <div class="button" ngf-select ng-model="file">Select a file</div>
+    <label for="type">Please Indicate if the File is a VIP Feed Formatted File or Something Else:</label>
+    <input type="radio" name="type" value="feed" ng-model="type">VIP Feed Formatted File</input><br>
+    <input type="radio" name="type" value="file" ng-model="type">Other</input><br>
+
+    <br>
+    <div class="button" ng-click="submit()">Submit</div>
+  </form>
+
+  <div ng-if="hasRole('super-admin')">
+    <label>Filter By State</label>
+    <select ng-model="selectedState" ng-options="x.state for x in states" ng-change="getFiles(selectedState)">
+    </select>
+  </div>
+
+  <br>
+  <div ng-if="submittedFiles.length > 0">
+  <label>Previously submitted files:</label>
+    <table>
+      <tr>
+        <th ng-if="hasRole('super-admin')">State</th>
+        <th ng-if="hasRole('super-admin') || hasRole('state-admin')">County</th>
+        <th>File name</th>
+        <th>Is Feed?</th>
+        <th>Election date</th>
+        <th>Last modified</th>
+      </tr>
+      <tr ng-repeat="file in submittedFiles">
+        <td ng-if="hasRole('super-admin')">{{file.stateName}}</td>
+        <td ng-if="hasRole('super-admin') || hasRole('state-admin')">{{file.countyFips}}</td>
+        <td>{{file.fileName}}</td>
+        <td>{{file.isFeed}}</td>
+        <td>{{file.electionDate}}</td>
+        <td>{{file.lastModified | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      </tr>
+    </table>
+  </div>
+</section>
