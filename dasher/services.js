@@ -1,5 +1,6 @@
 const config = require('../config');
 const request = require('request');
+const rp = require('request-promise');
 const fs = require('fs');
 const multiparty = require('multiparty');
 const FormData = require('form-data');
@@ -63,16 +64,12 @@ function registerDasherServices(app) {
         formData: formData
       }
       console.log("making request to dasher");
-      request.post(options, function(error, response, body){
-        if(error){
-          console.log("error: ");
-          console.log(error);
-          res.status(500).send(error);
-        } else if(response && response.statusCode){
-          console.log("response: ");
-          console.log(response);
-          res.status(response.statusCode).send();
-        }
+      rp.post(options).then(body => {
+        console.log("in then");
+        res.status(200).send();
+      }).catch(err => {
+        console.log("in catch");
+        res.status(500).send(err);
       });
     });
     return;
