@@ -63,7 +63,7 @@ function registerDasherServices(app) {
         },
         formData: formData
       }
-      console.log("making request to dasher");
+      console.log("making request to dasher: " + options.url);
       rp.post(options).then(body => {
         console.log("in then");
         res.status(200).send();
