@@ -36,6 +36,10 @@ function registerDasherServices(app) {
     logger.info("uploading to dasher");
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
+      console.log("*************");
+      console.log(fields);
+      console.log("*************");
+      console.log(files);
       var user = auth.getUserFromRequest(req);
       var apiKeyHeader = "Api-key " + user["id"] + ":" + user["user_metadata"]["api-key"];
 
@@ -43,10 +47,10 @@ function registerDasherServices(app) {
         'type': fields.type,
         'election-date': fields.date,
         'file': {
-          value: fs.createReadStream(files.file.path),
+          value: fs.createReadStream(files.file[0].path),
           options: {
-            filename: files.file.originalFilename,
-            size: files.file.size
+            filename: files.file[0].originalFilename,
+            size: files.file[0].size
           }
         }
       }
