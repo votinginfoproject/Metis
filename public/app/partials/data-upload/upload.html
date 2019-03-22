@@ -15,6 +15,7 @@
     <div><input ui-date id="datepicker" name="datepicker"></div>
     <label for="file">Please Select a File to Upload:</label>
     <div class="button" ngf-select ng-model="file">Select a file</div>
+    <div ng-if="file">{{file.name}}</div>
     <label for="type">Please Indicate if the File is a VIP Feed Formatted File or Something Else:</label>
     <input type="radio" name="type" value="feed" ng-model="type">VIP Feed Formatted File</input><br>
     <input type="radio" name="type" value="file" ng-model="type">Other</input><br>

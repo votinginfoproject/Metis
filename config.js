@@ -88,7 +88,8 @@ config.slack = {
 }
 
 config.dasher = {
-  domain: process.env.DASHER_DOMAIN
+  domain: process.env.DASHER_DOMAIN,
+  protocol: process.env.DASHER_HTTP_PROTOCOL || 'https'
 }
 
 module.exports = config;

@@ -1,6 +1,5 @@
 const config = require('../config');
 const request = require('request');
-const rp = require('request-promise');
 const fs = require('fs');
 const multiparty = require('multiparty');
 const FormData = require('form-data');
@@ -12,7 +11,7 @@ function registerDasherServices(app) {
   app.post('/dasher/generate-api-key', auth.checkJwt, function(req, res) {
     logger.info("forwarding api-key generation request");
     var options = {
-      url: req.protocol + '://' + config.dasher.domain + '/generate-api-key',
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/generate-api-key',
       // use the same authorization header to use same user account
       headers: {
         'Authorization': req.headers['authorization']
@@ -37,10 +36,6 @@ function registerDasherServices(app) {
     logger.info("uploading to dasher");
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
-      console.log("*************");
-      console.log(fields);
-      console.log("*************");
-      console.log(files);
       var user = auth.getUserFromRequest(req);
       var apiKeyHeader = "Api-key " + user["id"] + ":" + user["user_metadata"]["api-key"];
 
@@ -56,20 +51,22 @@ function registerDasherServices(app) {
         }
       }
       var options = {
-        url: 'https://' + config.dasher.domain + '/upload',
+        url: config.dasher.protocol + '://' + config.dasher.domain + '/upload',
         // use the same authorization header to use same user account
         headers: {
           'Authorization': apiKeyHeader
         },
         formData: formData
       }
-      console.log("making request to dasher: " + options.url);
-      rp.post(options).then(body => {
-        console.log("in then");
-        res.status(200).send();
-      }).catch(err => {
-        console.log("in catch");
-        res.status(500).send(err);
+      logger.info("posting file to dasher");
+      request.post(options, function(error, response, body){
+        if(error){
+          logger.error("got error from dasher: ", error);
+          res.status(500).send(error);
+        } else if(response && response.statusCode){
+          logger.info("response: ", response.statusCode);
+          res.status(response.statusCode).send();
+        }
       });
     });
     return;
