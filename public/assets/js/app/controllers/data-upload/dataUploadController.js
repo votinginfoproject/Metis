@@ -26,6 +26,10 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
     }
   };
 
+  $scope.dateOptions = {
+    dateFormat: 'yy-mm-dd'
+  };
+
 	$scope.states =
 	[{fipsCode: "", state: "All"},
 	 {fipsCode: "01",  state: "Alabama" },
@@ -90,8 +94,7 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   };
 
   $scope.upload = function () {
-    var dateParts = getDateValue().split("/");
-    var uploadDate = dateParts[2] + "-" + dateParts[0] + "-" + dateParts[1];
+    var uploadDate = getDateValue();
     Upload.upload({
         url: '/dasher/upload',
         data: {'file': $scope.file,

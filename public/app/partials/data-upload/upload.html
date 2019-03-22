@@ -12,7 +12,7 @@
   <br>
   <form ng-app="fileUpload" ng-controller="DataUploadCtrl" name="form" enctype="multipart/form-data">
     <label for="datepicker">Please Select Election Date:</label>
-    <div><input ui-date id="datepicker" name="datepicker"></div>
+    <div><input ui-date="dateOptions" id="datepicker" name="datepicker"></div>
     <label for="file">Please Select a File to Upload:</label>
     <div class="button" ngf-select ng-model="file">Select a file</div>
     <div ng-if="file">{{file.name}}</div>
