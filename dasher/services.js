@@ -56,7 +56,7 @@ function registerDasherServices(app) {
         }
       }
       var options = {
-        url: req.protocol + '://' + config.dasher.domain + '/upload',
+        url: 'https://' + config.dasher.domain + '/upload',
         // use the same authorization header to use same user account
         headers: {
           'Authorization': apiKeyHeader
