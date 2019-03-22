@@ -62,10 +62,15 @@ function registerDasherServices(app) {
         },
         formData: formData
       }
+      console.log("making request to dasher");
       request.post(options, function(error, response, body){
         if(error){
+          console.log("error: ");
+          console.log(error);
           res.status(500).send(error);
         } else if(response && response.statusCode){
+          console.log("response: ");
+          console.log(response);
           res.status(response.statusCode).send();
         }
       });
