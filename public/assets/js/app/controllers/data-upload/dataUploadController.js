@@ -90,7 +90,8 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   };
 
   $scope.upload = function () {
-    var uploadDate = getDateValue().split("/").join("-");
+    var dateParts = getDateValue().split("/");
+    var uploadDate = dateParts[2] + "-" + dateParts[0] + "-" + dateParts[1];
     Upload.upload({
         url: '/dasher/upload',
         data: {'file': $scope.file,
