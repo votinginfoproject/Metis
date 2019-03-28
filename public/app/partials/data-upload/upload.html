@@ -1,7 +1,7 @@
 <i id="data-uploader"></i>
 
 <div ng-if="showUploaded" class="file-uploaded" ng-click="closeMessage()">Your file has been uploaded. <i class="fi-x"></i></div>
-
+<div ng-if="showError" class="file-uploaded" ng-click="closeMessage()">There was an error uploading your file. <i class="fi-x"></i></div>
 
 <section class="data-group data-module">
   <p>Welcome to the Voting Information Project (VIP) data uploader.</p>
@@ -21,7 +21,8 @@
     <input type="radio" name="type" value="file" ng-model="type">Other</input><br>
 
     <br>
-    <div class="button" ng-click="submit()">Submit</div>
+    <div ng-if="isUploading === false" class="button" ng-click="submit()">Submit</div>
+    <div ng-if="isUploading === true" class="is-loading"></div>
   </form>
 
   <div ng-if="hasRole('super-admin')">

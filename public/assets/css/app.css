@@ -2524,6 +2524,24 @@ form[role="search"] {
   .file-uploaded i {
     float: right; }
 
+.file-upload-error {
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  border: 2px solid #fff;
+  background: #ce3d3d; }
+  .file-upload-error i {
+    float: right; }
+
 .example {
   *zoom: 1;
   border: 2px solid white;

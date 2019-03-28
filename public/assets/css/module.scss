@@ -938,7 +938,7 @@ form[role="search"] {
     font-size: 1.125rem;
     font-weight: bold;
     text-align: center;
-    color: #fff;
+    color: $white;
     display: block;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -946,8 +946,29 @@ form[role="search"] {
     text-transform: uppercase;
     letter-spacing: 1px;
     border-radius: 15px;
-    border: 2px solid #fff;
-    background: #093;
+    border: 2px solid $white;
+    background: $green-dark;
+
+    i {
+      float: right;
+    }
+}
+
+.file-upload-error {
+    font-size: 1.125em;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-align: center;
+    color: $white;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 15px;
+    border: 2px solid $white;
+    background: $red;
 
     i {
       float: right;

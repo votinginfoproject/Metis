@@ -12,7 +12,7 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   var breadcrumbs = null;
   // initialize page header variables
   $scope.setPageHeader("VIP Data Upload", breadcrumbs, "data-upload", "", null);
-
+  $rootScope.isUploading = false;
   $scope.cannotSubmit = function() {
     // the ui-date that is allowing the user to select their date via a calendar
     // is not fully compatible with angular 1.2.1, so this calls to a function
@@ -95,6 +95,7 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
 
   $scope.upload = function () {
     var uploadDate = getDateValue();
+    $rootScope.isUploading = true;
     Upload.upload({
         url: '/dasher/upload',
         data: {'file': $scope.file,
@@ -103,8 +104,11 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
     }).then(function (resp) {
         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         $rootScope.showUploaded = true;
+        $rootScope.isUploading = false;
     }, function (resp) {
-        console.log('Error status: ' + resp.status);
+        console.log('Error status: ' + resp);
+        $rootScope.showError = true;
+        $rootScope.isUploading = false;
     }, function (evt) {
         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
@@ -112,6 +116,7 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   };
 
   $scope.closeMessage = function(){
+    $rootScope.showError = false;
     $rootScope.showUploaded = false;
   }
 
