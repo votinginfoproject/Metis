@@ -1,5 +1,6 @@
 (ns early-vote-site.early-vote-site-form.views
   (:require [early-vote-site.constants :as constants]
+            [early-vote-site.places :as places]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
@@ -33,7 +34,7 @@
           'Save Early Vote Site'." "To create an early vote site, fill in the form below. Fields marked
                with an asterisk (*) are required. When you are finished, click on
                'Save Early Vote Site'.")]
-     [:h3 (-> election :state-fips utils/format-fips)]
+     [:h3 (-> election :state-fips places/fips-name)]
      [:h4 (-> election :election-date utils/format-date-string)]
      [:div {:name "create-early-vote-site-form"}
       [:div {:class "form-group row mx-sm-3"
