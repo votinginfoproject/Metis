@@ -1,6 +1,6 @@
 (ns early-vote-site.early-vote-site-form.events
   (:require [ajax.core :as ajax]
-            [early-vote-site.constants :as constants]
+            [early-vote-site.places :as places]
             [early-vote-site.db :as db]
             [early-vote-site.election-detail.events :as election-detail]
             [early-vote-site.server :as server]
@@ -65,7 +65,7 @@
 (defn params [form db]
   (let [params (form->params form)
         fips (get-in db [:election-detail :election :state-fips])
-        state (get constants/state-abbreviations-by-fips fips)]
+        state (get places/state-fips->abbreviation fips)]
     (merge params {:state state})))
 
 (defn submit-uri [form db]
