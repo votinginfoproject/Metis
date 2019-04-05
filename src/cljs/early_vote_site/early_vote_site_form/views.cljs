@@ -1,6 +1,5 @@
 (ns early-vote-site.early-vote-site-form.views
-  (:require [early-vote-site.constants :as constants]
-            [early-vote-site.places :as places]
+  (:require [early-vote-site.places :as places]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
