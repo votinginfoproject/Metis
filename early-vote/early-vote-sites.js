@@ -57,6 +57,62 @@ var deleteSql = "delete from early_vote_sites where id = $1;"
 var deleteHandler = util.simpleCommandResponder(deleteSql,
                                                 util.pathParamExtractor(['earlyvotesiteid']));
 
+var duplicateEarlyVoteSite = function(evs, res) {
+  params = [evs['election_id'],
+            uuidv4(),
+            evs['county_fips'],
+            evs['type'],
+            evs['name'],
+            evs['address_1'],
+            evs['address_2'],
+            evs['address_3'],
+            evs['city'],
+            evs['state'],
+            evs['zip'],
+            evs['directions'],
+            evs['voter_services']];
+  util.simpleCommandCallback(createSql,
+    params,
+    function(err, result) {
+      if (err) {
+        logger.error("Error duplicating early vote site");
+        logger.error(err);
+        res.writeHead(500, {'Content-Type': 'application/text'});
+        res.write("Server Error");
+        res.end();
+      } else {
+        res.writeHead(201, {'Content-Type': 'application/text'});
+        res.write(JSON.stringify({'id': params[1]}));
+        res.end();
+      }
+    });
+  };
+
+var loadSourceEarlyVoteSite = function(early_vote_site_id, res) {
+  util.simpleQueryCallback(getSql,
+    [early_vote_site_id],
+    function(err, result) {
+      if (err) {
+        logger.error("Error querying for early vote site");
+        logger.error(err);
+        res.writeHead(500, {'Content-Type': 'application/text'});
+        res.write("Server Error");
+        res.end();
+      } else if (result.rows.length < 0) {
+        logger.error("No early vote site with found with id: " + election_id);
+        res.writeHead(404, {'Content-Type': 'application/text'});
+        res.write("No source early vote site found");
+        res.end();
+      } else {
+        duplicateEarlyVoteSite(result.rows[0], res);
+      }
+    });
+  };
+
+var duplicateHandler = function(req, res) {
+  loadSourceEarlyVoteSite(decodeURIComponent(req.params['earlyvotesiteid']), res);
+}
+
 function registerEarlyVoteSiteServices (app) {
 	//verify admin or matching election fips
   app.post('/earlyvote/elections/:electionid/earlyvotesites', access.verifyElection, createHandler);
@@ -68,6 +124,8 @@ function registerEarlyVoteSiteServices (app) {
   app.delete('/earlyvote/earlyvotesites/:earlyvotesiteid', access.verifyEVSElection, access.verifyEVSCounty, deleteHandler);
 	//verify admin or matching election fips through early vote site
   app.put('/earlyvote/earlyvotesites/:earlyvotesiteid', access.verifyEVSElection, access.verifyEVSCounty, updateHandler);
+  //verify admin or matching election fips
+  app.post('/earlyvote/earlyvotesites/:earlyvotesiteid/duplicate', access.verifyEVSElection, duplicateHandler);
 }
 
 exports.registerEarlyVoteSiteServices = registerEarlyVoteSiteServices;
