@@ -24,11 +24,15 @@
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:navigate/edit-early-vote-site-form (:id site)])}
-      "Edit Site"]
+      "Edit"]
+     [:li {:class "btn-link"
+           :on-click #(re-frame/dispatch
+                       [:early-vote-site/duplicate (:id site)])}
+      "Duplicate"]
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:early-vote-site/initiate-delete site])}
-      "Delete Site"]]]])
+      "Delete"]]]])
 
 (defn early-vote-sites-list [election]
   (let [state-fips (:state-fips election)
