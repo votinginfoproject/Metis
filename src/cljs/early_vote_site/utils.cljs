@@ -26,11 +26,6 @@
   (let [parsed (format/parse full-format date-str)]
     (coerce/to-date parsed)))
 
-(defn format-fips
-  "Translates a fips code to state name."
-  [fips]
-  (get constants/state-names-by-fips fips))
-
 (defn flash-error-with-results
   [message]
   (fn [{:keys [db]} [_ result]]

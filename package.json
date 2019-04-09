@@ -48,7 +48,7 @@
     "load-grunt-tasks": "4.0.0",
     "method-override": "2.3.10",
     "moment": "~2.21.0",
-    "morgan": "1.9.0",
+    "morgan": "1.9.1",
     "multiparty": "~2.2.0",
     "newrelic": "~1.7.5",
     "nodemailer": "^1.4.0",
