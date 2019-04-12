@@ -1,4 +1,5 @@
-(ns early-vote-site.places)
+(ns early-vote-site.places
+  (:require [clojure.string :as str]))
 
 (def fips->name
   {"01" "Alabama"
@@ -3200,6 +3201,28 @@
    (fips-name (str state-fips county-fips)))
   ([fips]
    (get fips->name fips fips)))
+
+(defn county-list
+  "Given a state fips, returns a vector of vectors like:
+  [[\"01001\" \"Autauga County\"]
+   [\"01003\" \"Baldwin County\"]
+   ...]
+
+  The order is defined by the order of the county fips codes.
+  The counties come from the fips->name map."
+  [state-fips]
+  (letfn [(in-state? [candidate-fips]
+            (str/starts-with? candidate-fips state-fips))
+          (county-fips? [candidate-fips]
+            (= 5 (count candidate-fips)))
+          (county-fips-for-state? [candidate-fips]
+            (and (in-state? candidate-fips)
+                 (county-fips? candidate-fips)))]
+    (let [county-keys (->> (keys fips->name)
+                           (filter county-fips-for-state?)
+                           sort)
+          county-names (map fips->name county-keys)]
+      (mapv vector county-keys county-names))))
 
 (def state-fips->abbreviation
   {"01" "AL"

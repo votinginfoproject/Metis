@@ -10,7 +10,7 @@
 
 (defn site->row [state-fips site]
   [:tr {:key (:id site)}
-   [:td (places/fips-name state-fips (:county-fips site))]
+   [:td (places/fips-name (:county-fips site))]
    [:td (get type-to-name (:type site))]
    [:td (:name site)]
    [:td (:address-1 site)]
