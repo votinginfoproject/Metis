@@ -68,12 +68,19 @@ DB_PORT_5432_TCP_PORT=5432
 RABBITMQ_PORT_5672_TCP_ADDR=localhost
 RABBITMQ_PORT_5672_TCP_PORT=5672
 VIP_DP_RABBITMQ_EXCHANGE=data-processor-exchange
+VIT_API_KEY=<civic info api key with access to staged/dress rehearsal data>
 AUTH0_CLIENT_ID_EXPRESS=some-client-id
 AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
-AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
+AUTH0_AUDIENCE_EXPRESS=some-audience-uri
+AUTH0_AUDIENCE_DASHBOARD=some-audience-uri
+AUTH0_DOMAIN_DASHBOARD=vip-dashboard-local.auth0.com
+AUTH0_CLIENT_ID_DASHBOARD=some-client-id
+AUTH0_REDIRECT_URI_DASHBOARD="http://10.0.2.2:4000/#/login-callback"
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
-DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
+VIP_DP_AWS_ACCESS_KEY=some-aws-access-key
+VIP_DP_AWS_SECRET_KEY=some-aws-secret-key
+DATA_UPLOAD_BUCKET_NAME=some-s3-bucket-name
 DASHBOARD_DB_ENV_POSTGRES_DATABASE=datadashboard
 DASHBOARD_DB_ENV_POSTGRES_PASSWORD=
 DASHBOARD_DB_ENV_POSTGRES_USER=dataprocessor
@@ -82,6 +89,7 @@ DASHBOARD_DB_PORT_5432_TCP_PORT=5432
 DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
 EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 DASHER_DOMAIN=localhost:3000
+DASHER_HTTP_PROTOCOL="http"
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
