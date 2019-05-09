@@ -22,7 +22,10 @@
 
     <br>
     <div ng-if="isUploading === false" class="button" ng-click="submit()">Submit</div>
-    <div ng-if="isUploading === true" class="is-loading"></div>
+    <div ng-if="isUploading === true">
+      <div>Upload progress: {{progressPercentage}}%</div>
+      <progress value="{{progressPercentage}}" max="100"></progress>
+    </div>
   </form>
 
   <div ng-if="hasRole('super-admin')">
