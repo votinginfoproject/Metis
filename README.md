@@ -53,7 +53,20 @@ environment variables will tell you if it's for the `_DASHBOARD` or the `_EXPRES
 The Dashboard configuration is turned into a `config.js` file so that the Angular app
 can have environment specific configuration, and this is typically achieved via
 a `grunt-replace` task. Check out the Gruntfile.js to see what environment variables
-it expects in order to generate the config for the Angular app.
+it expects in order to generate the config for the Angular app. This also means the
+`_DASHBOARD` environment variables need to be provided outside of the `.env` file
+(see below), as that file is only loaded when the node server starts up. In order for
+the Grunt tasks to be able to configure the `_DASHBOARD` auth0 settings, they have to
+be already in the environment when grunt is run. As such, developers can either put
+them in their shell environment, or create a `script/run-local` script that
+inline sets the environment variables before calling grunt.
+
+E.G. source for `script/run-local`
+```
+#!/bin/bash
+
+AUTH0_AUDIENCE_DASHBOARD=some-audience-uri AUTH0_DOMAIN_DASHBOARD=vip-dashboard-local.auth0.com AUTH0_CLIENT_ID_DASHBOARD=some-client-id AUTH0_REDIRECT_URI_DASHBOARD="http://10.0.2.2:4000/#/login-callback" ./node_modules/.bin/grunt default
+```
 
 Create a `.env` file in the root directory, copy the following into
 it, and provide values for your Postgres database and RabbitMQ server and
@@ -73,10 +86,6 @@ AUTH0_CLIENT_ID_EXPRESS=some-client-id
 AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 AUTH0_AUDIENCE_EXPRESS=some-audience-uri
-AUTH0_AUDIENCE_DASHBOARD=some-audience-uri
-AUTH0_DOMAIN_DASHBOARD=vip-dashboard-local.auth0.com
-AUTH0_CLIENT_ID_DASHBOARD=some-client-id
-AUTH0_REDIRECT_URI_DASHBOARD="http://10.0.2.2:4000/#/login-callback"
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
 VIP_DP_AWS_ACCESS_KEY=some-aws-access-key
 VIP_DP_AWS_SECRET_KEY=some-aws-secret-key
