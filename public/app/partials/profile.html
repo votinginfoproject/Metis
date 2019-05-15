@@ -4,8 +4,8 @@
   <div>API Key</div>
   <div>{{apiKey}}</div>
   <div class="button" ng-click="showDialogue = true" ng-disabled="showDialogue">Obtain New API Key</div>
-  <div class="api-key-dialogue" ng-show="showDialogue">
-    <div>This action will log you out. Do you wish to proceed?</div>
+  <div class="dialogue" ng-show="showDialogue">
+    <div>This action will log you out. To see your new API Key, log back in and return to the Profile page. Do you wish to proceed?</div>
     <div>
       <span class="button" ng-click="generateApiKey()">YES</span>
       <span class="button" ng-click="showDialogue = false">NO</span>
