@@ -92,7 +92,7 @@ header[role="banner"] {
   padding-top: 0;
 
   @include bp(c12) {
-    display: block;    
+    display: block;
   }
 
   @include max-bp(c6) {
@@ -117,13 +117,21 @@ aside .wrapper {
 
 .content.feed {
   margin-left: 0;
-  
+
   @include bp(c12) {
     @include span-columns(8 of 12);
   }
 
   @include bp(c16) {
     @include span-columns(12 of 16);
+  }
+}
+
+.dialogue {
+  margin: 15px 0;
+
+  div {
+    margin: 5px 0;
   }
 }
 

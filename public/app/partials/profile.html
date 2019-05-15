@@ -1,7 +1,14 @@
-<div ng-controller="ProfileCtrl" style="padding-top: 2em">
+<div ng-controller="ProfileCtrl" style="padding-top: 2em" ng-init="showDialogue = false">
   <div>User Id</div>
   <div>{{userId}}</div>
   <div>API Key</div>
   <div>{{apiKey}}</div>
-  <div class="button" ng-click="generateApiKey()">Obtain New API Key</div>
+  <div class="button" ng-click="showDialogue = true" ng-disabled="showDialogue">Obtain New API Key</div>
+  <div class="dialogue" ng-show="showDialogue">
+    <div>This action will log you out. To see your new API Key, log back in and return to the Profile page. Do you wish to proceed?</div>
+    <div>
+      <span class="button" ng-click="generateApiKey()">YES</span>
+      <span class="button" ng-click="showDialogue = false">NO</span>
+    </div>
+  </div>
 </div>

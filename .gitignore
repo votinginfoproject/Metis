@@ -40,3 +40,5 @@ public/assets/js/compiled/
 .nrepl-port
 .lein-repl-history
 resources/test/
+
+.java-version
