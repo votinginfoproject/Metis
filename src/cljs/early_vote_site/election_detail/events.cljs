@@ -111,25 +111,6 @@
    :dispatch-n [[:flash/message "Early vote site deleted"]
                 [:early-vote-site-list/get]]})
 
-(defn duplicate-early-vote-site
-  [{:keys [db]} [_ id]]
-  {:db db
-   :dispatch   [:close-modal]
-   :http-xhrio {:method          :post
-                :uri             (str (server/early-vote-site-url-by-id id)
-                                      "/duplicate")
-                :timeout         8000
-                :format          (ajax/text-request-format)
-                :response-format (ajax/json-response-format)
-                :on-success [:early-vote-site-duplicate/success]
-                :on-failure [:early-vote-site-duplicate/failure]}})
-
-(defn early-vote-site-duplicate-success
-  [{:keys [db]} _]
-  {:db db
-   :dispatch-n [[:flash/message "Early vote site duplicated"]
-                [:early-vote-site-list/get]]})
-
 (def events
   {:db {:get-election/success get-election-success
         :get-early-vote-site-list/success get-early-vote-site-list-success
@@ -139,9 +120,6 @@
         :early-vote-site-list/get get-early-vote-site-list
         :early-vote-site/delete delete-early-vote-site
         :early-vote-site-delete/success early-vote-site-delete-success
-        :early-vote-site/duplicate duplicate-early-vote-site
-        :early-vote-site-duplicate/success early-vote-site-duplicate-success
-
         :early-vote-site-delete/failure
         (utils/flash-error-with-results "Error deleting early vote site")
 
@@ -149,7 +127,4 @@
         (utils/flash-error-with-results "Error getting early vote sites")
 
         :get-election/failure
-        (utils/flash-error-with-results "Error getting election details")
-
-        :early-vote-site-duplicate/failure
-        (utils/flash-error-with-results "Error duplicating early vote site")}})
+        (utils/flash-error-with-results "Error getting election details")}})

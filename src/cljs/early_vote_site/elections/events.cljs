@@ -3,7 +3,6 @@
             [clojure.string :as str]
             [early-vote-site.db :as db]
             [early-vote-site.modal :as modal]
-            [early-vote-site.places :as places]
             [early-vote-site.server :as server]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
@@ -79,7 +78,7 @@
    db
    {:title "Delete Election?"
     :message (str "Do you really want to delete the Election in "
-                  (places/fips-name (:state-fips election)) "?")
+                  (utils/format-fips (:state-fips election)) "?")
     :on-confirm #(re-frame/dispatch [:elections/delete-election (:id election)])
     :on-cancel #(re-frame/dispatch [:close-modal])}))
 

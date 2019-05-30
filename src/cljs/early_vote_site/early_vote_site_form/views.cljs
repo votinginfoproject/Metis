@@ -1,5 +1,5 @@
 (ns early-vote-site.early-vote-site-form.views
-  (:require [early-vote-site.places :as places]
+  (:require [early-vote-site.constants :as constants]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
@@ -24,8 +24,7 @@
   (let [form @(re-frame/subscribe [:early-vote-site-form])
         election @(re-frame/subscribe [:election-detail/election])
         roles @(re-frame/subscribe [:roles])
-        fips (first @(re-frame/subscribe [:fips-codes]))
-        county-fips (:county-fips form)]
+        fips (first @(re-frame/subscribe [:fips-codes]))]
     [:div
      [breadcrumb election form]
      [:h1 (if (:election-id form) "Edit an Early Vote Site" "Create an Early Vote Site")]
@@ -34,24 +33,19 @@
           'Save Early Vote Site'." "To create an early vote site, fill in the form below. Fields marked
                with an asterisk (*) are required. When you are finished, click on
                'Save Early Vote Site'.")]
-     [:h3 (-> election :state-fips places/fips-name)]
+     [:h3 (-> election :state-fips utils/format-fips)]
      [:h4 (-> election :election-date utils/format-date-string)]
      [:div {:name "create-early-vote-site-form"}
-      [:div {:class "form-group row mx-sm-3"}
-       [:label {:for "county-fips" :class "col-2 col-form-label" :style {:padding-right 10}} "County Name*:"]
-       (if (not (contains? roles "data-centralization"))
-         [:div {:class "col-10"}
-          [:select {:id "county-fips" :type "text" :class "form-control col-md-6"
-                    :value (or county-fips "")
-                    :on-change #(re-frame/dispatch [:early-vote-site-form/update
-                                                    :county-fips
-                                                    (-> % .-target .-value)])}
-           [:option {:value "" :key ""} "Select a County"]
-           (map (fn [[cf name]]
-                  [:option {:value cf :key cf} name])
-                (places/county-list (:state-fips election)))]]
-         [:div {:class "col-10"} (places/fips-name county-fips)
-          [:input {:type "hidden" :name "county-fips" :value county-fips}]])]
+      [:div {:class "form-group row mx-sm-3"
+             :style
+              {:visibility (if (not (contains? roles "data-centralization")) "visible" "hidden")}}
+       [:label {:for "county-fips" :class "col-2 col-form-label" :style {:padding-right 10}} "County FIPS*:"]
+       [:div {:class "col-10"}
+         [:input {:id "county-fips" :type "text" :class "form-control col-md-6"
+                  :value (:county-fips form)
+                  :on-change #(re-frame/dispatch [:early-vote-site-form/update
+                                                  :county-fips
+                                                  (-> % .-target .-value)])}]]]
 
       [:div {:class "form-group row mx-sm-3"}
        [:label {:for "type" :class "col-2 col-form-label" :style {:padding-right 10}} "Type:"]

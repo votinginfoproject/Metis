@@ -1,6 +1,5 @@
 (ns early-vote-site.election-detail.views
   (:require [early-vote-site.utils :as utils]
-            [early-vote-site.places :as places]
             [re-frame.core :as re-frame]))
 
 (def type-to-name
@@ -8,9 +7,9 @@
    "early_vote_site" "Early Vote Site"
    "drop_box" "Drop Box"})
 
-(defn site->row [state-fips site]
+(defn site->row [site]
   [:tr {:key (:id site)}
-   [:td (places/fips-name (:county-fips site))]
+   [:td (:county-fips site)]
    [:td (get type-to-name (:type site))]
    [:td (:name site)]
    [:td (:address-1 site)]
@@ -24,24 +23,19 @@
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:navigate/edit-early-vote-site-form (:id site)])}
-      "Edit"]
-     [:li {:class "btn-link"
-           :on-click #(re-frame/dispatch
-                       [:early-vote-site/duplicate (:id site)])}
-      "Duplicate"]
+      "Edit Site"]
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:early-vote-site/initiate-delete site])}
-      "Delete"]]]])
+      "Delete Site"]]]])
 
-(defn early-vote-sites-list [election]
-  (let [state-fips (:state-fips election)
-        site-list (re-frame/subscribe [:election-detail/early-vote-site-list])]
+(defn early-vote-sites-list []
+  (let [site-list (re-frame/subscribe [:election-detail/early-vote-site-list])]
     [:div
      [:table {:name "early-vote-sites-list"}
       [:thead
        [:tr {:key "early-vote-sites-head-row"}
-        [:th {:name "early-vote-site-fips"} "County/FIPS"]
+        [:th {:name "early-vote-site-fips"} "FIPS"]
         [:th {:name "early-vote-site-type"} "Type"]
         [:th {:name "early-vote-site-location-name"} "Location Name"]
         [:th {:name "early-vote-site-address-1"} "Address Line 1"]
@@ -49,7 +43,7 @@
         [:th {:name "early-vote-site-action"} "Action"]]]
       [:tbody
        (if (seq @site-list)
-         (map (partial site->row state-fips) @site-list)
+         (map site->row @site-list)
          [:tr [:td {:colSpan 6} "No Early Vote Sites"]])
        [:tr
         [:td {:colSpan 5}]
@@ -61,7 +55,7 @@
 (defn election-details [election]
   (when election
     [:div
-     [:h3 (-> election :state-fips places/fips-name)]
+     [:h3 (-> election :state-fips utils/format-fips)]
      [:h4 (-> election :election-date utils/format-date-string)]]))
 
 (defn breadcrumb [election]
@@ -86,4 +80,4 @@
            been created, click “Add Schedules” to specify the days and hours
            the site will be open."]
       [election-details election]
-      [early-vote-sites-list election]]))
+      [early-vote-sites-list]]))

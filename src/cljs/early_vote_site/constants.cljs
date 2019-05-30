@@ -52,3 +52,9 @@
    {:fips-code "54" :state-name "West Virginia" :abbreviation "WV"},
    {:fips-code "55" :state-name "Wisconsin" :abbreviation "WI"},
    {:fips-code "56" :state-name "Wyoming" :abbreviation "WY"}])
+
+(def state-names-by-fips
+  (into {} (map #(vector (get % :fips-code) (get % :state-name)) states)))
+
+(def state-abbreviations-by-fips
+  (into {} (map #(vector (get % :fips-code) (get % :abbreviation)) states)))

@@ -54,7 +54,9 @@ var redirectHttps = function(req, res, next) {
 // all environments
 app.use(compress());
 app.use(favicon(config.web.favicon));
-app.use(morgan('combined'));
+// Do we need to configure the log-level for morgan? This got reset to
+// the default after we bumped dependencies in June 2018.
+app.use(morgan());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(methodOverride());

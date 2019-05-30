@@ -7,3 +7,8 @@
     (let [start-str "2017-10-10T06:00:00.00Z"]
       (is (= "2017-10-10"
              (utils/format-date-string start-str))))))
+
+(deftest format-fips-test
+  (testing "formats 08 to Colorado"
+    (is (= "Colorado"
+           (utils/format-fips "08")))))

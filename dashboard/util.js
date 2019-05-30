@@ -64,11 +64,6 @@ module.exports = {
       });
     }
   },
-  simpleCommandCallback: function(sqlCommand, params, callback) {
-    conn.query(function(client) {
-      client.query(sqlCommand, params, callback);
-    });
-  },
   queryParamExtractor: params => req => params.map(param => decodeURIComponent(req.query[param])),
   pathParamExtractor: params => req => params.map(param => decodeURIComponent(req.params[param])),
   bodyParamExtractor: params => req => params.map(param => req.body[param]),
