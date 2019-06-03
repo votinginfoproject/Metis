@@ -1,14 +1,53 @@
 <div ng-controller="ProfileCtrl" style="padding-top: 2em" ng-init="showDialogue = false">
-  <div>User Id</div>
+
+  <h6>Upload Credentials</h6>
+  <br/>
+  <div>UserId</div>
   <div>{{userId}}</div>
-  <div>API Key</div>
+  <div>APIKey</div>
   <div>{{apiKey}}</div>
-  <div class="button" ng-click="showDialogue = true" ng-disabled="showDialogue">Obtain New API Key</div>
+
+  <div class="button" ng-click="showDialogue = true" ng-disabled="showDialogue">Obtain New APIKey</div>
   <div class="dialogue" ng-show="showDialogue">
-    <div>This action will log you out. To see your new API Key, log back in and return to the Profile page. Do you wish to proceed?</div>
+    <div>This action will log you out. To see your new APIKey, log back in and return to the Profile page. Do you wish to proceed?</div>
     <div>
       <span class="button" ng-click="generateApiKey()">YES</span>
       <span class="button" ng-click="showDialogue = false">NO</span>
     </div>
   </div>
+
+  <hr/>
+  <p>To support <b>secure programmable uploads</b> of VIP
+  feeds and files to the VIP servers, we have created a <span class="block-text">UserId</span>
+  and <span class="block-text">APIKey</span> on each of the VIP Dashboard accounts.
+  These two credentials can be used in a HTTPS call to drive authentication of the
+  file upload to the VIP servers.</p>
+
+  <h6>Example HTTPS endpoint call using curl</h6>
+  <br/>
+  <p>cURL is a common library for transferring data using various protocols.
+  However, any library supporting HTTPS transfers should be able to handle the
+  calls to the VIP Dashboard. The upload call expects the following parameters:</p>
+  <ol>
+    <li><b>file</b> (required); This is the file to be uploaded.</li>
+    <li><b>type</b> (optional); The value <span class="block-text">feed</span>
+    should be provided for uploads which are VIP formatted feeds. For non-VIP
+    formatted feeds, type can be omitted from the HTTPS call or you can set the
+    type parameter to the value <span class="block-text">file</span>.</li>
+    <li><b>election-date</b> (optional); the election date,
+    formatted as <span class="block-text">YYYY-MM-DD</span>. This parameter is
+    encouraged, but is optional.</li>
+  </ol>
+
+  <p>The endpoint should be given as
+  <span class="block-text">https://upload.votinginfoproject.org/upload</span></p>
+
+  <p>The call also expects a header containing the UserId and APIKey, formatted as
+  <span class="block-text">"Authorization: API-Key UserId:APIKey"</span></p>
+
+  <p>An example curl command for a VIP formatted feed is below. We've already placed
+  your current <span class="block-text">UserId</span> and
+  <span class="block-text">APIKey</span> into the proper positions in the example.</p>
+
+  <p class="block-text">curl -X POST -F file=@vipfeed.zip -F type=feed -F election-date=2019-11-04 -H "Authorization: API-Key {{userId}}:{{apiKey}}" https://upload.votinginfoproject.org/upload</p>
 </div>
