@@ -53,7 +53,20 @@ environment variables will tell you if it's for the `_DASHBOARD` or the `_EXPRES
 The Dashboard configuration is turned into a `config.js` file so that the Angular app
 can have environment specific configuration, and this is typically achieved via
 a `grunt-replace` task. Check out the Gruntfile.js to see what environment variables
-it expects in order to generate the config for the Angular app.
+it expects in order to generate the config for the Angular app. This also means the
+`_DASHBOARD` environment variables need to be provided outside of the `.env` file
+(see below), as that file is only loaded when the node server starts up. In order for
+the Grunt tasks to be able to configure the `_DASHBOARD` auth0 settings, they have to
+be already in the environment when grunt is run. As such, developers can either put
+them in their shell environment, or create a `script/run-local` script that
+inline sets the environment variables before calling grunt.
+
+E.G. source for `script/run-local`
+```
+#!/bin/bash
+
+AUTH0_AUDIENCE_DASHBOARD=some-audience-uri AUTH0_DOMAIN_DASHBOARD=vip-dashboard-local.auth0.com AUTH0_CLIENT_ID_DASHBOARD=some-client-id AUTH0_REDIRECT_URI_DASHBOARD="http://10.0.2.2:4000/#/login-callback" ./node_modules/.bin/grunt default
+```
 
 Create a `.env` file in the root directory, copy the following into
 it, and provide values for your Postgres database and RabbitMQ server and
@@ -68,12 +81,15 @@ DB_PORT_5432_TCP_PORT=5432
 RABBITMQ_PORT_5672_TCP_ADDR=localhost
 RABBITMQ_PORT_5672_TCP_PORT=5672
 VIP_DP_RABBITMQ_EXCHANGE=data-processor-exchange
+VIT_API_KEY=<civic info api key with access to staged/dress rehearsal data>
 AUTH0_CLIENT_ID_EXPRESS=some-client-id
 AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
-AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
+AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
-DATA_CENTRALIZATION_BUCKET_NAME=some-s3-bucket-name
+VIP_DP_AWS_ACCESS_KEY=some-aws-access-key
+VIP_DP_AWS_SECRET_KEY=some-aws-secret-key
+DATA_UPLOAD_BUCKET_NAME=some-s3-bucket-name
 DASHBOARD_DB_ENV_POSTGRES_DATABASE=datadashboard
 DASHBOARD_DB_ENV_POSTGRES_PASSWORD=
 DASHBOARD_DB_ENV_POSTGRES_USER=dataprocessor
@@ -82,6 +98,7 @@ DASHBOARD_DB_PORT_5432_TCP_PORT=5432
 DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
 EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 DASHER_DOMAIN=localhost:3000
+DASHER_HTTP_PROTOCOL="http"
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application
