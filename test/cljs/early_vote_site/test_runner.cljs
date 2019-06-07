@@ -1,5 +1,6 @@
 (ns early-vote-site.test-runner
   (:require [doo.runner :refer-macros [doo-all-tests]]
+            [early-vote-site.places-test]
             [early-vote-site.utils-test]
             [early-vote-site.elections.views-test]
             [early-vote-site.elections.events-test]
