@@ -71,8 +71,8 @@ config.batt = {
   batchAddressBucket: process.env.VIP_BATT_BUCKET_NAME
 }
 
-config.dataCentralization = {
-  centralizationBucket: process.env.DATA_CENTRALIZATION_BUCKET_NAME
+config.dataUpload = {
+  bucket: process.env.DATA_UPLOAD_BUCKET_NAME
 }
 
 config.earlyVoteSites = {
@@ -85,6 +85,11 @@ config.slack = {
             username: process.env.SLACK_BOT_NAME,
             link_names: true,
             icon_emoji: process.env.SLACK_BOT_EMOJI}
+}
+
+config.dasher = {
+  domain: process.env.DASHER_DOMAIN,
+  protocol: process.env.DASHER_HTTP_PROTOCOL || 'https'
 }
 
 module.exports = config;

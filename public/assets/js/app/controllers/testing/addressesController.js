@@ -3,7 +3,7 @@
  * Batch Addresses Controller
  *
  */
-function AddressesCtrl($scope, $rootScope, Upload, $configService, $route) {
+function AddressesCtrl($scope, $rootScope, Upload, $backendService, $route) {
   var breadcrumbs = null;
   // initialize page header variables
   $scope.setPageHeader("Batch Address Test Tool", breadcrumbs, "testing", "", null);
@@ -25,6 +25,6 @@ function AddressesCtrl($scope, $rootScope, Upload, $configService, $route) {
         });
     };
 
-    $configService.getResponse({path: '/testing/latest-results-file', config: {}},
+    $backendService.getResponse({path: '/testing/latest-results-file', config: {}},
                                function(result) { $scope.latestResultsFileUrl = result; });
 };

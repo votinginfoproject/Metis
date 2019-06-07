@@ -1480,6 +1480,13 @@ cite {
 del {
   color: white; }
 
+.block-text {
+  font-family: monospace, serif;
+  font-size: 1em;
+  border: 1px solid #ebebeb;
+  background-color: #f5f5f5;
+  color: #000; }
+
 /* layout.scss */
 * {
   -webkit-box-sizing: border-box;
@@ -1601,6 +1608,11 @@ header[role="banner"] {
       float: right;
       margin-left: 2.752293578%;
       width: 74.3119266055%; } }
+
+.dialogue {
+  margin: 15px 0; }
+  .dialogue div {
+    margin: 5px 0; }
 
 .row {
   *zoom: 1;
@@ -2521,6 +2533,26 @@ form[role="search"] {
   border-radius: 15px;
   border: 2px solid #fff;
   background: #093; }
+  .file-uploaded i {
+    float: right; }
+
+.file-upload-error {
+  font-size: 1.125em;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  border: 2px solid #fff;
+  background: #ce3d3d; }
+  .file-upload-error i {
+    float: right; }
 
 .example {
   *zoom: 1;

@@ -79,6 +79,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'LogoutCtrl'
     })
 
+    $routeProvider.when('/profile', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/profile.html',
+      controller: 'ProfileCtrl'
+    })
+
     $routeProvider.when('/testing/vit', {
       templateUrl: $appProperties.contextRoot + '/app/partials/testing/vit.html',
       controller: 'VitCtrl'
@@ -92,6 +97,11 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
     $routeProvider.when('/county-data/centralization',{
       templateUrl: $appProperties.contextRoot + '/app/partials/centralization/centralization.html',
       controller: 'CentralizationCtrl'
+    });
+
+    $routeProvider.when('/data-upload/upload',{
+      templateUrl: $appProperties.contextRoot + '/app/partials/data-upload/upload.html',
+      controller: 'DataUploadCtrl'
     });
 
     $routeProvider.when('/feeds', {
