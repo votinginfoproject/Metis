@@ -61,6 +61,7 @@
     "pg": "^6.4.2",
     "request": "~2.88.0",
     "serve-index": "1.9.1",
+    "sqs-consumer": "5.3.0",
     "tmp": "0.0.33",
     "uuid": "~3.1.0",
     "winston": "~1.0.2",

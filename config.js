@@ -48,7 +48,10 @@ config.email = {
 config.aws = {
   accessKey: process.env.VIP_DP_AWS_ACCESS_KEY,
   secretKey: process.env.VIP_DP_AWS_SECRET_KEY,
-  region: process.env.VIP_DP_SES_REGION
+  ses: {region: process.env.VIP_DP_SES_REGION},
+  sqs: {region: process.env.VIP_DP_SQS_REGION,
+        feedSuccessURL: process.env.VIP_DP_SQS_FEED_SUCCESS_URL,
+        feedFailureURL: process.env.VIP_DP_SQS_FEED_FAILURE_URL}
 }
 
 // Add more states if required.
