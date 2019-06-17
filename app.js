@@ -32,10 +32,6 @@ var dataUploadServices = require('./data-upload/services');
 var earlyVoteServices = require('./early-vote/services');
 var dasherServices = require('./dasher/services');
 
-if (fs.existsSync('./newrelic.js')) {
-  require('newrelic');
-}
-
 var app = express();
 
 queue.connect();
