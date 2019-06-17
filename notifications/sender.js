@@ -199,31 +199,31 @@ module.exports = {
       });
     }
   },
-  sendDataTestingNotifications: function(message) {
+  sendAddressTestSuccessNotifications: function(message) {
+    var fipsCode = message["fipsCode"];
+    if(fipsCode == "undefined") {
+      slack.message("SUCCESS: Batch Address file processed for an admin, available at: " + message["url"]);
+    } else {
+      slack.message("SUCCESS: Batch Address file processed for fips " + fipsCode);
+    }
+    sendEmail(message, fipsCode, messageOptions['testingComplete']);
+  },
+  sendAddressTestFailureNotifications: function(message) {
     var fipsCode = message["fipsCode"];
     if (fipsCode === undefined) {
       logger.warning("No fips code in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
       slack.message("ERROR: Batch Address sent a message we don't understand: " +
                     JSON.stringify(message));
     } else if (fipsCode === "undefined") {
-      if (message['status'] == "ok") {
-        slack.message("SUCCESS: Batch Address file processed successfully for admin user: " + message["url"]);
-      } else {
-        slack.message("ERROR: Batch Address file FAILED (message follows):\n" +
-                      JSON.stringify(message));
-      }
+      slack.message("ERROR: Admin submitted Batch Address file FAILED (message follows):\n" +
+                    JSON.stringify(message));
     } else if (badFips(fipsCode)) {
       slack.message("ERROR: Batch Address file processed but fips was bad, no emails sent (message follows)\n" +
                     JSON.stringify(message));
     } else {
-      if (message['status'] == "ok") {
-        slack.message("SUCCESS: Batch Address file processed for fips " + fipsCode);
-        sendEmail(message, fipsCode, messageOptions['testingComplete']);
-      } else {
-        slack.message("ERROR: Batch Address file failed (message follows)\n" +
-                      JSON.stringify(message));
-        sendEmail(message, fipsCode, messageOptions['errorDuringTesting']);
-      }
+      slack.message("ERROR: Batch Address file failed (message follows)\n" +
+                    JSON.stringify(message));
+      sendEmail(message, fipsCode, messageOptions['errorDuringTesting']);
     }
   }
 };

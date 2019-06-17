@@ -6,6 +6,7 @@ var queue = require('../notifications/data-testing/queue')
 var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var states = require('../utils/states.js');
+var sqs = require('./sqs.js');
 
 AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
 var batchAddressBucket = config.batt.batchAddressBucket;
@@ -25,14 +26,14 @@ module.exports = {
       res.writeHead(200, {'content-type': 'text/plain'});
       res.write('received upload:\n\n');
       res.end(JSON.stringify(files));
-      var fileStream = fs.createReadStream(files.file.path);
+      var fileStream = fs.createReadStream(files.file[0].path);
       fileStream.on('error', function (err) {
         if (err) { throw err; }
       });
       fileStream.on('open', function () {
         var s3 = new AWS.S3();
         var bucketName = batchAddressBucket;
-        var fileName = fipsCode + '/input/' + files.file.originalFilename;
+        var fileName = fipsCode + '/input/' + files.file[0].originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
         s3.putObject({
           Bucket: bucketName,
@@ -42,7 +43,7 @@ module.exports = {
           if (err) {
             throw err;
           } else {
-            queue.submitAddressFile(bucketName, fileName, fipsCode);
+            sqs.sendBatchProcessMessage(bucketName, fileName, fipsCode);
           }
         });
       });
