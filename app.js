@@ -21,7 +21,6 @@ var errorhandler = require('errorhandler');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
-var queue = require('./queue');
 var sqs = require('./aws/sqs');
 
 var notificationServices = require('./notifications/services');
@@ -33,8 +32,6 @@ var earlyVoteServices = require('./early-vote/services');
 var dasherServices = require('./dasher/services');
 
 var app = express();
-
-queue.connect();
 
 logger.info('=========================================================');
 logger.info('VIP App Started');
