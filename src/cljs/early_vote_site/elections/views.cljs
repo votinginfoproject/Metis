@@ -2,6 +2,7 @@
   (:require [cljs-pikaday.reagent :as pikaday]
             [clojure.set :as set]
             [early-vote-site.constants :as constants]
+            [early-vote-site.places :as places]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]
             [reagent.ratom :as ratom]))
@@ -64,7 +65,7 @@
     (if (contains? editing (:id election))
       [form (:id election)]
       [:tr {:key (str "viewing-" (:id election))}
-       [:td {:name "election-state"} (-> election :state-fips utils/format-fips)]
+       [:td {:name "election-state"} (-> election :state-fips places/fips-name)]
        [:td {:name "election-date"} (-> election :election-date utils/format-date-string)]
        [:td
         [:ul {:class "link-group"}
