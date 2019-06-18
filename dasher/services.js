@@ -71,6 +71,29 @@ function registerDasherServices(app) {
     });
     return;
   });
+
+
+  // get elections through dasher
+  app.get('/dasher/elections', auth.checkJwt, function(req, res) {
+    logger.info("getting elections from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        // force the Angular client to logout so they can get
+        // the refreshed api key on login
+        res.status(401).send();
+      }
+    })
+  });
 }
 
 exports.registerDasherServices = registerDasherServices;

@@ -21,4 +21,8 @@ function ProfileCtrl($scope, $rootScope, $route, $location, $dasherService, $aut
   $scope.generateApiKey = function(){
     $dasherService.generateApiKey($scope.apiKey);
   };
+
+  $scope.getElectionsFromDasher = function(){
+    $dasherService.elections();
+  };
 }

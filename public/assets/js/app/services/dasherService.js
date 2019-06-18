@@ -9,6 +9,10 @@ vipApp.factory('$dasherService', function ($http, $appProperties) {
       generateApiKey: function(currentApiKey){
         var data = {'apiKey': currentApiKey};
         $http.post("/dasher/generate-api-key", data);
+      },
+
+      elections: function() {
+        $http.get("/dasher/elections");
       }
     };
 });
