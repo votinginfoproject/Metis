@@ -214,6 +214,14 @@ del {
   color: lighten($base-font-color, 15);
 }
 
+.block-text {
+  font-family: monospace, serif;
+  font-size: 1em;
+  border: 1px solid $base-border-color;
+  background-color: $gray-lightest;
+  color: $black;
+}
+
 // dfn
 // em
 // i

@@ -126,7 +126,7 @@ var sendEmail = function(message, fips, contentFn) {
 
 module.exports = {
   sendFeedProcessingNotifications: function(message, messageType) {
-    var vip_id_query = "SELECT vip_id, spec_version \
+    var vip_id_query = "SELECT vip_id, spec_version, election_date \
                         FROM results \
                         WHERE public_id = $1";
 
@@ -134,7 +134,7 @@ module.exports = {
 
     if (!publicId) {
       logger.error('No Public ID listed.');
-      slack.message("ERROR: Feed processed but no public id found (message folows):\n" +
+      slack.message("ERROR: Feed processed but no public id found (message follows):\n" +
                     JSON.stringify(message));
     } else {
       pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -155,15 +155,18 @@ module.exports = {
               slack.message("ERROR: Feed processed but FIPS was bad, no notifications sent: " + fips);
             } else {
               var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
+              var electionDate = result.rows[0]['election_date'] || "Not available";
               if (message[":exception"]) {
                 slack.message("EXCEPTION: Feed processed with errors for FIPS " + fips +
                               "\nState Name " + stateName +
+                              "\nElection Date " + electionDate +
                               "\nVIP Spec Version " + spec_version +
                               "\nProcessed Message " + JSON.stringify(message));
 
               } else {
                 slack.message("SUCCESS: Feed processed for FIPS " + fips +
                               "\nState Name " + stateName +
+                              "\nElection Date " + electionDate +
                               "\nVIP Spec Version " + spec_version);
               }
               if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
