@@ -41,7 +41,7 @@ ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_DASHBOARD="$(curl -s http://${COR
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_SECRET_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-secret?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-address-test-tool/address-testing-bucket?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/s3/address-test/bucket-name?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DATA_UPLOAD_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/data-upload/upload-bucket?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/audience?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DASHBOARD_DB_PORT_5432_TCP_ADDR="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dashboard/postgres/hostname?raw)" >> /tmp/${CONTAINER}--env'
@@ -57,9 +57,11 @@ ExecStartPre=/bin/bash -c 'echo SLACK_BOT_NAME="$(curl -s http://${COREOS_PRIVAT
 ExecStartPre=/bin/bash -c 'echo SLACK_BOT_EMOJI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-emoji?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DASHER_DOMAIN="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dasher/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_DP_SQS_REGION="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/region?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_SQS_ADDRESS_TEST_REQUEST="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-address-test-tool/sqs/request-url?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_SQS_ADDRESS_TEST_SUCCESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-address-test-tool/sqs/success-url?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_SQS_ADDRESS_TEST_FAILURE="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-address-test-tool/sqs/failure-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo FEED_SUCCESS_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/feed-processing/success-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo FEED_FAILURE_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/feed-processing/failure-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_REQUEST_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/request-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_SUCCESS_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/success-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_FAILURE_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/failure-url?raw)" >> /tmp/${CONTAINER}--env'
 
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \

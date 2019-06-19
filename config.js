@@ -31,7 +31,6 @@ config.session = {
 
 config.email = {
   fromAddress: process.env.VIP_DP_SES_FROM,
-  adminGroup: process.env.STORMPATH_ADMIN_GROUP,
   rateLimit: 1
 }
 
@@ -40,11 +39,11 @@ config.aws = {
   secretKey: process.env.VIP_DP_AWS_SECRET_KEY,
   ses: {region: process.env.VIP_DP_SES_REGION},
   sqs: {region: process.env.VIP_DP_SQS_REGION,
-        feedSuccessURL: process.env.VIP_DP_SQS_FEED_SUCCESS_URL,
-        feedFailureURL: process.env.VIP_DP_SQS_FEED_FAILURE_URL,
-        addressTestSuccessURL: process.env.VIP_DP_SQS_ADDRESS_TEST_SUCCESS_URL,
-        addressTestFailureURL: process.env.VIP_DP_SQS_ADDRESS_TEST_FAILURE_URL,
-        addressTestRequestURL: process.env.VIP_DP_SQS_ADDRESS_TEST_REQUEST_URL}
+        feedSuccessURL: process.env.FEED_SUCCESS_SQS_URL,
+        feedFailureURL: process.env.FEED_FAILURE_SQS_URL,
+        addressTestSuccessURL: process.env.ADDRESS_TEST_SUCCESS_SQS_URL,
+        addressTestFailureURL: process.env.ADDRESS_TEST_FAILURE_SQS_URL,
+        addressTestRequestURL: process.env.ADDRESS_TEST_REQUEST_SQS_URL}
 }
 
 // Add more states if required.
