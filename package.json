@@ -15,7 +15,7 @@
     "async": "~0.2.9",
     "auth0": "2.10.0",
     "auth0-js": "9.6.1",
-    "aws-sdk": "~2.102.0",
+    "aws-sdk": "~2.478.0",
     "bower": "^1.8.4",
     "brace-expansion": "~1.1.7",
     "closure-linter-wrapper": "1.1.0",

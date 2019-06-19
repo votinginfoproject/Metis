@@ -41,6 +41,7 @@ ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_DASHBOARD="$(curl -s http://${COR
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_SECRET_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-secret?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo VIP_DP_S3_REGION="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/s3/region?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/s3/address-test/bucket-name?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DATA_UPLOAD_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/data-upload/upload-bucket?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/audience?raw)" >> /tmp/${CONTAINER}--env'
