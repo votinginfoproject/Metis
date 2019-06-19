@@ -35,8 +35,8 @@ config.email = {
 }
 
 config.aws = {
-  accessKey: process.env.VIP_DP_AWS_ACCESS_KEY,
-  secretKey: process.env.VIP_DP_AWS_SECRET_KEY,
+  accessKey: process.env.AWS_ACCESS_KEY_ID,
+  secretKey: process.env.AWS_SECRET_ACCESS_KEY,
   ses: {region: process.env.VIP_DP_SES_REGION},
   sqs: {region: process.env.VIP_DP_SQS_REGION,
         feedSuccessURL: process.env.FEED_SUCCESS_SQS_URL,
