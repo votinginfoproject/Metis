@@ -7,7 +7,7 @@ var edn = require("jsedn");
 const AWS = require('aws-sdk');
 
 var convertRegion = function(region) {
-  region.toLowerCase().replace("_", "-");
+  return region.toLowerCase().replace("_", "-");
 }
 
 // Create an SQS service object
