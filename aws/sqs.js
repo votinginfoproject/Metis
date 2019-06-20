@@ -6,12 +6,15 @@ const { Consumer } = require('sqs-consumer');
 var edn = require("jsedn");
 const AWS = require('aws-sdk');
 
-AWS.config.update({accessKeyId: config.aws.accessKey,
-                   secretAccessKey: config.aws.secretKey,
-                   region: config.aws.sqs.region});
+var convertRegion = function(region) {
+  region.toLowerCase().replace("_", "-");
+}
 
 // Create an SQS service object
-var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+var sqs = new AWS.SQS({accessKeyId: config.aws.accessKey,
+                       secretAccessKey: config.aws.secretKey,
+                       region: convertRegion(config.aws.sqs.region),
+                       apiVersion: '2012-11-05'});
 
 var createConsumer = function(queueUrl, handler) {
   var consumer = Consumer.create({
