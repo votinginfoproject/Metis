@@ -129,25 +129,18 @@ var loadFeed = function(publicId, callback) {
                       FROM results \
                       WHERE public_id = $1";
 
-  if (!publicId) {
-    logger.error('No Public ID listed.');
-    slack.message("ERROR: Feed processed but no public id found (message follows):\n" +
-                  JSON.stringify(message));
-  } else {
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-      if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
 
-      client.query(vip_id_query, [publicId], function(err, result) {
-        done();
+    client.query(vip_id_query, [publicId], function(err, result) {
+      done();
 
-        if (err || result.rows.length == 0) {
-          logger.error('No feed found or connection issue.');
-          slack.message("ERROR: No feed found matching public_id in database (message follows):\n" +
-                        JSON.stringify(message));
-        } else {
-          callback(result);
-        }
-      });
+      if (err || result.rows.length == 0) {
+        logger.error('No feed found or connection issue.');
+        slack.message("ERROR: No feed found matching public_id in database (public_id follows):\n" + publicId);
+      } else {
+        callback(result);
+      }
     });
   }
 }
