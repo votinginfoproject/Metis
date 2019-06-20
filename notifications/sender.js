@@ -142,7 +142,7 @@ var loadFeed = function(publicId, callback) {
         callback(result);
       }
     });
-  }
+  });
 }
 
 module.exports = {
