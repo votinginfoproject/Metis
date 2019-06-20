@@ -8,12 +8,12 @@ module.exports = {
     logger.info("Received raw message: " + JSON.stringify(message));
     var rabbitMessage = edn.toJS(edn.parse(message.Body));
     logger.info("Message converted: " + JSON.stringify(rabbitMessage));
-    sender.sendAddressTestSuccessNotifications(rabbitMessage, 'processedFeed');
+    sender.sendAddressTestSuccessNotifications(rabbitMessage);
   },
   processFailureMessage: function(message) {
     logger.info("Received raw message: " + JSON.stringify(message));
     var rabbitMessage = edn.toJS(edn.parse(message.Body));
     logger.info("Message converted: " + JSON.stringify(rabbitMessage));
-    sender.sendAddressTestFailureNotifications(rabbitMessage, 'processedFeed');
+    sender.sendAddressTestFailureNotifications(rabbitMessage);
   }
 }
