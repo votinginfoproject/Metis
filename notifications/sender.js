@@ -147,7 +147,7 @@ var loadFeed = function(publicId, callback) {
 
 module.exports = {
   sendFeedProcessingSuccessNotifications: function(message, messageType) {
-    loadFeed(message[":public-id"], (result) => {
+    loadFeed(message.publicId, (result) => {
       var fips = result.rows[0]['vip_id'];
       var spec_version = new String(result.rows[0]['spec_version']);
       var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
@@ -163,7 +163,7 @@ module.exports = {
       }});
   },
   sendFeedProcessingFailureNotifications: function(message, messageType) {
-    var publicId = message[":public-id"];
+    var publicId = message.publicId;
 
     if (!publicId) {
       logger.error('No Public ID listed.');
@@ -193,7 +193,7 @@ module.exports = {
     }
   },
   sendAddressTestSuccessNotifications: function(message) {
-    var fipsCode = message["fipsCode"];
+    var fipsCode = message.fipsCode;
     if(fipsCode == "undefined") {
       slack.message("SUCCESS: Batch Address file processed for an admin, available at: " + message["url"]);
     } else {
@@ -202,7 +202,7 @@ module.exports = {
     sendEmail(message, fipsCode, messageOptions['testingComplete']);
   },
   sendAddressTestFailureNotifications: function(message) {
-    var fipsCode = message["fipsCode"];
+    var fipsCode = message.fipsCode;
     if (fipsCode === undefined) {
       logger.warning("No fips code in batch-address.file.complete message.  Can't send batch address testing finished email notification.");
       slack.message("ERROR: Batch Address sent a message we don't understand: " +
