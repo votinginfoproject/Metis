@@ -4,10 +4,10 @@ var sender = require('./../sender');
 module.exports = {
   processSuccessMessage: function(message) {
     logger.info("Received message: " + JSON.stringify(message));
-    sender.sendAddressTestSuccessNotifications(message.Body);
+    sender.sendAddressTestSuccessNotifications(JSON.parse(message.Body));
   },
   processFailureMessage: function(message) {
     logger.info("Received message: " + JSON.stringify(message));
-    sender.sendAddressTestFailureNotifications(message.Body);
+    sender.sendAddressTestFailureNotifications(JSON.parse(message.Body));
   }
 }

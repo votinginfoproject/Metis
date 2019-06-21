@@ -4,10 +4,10 @@ var sender = require('./../sender');
 module.exports = {
   processSuccessMessage: function(message) {
     logger.info("Received message: " + JSON.stringify(message));
-    sender.sendFeedProcessingSuccessNotifications(message.Body, 'processedFeed');
+    sender.sendFeedProcessingSuccessNotifications(JSON.parse(message.Body), 'processedFeed');
   },
   processFailureMessage: function(message) {
     logger.info("Received message: " + JSON.stringify(message));
-    sender.sendFeedProcessingFailureNotifications(message.Body, 'processedFeed');
+    sender.sendFeedProcessingFailureNotifications(JSON.parse(message.Body), 'processedFeed');
   }
 }
