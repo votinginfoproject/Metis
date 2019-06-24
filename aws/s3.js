@@ -2,7 +2,6 @@ var AWS = require('aws-sdk');
 var fs = require('fs');
 var multiparty = require('multiparty');
 var config = require('../config');
-var queue = require('../notifications/data-testing/queue')
 var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var states = require('../utils/states.js');
@@ -52,7 +51,7 @@ module.exports = {
   getLatestBatchAddressTestResultsFile: function(req, res){
     var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
                          secretAccessKey: config.aws.secretKey,
-                         region: config.aws.s3.region});
+                         region: config.aws.region});
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = null;
     if (fipsCodes === undefined || fipsCodes[0] === undefined) {
@@ -92,7 +91,7 @@ module.exports = {
   getDataUploadFiles: function(req, res){
     var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
                          secretAccessKey: config.aws.secretKey,
-                         region: config.aws.s3.region});
+                         region: config.aws.region});
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = fipsCodes[0];
     if (fipsCodes === undefined || fipsCode === undefined) {

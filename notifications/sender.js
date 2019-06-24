@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport(sesTransport({
   accessKeyId: config.aws.accessKey,
   secretAccessKey: config.aws.secretKey,
   rateLimit: config.email.rateLimit,
-  region: config.aws.ses.region
+  region: config.aws.region
 }));
 
 var dataCentralizationOnly = function(user) {

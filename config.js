@@ -37,10 +37,8 @@ config.email = {
 config.aws = {
   accessKey: process.env.AWS_ACCESS_KEY_ID,
   secretKey: process.env.AWS_SECRET_ACCESS_KEY,
-  s3: {region: process.env.VIP_DP_S3_REGION},
-  ses: {region: process.env.VIP_DP_SES_REGION},
-  sqs: {region: process.env.VIP_DP_SQS_REGION,
-        feedSuccessURL: process.env.FEED_SUCCESS_SQS_URL,
+  region: process.env.AWS_REGION,
+  sqs: {feedSuccessURL: process.env.FEED_SUCCESS_SQS_URL,
         feedFailureURL: process.env.FEED_FAILURE_SQS_URL,
         addressTestSuccessURL: process.env.ADDRESS_TEST_SUCCESS_SQS_URL,
         addressTestFailureURL: process.env.ADDRESS_TEST_FAILURE_SQS_URL,

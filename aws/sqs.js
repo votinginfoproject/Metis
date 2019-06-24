@@ -1,19 +1,14 @@
 var logger = (require('../logging/vip-winston')).Logger;
 var config = require('../config');
-var feedProcessing = require('../notifications/feed-processing/queue');
-var addressTest = require('../notifications/data-testing/queue');
+var sender = require('../notifications/sender');
 const { Consumer } = require('sqs-consumer');
 var edn = require("jsedn");
 const AWS = require('aws-sdk');
 
-var convertRegion = function(region) {
-  return region.toLowerCase().replace("_", "-");
-}
-
 // Create an SQS service object
 var sqs = new AWS.SQS({accessKeyId: config.aws.accessKey,
                        secretAccessKey: config.aws.secretKey,
-                       region: convertRegion(config.aws.sqs.region),
+                       region: config.aws.region,
                        apiVersion: '2012-11-05'});
 
 var createConsumer = function(queueUrl, handler) {
@@ -42,17 +37,36 @@ var createConsumer = function(queueUrl, handler) {
   return consumer;
 }
 
-var feedSuccessConsumer = createConsumer(config.aws.sqs.feedSuccessURL,
-                                         feedProcessing.processSuccessMessage);
+var parseMessage = function(callback) {
+  return (message) => {
+    logger.info("Received message: " + JSON.stringify(message));
+    callback(JSON.parse(message.Body));
+  }
+}
 
-var feedFailureConsumer = createConsumer(config.aws.sqs.feedFailureURL,
-                                        feedProcessing.processFailureMessage);
+var feedSuccessConsumer =
+  createConsumer(config.aws.sqs.feedSuccessURL,
+    parseMessage((message) => {
+      sender.sendFeedProcessingSuccessNotifications(message, 'processedFeed');
+    }));
 
-var addressTestSuccessConsumer = createConsumer(config.aws.sqs.addressTestSuccessURL,
-                                                addressTest.processSuccessMessage);
+var feedFailureConsumer =
+  createConsumer(config.aws.sqs.feedFailureURL,
+    parseMessage((message) => {
+      sender.sendFeedProcessingFailureNotifications(message, 'processedFeed');
+    }));
 
-var addressTestFailureConsumer = createConsumer(config.aws.sqs.addressTestFailureURL,
-                                                addressTest.processFailureMessage);
+var addressTestSuccessConsumer =
+  createConsumer(config.aws.sqs.addressTestSuccessURL,
+    parseMessage((message) => {
+      sender.sendAddressTestSuccessNotifications(message);
+    }));
+
+var addressTestFailureConsumer =
+  createConsumer(config.aws.sqs.addressTestFailureURL,
+    parseMessage((message) => {
+      sender.sendAddressTestFailureNotifications(message);
+    }));
 
 var generatePseudoRandomRequestID = function() {
   // function used to generate pseudo-random numbers to be used as transactionIds
