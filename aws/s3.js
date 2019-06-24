@@ -7,6 +7,9 @@ var auth = require('../authentication/services.js');
 var states = require('../utils/states.js');
 var sqs = require('./sqs.js');
 
+var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
+                     secretAccessKey: config.aws.secretKey,
+                     region: config.aws.region});
 var batchAddressBucket = config.batt.batchAddressBucket;
 var dataUploadBucket = config.dataUpload.bucket;
 
@@ -29,7 +32,6 @@ module.exports = {
         if (err) { throw err; }
       });
       fileStream.on('open', function () {
-        var s3 = new AWS.S3();
         var bucketName = batchAddressBucket;
         var fileName = fipsCode + '/input/' + files.file[0].originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
@@ -49,9 +51,6 @@ module.exports = {
     return;
   },
   getLatestBatchAddressTestResultsFile: function(req, res){
-    var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
-                         secretAccessKey: config.aws.secretKey,
-                         region: config.aws.region});
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = null;
     if (fipsCodes === undefined || fipsCodes[0] === undefined) {
@@ -89,9 +88,6 @@ module.exports = {
   },
 
   getDataUploadFiles: function(req, res){
-    var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
-                         secretAccessKey: config.aws.secretKey,
-                         region: config.aws.region});
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = fipsCodes[0];
     if (fipsCodes === undefined || fipsCode === undefined) {
