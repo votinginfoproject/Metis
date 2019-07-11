@@ -13,6 +13,10 @@ vipApp.factory('$dasherService', function ($http, $appProperties) {
 
       elections: function() {
         $http.get("/dasher/elections");
+      },
+
+      election: function(id) {
+        $http.get("/dasher/elections/" + id);
       }
     };
 });

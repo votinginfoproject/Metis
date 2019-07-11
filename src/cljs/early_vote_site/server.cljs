@@ -14,6 +14,10 @@
   [db]
   (url "/earlyvote/elections"))
 
+(defn dasher-url
+  [db]
+  (url "/dasher/elections/new"))
+
 (defn election-with-id-url
   [id]
   (url "/earlyvote/elections/" id))

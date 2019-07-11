@@ -88,9 +88,45 @@ function registerDasherServices(app) {
       if(error){
         res.status(500).send(error);
       } else if(response && response.statusCode){
-        // force the Angular client to logout so they can get
-        // the refreshed api key on login
-        res.status(401).send();
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // get single election through dasher
+  app.get('/dasher/elections/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // post election through dasher
+  app.post('/dasher/elections/new', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/new',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.post(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
       }
     })
   });

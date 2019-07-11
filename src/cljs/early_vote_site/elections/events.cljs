@@ -48,6 +48,19 @@
     :post
     :put))
 
+(defn save-dasher-election
+  [{:keys [db]} [_ id]]
+  (let [data (election-params db id)]
+    {:db db
+     :http-xhrio {:method          :post
+                  :uri             (server/dasher-url db)
+                  :params          data
+                  :timeout         8000
+                  :format          (ajax/json-request-format)
+                  :response-format (ajax/json-response-format)
+                  :on-success      [:election-save/success id]
+                  :on-failure      [:authorization/check [:election-save/failure]]}}))
+
 (defn save-election
   [{:keys [db]} [_ id]]
   (if-let [errors (form-errors db id)]
@@ -169,6 +182,7 @@
         :elections/delete-election delete-election
         :election-list/election-selected select-election
         :election-form/save save-election
+        :election-form/save-dasher save-dasher-election
         :election-save/success save-election-success
         :elections-list/get get-elections-list
         :file/generate file-generation

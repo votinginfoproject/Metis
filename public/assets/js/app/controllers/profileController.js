@@ -25,4 +25,8 @@ function ProfileCtrl($scope, $rootScope, $route, $location, $dasherService, $aut
   $scope.getElectionsFromDasher = function(){
     $dasherService.elections();
   };
+
+  $scope.getElectionByIdFromDasher = function(id) {
+    $dasherService.election(id);
+  };
 }
