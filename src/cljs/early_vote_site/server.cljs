@@ -12,7 +12,11 @@
 
 (defn election-url
   [db]
-  (url "/earlyvote/elections"))
+  (url "/dasher/elections"))
+
+(defn dasher-ping-url
+  [db]
+  (url "/dasher/ping"))
 
 (defn dasher-url
   [db]

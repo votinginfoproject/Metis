@@ -1,16 +1,20 @@
 (ns early-vote-site.utils
+  (:refer-clojure :exclude [range iterate format max min])
   (:require [cljs-time.format :as format]
-            [cljs-time.coerce :as coerce]
-            [early-vote-site.constants :as constants]))
+    [cljs-time.coerce :as coerce]
+    [early-vote-site.constants :as constants]))
 
 (def full-format (format/formatters :date-time))
+(def full-format-no-ms (format/formatters :date-time-no-ms))
 (def short-format (format/formatters :date))
 
 (defn format-date-string
   "Translates from a long date string format (ie 2017-10-10T13:23:34.00Z)
    to a short format (2017-10-10)."
   [date-str]
-  (let [parsed (format/parse full-format date-str)]
+  (let [parsed (try
+                 (format/parse full-format date-str)
+                 (catch :default e (format/parse full-format-no-ms date-str)))]
     (format/unparse short-format parsed)))
 
 (defn format-date
