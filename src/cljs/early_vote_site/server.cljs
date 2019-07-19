@@ -14,10 +14,6 @@
   [db]
   (url "/dasher/elections"))
 
-(defn dasher-ping-url
-  [db]
-  (url "/dasher/ping"))
-
 (defn dasher-url
   [db]
   (url "/dasher/elections/new"))
