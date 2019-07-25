@@ -149,6 +149,25 @@ function registerDasherServices(app) {
       }
     })
   });
+
+  // delete election through dasher
+  app.delete('/dasher/elections/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.delete(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
 }
 
 exports.registerDasherServices = registerDasherServices;
