@@ -27,7 +27,9 @@
 (defn parse-date
   "Translates a full state string into a js/Date"
   [date-str]
-  (let [parsed (format/parse full-format date-str)]
+  (let [parsed (try
+                 (format/parse full-format date-str)
+                 (catch :default e (format/parse full-format-no-ms date-str)))]
     (coerce/to-date parsed)))
 
 (defn flash-error-with-results

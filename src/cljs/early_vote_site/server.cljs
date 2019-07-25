@@ -14,13 +14,9 @@
   [db]
   (url "/dasher/elections"))
 
-(defn dasher-url
-  [db]
-  (url "/dasher/elections/new"))
-
 (defn election-with-id-url
   [id]
-  (url "/earlyvote/elections/" id))
+  (url "/dasher/elections/" id))
 
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))

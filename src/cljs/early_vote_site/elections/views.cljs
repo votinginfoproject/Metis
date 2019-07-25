@@ -49,7 +49,7 @@
       [:ul {:class "link-group"}
        [:li
         {:class "btn-link"
-         :on-click #(re-frame/dispatch [:election-form/save-dasher id])}
+         :on-click #(re-frame/dispatch [:election-form/save id])}
         (if editing? "Save" "Add New Election")]
        (when editing?
          [:li
