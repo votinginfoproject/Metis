@@ -29,26 +29,20 @@ config.session = {
   reapInterval: 3600
 }
 
-config.notifications = {
-  exchange: process.env.VIP_DP_RABBITMQ_EXCHANGE,
-  exchangeOptions: { durable: false, autoDelete: true},
-  host: process.env.RABBITMQ_PORT_5672_TCP_ADDR,
-  port: process.env.RABBITMQ_PORT_5672_TCP_PORT,
-  topics: {
-    processingComplete: "processing.complete"
-  }
-}
-
 config.email = {
   fromAddress: process.env.VIP_DP_SES_FROM,
-  adminGroup: process.env.STORMPATH_ADMIN_GROUP,
   rateLimit: 1
 }
 
 config.aws = {
-  accessKey: process.env.VIP_DP_AWS_ACCESS_KEY,
-  secretKey: process.env.VIP_DP_AWS_SECRET_KEY,
-  region: process.env.VIP_DP_SES_REGION
+  accessKey: process.env.AWS_ACCESS_KEY_ID,
+  secretKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+  sqs: {feedSuccessURL: process.env.FEED_SUCCESS_SQS_URL,
+        feedFailureURL: process.env.FEED_FAILURE_SQS_URL,
+        addressTestSuccessURL: process.env.ADDRESS_TEST_SUCCESS_SQS_URL,
+        addressTestFailureURL: process.env.ADDRESS_TEST_FAILURE_SQS_URL,
+        addressTestRequestURL: process.env.ADDRESS_TEST_REQUEST_SQS_URL}
 }
 
 // Add more states if required.

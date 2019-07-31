@@ -20,7 +20,7 @@ function AsideCtrl($scope, $rootScope, $http, $feedDataPaths, $routeParams) {
 
   function sendEmail(election) {
     $http.post('/notifications/approve-feed', {
-      ":public-id": feedid,
+      publicId: feedid,
       adminEmail: true,
       election: election,
       user: $scope.$parent.user

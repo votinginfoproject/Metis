@@ -4,8 +4,6 @@ After=docker.service
 Requires=docker.service
 After=consul@%i.service
 Wants=consul@%i.service
-After=rabbitmq@%i.service
-Requires=rabbitmq@%i.service
 
 [Service]
 EnvironmentFile=/etc/environment
@@ -31,14 +29,11 @@ ExecStartPre=/bin/bash -c 'echo DB_PORT_5432_TCP_PORT="$(curl -s http://${COREOS
 ExecStartPre=/bin/bash -c 'echo DB_ENV_POSTGRES_USER="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/username?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DB_ENV_POSTGRES_PASSWORD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/password?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DB_ENV_POSTGRES_DATABASE="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/postgres/database?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_RABBITMQ_EXCHANGE="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/rabbitmq/exchange?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIP_DP_SES_FROM="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/ses/from-address?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_SES_REGION="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/ses/region?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo NEW_RELIC_LICENSE_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/license-key?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo NEW_RELIC_ENVIRONMENT="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/newrelic/environment?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo VIT_API_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/google-civic/api-key?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_AWS_ACCESS_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/access-key?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_DP_AWS_SECRET_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/secret-key?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AWS_ACCESS_KEY_ID="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/access-key?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AWS_SECRET_ACCESS_KEY="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/secret-key?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo AWS_REGION="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/aws/region?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_REDIRECT_URI_DASHBOARD="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/dashboard/redirect-uri?raw)" >> /tmp/${CONTAINER}--env'
@@ -46,7 +41,7 @@ ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_DASHBOARD="$(curl -s http://${COR
 ExecStartPre=/bin/bash -c 'echo AUTH0_DOMAIN_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/domain?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_ID_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-id?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_CLIENT_SECRET_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/client-secret?raw)" >> /tmp/${CONTAINER}--env'
-ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/batch-address-test-tool/address-testing-bucket?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo VIP_BATT_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/s3/address-test/bucket-name?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DATA_UPLOAD_BUCKET_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/data-upload/upload-bucket?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo AUTH0_AUDIENCE_EXPRESS="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/auth0/express/audience?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DASHBOARD_DB_PORT_5432_TCP_ADDR="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dashboard/postgres/hostname?raw)" >> /tmp/${CONTAINER}--env'
@@ -61,9 +56,14 @@ ExecStartPre=/bin/bash -c 'echo SLACK_NOTIFICATION_CHANNEL="$(curl -s http://${C
 ExecStartPre=/bin/bash -c 'echo SLACK_BOT_NAME="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-name?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo SLACK_BOT_EMOJI="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/slack/bot-emoji?raw)" >> /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo DASHER_DOMAIN="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/dasher/domain?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo FEED_SUCCESS_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/feed-processing/success-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo FEED_FAILURE_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/feed-processing/failure-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_REQUEST_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/request-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_SUCCESS_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/success-url?raw)" >> /tmp/${CONTAINER}--env'
+ExecStartPre=/bin/bash -c 'echo ADDRESS_TEST_FAILURE_SQS_URL="$(curl -s http://${COREOS_PRIVATE_IPV4}:8500/v1/kv/data-suite/sqs/address-test/failure-url?raw)" >> /tmp/${CONTAINER}--env'
+
 
 ExecStart=/bin/bash -c 'docker run --name ${CONTAINER} \
-  --link rabbitmq:rabbitmq \
   --env-file /tmp/${CONTAINER}--env \
   -p "4000:4000" \
   ${DOCKER_IMAGE} ${RUN_ENV}'

@@ -73,13 +73,13 @@ module.exports = {
     return "<p>" + message["user"]["userName"] + " has approved the feed for their " + message["election"].date.substring(0,10) + " " +
       message["election"].election_type + " election for publication. It was approved by " + message["user"]["userName"] + " (" +
            message["user"]["email"] + ").</p>" +
-           "<p><a href='https://" + baseUrl + "/#/feeds/" + message[":public-id"] + "'>Go to the Data Dashboard</a></p>";
+           "<p><a href='https://" + baseUrl + "/#/feeds/" + message.publicId + "'>Go to the Data Dashboard</a></p>";
   },
   processedFeed: function(message, recipient, fips) {
     return "<p>" + getGivenName(recipient) + ",</p>" +
            "<p>The data you provided for " + codeToDescription(fips) + "'s election is available for you to review on the VIP Data Dashboard.</p>" +
            "<p>Please click the link below to review your feed.</p>" +
-           "<p><a href='https://" + baseUrl + "/#/feeds/" + message[":public-id"] + "'>Go to the Data Dashboard</a></p>" +
+           "<p><a href='https://" + baseUrl + "/#/feeds/" + message.publicId + "'>Go to the Data Dashboard</a></p>" +
            "<p>If you have any questions, please contact <a href='mailto:vip@democracy.works'>vip@democracy.works</a>.</p>" +
            "<p>Thank you!</p>";
   },
@@ -87,7 +87,7 @@ module.exports = {
     return "<p>" + getGivenName(recipient) + ",</p>" +
            "<p>The data you provided for " + codeToDescription(fips) + "'s election has been processed.</p>" +
            "<p>Please click the link below for an error report.</p>" +
-           "<p><a href='https://" + baseUrl + "/db/feeds/" + message[":public-id"] + "/xml/errors/report'>Go to the Data Dashboard</a></p>" +
+           "<p><a href='https://" + baseUrl + "/db/feeds/" + message.publicId + "/xml/errors/report'>Go to the Data Dashboard</a></p>" +
            "<p>If you have any questions, please contact <a href='mailto:vip@democracy.works'>vip@democracy.works</a>.</p>" +
            "<p>Thank you!</p>";
   },

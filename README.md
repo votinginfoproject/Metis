@@ -87,8 +87,11 @@ AUTH0_CLIENT_SECRET_EXPRESS=some-client-id
 AUTH0_DOMAIN_EXPRESS=some.auth0.com
 AUTH0_AUDIENCE_EXPRESS=some-audience-uri
 VIP_BATT_BUCKET_NAME=some-s3-bucket-name
-VIP_DP_AWS_ACCESS_KEY=some-aws-access-key
-VIP_DP_AWS_SECRET_KEY=some-aws-secret-key
+AWS_ACCESS_KEY_ID=some-aws-access-key
+AWS_SECRET_ACCESS_KEY=some-aws-secret-key
+AWS_REGION=us-east-1
+FEED_SUCCESS_SQS_URL=feed-success-sqs-url
+FEED_FAILURE_SQS_URL=feed-failure-sqs-url
 DATA_UPLOAD_BUCKET_NAME=some-s3-bucket-name
 DASHBOARD_DB_ENV_POSTGRES_DATABASE=datadashboard
 DASHBOARD_DB_ENV_POSTGRES_PASSWORD=
@@ -99,6 +102,9 @@ DATABASE_URL=postgres://dataprocessor@localhost/datadashboard
 EARLY_VOTE_SITES_BUCKET_NAME=early-vote-site-date-development
 DASHER_DOMAIN=localhost:3000
 DASHER_HTTP_PROTOCOL="http"
+ADDRESS_TEST_SUCCESS_SQS_URL=address-test-success-sqs-url
+ADDRESS_TEST_FAILURE_SQS_URL=address-test-failure-sqs-url
+ADDRESS_TEST_REQUEST_SQS_URL=address-test-request-sqs-url
 ```
 
 There should be at least two clients configured in Auth0, one is a Single Page Web Application

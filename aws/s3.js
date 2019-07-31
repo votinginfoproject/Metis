@@ -2,12 +2,14 @@ var AWS = require('aws-sdk');
 var fs = require('fs');
 var multiparty = require('multiparty');
 var config = require('../config');
-var queue = require('../notifications/data-testing/queue')
 var logger = (require('../logging/vip-winston')).Logger;
 var auth = require('../authentication/services.js');
 var states = require('../utils/states.js');
+var sqs = require('./sqs.js');
 
-AWS.config.update({ accessKeyId: config.aws.accessKey, secretAccessKey: config.aws.secretKey });
+var s3 = new AWS.S3({accessKeyId: config.aws.accessKey,
+                     secretAccessKey: config.aws.secretKey,
+                     region: config.aws.region});
 var batchAddressBucket = config.batt.batchAddressBucket;
 var dataUploadBucket = config.dataUpload.bucket;
 
@@ -25,14 +27,13 @@ module.exports = {
       res.writeHead(200, {'content-type': 'text/plain'});
       res.write('received upload:\n\n');
       res.end(JSON.stringify(files));
-      var fileStream = fs.createReadStream(files.file.path);
+      var fileStream = fs.createReadStream(files.file[0].path);
       fileStream.on('error', function (err) {
         if (err) { throw err; }
       });
       fileStream.on('open', function () {
-        var s3 = new AWS.S3();
         var bucketName = batchAddressBucket;
-        var fileName = fipsCode + '/input/' + files.file.originalFilename;
+        var fileName = fipsCode + '/input/' + files.file[0].originalFilename;
         logger.info("putting file with name '" + fileName + "' into bucket '" + bucketName + "'");
         s3.putObject({
           Bucket: bucketName,
@@ -42,7 +43,7 @@ module.exports = {
           if (err) {
             throw err;
           } else {
-            queue.submitAddressFile(bucketName, fileName, fipsCode);
+            sqs.sendBatchProcessMessage(bucketName, fileName, fipsCode);
           }
         });
       });
@@ -50,7 +51,6 @@ module.exports = {
     return;
   },
   getLatestBatchAddressTestResultsFile: function(req, res){
-    var s3 = new AWS.S3();
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = null;
     if (fipsCodes === undefined || fipsCodes[0] === undefined) {
@@ -88,7 +88,6 @@ module.exports = {
   },
 
   getDataUploadFiles: function(req, res){
-    var s3 = new AWS.S3();
 		var fipsCodes = auth.getUserFipsCodes(req);
 		var fipsCode = fipsCodes[0];
     if (fipsCodes === undefined || fipsCode === undefined) {
@@ -117,7 +116,7 @@ module.exports = {
       for (var i = 0; i < files.length; i++) {
         var key = files[i]["Key"];
         var lastModified = files[i]["LastModified"];
-        var stateFips = key.match(/(\d{2})\//);
+        var stateFips = key.match(/^(\d{2})\//);
         var countyFips = key.match(/\/(\d{3})\//);
         var electionDate = key.match(/\/(\d{4}-\d{1,2}-\d{1,2})\//);
         var feed = key.match(/\/feeds\//);
