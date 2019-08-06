@@ -50,7 +50,7 @@
     "jsonwebtoken": "~7.4.1",
     "jwks-rsa": "~1.4.0",
     "load-grunt-tasks": "4.0.0",
-    "lodash": "~4.17.11",
+    "lodash": "~4.17.13",
     "method-override": "2.3.10",
     "moment": "~2.21.0",
     "morgan": "1.9.1",
