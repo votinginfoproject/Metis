@@ -95,21 +95,25 @@ module.exports = {
     }
     var bucketName = dataUploadBucket;
 
+    var prefix = "";
     if (auth.isSuperAdmin(req)){
       if (req.query['prefix']) {
         prefix = req.query['prefix'];
-      } else {
-        prefix = "";
       }
-    } else {
-      fips2 = fipsCode.slice(0, 2);
-      var prefix = fips2 + '/' + fipsCode;
+    } else if (fipsCode != "undefined"){
+      if (fipsCode.length > 2) {
+        fips2 = fipsCode.slice(0, 2);
+        prefix = fips2 + '/' + fipsCode.slice(2);
+      } else {
+        prefix = fipsCode;
+      }
     };
 
     var params = {
       Bucket: bucketName,
       Prefix: prefix
     };
+    logger.info("Loading Data Upload files with params: " + JSON.stringify(params));
     s3.listObjectsV2(params, function(err, data) {
       var files = data["Contents"];
       var returnData = []
