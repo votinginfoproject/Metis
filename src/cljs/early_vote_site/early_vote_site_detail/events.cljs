@@ -198,7 +198,7 @@
 (defn delete-schedule-success
   [{:keys [db]} [_ early-vote-site-id]]
   {:db db
-   :dispatch-n [[:flash/message "Early vote site deleted"]
+   :dispatch-n [[:flash/message "Schedule deleted"]
                 [:schedules-list/get]]})
 
 (def events
