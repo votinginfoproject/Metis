@@ -7,7 +7,7 @@ var uuidv4 = require('uuid/v4');
 //list early vote sites for election
 var listSql = `select * from early_vote_sites where election_id = $1
                and (($2 = 'undefined') or (county_fips ~ $2))
-               order by city desc;`
+               order by county_fips, city asc;`
 var listParamsFn =
   util.compoundParamExtractor([util.pathParamExtractor(['electionid']),
                                util.queryParamExtractor(['fips'])]);
