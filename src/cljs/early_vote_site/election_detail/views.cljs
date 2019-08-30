@@ -50,19 +50,17 @@
       [:tbody
        (if (seq @site-list)
          (map (partial site->row state-fips) @site-list)
-         [:tr [:td {:colSpan 6} "No Early Vote Sites"]])
-       [:tr
-        [:td {:colSpan 5}]
-        [:td
-         [:span {:class "btn-link"
-                 :on-click #(re-frame/dispatch [:navigate/early-vote-site-form])}
-          "Create an Early Vote Site"]]]]]]))
+         [:tr [:td {:colSpan 6} "No Early Vote Sites"]])]]]))
 
 (defn election-details [election]
   (when election
     [:div
      [:h3 (-> election :state-fips places/fips-name)]
-     [:h4 (-> election :election-date utils/format-date-string)]]))
+     [:h4 {:style {:display "inline"}} (-> election :election-date utils/format-date-string)]
+     [:button.button
+      {:style {:float "right" :margin-bottom "10px"}
+       :on-click #(re-frame/dispatch [:navigate/early-vote-site-form])}
+      "Create an Early Vote Site"]]))
 
 (defn breadcrumb [election]
   (when election
