@@ -25,7 +25,7 @@
   (url "/earlyvote/elections/" id "/generate"))
 
 (defn election-early-vote-sites-url [db]
-  (url "/earlyvote/elections/"
+  (url "/dasher/elections/"
        (:selected-election-id db)
        "/earlyvotesites"))
 

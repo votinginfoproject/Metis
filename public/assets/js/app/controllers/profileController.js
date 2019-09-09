@@ -29,4 +29,12 @@ function ProfileCtrl($scope, $rootScope, $route, $location, $dasherService, $aut
   $scope.getElectionByIdFromDasher = function(id) {
     $dasherService.election(id);
   };
+
+  $scope.getEarlyVoteSitesFromDasher = function(electionId){
+    $dasherService.earlyVoteSites(electionId);
+  };
+
+  $scope.getEarlyVoteSiteByIdFromDasher = function(id){
+    $dasherService.earlyVoteSite(id);
+  };
 }

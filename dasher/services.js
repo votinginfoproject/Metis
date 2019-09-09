@@ -168,6 +168,46 @@ function registerDasherServices(app) {
       }
     })
   });
+
+  // get early vote sites through dasher
+  app.get('/dasher/elections/:electionId/early-vote-sites', auth.checkJwt, function(req, res) {
+    logger.info("getting early vote sites from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['electionId'] + '/early-vote-sites',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // get single early vote site through dasher
+  app.get('/dasher/early-vote-sites/:id', auth.checkJwt, function(req, res) {
+    logger.info("getting early vote site from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/early-vote-sites/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
 }
 
 exports.registerDasherServices = registerDasherServices;
