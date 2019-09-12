@@ -27,7 +27,7 @@
 (defn election-early-vote-sites-url [db]
   (url "/dasher/elections/"
        (:selected-election-id db)
-       "/earlyvotesites"))
+       "/early-vote-sites"))
 
 (defn early-vote-site-url [db]
   (url "/earlyvote/earlyvotesites/" (:selected-early-vote-site-id db)))
