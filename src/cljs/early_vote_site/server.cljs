@@ -12,11 +12,11 @@
 
 (defn election-url
   [db]
-  (url "/earlyvote/elections"))
+  (url "/dasher/elections"))
 
 (defn election-with-id-url
   [id]
-  (url "/earlyvote/elections/" id))
+  (url "/dasher/elections/" id))
 
 (defn election-detail-url [db]
   (url "/earlyvote/elections/" (:selected-election-id db)))
@@ -25,15 +25,15 @@
   (url "/earlyvote/elections/" id "/generate"))
 
 (defn election-early-vote-sites-url [db]
-  (url "/earlyvote/elections/"
+  (url "/dasher/elections/"
        (:selected-election-id db)
-       "/earlyvotesites"))
+       "/early-vote-sites"))
 
 (defn early-vote-site-url [db]
   (url "/earlyvote/earlyvotesites/" (:selected-early-vote-site-id db)))
 
 (defn early-vote-site-url-by-id [id]
-  (url "/earlyvote/earlyvotesites/" id))
+  (url "/dasher/early-vote-sites/" id))
 
 (defn election-early-vote-site-schedules-url [db]
   (url "/earlyvote/elections/"
