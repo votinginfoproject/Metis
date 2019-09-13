@@ -33,7 +33,7 @@
   (url "/earlyvote/earlyvotesites/" (:selected-early-vote-site-id db)))
 
 (defn early-vote-site-url-by-id [id]
-  (url "/earlyvote/earlyvotesites/" id))
+  (url "/dasher/early-vote-sites/" id))
 
 (defn election-early-vote-site-schedules-url [db]
   (url "/earlyvote/elections/"

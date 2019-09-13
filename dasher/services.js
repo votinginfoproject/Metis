@@ -227,6 +227,25 @@ function registerDasherServices(app) {
       }
     })
   });
+
+  // update early vote site through dasher
+  app.put('/dasher/early-vote-sites/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/early-vote-sites/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.put(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
 }
 
 exports.registerDasherServices = registerDasherServices;
