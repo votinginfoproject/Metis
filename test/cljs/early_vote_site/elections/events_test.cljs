@@ -54,7 +54,7 @@
           http (:http-xhrio effects)]
       (is (not (nil? http)))
       (is (= :post (:method http)))
-      (is (str/ends-with? (:uri http) "/earlyvote/elections"))
+      (is (str/ends-with? (:uri http) "/dasher/elections"))
       (is (= {:state_fips "08"
               :election_date "2017-11-06"}
              (:params http)))))
@@ -67,7 +67,7 @@
           http (:http-xhrio effects)]
       (is (not (nil? http)))
       (is (= :put (:method http)))
-      (is (str/ends-with? (:uri http) "/earlyvote/elections/123"))
+      (is (str/ends-with? (:uri http) "/dasher/elections/123"))
       (is (= {:state_fips "06"
               :election_date "2017-12-01"}
              (:params http))))))
