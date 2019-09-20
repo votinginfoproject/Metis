@@ -270,7 +270,7 @@ function registerDasherServices(app) {
   app.get('/dasher/elections/:electionId/early-vote-sites/:earlyVoteSiteId/schedules', auth.checkJwt, function(req, res) {
     logger.info("getting schedules from dasher");
     var options = {
-      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['electionId'] + '/schedules',
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['electionId'] + '/early-vote-sites/' + req.params['earlyVoteSiteId'] + '/schedules',
       // use the same authorization header to use same user account
       headers: {
         'Authorization': req.headers['authorization']
