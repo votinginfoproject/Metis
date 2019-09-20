@@ -265,6 +265,181 @@ function registerDasherServices(app) {
       }
     })
   });
+
+  // get schedules through dasher
+  app.get('/dasher/elections/:electionId/early-vote-sites/:earlyVoteSiteId/schedules', auth.checkJwt, function(req, res) {
+    logger.info("getting schedules from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['electionId'] + '/schedules',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // get single schedule through dasher
+  app.get('/dasher/schedules/:id', auth.checkJwt, function(req, res) {
+    logger.info("getting schedule from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/schedules/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // post schedule through dasher
+  app.post('/dasher/elections/:electionId/schedules', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/elections/' + req.params['electionId'] + '/schedules/new',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.post(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // update schedule through dasher
+  app.put('/dasher/schedules/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/schedules/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.put(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // delete schedule through dasher
+  app.delete('/dasher/schedules/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/schedules/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.delete(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // get assignments through dasher
+  app.get('/dasher/earlyvotesites/:earlyVoteSiteId/assignments', auth.checkJwt, function(req, res) {
+    logger.info("getting assignments from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/early-vote-sites/' + req.params['earlyVoteSiteId'] + '/assignments',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // get single assignment through dasher
+  app.get('/dasher/assignments/:id', auth.checkJwt, function(req, res) {
+    logger.info("getting assignment from dasher");
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/assignments/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.get(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // post assignment through dasher
+  app.post('/dasher/earlyvotesites/:earlyVoteSiteId/assignments', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/early-vote-sites/' + req.params['earlyVoteSiteId'] + '/assignments/new',
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.post(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
+
+  // delete assignment through dasher
+  app.delete('/dasher/assignments/:id', auth.checkJwt, function(req, res) {
+    var options = {
+      url: config.dasher.protocol + '://' + config.dasher.domain + '/assignments/' + req.params['id'],
+      // use the same authorization header to use same user account
+      headers: {
+        'Authorization': req.headers['authorization']
+      },
+      form: req.body
+    }
+    request.delete(options, function(error, response, body){
+      if(error){
+        res.status(500).send(error);
+      } else if(response && response.statusCode){
+        res.status(response.statusCode).send(response.body);
+      }
+    })
+  });
 }
 
 exports.registerDasherServices = registerDasherServices;

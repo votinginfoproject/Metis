@@ -36,14 +36,14 @@
   (url "/dasher/early-vote-sites/" id))
 
 (defn election-early-vote-site-schedules-url [db]
-  (url "/earlyvote/elections/"
+  (url "/dasher/elections/"
        (:selected-election-id db)
-       "/earlyvotesites/"
+       "/early-vote-sites/"
        (:selected-early-vote-site-id db)
        "/schedules"))
 
 (defn assign-schedule-uri [db]
-  (url "/earlyvote/earlyvotesites/"
+  (url "/dasher/earlyvotesites/"
         (:selected-early-vote-site-id db)
         "/assignments/"))
 
@@ -51,7 +51,7 @@
   (url "/earlyvote/assignments/" assignment-id))
 
 (defn update-schedule-uri [id]
-  (url "/earlyvote/schedules/" id))
+  (url "/dasher/schedules/" id))
 
 (defn save-new-schedule-uri [db]
-  (url "/earlyvote/elections/" (:selected-election-id db) "/schedules"))
+  (url "/dasher/elections/" (:selected-election-id db) "/schedules"))

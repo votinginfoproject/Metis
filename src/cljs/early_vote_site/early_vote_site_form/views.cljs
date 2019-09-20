@@ -4,7 +4,6 @@
             [re-frame.core :as re-frame]))
 
 (defn breadcrumb [election form]
-  (println form)
   (when election
     [:nav {:aria-label "breadcrumb"
            :role "navigation"}
