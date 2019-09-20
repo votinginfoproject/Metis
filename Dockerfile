@@ -2,8 +2,25 @@ FROM quay.io/democracyworks/clojure-and-node:lein-2.8.1-node-8.11.2
 MAINTAINER Democracy Works, Inc. <dev@democracy.works>
 
 RUN apt-get update && \
-    apt-get install -y ruby rubygems-integration inotify-tools build-essential && \
-	gem install sass -v 3.3.14
+    apt-get install -y \
+      ruby \
+      rubygems-integration \
+      inotify-tools \
+      build-essential \
+      bzip2 \
+      curl \
+      libdbus-glib-1-2 \
+      libgtk-3-0 \
+      firefox-esr \
+    && rm -rf /var/lib/apt/lists/* \
+    && gem install sass -v 3.3.14
+
+# install firefox for headless testing
+RUN curl -sSL \
+  'https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US' \
+  | tar -C /opt -xvjf -
+
+ENV PATH="${PATH}:/opt/firefox"
 
 # install Grunt
 RUN npm install -g grunt-cli
@@ -22,13 +39,9 @@ RUN bower --allow-root install
 
 COPY . /usr/src/app
 
-ENV PHANTOMJS_VERSION 2.1.1
-
-COPY script/download-phantomjs /usr/local/bin/download-phantomjs
-RUN chmod +x /usr/local/bin/download-phantomjs
-RUN download-phantomjs $PHANTOMJS_VERSION
-
 RUN lein test
+
+RUN npm prune --production
 
 RUN lein cljsbuild once min
 
