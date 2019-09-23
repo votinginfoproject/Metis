@@ -52,14 +52,10 @@
 (defn schedule->string
   [schedule]
   (str
-    (->> (:start-date schedule)
-      (format/parse full-format)
-      (format/unparse (format/formatter "MM-dd")))
+    (format-date-string (:start-date schedule))
     " - "
-    (->> (:end-date schedule)
-      (format/parse full-format)
-      (format/unparse (format/formatter "MM-dd")))
+    (format-date-string (:end-date schedule))
     " "
-    (:start-time schedule)
+    (format-time-string (:start-time schedule))
     " - "
-    (:end-time schedule)))
+    (format-time-string (:end-time schedule))))
