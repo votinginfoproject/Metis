@@ -48,7 +48,7 @@
         "/assignments/"))
 
 (defn unassign-schedule-uri [assignment-id]
-  (url "/earlyvote/assignments/" assignment-id))
+  (url "/dasher/assignments/" assignment-id))
 
 (defn update-schedule-uri [id]
   (url "/dasher/schedules/" id))
