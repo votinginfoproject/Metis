@@ -69,6 +69,7 @@
            (assoc-in [:elections :forms id] db/fresh-election-form)
            (update-in [:elections :errors] dissoc id))
    :dispatch-n [[:flash/message "Election saved"]
+                [:elections/end-edit id]
                 [:elections-list/get]]})
 
 ;; Delete Election

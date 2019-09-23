@@ -104,7 +104,7 @@
                   :params           (save-schedule-params form)
                   :timeout          8000
                   :format           (ajax/json-request-format)
-                  :response-format  (ajax/text-response-format)
+                  :response-format  (ajax/json-response-format)
                   :on-success       [:save-schedule/success form]
                   :on-failure       [:save-schedule/failure]}}))
 
@@ -117,7 +117,7 @@
   (reset! (:timezone-atom form) nil)
   (if (nil? (:id form))
     {:db (update-in db [:early-vote-site-detail :errors] dissoc :new)
-     :dispatch [:assign-schedule result]}
+     :dispatch [:assign-schedule ((first result) "id")]}
     {:db (update-in db [:early-vote-site-detail :errors] dissoc (:id form))
      :dispatch-n [[:schedule/end-edit (:id form)]
                   [:schedules-list/get]]}))

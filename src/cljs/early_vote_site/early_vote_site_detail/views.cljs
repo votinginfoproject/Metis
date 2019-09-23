@@ -104,13 +104,15 @@
 
 (defn schedule->row
   [editing schedule]
+  (println "schedule")
+  (println schedule)
   (if (contains? editing (:id schedule))
     [schedule-form schedule]
     [:tr {:key (str "schedule-" (:id schedule))}
      [:td (utils/format-date-string (:start-date schedule))]
      [:td (utils/format-date-string (:end-date schedule))]
-     [:td (:start-time schedule)]
-     [:td (:end-time schedule)]
+     [:td (utils/format-time-string (:start-time schedule))]
+     [:td (utils/format-time-string (:end-time schedule))]
      [:td (:timezone schedule)]
      [:td [:input {:type "checkbox"
                    :checked (not (nil? (:assignment-id schedule)))
