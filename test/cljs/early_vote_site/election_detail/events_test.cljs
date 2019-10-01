@@ -11,7 +11,7 @@
           uri (get-in fx [:http-xhrio :uri])
           params (get-in fx [:http-xhrio :params])]
       (is (str/ends-with?
-           uri "/earlyvote/elections/fake-election-id/earlyvotesites"))
+           uri "/dasher/elections/fake-election-id/early-vote-sites"))
       (is (empty? params))))
   (testing "county user only sees early vote sites for county fips"
     (let [db {:selected-election-id "fake-election-id"
@@ -21,7 +21,7 @@
           uri (get-in fx [:http-xhrio :uri])
           params (get-in fx [:http-xhrio :params])]
       (is (str/ends-with?
-           uri "/earlyvote/elections/fake-election-id/earlyvotesites"))
+           uri "/dasher/elections/fake-election-id/early-vote-sites"))
       (is (= {:fips "08005"} params)))))
 
 (deftest election-detail-json->clj-test

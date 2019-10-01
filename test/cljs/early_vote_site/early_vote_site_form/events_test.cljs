@@ -52,7 +52,7 @@
           params (get-in fx [:http-xhrio :params])
           method (get-in fx [:http-xhrio :method])]
       (is (= :post method))
-      (is (str/ends-with? url "/earlyvote/elections/fake-election-id/earlyvotesites"))
+      (is (str/ends-with? url "/dasher/elections/fake-election-id/early-vote-sites"))
       (is (= {:county_fips "55555"
               :type "polling_location"
               :name "Test Location"
@@ -80,7 +80,7 @@
           params (get-in fx [:http-xhrio :params])
           method (get-in fx [:http-xhrio :method])]
       (is (= :put method))
-      (is (str/ends-with? url "/earlyvote/earlyvotesites/123"))
+      (is (str/ends-with? url "/dasher/early-vote-sites/123"))
       (is (= {:county_fips "55555"
               :type "polling_location"
               :name "Test Location"
