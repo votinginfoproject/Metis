@@ -121,6 +121,12 @@ It will compile the Clojurescript to JS and run the tests as specified in `early
 If you create a new test namespace in another file, simply require it in the `test-runner` and it will be run so
 long as it is in a namespace that starts with `early-vote-site`.
 
+### Compiling - Early Vote Site
+
+The Early Vote Site is a single-page `re-frame` app. You can set it to auto-compile changes to the Clojurescript with:
+
+`lein cljsbuild auto dev` 
+
 ### Start it up
 
 You have a couple of options to run locally. You can use node directly, or you can use grunt. The benefits of using grunt are:
