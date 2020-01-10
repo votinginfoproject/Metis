@@ -32,7 +32,6 @@
     :plugins      [[lein-figwheel "0.5.13"]
                    [lein-doo "0.1.8"]]}}
 
-
   :cljsbuild
   {:builds
    [{:id           "dev"

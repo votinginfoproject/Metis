@@ -1,3 +1,4 @@
+/* Up migration */
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE FUNCTION bulk_duplicate_early_vote_sites(old_election_id uuid, new_election_id uuid)
