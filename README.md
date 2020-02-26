@@ -79,7 +79,7 @@ AUTH0_AUDIENCE_DASHBOARD=some-audience-uri AUTH0_DOMAIN_DASHBOARD=vip-dashboard-
 
 Create a `.env` file in the root directory, copy the following into
 it, and provide values for your Postgres database and RabbitMQ server and
-Auth0 client for the Express app.
+Auth0 client for the Express app. You also may want to put in your AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY if you need to talk to AWS
 
 ```
 DB_ENV_POSTGRES_DATABASE=dataprocessor
