@@ -125,7 +125,7 @@ var sendEmail = function(message, fips, contentFn) {
 };
 
 var loadFeed = function(publicId, callback) {
-  var vip_id_query = "SELECT vip_id, spec_version, election_date \
+  var vip_id_query = "SELECT vip_id, spec_version, election_date, extract(epoch from (end_time - start_time)) as duration \
                       FROM results \
                       WHERE public_id = $1";
 
@@ -152,10 +152,13 @@ module.exports = {
       var spec_version = new String(result.rows[0]['spec_version']);
       var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
       var electionDate = result.rows[0]['election_date'] || "Not available";
+      var duration = result.rows[0]['duration'] || "Not available";
+
       slack.message("SUCCESS: Feed processed for FIPS " + fips +
                     "\nState Name " + stateName +
                     "\nElection Date " + electionDate +
-                    "\nVIP Spec Version " + spec_version);
+                    "\nVIP Spec Version " + spec_version +
+                    "\nProcessing-Time (sec) " + duration);
       if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
         sendEmail(message, fips, messageOptions['v5processedFeed']);
       } else {
