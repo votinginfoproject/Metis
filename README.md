@@ -150,8 +150,8 @@ AUTH0_AUDIENCE_DASHBOARD="some-audience-uri" ./node_modules/.bin/grunt default
 
 So the options are:
 
-1. If using the `run-local` script, simply create a file `scripts/run-local` with the above contents and invoke with:
-`scripts/run-local` (you should be sure to chmod +x the `run-local` script to make it executable)
+1. If using the `run-local` script, simply create a file `script/run-local` with the above contents and invoke with:
+`script/run-local` (you should be sure to chmod +x the `run-local` script to make it executable)
 
 2. Use Grunt directly (which Option 1 also uses); however, you will need to take care of the AUTH0 env vars as stated above.
 ```sh
