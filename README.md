@@ -12,6 +12,7 @@ you can run Metis locally to show a dashboard for that data.
 
 ### Prerequisites
 
+* XCode
 * [Node.js][node]
 * [Grunt][grunt]
     * Install Grunt CLI `npm install grunt-cli`
@@ -32,6 +33,14 @@ you can run Metis locally to show a dashboard for that data.
 
 * Compile SASS: `./node_modules/.bin/grunt sass`
 * Create databases: `create db dataprocessor`, `create db datadashboard`
+   
+   Use the below sql to create the respective databases (assuming you have Postgres11 installed):
+   ```sql
+   CREATE ROLE dataprocessor LOGIN ENCRYPTED PASSWORD 'put-in-password-here' SUPERUSER INHERIT CREATEDB CREATEROLE NOREPLICATION;
+   CREATE DATABASE dataprocessor WITH OWNER = dataprocessor ENCODING = 'UTF8' TEMPLATE = template0 TABLESPACE = pg_default LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' CONNECTION LIMIT = -1;
+   CREATE DATABASE datadashboard WITH OWNER = dataprocessor ENCODING = 'UTF8' TEMPLATE = template0 TABLESPACE = pg_default LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8' CONNECTION LIMIT = -1;
+   ```
+   
 
 ### Configuration
 
@@ -70,7 +79,7 @@ AUTH0_AUDIENCE_DASHBOARD=some-audience-uri AUTH0_DOMAIN_DASHBOARD=vip-dashboard-
 
 Create a `.env` file in the root directory, copy the following into
 it, and provide values for your Postgres database and RabbitMQ server and
-Auth0 client for the Express app.
+Auth0 client for the Express app. You also may want to put in your AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY if you need to talk to AWS
 
 ```
 DB_ENV_POSTGRES_DATABASE=dataprocessor
@@ -139,12 +148,17 @@ AUTH0_DOMAIN_DASHBOARD=<auth0_domain> AUTH0_CLIENT_ID_DASHBOARD=<auth0_client_id
 AUTH0_AUDIENCE_DASHBOARD="some-audience-uri" ./node_modules/.bin/grunt default
 ```
 
-Grunt:
+So the options are:
+
+1. If using the `run-local` script, simply create a file `script/run-local` with the above contents and invoke with:
+`script/run-local` (you should be sure to chmod +x the `run-local` script to make it executable)
+
+2. Use Grunt directly (which Option 1 also uses); however, you will need to take care of the AUTH0 env vars as stated above.
 ```sh
 ./node_modules/.bin/grunt default
 ```
 
-Basic:
+3. Invoke with Node (Basic):
 ```sh
 node app.js
 ```
