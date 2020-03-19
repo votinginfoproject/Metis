@@ -35,13 +35,22 @@
       "Delete"]]]])
 
 (defn early-vote-sites-list [election]
-  (let [state-fips (:state-fips election)
+  (let [selected-county-fips @(re-frame/subscribe [:election-detail/selected-county-fips])
+        state-fips (:state-fips election)
         site-list (re-frame/subscribe [:election-detail/early-vote-site-list])]
     [:div
      [:table {:name "early-vote-sites-list"}
       [:thead
        [:tr {:key "early-vote-sites-head-row"}
-        [:th {:name "early-vote-site-fips"} "County/FIPS"]
+        [:th {:name "early-vote-site-fips"}
+         [:label {:for "county-fips-select"} "County/FIPS"]
+         [:select
+          {:id "county-fips-select"
+           :name "county-fips"
+           :on-change #(re-frame/dispatch [:early-vote-site-list/filter (-> % (.-target) (.-value))])}
+          [:option {:value "" :key "default-option"} "select to filter"]
+          (for [fips (distinct (map #(:county-fips %) @site-list))]
+            [:option {:value fips :key (str fips "-option")} (places/fips-name fips)])]]
         [:th {:name "early-vote-site-type"} "Type"]
         [:th {:name "early-vote-site-location-name"} "Location Name"]
         [:th {:name "early-vote-site-address-1"} "Address Line 1"]
@@ -49,7 +58,10 @@
         [:th {:name "early-vote-site-action"} "Action"]]]
       [:tbody
        (if (seq @site-list)
-         (map (partial site->row state-fips) @site-list)
+         (map (partial site->row state-fips)
+           (if (clojure.string/blank? selected-county-fips)
+             @site-list
+             (filter #(= (:county-fips %) selected-county-fips) @site-list)))
          [:tr [:td {:colSpan 6} "No Early Vote Sites"]])]]]))
 
 (defn election-details [election]

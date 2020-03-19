@@ -18,7 +18,8 @@
                 :errors {}
                 :forms {:new fresh-election-form}}
     :election-detail {:early-vote-site-list nil
-                      :election nil}
+                      :election nil
+                      :selected-county-fips ""}
     :early-vote-site-form fresh-early-vote-site-form
     :early-vote-site-detail {:early-vote-site nil
                              :editing #{}
