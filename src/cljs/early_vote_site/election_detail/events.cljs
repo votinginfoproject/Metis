@@ -62,8 +62,8 @@
                 :on-failure        [:get-early-vote-site-list/failure]}})
 
 (defn filter-early-vote-site-list
-  [{:keys [db]} [_ selected-county-fips]]
-  {:db (assoc-in db [:election-detail :selected-county-fips] selected-county-fips)
+  [{:keys [db]} [_ filter-type value]]
+  {:db (assoc-in db [:election-detail filter-type] value)
    :dispatch-n []})
 
 (defn early-vote-site-json->clj
