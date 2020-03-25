@@ -1,6 +1,7 @@
 (ns early-vote-site.utils
   (:require [cljs-time.format :as format]
             [cljs-time.coerce :as coerce]
+            [clojure.string :as str]
             [early-vote-site.constants :as constants]))
 
 (def full-format (format/formatters :date-time))
@@ -25,6 +26,17 @@
   [date-str]
   (let [parsed (format/parse full-format date-str)]
     (coerce/to-date parsed)))
+
+(defn military-to-standard
+  [time]
+  (let [hour (js/parseInt (subs time 0 2))
+        rest (subs time 2 5)
+        all (subs time 0 5)]
+   (cond
+     (> hour 12) (str (mod hour 12) rest " PM")
+     (= hour 12) (str all " PM")
+     (str/starts-with? all "0") (str (subs all 1 5) " AM")
+     :else (str all " AM"))))
 
 (defn flash-error-with-results
   [message]
