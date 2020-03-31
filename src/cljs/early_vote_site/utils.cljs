@@ -35,6 +35,7 @@
    (cond
      (> hour 12) (str (mod hour 12) rest " PM")
      (= hour 12) (str all " PM")
+     (str/starts-with? all "00") (str "12" (subs all 2 5) " AM")
      (str/starts-with? all "0") (str (subs all 1 5) " AM")
      :else (str all " AM"))))
 
