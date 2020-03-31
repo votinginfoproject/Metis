@@ -62,9 +62,8 @@
                 :on-failure        [:get-early-vote-site-list/failure]}})
 
 (defn filter-early-vote-site-list
-  [{:keys [db]} [_ filter-type value]]
-  {:db (assoc-in db [:election-detail filter-type] value)
-   :dispatch-n []})
+  [db [_ filter-type value]]
+  (assoc-in db [:election-detail filter-type] value))
 
 (defn early-vote-site-json->clj
   [json]
@@ -139,11 +138,11 @@
 (def events
   {:db {:get-election/success get-election-success
         :get-early-vote-site-list/success get-early-vote-site-list-success
-        :early-vote-site/initiate-delete initiate-delete}
+        :early-vote-site/initiate-delete initiate-delete
+        :early-vote-site-list/filter filter-early-vote-site-list}
    :fx {:navigate/election-detail navigate
         :election-detail/get get-election-detail
         :early-vote-site-list/get get-early-vote-site-list
-        :early-vote-site-list/filter filter-early-vote-site-list
         :early-vote-site/delete delete-early-vote-site
         :early-vote-site-delete/success early-vote-site-delete-success
         :early-vote-site/duplicate duplicate-early-vote-site
