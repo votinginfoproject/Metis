@@ -4,6 +4,7 @@
             [clojure.string :as str]
             [early-vote-site.modal :as modal]
             [early-vote-site.server :as server]
+            [early-vote-site.places :as places]
             [early-vote-site.utils :as utils]
             [re-frame.core :as re-frame]))
 
@@ -59,6 +60,10 @@
                 :response-format   (ajax/json-response-format)
                 :on-success        [:get-early-vote-site-list/success]
                 :on-failure        [:get-early-vote-site-list/failure]}})
+
+(defn filter-early-vote-site-list
+  [db [_ filter-type value]]
+  (assoc-in db [:election-detail filter-type] value))
 
 (defn early-vote-site-json->clj
   [json]
@@ -133,7 +138,8 @@
 (def events
   {:db {:get-election/success get-election-success
         :get-early-vote-site-list/success get-early-vote-site-list-success
-        :early-vote-site/initiate-delete initiate-delete}
+        :early-vote-site/initiate-delete initiate-delete
+        :early-vote-site-list/filter filter-early-vote-site-list}
    :fx {:navigate/election-detail navigate
         :election-detail/get get-election-detail
         :early-vote-site-list/get get-early-vote-site-list
