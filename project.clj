@@ -1,12 +1,12 @@
 (defproject early-vote-site "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.520"]
+                 [org.clojure/clojurescript "1.10.597"]
                  [cljs-ajax "0.8.0"]
                  [cljs-pikaday "0.1.4"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [day8.re-frame/http-fx "0.1.6"]
-                 [re-frame "0.10.9"]
-                 [reagent "0.8.1"]]
+                 [re-frame "0.12.0"]
+                 [reagent "0.10.0"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 
@@ -24,8 +24,8 @@
 
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "0.9.10"]
-                   [cider/piggieback "0.4.1"]
+   {:dependencies [[binaryage/devtools "1.0.0"]
+                   [cider/piggieback "0.4.2"]
                    [figwheel-sidecar "0.5.19"]
                    [doo "0.1.11"]]
     :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
