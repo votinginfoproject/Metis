@@ -32,6 +32,13 @@
     :plugins      [[lein-figwheel "0.5.19"]
                    [lein-doo "0.1.11"]]}}
 
+  :doo {:build "test"
+        :paths {:karma "env TZ=UTC node_modules/.bin/karma"}}
+
+
+  :aliases {"test-chrome" ["doo" "chrome-headless" "test" "once"]
+            "test" ["doo" "firefox-headless" "test" "once"]}
+
   :cljsbuild
   {:builds
    [{:id           "dev"
@@ -60,11 +67,4 @@
                     :output-to       "public/assets/js/compiled/early_vote.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}]}
-
-  :doo {:build "test"
-        :paths {:karma "env TZ=UTC node_modules/.bin/karma"}}
-
-
-  :aliases {"test-chrome" ["doo" "chrome-headless" "test" "once"]
-            "test" ["doo" "firefox-headless" "test" "once"]})
+                    :pretty-print    false}}]})
