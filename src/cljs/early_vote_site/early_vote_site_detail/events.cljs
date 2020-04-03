@@ -140,7 +140,8 @@
 (defn assign-schedule-success
   [{:keys [db]} [_ result]]
   {:db db
-   :dispatch [:schedules-list/get]})
+   :dispatch-n [[:flash/message "Schedule assigned"]
+                [:schedules-list/get]]})
 
 ;; Unassign Schedule
 
