@@ -161,7 +161,8 @@
 (defn unassign-schedule-success
   [{:keys [db]} [_ result]]
   {:db db
-   :dispatch [:schedules-list/get]})
+   :dispatch-n [[:flash/message "Schedule unassigned"]
+                [:schedules-list/get]]})
 
 ;; Edit Mode
 
