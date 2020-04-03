@@ -128,7 +128,7 @@
          "Edit"]
         [:li
          {:class "btn-link"
-          :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule])}
+          :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule @(re-frame/subscribe [:election-detail/early-vote-site-list])])}
          "Delete"]]]]))
 
 (defn schedules-list [selected-early-vote-site-id]

@@ -55,7 +55,7 @@
     (->> (:end-date schedule)
       (format/parse full-format)
       (format/unparse (format/formatter "MM-dd")))
-    " "
-    (:start-time schedule)
+    ", "
+    (military-to-standard (:start-time schedule))
     " - "
-    (:end-time schedule)))
+    (military-to-standard (:end-time schedule))))

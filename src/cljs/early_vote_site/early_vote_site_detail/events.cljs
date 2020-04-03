@@ -176,12 +176,19 @@
 
 ;; Delete Schedule
 
+(defn evs-list-item
+  [evs]
+  [:li (str (:name evs) ", " (:city evs))])
+
 (defn initiate-delete
-  [db [_ schedule]]
+  [db [_ schedule schedule-early-vote-sites]]
   (modal/add-modal db
    {:title "Delete Schedule?"
-    :message (str "Do you really want to delete the schedule "
-                  (utils/schedule->string schedule) "?")
+    :message (str "The schedule "
+                  (utils/schedule->string schedule)
+                  " will be deleted from "
+                  (count schedule-early-vote-sites)
+                  " Early Vote Sites. Do you want to delete this schedule?")
     :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
     :on-cancel #(re-frame/dispatch [:close-modal])}))
 
