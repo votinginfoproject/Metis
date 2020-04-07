@@ -105,7 +105,11 @@
 (defn schedule->row
   [editing schedule]
   (if (contains? editing (:id schedule))
-    [schedule-form schedule]
+    (list
+      [schedule-form schedule]
+      [:tr
+       [:td {:colspan "7" :style {:border "none" :padding-top "0"}}
+        [:div {:class "alert-box" :style {:margin "0"}} "This schedule may be associated with multiple Early Vote Sites. Edits made here will apply across all sites."]]])
     [:tr {:key (str "schedule-" (:id schedule))}
      [:td (utils/format-date-string (:start-date schedule))]
      [:td (utils/format-date-string (:end-date schedule))]
@@ -128,7 +132,7 @@
          "Edit"]
         [:li
          {:class "btn-link"
-          :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule @(re-frame/subscribe [:election-detail/early-vote-site-list])])}
+          :on-click #(re-frame/dispatch [:schedule/initiate-delete schedule])}
          "Delete"]]]]))
 
 (defn schedules-list [selected-early-vote-site-id]
