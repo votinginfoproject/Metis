@@ -4,4 +4,6 @@
 
 (def subscriptions
   {:election-detail/early-vote-site-list [:election-detail :early-vote-site-list]
-   :election-detail/election [:election-detail :election]})
+   :election-detail/election [:election-detail :election]
+   :election-detail/selected-county-fips [:election-detail :selected-county-fips]
+   :election-detail/selected-type [:election-detail :selected-type]})

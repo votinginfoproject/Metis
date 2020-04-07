@@ -1,14 +1,14 @@
 (defproject early-vote-site "0.1.0-SNAPSHOT"
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.908"]
-                 [cljs-ajax "0.7.2"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/clojurescript "1.10.597"]
+                 [cljs-ajax "0.8.0"]
                  [cljs-pikaday "0.1.4"]
-                 [com.andrewmcveigh/cljs-time "0.5.0"]
-                 [day8.re-frame/http-fx "0.1.4"]
-                 [re-frame "0.10.1"]
-                 [reagent "0.7.0"]]
+                 [com.andrewmcveigh/cljs-time "0.5.2"]
+                 [day8.re-frame/http-fx "0.1.6"]
+                 [re-frame "0.12.0"]
+                 [reagent "0.10.0"]]
 
-  :plugins [[lein-cljsbuild "1.1.5"]]
+  :plugins [[lein-cljsbuild "1.1.7"]]
 
   :min-lein-version "2.5.3"
 
@@ -24,13 +24,20 @@
 
   :profiles
   {:dev
-   {:dependencies [[binaryage/devtools "0.9.4"]
-                   [com.cemerick/piggieback "0.2.1"]
-                   [figwheel-sidecar "0.5.8"]
-                   [doo "0.1.8"]]
-    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-    :plugins      [[lein-figwheel "0.5.13"]
-                   [lein-doo "0.1.8"]]}}
+   {:dependencies [[binaryage/devtools "1.0.0"]
+                   [cider/piggieback "0.4.2"]
+                   [figwheel-sidecar "0.5.19"]
+                   [doo "0.1.11"]]
+    :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
+    :plugins      [[lein-figwheel "0.5.19"]
+                   [lein-doo "0.1.11"]]}}
+
+  :doo {:build "test"
+        :paths {:karma "env TZ=UTC node_modules/.bin/karma"}}
+
+
+  :aliases {"test-chrome" ["doo" "chrome-headless" "test" "once"]
+            "test" ["doo" "firefox-headless" "test" "once"]}
 
   :cljsbuild
   {:builds
@@ -50,7 +57,7 @@
      :source-paths ["src/cljs" "test/cljs"]
      :compiler {:output-to "resources/test/compiled.js"
                 :output-dir "resources/test/out"
-                :main "early-vote-site.test-runner"
+                :main early-vote-site.test-runner
                 :optimizations :none
                 :pretty-print true}}
 
@@ -60,8 +67,4 @@
                     :output-to       "public/assets/js/compiled/early_vote.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}]}
-
-  :doo {:build "test"}
-
-  :aliases {"test" ["doo" "phantom" "once"]})
+                    :pretty-print    false}}]})
