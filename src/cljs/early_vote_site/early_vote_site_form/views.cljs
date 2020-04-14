@@ -145,5 +145,8 @@
        {:on-click #(re-frame/dispatch [:early-vote-site-form/save])}
        "Save Early Vote Site"]
       [:button.button
+       {:on-click #(re-frame/dispatch [:early-vote-site-form/save true])}
+       "Add Schedules"]
+      [:button.button
        {:on-click #(re-frame/dispatch [:navigate/election-detail])}
        "Cancel"]]]))

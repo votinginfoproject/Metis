@@ -105,12 +105,16 @@
 (defn schedule->row
   [editing schedule]
   (if (contains? editing (:id schedule))
-    [schedule-form schedule]
+    (list
+      [schedule-form schedule]
+      [:tr
+       [:td {:colspan "7" :style {:border "none" :padding-top "0"}}
+        [:div {:class "alert-box" :style {:margin "0"}} "This schedule may be associated with multiple Early Vote Sites. Edits made here will apply across all sites."]]])
     [:tr {:key (str "schedule-" (:id schedule))}
      [:td (utils/format-date-string (:start-date schedule))]
      [:td (utils/format-date-string (:end-date schedule))]
-     [:td (:start-time schedule)]
-     [:td (:end-time schedule)]
+     [:td (utils/military-to-standard (:start-time schedule))]
+     [:td (utils/military-to-standard (:end-time schedule))]
      [:td (:timezone schedule)]
      [:td [:input {:type "checkbox"
                    :checked (not (nil? (:assignment-id schedule)))
