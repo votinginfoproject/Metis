@@ -91,7 +91,7 @@
 
 (defn save-success [{:keys [db]} [_ add-schedules? response]]
   (let [form (:early-vote-site-form db)
-        evs-id (if (contains? form :id) (:id form) (second response))]
+        evs-id (get form :id (second response))]
     {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
      :dispatch-n [[:flash/message "Early Vote Site saved"]
                   (if add-schedules?
