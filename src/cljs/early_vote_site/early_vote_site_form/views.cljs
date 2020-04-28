@@ -143,10 +143,10 @@
       [:p "* required"]
       [:button.button
        {:on-click #(re-frame/dispatch [:early-vote-site-form/save])}
-       "Save Early Vote Site"]
+       "Save Location"]
       [:button.button
        {:on-click #(re-frame/dispatch [:early-vote-site-form/save true])}
-       "Add Schedules"]
+       "Save Location & Add Schedules"]
       [:button.button
        {:on-click #(re-frame/dispatch [:navigate/election-detail])}
        "Cancel"]]]))

@@ -90,11 +90,13 @@
                   :on-failure          [:early-vote-site-save/failure]}}))
 
 (defn save-success [{:keys [db]} [_ add-schedules? response]]
-  {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
-   :dispatch-n [[:flash/message "Early Vote Site saved"]
-                (if add-schedules?
-                  [:navigate/early-vote-site-detail (second response)]
-                  [:navigate/election-detail])]})
+  (let [form (:early-vote-site-form db)
+        evs-id (get form :id (second response))]
+    {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
+     :dispatch-n [[:flash/message "Early Vote Site saved"]
+                  (if add-schedules?
+                    [:navigate/early-vote-site-detail evs-id]
+                    [:navigate/election-detail])]}))
 
 (def events
   {:db {:early-vote-site-form/update form-update
