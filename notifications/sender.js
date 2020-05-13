@@ -197,11 +197,22 @@ module.exports = {
   },
   sendAddressTestSuccessNotifications: function(message) {
     var fipsCode = message.fipsCode;
+    var slackMessage = "";
     if(fipsCode == "undefined") {
-      slack.message("SUCCESS: Batch Address file processed for an admin, available at: " + message["url"]);
+      slackMessage += "SUCCESS: Batch Address file processed for an admin, available at: " + message["url"];
     } else {
-      slack.message("SUCCESS: Batch Address file processed for fips " + fipsCode);
+      slackMessage += "SUCCESS: Batch Address file processed for fips " + fipsCode + ", available at: " + message["url"];
     }
+    if(message.stats) {
+      slackMessage += "\nMatch Breakdown:";
+      var statuses = ["Match", "Possible Mismatch", "Mismatch", "No Result"];
+      statuses.map( (key) => { if (message.stats.hasOwnProperty(key)) {
+                                 slackMessage += "\n" + key + ": " + message.stats[key];
+                               } else {
+                                 slackMessage += "\n" + key + ": 0";
+                               } });
+    }
+    slack.message(slackMessage);
     sendEmail(message, fipsCode, messageOptions['testingComplete']);
   },
   sendAddressTestFailureNotifications: function(message) {
