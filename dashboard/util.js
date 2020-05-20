@@ -46,7 +46,7 @@ module.exports = {
           if (idFn) {
             res.write(idFn(params));
           } else {
-            res.write("{}");
+            res.write(JSON.stringify(params));
           }
           res.end();
         }

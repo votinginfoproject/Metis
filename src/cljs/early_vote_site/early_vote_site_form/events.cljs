@@ -74,7 +74,7 @@
     (server/election-early-vote-sites-url db)))
 
 (defn form-submit
-  [{:keys [db]} _]
+  [{:keys [db]} [_ add-schedules?]]
   (let [form (:early-vote-site-form db)
         params (params form db)
         uri (submit-uri form db)
@@ -86,13 +86,17 @@
                   :timeout             8000
                   :format              (ajax/json-request-format)
                   :response-format     (ajax/json-response-format)
-                  :on-success          [:early-vote-site-save/success]
+                  :on-success          [:early-vote-site-save/success add-schedules?]
                   :on-failure          [:early-vote-site-save/failure]}}))
 
-(defn save-success [{:keys [db]} _]
-  {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
-   :dispatch-n [[:flash/message "Early Vote Site saved"]
-                [:navigate/election-detail]]})
+(defn save-success [{:keys [db]} [_ add-schedules? response]]
+  (let [form (:early-vote-site-form db)
+        evs-id (get form :id (second response))]
+    {:db (assoc db :early-vote-site-form db/fresh-early-vote-site-form)
+     :dispatch-n [[:flash/message "Early Vote Site saved"]
+                  (if add-schedules?
+                    [:navigate/early-vote-site-detail evs-id]
+                    [:navigate/election-detail])]}))
 
 (def events
   {:db {:early-vote-site-form/update form-update

@@ -140,7 +140,8 @@
 (defn assign-schedule-success
   [{:keys [db]} [_ result]]
   {:db db
-   :dispatch [:schedules-list/get]})
+   :dispatch-n [[:flash/message "Schedule assigned"]
+                [:schedules-list/get]]})
 
 ;; Unassign Schedule
 
@@ -160,7 +161,8 @@
 (defn unassign-schedule-success
   [{:keys [db]} [_ result]]
   {:db db
-   :dispatch [:schedules-list/get]})
+   :dispatch-n [[:flash/message "Schedule unassigned"]
+                [:schedules-list/get]]})
 
 ;; Edit Mode
 
@@ -174,12 +176,17 @@
 
 ;; Delete Schedule
 
+(defn evs-list-item
+  [evs]
+  [:li (str (:name evs) ", " (:city evs))])
+
 (defn initiate-delete
   [db [_ schedule]]
   (modal/add-modal db
    {:title "Delete Schedule?"
-    :message (str "Do you really want to delete the schedule "
-                  (utils/schedule->string schedule) "?")
+    :message (str "The schedule "
+                  (utils/schedule->string schedule)
+                  " may be associated with multiple Early Vote Sites and will be deleted from all sites. Do you want to delete this schedule?")
     :on-confirm #(re-frame/dispatch [:schedule/delete-schedule (:id schedule)])
     :on-cancel #(re-frame/dispatch [:close-modal])}))
 

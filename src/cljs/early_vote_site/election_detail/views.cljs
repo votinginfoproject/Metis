@@ -21,7 +21,7 @@
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:navigate/early-vote-site-detail (:id site)])}
-      "Add Schedules"]
+      "Manage Schedules"]
      [:li {:class "btn-link"
            :on-click #(re-frame/dispatch
                        [:navigate/edit-early-vote-site-form (:id site)])}
@@ -123,7 +123,7 @@
       [:h1 "Manage Early Vote Sites"]
       [:p "To get started, click “Create an Early Vote Site” and enter
            information in the required fields. Once an Early Vote Site has
-           been created, click “Add Schedules” to specify the days and hours
+           been created, click “Manage Schedules” to specify the days and hours
            the site will be open."]
       [election-details election]
       [early-vote-sites-list election]]))
