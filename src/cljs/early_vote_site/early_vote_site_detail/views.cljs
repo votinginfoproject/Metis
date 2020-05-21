@@ -44,7 +44,7 @@
                 :date-atom (:start-date-atom form)
                 :max-date-atom (:end-date-atom form)
                 :pikaday-attrs
-                {:min-date (js/Date.)
+                {:min-date (if editing? () (js/Date.))
                  :max-date @(:end-date-atom form)}}]]
          [:td [pikaday/date-selector
                {:input-attrs
@@ -105,7 +105,11 @@
 (defn schedule->row
   [editing schedule]
   (if (contains? editing (:id schedule))
-    [schedule-form schedule]
+    (list
+      [schedule-form schedule]
+      [:tr
+       [:td {:colSpan "7" :style {:border "none" :padding-top "0"}}
+        [:div {:class "alert-box" :style {:margin "0"}} "This schedule may be associated with multiple Early Vote Sites. Edits made here will apply across all sites."]]])
     [:tr {:key (str "schedule-" (:id schedule))}
      [:td (utils/format-date-string (:start-date schedule))]
      [:td (utils/format-date-string (:end-date schedule))]
