@@ -113,8 +113,8 @@
     [:tr {:key (str "schedule-" (:id schedule))}
      [:td (utils/format-date-string (:start-date schedule))]
      [:td (utils/format-date-string (:end-date schedule))]
-     [:td (:start-time schedule)]
-     [:td (:end-time schedule)]
+     [:td (utils/military-to-standard (:start-time schedule))]
+     [:td (utils/military-to-standard (:end-time schedule))]
      [:td (:timezone schedule)]
      [:td [:input {:type "checkbox"
                    :checked (not (nil? (:assignment-id schedule)))
