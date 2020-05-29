@@ -19,7 +19,7 @@ Environment=RUN_ENV=default
 
 ExecStartPre=-/usr/bin/docker kill ${CONTAINER}
 ExecStartPre=-/usr/bin/docker rm ${CONTAINER}
-ExecStartPre=/usr/bin/docker pull ${DOCKER_IMAGE}
+ExecStartPre=-/usr/bin/docker pull ${DOCKER_IMAGE}
 
 ExecStartPre=/bin/bash -c 'echo PORT=4000 > /tmp/${CONTAINER}--env'
 ExecStartPre=/bin/bash -c 'echo NODE_ENV="production" > /tmp/${CONTAINER}--env'
