@@ -13,6 +13,7 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
   // initialize page header variables
   $scope.setPageHeader("VIP Data Upload", breadcrumbs, "data-upload", "", null);
   $rootScope.isUploading = false;
+  $scope.type = "file"; //set a default value for the type radio button
   $scope.cannotSubmit = function() {
     // the ui-date that is allowing the user to select their date via a calendar
     // is not fully compatible with angular 1.2.1, so this calls to a function
