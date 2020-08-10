@@ -31,25 +31,25 @@
 
           <tr id="locality{{$index}}" ng-repeat="locality in $data">
             <td id="locality-id{{$index}}" class="id" data-title="'ID'" sortable="'identifier'">
-              <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="ID">
+              <a href="/#/5/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="ID">
                 <span class="td-text">{{locality.identifier}}</span>
               </a>
             </td>
 
             <td id="locality-name{{$index}}" class="name" data-title="'Name'" sortable="'name'">
-              <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Name">
+              <a href="/#/5/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Name">
                 <span class="td-text">{{locality.name}}</span>
               </a>
             </td>
 
             <td id="locality-precincts{{$index}}" class="precincts" data-title="'Precincts'" sortable="'precincts'">
-              <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Precincts">
+              <a href="/#/5/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Precincts">
                 <span class="td-text">{{locality.precincts | number}}</span>
               </a>
             </td>
 
             <td id="locality-polling-locations{{$index}}" class="polling_locations" data-title="'Polling Locations'" sortable="'polling_locations'">
-              <a href="/#/5.1/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Polling Locations">
+              <a href="/#/5/feeds/{{publicId}}/election/state/localities/{{locality.identifier}}" data-title-text="Polling Locations">
                 <span class="td-text">{{locality.polling_locations | number}}</span>
               </a>
             </td>

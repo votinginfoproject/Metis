@@ -1,6 +1,6 @@
 'use strict';
 
-function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
+function FeedOverview5Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
                             $location, $appProperties, $filter, ngTableParams) {
   var publicId = $rootScope.publicId = $routeParams.vipfeed;
   $rootScope.errorReport = "/db/feeds/" + publicId + "/xml/errors/report";
@@ -58,7 +58,7 @@ function FeedOverview51Ctrl($scope, $rootScope, $feedDataPaths, $routeParams,
 
     $feedDataPaths.getResponse(
       {
-        path: '/db/5.1/feeds/' + publicId + '/localities ',
+        path: '/db/5/feeds/' + publicId + '/localities ',
         scope: $scope,
         key: 'feedLocalities',
         errorMessage: 'Cound not retrieve Feed Localities.'

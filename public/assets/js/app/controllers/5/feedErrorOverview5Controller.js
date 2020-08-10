@@ -1,6 +1,6 @@
 'use strict';
 
-function FeedErrorOverview51Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
+function FeedErrorOverview5Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
   var publicId = $routeParams.vipfeed;
   $scope.publicId = publicId;
   $scope.pageHeader.title = 'Errors';

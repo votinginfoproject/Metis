@@ -1,6 +1,6 @@
 'use strict';
 
-function LocalityErrorsOverview51Controller($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
+function LocalityErrorsOverview5Controller($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
   var publicId = $routeParams.vipfeed;
   var localityId = $routeParams.locality_id;
   $scope.publicId = publicId;
