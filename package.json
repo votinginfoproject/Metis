@@ -13,7 +13,7 @@
   "dependencies": {
     "amqplib": "~0.3.2",
     "async": "~0.2.9",
-    "auth0": "2.10.0",
+    "auth0": "2.27.1",
     "auth0-js": "9.13.2",
     "aws-sdk": "~2.478.0",
     "bower": "^1.8.8",
