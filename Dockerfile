@@ -22,6 +22,9 @@ RUN curl -sSL \
 
 ENV PATH="${PATH}:/opt/firefox"
 
+# upgrade npm
+RUN npm i -g npm@6.9.0
+
 # install Grunt
 RUN npm install -g grunt-cli
 RUN npm install -g bower
