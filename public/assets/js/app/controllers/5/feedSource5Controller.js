@@ -1,11 +1,11 @@
 'use strict';
 
-function FeedSource51Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
+function FeedSource5Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $location) {
   var publicId = $scope.publicId = $routeParams.vipfeed;
 
   $rootScope.setPageHeader("Source & Election", [], "feeds", "", null);
 
-  $feedDataPaths.getResponse({path: '/db/5.1/feeds/' + publicId + '/source',
+  $feedDataPaths.getResponse({path: '/db/5/feeds/' + publicId + '/source',
                               scope:  $scope,
                               key: 'source',
                               errorMessage: 'Could not retrieve source' },
@@ -14,7 +14,7 @@ function FeedSource51Ctrl($scope, $rootScope, $routeParams,  $feedDataPaths, $lo
                                console.log('Got a source response: ' + JSON.stringify($scope.source));
                              });
 
-  $feedDataPaths.getResponse({path: '/db/5.1/feeds/' + publicId + '/election',
+  $feedDataPaths.getResponse({path: '/db/5/feeds/' + publicId + '/election',
                               scope: $scope,
                               key: 'election',
                               errorMessage: 'Could not retrieve election' },

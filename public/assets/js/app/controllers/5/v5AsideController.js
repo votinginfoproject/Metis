@@ -3,7 +3,7 @@ function v5AsideController($scope, $rootScope, $feedDataPaths, $routeParams) {
   var publicId = $rootScope.publicId = $routeParams.vipfeed;
 
   $rootScope.feedURL = function(path) {
-    return "#/5.1/feeds/" + $rootScope.publicId + path;
+    return "#/5/feeds/" + $rootScope.publicId + path;
   };
 
   $feedDataPaths.getResponse({path: '/db/feeds/' + publicId + '/xml/error-total-count',
