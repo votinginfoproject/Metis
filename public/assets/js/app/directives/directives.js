@@ -15,6 +15,6 @@ vipApp.directive('vipOverviewTable', function () {
       title: '@',
       idPrefix: '@'
     },
-    templateUrl: 'app/partials/5.1/overviewTable.html',
+    templateUrl: 'app/partials/5/overviewTable.html',
   }
 });

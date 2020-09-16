@@ -252,7 +252,7 @@ var errorDescriptions = {
   'missing-dependency': 'CSV files have additional, dependent files which have not been provided',
   'missing-headers': 'Required headers missing from a .txt file',
   'missing': 'A required element is missing',
-  'multiple-polling-locations-mappings': 'In the 5.1 format, polling location IDs should be referenced in locality.txt if the location is available to all voters in the locality, or in precinct.txt if the location is available to only specific voters in the locality.',
+  'multiple-polling-locations-mappings': 'In the 5.1/5.2 formats, polling location IDs should be referenced in locality.txt if the location is available to all voters in the locality, or in precinct.txt if the location is available to only specific voters in the locality.',
   'number-of-values': 'Number of columns and number of values do not match',
   'overlaps': 'Street segments must not overlap',
   'row-constraint': 'Specified files must only contain one record: source, election, state',
