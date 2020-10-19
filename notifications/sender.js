@@ -162,10 +162,16 @@ module.exports = {
           reportSuffix = "/errors/report";
         }
 
+        var checksum = "";
+        if (message.checksum) {
+          checksum = "\nChecksum: " + message.checksum
+        }
+
         slack.message("SUCCESS: Feed processed for FIPS " + fips +
                       "\nState Name " + stateName +
                       "\nElection Date " + electionDate +
                       "\nVIP Spec Version " + spec_version +
+                      checksum +
                       "\nFull Error Report (right-click, Save As) https://" +
                         process.env.BASE_URI + "/db/feeds/" + message.publicId + reportSuffix +
                       "\nProcessing-Time (sec) " + duration);
