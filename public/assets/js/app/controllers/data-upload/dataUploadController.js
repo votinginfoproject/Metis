@@ -101,7 +101,8 @@ function DataUploadCtrl($scope, $rootScope, Upload, $backendService, $route, $au
         url: '/dasher/upload',
         data: {'file': $scope.file,
                'date': uploadDate,
-               'type': $scope.type}
+               'type': $scope.type,
+               'email': $rootScope.user.userName}
     }).then(function (resp) {
         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
         $rootScope.showUploaded = true;

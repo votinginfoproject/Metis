@@ -33,11 +33,11 @@ function registerDasherServices(app) {
   // and then use FormData plugin to the request library to create a multi-part
   // form to send to dasher
   app.post('/dasher/upload', auth.checkJwt, function(req, res) {
-    logger.info("uploading to dasher");
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
       var user = auth.getUserFromRequest(req);
       var apiKeyHeader = "Api-key " + user["id"] + ":" + user["user_metadata"]["api-key"];
+      logger.info("uploading to dasher from " + fields.email);
 
       var formData = {
         'type': fields.type,
