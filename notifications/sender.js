@@ -172,7 +172,7 @@ module.exports = {
                       "\nElection Date " + electionDate +
                       "\nVIP Spec Version " + spec_version +
                       checksum +
-                      "\nFull Error Report (right-click, Save As) https://" +
+                      "\nFull Error Report https://" +
                         process.env.BASE_URI + "/db/feeds/" + message.publicId + reportSuffix +
                       "\nProcessing-Time (sec) " + duration);
         if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
