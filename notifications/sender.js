@@ -157,10 +157,23 @@ module.exports = {
         var electionDate = result.rows[0]['election_date'] || "Not available";
         var duration = result.rows[0]['duration'] || "Not available";
 
+        var reportSuffix = "/xml/errors/report";
+        if (spec_version == "3.0") {
+          reportSuffix = "/errors/report";
+        }
+
+        var checksum = "";
+        if (message.checksum) {
+          checksum = "\nChecksum: " + message.checksum
+        }
+
         slack.message("SUCCESS: Feed processed for FIPS " + fips +
                       "\nState Name " + stateName +
                       "\nElection Date " + electionDate +
                       "\nVIP Spec Version " + spec_version +
+                      checksum +
+                      "\nFull Error Report (right-click, Save As) https://" +
+                        process.env.BASE_URI + "/db/feeds/" + message.publicId + reportSuffix +
                       "\nProcessing-Time (sec) " + duration);
         if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
           sendEmail(message, fips, messageOptions['v5processedFeed']);
