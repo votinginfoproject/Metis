@@ -47,12 +47,12 @@ echo "--- building Docker image ${DOCKER_REV_IMAGE}"
 
 docker build \
   -t ${DOCKER_REV_IMAGE} .
+docker tag ${DOCKER_REV_IMAGE} ${DOCKER_BRANCH_REV_IMAGE}
 
 if [[ ${CI} = "true" ]]; then
   echo "--- pushing Docker image to registry"
 
   echo "pushing image as ${DOCKER_BRANCH_REV_IMAGE}"
-  docker tag ${DOCKER_REV_IMAGE} ${DOCKER_BRANCH_REV_IMAGE}
   docker push ${DOCKER_BRANCH_REV_IMAGE}
 
   echo "pushing image as ${DOCKER_BRANCH_IMAGE}"
@@ -65,5 +65,6 @@ if [[ ${CI} = "true" ]]; then
     docker push ${DOCKER_TAG_IMAGE}
   fi
 else
+  echo "Visit the repo in the AWS ECR Console and run the login command from the View Push Commands button."
   echo "If you’d like to push this to the Docker registry, run: docker push ${DOCKER_BRANCH_REV_IMAGE}"
 fi
