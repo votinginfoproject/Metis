@@ -1,0 +1,12 @@
+steps:
+  - command: "script/build"
+    label: "build/deploy staging"
+    agents:
+    - "region=us-west-2"
+    branches: "main"
+
+  - command: "script/build"
+    label: "build/deploy production"
+    agents:
+    - "region=us-west-2"
+    branches: "master"
