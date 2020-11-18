@@ -3,7 +3,7 @@
 set -e
 
 if [[ -z ${SERVICE} ]]; then
-  SERVICE=${PWD##*/}
+  SERVICE="metis"
 fi
 
 if [[ -z ${IMAGE_REPO} && -n ${1} ]]; then
