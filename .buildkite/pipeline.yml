@@ -4,9 +4,17 @@ steps:
     agents:
     - "region=us-west-2"
     branches: "staging"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+          region: "us-east-1"
 
   - command: "script/build"
     label: "build/deploy production"
     agents:
     - "region=us-west-2"
-    branches: "master"
+    branches: "main"
+    plugins:
+      - ecr#v2.1.1:
+          login: true
+          region: "us-east-1"
