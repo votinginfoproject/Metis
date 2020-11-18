@@ -3,7 +3,7 @@ steps:
     label: "build/deploy staging"
     agents:
     - "region=us-west-2"
-    branches: "main"
+    branches: "staging"
     plugins:
       - ecr#v2.1.1:
           login: true
@@ -13,7 +13,7 @@ steps:
     label: "build/deploy production"
     agents:
     - "region=us-west-2"
-    branches: "master"
+    branches: "main"
     plugins:
       - ecr#v2.1.1:
           login: true
