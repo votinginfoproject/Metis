@@ -3,7 +3,7 @@ steps:
     label: "build/deploy staging"
     agents:
     - "region=us-west-2"
-    branches: "main"
+    branches: "staging"
 
   - command: "script/build"
     label: "build/deploy production"
