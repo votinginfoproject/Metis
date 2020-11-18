@@ -1,42 +1,69 @@
 #!/bin/bash
 
-set -eo pipefail
+set -e
 
-SERVICE=metis
-DOCKER_REPO=quay.io/votinginfoproject/metis
-
-if [[ -z $RUN_ENV && -n $1 ]]; then
-  RUN_ENV=$1
-else
-  RUN_ENV="default"
+if [[ -z ${SERVICE} ]]; then
+  SERVICE=${PWD##*/}
 fi
 
-if [ -n "$BUILDKITE" ]; then
-    IMAGE_TAG=${BUILDKITE_TAG:-"$BUILDKITE_BRANCH-$(git rev-parse --short $BUILDKITE_COMMIT)"};
-else
-    IMAGE_TAG="$(git symbolic-ref --short HEAD)-$(git rev-parse --short HEAD)";
+if [[ -z ${IMAGE_REPO} && -n ${1} ]]; then
+  IMAGE_REPO=${1}
+elif [[ -z ${IMAGE_REPO} ]]; then
+  IMAGE_REPO="858394542481.dkr.ecr.us-east-1.amazonaws.com/votinginfoproject/${SERVICE}"
 fi
 
-DOCKER_IMAGE=$DOCKER_REPO:$IMAGE_TAG
-
-echo '--- building docker image'
-docker build -t $DOCKER_IMAGE .
-
-if [ $CI = "true" ]; then
-    echo '--- pushing docker image to registry'
-    docker login -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}" quay.io
-    docker push $DOCKER_IMAGE
+if [[ -z ${BUILDKITE_BRANCH} ]]; then
+  GIT_BRANCH=$(git symbolic-ref -q --short HEAD)
 else
-    echo "If you'd like to push this to the Docker repo, run: docker push ${DOCKER_IMAGE}"
+  GIT_BRANCH=${BUILDKITE_BRANCH}
 fi
 
-echo '--- updating fleet service template'
-cp ${SERVICE}@.service.template ${SERVICE}@.service
+if [[ -z ${BUILDKITE_TAG} ]]; then
+  GIT_TAG=$(git describe --tags --exact-match HEAD 2>/dev/null) || true
+else
+  GIT_TAG=${BUILDKITE_TAG}
+fi
 
-perl -p -i -e "s|^Environment=DOCKER_IMAGE=.*$|Environment=DOCKER_IMAGE=${DOCKER_IMAGE}|" ${SERVICE}@.service
-perl -p -i -e "s|^Environment=RUN_ENV=.*$|Environment=RUN_ENV=${RUN_ENV}|" ${SERVICE}@.service
+if [[ -z ${BUILDKITE_COMMIT} ]]; then
+  GIT_SHORT_REV=$(git rev-parse --short HEAD)
+else
+  GIT_SHORT_REV=$(git rev-parse --short ${BUILDKITE_COMMIT})
+fi
 
-if hash buildkite-agent 2>/dev/null ; then
-  echo '--- saving service file'
-  buildkite-agent artifact upload ${SERVICE}@.service
+## See: https://docs.docker.com/engine/reference/commandline/tag/#extended-description
+SANITIZED_BRANCH=$(echo -n "${GIT_BRANCH}" \
+  | sed -E 's/[^[:alnum:]_\.-]/_/g' \
+  | sed -E 's/^[\.-]/_/')
+
+DOCKER_REV_IMAGE=${IMAGE_REPO}:${GIT_SHORT_REV}
+DOCKER_BRANCH_REV_IMAGE=${IMAGE_REPO}:${SANITIZED_BRANCH}-${GIT_SHORT_REV}
+DOCKER_BRANCH_IMAGE=${IMAGE_REPO}:${SANITIZED_BRANCH}
+DOCKER_TAG_IMAGE=""
+if [[ -n "${GIT_TAG}" ]]; then
+  DOCKER_TAG_IMAGE=${IMAGE_REPO}:${GIT_TAG}
+fi
+
+echo "--- building Docker image ${DOCKER_REV_IMAGE}"
+
+docker build \
+  -t ${DOCKER_REV_IMAGE} .
+
+if [[ ${CI} = "true" ]]; then
+  echo "--- pushing Docker image to registry"
+
+  echo "pushing image as ${DOCKER_BRANCH_REV_IMAGE}"
+  docker tag ${DOCKER_REV_IMAGE} ${DOCKER_BRANCH_REV_IMAGE}
+  docker push ${DOCKER_BRANCH_REV_IMAGE}
+
+  echo "pushing image as ${DOCKER_BRANCH_IMAGE}"
+  docker tag ${DOCKER_REV_IMAGE} ${DOCKER_BRANCH_IMAGE}
+  docker push ${DOCKER_BRANCH_IMAGE}
+
+  if [[ -n "${DOCKER_TAG_IMAGE}" ]]; then
+    echo "pushing image as ${DOCKER_TAG_IMAGE}"
+    docker tag ${DOCKER_REV_IMAGE} ${DOCKER_TAG_IMAGE}
+    docker push ${DOCKER_TAG_IMAGE}
+  fi
+else
+  echo "If you’d like to push this to the Docker registry, run: docker push ${DOCKER_BRANCH_REV_IMAGE}"
 fi
