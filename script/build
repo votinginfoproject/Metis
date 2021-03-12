@@ -9,7 +9,7 @@ fi
 if [[ -z ${IMAGE_REPO} && -n ${1} ]]; then
   IMAGE_REPO=${1}
 elif [[ -z ${IMAGE_REPO} ]]; then
-  IMAGE_REPO="858394542481.dkr.ecr.us-east-1.amazonaws.com/votinginfoproject/${SERVICE}"
+  IMAGE_REPO="858394542481.dkr.ecr.us-west-2.amazonaws.com/votinginfoproject/${SERVICE}"
 fi
 
 if [[ -z ${BUILDKITE_BRANCH} ]]; then

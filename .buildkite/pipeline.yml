@@ -7,7 +7,7 @@ steps:
     plugins:
       - ecr#v2.1.1:
           login: true
-          region: "us-east-1"
+          region: "us-west-2"
 
   - command: "script/build"
     label: "build/deploy production"
@@ -17,4 +17,4 @@ steps:
     plugins:
       - ecr#v2.1.1:
           login: true
-          region: "us-east-1"
+          region: "us-west-2"
