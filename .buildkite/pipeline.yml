@@ -5,7 +5,7 @@ steps:
     - "region=us-west-2"
     branches: "staging"
     plugins:
-      - ecr#v2.1.1:
+      - ecr#v2.3.0:
           login: true
           region: "us-west-2"
 
@@ -15,6 +15,6 @@ steps:
     - "region=us-west-2"
     branches: "main"
     plugins:
-      - ecr#v2.1.1:
+      - ecr#v2.3.0:
           login: true
           region: "us-west-2"
