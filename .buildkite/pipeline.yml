@@ -5,9 +5,9 @@ steps:
     - "region=us-west-2"
     branches: "staging"
     plugins:
-      - ecr#v2.1.1:
+      - ecr#v2.3.0:
           login: true
-          region: "us-east-1"
+          region: "us-west-2"
 
   - command: "script/build"
     label: "build/deploy production"
@@ -15,6 +15,6 @@ steps:
     - "region=us-west-2"
     branches: "main"
     plugins:
-      - ecr#v2.1.1:
+      - ecr#v2.3.0:
           login: true
-          region: "us-east-1"
+          region: "us-west-2"
