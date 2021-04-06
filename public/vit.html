@@ -1,11 +1,12 @@
 <!doctype html>
 <html>
   <head>
-      <!-- VIT Staging Tool -->
-      <script type="text/javascript" src="https://tool-staging.votinginfoproject.org/app.js"></script>
+      <!-- VIT Source -->
+      <script type="text/javascript" src="https://votinginfotool.org/js/compiled/app.js"></script>
+      <link rel="stylesheet" href="https://votinginfotool.org/css/compiled/vit.css"/>
   </head>
 <body>
-  <div id="_vit" style="max-width: 1024px; margin: 0 auto 0 0;"></div>
+  <div id="_vit" style="max-width: 1024px; height: 480px; margin: 0 auto 0 0;"></div>
   <script type="text/javascript">
     function getQueryParams(qs) {
       qs = qs.split("+").join(" ");
@@ -22,10 +23,11 @@
       var params = getQueryParams(window.location.search.substring(1));
       var apiKey = params['apiKey'];
       if(apiKey) {
-        vit.load({key: apiKey,
-                  test: false,
-                  officialOnly: true,
-                  productionDataOnly: false});
+        vit.core.init("_vit", {"logo": {"type": "default"},
+                               "civic-info-api-key": apiKey,
+                               "official-only": true,
+                               "production-data-only": false,
+                               "display-mode": "desktop"});
       } else {
         alert("Civic Info API Key missing");
       }
