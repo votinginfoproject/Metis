@@ -129,14 +129,14 @@
   <script src="assets/js/app/controllers/feedReferendaController.js"></script>
   <script src="assets/js/app/controllers/feedContestResultController.js"></script>
 
-  <!-- 5.1 -->
-  <script src="assets/js/app/controllers/5.1/v5AsideController.js"></script>
-  <script src="assets/js/app/controllers/5.1/feedOverview51Controller.js"></script>
-  <script src="assets/js/app/controllers/5.1/localityOverview51Controller.js"></script>
-  <script src="assets/js/app/controllers/5.1/feedSource51Controller.js"></script>
-  <script src="assets/js/app/controllers/5.1/feedErrors51Controller.js"></script>
-  <script src="assets/js/app/controllers/5.1/feedErrorOverview51Controller.js"></script>
-  <script src="assets/js/app/controllers/5.1/localityErrorsOverview51Controller.js"></script>
+  <!-- 5.X -->
+  <script src="assets/js/app/controllers/5/v5AsideController.js"></script>
+  <script src="assets/js/app/controllers/5/feedOverview5Controller.js"></script>
+  <script src="assets/js/app/controllers/5/localityOverview5Controller.js"></script>
+  <script src="assets/js/app/controllers/5/feedSource5Controller.js"></script>
+  <script src="assets/js/app/controllers/5/feedErrors5Controller.js"></script>
+  <script src="assets/js/app/controllers/5/feedErrorOverview5Controller.js"></script>
+  <script src="assets/js/app/controllers/5/localityErrorsOverview5Controller.js"></script>
 
   <!-- Testing -->
   <script src="assets/js/app/controllers/testing/vitController.js"></script>
@@ -229,10 +229,10 @@
       </div>
 
       <div ng-switch on="$location.url().split('/')[1]">
-        <div ng-switch-when="5.1">
+        <div ng-switch-when="5">
           <aside class="feed-meta"
                  ng-if="$location.url() !== '/feeds' && pageHeader.section === 'feeds' && pageHeader.title !== 'Feeds'"
-                 ng-controller="v5AsideController" ng-include src="'app/partials/5.1/aside.html'"></aside>
+                 ng-controller="v5AsideController" ng-include src="'app/partials/5/aside.html'"></aside>
         </div>
 	      <div ng-switch-when="testing">
           <aside class="feed-meta"

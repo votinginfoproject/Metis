@@ -1,0 +1,20 @@
+steps:
+  - command: "script/build"
+    label: "build/deploy staging"
+    agents:
+    - "region=us-west-2"
+    branches: "staging"
+    plugins:
+      - ecr#v2.3.0:
+          login: true
+          region: "us-west-2"
+
+  - command: "script/build"
+    label: "build/deploy production"
+    agents:
+    - "region=us-west-2"
+    branches: "main"
+    plugins:
+      - ecr#v2.3.0:
+          login: true
+          region: "us-west-2"

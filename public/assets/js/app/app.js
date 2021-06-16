@@ -114,37 +114,37 @@ vipApp.config(['$routeProvider', '$appProperties', '$httpProvider', '$logProvide
       controller: 'FeedOverviewCtrl'
     });
 
-    // 5.1 feeds
-    $routeProvider.when('/5.1/feeds/:vipfeed', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/feed-overview.html',
-      controller: 'FeedOverview51Ctrl'
+    // 5.X feeds
+    $routeProvider.when('/5/feeds/:vipfeed', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5/feed-overview.html',
+      controller: 'FeedOverview5Ctrl'
     });
 
-    $routeProvider.when('/5.1/feeds/:vipfeed/source', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/source.html',
-      controller: 'FeedSource51Ctrl'
+    $routeProvider.when('/5/feeds/:vipfeed/source', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5/source.html',
+      controller: 'FeedSource5Ctrl'
     });
 
-    $routeProvider.when('/5.1/feeds/:vipfeed/errors', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/errors.html',
-      controller: 'FeedErrors51Ctrl'
+    $routeProvider.when('/5/feeds/:vipfeed/errors', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5/errors.html',
+      controller: 'FeedErrors5Ctrl'
     });
 
-    var v5_errors = {templateUrl: $appProperties.contextRoot + '/app/partials/5.1/errors.html',
-                     controller: 'FeedErrorOverview51Ctrl' };
+    var v5_errors = {templateUrl: $appProperties.contextRoot + '/app/partials/5/errors.html',
+                     controller: 'FeedErrorOverview5Ctrl' };
 
     $routeProvider
-      .when('/5.1/feeds/:vipfeed/overview/:type/errors', v5_errors)
+      .when('/5/feeds/:vipfeed/overview/:type/errors', v5_errors)
 
-    var locality_errors = {templateUrl: $appProperties.contextRoot + '/app/partials/5.1/errors.html',
-                     controller: 'LocalityErrorsOverview51Controller' };
+    var locality_errors = {templateUrl: $appProperties.contextRoot + '/app/partials/5/errors.html',
+                     controller: 'LocalityErrorsOverview5Controller' };
 
     $routeProvider
-      .when('/5.1/feeds/:vipfeed/election/state/localities/:locality_id/:type/errors', locality_errors)
+      .when('/5/feeds/:vipfeed/election/state/localities/:locality_id/:type/errors', locality_errors)
 
-    $routeProvider.when('/5.1/feeds/:vipfeed/election/state/localities/:locality', {
-      templateUrl: $appProperties.contextRoot + '/app/partials/5.1/locality-overview.html',
-      controller: 'LocalityOverview51Ctrl'
+    $routeProvider.when('/5/feeds/:vipfeed/election/state/localities/:locality', {
+      templateUrl: $appProperties.contextRoot + '/app/partials/5/locality-overview.html',
+      controller: 'LocalityOverview5Ctrl'
     });
 
     // 3.0 feeds
@@ -767,10 +767,6 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
     }
   }
 
-  var versionWithoutPatch = function(version) {
-    return version.replace(/^(\d+\.\d+)\.\d+$/, "$1");
-  }
-
   // Format the duration objects for feeds
   $rootScope.formatDuration = function(duration) {
     return formatDurationNumber(duration.hours) + ":" +
@@ -789,7 +785,7 @@ vipApp.run(function ($rootScope, $appService, $location, $appProperties, $window
     if (feed.spec_version === "3.0" || !feed.spec_version) {
       return "#/feeds/" + feed.public_id;
     } else {
-      return "#/" + versionWithoutPatch(feed.spec_version) + "/feeds/" + feed.public_id;
+      return "#/5/feeds/" + feed.public_id;
     }
   }
 

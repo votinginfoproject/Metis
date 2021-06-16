@@ -1,5 +1,5 @@
 var pg = require("./gets.js");
-var pg51 = require("./v5_1_queries.js");
+var pg5 = require("./v5_queries.js");
 var pgErrors = require("./gets_errors.js");
 var csv = require('./csv.js');
 var auth = require('../authentication/services.js');
@@ -50,51 +50,51 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/overview/streetsegments/errors/report', csv.scopedErrorReport("street-segments"));
   app.get('/db/feeds/:feedid/source/errors/report', csv.scopedErrorReport("sources"));
 
-  ///////// Version 5.1 /////////
-  app.get('/db/feeds/:feedid/xml/overview', auth.checkJwt, pg51.feedOverview);
-  app.get('/db/feeds/:feedid/xml/overview-summary', auth.checkJwt, pg51.feedOverviewSummaryData);
+  ///////// Version 5.X /////////
+  app.get('/db/feeds/:feedid/xml/overview', auth.checkJwt, pg5.feedOverview);
+  app.get('/db/feeds/:feedid/xml/overview-summary', auth.checkJwt, pg5.feedOverviewSummaryData);
 
   // Voting locations
-  app.get('/db/5.1/feeds/:feedid/overview/street_segments/errors', auth.checkJwt, pg51.overviewErrors("StreetSegment"));
-  app.get('/db/5.1/feeds/:feedid/overview/state/errors', auth.checkJwt, pg51.overviewErrors("State"));
-  app.get('/db/5.1/feeds/:feedid/overview/precincts/errors', auth.checkJwt, pg51.overviewErrors("Precinct"));
-  app.get('/db/5.1/feeds/:feedid/overview/polling_locations/errors', auth.checkJwt, pg51.overviewErrors("PollingLocation"));
-  app.get('/db/5.1/feeds/:feedid/overview/localities/errors', auth.checkJwt, pg51.overviewErrors("Locality"));
-  app.get('/db/5.1/feeds/:feedid/overview/hours_open/errors', auth.checkJwt, pg51.overviewErrors("HoursOpen"));
+  app.get('/db/5/feeds/:feedid/overview/street_segments/errors', auth.checkJwt, pg5.overviewErrors("StreetSegment"));
+  app.get('/db/5/feeds/:feedid/overview/state/errors', auth.checkJwt, pg5.overviewErrors("State"));
+  app.get('/db/5/feeds/:feedid/overview/precincts/errors', auth.checkJwt, pg5.overviewErrors("Precinct"));
+  app.get('/db/5/feeds/:feedid/overview/polling_locations/errors', auth.checkJwt, pg5.overviewErrors("PollingLocation"));
+  app.get('/db/5/feeds/:feedid/overview/localities/errors', auth.checkJwt, pg5.overviewErrors("Locality"));
+  app.get('/db/5/feeds/:feedid/overview/hours_open/errors', auth.checkJwt, pg5.overviewErrors("HoursOpen"));
 
   // Localities
-  app.get('/db/5.1/feeds/:feedid/localities', auth.checkJwt, pg51.localityOverview);
-  app.get('/db/5.1/feeds/:publicId/election/state/localities/:localityId', auth.checkJwt, pg51.localityDetail);
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/precincts/errors', auth.checkJwt, pg51.scopedLocalityErrors("Precinct"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/street_segments/errors', auth.checkJwt, pg51.scopedLocalityErrors("StreetSegment"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/polling_locations/errors', auth.checkJwt, pg51.scopedLocalityErrors("PollingLocation"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/election_administrations/errors', auth.checkJwt, pg51.scopedLocalityErrors("ElectionAdministration"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/departments/errors', auth.checkJwt, pg51.scopedLocalityErrors("Department"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/voter_services/errors', auth.checkJwt, pg51.scopedLocalityErrors("VoterService"));
-  app.get('/db/5.1/feeds/:feedid/election/state/localities/:localityId/errors', csv.xmlTreeLocalityErrorReport);
+  app.get('/db/5/feeds/:feedid/localities', auth.checkJwt, pg5.localityOverview);
+  app.get('/db/5/feeds/:publicId/election/state/localities/:localityId', auth.checkJwt, pg5.localityDetail);
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/precincts/errors', auth.checkJwt, pg5.scopedLocalityErrors("Precinct"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/street_segments/errors', auth.checkJwt, pg5.scopedLocalityErrors("StreetSegment"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/polling_locations/errors', auth.checkJwt, pg5.scopedLocalityErrors("PollingLocation"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/election_administrations/errors', auth.checkJwt, pg5.scopedLocalityErrors("ElectionAdministration"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/departments/errors', auth.checkJwt, pg5.scopedLocalityErrors("Department"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/voter_services/errors', auth.checkJwt, pg5.scopedLocalityErrors("VoterService"));
+  app.get('/db/5/feeds/:feedid/election/state/localities/:localityId/errors', csv.xmlTreeLocalityErrorReport);
 
   // Voter Resources
-  app.get('/db/5.1/feeds/:feedid/overview/election_administrations/errors', auth.checkJwt, pg51.overviewErrors("ElectionAdministration"));
-  app.get('/db/5.1/feeds/:feedid/overview/departments/errors', auth.checkJwt, pg51.overviewErrors("Department"));
-  app.get('/db/5.1/feeds/:feedid/overview/voter_services/errors', auth.checkJwt, pg51.overviewErrors("VoterService"));
+  app.get('/db/5/feeds/:feedid/overview/election_administrations/errors', auth.checkJwt, pg5.overviewErrors("ElectionAdministration"));
+  app.get('/db/5/feeds/:feedid/overview/departments/errors', auth.checkJwt, pg5.overviewErrors("Department"));
+  app.get('/db/5/feeds/:feedid/overview/voter_services/errors', auth.checkJwt, pg5.overviewErrors("VoterService"));
 
   // Contests table
-  app.get('/db/5.1/feeds/:feedid/overview/candidate_contests/errors', auth.checkJwt, pg51.overviewErrors("CandidateContest"));
-  app.get('/db/5.1/feeds/:feedid/overview/candidate_selection/errors', auth.checkJwt, pg51.overviewErrors("CandidateSelection"));
-  app.get('/db/5.1/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg51.elementTypeAndScopeOverallErrorQuery("BallotMeasureContest", 'ballot-measure-contest'));
-  app.get('/db/5.1/feeds/:feedid/overview/ballot_selections/errors', auth.checkJwt, pg51.overviewErrors("BallotSelection"));
-  app.get('/db/5.1/feeds/:feedid/overview/retention_contests/errors', auth.checkJwt, pg51.overviewErrors("RetentionContest"));
-  app.get('/db/5.1/feeds/:feedid/overview/party_contests/errors', auth.checkJwt, pg51.overviewErrors("PartyContest"));
-  app.get('/db/5.1/feeds/:feedid/overview/electoral_districts/errors', auth.checkJwt, pg51.overviewErrors("ElectoralDistrict"));
-  app.get('/db/5.1/feeds/:feedid/overview/candidates/errors', auth.checkJwt, pg51.overviewErrors("Candidate"));
-  app.get('/db/5.1/feeds/:feedid/overview/offices/errors', auth.checkJwt, pg51.overviewErrors("Office"));
+  app.get('/db/5/feeds/:feedid/overview/candidate_contests/errors', auth.checkJwt, pg5.overviewErrors("CandidateContest"));
+  app.get('/db/5/feeds/:feedid/overview/candidate_selection/errors', auth.checkJwt, pg5.overviewErrors("CandidateSelection"));
+  app.get('/db/5/feeds/:feedid/overview/ballot_measure_contests/errors', auth.checkJwt, pg5.elementTypeAndScopeOverallErrorQuery("BallotMeasureContest", 'ballot-measure-contest'));
+  app.get('/db/5/feeds/:feedid/overview/ballot_selections/errors', auth.checkJwt, pg5.overviewErrors("BallotSelection"));
+  app.get('/db/5/feeds/:feedid/overview/retention_contests/errors', auth.checkJwt, pg5.overviewErrors("RetentionContest"));
+  app.get('/db/5/feeds/:feedid/overview/party_contests/errors', auth.checkJwt, pg5.overviewErrors("PartyContest"));
+  app.get('/db/5/feeds/:feedid/overview/electoral_districts/errors', auth.checkJwt, pg5.overviewErrors("ElectoralDistrict"));
+  app.get('/db/5/feeds/:feedid/overview/candidates/errors', auth.checkJwt, pg5.overviewErrors("Candidate"));
+  app.get('/db/5/feeds/:feedid/overview/offices/errors', auth.checkJwt, pg5.overviewErrors("Office"));
 
   // Source & Elections table
-  app.get('/db/5.1/feeds/:feedid/overview/source/errors', auth.checkJwt, pg51.overviewErrors("Source"));
-  app.get('/db/5.1/feeds/:feedid/overview/election/errors', auth.checkJwt, pg51.overviewErrors("Election"));
+  app.get('/db/5/feeds/:feedid/overview/source/errors', auth.checkJwt, pg5.overviewErrors("Source"));
+  app.get('/db/5/feeds/:feedid/overview/election/errors', auth.checkJwt, pg5.overviewErrors("Election"));
 
-  app.get('/db/5.1/feeds/:feedid/source', auth.checkJwt, pg51.source);
-  app.get('/db/5.1/feeds/:feedid/election', auth.checkJwt, pg51.election);
+  app.get('/db/5/feeds/:feedid/source', auth.checkJwt, pg5.source);
+  app.get('/db/5/feeds/:feedid/election', auth.checkJwt, pg5.election);
 
   app.get('/db/feeds/:feedid/xml/errors/report', csv.xmlTreeValidationErrorReport);
   app.get('/db/feeds/:feedid/xml/errors/candidate_selection/report', csv.scopedXmlTreeValidationErrorReport('CandidateSelection'));
@@ -126,8 +126,8 @@ function registerPostgresServices (app) {
           csv.scopedXmlTreeValidationErrorReport('Departments'));
   app.get('/db/feeds/:feedid/xml/errors/voter_services/report',
           csv.scopedXmlTreeValidationErrorReport('VoterService'));
-  app.get('/db/feeds/:feedid/xml/error-total-count', auth.checkJwt, pg51.totalErrors);
-  app.get('/db/feeds/:feedid/xml/errors/summary', auth.checkJwt, pg51.errorSummary);
+  app.get('/db/feeds/:feedid/xml/error-total-count', auth.checkJwt, pg5.totalErrors);
+  app.get('/db/feeds/:feedid/xml/errors/summary', auth.checkJwt, pg5.errorSummary);
 
   ///////// Version 3.0 /////////
   app.get('/db/v3/feeds/:feedid/election', auth.checkJwt, pg.v3.getFeedElection);

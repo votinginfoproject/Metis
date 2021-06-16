@@ -150,20 +150,36 @@ module.exports = {
     loadFeed(message.publicId, (result) => {
       var fips = result.rows[0]['vip_id'];
       var spec_version = new String(result.rows[0]['spec_version']);
-      var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
-      var electionDate = result.rows[0]['election_date'] || "Not available";
-      var duration = result.rows[0]['duration'] || "Not available";
-
-      slack.message("SUCCESS: Feed processed for FIPS " + fips +
-                    "\nState Name " + stateName +
-                    "\nElection Date " + electionDate +
-                    "\nVIP Spec Version " + spec_version +
-                    "\nProcessing-Time (sec) " + duration);
-      if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
-        sendEmail(message, fips, messageOptions['v5processedFeed']);
+      if (badFips(fips)) {
+        slack.message("ERROR: Feed processed but FIPS was bad, no notifications sent: " + fips);
       } else {
-        sendEmail(message, fips, messageOptions[messageType]);
-      }});
+        var stateName = feedProcessingMessageContent.codeToDescription(fips.slice(0,2));
+        var electionDate = result.rows[0]['election_date'] || "Not available";
+        var duration = result.rows[0]['duration'] || "Not available";
+
+        var reportSuffix = "/xml/errors/report";
+        if (spec_version == "3.0") {
+          reportSuffix = "/errors/report";
+        }
+
+        var checksum = "";
+        if (message.checksum) {
+          checksum = "\nChecksum: " + message.checksum
+        }
+
+        slack.message("SUCCESS: Feed processed for FIPS " + fips +
+                      "\nState Name " + stateName +
+                      "\nElection Date " + electionDate +
+                      "\nVIP Spec Version " + spec_version +
+                      checksum +
+                      "\nFull Error Report https://" +
+                        process.env.BASE_URI + "/db/feeds/" + message.publicId + reportSuffix +
+                      "\nProcessing-Time (sec) " + duration);
+        if (fips && spec_version[0] == '5'  && messageType === 'processedFeed') {
+          sendEmail(message, fips, messageOptions['v5processedFeed']);
+        } else {
+          sendEmail(message, fips, messageOptions[messageType]);
+        }}});
   },
   sendFeedProcessingFailureNotifications: function(message, messageType) {
     var publicId = message.publicId;
