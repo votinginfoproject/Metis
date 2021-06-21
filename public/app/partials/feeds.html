@@ -46,7 +46,7 @@
       </span></a>
     </td>
     <td>
-      <button ng-click="requestFeedStop(feed.public_id)" ng-if="true" class="button button-stop-feed" ng-class="{'button-stop-feed--inactive': feed.complete}"">Stop feed run</button>
+      <button ng-click="requestFeedStop(feed.public_id)" ng-if="hasRole('super-admin') && !feed.complete" class="button button-stop-feed" ng-class="{'button-stop-feed--inactive': feed.complete}"">Stop feed run</button>
     </td>
   </tr>
   <tr ng-if="feeds.length === 0">
