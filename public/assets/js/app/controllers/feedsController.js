@@ -3,7 +3,7 @@
  * Feeds Controller
  *
  */
-function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location, $filter, ngTableParams, $interval, $timeout, $route, $authService) {
+function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location, $filter, ngTableParams, $interval, $timeout, $route, $authService, $http) {
 
   // initialize page header variables
   $rootScope.setPageHeader("Feeds", $rootScope.getBreadCrumbs(), "feeds", null);
@@ -28,6 +28,26 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
     });
   };
 
+  function postStopFeed(feedid) {
+    $authService.getUser(function (user) {
+      console.log("feed stop requested by " + user);
+      $http.post('/db/feeds/' + feedid + '/stop', {user_name: user.userName}).
+      then(
+        function(result) {
+          if(result.data.length === 0) {
+            $rootScope.pageHeader.alert = "Feed could not be stopped.";
+            $rootScope.feedIsStopped = false;
+          } else {
+            $rootScope.feedIsStopped = true;
+          }
+        },
+        function() {
+          $rootScope.pageHeader.error = "An error occurred trying to stop this feed.";
+          $rootScope.feedIsStopped = false;
+        });
+    })
+  }
+
   $rootScope.nextPage = function() {
     $rootScope.page = $rootScope.page + 1;
 
@@ -39,6 +59,21 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
       $rootScope.page = $rootScope.page - 1;
       getFeedResponse();
     }
+  };
+
+  $rootScope.requestFeedStop = function(feedid) {
+    console.log("feed stop requested");
+
+    if(confirm("By stopping this feed, you are releasing agents of chaos into the universe. Do you want to stop this feed?")) {
+      postStopFeed(feedid);
+      // $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/stop',
+      //                              scope: $rootScope,
+      //                              key: "feedIsStopped",
+      //                              errorMessage: "Could not stop the feed run."},
+      //                            function(result) {
+      //                              $rootScope.pageHeader.error = "An error occurred trying to stop this feed.";
+      //                            });
+    };
   };
 
   getFeedResponse();

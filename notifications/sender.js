@@ -145,6 +145,25 @@ var loadFeed = function(publicId, callback) {
   });
 }
 
+// var stopFeed = function(publicId, callback) {
+//   var stopFeedQuery = "UPDATE results SET stop_requested = 'Fakey McName' WHERE public_id = $1";
+//
+//   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+//     if (err) return logger.error('Could not connect to PostgreSQL. Error fetching client from pool: ', err);
+//
+//     client.query(stopFeedQuery, [publicId], function(err, result) {
+//       done();
+//
+//       if (err || result.rows.length == 0) {
+//         logger.error('No feed found or connection issue.');
+//         slack.message("ERROR: No feed found matching public_id in database (public_id follows):\n" + publicId);
+//       } else {
+//         callback(result);
+//       }
+//     });
+//   });
+// }
+
 module.exports = {
   sendFeedProcessingSuccessNotifications: function(message, messageType) {
     loadFeed(message.publicId, (result) => {

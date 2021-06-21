@@ -69,6 +69,7 @@ module.exports = {
                             INNER JOIN results r ON r.id = v.results_id \
                             WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal')) \
                 RETURNING approved_result_id;",
+  stopFeed: "UPDATE results SET stop_requested = $2 WHERE public_id = $1 RETURNING stop_requested, public_id;",
 
   overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },
 

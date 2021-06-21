@@ -166,7 +166,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/* 
+/*
  * Foundation Icons v 3.0
  * Made by ZURB 2013 http://zurb.com/playground/foundation-icon-fonts-3
  * MIT License
@@ -2323,6 +2323,17 @@ aside {
     font-size: .875em;
     margin-top: .5em;
     background: #8b0304; }
+  .button-stop-feed {
+    font-size: .875em;
+    background: #8b0304;
+  }
+  .button-stop-feed:hover, .button-stop-feed:focus {
+    background: #ce3d3d;
+  }
+  .button-stop-feed.button-stop-feed--inactive {
+    background: #cccccc;
+  }
+
 
 .feed-status {
   font-size: .75em;
