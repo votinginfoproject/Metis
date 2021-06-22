@@ -26,10 +26,10 @@ var buildErrorQuery = function(joins, wheres) {
 
 module.exports = {
   feeds: "SELECT DISTINCT ON (r.id) \
-                 r.public_id, r.start_time, date(r.end_time) AS end_time, \
+                 r.id, r.public_id, r.start_time, date(r.end_time) AS end_time, \
                  CASE WHEN r.end_time IS NOT NULL \
                       THEN r.end_time - r.start_time END AS duration, \
-                 r.spec_version, r.complete, r.election_date, r.election_type, r.state\
+                 r.spec_version, r.complete, r.election_date, r.election_type, r.state, r.stop_requested \
           FROM results r \
           ORDER BY r.id DESC \
           LIMIT 20 OFFSET ($1 * 20);",
@@ -69,7 +69,7 @@ module.exports = {
                             INNER JOIN results r ON r.id = v.results_id \
                             WHERE r.public_id = $1 AND (v.severity = 'critical' OR severity = 'fatal')) \
                 RETURNING approved_result_id;",
-  stopFeed: "UPDATE results SET stop_requested = $2 WHERE public_id = $1 RETURNING stop_requested, public_id;",
+  stopFeed: "UPDATE results SET stop_requested = $2 WHERE id = $1 RETURNING stop_requested;",
 
   overallErrorQuery: function(scope) { return buildErrorQuery("", "v.scope = '" + scope  +"'"); },
 

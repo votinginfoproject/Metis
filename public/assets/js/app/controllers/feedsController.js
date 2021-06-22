@@ -30,7 +30,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
 
   function postStopFeed(feedid) {
     $authService.getUser(function (user) {
-      console.log("feed stop requested by " + user);
+      console.log("feed stop requested by " + user.userName);
       $http.post('/db/feeds/' + feedid + '/stop', {user_name: user.userName}).
       then(
         function(result) {
