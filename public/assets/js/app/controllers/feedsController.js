@@ -29,7 +29,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
   };
 
   function postStopFeed(feedid) {
-    if (!$authService.hasRole('super-admin')) {
+    if ($authService.hasRole('super-admin')) {
       $authService.getUser(function (user) {
         console.log("feed stop requested by " + user.userName);
         $http.post('/db/feeds/' + feedid + '/stop', {user_name: user.userName}).
