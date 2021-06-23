@@ -29,24 +29,29 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
   };
 
   function postStopFeed(feedid) {
-    $authService.getUser(function (user) {
-      console.log("feed stop requested by " + user.userName);
-      $http.post('/db/feeds/' + feedid + '/stop', {user_name: user.userName}).
-      then(
-        function(result) {
-          if(result.data.length === 0) {
-            $rootScope.pageHeader.alert = "Feed could not be stopped.";
+    if (!$authService.hasRole('super-admin')) {
+      $authService.getUser(function (user) {
+        console.log("feed stop requested by " + user.userName);
+        $http.post('/db/feeds/' + feedid + '/stop', {user_name: user.userName}).
+        then(
+          function(result) {
+            if(result.data.length === 0) {
+              $rootScope.pageHeader.alert = "Feed could not be stopped.";
+              $rootScope.feedIsStopped = false;
+            } else {
+              $rootScope.pageHeader.alert = "Stopping the feed processing.";
+              $rootScope.feedIsStopped = true;
+            }
+          },
+          function() {
+            $rootScope.pageHeader.error = "An error occurred trying to stop this feed.";
             $rootScope.feedIsStopped = false;
-          } else {
-            $rootScope.feedIsStopped = true;
-          }
-        },
-        function() {
-          $rootScope.pageHeader.error = "An error occurred trying to stop this feed.";
-          $rootScope.feedIsStopped = false;
-        });
-      $route.reload();
-    })
+          });
+        $route.reload();
+      })
+    } else {
+      $rootScope.pageHeader.error = "User is not authorized to stop feeds.";
+    }
   }
 
   $rootScope.nextPage = function() {
@@ -65,7 +70,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
   $rootScope.requestFeedStop = function(feedid) {
     console.log("feed stop requested");
 
-    if(confirm("By stopping this feed, you are releasing agents of chaos into the universe. Do you want to stop this feed?")) {
+    if(confirm("Are you sure you want to stop this feed?")) {
       postStopFeed(feedid);
       // $feedDataPaths.getResponse({ path: '/db/feeds/' + feedid + '/stop',
       //                              scope: $rootScope,
