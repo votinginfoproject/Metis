@@ -45,6 +45,7 @@ function FeedsCtrl($scope, $rootScope, $feedDataPaths, $feedsService, $location,
           $rootScope.pageHeader.error = "An error occurred trying to stop this feed.";
           $rootScope.feedIsStopped = false;
         });
+      $route.reload();
     })
   }
 
