@@ -1,6 +1,7 @@
 var conn = require('./conn.js');
 var queries = require('./queries.js');
 var util = require('./util.js');
+var dashboardUtil = require('../dashboard/util.js');
 var resp = require('./response.js');
 var auth = require('../authentication/services.js');
 
@@ -32,6 +33,8 @@ module.exports = {
   getErrorsTotal: util.simpleQueryResponder(queries.errorsTotal, util.paramExtractor()),
   getApprovableStatus: util.simpleQueryResponder(queries.approvableStatus, util.paramExtractor()),
   approveFeed: util.simpleQueryResponder(queries.approveFeed, util.paramExtractor()),
+  stopFeed: util.simpleQueryResponder(queries.stopFeed, dashboardUtil.compoundParamExtractor([dashboardUtil.pathParamExtractor(['feedid']), // too hacky to use dashboard/util.js?
+                                                                                              dashboardUtil.bodyParamExtractor(['user_name'])])),
 
   getFeedOverview: function(req, res) {
     var feedid = req.params.feedid;

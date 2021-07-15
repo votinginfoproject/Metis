@@ -10,6 +10,7 @@ function registerPostgresServices (app) {
   app.get('/db/feeds/:feedid/error-total-count', auth.checkJwt, pg.getErrorsTotal);
   app.get('/db/feeds/:feedid/approvable-status', auth.checkJwt, pg.getApprovableStatus);
   app.post('/db/feeds/:feedid/approve', auth.checkJwt, pg.approveFeed);
+  app.post('/db/feeds/:feedid/stop', auth.checkJwt, pg.stopFeed);
   app.get('/db/feeds/:feedid/results', auth.checkJwt, pg.getResults);
   app.get('/db/feeds/:feedid/overview', auth.checkJwt, pg.getFeedOverview);
 
